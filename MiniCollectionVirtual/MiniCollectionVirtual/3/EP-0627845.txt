@@ -1,0 +1,234 @@
+<DOC>
+<DOCNO>EP-0627845</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Image processing method and apparatus
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04N141	H04N141	G06T900	G06T900	H04N730	H04N730	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04N	H04N	G06T	G06T	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04N1	H04N1	G06T9	G06T9	H04N7	H04N7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Disclosed are a color image processing apparatus 
+and method through which it is possible to realize high-speed 
+
+encoding processing of image data containing data 
+indicative of blank spaces. When encoding processing is 
+
+executed, a CPU sets data, which is added on as a blank 
+space or margin, in a blank-value setting memory, and a 
+
+digital signal processor (DSP) for encoding 
+processing reads in the set value 
+
+before the start of encoding processing, effects a 
+transformation to color space to undergo encoding 
+
+processing, and stores the resulting data in its own 
+internal memory, whereby the data stored in the internal 
+
+memory is used in encoding of blank areas to make 
+possible high-speed encoding processing. 
+
+The image data are divided into blocks of pixels. The compression 
+encoding means comprises memory means for supplying the results of 
+
+calculation from a first calculation means to a second calculation 
+means. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+CANON KK
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+CANON KABUSHIKI KAISHA
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+HASHIMOTO YASUNORI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NAKAJIMA TOSHIFUMI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NAKAMURA YASUYUKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HASHIMOTO, YASUNORI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NAKAJIMA, TOSHIFUMI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NAKAMURA, YASUYUKI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to an image processing
+method and apparatus for encoding or decoding image
+data. By way of example, the invention relates to an
+image processing method and apparatus for application to
+an image file or image communication apparatus.An international standard for compressing color
+image data of a natural picture, which contains an
+enormous amount of information, has been proposed in
+recent years by the JPEG (Joint Photographic Experts
+Group). The method according to this standard shall be
+referred to as the JPEG coding method below. Though the
+JPEG coding method is composed of a plurality of
+systems, the most fundamental is a baseline system.Fig. 27 is a diagram illustrating the data
+compression procedure of a baseline system.First, input image data read by an original reading
+device such as a scanner is partitioned into blocks each
+comprising 8 x 8 pixels, after which compression
+processing is executed in block units. According to the
+JPEG coding method, the image data that has been read in 
+by the original reading device is not regulated with
+respect to the color space to be encoded. Often,
+however, color-space transformation processing is
+executed as processing which precedes encoding. As for
+the color space to undergo transformation, there is much
+color space in which it is possible to execute encoding
+processing highly efficiently. An example of such color
+space is that comprising luminance signals and color
+signals (YCbCr, YIQ, Lab, etc.).In a baseline system, the image data (image data of
+the original color space or that which results from
+transformation of the color space) in each block
+resulting from partitioning is subjected to a discrete
+cosine transform (hereinafter referred to as "DCT"),
+which is one type of orthogonal transform (1301). After
+the original input image data has been transformed to
+data of space frequency components by DCT, the
+coefficient at the upper left corner of the 8 x 8 block
+is referred to as a direct current (DC) component and is
+a value corresponding to the mean value of the image
+data of the block before transformation. The other 63
+coefficients are referred to as alternating current (AC)
+components. These are values indicating how many space
+frequency components corresponding to these positions
+are contained in the image data of a block before
+transformation. DCT coefficients after transformation are divided
+by values obtained by multiplying 8 × 8 threshold values
+by scale factors for deciding which values, which are a
+certain multiple of the
+</DESCRIPTION>
+<CLAIMS>
+An image processing apparatus comprising:
+
+input means (1103) for inputting image data
+representing an image;
+dividing means (1104) for dividing the image data
+into a plurality of blocks;
+discriminating means (1104) for discriminating
+whether or not image data included in each block to be
+
+encoded have a predetermined value;
+encoding means (1104) for encoding the image data
+included in each of the plurality of blocks;
+the apparatus being characterised by
+holding means (1110 of Fig 22, 2106 of Fig 28, 2003
+of Fig 36) for holding encoded data which has been
+
+encoded using a predetermined calculation from image data
+having said predetermined valu
+e, prior to encoding the image
+data included in each of the plurality of blocks; and
+wherein, if it is discriminated that the image data
+included in a block have the predetermined value, said
+
+encoding means (1104) comprises means for outputting the already encoded data
+held in said holding means as encoded data for the block
+
+without encoding by said encoding means (1104) the image data included in the block;
+while,
+if it is discriminated that the image data included
+in a block to be encoded does not have the predetermined
+
+value, said encoding means (1104) comprises means for generating encoded data 
+by encoding the image data in the block using said
+
+predetermined calculation.
+Apparatus according to claim 1, wherein the
+predetermined calculation is a discrete cosine transform
+
+(DCT) processing.
+Apparatus according to claim 1, wherein the
+predetermined calculation is a color-space
+
+transformation.
+Apparatus according to claim 1, wherein the
+predetermined calculation is a quantization processing.
+Apparatus according to claim 1, wherein the
+predetermined calculation is a Huffmann coding
+
+processing.
+Apparatus according to any preceding claim, wherein
+said discriminating means discriminates whether or not
+
+all image data included in a block represent white
+pixels.
+Apparatus according to claim 1, wherein each block
+obtained by said dividing means is an image composed of
+
+n X n pixels. 
+Apparatus according to any preceding claim, wherein
+the image data in each block to be encoded is composed
+
+of a plurality of frequency components, and
+
+   said discriminating means discriminates whether or
+not the plurality of frequency components have
+
+predetermined values.
+An image processing method comprising the steps of:
+
+inputting image data representing an image;
+dividing the image data into a plurality of blocks;
+discriminating whether or not image data included
+in each block to be encoded have a predetermined value;
+
+and
+encoding image data included in each of the
+plurality of blocks,
+characterised by comprising the steps of:
+holding encoded data which has been encoded from
+image data having said predetermined value using a
+
+predetermined calculation, prior to encoding the image
+data included in each of the plurality of blocks; and
+wherein, if it is discriminated that the image data
+included in a block have the predetermined value, said
+
+encoding step outputs the already encoded data held in
+said holding step as encoded data for the block without
+
+encoding the image data included in the block; while,
+if it is discriminated that the image data included
+in a block to be encoded does not have the predetermined 
+
+value, said encoding step generates encoded data by
+encoding the image data included in each block to be
+
+encoded using said predetermined calculation.
+A method according to claim 9, wherein the holding step
+holds encoded data representing white pixels which
+
+have been encoded using the predetermined calculation.
+A method according to claim 9 or claim 10, wherein
+the predetermined calculation is one of the following:
+
+discrete cosine transform processing, colour-space
+transformation, a quantization processing or Huffmann
+
+coding processing.
+A storage medium storing processor implementable
+instructions for controlling a processor to carry out each of the steps of the
+
+method of any one of claims 9 to 11.
+An electrical signal carrying processor
+implementable instructions for controlling a processor to
+
+carry out each of the steps of the method of any one of claims 9 to 11.
+</CLAIMS>
+</TEXT>
+</DOC>

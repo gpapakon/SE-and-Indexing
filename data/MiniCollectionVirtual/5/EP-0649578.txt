@@ -1,0 +1,158 @@
+<DOC>
+<DOCNO>EP-0649578</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+DIGITAL FILTER HAVING HIGH ACCURACY AND EFFICIENCY
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1714	H03H1702	H03H1708	G06F1710	H03H1702	G06F1710	H03H1708	H03H1706	G06F1714	H03H1706	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	H03H	H03H	G06F	H03H	G06F	H03H	H03H	G06F	H03H	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F17	H03H17	H03H17	G06F17	H03H17	G06F17	H03H17	H03H17	G06F17	H03H17	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Apparatus for and methods of operation of digital filters and certain other electronic digital signal processing devices are provided to improve the accuracy and efficiency of filtering. Particularly, the apparatus and method includes a digital filter with a long impulse response and lower latency, built by operating a numbr of small component filters (F1, F2, F3) in parallel and combining their outputs by addition, with each component filter operating with a different delay such that the net operation of the ensemble of said component filters is the same as a single filter with a longer impulse response, and the latency of the ensemble is equal to the shortest latency of the component filters. At least one group of the component filters is implemented using a Discrete Fourier Transform technique. A Fourier transform processor adapted to efficiently transform strings of real data is also described.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+LAKE TECHNOLOGY LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+LAKE TECHNOLOGY LIMITED
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+MCGRATH DAVID STANLEY
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MCGRATH, DAVID, STANLEY
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to the art of electronic
+signal processing, and more particularly but not exclusively,
+to an electronic filtering environment wherein relatively
+high accuracy and efficiency is desired and a relatively
+short flow-through delay (termed "latency") is desired.With reference to Fig. 1, electronic filters are
+utilised to modify the characteristics of an incoming
+electronic signal so as to provide an output signal which is
+modified in some defined fashion. In the case of Fig. 1 a
+"notch" filter is illustrated wherein, in the frequency
+domain, frequencies in the spectrum of the incoming signal S1
+are attenuated in the F1 to F2 band so as to produce
+output signal S2.Such filters can be implemented from entirely analog
+components although, in more recent times, there is a
+preference, in many circumstances, to implement the filter in
+a digital fashion. Digital implementation can be by means of
+dedicated digital circuitry or by means of computers (micro
+processors) programmed to operate as a filter.Filters have many applications in the field of
+electronic modelling of real world conditions. For example,
+filters can be used to provide a model of the acoustic
+characteristics of rooms or halls. Filters are also used to
+model deficiencies in systems so as to apply appropriate
+correction factors for the purpose of removing (cancelling) 
+imperfections in signals caused by the deficiencies.Frequently it is desirable that such processing take
+place in "real time". Also, it is desirable that there is
+effectively no delay in filtering of a signal generated in a
+real/live environment so that the modelling/correcting steps
+performed by the filter are, to all intents and purposes,
+without any delay being perceptible to the end user.To achieve this the delay introduced by the filter F
+while it performs its filtering function must be reduced to a
+negligible figure. That is, the time when signal S1 first
+presents to filter F and the time when the results of the
+filtering by filter F of the first incoming portion of signal
+S1 become available at the output of the filter S2 must be
+almost the same. The delay between these two events is
+hereinafter referred to as the "latency" of the filter
+system.Where the filter F is implemented in a digital manner
+it may first be necessary to sample the incoming signal S1
+(via an analog to digital converter) then perform the
+filtering function and then convert the digital signal back
+to an analog signal (by means of a digital to analog
+converter). The sampling
+</DESCRIPTION>
+<CLAIMS>
+A method of finite impulse response (FIR) filtering an input signal using a
+predetermined portion of a desired time domain impulse response representing a filter
+
+characteristic and specified in terms of time-domain impulse response values, so as to
+produce a filtered output signal, the method comprising the steps of:
+
+
+(a) dividing said input signal into overlapping successive input blocks of P samples, with each
+successive input block being delayed by N samples relative to the previous input block,
+
+where P≥2N-1;
+(b) creating each of substantially M frequency-domain coefficient blocks by:
+
+(i) dividing said predetermined portion of the desired time domain impulse
+into a series of segments;
+(ii) computing a frequency-domain transformation of each segment to form
+a corresponding one of said M frequency-domain coefficient blocks; and
+(c) for each of said input blocks:
+
+(i) computing a frequency-domain transform of said input block to form a
+corresponding frequency-domain input block;
+(ii) combining together the most recent M successive said frequency-domain
+
+input blocks with M frequency-domain coefficient blocks, to produce M frequency-domain
+filtered blocks;
+(iii) summing together said M frequency-domain filtered blocks to form a
+single frequency-domain output block;
+(iv) computing an inverse transform, which is the inverse of said frequency-domain
+transform, of said frequency-domain output block to form a time-domain output
+
+block;
+(v) discarding predetermined portions of said time-domain output block, to
+produce a new set of N output samples; and
+(vi) outputting said N output samples as a portion of said output signal.
+A method as claimed in claim 1, wherein P is equal to 2N. 
+A method as claimed in any one of the preceding claims wherein at least one of
+said frequency-domain transformation said frequency-domain transform comprises a
+
+2N-point Real fast Fourier transform producing and N complex values in said
+frequency-domain coefficient block.
+A method as claimed in claim 3, wherein said inverse transform comprises an N
+complex value fast Fourier inverse transform producing 2N-point Real values in said
+
+output block.
+A method as claimed in any previous claim, wherein said step of combining
+together frequency-domain input blocks comprises element by element multiplication
+
+of said frequency-domain input blocks.
+A method as claimed in any previous claim, wherein said summing together of
+frequency-domain filtered blocks comprises element by element addition of the blocks.
+A method as claimed in any previous claim, wherein said combining and said
+summing are carried out in a single operation with the successive results of the
+
+combining operations being accumulated into the frequency-domain output block. 
+A method as claimed in any previous claim, wherein said time-domain output
+block is of length 0.5 P.
+A method as claimed in any previous claim, wherein said discarding step (v)
+comprises discarding P-N samples.
+A method as claimed in any previous claim, wherein said predetermined portion
+of a desired impulse response comprises M times N time-domain values h(k) where
+
+0≤k
+<
+NM and the m-th block (0≤m
+<
+M) of values is made up of the N sample points
+h(mN) to h(mN+N-1).
+A method as claimed in claim 1 wherein said method is applied in parallel to a
+series of predetermined portions of an overall desired impulse response representing a
+
+filter characteristic and specified in terms of time-domain response values with the
+outputs of each parallel application of the method being combined so as to form an
+
+overall output which comprises a filtering of the input signal with the overall desired
+impulse response.
+A method as claimed in claim 11 wherein said series of predetermined portions
+are of different lengths.
+A method as claimed in claim 12 wherein initial members of said series of
+predetermined portions are shorter then subsequent members of said series.
+A method as claimed in claim 11 wherein the latency of application of said
+method is varied so that each parallel application of the method produces an output for
+
+combination substantially simultaneously.
+</CLAIMS>
+</TEXT>
+</DOC>

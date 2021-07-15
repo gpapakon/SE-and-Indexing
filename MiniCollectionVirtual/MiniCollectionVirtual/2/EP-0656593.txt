@@ -1,0 +1,270 @@
+<DOC>
+<DOCNO>EP-0656593</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method and apparatus for bus bandwidth management
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1336	G06F13362	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F13	G06F13	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A computer system includes bus bandwidth management for 
+operation of a high-speed bus. The high-speed bus is coupled to a plurality of 
+
+modules. A plurality of client applications operate on the computer system, 
+and request services from the high-speed bus to transfer data from a source 
+
+module to at least one destination module. The bus bandwidth management 
+system contains a bus manager, a dispatcher, a global controller, and a local 
+
+controller contained on each module. Transfer requests for data transfer on 
+the high-speed bus are made from the client applications to the bus manager. 
+
+The bus manager takes the requested information and, based on a bus 
+management policy management in effect, schedules a transfer order for the 
+
+transfer requests. The bus manager then transfers the ordered transfer 
+requests to the dispatcher. The dispatcher decomposes the ordered transfer 
+
+requests into individual bus transfer operations. For each individual bus 
+transfer operation, the dispatcher loads a command packet into the global 
+
+controller, the source module, and the destination module(s). After the 
+dispatcher dispatches all individual bus transfer operations, the dispatcher 
+
+returns to the bus manager to receive the next transfer request. The global 
+controller executes the individual bus transfer operations in the transfer 
+
+order. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SUN MICROSYSTEMS INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SUN MICROSYSTEMS, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+HANKO JAMES G
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NORTHCUTT J DUANE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WALL GERARD A
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HANKO, JAMES G.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NORTHCUTT, J. DUANE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WALL, GERARD A.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to data processing in a computer
+system, and more specifically to methods and apparatus for bus bandwidth
+management for a high-speed bus.In general, computer systems contain a central processing unit
+(CPU), memory, peripheral components, and an input/output interface to
+couple the peripheral components or subsystems to the CPU. Typically,
+computer buses are used for transferring data among the computer
+subsystems. In multi-tasking computer systems, a number of application
+programs, or client applications, are resident simultaneously. Because
+computers systems contain a limited amount of resources, client applications
+compete for use of the computer resources. For example, clients compete for
+use of the CPU cycles. Likewise, clients also share use of the computer buses.
+Typically, in order to allocate use of the computer buses, computer systems
+employ bus arbitration systems to allocate use of the bus to the various client
+applications. The bus arbitration systems are implemented in hardware, and
+therefore exhibit rigid policy considerations for allocation of bus resources.One policy for allocating bus resources to a number of client
+applications in bus arbitration systems is known as "first come, first serve"
+(FCFS). The FCFS policy is based on fairness, such that the first client to 
+request use of the bus receives total use of the bus until relinquished by the
+requesting client. Another policy employed in bus arbitration systems is a
+round robin policy. The round robin policy, also based on fairness, selects a
+single client for bus allocation in a sequential order. If a selected client
+application does not require bus services, then the bus arbitration hardware
+selects the next client in the sequential order. Although such fairness-based
+policies may provide adequate performance in certain client applications, the
+fairness policies are insufficient for others. Specifically, the fairness policies
+fail to provide a high degree of performance when there are timeliness
+requirements associated with the client requests for bus services.In recognition that not all clients should receive equal allocation
+of bus resources, some bus arbitration systems employ static priority policies.
+In a static priority bus allocation policy, each client application competing for
+use of the bus has a priority attribute associated with its request for bus
+services. Typically, the priority attribute consists of a number representing
+the priority of the request. With use of the static priority
+</DESCRIPTION>
+<CLAIMS>
+A method for bus bandwidth management comprising:
+
+issuing transfer requests (300) from a plurality of client applications
+(110, 120, 130, 140) operating on a computer system to effectuate data
+
+transfer on a bus, each of said transfer requests specifying urgency and
+importance information, wherein said urgency information specifies a time
+
+deadline for execution of said transfer request and said importance
+information specifies a priority for said transfer request;
+generating an urgency list (520) and importance list (530) for each transfer request based on
+said urgency and importance information;
+determining (540) whether said bus comprises enough bus bandwidth
+to service said transfer requests on said urgency list within said deadline
+
+specified for each transfer request;
+generating said transfer order (550) corresponding to said urgency list
+when said bus comprises enough bus bandwidth to service said transfer
+
+requests;
+reordering said urgency list, when said bus does not comprise enough bus bandwidth, and servicing
+said transfer requests by removing transfer requests comprising low priorities until said bus comprises
+
+enough bus bandwidth to service said remaining transfer requests;
+
+and
+dispatching said transfer requests in said transfer order to a command
+queue (330) by generating individual bus operations; and
+transferring data via said bus for each individual bus operation in said
+transfer order.
+The method as claimed in claim 1, wherein said client applications
+
+(110, 120, 130, 140) comprise time-critical media applications wherein correct
+transfer of said data is a function of time.
+The method as claimed in claim 1, further comprising:
+
+re-ordering (560) said urgency list, when said bus does not comprise
+enough bus bandwidth, to service said transfer requests by removing transfer 
+
+requests comprising low priorities until said bus comprises enough bus
+bandwidth to service said remaining transfer requests.
+The method as claimed in claim 1 wherein dispatching (330) said
+transfer requests comprises:
+
+
+providing a control bus (200); and
+dispatching said transfer requests on said control bus to said command
+queue.
+The method as claimed in claim 1 wherein issuing transfer requests
+comprises:
+
+
+identifying a source module (215) and a destination module (220) on
+said computer system when issuing transfer requests from said client
+
+applications; and
+specifying a two dimensional area of memory on said source module
+for source data, and specifying a two dimensional area of memory on said
+
+destination module for transfer of said source data.
+The method as claimed in claim 5 further comprises providing a local
+controller (605) for each source and destination module, and a global
+
+controller (600) for said bus.
+The method as claimed in claim 6 wherein dispatching said individual
+bus operations in said transfer order comprises:
+
+
+decomposing (327) said transfer requests into individual bus
+operations, each individual bus request comprising source, destination and
+
+global command packets, said source and destination command packets
+comprising a starting memory location, word count, read/write indication, and
+
+said global command packet comprising source and destination identifiers;
+and 
+transferring (330), for each individual bus operation, said source
+command packet to a queue in said local controller on said source module,
+
+said destination command packet to a queue in said local controller on said
+destination module, and said global command packet to a queue in said
+
+global controller.
+An apparatus for bus bandwidth management in a computer system
+comprising:
+
+
+a plurality of client applications (110, 120, 130, 140) operating on a
+computer system for issuing transfer requests to a bus (100), each of said
+
+transfer requests specifying urgency and importance information, wherein
+said urgency information specifies a time deadline for execution of said
+
+transfer request and said importance information specifies a priority for said
+transfer request;
+
+a bus manager (230) coupled to said client applications, comprising
+
+   a list generator coupled to said client applications for generating an
+urgency list and importance list for each transfer request based on said
+
+urgency and importance information;
+
+a bus bandwidth analyzer for determining whether said bus comprises
+enough bus bandwidth to service said transfer requests on said
+urgency list within said deadline specified for each transfer request; and
+
+a transfer request ordering coupled to said bus bandwidth analyzer and
+said list generator for generating a transfer order corresponding to said
+urgency list when said bus comprises enough bus bandwidth to service said
+
+transfer requests, said transfer request ordering for re-ordering said urgency
+list, when said bus does not comprise enough bus bandwidth, and for
+
+servicing said transfer requests by removing transfer requests comprising low
+priorities until said bus comprises enough bus bandwidth to service said
+
+remaining transfer requests; 
+a command queue (610);
+a bus dispatcher (235) coupled to said bus manager for dispatching
+said transfer requests in said transfer order to said command queue, and for
+
+generating individual bus operations; and
+a global controller (240) coupled to said command queue for
+transferring data in said transfer order via said for each individual bus
+
+operation.
+The apparatus as claimed in claim 8, wherein said client applications
+(110, 120, 130, 140) comprise time-critical media applications wherein correct
+
+transfer of said data on said bus in a function of time.
+The apparatus as claimed in claim 8, wherein said bus dispatcher (235)
+comprises a control bus (200) for dispatching said transfer requests on to said
+
+command queue.
+The apparatus as claimed in claim 8, wherein said client applications
+(110, 120, 130, 140) comprise a data request mechanism for identifying a
+
+source module and a destination module on said computer system when
+issuing transfer requests, for specifying a two dimensional area of memory on
+
+said source module for source data, and for specifying a two dimensional area
+of memory on said destination module for transfer of said source data.
+The apparatus as claimed in claim 8 further comprising a local
+controller (605) for each source and destination module.
+The apparatus as claimed in claim 12, wherein said bus dispatcher
+(235) further comprises:
+
+
+a command decomposer for decomposing said transfer requests into
+individual bus operations, each individual bus request comprising source,
+
+destination and global command packets, said source and destination 
+command packets comprising a starting memory location, word count,
+
+read/write indication, and said global command packet comprising source and
+destination identifiers; and
+a queue (610) coupled to said command decomposer for transferring,
+for each individual bus operation, said source command packet to a queue in
+
+said local controller on said source module, said destination command packet
+to a queue in said local controller on said destination module, and said global
+
+command packet to a queue in said global controller.
+</CLAIMS>
+</TEXT>
+</DOC>

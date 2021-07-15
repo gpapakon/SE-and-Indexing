@@ -1,0 +1,324 @@
+<DOC>
+<DOCNO>EP-0624853</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Hybrid on-line handwriting recognition and optical character recognition system.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06K903	G06K903	G06K922	G06K922	G06K948	G06K948	G06K962	G06K962	G06K964	G06K966	G06K968	G06K968	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06K	G06K	G06K	G06K	G06K	G06K	G06K	G06K	G06K	G06K	G06K	G06K	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06K9	G06K9	G06K9	G06K9	G06K9	G06K9	G06K9	G06K9	G06K9	G06K9	G06K9	G06K9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The hybrid handwriting recognition method includes the steps 
+of (a), in response to a handwriting input from a user, 
+
+providing dynamic, time ordered stroke information; (b) 
+determining a first list comprised of at least one probable 
+
+character that the dynamic, time ordered stroke information is 
+intended to represent; (c) converting the dynamic, time 
+
+ordered stroke information to static stroke information; (d) 
+determining a second list comprised of at least one probable 
+
+character that the static stroke information represents; and 
+(e) merging the first list and the second list to provide a 
+
+third, unified list comprised of at least one element 
+representing a most probable character that the dynamic, time 
+
+ordered stroke information is intended to represent. The step 
+of converting includes the steps of generating a static, bit-mapped 
+
+representation of the dynamic stroke information, and 
+generating one or more first stroke features based on contour 
+
+directions of the bit-mapped stroke information. The first 
+stroke features are applied as inputs to a plurality of neural 
+
+network recognizers. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+FUJISAKI TETSUNOSUKE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MODLIN WILLIAM DAVID
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MOHIUDDIN KOTTAPPURAM M
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TAKAHASHI HIROYASU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FUJISAKI TETSUNOSUKE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MODLIN WILLIAM DAVID
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MOHIUDDIN KOTTAPPURAM M
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TAKAHASHI HIROYASU
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates generally to handwriting recognition 
+systems and methods. Two basic approaches to computer-based handwriting recognition 
+are known as on-line handwriting recognition (HWR) and off-line 
+HWR. The off-line HWR approach is sometimes also referred 
+to as optical character recognition (OCR). In general, the on-line 
+HWR technique employs dynamic handwriting information, 
+while the off-line HWR technique employs static handwriting 
+information. These two approaches have historically been 
+separately developed for use in different handwriting 
+recognition environments. For the case where a handwriting input device provides dynamic 
+information, such as stroke direction and stroke order, the 
+use of on-line HWR technique has traditionally been preferred 
+because, for a given set of input characters, on-line HWR 
+generally provides better recognition accuracy than the off-line 
+HWR technique. A stylus-based (or pen-based) computer 
+that captures strokes from an integrated digitizer tablet is 
+one exemplary application that has benefitted from the use of 
+on-line HWR. The off-line HWR technique, on the other hand, has 
+traditionally been employed for applications where dynamic 
+information from a digitizer was not available. By example, 
+when documents are scanned from a scanner the input data 
+stream does not contain dynamic handwriting information. As 
+such, the on-line HWR approach is unsuitable for use, and the  
+ 
+off-line HWR approach provides a viable alternative. While the on-line HWR technique provides superior results when 
+dynamic stroke information is available, it has drawbacks as 
+well. For example, the on-line HWR technique can exhibit a 
+sensitivity to user-dependent letter formation. That is, the 
+on-line HWR technique operates best with a well-formed 
+presentation of the constituent strokes of a letter or 
+numeral. The on-line HWR technique may thus exhibit a 
+sensitivity to the order of formation and the number of 
+constituent strokes. For example, the on-line HWR technique 
+typically expects a user to write the letter "C" with a single 
+touch of the pen and with a counter clock-wise stroke. This 
+is, however, but one possible way for a user to form the 
+letter "C". For example, a multi-stroke, clockwise pen motion 
+can also be used. Often complicating the problem presented by user-dependent 
+character formation is the unnaturalness that many users 
+experience when writing with a conventional stylus/digitizer 
+tablet. Because the feel of the stylus on the surface of the
+</DESCRIPTION>
+<CLAIMS>
+A handwriting recognition system, comprising: 
+handwriting transducer means (12, 14), responsive to a 
+
+handwriting input from a user, for outputting time 
+ordered stroke information; 
+
+first means (16), having an input coupled to an output of 
+said handwriting transducer means, for determining a 
+
+first list comprised of at least one probable character 
+that the time ordered stroke information is intended to 
+
+represent; 
+means (20), having an input coupled to said output of 
+
+said handwriting transducer means, for converting the 
+time ordered stroke information to static stroke 
+
+information; 
+second means (22), having an input coupled to an output 
+
+of said converting means, for determining at least one 
+second list comprised of at least one probable character 
+
+that the static stroke information represents; and 
+means (24), having a first input coupled to an output of 
+
+said first determining means and a second input coupled 
+to an output of said second determining means, for 
+
+merging said first list and said at least one second list 
+to provide a third list comprised of at least one most 
+
+probable character that the time ordered stroke 
+information is intended to represent. 
+A handwriting recognition system as set forth in claim 1 
+wherein said converting means includes first means for 
+
+generating one or more first stroke features based on 
+contour directions of the static stroke information. 
+A handwriting recognition system as set forth in claim 2 
+wherein said converting means further includes second 
+
+means for generating one or more second stroke features 
+based on convexity and concavity of the static stroke 
+
+information. 
+A handwriting recognition system as set forth in claim 2 
+wherein said second determining means is comprised of at 
+
+least one neural network means having a plurality of 
+input nodes coupled to said converting means for 
+
+receiving the first stroke features, said at least one 
+neural network means having at least one output node for 
+
+outputting at least one probable character in response to 
+the first stroke features. 
+A handwriting recognition system as set forth in claim 2 
+wherein said converting means includes means, responsive 
+
+to the time ordered stroke information, for converting 
+the time ordered stroke information to an N by M bit-mapped 
+
+representation thereof, and wherein said first 
+generating means is responsive to the bit-mapped 
+
+representation. 
+A handwriting recognition system as set forth in claim 5 
+wherein said time ordered stroke converting includes 
+
+means for scaling the time-ordered stroke information 
+such that the stroke is wholly contained within the N by 
+
+M bit-mapped representation. 
+A method for operating a handwriting recognition system, 
+comprising the steps of: 
+
+
+(a) responsive to a handwriting input from a user, 
+providing dynamic, time ordered stroke information; 
+(b) determining a first list comprised of at least one 
+probable character that the dynamic, time ordered stroke 
+
+information is intended to represent; 
+(c) converting the dynamic, time ordered stroke 
+information to static stroke information; 
+(d) determining a second list comprised of at least one 
+probable character that the static stroke information 
+
+represents; and 
+(e) merging the first list and the second list to provide 
+a third, unified list comprised of at least one most 
+
+probable character that the dynamic, time ordered stroke 
+information is intended to represent. 
+A method as set forth in claim 7 wherein the step of 
+converting includes a step of generating one or more 
+
+first stroke features based on contour directions of the 
+static stroke information (Fig. 4). 
+A method as set forth in claim 7 wherein the step of 
+converting includes a further step of generating one or 
+
+more second stroke features based on convexity and 
+concavity of the static stroke information (Fig. 5). 
+A method as set forth in claim 8 wherein the step of 
+determining a second list is accomplished with at least 
+
+one neural network means (Fig. 6) having a plurality of 
+input nodes for receiving the first stroke features, the 
+
+at least one neural network means having at least one 
+output node for outputting at least one probable 
+
+character in response to the first stroke features. 
+A method as set forth in claim 7 wherein the step of 
+converting includes a step of mapping the dynamic, time 
+
+ordered stroke information into an N by M bit-mapped 
+representation thereof. 
+A method as set forth in claim 11 wherein the step of 
+mapping includes a step of scaling the dynamic, time-ordered 
+
+stroke information such that a stroke is wholly 
+ 
+
+contained within the N by M bit-mapped representation. 
+A method for recognizing a handwriting, comprising the 
+
+steps of: 
+inputting one or more feature vectors representing 
+
+dynamic stroke information; 
+converting the one or more feature vectors into an NxM 
+
+representation of the one or more feature vectors; 
+counting occurrences of individual ones of a plurality of 
+
+primitive features within the NxM representation; 
+generating, in response to the counted occurrences, at 
+
+least one first list comprised of one or more symbols 
+that the NxM bit-mapped image may represent; 
+
+generating, in response to the feature vectors, a second 
+list comprised of one or more symbols that the feature 
+
+vectors may represent; and 
+generating a third list from the at least one first list 
+
+and the second list, the third list including at least 
+one most probable symbol that the feature vectors may 
+
+represent. 
+A method as set forth in claim 13 wherein the step of 
+inputting includes a step of segmenting the feature 
+
+vectors. 
+A method as set forth in claim 13 wherein the step of 
+generating at least one first list includes a step of 
+
+applying the counted occurrences to inputs of at least 
+one neural network means, the at least one neural network 
+
+means having been trained to recognize at least one 
+predetermined symbol. 
+A method as set forth in claim 13 wherein the step of 
+generating at least one first list includes a step of 
+
+applying the counted occurrences to inputs of individual 
+ones of a plurality of neural network means, each of the 
+
+plurality of neural network means having been trained to 
+recognize at least one predetermined symbol within a 
+
+predetermined class of symbols. 
+A method as set forth in claim 13 wherein the step of 
+counting occurrences includes the steps of: 
+
+partitioning the NxM bit-mapped image into a plurality of 
+slices; 
+
+applying an ixj mask over the NxM bit-mapped image to 
+locate instances of primitive features; and 
+
+counting the located instances within each of the 
+plurality of slices. 
+A method as set forth in claim 17 wherein the step of 
+applying includes a step of identifying primitive 
+
+features based on contour direction. 
+A method as set forth in claim 17 wherein the step of 
+applying includes a step of identifying primitive 
+
+features based on convexity and concavity. 
+A method as set forth in claim 17 wherein the step of 
+applying includes a step of identifying a first set of 
+
+primitive features based on contour direction and a 
+second set of feature vectors based on convexity and 
+
+concavity. 
+</CLAIMS>
+</TEXT>
+</DOC>

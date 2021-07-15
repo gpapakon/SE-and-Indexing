@@ -1,0 +1,598 @@
+<DOC>
+<DOCNO>EP-0643539</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Motion vector detection apparatus and method
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T720	G06T720	H04N732	H04N726	H04N514	H04N726	H04N732	H04N514	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	H04N	H04N	H04N	H04N	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T7	G06T7	H04N7	H04N7	H04N5	H04N7	H04N7	H04N5	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Using a multi-stage operation, a motion vector is 
+detected between a base block in a present frame and the 
+
+best matching position of an inspection block in a 
+reference frame. In an initial stage (Fig. 9C), constant 
+
+and transient components, such as a mean value (m) and a 
+standard deviation (σ), are extracted from the base block 
+
+and compared with constant and transient components 
+extracted from the inspection block as its position is 
+
+varied through a predetermined search range. A coarse 
+motion vector to a first best matching block in the 
+
+predetermined search range is obtained. In a next stage 
+(Fig. 9B), the base block is formed into small blocks, 
+
+and the inspection blocks at positions in the 
+neighborhood indicated by the coarse motion vector are 
+
+formed into small blocks. Constant and transient 
+components (e.g. m₁, σ₁) for each of the small blocks are 
+
+obtained and compared. A next motion vector to a second 
+best matching block in the neighborhood indicated by the 
+
+coarse motion vector is obtained. In a final stage 
+(Fig. 9A), image data for the base block and the 
+
+inspection blocks at positions in the neighborhood 
+indicated by the next motion vector are compared to 
+
+obtain a final motion vector. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SONY CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SONY CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+KONDO TETSUJIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KONDO, TETSUJIRO
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to detection of a
+motion vector between a block in an image and a
+corresponding block in another image, so that the number
+of operations required to detect a motion vector may be
+reduced while maintaining the accuracy of the detected
+motion vector.Motion vectors are useful in predictive coding of a
+series of digital images, which reduces the amount of
+information needed to represent the series of images.
+For example, the Moving Picture Coding Experts Group
+(MPEG) international standard for highly efficient coding
+of moving pictures employs orthogonal transformation,
+specifically a discrete cosine transformation (DCT), and
+predictive encoding with motion compensation.Fig. 1 of the accompanying drawings shows an example
+of a predictive encoding circuit using motion
+compensation. Digital video data for a present frame of
+video is supplied to an input terminal 61, which supplies
+the digital video data to a motion vector detecting
+circuit 62 and a subtracting circuit 63.The motion vector detecting circuit 62 detects a
+motion vector for a block of the present frame relative
+to a reference frame, which may be a frame that
+temporally precedes the present frame, and supplies the
+motion vector to a motion compensating circuit 64. Frame memory 65 is adapted to store an image such as
+the preceding frame which, when motion compensated, forms the
+prediction for the present image, and to supply this image to the
+motion compensating circuit 64.The motion compensating circuit 64 is operative to
+perform motion compensation of the image supplied thereto from
+frame memory 65 using the motion vector supplied thereto from the
+motion vector detecting circuit 62, and to supply the motion
+compensated image to a subtracting circuit 63 and an adding
+circuit 66. Specifically, the circuit 64 moves each block of the
+image to the position indicated by the corresponding motion
+vector.The subtracting circuit 63 subtracts the motion
+compensated preceding frame received from the motion compensating
+circuit 64 from the video data of the present frame, on a pixel
+by pixel basis, to produce differential data and supplies the
+differential data to a DCT circuit 67.The DCT circuit 67 functions to orthogonally transform
+the differential data to produce coefficient data, and applies
+the coefficient data to a quantizing circuit 68 which is adapted
+to quantize the coefficient data and to supply the quantized
+coefficient data to an output terminal 69 and to an inverse
+quantizing circuit 70.The inverse quantizing
+</DESCRIPTION>
+<CLAIMS>
+A motion vector detecting apparatus comprising:
+
+means (3) for supplying image data of a base block
+of a first image;
+first extracting means (7a,8a) for obtaining a
+constant component and a transient component of said base
+
+block;
+means (4) for supplying image data of an inspection
+block of a second image in response to a control signal;
+second extracting means (7b,8b) for obtaining a
+constant component and a transient component of said
+
+inspection block;
+first comparison means (15,18) for comparing said
+constant and transient components of said base and
+
+inspection blocks to determine a first position of said
+inspection block in said second image which best matches
+
+said base block;
+means (5) for indicating different positions in said
+second image as said control signal as a function of the
+
+first best matching position of said inspection block;
+first small block forming means (11a) for forming
+said base block into first small blocks;
+third extracting means (9a,10a) for obtaining a
+constant component and a transient component of each of
+
+the first small blocks;
+second small block forming means (11b) for forming
+said inspection block into second small blocks as the 
+
+position of said inspection block is varied in the
+neighborhood of said first best matching position;
+fourth extracting means (9b,10b) for obtaining a
+constant component and a transient component of each of
+
+the second small blocks;
+second comparison means (17,19) for comparing said
+constant and transient components of said first and
+
+second small blocks to determine a second position of
+said inspection block in said second image which best
+
+matches said base block; and
+means (21-27) for generating a motion vector based
+on said first and second positions as respectively
+
+determined by said first and second comparison means
+(15,18,17,19).
+Apparatus according to claim 1, further
+comprising first memory means for storing and reading out
+
+said base block, and second memory means for storing a
+predetermined search range of said second image and
+
+reading out said inspection block.
+Apparatus according to claim 1, wherein said
+first extracting means includes first constant component
+
+extracting means for obtaining said constant component
+from said base block and first transient component
+
+extracting means for obtaining said transient component
+from said base block, and said second extracting means
+
+includes second constant component extracting means for
+obtaining said constant component from said inspection
+
+block and second transient component extracting means for 
+obtaining said transient component from said inspection
+
+block.
+Apparatus according to claim 1, wherein said
+first comparison means includes first difference means
+
+for obtaining a first difference between said constant
+component of said base block and said constant component
+
+of said inspection block, second difference means for
+obtaining a second difference between said transient
+
+component of said base block and said transient component
+of said inspection block, and determining means for
+
+determining the first best matching position of said
+inspection block in said second image as a function of
+
+said first and second differences.
+Apparatus according to claim 4, wherein said
+determining means includes first absolute value m
+eans for
+producing an absolute value of said first difference,
+
+second absolute value means for producing an absolute
+value of said second difference, and means for adding the
+
+absolute values of said first and second differences.
+Apparatus according to claim 5, wherein said
+means for adding includes first multiplying means for
+
+multiplying said absolute value of said first difference
+by a first weighting value and second multiplying means
+
+for multiplying said absolute value of said second
+difference by a second weighting value.
+Apparatus according to claim 1, wherein said
+second comparison means includes difference means for
+
+obtaining differences between said image data of said 
+base and inspection blocks, and determining means for
+
+determining the second best matching position of said
+inspection block in said second image as a function of
+
+said differences.
+Apparatus according to claim 7, wherein said
+determining means includes absolute value means for
+
+producing respective absolute values of said differences,
+and accumulating means for combining said respective
+
+absolute values.
+Apparatus according to claim 1, wherein said
+first comparison means is also operative to produce a
+
+first motion vector between said base block and said
+first position.
+Apparatus according to claim 9, wherein said
+second comparison means is also operative to produce a
+
+second motion vector between said base block and said
+second position.
+Apparatus according to claim 10, further
+comprising means for multiplying said first motion vector
+
+by a predetermined factor and means for adding the
+multiplied first motion vector to said second motion
+
+vector to produce a final motion vector between said base
+block and said second best matching position.
+Apparatus according to claim 1, wherein said
+first comparison means includes 
+
+
+first difference means for obtaining first
+differences between the constant components of said small
+
+blocks of said base block and said inspection block,
+first accumulating means for combining said first
+differences to produce a first cumulative difference,
+second difference means for obtaining second
+differences between the transient components of said
+
+small blocks of said base block and said inspection
+block,
+second accumulating means for combining said second
+differences to produce a second cumulative difference,
+
+and
+determining means for determining the best matching
+position of said inspection block in said second image as
+
+a function of said first and second cumulative
+differences.
+Apparatus according to claim 12, wherein said
+determining means includes first multiplying means for
+
+multiplying said first cumulative difference by a first
+weighting value, second multiplying means for multiplying
+
+said second cumulative difference by a second weighting
+value, and means for adding the weighted first and second
+
+cumulative differences.
+Apparatus according to claim 1, wherein said
+base and inspection blocks comprise pixels having
+
+respective values, said constant component of said base
+block is a mean value of said pixels of said base block 
+
+and said constant component of said inspection block is a
+mean value of said pixels of said inspection block.
+Apparatus according to claim 1, wherein said
+base and inspection blocks comprise pixels having
+
+respective values, said constant component of said base
+block is one of a low frequency component of said pixels
+
+of said base block, low order component of a set of
+orthogonally transformed coefficients corresponding to
+
+said pixels of said base block, maximum value of said
+pixels of said base block, and minimum value of said
+
+pixels of said base block, and said constant component of
+said inspection block is one of a low frequency component
+
+of said pixels of said inspection block, low order
+component of a set of orthogonally transformed
+
+coefficients corresponding to said pixels of said
+inspection block, maximum value of said pixels of said
+
+inspection block, and minimum value of said pixels of
+said inspection block.
+Apparatus according to claim 1, wherein said
+base and inspection blocks comprise pixels having
+
+respective values, said transient component of said base
+block is a standard deviation of said pixels of said base
+
+block and said transient component of said inspection
+block is a standard deviation of said pixels of said
+
+inspection block.
+Apparatus according to claim 1, wherein said
+base and inspection blocks comprise pixels having
+
+respective values, said transient component of said base 
+block is one of a high frequency component of said pixels
+
+of said base block, high order component of a set of
+orthogonally transformed coefficients corresponding to
+
+said pixels of said base block, dynamic range of said
+pixels of said base block, difference of mean values of
+
+said pixels of said base block, and maximum value of
+differences of mean values of said pixels of said base
+
+block, and said transient component of said inspection
+block is one of a high frequency component of said pixels
+
+of said inspection block, high order component of a set
+of orthogonally transformed coefficients corresponding to
+
+said pixels of said inspection block, dynamic range of
+said pixels of said inspection block, difference of mean
+
+values of said pixels of said inspection block, and
+maximum value of differences of mean values of said
+
+pixels of said inspection block.
+Apparatus according to claim 1, wherein said
+neighborhood of said first best matching position is a
+
+region centered on said first best matching position and
+having a width of two inspection blocks and a height of
+
+two inspection blocks.
+Apparatus according to claim 1, wherein said
+neighborhood of said first best matching position is a
+
+region centered on said first best matching position and
+having a width of 1.5 inspection blocks and a height of
+
+1.5 inspection blocks.
+A motion vector detecting method comprising the
+steps of: 
+
+
+supplying image data of a base block of a first
+image;
+obtaining a constant component and a transient
+component of said base block;
+supplying image data of an inspection block of a
+second image in response to a control signal;
+obtaining a constant component and a transient
+component of said inspection block;
+comparing said constant and transient components of
+said base and inspection blocks to determine a first
+
+position of said inspection block in said second image
+which best matches said base block;
+indicating different positions in said second image
+as said control signal as a function of the first best
+
+matching position of said inspection block;
+forming said base block into first small blocks;
+obtaining a constant component and a transient
+component of each of the first small blocks;
+forming said inspection block into second small
+blocks as the position of said inspection block is varied
+
+in the neighborhood of said first best matching position;
+obtaining a constant component and a transient
+component of each of the second small blocks;
+comparing said constant and transient components of
+said first and second small blocks to determine a second
+
+position of said inspection block in said second image
+
+which best matches said base block; and 
+generating a motion vector based on said first and
+second positions as determined by said comparing steps.
+A method according to claim 20, further
+comprising the steps of storing and reading out said base
+
+block, storing a predetermined search range of said
+second image and reading out said inspection block.
+A method according to claim 20, wherein the
+step of obtaining a constant component and a transient
+
+component of said base block includes obtaining said
+constant component from said base block and obtaining
+
+said transient component from said base block, and the
+step of obtaining a constant component and a transient
+
+component of said inspection block includes obtaining
+said constant component from said inspection block and
+
+obtaining said transient component from said inspection
+block.
+A method according to claim 20, wherein the
+step of comparing said constant and transient components
+
+of said base and inspection blocks includes obtaining a
+first difference between said constant component of said
+
+base block and said constant component of said inspection
+block, obtaining a second difference between said
+
+transient component of said base block and said transient
+component of said inspection block, and determining the
+
+first best matching position of said inspection block in
+said second image as a function of said first and second
+
+differences. 
+A method according to claim 23, wherein the
+step of determining includes producing an absolute value
+
+of said first difference, producing an absolute value of
+said second difference, and adding the absolute values of
+
+said first and second differences.
+A method according to claim 24, wherein the
+step of adding includes multiplying said absolute value
+
+of said first difference by a first weighting value and
+multiplying said absolute value of said second difference
+
+by a second weighting value.
+A method according to claim 20, wherein the
+step of comparing said image data of said base block and
+
+said image data of said inspection block includes
+obtaining differences between said image data of said
+
+base and inspection blocks, and determining the second
+best matching position of said inspection block in said
+
+second image as a function of said differences.
+A method according to claim 26, wherein the
+step of determining includes producing respective
+
+absolute values of said differences, and combining said
+respective absolute values.
+A method according to claim 20, further
+comprising the step of producing a first motion vector
+
+between said base block and said first best matching
+position.
+A method according to claim 28, further
+comprising the step of producing a second motion vector
+
+between said base block and said second position. 
+A method according to claim 29, further
+comprising the steps of multiplying said first motion
+
+vector by a predetermined factor and adding the
+multiplied first motion vector to said second motion
+
+vector to produce a final motion vector between said base
+block and said second position.
+A method according to claim 20, wherein the
+step of comparing said constant and transient components
+
+of said base and inspection blocks includes obtaining
+first differences between the constant components of said
+
+small blocks of said base block and said inspection
+block, combining said first differences to produce a
+
+first cumulative difference, obtaining second differences
+between the transient components of said small blocks of
+
+said base block and said inspection block, combining said
+second differences to produce a second cumulative
+
+difference, and determining the best matching position of
+said inspection block in said second image as a function
+
+of said first and second cumulative differences.
+A method according to claim 31, wherein the
+step of determining the best matching position includes
+
+multiplying said first cumulative difference by a first
+weighting value, multiplying said second cumulative
+
+difference by a second weighting value, and adding the
+weighted first and second cumulative differences.
+A method according to claim 20, wherein said
+base and inspection blocks comprise pixels having
+
+respective values, said constant component of said base 
+block is a mean value of said pixels of said base block
+
+and said constant component of said inspection block is a
+mean value of said pixels of said inspection block.
+A method according to claim 20, wherein said
+base and inspection blocks comprise pixels having
+
+respective values, said constant component of said base
+block is one of a low frequency component of said pixels
+
+of said base block, low order component of a set of
+orthogonally transformed coefficients corresponding to
+
+said pixels of said base block, maximum value of said
+pixels of said base block, and minimum value of said
+
+pixels of said base block, and said constant component of
+said inspection block is one of a low frequency component
+
+of said pixels of said inspection block, low order
+component of a set of orthogonally transformed
+
+coefficients corresponding to said pixels of said
+inspection block, maximum value of said pixels of said
+
+inspection block, and minimum value of said pixels of
+said inspection block.
+A method according to claim 20, wherein said
+base and inspection blocks comprise pixels having
+
+respective values, said transient component of said base
+block is a standard deviation of said pixels of said base
+
+block and said transient component of said inspection
+block is a standard deviation of said pixels of said
+
+inspection block.
+A method according to claim 20, wherein said
+base and inspection blocks comprise pixels having 
+
+respective values, said transient component of said base
+block is one of a high frequency component of said pixels
+
+of said base block, high order component of a set of
+orthogonally transformed coefficients corresponding to
+
+said pixels of said base block, dynamic range of said
+pixels of said base block, difference of mean values of
+
+said pixels of said base block, and maximum value of
+differences of mean values of said pixels of said base
+
+block, and said transient component of said inspection
+block is one of a high frequency component of said pixels
+
+of said inspection block, high order component of a set
+of orthogonally transformed coefficients corresponding to
+
+said pixels of said inspection block, dynamic range of
+said pixels of said inspection block, difference of mean
+
+values of said pixels of said inspection block, and
+maximum value of differences of mean values of said
+
+pixels of said inspection block.
+A method according to claim 20, wherein said
+neighborhood of said first best matching position is a
+
+region centered on said first best matching position and
+having a width of two inspection blocks and a height of
+
+two inspection blocks.
+A method according to claim 20, wherein said
+neighborhood of said first best matching position is a
+
+region centered on said first best matching position and
+having a width of 1.5 inspection blocks and a height of
+
+1.5 inspection blocks.
+</CLAIMS>
+</TEXT>
+</DOC>

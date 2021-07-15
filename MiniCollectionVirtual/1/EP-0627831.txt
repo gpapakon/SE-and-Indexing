@@ -1,0 +1,481 @@
+<DOC>
+<DOCNO>EP-0627831</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Configuration of intersystem channels.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1300	G06F1300	G06F1516	G06F15173	H04L710	H04L710	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	H04L	H04L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F13	G06F13	G06F15	G06F15	H04L7	H04L7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A system for the transmission of information between elements 
+of a data processing complex and a method for establishing such 
+
+a system. Two elements of a data processing system are 
+connected by a physical link comprising multiple conductors 
+
+attached to transceivers at channels in each data processing 
+element. Once the transceivers have been synchronized, commands 
+
+and responses are exchanged which ensure that all of the 
+transceivers in a channel are connected to the same channel on 
+
+the other end of the conductor. If the transceivers are 
+considered configured and an entry is made in a 
+
+Configured-Transceiver table. A search is made of an 
+Allowed-Operational-Link table which contains sets of 
+
+transceivers which are allowed to become operational links. 
+The set of transceivers thus found, is compared against the 
+
+Configured-Transceiver-Table to verify that all of the members 
+of the set have been configured. If a match is found, this set 
+
+of transceivers becomes an Intended-Operational-Link. The 
+Intended-Operational-Link is verified to ensure that both 
+
+channels agree on the set of conductors will form the 
+operational link. If the Intended-Operational-Link verifies, 
+
+the operational link is established therefrom. The link can be 
+reconfigured by utilizing a quiesce function. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BARTOW NEIL GEORGE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GOSS STEVEN NEIL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WESTCOTT DOUGLAS WAYNE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BARTOW, NEIL GEORGE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GOSS, STEVEN NEIL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WESTCOTT, DOUGLAS WAYNE
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention generally relates to the field of data 
+processing, more specifically to an apparatus and method of 
+communication between elements of a data processing complex 
+having a quiesce and unquiesce function for intersystem 
+channels. Fiber optic waveguides enable the serial transmission of 
+information from a driver to a receiver at a relatively long 
+distance (kilometers) and at very high data rates (billions of 
+bits per second). High performance data processing complexes 
+require system buses among its elements to have very high 
+bandwidths of information transfer (hundreds of millions of 
+bytes per second). The use of a single conductor, such as a 
+fiber optic waveguide, can be insufficient to serve as such a 
+system bus because of bandwidth limitations. In the prior art, one solution to the bandwidth problem has 
+been to use multiple conductors in parallel, each conductor 
+carrying a bit of each word to be transmitted. A second 
+solution, known as data striping, entails sending a plurality 
+of data words in parallel over multiple conductors in a serial 
+fashion. Each word is transmitted serially over a single 
+conductor, but it is transmitted in parallel with other words 
+on other conductors. One challenge in implementing a data striping technique for 
+information transmission is the determination of which of the 
+multiple conductors attached to a computer element form the 
+system bus linking one computer element to another. Some prior 
+art systems attempt to use each of the conductors which is 
+physically attached to the computer element. This method has a  
+ 
+significant drawback in that if one of the conductors is not 
+operational, the entire bus is rendered inoperable. Other prior 
+art systems have attempted to configure a system bus using only 
+the operational conductors, but these prior art systems have 
+been driven by hardware switches and have been further limited 
+to system buses of two conductors. A second challenge in implementing a data striping technique is 
+adding or deleting one or more of the multiple conductors 
+without injecting errors into the system bus. This may be used 
+for adding a conductor that has been repaired, or removing a 
+conductor for repair purposes. Prior art systems have 
+introduced errors in the system bus when the conductors were 
+added or deleted. The present invention is system for the transmission of 
+information between elements of a data processing complex and a 
+method for establishing such a system. Each element of the 
+data processing complex
+</DESCRIPTION>
+<CLAIMS>
+In a data processing complex with interconnected elements 
+in which elements of the complex are operationally 
+
+connected, a method useful in configuring operational 
+links between elements which can be quiesce originators 
+
+and quiesce recipients, comprising the steps of: 
+suspending operations across an operational link by 
+
+initiating from either end of an operating link a quiesce 
+request from a quiesce originator; 
+
+determining at a quiesce recipient that a quiesce is 
+requested by the receipt of a quiesce request; 
+
+suspending any new messages by the quiesce recipient; 
+completing all message requests received by the quiesce 
+
+recipient; 
+sending a quiesce response by the quiesce recipient once 
+
+all messages originated by the quiesce recipient have 
+completed; 
+
+suspending any new message requests by the quiesce 
+originator once the quiesce response has been received; 
+
+and 
+quiescing the quiesce originator once the quiesce response 
+
+has been received and all outstanding quiesce originator 
+messages have completed. 
+A method according to claim 1 wherein: 
+the suspending of new message requests by the quiesce 
+
+originator occurs after the quiesce request is sent and 
+prior to the quiesce response being received. 
+A method according to claim 1 wherein: 
+the suspending of new message requests by the quiesce 
+
+originator occurs before the quiesce request is sent. 
+In a data processing complex with interconnected elements 
+in which elements of the complex are operationally 
+
+connected, a method useful in configuring operational 
+links between elements which can be quiesce originators 
+
+and quiesce recipients, both of which request a quiesce at 
+the same time, comprising the steps of: 
+
+determining a node descriptor of each end of a link and 
+assigning quiesce ownership to that end of the link having 
+
+a higher node descriptor; and 
+canceling quiesce ownership of that end of the link having 
+
+a lower node descriptor. 
+A method of suspending operations indefinitely across an 
+operational link where either end may initiate quiesce 
+
+requests, comprising the steps of: 
+suspending new message requests by a quiesce originator 
+
+before a quiesce response is sent; 
+sending a quiesce request from the quiesce originator; 
+
+determining that a quiesce is requested by the receipt of 
+a quiesce request at a quiesce recipient; 
+
+suspending of new messages by the quiesce recipient; 
+completing all message requests received by the quiesce 
+
+recipient; 
+sending a quiesce response by the quiesce recipient once 
+
+all messages originated by the quiesce recipient have 
+completed; and
+
+ 
+quiescing the quiesce originator once the quiesce response 
+
+has been received. 
+A method of adding and/or deleting transceivers to/from an 
+operational link without errors to the messages carried on 
+
+the operational link between elements of a data processing 
+complex having a configured-conductor table indicating 
+
+whether said conductors are configured, comprising the 
+steps of: 
+
+quiescing the link; 
+re-establishing a previously operating link between two 
+
+elements of a data processing complex by: 
+marking said non-operational conductor as being not 
+
+configured in said configured-conductor table, or marking 
+said operational conductor as being configured in said 
+
+configured-conductor table; and 
+generating an intended-operational-link, said 
+
+intended-operational-link being a set of conductors which 
+are allowed to form an operational link; and 
+
+comparing said intended-operational-link to said 
+
+configured-conductor table; 
+repeating said generation and said comparison if said 
+
+intended-operational-link contains any conductor which is 
+not marked as configured in said configured-conductor 
+
+table; and 
+establishing said operational link from said 
+
+intended-operational-link if all of said conductors in 
+said intended-operational-link are marked as configured in 
+
+said configured-conductor table. 
+A method of starting message operations on an operational 
+link that is quiesced, comprising the steps of: 
+
+sending from a quiesce originator an unquiesce request to 
+a quiesce recipient; 
+
+sending from the quiesce recipient, when it receives an 
+unquiesce request, an unquiesce response and starting 
+
+message operations; and 
+starting message operations from the quiesce originator 
+
+when the quiesce originator receives the unquiesce 
+response. 
+A method according to claim 7 wherein: 
+the quiesce originator, after it has sent the unquiesce 
+
+request and receives a message request, executes the 
+message request as if the unquiesce response had been 
+
+received, and starts message operations at the quiesce 
+originator. 
+An apparatus for interconnecting first and second elements 
+of a data processing complex comprising: 
+
+a plurality of conductors connecting said first element to 
+said second element; 
+
+a configured-conductor table in each of said elements, 
+said table indicating whether each of said conductors 
+
+operationally connects said elements; 
+a means for generating an allowed-operational-links said 
+
+allowed-operational-link containing a set of conductors 
+which are allowed to form an operational link between said 
+
+first element an said second element; and 
+a means for comparing said allowed-operational-link to 
+
+said configured-conductor table, said comparing means 
+ 
+
+determining if each of said conductors in said 
+allowed-operational-link is marked as configured in said 
+
+configured-conductor table; and 
+a means for establishing an operational link from said 
+
+allowed-operational-link if each of said conductors in 
+said allowed-operational-link is marked as configured in 
+
+said configured-conductor table, and means for 
+establishing elements which can be quiesce originators and 
+
+quiesce recipients, both of which request a quiesce at the 
+same time, including a node descriptor for each end of a 
+
+link and means for assigning quiesce ownership to that end 
+of the link having a higher node descriptor; and means for 
+
+canceling quiesce ownership of that end of the link having 
+a lower node descriptor. 
+An apparatus according to claim 9 wherein said conductors 
+are optical fibers. 
+An apparatus according to claim 10 further comprising: 
+at least one channel in each of said elements; 
+
+each of said channels containing transceivers for 
+operating said optical fibers. 
+An apparatus according to claim 11 further comprising: 
+means for adding and or deleting the transceivers for an 
+
+orderly change in the configuration of the system to add 
+or delete conductors. 
+A method according to claim 1 wherein after a quiesce 
+owner has been identified, existing operational 
+
+connectivity between nodes of the communication complex 
+can be changed, by
+
+ 
+determining operational connectivity between a first and 
+
+second element of said complex for those conductors 
+interconnecting said elements; 
+
+marking as configured in a configured-conductor table all 
+of said conductors which have been determined to 
+
+operationally connect said two elements; 
+generating an intended-operational-link in both elements, 
+
+where one element, the quiesce originator, is denoted as a 
+master, the other element being denoted as a slave, said 
+
+intended-operational-link being a set of conductors which 
+are allowed to form an operational link; 
+
+comparing said intended-operational-link to said 
+configured-conductor table; 
+
+repeating said generation and said comparison if said 
+intended-operational-link contains any conductor which is 
+
+not marked as configured in said configured-conductor 
+table; and 
+
+establishing said operational link from said 
+intended-operational-link if all of said conductors in 
+
+said intended-operational-link are marked as configured in 
+said configured-conductor table. 
+A method according to claim 13 further comprising: 
+originating a command from said master on each conductor 
+
+in the transceiver-configured state prior to establishing 
+said operational link; 
+
+receiving said command on a receiving set of conductors at 
+said slave; 
+
+verifying said receiving set of conductors is capable of 
+forming an operational link in said slave; and
+
+ 
+transmitting a positive response with the 
+
+intended-operational-link to said master if said receiving 
+set of transceivers is capable of forming matches an 
+
+operational link. 
+A method according to claim 14 further comprising: 
+transmitting a negative response to said master if said 
+
+receiving set of transceivers is incapable of forming an 
+intended-operational link; and 
+
+repeating said originating, receiving and verifying steps 
+up to a maximum number of times. 
+A method of reconfiguring an operational link between two 
+interconnected elements of a data processing complex, each 
+
+of said elements containing at least one channel for 
+interfacing with other elements, said method comprising: 
+
+initiating from a quiesce operator which has become a 
+master after a quiesce a desired reconfiguration sequence, 
+
+which reconfiguration sequence includes the steps of: 
+determining operational connectivity between a channel of 
+
+said first element and a channel of said second element 
+for every conductor interconnecting said elements; 
+
+acquiring node descriptors on each operational conductor 
+connected to said first and second channels, said node 
+
+descriptors uniquely describing the channel to which said 
+conductor is connected, whereby acquisition is achieved 
+
+by: 
+
+a) sending an operational-transceiver request on an 
+operational conductor connected to an originator 
+
+channel, said request containing a node descriptor 
+which uniquely describes said originator channel and 
+
+said originator transceiver; 
+b) receiving said operational-transceiver request on a 
+receiving set of transceivers in a recipient channel; 
+
+and 
+c) responding to said operational-transceiver request on 
+each of said transceivers in said receiving set with 
+
+an operational-transceiver response, said response 
+containing a node descriptor which uniquely describes 
+
+said recipient channel and said receiving 
+transceiver; 
+ 
+marking as configured in a configured-conductor table, 
+
+each conductor connected to each of said channels if said 
+acquired node descriptor matches a node descriptor 
+
+uniquely describing said interconnected channel; 
+generating an intended-operational-link, said 
+
+intended-operational-link being one of a plurality of 
+allowed-operational-links, said allowed-operational-links 
+
+being sets of conductors which are allowed to form an 
+operational link; 
+
+comparing each conductor in said intended-operational-link 
+to said configured-conductor table; 
+
+repeating said generation and comparison steps if one of 
+said conductors in said intended-operational-link is not 
+
+marked as configured in said configured-conductor table; 
+verifying said intended-operational-link if each of said 
+
+conductors in said intended-operational-link is marked as 
+configured in said configured-conductor table, said 
+
+verification ensuring that said intended-operational-link 
+can form an operational link between said channels; and 
+
+establishing said operational link from said 
+intended-operational-link if said 
+
+intended-operational-link is verified. 
+A method according to claim 16 further comprising the 
+steps of: 
+
+repeating said sending step if said 
+operational-transceiver response is not received by said 
+
+originator channel within a threshold period of time; and 
+performing said repeating step up to a maximum number of 
+
+times. 
+A method of reconfiguring an operational link between two 
+interconnected elements of a data processing complex 
+
+according to claim 16 wherein: 
+the acquisition of node descriptors occurs prior to the 
+
+quiescence of an operational link. 
+A method of reconfiguring an operational link between two 
+interconnected elements of a data processing complex 
+
+according to claim 16 wherein: 
+the acquisition of node descriptors occurs after the 
+
+quiescence of an operational link. 
+</CLAIMS>
+</TEXT>
+</DOC>

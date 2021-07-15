@@ -1,0 +1,363 @@
+<DOC>
+<DOCNO>EP-0622002</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+DIGITAL VIDEO SIGNAL PROCESSING APPARATUS AND METHOD
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G11B27031	H04N5783	G11B2711	H04N584	G06T900	H04N752	H04N752	H04N5781	G11B2710	H04N724	H04N724	G11B2732	H04N5781	H04N5926	G06T900	G11B2734	G11B27034	G11B2734	G11B2711	G11B2710	H04N585	H04N5783	G11B2732	H04N5926	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G11B	H04N	G11B	H04N	G06T	H04N	H04N	H04N	G11B	H04N	H04N	G11B	H04N	H04N	G06T	G11B	G11B	G11B	G11B	G11B	H04N	H04N	G11B	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G11B27	H04N5	G11B27	H04N5	G06T9	H04N7	H04N7	H04N5	G11B27	H04N7	H04N7	G11B27	H04N5	H04N5	G06T9	G11B27	G11B27	G11B27	G11B27	G11B27	H04N5	H04N5	G11B27	H04N5	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Video data and audio data are recorded in units of a pack onto a disk. A pack is constituted from a plurality of packets. When a packet of video data is present, if the picture at the top of the video packet is an I-picture, then an entry packet is disposed immediately prior to the video packet. In the entry packet, the positions of three prior and following packets are recorded. The position of the I-picture is detected from the data of the entry packet. The present invention makes it possible to locate the access point rapidly to achieve rapid searching.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SONY CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SONY CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+FUJINAMI YASUSHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+VELTMAN MARK
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FUJINAMI, YASUSHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+VELTMAN, MARK
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to an apparatus and method for
+processing a variable-rate coded signal prior to recording so
+that high-speed searching can be carried out on a recording
+medium on which the processed signal is recorded. The invention
+also relates to an apparatus and method for performing a
+high-speed search on a medium on which a processed variable-rate
+coded signal is recorded. Finally, the invention relates to a
+recording of the processed variable-rate coded signal.Examples of a conventional recording apparatus and a
+conventional reproducing apparatus are shown in Figures 1 and 2.
+Referring to Figure 1, a digital video signal to be recorded is
+compressed and coded by the video encoder 1, and then fed into
+the video signal buffer 4 in the multiplexing circuit 3. The
+digital audio signal to be recorded is compressed and coded by
+the audio encoder 2, and then fed into to the audio signal buffer
+5 in the multiplexing circuit 3.The output terminals of the signal buffers 4 and 5 are
+connected to the input terminals E1 and E2 of the switching 
+circuit 6, respectively. The output terminal F of the switching
+circuit 6 is connected to the input terminal of the header
+addition circuit 7. The output of the header addition circuit
+7 is supplied to the digital storage medium (DSM) 10, which
+includes, for example, a magneto-optical disk or a magnetic disk,
+e.g., a hard disk. The control circuit 8 receives system clock
+signals from the multiplexing system clock generation circuit 9,
+and causes the switching circuit 6 to connect the output terminal
+F to the input terminals E1 and E2 successively at a
+predetermined time interval. This successively fetches video
+signal bytes from the video signal buffer 4 and audio signal
+bytes from the audio signal buffer 5, thereby time division
+multiplexing the audio and video signals.The control circuit 8 causes the switching circuit 6 and the
+header addition circuit 7 to produce a multiplexed signal having
+the format multiplexing system set forth in the ISO 11172 (MPEG)
+standard, the multiplexed signal includes one or more packs
+(PACK) and one ISO_11172_end_code. The ISO_11172_end_code is a
+code of 32 bits and is, when represented in the hexadecimal
+notation, 0x000001B9. The prefix Ox indicates hexadecimal
+notation, where x is indeterminate.Each pack includes a header, which includes a
+Pack_Start_Code, an System Clock Reference (SCR), a MUX_ Rate, and
+one or more packets (Packet). The Pack_Start_Code of the header
+is a code of 32 bits and is 0x000001B4, the prefix Ox once
+</DESCRIPTION>
+<CLAIMS>
+Apparatus for successively reproducing portions of a
+multiplexed signal recorded on a recording medium to effect a
+
+high-speed search, the multiplexed signal including a
+variable-rate coded signal and signal-type markers identifying
+
+signal portions of a predetermined type in the variable-rate
+coded signal, the apparatus comprising:
+
+
+reproducing means for reproducing a portion of the
+multiplexed signal from a read position on the recording medium;
+demultiplexing means for demultiplexing the variable-rate
+coded signal and a signal-type marker from the portion of the
+
+multiplexed signal; and
+control means for changing the read position in response to
+the signal-type marker.
+The apparatus of claim 1, wherein: 
+
+the signal-type marker includes location information
+indicating a location on the recording medium of an additional
+
+signal-type marker; and
+the control means changes the read position in response to
+the location information in the signal-type marker.
+The apparatus of claim 2, wherein:
+
+the control means includes means for extracting the location
+information from the signal-type marker;
+the control means changes the read position to a new read
+position indicated by the location information; and
+the reproducing means reproduces the multiplexed signal
+including the additional signal-type marker from the new read
+
+position.
+The apparatus of claim 3, wherein:
+
+the signal-type marker includes location information
+indicating locations on the recording medium of plural additional
+
+signal-type markers successively preceding and following the
+signal-type marker;
+the control means includes means for selecting from the
+location information the location of one of the plural additional
+
+signal-type markers in response to a desired rate of search; and
+the control means changes the read position to a new read
+position indicated by the selected location.
+The apparatus of claim 12, wherein:
+
+the apparatus additionally comprises:
+storage means for storing the location information included
+in the signal-type marker, and
+means, operating in response to a search command, for
+reading the location information from the storage means; and
+the control means changes the read position in response to
+the location information read from the storage means.
+The apparatus of claim 2, wherein:
+
+the signal portion of the predetermined type is an
+expandable portion of the variable-rate coded signal, and an
+
+expandable portion of the variable-rate coded signal immediately
+follows each signal-type marker in the multiplexed signal;
+at each read position, the portion of the multiplexed signal
+reproduced by the reproducing means includes a signal-type marker
+
+and an expandable portion of the variable-rate coded signal; and
+the apparatus additionally includes means for expanding the
+expandable portion of the variable-rate coded signal extracted
+
+from the reproduced multiplexed signal by the demultiplexer, and
+for providing the expanded expandable portion as an output
+
+signal.
+The apparatus of claim 16, wherein:
+
+the control means includes means for extracting the location 
+information from the signal-type marker reproduced from the read
+
+position on the recording medium;
+the control means changes the read position to a new read
+
+position indicated by the location information in the signal-type
+marker reproduced at the read position; and
+the reproducing means reproduces from the new read position
+a portion of the multiplexed signal including an additional
+
+signal-type marker, including location information, and an
+expandable portion of the variable-rate coded signal; and
+the expanding means provides an output signal from each read
+position.
+The apparatus of claim 2, wherein:
+
+the variable-rate coded signal includes a video signal
+including plural pictures, each picture being compressed in one
+
+of an intra-picture mode and an inter-picture mode; and
+a signal-type marker immediately precedes each picture
+compressed in the intra-picture mode.
+The apparatus of claim 1, wherein the signal-type marker
+is included in a packet of a predetermined type.
+The apparatus of claim 9, wherein, in the multiplexed
+signal, the packet of the predetermined type immediately precedes
+
+the signal portion of the predetermined type. 
+The apparatus of claim 9, wherein:
+
+the variable-rate coded signal includes a video signal
+including plural pictures, each picture being compressed in one
+
+of an intra-picture mode and an inter-picture mode; and
+the packet of a predetermined type is an entry packet and
+immediately precedes each picture compressed in the intra-picture
+
+mode.
+The apparatus of claim 1, wherein the signal-type marker
+is included in subcode.
+The apparatus of claim 12, wherein:
+
+in the multiplexed signal, the variable-rate coded signal
+is divided into plural sectors, each sector beginning with a
+
+sector header; and
+the subcode is located in the sector header of a sector
+accommodating the signal portion of the predetermined type.
+The apparatus of claim 13, wherein, in the multiplexed
+signal, the subcode is distributed among the sector headers of
+
+plural consecutive sectors accommodating the signal portion of
+the predetermined type.
+The apparatus of claim 12, wherein:
+
+the variable-rate coded signal includes a video signal 
+including plural pictures, each picture being compressed in one
+
+of an intra-picture mode and an inter-picture mode; and
+the subcode is distributed among the sector headers of
+plural consecutive sectors accommodating a picture compressed in
+
+the intra-picture mode.
+Method of successively reproducing portions of a multiplexed
+signal recorded on a recording medium to effect a high-speed
+
+search, the multiplexed signal including a variable-rate coded
+signal and signal-type markers identifying signal portions of a
+
+predetermined type in the variable-rate coded signal, the method
+comprising repeating the steps of:
+
+
+reproducing a portion of the multiplexed signal from a read
+position on the recording medium;
+demultiplexing the variable-rate coded signal and a
+signal-type marker from the reproduced portion of the multiplexed
+
+signal; and
+changing the read position in response to the signal-type
+marker.
+The method of claim 16, wherein:
+
+the signal-type marker includes location information
+indicating a location on the recording medium of an additional
+
+signal-type marker; and
+the step of changing the read position changes the read 
+position in response to the location information in the
+
+signal-type marker.
+The method of claim 17, wherein:
+
+the step of changing the read position includes the step of
+extracting the location information from the signal-type marker;
+in the step of changing the read position, the read position
+is changed to a new read position indicated by the location
+
+information; and
+in the reproducing step, the portion of the multiplexed
+signal reproduced from the new read position includes the
+
+additional signal-type marker.
+The method of claim 18, wherein:
+
+the signal-type marker includes location information
+indicating locations on the recording medium of plural additional
+
+signal-type markers successively preceding and following the
+signal-type marker;
+the step of changing the read position additionally includes
+the step of selecting from the location information the location
+
+of one of the plural additional signal-type markers in response
+to a desired rate of search; and
+the step of changing the read position changes the read
+position to a new read position indicated by the selected
+
+location.
+The method of claim 17, wherein:
+
+the method additionally comprises the steps of:
+providing a storage device,
+storing the location information included in the signal-type
+marker in the storage device, and
+in response to a search command, reading from the search
+device the stored location information; and
+the step of changing the read position changes the read
+position in response to the location information read from the
+
+storage device.
+The method of claim 17, wherein:
+
+an expandable portion of the variable-rate coded signal
+immediately follows each signal-type marker in the multiplexed
+
+signal;
+the step of reproducing a portion of the multiplexed signal
+reproduces a portion of the multiplexed signal includes a
+
+signal-type marker and an expandable portion of the variable-rate
+coded signal; and
+the method additionally includes the steps of:
+expanding the expandable portion of the variable-rate coded
+signal demultiplexed from the reproduced portion of the
+
+multiplexed signal, and
+providing the expanded expandable portion as an output
+signal.
+The method of claim 21, wherein:
+
+the step of changing the read position includes the step of
+extracting the location information from the signal-type marker;
+the step of changing the read position changes the read
+position to a new read position indicated by the location
+
+information in the signal-type marker;
+the reproducing step reproduces from the new read position
+a portion of the multiplexed signal including an additional
+
+signal-type marker including additional location information, and
+an expandable portion of the variable-rate coded signal; and
+after each repetition of the step of changing the read
+position, the step of expanding the expandable portion provides
+
+an output signal.
+The method of claim 21, wherein, in the multiplexed signal:
+
+the variable-rate coded signal includes a video signal
+including plural pictures, each picture being compressed in one
+
+of an intra-picture mode and an inter-picture mode; and
+a signal-type marker immediately precedes each picture
+compressed in the intra-picture mode.
+The method of claim 16, wherein, in the multiplexed signal,
+the signal-type marker is included in a packet of a predetermined
+
+type. 
+The method of claim 24, wherein, in the multiplexed signal,
+the packet of the predetermined type immediately precedes the
+
+signal portion of the predetermined type.
+The method of claim 24, wherein, in the multiplexed signal:
+
+the variable-rate coded signal includes a video signal
+including plural pictures, each picture being compressed in one
+
+of an intra-picture mode and an inter-picture mode; and
+the packet of a predetermined type is an entry packet and
+immediately precedes each picture compressed in the intra-picture
+
+mode.
+The method of claim 16, wherein, in the multiplexed signal,
+the signal-type marker is included in subcode.
+The method of claim 27, wherein, in the multiplexed signal:
+
+the variable-rate coded signal is divided into plural
+sectors, each sector beginning with a sector header; and
+the subcode is located in the sector header of a sector
+including the signal portion of the predetermined type.
+The method of claim 28, wherein, in the multiplexed signal,
+the subcode is distributed among the sector headers of plural
+
+consecutive sectors accommodating the signal portion of the
+predetermined type.
+</CLAIMS>
+</TEXT>
+</DOC>

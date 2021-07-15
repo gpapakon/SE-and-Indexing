@@ -1,0 +1,423 @@
+<DOC>
+<DOCNO>EP-0617366</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Memory controller having all DRAM address and control signals provided synchronously from a single device.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1200	G06F1200	G06F1206	G06F1206	G06F1316	G06F1316	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F12	G06F12	G06F12	G06F12	G06F13	G06F13	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A memory controller which makes maximum use of any 
+processor pipelining and runs a large number of cycles 
+
+concurrently. The memory controller utilizes different 
+speed memory devices at each memory devices optimal 
+
+speed. The functions are performed by a plurality of 
+simple, interdependent state machines, each responsible 
+
+for one small portion of the overall operation. As 
+each state machine reaches has completed its function, 
+
+it notifies a related state machine that it can now 
+proceed and proceeds to wait for its next start or 
+
+proceed indication. The next state machine operates in 
+a similar fashion. The state machines responsible for 
+
+the earlier portions of a cycle have started their 
+tasks on the next cycle before the state machines 
+
+responsible for the later portions of the cycle have 
+completed their tasks. The memory controller is 
+
+logically organized as three main blocks, a front end 
+block, a memory block and a host block, each being 
+
+responsible for interactions with its related bus and 
+components and interacting with the various other 
+
+blocks for handshaking. The memory system includes a 
+single chip which provides all of the address and 
+
+control signals to a memory device so that a clock 
+cycle can be saved because of reduced skew of the 
+
+signals. The signals are provided synchronously from 
+the chip. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+COMPAQ COMPUTER CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+COMPAQ COMPUTER CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+SANTELER PAUL A
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+THOME GARY W
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SANTELER, PAUL A.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+THOME, GARY W.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The invention relates to memory controllers used 
+with computers, and more particularly to memory 
+controllers providing address, RAS, CAS and write 
+enable signals to DRAMs. Microprocessor-based computer systems have been 
+increasing in performance at a tremendous rate. Much 
+of this increase has been based on the improvements in 
+the microprocessor itself. For example, clock speeds 
+are reaching those previously used only by mainframe 
+computers. However, affordable memory device 
+performance has not been increasing at the same rate. 
+Indeed, dynamic random access memory (DRAM) performance 
+has flattened out recently, with the majority of the 
+effort being concentrated on increasing device storage 
+size. Thus main memory has become a bottleneck. Cache memory systems, where a small amount of very 
+fast, expensive static RAM is used to store copies of 
+the data, have made the problem somewhat less severe, 
+but the designs are very complicated and expensive. 
+Further, the poor memory performance returns when 
+access must be made to main memory. So there still is 
+a need to improve the performance of the main memory 
+system. Page mode memory devices provide one way to 
+increase memory system performance. If consecutive 
+accesses are made to the same row address, referred to  
+ 
+as the same page, only column addresses need be 
+provided. This allows a dramatic reduction in cycle 
+time for those cases, referred to as page hits. This 
+is a quick gain and relatively easily made by itself, 
+but more performance is always desired. In many processors, the address is provided before 
+the data portion of the cycle. This is referred to as 
+pipelining and allows a performance increase in the 
+memory systems. All of the address decoding can be 
+started before the data portion begins, so that 
+partially parallel operations can occur. In most cases this overlap is somewhat minimal, 
+one or two clock cycles, as the related systems cannot 
+handle much more complexity. For example, the memory 
+controller is conventionally built as a synchronous 
+controller, based on a major state machine to control 
+events and advancing on the processor clock edge. As 
+the complexities of the microprocessor and the computer 
+system increase, the conventional memory controller 
+design becomes very limiting. It is exceedingly 
+difficult to build a major state machine to handle all 
+the possible cases. The complexity is daunting, if not 
+overwhelming. As a result, numerous potential 
+performance improvements have to be limited. Usually 
+this
+</DESCRIPTION>
+<CLAIMS>
+A memory system for a computer, the computer 
+providing memory cycles including addresses and control 
+
+signals, the computer having a processor and a clock 
+for providing to the processor, the memory system 
+
+comprising: 
+   a plurality of dynamic random access memory 
+
+devices, each dynamic random access memory device 
+including address inputs and control inputs, said 
+
+control inputs including a row address strobe input, a 
+column address strobe input and a write enable input; 
+
+   a memory controller receiving the address and 
+control signals from the computer for producing master 
+
+row address strobe, master column address strobe and 
+master write enable signals and a signal indicating 
+
+selection of row addresses or column addresses; and 
+   means receiving the address signals from the 
+
+computer and said master row address strobe, master 
+column address strobe, master write enable and address 
+
+selection signals and connected to said plurality of 
+dynamic random access memory devices for providing 
+
+address, row address strobe, column address strobe and 
+write enable signals to said dynamic random access 
+
+memory device inputs, said address, row address strobe, 
+column address strobe input and write enable signals 
+
+being provided from a single integrated circuit device. 
+The memory system of claim 1, wherein said 
+means for providing address, row address strobe, column 
+
+address strobe and write enable signals to said dynamic 
+random access memory device inputs includes a 
+
+multiplexor, said multiplexor receiving the address 
+signals provided by the computer and said address 
+
+selection signal and providing address signals for 
+ 
+
+provision to said dynamic random access memory devices, 
+so that the computer address signals are provided as 
+
+row and column addresses to said dynamic random access 
+memory devices, and 
+
+   wherein said multiplexor is located on said single 
+integrated circuit device. 
+The memory system of claim 2, wherein said 
+means for providing address, row address strobe, column 
+
+address strobe and write enable signals to said dynamic 
+random access memory device inputs further includes a 
+
+plurality of flip-flops connected to said dynamic 
+random access memory device inputs, said flip-flops 
+
+clocked by a common clock signal and receiving said 
+address, row address strobe, column address strobe and 
+
+write enable signals, so that said address, row address 
+strobe, column address strobe and write enable signals 
+
+are provided synchronously by said flip-flops, and 
+   wherein said flip-flops are located on said 
+
+single integrated circuit device. 
+The memory system of claim 1, wherein said 
+means for providing address, row address strobe, column 
+
+address strobe and write enable signals to said dynamic 
+random access memory device inputs further includes a 
+
+plurality of flip-flops connected to said dynamic 
+random access memory device inputs, said flip-flops 
+
+clocked by a common clock signal and receiving said 
+address, row address strobe, column address strobe and 
+
+write enable signals, so that said address, row address 
+strobe, column address strobe and write enable signals 
+
+are provided synchronously by said flip-flops, and 
+   wherein said flip-flops are located on said 
+
+single integrated circuit device. 
+The memory system of claim 1, wherein said 
+dynamic random access memory devices are organized in a 
+
+plurality of banks and the memory system further 
+comprises: 
+
+   means for providing signals indicating 
+selection of a bank of said dynamic random access 
+
+memory devices, and 
+   wherein said means for providing address, row 
+
+address strobe, column address strobe and write enable 
+signals to said dynamic random access memory devices 
+
+includes means for combining said bank selection 
+signals and said master row address selection signal to 
+
+provide row address selection signals qualified for 
+each bank of said dynamic random access memory devices, 
+
+and 
+   wherein said row address strobe qualifying 
+
+combining means is located on said single integrated 
+circuit device. 
+The memory system of claim 5, wherein the 
+computer provides signals indicating the data portion 
+
+units to be provided, 
+   wherein said dynamic random access memory 
+
+devices are organized to provide a plurality of data 
+portions, 
+
+   wherein said means for providing address, row 
+address strobe, column address strobe and write enable 
+
+signals to said dynamic random access memory devices 
+further includes means for combining the data portion 
+
+unit signals with said master column address signal to 
+provide column address signals qualified for each data 
+
+portion of said dynamic random access memory devices, 
+and
+
+ 
+   wherein said column address strobe qualifying 
+
+combining means is located on said single integrated 
+circuit device. 
+The memory system of claim 1, wherein the 
+computer provides signals indicating the data portion 
+
+units to be provided, 
+   wherein said dynamic random access memory 
+
+devices are organized to provide a plurality of data 
+portions, 
+
+   wherein said means for providing address, row 
+address strobe, column address strobe and write enable 
+
+signals to said dynamic random access memory devices 
+includes means for combining the data portion unit 
+
+signals with said master column address signal to 
+provide column address signals qualified for each data 
+
+portion of said dynamic random access memory devices, 
+and 
+
+   wherein said column address strobe qualifying 
+combining means is located on said single integrated 
+
+circuit device. 
+The memory system of claim 1, wherein the 
+memory cycles provided by the computer include burst 
+
+cycles, 
+   wherein said memory controller further 
+
+produces a signal indicating address increment during 
+burst cycles, 
+
+   wherein said means for providing address, row 
+address-strobe, column address strobe and write enable 
+
+signals to said dynamic random access memory devices 
+further includes means for incrementing the value of 
+
+said address signals provided to said dynamic random 
+access memory devices when said address increment 
+
+signal is provided, and
+ 
+
+   wherein said address signal value 
+incrementing means is located on said single integrated 
+
+circuit device. 
+A memory system for a computer, the 
+computer providing memory cycles including addresses, 
+
+control signals and signals indicating the data portion 
+units to be provided, wherein the memory cycles 
+
+provided by the computer include burst cycles, the 
+computer having a processor and a clock for providing 
+
+to the processor, the memory system comprising: 
+   a plurality of dynamic random access memory 
+
+devices, each dynamic random access memory device 
+including address inputs and control inputs, said 
+
+control inputs including a row address strobe input, a 
+column address strobe input and a write enable input, 
+
+said dynamic random access memory devices are organized 
+in a plurality of banks and to provide a plurality of 
+
+data portions; 
+   means for providing signals indicating 
+
+selection of a bank of said dynamic random access 
+memory devices; 
+
+   a memory controller receiving the address and 
+control signals from the computer for producing master 
+
+row address strobe, master column address strobe and 
+master write enable signals, a signal indicating 
+
+selection of row addresses or column addresses and a 
+signal indicating address increment during burst 
+
+cycles; and 
+   means receiving the address signals from the 
+
+computer, said master row address strobe, master column 
+address strobe, master write enable, address selection 
+
+and address increment signals from said memory 
+controller and said bank indication signals and 
+
+connected to said plurality of dynamic random access 
+ 
+
+memory devices for providing address, row address 
+strobe, column address strobe and write enable signals 
+
+to said dynamic random access memory device inputs, 
+   wherein said means for providing address, row 
+
+address strobe, column address strobe and write enable 
+signals to said dynamic random access memory device 
+
+inputs includes a multiplexor, said multiplexor 
+receiving the address signals provided by the computer 
+
+and said address selection signal and providing address 
+signals for provision to said dynamic random access 
+
+memory devices, so that the computer address signals 
+are provided as row and column addresses to said 
+
+dynamic random access memory devices; a plurality of 
+flip-flops having outputs connected to said dynamic 
+
+random access memory device inputs, said flip-flops 
+clocked by a common clock signal and receiving said 
+
+address, row address strobe, column address strobe and 
+write enable signals, so that said address, row address 
+
+strobe, column address strobe and write enable signals 
+are provided synchronously by said flip-flops; means 
+
+for combining said bank selection signals and said 
+master row address selection signal to provide row 
+
+address election signals qualified for each bank of 
+said dynamic random access memory devices; means for 
+
+combining the data portion unit signals with said 
+master column address signal to provide column address 
+
+signals qualified for each data portion of said dynamic 
+random access memory devices; and means for 
+
+incrementing the value of said address signals provided 
+to said-dynamic random access memory devices when said 
+
+address increment signal is provided, and 
+   wherein said means for providing address, row 
+
+address strobe, column address strobe and write enable 
+signals to said dynamic random access memory devices is 
+
+located on a single integrated circuit device. 
+</CLAIMS>
+</TEXT>
+</DOC>

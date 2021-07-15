@@ -1,0 +1,202 @@
+<DOC>
+<DOCNO>EP-0655675</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Shift and rounding circuit and method
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F7535	G06F738	G06F748	G06F501	G06F752	G06F738	G06F748	G06F501	G06F7537	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F7	G06F7	G06F7	G06F5	G06F7	G06F7	G06F7	G06F5	G06F7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A circuit[100] for shifting the bits of an X word to obtain a Y word which 
+
+is rounded to the nearest odd integer if any bit having the value 1 was shifted off 
+of the word during the shifting operation. The circuit avoids biasing in the integer 
+
+rounding operation. The shifting operations are accomplished with the aid of 
+multiplexing circuits[101-105]
+. The rounding operation is accomplished with the 
+aid of multiplexing circuits[105]
+ that connect the least significant bit of Y to (X₀ 
+OR X₁ OR ...X
+m
+), where m is the number of places by which X is shifted. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+HEWLETT PACKARD CO
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+HEWLETT-PACKARD COMPANY
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+LEE RUBY BEI-LOH
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LEE, RUBY BEI-LOH
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to computers, and more particularly, to
+arithmetic units for use therein.Many computations performed on digital computers involve division of an
+integer by a power of two. For example, image compression computations
+utilizing the Haar transform require the computation of the sum and differences of
+adjacent pixel values divided by two. Similarly, multiplication by a binary
+fraction can be decomposed into a plurality of addition operations in which one
+operand is generated from the division of an integer by a power of two and the
+subsequent addition of the result to a second integer.The fastest method for performing a division of an integer by 2m is to shift
+the integer to the right by m places. Such shifts can be carried out in a single
+instruction cycle. Hence, this procedure has significant advantages.
+Unfortunately, the result obtained by this method is always rounded downward
+with the bits shifted out being discarded. This will be referred to as truncation
+rounding in the following discussion. While such downward rounding may be
+acceptable in many circumstances, there are a number of cases in which it is
+undesirable. For example, if a sequence of computations are to be performed in
+which each computation depends on the result of a previous computation, the
+round off error will be larger if all of the computations utilized truncation
+rounding.In addition, it is often important to maintain certain statistical properties
+when operating on a large set of values. Consider the case in which an image is to
+be reduced in size by averaging adjacent pixels in the image. That is, each group
+of 4 pixels is to be replaced by one pixel having a value equal to the average of the
+4 pixels replaced. The image is represented by an IxI pixel array. The pixel
+reduction can be accomplished by averaging the odd and even rows in the array to
+generate an IxI/2 pixel array. The odd and even columns of this intermediate 
+array are then averaged to generate the final (I/2)x(I/2) array. If the various averaging operations
+always round down as with truncation rounding, the final image will have different
+statistical properties than the original image. For example, the reduced image will have a
+lower average light intensity than the original array. It is often important that this type of artifact
+be avoided.In WO 92/09032 a rounding algorithm is disclosed. The algorithm includes the steps
+of setting a truncation point in a register, thereby defining left and right register segments,
+loading a binary
+</DESCRIPTION>
+<CLAIMS>
+An apparatus for shifting the bits of an X word having bits X
+i
+, for i=0 to (N-1), by m places where m is a non-negative
+integer less than N, to obtain a Y word having bits Y
+i
+, for i=0 to (N-1), said apparatus comprising:
+
+a plurality of signal input terminals (111), each of said input terminals receiving one of said bits X
+i
+, there being
+one of said input terminals corresponding to each X
+i
+, for i=0 to (N-1);
+a plurality of signal output terminals (110), there being one of said output terminals corresponding to each Y
+i
+, for
+i=0 to (N-1);
+
+characterized by
+a plurality of multiplexing circuits (101-104), each of said multiplexing circuits comprising a plurality of input
+terminals and an output terminal, at least one of said input terminals of said multiplexing circuit being
+
+connected to one of said signal input terminals; each of said multiplexing circuits having said output
+terminal thereof connected to one of said signal output terminals, said multiplexing circuit connected to said
+
+signal output terminal corresponding to X
+i
+ connecting said signal output terminal corresponding to Y
+i
+ to said
+signal i
+nput terminal corresponding to X
+i+m
+; for i=1 to (N-1-m); and
+a multiplexing circuit (105) having a plurality of input terminals and an output terminal, said output terminal being
+connected to Y
+0
+ and one of said input terminals thereof connected to a circuit for generating a signal having
+the value (X
+0
+ OR X
+1
+ OR...X
+m
+).
+The apparatus of claim 1 wherein a multiplexing circuit
+of said plurality of multiplexing circuits (101-104)
+
+connected to said signal output terminal
+corresponding to Y
+p
+ where 
+(p+ m)
+>
+(N-1)
+, connects said signal output terminal corresponding to Y
+p
+ to logical 0 if
+X is an unsigned integer.
+The apparatus of claim 1 wherein a multiplexing circuit
+of said plurality of multiplexing circuits (101-104)
+
+connected to said signal output terminal
+corresponding to Y
+p
+, where 
+(p+ m)≥ (N-1)
+, connects said signal output terminal corresponding to Y
+p
+ to said
+signal input terminal corresponding to X
+N-1
+ if X is a signed integer.
+A method for shifting the bits of an X word having bits X
+i
+, for i=0 to (N-1), by m places where m is a non-negative
+integer less than N, to obtain a Y word having bits Y
+i
+, for i=0 to (N-1), said method comprising the
+steps of
+
+
+providing a plurality of input terminals, each of said input terminals receiving one of said bits X
+i
+, there
+being one of said input terminals corresponding to each X
+i
+, for i=0 to (N-1);
+providing a plurality of output terminals, there being one of said output terminals corresponding to each Y
+i
+,
+for i=0 to (N-1);
+connecting said output terminal corresponding to Y
+i
+ to said input terminal corresponding to X
+i+
+ m, for i=1 to
+(N-1-m) utilizing one or more multiplexing circuits; and
+generating a signal having the value (X
+0
+ OR X
+1
+ OR . . . X
+m
+) and connecting said signal to Y
+0
+ utilizing a
+multiplexing circuit.
+The method of claim 4 further comprising the step of connecting said output terminal corresponding to Y
+p
+
+where 
+(p+ m)
+>
+(N-1)
+, to logical 0 if X is an unsigned integer.
+The method of claim 4 further comprising the step of connecting said output terminal corresponding to Y
+p
+,
+where 
+(p+ m)≥ (N-1)
+, to said input terminal corresponding to X
+N-1
+ if X is a signed integer.
+</CLAIMS>
+</TEXT>
+</DOC>

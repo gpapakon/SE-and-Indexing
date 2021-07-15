@@ -1,0 +1,181 @@
+<DOC>
+<DOCNO>EP-0627136</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+METHOD AND APPARATUS FOR GHOST CANCELLING AND/OR EQUALIZING
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H03H2100	H04N521	H03H2100	H04N521	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H03H	H04N	H03H	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H03H21	H04N5	H03H21	H04N5	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The present invention relates to a method and to an apparatus for ghost cancelling and/or equalizing. A received test signal is compared with an ideal version of this test signal. The coefficients of a correction filter applied to the received test signal are adjusted in such a way that the filter output signal matches as much as possible to the ideal test signal. But the filter lenght is limited and in a lot of cases no sufficient ghost cancellation is possible. According to the invention a first long LMS adaptive filter (LMS1) which may have more than 1000 taps minimizes the error ( epsilon ) between the filtered output signal (y) of the distorted input signal (x) (a transmitted reference signal) and an ideal reference signal. A positioner (14) takes coefficients (C1) from the first LMS filter and determines the most useful subset of small filters separated by variable delays. The position information (PI) calculated in the positioner comprises the lenghts of these delays. The subset of filters forms together with the variable delays a second LMS adaptive filter (LMS2) with a tap number corresponding to the first LMS filter tap number. The coefficients corresponding to the delay 'taps' can be regarded as set to zero and the locations of the delay parts of the second LMS filter remain fixed. The coefficients of the filter parts (corresponding to the small filters) are modified adaptively until the best match between the filtered received reference signal and the ideal reference signal is achieved. The first and second LMS filter need not to work in real time. After establishing of the filter coefficient modification of the subsets these coefficients (C2) are copied to a real time main filter (MF) working on the whole input signal, e.g. a TV signal, with exception of said reference signal. The main filter comprises a respective subset of adjustable small filters and a set of adjustable delays.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+THOMSON MULTIMEDIA SA
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+THOMSON MULTIMEDIA
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BRUNEAU NELLY
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HACKETT ANDREW
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KNEE MICHAEL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ZIPP ANDREAS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BRUNEAU, NELLY
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HACKETT, ANDREW
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KNEE, MICHAEL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ZIPP, ANDREAS
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a method and to an apparatus 
+for ghost cancelling and/or equalizing. In "A tutorial on ghost cancelling", W. Ciciora et al, IEEE 
+Transactions on Consumer Electronics, Vol. 25, pages 9 - 44, 25. 
+Feb 1979, the principle of ghost cancelling is described. A 
+received test signal is compared with an ideal version of this 
+test signal. The coefficients of a correction filter applied to 
+the received test signal are adjusted in such a way that the 
+filter output signal matches as much as possible to the ideal 
+test signal. But the filter length is limited and in a lot of 
+cases no sufficient ghost cancellation is possible. 
+In "Adaptive Noise Cancelling: Principles and Applications", B. 
+Widrow et al, Proceedings of the IEEE, pages 1692 - 1716, Vol. 
+63, No. 12, Dec. 1975, an LMS (least-mean-square) adaptive 
+filter for noise cancelling is introduced, wherein a new filter 
+coefficient wi(j+1) is calculated according to the formula 
+wi(j+1) = wij + 2 * µ * εj * xij,  
+where wij is the respective existing coefficient, µ is a fixed 
+adaptation constant, εj is the difference between the respective 
+filter output yj and the corresponding value of the ideal reference 
+signal and xij is the respective value from the filter input 
+signal. Other examples of prior art are the European patent application 
+EP-A-0 421 526 and the article "A CMOS Subscriber Line Audio Processing 
+Circuit Including Adaptive Balance", author S.J.Poole et al, in Proceedings 
+of the 1988 IEEE International Symposium on Circuits and Systems, 
+Espoo, Finland, June 7-9, 1988. It is one object of the invention to disclose a method for ghost 
+cancelling and/or equalizing, where also more complex distortions 
+and ghost signals, respectively, can be handled and where 
+the speed and stability of adaptation is improved. This object 
+is reached by the inventive method disclosed in claim 1.  
+ It is a further object of the invention to disclose an apparatus 
+which utilizes the inventive method. This object is reached by 
+the inventive apparatus disclosed in claim 5. A first long LMS adaptive filter which may have more than 1000 
+taps minimizes the error ε between the filtered output signal y 
+of the distorted input signal x (a transmitted reference signal) 
+and an ideal reference signal. Normally this ideal reference signal 
+is stored within the ghost canceller/equalizer and corresponds 
+to the reference signal which is transmitted e.g. in a 
+specific TV line. A positioner takes coefficients from the first 
+LMS filter
+</DESCRIPTION>
+<CLAIMS>
+Method for ghost cancelling and/or equalizing, wherein the 
+coefficients (C1) of a digital filter are in principle continuously 
+
+adapted to minimize the error (ε, E1) between the 
+filter output signal (y) of a distorted reference signal 
+
+and an ideal reference signal (12, 22) which is stored or 
+which can be decoded correctly after reception, 
+characterized 
+in
+ that said digital filter is a first LMS filter or 
+filter function (LMS1) with a high tap number and that the 
+
+coefficients (C1) of this filter or filter function are 
+used by comparing stepwise values derived from such coefficients 
+
+of said first LMS filter which represent the tap 
+positions of a small filter with a reduced number of coefficients 
+
+to detect depending on the level of said values 
+the position (PI) of one or more variable delays which connect 
+
+in series two or more of said small filters or filter 
+functions 
+
+
+and that said connection of small filters and delays forms 
+a second LMS filter (LMS2), of which the coefficients (C2) 
+
+corresponding to said small filters are adapted and used in 
+a main filter (MF), 
+wherein the positions and the delay times of said delays 
+remain fixed during the calculation of the coefficients 
+
+(C2) of said small filters and wherein the signal to be 
+ghost cancelled and/or equalized passes said main filter 
+
+(MF) at those times where said reference signal is not present. 
+Method according to claim 1, 
+characterized in
+ that the adaptation 
+constant µ for the LMS calculation in said first 
+
+LMS filter (LMS1) and/or in said second LMS filter (LMS2) 
+is adapted according to a statistic of said errors (E1, E2) 
+
+stored in memory means and updated during each LMS calculation. 
+Method according to claim 1 or 2, 
+characterized in
+ that 
+each of said values is a sum of the squares or absolute values 
+
+of said corresponding filter coefficients.  
+ 
+Method according to claim 3, 
+characterized in
+ that before 
+summing up said values to form each of said sums a higher 
+
+weight is assigned to the central position value involved. 
+Apparatus for a method according to any of claims 1 to 4, 
+comprising: 
+
+
+a main filter (MF) which works on a distorted signal with 
+exception of a reference signal contained within said distorted 
+
+signal; 
+looped delay means (24) which store said reference signal; 
+a controller circuit (25) which controls said main filter 
+(MF) and said delay means (24); 
+a central processor (CP), which exchanges with said controller 
+circuit control data and which reads from said delay 
+
+means (24) said reference signal and from a further input 
+(22) said ideal reference signal and which calculates 
+
+said LMS algorithms and adjusts said variable delays within 
+said main filter (MF) and stores said coefficients (C
+2) for 
+said small filters in said main filter (MF). 
+Apparatus according to claim 5, 
+characterized in
+ that said 
+central processor (CP) exchanges data with a µ-adaptation 
+
+circuit (µ-A) and adapts the value for said adaptation constant 
+µ according to a statistic of said errors (E1, E2) 
+
+stored and updated in said µ-adaptation circuit. 
+</CLAIMS>
+</TEXT>
+</DOC>

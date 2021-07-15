@@ -1,0 +1,209 @@
+<DOC>
+<DOCNO>EP-0655677</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Parallel shift and add circuit and method
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F753	G06F7508	G06F752	G06F757	G06F9302	G06F748	G06F9302	G06F7575	G06F750	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F7	G06F7	G06F7	G06F7	G06F9	G06F7	G06F9	G06F7	G06F7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An apparatus [10,30] for combining the contents of an X register[12]
+, 
+shifted by m places, with the contents of a Y register[14]
+ to generate a result 
+Z[16]
+. The functional unit can also be configured to perform parallel operations 
+on sub-operands in the X and Y registers. The division of the apparatus [10,30]
+ 
+into sub-operands is controlled by a mask which specifies the boundary of the 
+
+sub-operands. The shifting operation is accomplished by multiplexers that 
+connect the p
+th
+ bit of the X register[12] to the adder stage that operates on bit Y
+p-m
+ 
+of the Y register[14]
+. Circuitry[49] is provided at the boundary of the sub-operands 
+
+to prevent the bit signals corresponding to the X register[12] from being 
+
+routed across a sub-operand boundary. Similarly, circuitry[37] is provided for 
+
+preventing the carry output of an adder stage that operates on one sub-operand 
+from being propagated to an adder stage that operates on another sub-operand. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+HEWLETT PACKARD CO
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+HEWLETT-PACKARD COMPANY
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+LAMB JOEL DAVID
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LEE RUBY BEI-LOH
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LAMB, JOEL DAVID
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LEE, RUBY BEI-LOH
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to computers, and more particularly, to
+arithmetic units for use therein.Computers normally include an arithmetic logic unit (ALU) that includes
+an adder that adds numbers of some maximum number of bits. Adders for words
+of length 32 and 64 bits are common in microprocessors and the like. While these
+adders will also operate on much smaller words, when doing so, the majority of
+the logic circuits contained in the adders are idle. For example, a 64-bit adder can
+be used to add two 8-bit words by placing each of the 8-bit words in the least
+significant portion of a corresponding 64-bit word and then adding the 64-bit
+words. During the addition, the logic circuitry concerned with adding the 7 high
+order bytes of each of the words is effectively idle. Hence, 7/8 ths of the capacity
+of the adder is being wasted during this operation.Computations involving operations on a large number of small words are
+often encountered in multi-media data processing. Images are normally
+represented as arrays of pixels in which each pixel is represented by a word that is
+significantly smaller than maximum word size of the arithmetic logic unit. A gray
+scale image is typically represented by an array of one byte integers representing
+the light intensity at corresponding locations in the image. Similarly soundtracks
+are typically represented by arrays of one or two byte integers representing the
+intensity of the sound track as a function of time. Hence, multi-media data
+processing typically under utilizes the computational capacity of the arithmetic
+logic unit incorporated in the typical general purpose computer.In addition to under utilizing the capacity of the ALU, this type of data
+processing often results in further inefficiencies resulting from the need to pack
+and unpack the data prior to operating on it in the ALU. For example, since
+storage space is always at a premium, the pixels of the image are typically packed
+into words. If the basic word size on the computer is 32-bits, the pixels of a gray 
+scale image could be packed four per word. Consider an operation that must be
+performed on each pixel in the image. In addition to the time needed to perform
+the operation, the program must also unpack the pixel information prior to each
+computation and repack the result. These packing and unpacking operations
+further decrease the efficiency of the operation.The computation times encountered in multi-media operations can be
+excessive. Hence, special parallel computer architectures are often
+</DESCRIPTION>
+<CLAIMS>
+An apparatus for operating on the contents of an X word having bits X
+i
+ and a Y
+word having bits Y
+i
+ to generate a result word having bits Z
+i
+, where I=0 to N-1, where Z
+0
+ is
+the least significant bit and Z
+N-1
+ is the most significant bit, said apparatus comprising:
+
+means (10; 30) for selectively partitioning said X, Y and result words into a plurality of sub-words
+(17, 18, 19, 20, 21, 22), there being one sub-word of said Y and one sub-word of said
+
+result words (14, 16) corresponding to each subword of said X word (12); and
+means (10; 30), responsive to a first instruction, for generating the sum of each X sub-word
+(17, 18) divided by 2
+m
+ and the corresponding Y sub-word (19, 20), the result thereof
+determining said corresponding sub-word (21, 22) of said result word (16), wherein m is an
+
+integer different from 0,
+
+   wherein the means for generating the sum comprises 0-th to [N-1]-th single bit adders
+
+(31-35) and corresponding 0-th to [N-1]-th [µ+1]
+-to-1 multiplexers (41-45), each single bit
+adder adding the bit provided by the corresponding multiplexer and the corresponding bit of
+
+the Y word (14), wherein µ≥m,
+
+      wherein the p-th multiplexer has its inputs connected to bits X
+P
+ to X
+p+µ
+ of the X
+word (12) and outputs bit X
+p+m
+, and
+
+   wherein the means for selectively partitioning comprises a blocking circuit (37) for
+selectively preventing a carry bit generated in an adder of one of the sub-words from propagating
+
+to an adder of another one of the sub-words, and for selectively blocking the propagation
+of bits X
+i
+ of one of the sub-words to multiplexers corresponding to adders of another one
+of the sub-words.
+The apparatus of Claim 1 further comprising means (30), responsive to a second
+instruction, for generating the difference of each sub-word in said X word divided by 2
+m
+ and
+the corresponding sub-word in said Y word, the result thereof determining said corresponding
+
+sub-word of said result word (21,22). 
+The apparatus of Claim 1 or 2 further comprising means (202) for rounding the
+result of dividing each of said sub-words in said X word to the next highest odd integer if said
+
+division by 2
+m
+ resulted in a round-off error.
+The apparatus of Claim 1, 2 or 3 wherein said single-bit adders (31-35) comprise:
+
+a plurality of Y input means, each of said Y input means receiving a bit derived from
+said Y-word, said Y-input means receiving said bit derived from Y
+p
+ being referred to as the
+p
+th
+ Y input means wherein p is the product of a binary fraction and a number;
+a plurality of X input means, each of said X input means receiving a bit derived from
+said X word, there being one of said X input means corresponding to each of said Y input
+
+means, said X input means corresponding to the p
+th
+ Y input means being referred to as the p
+th
+
+X input means; and
+
+wherein a plurality of single-bit adder adding stages (31-35) are connected in series, each adding stage comprising
+means for adding one or more bits received on said X input means and the corresponding bits
+
+received on said Y input means, and means for propagating a carry bit from said adding stage
+to the next of said adding stage in said series connection, said adding stage operating on Y
+p
+
+being referred to as the p
+th
+ one of said adding stages, and wherein said partitioning means
+comprises means for forcing (37) said carry bit to a value determined by the operation being
+
+performed if said adding stages operate on bits of different sub-words in said X word.
+The apparatus of Claim 4 further comprising means (200) for generating a signal
+having the value (X
+p
+ OR X
+p+1
+ OR ...X
+p+m
+) and connecting said signal to said p
+th
+ adding stage
+when Y
+p
+ is the least significant bit of one of said sub-words.
+The apparatus of Claim 4 or 5 wherein said partitioning means further comprises
+means (37) for generating a signal indicating that one of said carry bits was a "1" prior to said
+
+carry bit being forced to said determined value.
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,368 @@
+<DOC>
+<DOCNO>EP-0657825</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Non-volatile memory array controllers
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1206	G06F1206	G06F1340	G06F1340	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F12	G06F12	G06F13	G06F13	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A non-volatile memory controller is provided which is 
+connectable directly to the local bus of a computer system and 
+
+which allows access to one or more 32-bit banks of ROM and to an 
+8-bit bank of non-volatile memory. The 8-bit bank of non-volatile 
+
+memory may be used, for example, to store BIOS code, and 
+may be implemented using a ROM or flash memory device. The non-volatile 
+
+memory controller includes a data router, a sequencer, 
+and a set of output latches for routing the 8-bit BIOS code 
+
+(stored within the 8-bit bank) to selected byte lanes of the 
+local bus and for converting the 8-bit data to 32-bit local bus 
+
+data. The non-volatile memory controller further supports high 
+performance, 32-bit accesses to the user software stored within 
+
+the 32-bit banks. If the system designer or user instead must 
+maximize the memory capacity of the computer system, the 8-bit 
+
+bank of memory may be replaced with a larger 32-bit bank of 
+memory. In this configuration, a control signal is provided to 
+
+the non-volatile memory controller to indicate that a 32-bit bank 
+is connected rather than an 8-bit bank. The control signal 
+
+causes the sequencer and the data router to be disabled. When a 
+memory access to the 32-bit bank is executed, the non-volatile 
+
+memory controller accesses the data within the 32-bit bamk and 
+drives the data directly on the CPU local bus. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+ADVANCED MICRO DEVICES INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+ADVANCED MICRO DEVICES INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+GEPHARDT DOUGLAS D
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MACDONALD JAMES R
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GEPHARDT, DOUGLAS D.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MACDONALD, JAMES R.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to computer systems and more
+particularly to non-volatile memory array controllers employed
+within computer systems.Most computer systems include software code in ROM or flash
+memory that allows the system to read the operating system
+software from a disk at power-up. This software code is often
+referred to as the boot-strap code or boot code, and the process
+of loading the operating system from the disk is called "booting
+the system". The boot code typically contains only enough
+software to read the operating system, which is generally stored
+on a specific track of the disk. The operating system software
+itself provides the capability of performing more general read
+and write accesses. A typical computer system includes a
+dedicated ROM integrated circuit memory chip referred to as the
+BIOS (basic input/output system) ROM which contains the boot code
+and a collection of additional subroutines (referred to as BIOS
+code) to provide a standard software interface for the system.Due to the low cost and low power consumption of read only
+memory, ROM integrated circuits are also becoming a popular
+storage medium for user software such as word processing programs
+as well as for the operating system software. This is
+particularly true for applications within portable computer
+systems. The read only memory used to store such user software
+it typically quite large in capacity (compared to that of the
+BIOS ROM) and is often arranged as one or more ROM banks that may
+be selectively accessed through a memory controller. The memory 
+capacity or the number of banks comprising this user ROM may
+typically be varied to suit the needs of a particular user.Figure 1 of the accompanying drawings is a block diagram that illustrates the memory
+organization of a typical prior-art computer system 10. The computer
+system 10 includes a microprocessor (CPU) 12 coupled to a RAM
+controller 14 and a bus bridge 16 through a CPU local bus 18. A
+random access memory (RAM) unit 20 is coupled to RAM controller
+14. Bus bridge 16 provides an interface between CPU local bus 18
+and an X-bus 22 and an ISA peripheral bus 24. An 8-bit BIOS ROM
+unit 26 is coupled to X-bus 22 through a BIOS ROM controller 28,
+and a 16-bit ROM bulk storage unit 30 is coupled to ISA
+peripheral bus 24 through a ROM controller 32.Microprocessor 12 is illustrative, for example, a model
+80486 microprocessor. CPU local bus 18 is a 32-bit bus that
+supports high speed data transfers between microprocessor 12, RAM
+controller 14, and bus bridge 16, among
+</DESCRIPTION>
+<CLAIMS>
+A computer system (100) comprising:
+
+a microprocessor (104);
+a local bus (106) coupled to said microprocessor and having four byte lanes;
+a memory controller (102) coupled to said local bus (106);
+a memory data bus (110) coupled to said memory controller (102) and having
+four byte lanes; and
+a memory bank (123) of non-volatile memory coupled to said memory data bus
+(110);
+
+wherein said memory controller (102) includes:
+
+four output buffers (126A-D), each said output buffer being for driving
+data from said memory bank (123) on a respective one of the four byte
+
+lanes of said local bus (106);
+a data routing unit (124) for selectively routing data from a first byte
+lane (MD[7:0]
+) of the four lanes of said memory data bus through said
+data routing unit to a selected one of the four output buffers (126A-D)
+
+depending on a select signal (S
+0
+, S
+1
+);
+a latch (122) into which a memory size input signal (136) is latched
+upon system reset indicative of whether said memory bank (123) has a
+
+first predetermined bit width or a second predetermined bit width; and 
+an interface control unit (120) for receiving local bus control signals
+
+(MEMRD, LA, BE) including a local bus read signal (MEMRD), a
+local bus address signal (LA) and a byte enable signal (BE), wherein said
+
+interface control unit (120') is capable of generating memory control
+signals (CE, MA, OUTPUT ENABLE) including a memory read signal
+
+(OUTPUT ENABLE) and a memory address signal (MA) in response to said local bus
+control signals and said memory size input signal such that:
+
+
+(a) if said memory size input signal (136) indicates that said
+memory bank (123) has said first predetermined bit width then 
+data is
+provided from said memory bank (123) simultaneously to the four byte
+
+lanes of said memory data bus (110) and hence to the four output
+buffers (126A-D); and
+(b) if said memory size input signal (136) indicates that said
+memory bank (123) has said second predetermined bit width, then
+
+depending on said byte enable signal, data is provided from said
+memory bank (123) through said first byte lane (MD[7:0]
+) of said
+memory data bus (110) and through said data routing unit (124) to a
+
+chosen one of the four output buffers (126A-D) and hence to a
+corresponding chosen one of the four byte lanes of said local bus (106),
+
+or data is sequentially provided from said memory bank through said
+first byte lane of said memory data bus and through said data routing
+
+unit to a chosen two of the four output buffers and hence to a
+corresponding chosen two of the four byte lanes of said local bus, or
+
+data is sequentially provided from said memory bank through said first
+byte lane of said memory data bus and through said data routing unit to
+
+the four output buffers and hence to the four byte lanes of said local
+bus.
+The computer system as claimed in claim 1 wherein said memory controller
+further includes a sequencer (132) coupled to said data routing unit (124) for
+
+providing said select signal (S
+0
+, S
+1
+) to said data routing unit. 
+The computer system as claimed in claim 1 or claim 2 wherein
+said interface control unit
+
+(120) includes an address translator (134) configured to translate said local bus address
+signal into said memory address signal.
+The computer system as claimed in any one of claims 1 to 3 further comprising
+a further bank (120, 121, 122) of non-volatile memory coupled to said memory data
+
+bus (110), wherein said interface control unit (120') is capable of generating said
+memory control signals in response to said local bus control signals such that data is
+
+provided from said further bank of non-volatile memory simultaneously to said four
+byte lanes of said memory bus (110).
+The computer system as claimed in claim 4 wherein the four byte lanes of the
+local bus (106) and the four byte lanes of the memory data bus (110) are reach 8 bits
+
+wide, wherein said first predetermined bit width is 32 bits, wherein said second
+predetermined bit width is 8 bits, and wherein said further memory bank (120, 121,
+
+122) has a bit width of 32 bits.
+A memory controller (102) comprising:
+
+four output buffers (126A-D), each said output buffer being for driving data
+from a memory bank (123) of non-volatile memory on a respective one of four
+
+byte lanes of a local bus (106);
+a data routing unit (124) for selectively routing data from a first byte lane
+(MD)[7:0]
+) of four lanes of a memory data bus (110) through said data routing
+unit to a selected one of the four output buffers (126A-D) depending on a
+
+select signal (S
+0
+, S
+1
+);
+a latch (122) into which a memory size input signal (136) is latched upon 
+system reset indicative of whether said memory bank (123) has a first
+
+predetermined bit width or a second predetermined bit width; and
+an interface control unit (120') for receiving local bus control signals (MEMRD,
+LA, BE) including a local bus read signal (MEMRD), a local bus address signal
+
+(LA) and a byte enable signal (BE), wherein said interface control unit (120) is
+capable of generating memory control signals (CE, MA, OUTPUT ENABLE)
+
+including a memory read signal (OUTPUT ENABLE) and a memory address
+signal (MA) in response to said local bus control signals and said memory size
+
+input signal such that:
+
+(a) if said memory size input signal (136) indicates that said memory bank
+(123) has said first predetermined bit width then data is provided from
+
+said memory bank (123) simultaneously to the four byte lanes of said
+memory data bus (110) and hence to the four output buffers (126A-D);
+
+and
+(b) if said memory size input signal (136) indicates that said memory bank
+(123) has said second predetermined bit width then, depending on said
+
+byte enable signal, data is provided from said memory bank (123)
+through said first byte lane (MD[7:0]
+) of said memory data bus (110)
+and through said data routing unit (124) to a chosen one of the four
+
+output buffers (126A-D) and hence to a corresponding chosen one of
+the four byte lanes of said local bus (106), or data is sequentially
+
+provided from said memory bank through said first byte lane of said
+memory data bus and through said data routing unit to a chosen two of
+
+the four output buffers and hence to a corresponding chosen two of the
+four byte lanes of said local bus, or data is sequentially provided from
+
+said memory bank through said first byte lane of said memory data bus
+and through said data routing unit to the four output buffers and hence
+
+to the four byte lanes of said local bus.
+The memory controller claimed in claim 6, wherein said memory controller
+further includes a sequencer (132) coupled to said data routing unit (124) for
+
+providing said select signal (S
+0
+, S
+1
+) to said data routing unit.
+The memory controller as claimed in claim 6 or claim 7 wherein said interface
+unit (120) further includes an address translator (134) for translating said local bus
+
+address signal (LA) into said memory address signal (MA).
+A memory controller as claimed in any one of claims 6 to 8 wherein the four
+byte lanes of the memory data bus (110) are each 8 bits wide, wherein said second
+
+predetermined bit width is 8 bits.
+A method for operating a memory controller (102), wherein said memory
+controller is connected to a first memory bank (120, 121, 122), to a second memory
+
+bank (123), and to four byte lanes of a local bus (106), said method comprising the
+steps of:
+
+
+providing to said memory controller and latching (122) into said memory
+controller upon system reset a memory size input signal (136) indicative of the bit width of
+
+said second memory bank;
+executing a memory read cycle on said local bus;
+determining whether said read cycle corresponds to a memory location
+contained by said first memory bank or by said second memory bank;
+reading four bytes of data from said first memory bank (120, 121, 122)
+simultaneously and providing said four bytes of data to said four byte lanes of
+
+said local bus 106 if said memory read cycle corresponds to a location within
+said first memory bank; and 
+
+
+(a) if said memory read cycle corresponds to a memory location contained
+by said second memory bank (123) and said memory size input signal (136) indicates that said
+
+second memory bank has a first predetermined width:
+
+reading four bytes of data from said second memory bank
+simultaneously and providing said four bytes of data to said four byte lanes of said
+
+local bus (106); or
+(b) if said memory read cycle corresponds to a memory location contained
+by said second memory bank (123) and said memory size input signal (136) indicates that said
+
+second memory bank has a second predetermined bit width:
+
+providing a byte enable signal (BE) to said memory controller and,
+depending on said byte enable signal:
+
+
+(i)
+
+reading a single byte of data from said second memory bank (123) and
+providing said byte of data to a data routing unit (124);
+selectively (S
+0
+, S
+1
+) routing said byte of data from said routing unit (124)
+to a chosen one of four buffers (126A-D); and
+providing said byte of data from said chosen buffer to a corresponding
+one of the four byte lanes of the local bus (106); or
+(ii)
+
+reading two bytes of data from said second memory bank (123) and
+sequentially providing said two bytes of data to said data routing unit
+
+(124);
+selectively (S
+0
+, S
+1
+) routing said two bytes of data from said data routing
+unit (124) sequentially to a chosen two of said four buffers (126A-D);
+
+and
+providing said two bytes of data simultaneously from said chosen two 
+buffers to a corresponding two of the four byte lanes of the local bus;
+
+or
+(iii)
+
+reading four bytes of data from said second memory bank (123) and
+sequentially providing said four bytes of data to said data routing unit
+
+(124);
+selectively (S
+0
+, S
+1
+) routing said four bytes of data from said data routing
+unit (124) sequentially to said four buffers (126A-D); and
+providing said four bytes of data simultaneously from said four buffers
+to the four byte lanes of the local bus.
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,187 @@
+<DOC>
+<DOCNO>EP-0656708</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+System and method for the transmission and validation of an updated encryption key between two users.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G09C100	G09C100	H04J1300	H04J1300	H04L906	H04L906	H04L908	H04L908	H04L914	H04L914	H04L916	H04L928	H04L930	H04L932	H04L932	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G09C	G09C	H04J	H04J	H04L	H04L	H04L	H04L	H04L	H04L	H04L	H04L	H04L	H04L	H04L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G09C1	G09C1	H04J13	H04J13	H04L9	H04L9	H04L9	H04L9	H04L9	H04L9	H04L9	H04L9	H04L9	H04L9	H04L9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+In a communications system, a method is described allowing two users having established a 
+communication session identified by a unique session freshness proof, to transmit and validate 
+
+a new value of a variable by using an exchange certificate which combines the following elements 
+: the new value of the variable, a common secret key known by both users, an exchange 
+
+counter representative of the number of values of said variable transmitted between the two users 
+during the current communication session and a session freshness proof. Protection against potential 
+
+eavesdroppers and intruders is provided by combining cryptographically the elements of 
+the exchange certificate. Further protection is obtained by interrupting the current communication 
+
+session and opening a new one characterized by a new unique session freshness proof 
+when the exchange counter reaches its maximum value; thus avoiding the risk that the same 
+
+value of the session freshness keeps being used when the exchange counter is reset to its initial 
+value. Consequently a given pair of values of the session freshness proof and of the exchange 
+
+counter will never be used more than one time, making eavesdropping and, replaying attacks 
+from intruders more difficult. Preferably, the method used for opening a new communication 
+
+session uses already known authentication methods based on the common secret key. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BANTZ DAVID
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BAUCHOT FREDERIC
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DAL BELLO ELIANE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HERZBERG AMIR
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KRAWCZYCK HUGO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KUTTEN SHAY
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MANSOUR YISHAY
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BANTZ, DAVID
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BAUCHOT, FREDERIC
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DAL BELLO, ELIANE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HERZBERG, AMIR
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KRAWCZYCK, HUGO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KUTTEN, SHAY
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MANSOUR, YISHAY
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention generally relates to methods to maintain security in computer 
+networks. In particular, it relates to methods for validating information exchanged between authorized 
+users or other authorized network entities. Computer network security techniques include a wide range of methods such as access control 
+mechanisms, user authentication methods, cryptographic systems and traffic integrity protection. 
+Appropriate selection and combination of such methods allows to build very secure networks 
+at the expense of overall system complexity, cost increase and performance degradation. This is 
+particularly the case in the arena of encryption keys distribution services for which dynamic 
+schemes using key distribution servers have been developed.
+ 
+U.S. Patent No 5,148,479 discloses a method of mutually authenticating users on a commumcations 
+session. A first user A transmits a challenge N1 to a second user B. In response to the 
+first challenge, B generates a first response to the challenge N1 and transmits it to A along with 
+a second challenge N2. User A verifies that the first response to the challenge N1 is correct and 
+then generates and transmits to B a second response to the second challenge N2. User B verifies 
+that the second response is correct. User A and user B are supposed to share a secret which allows 
+them to verify the correctness of the responses to their challenges. Ideally challenges should 
+be different in every authentication instance, therefore it is suggested that challenges be selected 
+randomly from a huge space; these challenges are called nonce challenges. This kind of user authentication methods does not always provide sufficient protection 
+against intruders attacks, for instance when data lines cannot be physically secured from 
+taps. More generally, intercept attacks where an intruder merely intercepts messages from a user 
+A to a user B and forwards them on to their intended destination B cannot be defended against 
+with user authentication protocols; for instance, such theft and replay attacks can occur in 
+wireless data communications systems using radio frequency or infrared transmission. In such 
+a case, measures are necessary to provide data security in addition to the methods allowing user  
+ 
+A and user B to authenticate one another. The encryption of the data flow between A and B is 
+obviously one of these measures.
+ 
+One of the best known secret-key cryptosystems is the so called Data Encryption Standard 
+(DES) which has been standardized by ANSI;
+</DESCRIPTION>
+<CLAIMS>
+A method for transmitting a value K' of a variable, between a first user A of a communications 
+system and a second user B, and for validating said value K', said users sharing a 
+
+common secret key S and having established a first communication session identified by a 
+first unique session freshness proof N2 known to both user A and user B, said method being 
+
+characterized in that it comprises the steps of: 
+
+a. transmitting from A to B said value K' by means of an exchange certificate comprising 
+at least two fields M1 and M2 of the minimum form:M1= f( S, K', ... ) M2= g( S, K', N2, c1, ... ) 
+
+ 
+   wherein f( ) and g( ) are functions such that, 
+
+   f( S, K', ... ) = m1 cannot be solved for K' without 
+   knowledge of S, m1 being a given value of field M1 and, 
+
+   g( S, K', N2, c1, ... ) = m2 cannot be solved for K' without 
+   knowledge of S, m2 being a given value of field M2; 
+
+   and wherein, 
+   c1 is an exchange counter controlled by A and representative of the number of 
+
+values of said variable exchanged between user A and user B during said first 
+communication session. 
+b. processing by B of said exchange certificate M comprising the steps of: 
+
+deriving from said exchange certificate M said value K' as a result of solving for 
+K' equation:f( S, K', ... ) = M1; and 
+validating said value K' as a result of the verification of a set of validation conditions 
+comprising at least an equation of the minimum form:g( S, K', N2, c2, ... ) = M2 wherein, 
+
+ 
+   c2 is an exchange counter controlled by B and representative of the number of 
+
+values of said variable exchanged between user A and user B during said first 
+communication session. 
+c. interrupting at the initiative of either A or B said first communication session between 
+A and B and opening a second communication session identified by a second unique 
+
+session freshness proof upon occurrence of anyone of a set of session reset conditions, 
+said set of reset conditions comprising failure of at least one of said validation conditions. 
+The method of claim 1 wherein said set of session reset conditions further comprises the 
+event that either of exchange counters c1 and c2 reaches its maximum value. 
+The method of claims 1 and 2 wherein,f( S, K', ... ) = Es( q ) g( S, K', N2, cl, ... ) = Es( r op Es(s op' t) ) 
+ 
+
+   wherein 
+
+Es( ) is a data encryption function using S as the encryption key; 
+op and op' are mathematical or Boolean operations; and 
+q, r, s, t are functions of the minimum formq = q(K', ...) r = r(N2, ...) s = s(K', ...) t = t(c1, ...) 
+The method of claim 3 wherein op and op' represent exclusive bit by bit OR Boolean operation 
+The method of claims 3 and 4 wherein functions q, r, s and t are:q(K', ...)= K' r(N2, ...)= N2 s(K', ...)= K' t(c1, ...)= c1 
+The method according to any of claims 1 to 5 wherein said exchange certificate further 
+comprises a third field M3 of the minimum formM3 = h( c1, ... ). 
+The method of claim 6 wherein said set of validation conditions further comprises verifying 
+thath( c2, ... ) = M3. 
+The method of claim 7 wherein function h is 
+h( c , ... ) = c  
+
+. 
+A communications system including means for carrying out the method of claim 1. 
+The system of claim 9 wherein said communications system uses a radio frequency or an 
+infrared communication channel. 
+</CLAIMS>
+</TEXT>
+</DOC>

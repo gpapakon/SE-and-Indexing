@@ -1,0 +1,222 @@
+<DOC>
+<DOCNO>EP-0651901</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+METHOD FOR ELECTRONIC CIRCUIT SIMULATION HAVING IMPROVED ACCURACY
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1750	G06F1750	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F17	G06F17	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A system and method accurately translate a structural data file (30) that describes a complex logic circuit into a simulation model file (40) executable by a simulator (42). A net-list (34) is traversed, and the resulting model description is compiled into structural partitions including a WHEN-CONDITION partition (WC) that identify boundaries between synchronous and asynchronous subcircuits. The simulation model is also divided into execution time levels by a partitioned levelization method. Asynchronous feedback loops, which ordinarily lead to levelization failures, are correctly modeled by inserting time delay "levelers" (254, 262) into the feedback loop model. The resulting simulation model includes re-evaluation and evaluation stability checking steps (152, 230, 232, 276) that provide correct functional and timing evaluation of the simulation model.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SYNOPSYS INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SYNOPSYS, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+HISEROTE JAY A
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HISEROTE, JAY, A.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to electronic design
+automation and, more particularly, to a method for
+automatically developing from logic circuit design data an
+accurate simulation model of a logic circuit.There are known methods for proving the design
+worthiness of an electronic circuit prior to committing
+extensive resources to making it in production quantities.
+Traditional methods include making a number of prototypes
+of the circuit and subjecting them to laboratory testing.
+This method is time consuming and expensive, and often
+requires the use of not readily available, state-of-the-art
+electronic components. When circuit faults are found,
+corrections to the prototypes take time and are prone to
+error. The fast-moving pace of the electronics
+marketplace demands a more rapid way of developing
+products using such circuits.Electronic circuit designers have long
+appreciated the value of using computers to simulate
+circuit designs. Simulation promises a faster and less
+expensive circuit design process alternative because
+design faults can be found and eliminated before an actual
+circuit is produced. In practice, simulation often
+eliminates the circuit prototyping step and is virtually 
+essential to integrated circuit development.However, simulation has not always been
+successful for proving the design worthiness of board-level
+circuits and complex integrated circuits. Such
+designs are characterized by a mix of synchronous and
+asynchronous logic functions and typically include
+multiple complex circuits, some of which are still in
+development during simulation. The simulation of such
+designs requires extensive computer time, and the accuracy
+of the simulation results is often questionable. The
+expense of computer time and the engineering time required
+to program the simulation, together with the risk of
+questionable results, has led many circuit designers to
+simply "give up" on simulation as a practical alternative
+to prototyping.The above realization has created a market for
+faster and more easily usable simulators that are capable
+of accurately simulating highly complex logic circuits.
+Representative simulators include Verilog-XL™ available
+from Cadence Design Systems, San Jose, California;
+QuickSim™ and QuickSim II™ available from Mentor Graphics
+Corporation, Wilsonville, Oregon; and ViewSim™ available
+from Viewlogic Systems, Inc., Marlboro, Massachusetts.Fig. 1 shows the relationship between a typical
+prior art circuit development process 10 and the accuracy
+or specificity of the circuit design corresponding
+</DESCRIPTION>
+<CLAIMS>
+A method of automatically making a simulation
+model of a logic circuit having synchronous and
+
+asynchronous subcircuits, each of the subcircuits
+including one or more elements, the method
+
+comprising:
+
+describing the logic circuit with a net-list
+that lists the elements and associated interconnections
+
+among them;
+identifying as members of an AFTER code
+partition, elements in the net-list that are
+
+interconnected between an output port and either an input
+
+port or a register output;
+identifying as members of a WHEN code partition,
+elements in the net-list that are interconnected between a
+
+register synchronous data input and either an input port
+or a register output;
+identifying as members of a WHEN-CONDITION code
+partition, elements in the net-list that are
+
+interconnected between a register asynchronous control
+input and either an input port or a register output;
+inserting a transport delay between the WHEN
+code partition and the AFTER code partition to accurately
+
+model functional boundaries between the synchronous and
+asynchronous subcircuits; and
+compiling the simulation model such that
+partitioning data is retained in the simulation model to
+
+provide an accurate simulation of the logic circuit.
+The method of claim 1 in which the output
+port has associated therewith a trace path that includes
+
+one or more predecessor elements and in which the step of
+identifying members of the AFTER code partition further
+
+comprises:
+
+tracing the net-list from the output port back
+through each predecessor element until reaching a trace
+
+path termination point at either the input port or the 
+register output; and
+marking the trace path termination point as
+either an input to the AFTER code partition or as a
+
+transport register output.
+The method of claim 1 in which the register
+synchronous data input has associated therewith a trace
+
+path that includes one or more predecessor elements and in
+which the step of identifying members of the WHEN code
+
+partition further comprises:
+
+tracing the net-list from the register
+synchronous data input back through each predecessor
+
+element until reaching a trace path termination point at
+either an input port or a register output; and
+marking each trace path termination point as an
+input to the WHEN code partition.
+The method of claim 1 in which the register
+asynchronous control input has associated therewith a
+
+trace path that includes one or more predecessor elements
+and in which the step of identifying members of the WHEN-CONDITION
+
+code partition further comprises:
+
+tracing the net-list from the register
+asynchronous control input back through each predecessor
+
+element until reaching a trace path termination point at
+an input port or a register output; and
+identifying each trace path termination point as
+an input to the WHEN-CONDITION partition.
+A method of executing in a simulator a simulation of a
+logic circuit including synchronous and asynchronous
+
+subcircuits comprising:
+
+providing a simulation model that
+includes a WHEN register code that is a member of a WHEN
+
+code partition including codes representing logic circuit
+elements interconnected between a register synchronous
+
+data input and either an input port or a register output,
+whereby all registers with data inputs and outputs within
+
+said WHEN partition are WHEN registers,
+a WHEN-CONDITION code and a WHEN-CONDITION register code
+that are members of a WHEN-CONDITION code partition 
+
+including codes representing logic circuit elements
+interconnected between a register asynchronous control
+
+input and either an input port or a register output,
+whereby all registers with control inputs and outputs
+
+within said WHEN-CONDITION partition are WHEN-CONDITION
+registers,
+an AFTER code and an AFTER input code that are members of an
+AFTER code partition including codes representing logic
+
+circuit elements interconnected between an output port and
+either an input port or a register output, whereby AFTER inputs are inputs
+
+driving outputs directly or indirectly and
+a transport delay register code storing time delays between the WHEN
+code partition and the AFTER code partition;
+invoking the simulation model when a
+WHEN-CONDITION input code change is received from the
+
+simulator;
+evaluating the WHEN code and the WHEN-CONDITION
+code;
+updating the WHEN-CONDITION register code;
+evaluating and updating the transport delay
+register code;
+storing the updated transport delay register
+code and the WHEN-CONDITION register code;
+rescheduling simulation model execution for a
+time indicated by the stored transport delay register
+
+code;
+evaluating the stored transport delay register
+code and the AFTER input code;
+evaluating the AFTER code; and
+returning to the simulator AFTER code values
+representative of signal changes in the logic circuit.
+The method of claim 5 in which each of the
+evaluating steps further includes the step of repetitively
+
+evaluating the code until successive evaluations are
+stable.
+</CLAIMS>
+</TEXT>
+</DOC>

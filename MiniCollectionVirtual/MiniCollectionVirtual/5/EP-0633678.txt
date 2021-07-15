@@ -1,0 +1,427 @@
+<DOC>
+<DOCNO>EP-0633678</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Resequencing method and resequencing device realizing such a method
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04L1256	H04L1218	H04L1256	H04L1218	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04L	H04L	H04L	H04L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04L12	H04L12	H04L12	H04L12	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The resequencing device resequences information 
+packets of an information stream transmitted from a 
+
+transmitter station (IWU1) to a receiver station (IWU2) 
+over a network (SMDS). This information stream includes 
+
+first packets which may be received in the receiver station 
+out of sequence with respect to each other or with respect 
+
+to second packets which are always received in sequence. 
+The network is for instance a Switched Multimegabit Data 
+
+Service network where the first packets have a group 
+address and are transmitted from the transmitter station to 
+
+the receiver station and to other receiver stations (IWU2, 
+IWU3) belonging to the same group, and the second packets 
+
+have an individual address and are transmitted from the 
+transmitter station to the receiver station. 
+The transmitter station includes a counter 
+circuit (C1) providing a counter value and a processing 
+
+circuit (P1) which assigns the counter value to the second 
+packets and the counter value incremented by one to the 
+
+first packets. 
+In this way the sequence numbers of the first 
+packets form an ascending monotonous series and the second 
+
+packets have sequence numbers equal to the sequence number 
+of the preceding first packet. Based thereon the packets 
+
+can easily be resequenced by a second processing circuit 
+(P2) located in the receiver station, and which therefor 
+
+uses a second counter circuit (C2), a timer (T) and a 
+buffer (B). 
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+CIT ALCATEL
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+ALCATEL
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+PESCHI ROBERT NICOLAS LOUIS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+PESCHI, ROBERT NICOLAS LOUIS
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a method for
+resequencing information packets of an information packet
+stream transmitted from a transmitter station to a receiver
+station over a network and identified by sequence numbers.Such a method is well known in the art, e.g. from
+the Euro-PCT Application No. 438415 (Henrion 17) Therein,
+the network is a multipath self routing switch, so that
+packets may follow different paths therein and may
+therefore be out of sequence upon their arrival in the
+receiver station. In this station the packets are then
+resequenced based on sequence numbers constituted by time
+stamps allocated to them in the transmitter station.This known resequencing method is however not
+applicable when the information packet stream comprises two
+or more types of intermixed packets which have to be in
+sequence in the receiver station, not only within each type
+they belong to but also with respect to each other. This
+is for instance the case with a so called Switched
+Multimegabit Data Service (SMDS) network as described in
+the Bellcore specifications TR-TSV-000772 (corresponding
+CCITT Draft Recommendation I364, Geneva, June 1992 or ETSI
+final draft pr ETS 300217 September 1992 ) and wherein
+packets belonging to a same information stream also called
+session or message can be transmitted either as first
+packets with group addresses from the transmitter station
+to a plurality of receiver stations, including a
+predetermined receiver station, via arbitrary paths, which
+means that they can be received out of sequence in the
+latter receiver station, or as second packets with
+individual adresses from the transmitter station to the
+predetermined receiver station where they are then received
+in sequence. As all these packets, i.e. as well the first
+as the second ones, belong to a same information stream,
+the first packets have to be resequenced in the 
+predetermined receiver station to be in sequence not only
+with respect to themselves, but also with respect to the
+second packets. Resequencing these first and second
+packets with the help of sequence numbers or time stamps
+allocated thereto as in known systems has the important
+drawback that it is impossible to know upon receipt of a
+sequence of first and second packets whether packets have
+been lost, and thus whether one has to wait for those
+possibly lost packets.Indeed, the transmitter station which is not
+aware to which message a packet belongs,has to sequentially
+allocate sequence numbers/time stamps to the packets it
+sends out, without taking into
+</DESCRIPTION>
+<CLAIMS>
+Method for resequencing information packets of
+an information packet stream (Min) transmitted from a
+
+transmitter station (IWU1) to a receiver station (IWU2)
+over a network (SMDS) and identified by sequence numbers,
+
+characterized in that,for first packets included in said
+information packet stream (Min) and received in said
+
+receiver station (IWU2) out of sequence with respect to
+each other or with respect to second packets which are
+
+always received in sequence, said method includes the steps
+of :
+
+
+in said transmitter station (IWU1), allocating
+predetermined first sequence numbers to said
+
+first packets and allocating to each second
+packet following a first packet a second sequence
+
+number which is related according to a
+predetermined relation to the predetermined first
+
+sequence number allocated to this first packet;
+and
+in said receiver station (IWU2), resequencing
+said first and second packets according to their
+
+first and second sequence numbers respectively.
+Method according to claim 1, characterized in
+that said predetermined first sequence numbers allocated to
+
+said first packets form an increasing/decreasing monotonous
+series.
+Method according to claim 1, characterized in
+that said second sequence number allocated to said second
+
+packet is equal to the predetermined first sequence number
+of the first packet preceding said second packet.
+Method according to claims 2 and 3,
+characterized in that a second packet is discarded in said
+
+receiver station (IWU2) when its said second sequence
+number is smaller/greater than the predetermined first
+
+sequence number of a previously received first packet.
+Method according to claims 2 and 3,
+characterized in that received second packets which have a 
+
+same second sequence number which is larger smaller than
+the predetermined first sequence number of the previously
+
+received first packet are buffered until receipt of a first
+packet having a predetermined first sequence number equal
+
+to the second sequence number of the thus buffered second
+packets.
+Method according to claims 2 and 3,
+characterized in that upon receipt in said receiver station
+
+(IWU2) of one of said first packets from said transmitter
+station (IWU1) said first packet is buffered when its
+
+predetermined first sequence number is larger/smaller than
+the sequence number of the last previously received and not
+
+buffered packet incremented/decremented by a
+predetermined value, that upon receipt by said receiver
+
+station (IWU2) of one of said second packets from said
+transmitter station (IWU1), said second packet is buffered
+
+when its second sequence number is larger/smaller than the
+sequence number of the last previously received and not
+
+buffered packet, that upon receipt by said receiver station
+(IWU2) of a second packet with a said second sequence
+
+number equal to the sequence number of the last previously
+received and not buffered packet or of a first packet with
+
+a said predetermined sequence number equal to the sequence
+number of the last previously received and not buffered
+
+packet incremented/decremented by said predetermined value,
+said packet is passed to an output terminal (R) of said
+
+receiver station (IWU2), those already buffered first
+packets, the first sequence numbers of which together with
+
+the sequence number of the passed first packet form part of
+said monotonous series also being passed to said output
+
+terminal (R), in ascending/descending order of their first
+sequence number, together with those second packets having
+
+a said second sequence number equal to a previously passed
+packet, and that upon receipt of a said second packet having
+
+a said second sequence number smaller/larger than the
+sequence number of the last previously received and not
+
+buffered 
+packet or of a first packet having a predetermined first
+
+sequence number smaller/larger than the sequence number of
+the last previously received and not buffered packet
+
+incremented/decremented by said predetermined value, said
+packet is discarded.
+Method according to claim 6, characterized in
+that a timer is started for each one of said buffered
+
+packets, all buffered packets with sequence number
+smaller/greater than the sequence number of said one
+
+packet, and all buffered packets with sequence number
+greater/smaller than the sequence number of said one packet
+
+and which form with said one packet part of said monotonous
+series, being passed to said output terminal (R) after
+
+having been sequenced to form a series of packets related
+to said monotonous series in a predetermined way, when said
+
+timer (T) reaches a predetermined value.
+Method according to claim 1, characterized in
+that in said network (SMDS) said second packets have an
+
+individual destination address and are sent from said
+transmitter station (IWU1) to said receiver station (IWU2)
+
+and said first packets have a group destination address and
+are sent from said transmitter station (IWU1) to said
+
+receiver station (IWU2) and to at least one other receiver
+station (IWU3, IWU4).
+Method according to claim 1, characterized in
+that a predetermined initial value is assigned to the
+
+second sequence number of all second packet which are
+transmitted before the transmission of any first packet.
+Resequencing device for resequencing
+information packets of an information packet stream (Min)
+
+transmitted from a transmitter station (IWU1) to a receiver
+station (IWU2) over a network (SMDS) and identified by
+
+sequence numbers characterized in that, for first packets
+included in said information packet stream (Min) which are
+
+received in said receiver station (IWU2) out of sequence
+with respect to each other or with respect to 
+
+second packets which are always received in sequence, said
+resequencing device includes :
+
+
+a sequence number allocation means (P1, C1)
+located in said transmitter station (IWU1) and
+
+which is adapted to allocate predetermined first
+sequence numbers to said first packets and to
+
+allocate to each second packet following a first
+packet a second sequence number which is related
+
+according to a predetermined relation to the
+predetermined first sequence number allocated to
+
+this first packet; and
+a resequencing means (P2, B, C2, T) located in
+said receiver station (IWU2) and which is adapted
+
+to resequence said first and second packets
+according to their first and second sequence
+
+numbers respectively.
+Resequencing device according to claim 10,
+characterized in that said predetermined first sequence
+
+numbers allocated to said first packets form an
+increasing/decreasing monotonous series.
+Resequencing device according to claim 10,
+characterized in that said second sequence number allocated
+
+to said second packet is equal to the predetermined first
+sequence number of the first packet preceding said second
+
+packet.
+Resequencing device according to claims 11
+and 12, characterized in that said sequence number
+
+allocation means (P1, C1) includes a counter means (C1)
+adapted to provide a counter value and a processing means
+
+(P1) which is adapted to assign said counter value to said
+second packets to be transmitted and is adapted to control
+
+said counter means to be incremented/decremented by a
+predetermined value before assigning said counter value to
+
+said first packets to be transmitted.
+Resequencing device according to claims 11
+and 12, characterized in that said resequencing means (P2,
+
+B, C2, T) includes a buffering means (B) adapted to buffer
+received second packets having a same second sequence 
+
+number which is larger/smaller than the sequence number of
+the last previously received and not buffered packet until
+
+receipt of a first packet having a predetermined first
+sequence number equal to the second sequence number of the
+
+thus buffered second packets.
+Resequencing device according to claims 13
+and 14, characterized in that said resequencing means (P2,
+
+B, C2, T) includes at least one second counter means (C2)
+providing a second counter value the initial value of which
+
+is at start-up of said resequencing means made equal to the
+initial value of said first counter (C1) and a second
+
+processing means (P2) which, upon receipt of one of said
+first packets from said transmitter station (IWU1), is
+
+adapted to buffer said first packet in said buffering means
+(B) when its predetermined first sequence number is
+
+larger/smaller than said second counter value
+incremented/decremented by said predetermined value, which,
+
+upon receipt of one of said second packets from said
+transmitter station (IWU1), is adapted to buffer said
+
+second packet in said buffering means (B) when its second
+sequence number is larger/smaller than said second counter
+
+value, which, upon receipt of a second packet with a second
+sequence number equal to said second counter value or of a
+
+first packet with a predetermined first sequence number
+equal to said second counter value incremented/decremented
+
+by said predetermined value, is adapted to pass said packet
+to an output terminal (R) of said resequencing means and to
+
+control said second counter means (C2) to be
+incremented/decremented by said predetermined value when a
+
+said first packet is passed to said output terminal (R),
+those already buffered first packets the first sequence
+
+numbers of which together with the first sequence number of
+the first passed packet form part of said monotonous series
+
+and those second packets having a second sequence number
+
+equal to the sequence number of either the passed or of one
+of those buffered first packets then also being passed to 
+
+said output terminal (R) in such a way that those buffered
+first packets are sequenced in ascending/descending order
+
+of their sequence number, together with buffered second
+packets sequenced in such a way with respect to said passed
+
+first packets that they follow a first packet having the
+same predetermined first sequence number as their own
+
+second sequence number, and which, upon receipt of a second
+packet having a second sequence number smaller/larger than
+
+said counter value or of a first packet having a
+predetermined first sequence number smaller/larger than
+
+said counter value incremented/decremented by said
+predetermined value, is adapted to discard said packet.
+Resequencing device according to claim 15,
+characterized in that said resequencing means includes a
+
+timer means (T), controlled by said second processing means
+(P2), adapted to start a timer for each one of said
+
+buffered packets, all buffered packets with sequence number
+smaller/greater than the sequence number of said one
+
+packet, and all buffered packets with sequence number
+greater/smaller than the sequence number of said one packet
+
+and which form with said one packet part of said monotonous
+series, being passed to said output terminal (R) after
+
+having been sequenced to form a series of packets related
+to said monotonous series in a predetermined way, when said
+
+timer reaches a predetermined value.
+Resequencing device according to claim 10,
+characterized in that in said network (SMDS) said second
+
+packets have an individual destination address and are sent
+from said transmitter station (IWU1) to said receiver
+
+station (IWU2) and said first packets have a group
+destination address and are sent from said transmitter
+
+station (IWU1) to said receiver station (IWU2) and to at
+least one other receiver station (IWU3, IWU4).
+</CLAIMS>
+</TEXT>
+</DOC>

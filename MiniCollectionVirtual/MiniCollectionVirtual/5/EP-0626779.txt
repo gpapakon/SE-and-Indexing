@@ -1,0 +1,241 @@
+<DOC>
+<DOCNO>EP-0626779</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Soft copy display of facsimile images.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T340	G06T340	G09G536	G09G536	G09G539	H04N140	H04N140	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	G09G	G09G	G09G	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T3	G06T3	G09G5	G09G5	G09G5	H04N1	H04N1	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Digital data defining images are stored in a multi-plane 
+buffer. The buffer may store plural images by 
+
+restricting data corresponding to an image or image 
+portion to less than half the bit planes of the 
+
+buffer. An image is displayed by reading data from 
+the buffer and selectively passing only a portion of 
+
+the data read to a display. The data defining the 
+images may be converted from facsimile (single bit 
+
+per pixel) to grey scale format (multiple bits per 
+pel) before being written to the buffer. The 
+
+conversion relies on a table storing data definitive 
+of the effect, on the image, of a facsimile transition 
+
+(1/0 or 0/1) as a function of the location of 
+the transition. Conversion from facsimile to grey 
+
+scale is effected by examining the facsimile data 
+for data transition and summing the effect of each 
+
+of the transitions to convert a segment of facsimile 
+data to grey scale data. 
+A system is also disclosed for rapidly converting an image 
+in run-end form to a reduced-resolution gray-tone image. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+MINTZER FREDERICK C
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MITCHELL JOAN L
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+PENNEBAKER WILLIAM B
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MINTZER, FREDERICK C.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MITCHELL, JOAN L.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+PENNEBAKER, WILLIAM B.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The invention relates to improvements in the field of 
+soft copy (video) display of facsimile generated 
+images such as text and/or graphics. The increasing popularity of teleconferencing has led 
+to a desire to provide for soft copy or video display 
+of images of limited or no gray scale. In many cases 
+the images will have originated as facsimile images, 
+but as will become clear hereinafter the invention is 
+applicable to any binary image, no matter how 
+generated. Typically the originals may consist of 
+textual material, either alone or in combination with 
+other symbols or images which will be collectively 
+hereinafter referred to as graphics. For convenience the resulting soft copy or video 
+display desirably complies with NTSC standards and 
+the problems imposed by the use of these standards is 
+the main problem to be overcome. More particularly, 
+an NTSC screen has a 4:3 aspect ratio, and further 
+dictates that the video may be displayed in about 480 
+vertically displaced parallel scanning lines. 
+For example, 512 picture elements (or pixels) are 
+horizontally displaced along each scanning line.  On the other hand, the typical graphics image 
+originates in a document which may be 8 1 / 2 x 11 or 8 1 / 2 x 
+13 or 8 1 / 2 x 14. If we assume that the intelligence 
+contained in the original covers about ten inches 
+vertically, and if we provide a convenient translation 
+between the original, represented by a facsimile 
+signal, to our 480 scan line video, then two results 
+follow. First, the 8 1 / 2 inch width occupies only about 
+half the screen, and secondly, the typewritten text, 
+if any, is so small that it cannot be read. One solution to the problem is to provide only hard 
+copy, however, this requires that copies be made 
+before a teleconference begins (limiting spontaneity) 
+and other soft copy functions such as annotation and 
+electronically controlled pointers are not available. Another solution is to use two monitors, capture the 
+top and bottom halves as two separate images, and use 
+these two separate images to drive the two different 
+monitors. This solution necessarily admits the 
+possibility that the break (at the bottom of the 
+first image and the top of the next image) may result 
+in some information being split across the two 
+displays, the solution also requires two independent 
+displays and associated refresh buffers. It is therefore an object of the invention to provide 
+for soft copy display of such graphics images thus 
+making available typical soft copy functions such as 
+elect
+</DESCRIPTION>
+<CLAIMS>
+A method of translating a two tone image to a gray scale 
+video image comprising the steps of: 
+
+
+a) providing a table representing numerical values for 
+the effect of transitions in said two tone image on said 
+
+video image; 
+b) loading an input buffer with a representation of said 
+two tone image; 
+c) initializing an output buffer with a numerical value 
+to represent a gray scale image consisting of only one of 
+
+said tones; 
+d) examining said input buffer to locate a transition 
+therein and determining the location of the transition; 
+e) extracting, from said table, a numerical value 
+corresponding to the location of said transition; 
+f) summing said extracted value, using alternating signs 
+for said value on alternate summations, with the contents 
+
+of said output buffer; 
+g) and repeating in sequence steps (d), (e) and (f) until 
+each transition in said input buffer is processed, 
+
+wherein said value is considered to have a sign opposite 
+to a sign of the contents of said output buffer for an 
+
+initial execution of said summing step. 
+The method of claim 1 which includes the further steps 
+of: 
+
+
+(d1) determining if the transition is located more than a 
+fixed distance from a reference location; and 
+(d2) in the event said transition is located further than 
+said fixed distance from said reference location, summing 
+
+a constant, of the largest numerical value in said table, 
+with the contents of said output buffer. 
+The method of claim 1 in which the step (a) comprises: 
+
+(a1) limiting said table to the effect of transitions 
+located no greater than a fixed distance from a reference 
+
+location, and 
+in which said step (f) includes 
+(f1) summing a constant with the contents of the output 
+buffer for locations greater than said fixed distance 
+
+from a reference location. 
+The method of claim 1 in which said two tone image is 
+decomposed into units of a fixed dimension for which said 
+
+video image has a corresponding fixed dimension, and 
+which a ratio of two tone image units to said video image 
+
+units is not an integer or in which said two tone image 
+is decomposed into units of 13 pels per unit for which 
+
+said corresponding video image is 4 pixels so that said 
+ratio is 13/4. 
+The method of claim 1 in which said tone used to 
+initialize said output buffer corresponds to white and 
+
+not black and wherein said transition used as a first 
+transition is a white/black transition. 
+The method of claim 1 in which said examining step 
+includes subtracting, in modulo arithmetic an effect for 
+
+that portion of white runs of length less than a 
+predetermined length in said two tone image and in which 
+
+said table is provided with numerical values only for 
+those transitions which are located less than said 
+
+predetermined length from a reference location. 
+The method of claim 1 in which said step (d) comprises:
+(d1) locating a first white/black transition and counting 
+modulo n, where n is an integer on which said table is 
+
+based, a distance to said first white/black transition, 
+said distance comprising the whole number I counted to 
+
+and the fractional remainder r, modulo n, 
+(d2) summing the contents of said output buffer with a 
+numerical value directly proportional to I and of sign 
+
+opposite to a sign for the contents of said output buffer 
+so that the result is the difference between the original 
+
+contents of said output buffer and said numerical value, 
+and said step (e) includes using said remainder r with 
+
+which to access said table. 
+The method of claim 7 in which said step (d) further 
+comprises: 
+
+
+(d3) locating a succeeding black/white transition and 
+determining, by counting modulo n, the distance to said 
+
+transition location from a reference location for said 
+black/white transition, said distance comprising the 
+
+number J counted to and the fractional remainder o, 
+modulo n, 
+(d4) summing the contents of said output buffer with a 
+numerical value directly proportional to J and with a 
+
+like sign so that the result is the arithmetic sum of the 
+contents of the output buffer and the numerical value, 
+
+and wherein said step (e) uses the remainder o with which 
+to access said table. 
+The method of claim 8 in which said steps (d), (d1), 
+(d2), (e) and (f) are repeated for white/black 
+
+ 
+transitions and said steps (d), (d3), (d4), (e) and (f) 
+
+are repeated for black/white transitions. 
+</CLAIMS>
+</TEXT>
+</DOC>

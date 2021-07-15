@@ -1,0 +1,212 @@
+<DOC>
+<DOCNO>EP-0623874</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method for improving the performance of processors executing instructions in a loop.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F932	G06F932	G06F938	G06F938	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Disclosed is a method for improving the performance of processors 
+executing instructions in a loop and a computer system for 
+
+performing the method. In the described embodiment of the invention, 
+the loop end condition for a loop comprising a series of 
+
+floating point instructions (F1, F2, F3, F4) is evaluated simultaneously 
+in the fixed point unit whilst the floating point 
+
+instructions (F1, F2, F3, F4) are evaluated in the floating 
+point unit. 
+In the first execution of the instructions (F1, F2, F3, F4) in 
+the loop, the loop end condition is processed as is known in 
+
+prior art methods. The branch target instruction (TGI) is stored 
+in a branch target register (140) and the instruction address of 
+
+the branch instruction is stored in a branch address register 
+
+(165). On subsequent execution of the instructions (F1, F2, F3, 
+F4) in the loop, the branch condition is evaluated and, if it is 
+
+fulfilled, once the end of the loop is detected by comparison of 
+the effective address of the next instruction to be executed 
+
+with the contents of the branch address register, the effective 
+address of the first instruction (F1) in the loop is passed from 
+
+the branch target register (140) to an operations register 
+(120). 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+GETZLAFF KLAUS JOERG
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HALLER WILHELM DR
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KURZ BRIGITTE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TAST HANS-WERNER
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WILLE UDO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GETZLAFF, KLAUS JOERG
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HALLER, WILHELM, DR.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KURZ, BRIGITTE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TAST, HANS-WERNER
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WILLE, UDO
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+In a program, branch instructions are encountered relatively 
+frequently. In a high performance processing system, means are 
+adopted in order to reduce the number of cycles required for the 
+execution of such branch instructions. Known from US-A-5 070 475 (Normoyle et al) is a data processing 
+system which includes a floating point computation unit (FPU) 
+which interfaces with a central processing unit (CPU). The 
+central processing unit supplies a dispatch control signal to 
+inform the FPU that it is about to execute a floating point 
+microinstruction and supplies a dispatch address which includes 
+the starting address of the floating point microinstructions 
+during the same operating cycle that the dispatch control signal 
+is supplied. A buffer memory is provided in the FPU to store the 
+starting address of one decoded macroinstruction while a sequence 
+of microinstructions for a previously decoded 
+macroinstruction is being executed by the FPU. This patent teaches furthermore interface logic which handles 
+suitable control signals for permitting asynchronous operation 
+of the FPU and the CPU and which achieves a high degree of 
+efficiency by utilising a single level of pipelining 
+macroinstructions for initiating FPU operations. Suitable control 
+signals are used in order to permit the transfer of FPU 
+instruction information and to arrange for the proper loading 
+and subsequent use thereof by the FPU. Further control is required 
+to assure that the CPU does not transfer an FPU instruction 
+when the single buffer pipeline at the FPU is full and 
+unable to accept the FPU instruction.  Also disclosed in this patent are control signals which provide 
+for the transfer of data in either direction between the CPU 
+data bus and the FPU data bus. Moreover, other control signals 
+are provided for handling floating point faults which may occur 
+during the calculations being executed by the FPU. US-A-4 509 116 (Lackey et al) describes an interconnection 
+arrangement between a CPU and an FPU (called a special instruction 
+processor in the patent specification). The CPU retrieves 
+all of the microinstructions from the memory in series and 
+decodes the instruction. An image of the instruction is passed 
+to the FPU. When an instruction is received which requires 
+processing by the FPU, then the CPU retrieves the data words 
+comprising the operand from the memory and passes them to the 
+FPU. After receiving the instruction, the FPU also decodes the instruction 
+and proceeds to receive the data words comprising the
+
+</DESCRIPTION>
+<CLAIMS>
+Method for improving the performance of programs containing 
+instructions (F1, F2, F3, F4) in loops in a dual processor 
+
+computer system with a main processor and a dependent coprocessor 
+in which 
+
+in one of said processors the instructions in the loop are 
+processed whilst simultaneously 
+
+in the other of said processors, the loop end condition is 
+processed. 
+Method according to claim 1 in which 
+the instructions in the loop are mathematical operations. 
+Method according to claim 1 or 2 in which said co-processor 
+is a floating point unit. 
+Method according to any of the above claims in which said 
+loop end condition is a branch instruction (BXLE). 
+Method according to claim 4 in which said branch instruction 
+is a branch on index low or equal (BXLE) instruction. 
+Method according to claim 4 or 5 in which during said processing 
+of the instructions (F1, F2, F3, F4) in the loop, 
+
+the following steps are carried out 
+a first step (line 660) of calculating an index value (S) 
+
+for the branch instruction (BXLE); 
+a second step (line 665) of comparing the calculated index 
+
+value (S) with a branch condition value (R3-odd); 
+a third step (line 630) of setting a successful branch 
+
+indicator latch (240) if the branch condition value (R3-odd) 
+is equal to the calculated index value; and
+
+ 
+a fourth step of executing again the instructions (F1, F2, 
+
+F3, F4) in the loop if the successful branch indicator 
+latch (240) is set, otherwise jumping to the next instruction 
+
+(NSI) outside the loop to be executed. 
+Method according to claim 6 in which 
+the first step involves retrieving from an index register 
+
+(R1) the previous value of the index value (S) and adding 
+to the previous value (R1) the value (R3) given in the 
+
+branch instruction (BXLE). 
+Method according to claim 6 in which 
+the fourth step is carried out by placing the address of 
+
+the target instruction (D2) to be executed in a first 
+branch address register (140). 
+Computer System with a main processor, a dependent co-processor 
+and a general purpose register (250) 
+
+characterised in that said computer system further comprises 
+a successful branch indicator latch (240) which is set when 
+
+a branch microcode instruction condition is fulfilled; 
+a branch target address register (140) which stores the 
+
+address (D2) of branch instruction (BXLE); 
+a branch address register (165) which st
+ores the address of 
+branch instruction (BXLE); 
+
+an instruction address modifier register (107) which generates 
+the address of the next instruction (NSI) to be carried 
+
+out if the branch instruction (BXLE) condition is not 
+fulfilled. 
+Computer system according to claim 9 further characterised 
+in that it comprises
+
+ 
+a supplementary register (220) to store the register numbers 
+
+(R1, R3) of the branch instruction (BXLE). 
+Computer system according to claim 9 or 10 further 
+characterised in that it comprises 
+
+a first and second latch to control the calculation of the 
+branch condition. 
+</CLAIMS>
+</TEXT>
+</DOC>

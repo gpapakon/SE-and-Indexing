@@ -1,0 +1,842 @@
+<DOC>
+<DOCNO>EP-0630157</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Systems and methods for coding alternate fields of interlaced video sequences
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04N746	H04N750	H04N746	H04N726	G06T900	G06T900	H04N726	H04N750	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04N	H04N	H04N	H04N	G06T	G06T	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04N7	H04N7	H04N7	H04N7	G06T9	G06T9	H04N7	H04N7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Multi-mode predictive interpolative systems and 
+methods for interlaced video sequences use past even fields 
+
+as well as current and past odd fields to code current even 
+fields. Block matching units (40, 42, 44) find for each 
+
+block of pixels of a current even field to be coded, the 
+corresponding block which matches it most closely in the 
+
+current odd field, the past odd field and a past even field 
+and calculate appropriate motion vectors corresponding to 
+
+the best matched blocks. Based on the best matched blocks, 
+and averages thereof, the best mode generator (60) selects a 
+
+best mode block which most closely matches the block to be 
+coded and derives an error block representing the pixel by 
+
+pixel differences between the block to be coded and the best 
+mode block. Signals representing the error block, the mode 
+
+chosen, and the motion vectors corresponding thereto are 
+then sent for transmission for use by a decoder. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+UNIV COLUMBIA
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+THE TRUSTEES OF COLUMBIA UNIVERSITY IN THE CITY OF NEW YORK
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+ANASTASSIOU DIMITRIS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WANG FENG-MING
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ANASTASSIOU, DIMITRIS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WANG, FENG-MING
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to methods and systems for
+coding alternate fields of an interlaced video format
+and has particular applicability to arrangements wherein
+the other fields have already been coded.Interlaced scanning is an efficient method of
+bandwidth compression for television transmission.
+Further bandwidth compression can be achieved by downsampling
+the interlaced video sequence by deleting
+either all the even or all the odd fields. This scheme
+is used, for example, in the current Motion Picture
+Experts Group (MPEG) proposal relating to coding and
+decoding protocols for the compression of video data.
+In that proposed format only the odd fields of an interlaced
+video sequence are encoded and transmitted. The
+present invention, utilizing the fact that even and odd
+fields are highly correlated, makes it possible to code
+the missing even fields very efficiently.It is therefore an object of this invention to
+provide methods and systems for efficiently coding one
+field of an interlaced video.It is a further object of this invention to provide
+methods and systems for coding interlaced video data so
+as to permit efficient and accurate decoding using
+methods and systems.This technique is generally known as block matching.
+US-A-4 897 720 (Wu & Yang/Bell) describe a particular
+form of apparatus for performing such block matching,
+and list several documents describing the principles
+of block matching and similar techniques. More
+specifically, the principle of block matching is that
+for compression:
+even fields are not transmitted;a field which is not transmitted is divided into 
+blocks;the preceding odd , transmitted, field (termed the
+reference field) is divided into zones corresponding to
+these blocks, each zone extending beyond the borders of
+the corresponding block;the contents of each block are matched against the
+contents of the corresponding zone in the reference
+field to determine the position of the best match of the
+block contents within that zone; andfor each block, the displacement between it and the
+best matched position in the corresponding zone (termed
+the block vector) is transmitted;and for decompression:for each block, the block vector is used to select
+the appropriate block-sized portion of the corresponding
+zone from the reference field; andthe even field is synthesized by assembling these
+block-sized portions of the zones in the corresponding
+blocks of that field.According to a first aspect of the invention there
+is provided a system for encoding video data representing
+successive
+</DESCRIPTION>
+<CLAIMS>
+A system for encoding video data representing
+successive frames of video images, the video data for
+
+each frame having interlaced first and second fields,
+the system comprising a field separator (20) for receiving
+
+a sequence of frames of video data and separating
+each frame into its first and second fields, characterized
+
+in that the system further comprises:
+
+(a) a first motion vector generator (40) receiving
+the first field of a current frame (E1(t)) and the
+
+second field of a current frame (Oc1(t)), and deriving
+one or more first motion vectors (FMV) each associated
+
+with a respective block of pixel data from the first
+field of the current frame and with a corresponding
+
+block of pixel data from the second field of the current
+frame;
+(b) a second motion vector generator (44) receiving
+the first field of the current frame (E1(t)) and the
+
+first field of the immediately preceding frame (Ec1(t-1)),
+and deriving one or more second motion vectors
+
+(CMV) each associated with a respective block of pixel
+data of the first field of the current frame and with a
+
+corresponding block of pixel data of the first field of
+the immediately preceding frame;
+(c) a memory (50) coupled to the field separator,
+the first motion vector generator and the second motion
+
+vector generator for storing the second field of the
+current frame (Oc1(t)), the first field of the current
+
+frame (E1(t)), the first field of the immediately preceding
+frame (Ec1(t-1)), one or more first motion vectors
+
+derived by the first motion vector generator, and
+one or more second motion vectors derived by the second
+
+motion vector generator;
+(d) a motion vector processor (54, 60, 62) coupled
+to the memory for retrieving therefrom (i) the one or 
+
+more first motion vectors, (ii) the one or more second
+motion vectors, (iii) a block of pixel data of the
+
+second field of the current frame associated with each
+first motion vector retrieved from the memory, (iv) a
+
+block of pixel data of the first field of the immediately
+preceding frame associated with each second motion
+
+vector retrieved from the memory, and (v) the block of
+pixel data of the first field of the current frame associated
+
+with each first motion vector or second motion
+vector retrieved from the memory, and determining best
+
+mode information for predicting one or more blocks of
+pixel data, each associated with a respective first or
+
+second motion vector retrieved from the memory, and each
+having the least pixel error when compared with the
+
+corresponding block of pixel data of the first field of
+the current frame, and further determining pixel error
+
+data representative of any pixel error between each of
+the one or more predicted blocks of the pixel data and
+
+the corresponding block of pixel data of the first field
+of the current frame; and
+(e) an output data generator (21, 41, 64, 68),
+coupled to the motion vector processor and the field
+
+separator for providing the second field of the current
+frame, the best mode information, and the pixel error
+
+data.
+The system of Claim 1, further characterized in
+that the motion vector processor includes a motion
+
+vector selector (62) and derives best motion vector
+selection data specifying one or more selected first
+
+motion vectors, and/or one or more selected second
+motion vectors for predicting a block or blocks of the
+
+first field of the current frame, each associated with a
+respective first or second motion vector retrieved from
+
+memory, and each having the least pixel error when
+compared with the corresponding block of the first field 
+
+of the current frame, the motion vector selector receiving
+the best mode motion vector selection data and
+
+retrieving from the memory the one or more selected
+first motion vectors and/or the one or more selected
+
+second motion vectors specified thereby, wherein the
+best mode information includes the one ore more selected
+
+first motion vectors and/or the one or more selected
+second motion vectors.
+The system of Claim 1, further characterized in
+that the best mode information comprises all of the
+
+first motion vectors and second motion vectors retrieved
+from the memory, and the best mode motion vector processor
+
+provides best mode motion vector selection data
+specifying one or more selected first motion vectors
+
+and/or one or more selected second motion vectors for
+predicting one or more blocks of the first field of the
+
+current frame, each associated with a respective first
+or second motion vector retrieved from the memory, and
+
+each having the least pixel error when compared with the
+corresponding block of the first field of the current
+
+frame.
+The system of Claim 1, further characterized in
+that the system further comprises a third motion vector
+
+generator (42) receiving the first field of the current
+frame (E1(t)) and the second field of an immediately
+
+preceding frame (Oc1(t-1)), and deriving one or more
+third motion vectors (BMV) each associated with a respective
+
+block of pixel data from the first field of the
+current frame and with a corresponding block of pixel
+
+data from the second field of the immediately preceding
+frame; wherein the memory is coupled to the third motion
+
+vector generator and further stores one or more third
+motion vectors derived by the third motion vector generator
+
+and the second field of the immediately preceding
+frame; and wherein the motion vector processor retrieves 
+
+from the memory the one or more third motion vectors and
+the block of pixel data of the second field of the
+
+immediately preceding frame associated with each third
+motion vector retrieved from the memory.
+The system of Claim 4, further characterized in
+that the motion vector processor includes a motion
+
+vector selector (62) and derives best mode motion vector
+selection data specifying one or more selected first
+
+motion vectors and/or one or more selected second motion
+vectors and/or one or more selected third motion vectors
+
+for predicting one or more blocks of the first field of
+the current frame, each associated with a respective
+
+first, second or third motion vector retrieved from the
+memory, and each having the least pixel error when
+
+compared with the corresponding block of the first field
+of the current frame, the motion vector selector receiving
+
+the best mode motion vector selection data and
+retrieving from the memory the one or more selected
+
+first motion vectors and/or the one or more selected
+second motion vectors and/or the one or more selected
+
+third motion vectors specified thereby, wherein the best
+mode information includes the one or more selected first
+
+motion vectors and/or the one or more selected second
+motion vectors and/or the one or more selected third
+
+motion vectors.
+The system of Claim 4, further characterized in
+that the best mode information comprises all of the
+
+first motion vectors, second motion vectors, and third
+motion vectors retrieved from the memory, and best mode
+
+motion vector selection data indicating one or more
+selected first motion vectors and/or one or more selected
+
+second motion vectors and/or one or more selected
+third motion vectors for predicting one or more blocks
+
+of the first field of the current frame, each associated
+with a respective first, second or third motion vector 
+
+retrieved from the memory, and each having the least
+pixel error when compared with the corresponding block
+
+of the first field of the current frame.
+The system of any preceding claim, further characterized
+in that the system includes an interpolation
+
+circuit (34, 36) coupled to the field separator, the
+first motion vector generator, the second motion vector
+
+generator and the memory, for deriving enhancements to
+the pixel data of the first field and the second field
+
+of a frame and for providing the enhancements to the
+first motion vector generator, the second motion vector
+
+generator and the memory.
+The system of any preceding claim, further characterized
+in that the motion vector processor includes a
+
+best mode generator (60) comprising:
+
+(a) a first error generator (92) coupled to the
+memory and receiving the block of pixel data of the
+
+second field of the current frame associated with each
+first motion vector retrieved from the memory, and the
+
+block of pixel data of the first field of the current
+frame associated with each first motion vector retrieved
+
+from the memory, and generating from a comparison of the
+one or more associated blocks of pixel data a first
+
+error signal (F) indicative of the absolute error between
+compared blocks of pixel data;
+(b) a second error generator (113) coupled to the
+memory receiving the block of pixel data of the first
+
+field of the immediately preceding frame associated with
+each second motion vector retrieved from the memory and
+
+the block of pixel data of the first field of the current
+frame associated with each second motion vector retrieved
+
+from the memory, and generating from a comparison
+of the associated block or blocks of pixel data a
+
+second error signal (C) indicative of the absolute error
+between compared blocks of pixel data; and 
+(c) a comparator (115) coupled to the first error
+generator and the second error generator for receiving
+
+the first error signal and the second error signal, and
+deriving the best mode motion vector selection data by
+
+comparing the first error signal and the second error
+signal.
+The system of any preceding claim, further characterized
+in that the output data generator includes a
+
+block data encoder (41) coupled to the motion vector
+processor for encoding the pixel error data, a motion
+
+vector encoder (64) coupled to the motion vector processor
+for encoding the best mode information, a second
+
+field encoder (21) coupled to the field separator for
+encoding the second field of the current frame, and a
+
+data combining circuit (68) coupled to the block data
+encoder, the motion vector encoder, and the second field
+
+encoder for receiving and combining the encoded pixel
+error data, the encoded best mode motion vector data,
+
+and the encoded second field data.
+The system of Claim 9, further characterized in
+that the block data encoder includes:
+
+
+(a) a discrete cosine transform circuit (43)
+coupled to the motion vector processor for receiving the
+
+pixel error data and performing a discrete cosine transform
+on the received pixel error data;
+(b) a quantization circuit (45) coupled to the
+discrete transform circuit for receiving discrete cosine
+
+transformed data therefrom and quantizing the received
+transformed data;
+(c) a zig-zag scanning circuit (46) coupled to the
+quantization circuit for receiving quantized data therefrom
+
+and mapping the quantized data to predetermined
+constants; and
+(d) a huffman coding circuit (47) coupled to the
+zig-zag circuit for receiving mapped data and converting 
+
+the mapped data into binary codes and for providing the
+binary codes to the data combining circuit.
+A method for encoding video data representative of
+successive frames of video images, the video data for
+
+each frame having interlaced first and second fields,
+the method comprising the steps of (a) receiving a
+
+sequence of frames of video data and (b) separating the
+data for each frame into its first and second fields,
+
+characterized in that the method further comprises the
+steps of:
+
+
+(c) deriving one or more first motion vectors
+(FMV) each associated with a respective block of pixel
+
+data from the first field of a current frame (Ei(t)) and
+with a corresponding block of pixel data from the second
+
+field of the current frame (Oc1(t));
+(d) deriving one or more second motion vectors
+(CMV) each associated with a respective block of pixel
+
+data from the first field of the current frame (Ei(t))
+and with a corresponding block of pixel data from the
+
+first field of the immediately preceding frame (Ec1(t-1));
+(e) storing the second field of the current frame
+(Oc1(t)), the first field of the current frame (E1(t)),
+
+the first field of the immediately preceding frame
+(Ec1(t-1)), one or more first motion vectors derived in
+
+step (c), and one or more second motion vectors derived
+in step (d);
+(f) determining from the one or more stored first
+motion vectors and/or the one or more stored second
+
+motion vectors, best mode information for predicting one
+or more blocks of pixel data, each associated with a
+
+respective stored first or second motion vector, and
+each having the least pixel error when compared with the
+
+corresponding block of pixel data of the first field of
+the current frame; 
+(g) determining pixel error data representative of
+any pixel error between the one or more predicted blocks
+
+of pixel data and the one or more corresponding blocks
+of pixel data of the first field of the current frame;
+
+and
+(h) providing signals representing the second
+field of the current frame, the best mode motion vector
+
+data, and the pixel error data.
+The method of Claim 11, further characterized in
+that step (f) further comprises providing best mode
+
+motion vector selection data specifying one or more
+selected first motion vectors, and/or one or more selected
+
+second motion vectors for predicting one or more
+blocks of pixel data, each associated with a respective
+
+stored first or second motion vector, and each having
+the least pixel error when compared with the corresponding
+
+block of the first field of the current frame,
+and retrieving the one or more selected first motion
+
+vectors and/or the one or more selected second motion
+vectors specified by the best mode motion vector selection
+
+data, wherein the best mode information includes
+the one or more selected first motion vectors and/or the
+
+one or more selected second motion vectors.
+The method of Claim 11, further characterized in
+that the best mode information comprises all of the
+
+first motion vectors and all of the second motion vectors
+determined in step (f), and best mode motion vector
+
+selection data specifying one or more first motion
+vectors and/or one or more second motion vectors for
+
+predicting one or more blocks of pixel data, each associated
+with a respective stored first or second motion
+
+vector, and each having the least pixel error when
+compared with the corresponding block of pixel data of
+
+the first field of the current frame.
+The method of Claim 11, further characterized in 
+that the method includes the step of deriving one or
+
+more third motion vectors (BMV) each associated with a
+respective block of pixel data from the first field of a
+
+current frame (Ei(t)), and with a corresponding block of
+pixel data from the second field of an immediately
+
+preceding frame (Oc1(t-1), wherein step (e) includes
+storing the one or more derived third motion vectors and
+
+the second field of the immediately preceding frame, and
+wherein step (f) includes determining from the one or
+
+more stored first motion vectors and/or the one or more
+stored second motion vectors and/or the one or more
+
+stored third motion vectors, best mode information for
+predicting one or more blocks of pixel data, each associated
+
+with a respective stored first, second or third
+motion vector, and each having the least pixel error
+
+when compared with the corresponding block of pixel data
+of the first field of the current frame.
+The method of Claim 14, further characterized in
+that the method further comprises providing best mode
+
+motion vector selection data specifying one or more
+selected first motion vectors and/or one or more selected
+
+second motion vectors and/or one or more selected
+third motion vectors for predicting one or more blocks
+
+of pixel data, each associated with a respective stored
+first, second or third motion vector, and each having
+
+the least pixel error when compared with one or more
+corresponding blocks of the first field of the current
+
+frame, and retrieving the one or more selected third
+motion vectors and/or the one or more selected second
+
+motion vectors and/or the one or more selected first
+motion vectors specified by the best mode information,
+
+wherein the best mode motion vector data includes the
+one or more selected third motion vectors and/or the one
+
+or more selected second motion vectors and/or the one or
+more selected first motion vectors. 
+The method of Claim 14, further characterized in
+that the best mode information comprises all of the
+
+first motion vectors, all of the second motion vectors
+and all of the third motion vectors retrieved from the
+
+memory, and best mode motion vector data specifying one
+or more first motion vectors and/or one or more second
+
+motion vectors and/or one or more third motion vectors
+for predicting one or more blocks of pixel data, each
+
+associated with a respective stored first, second or
+third motion vector, and each having the least pixel
+
+error when compared with the corresponding block of
+pixel data of the first field of the current frame.
+The method of any of Claims 11 to 16, further
+characterized in that the method includes the step of
+
+deriving enhancements to the pixel data of the first and
+second fields of a frame prior to steps (c) and (d).
+The method of any of Claims 11 to 17, further
+characterized in that step (f) further comprises:
+
+
+(i) comparing the block of pixel data of the
+second field of the current frame associated with each
+
+stored first motion vector with the corresponding block
+of pixel data of the first field of the current frame,
+
+and generating a first error signal (F) indicative of
+the absolute error between compared blocks of pixel
+
+data;
+(ii) comparing the block of pixel data of the
+first field of the immediately preceding frame associated
+
+with each stored second motion vector with the
+corresponding block of pixel data of the first field of
+
+the current frame, and generating a second error signal
+(C) indicative of the absolute error between compared
+
+blocks of pixel data; and
+(iii) deriving a best mode signal indicative of the
+best mode motion vector data by comparing the first
+
+error signal and the second error signal.
+The method of any of Claims 11 to 18, further
+characterized in that step (h) further comprises:
+
+
+(i) encoding the pixel error data;
+(ii) encoding the best mode motion vector data;
+(iii) encoding the second field of the current
+frame; and
+(iv) combining the encoded pixel error data, the
+encoded best mode motion vector data and the encoded
+
+second field data.
+The method of Claim 19, further characterized in
+that step (i) comprises:
+
+
+(a) performing a discrete cosine transform on the
+pixel error data;
+(b) quantizing the discrete cosine transformed
+data;
+(c) mapping the quantized data to predetermined
+constants; and
+(d) converting the mapped data into a binary bit
+stream.
+A decoding system for encoded video data representing
+a sequence of frames of video images, the video data
+
+for each frame having interlaced first and second
+fields, characterized in that the system comprises:
+
+
+(a) an input circuit (82, 84, 89, 91, 107) receiving
+encoded video data and separating the encoded data
+
+for each frame into (i) first motion vector data associated
+with one or more blocks of pixel data of the
+
+second field of a current frame (Oc(t)) and with one or
+more corresponding blocks of pixel data of a first field
+
+of the current frame (Ec(t)), (ii) second motion vector
+data, if any, associated with one or more blocks of
+
+pixel data of the first field of an immediately preceding
+frame (Ec1(t-1)) and with one or more corresponding
+
+blocks of pixel data of an first field of the current
+frame, (iii) pixel error data representative of any 
+
+pixel error in each block of pixel data associated with
+the first and/or second motion vector data when compared
+
+with the corresponding block of pixel data of the first
+field of the current frame (Ec(t)), and (iv) the second
+
+field of the current frame;
+(b) a block selector (88) receiving the first and
+second motion vector data from the input circuit and
+
+selecting one or more blocks of pixel data of the second
+field of the current frame and/or one or more blocks of
+
+pixel data of the first field of an immediately preceding
+frame respectively associated with
+ the received
+first and second vector data;
+(c) a block processor (85) receiving the one or
+more selected blocks of pixel data selected by the block
+
+selector, and determining one or more of the received
+blocks of pixel data each having lowest pixel error when
+
+compared with the corresponding block of pixel data of
+the first field of the current frame;
+(d) a block adder (87) receiving the one or more
+blocks of pixel data determined by the block processor
+
+and the pixel error data for the same one or more blocks
+of pixel data and generating a predicted first field of
+
+the current frame (Ec1(t)); and
+(e) a frame generator (90) receiving the predicted
+first field of the current frame and the second field of
+
+the current frame, and generating the current frame of
+video image data.
+The system of Claim 21, further characterized in
+that the system further includes a memory (86) coupled
+
+to the input circuit, the block selector, the block
+processor and the block adder, for storing the second
+
+field of a current frame and the first field of the
+immediately preceding frame, wherein the block selector
+
+provides address signals to the memory for retrieving
+therefrom the one or more blocks of pixel data selected 
+
+by the block selector.
+The system of Claim 21, further characterized in
+that the input circuit additionally receives best mode
+
+signals indicative of the one or more blocks of pixel
+data each having lowest pixel error when compared with
+
+the corresponding blocks of pixel data of the first
+field of the current frame, and provides the best mode
+
+signals to the block processor, wherein the one or more
+blocks provided by the block processor are selected by
+
+the best mode signal.
+The system of Claim 21, further characterized in
+that the input circuit further receives third motion
+
+vector data associated with one or more blocks of pixel
+data of the second field of an immediately preceding
+
+frame (Oc1(t-1)) and with one or more corresponding
+blocks of pixel data of an first field of the current
+
+frame, wherein the pixel error data is representative of
+any pixel error in each block of pixel data associated
+
+with the first and/or second and/or third motion vector
+data, when compared with the corresponding block of
+
+pixel data of the first field of the current frame, the
+block selector receives the third motion vector data
+
+from the input circuit and selects one or more blocks of
+pixel data of the second field of an immediately preceding
+
+frame associated with the motion vector data; and
+the block processor receives the one or more blocks of
+
+pixel data of the second field of an immediately preceding
+frame selected by the block selector.
+A decoding method for encoded video data representing
+a sequence of frames of video images, the video data
+
+for each frame having interlaced first and second
+fields, the method comprising the step of (a) receiving
+
+encoded video data for successive frames, characterized
+in that the method further comprises the steps of:
+
+
+(b) separating the encoded data for each frame 
+into (i) first motion vector data, if any, associated
+
+with one or more blocks of pixel data of the second
+field of a current frame (Oc(t)) and with one or more
+
+corresponding blocks of pixel data of a first field of
+the current frame (Ec(t)), (ii) second motion vector
+
+data, if any, associated with one or more blocks of
+pixel data of the first field of an immediately preceding
+
+frame (Ec1(t-1)) and with one or more corresponding
+blocks of pixel data of the first field of the current
+
+frame, (iii) pixel error data representative of any
+pixel error in each block of pixel data associated with
+
+the first and/or second motion vector data when compared
+with the corresponding block of pixel data of the first
+
+field of the current frame (Ec(t)), and (iv) the second
+field of the current frame;
+(c) selecting one or more blocks of pixel data of
+the second field of the current frame associated with
+
+the first motion vector data and/or one or more blocks
+of pixel data of the first field of an immediately
+
+preceding frame associated with the motion vector data
+associated with the second motion vector data;
+(d) deriving from the block or blocks of pixel
+data selected in step (c), one or more blocks of pixel
+
+data each having the lowest pixel error when compared
+with the corresponding block of pixel data of the first
+
+field of the current frame;
+(e) generating a predicted first field of the
+current frame (Ec1(t)) from the one or more blocks of
+
+pixel data derived in step (d) and the pixel error data
+for the same one or more blocks of pixel data; and
+(f) generating the current frame of video image
+data from the predicted first field of the current frame
+
+and the second field of the current frame separated from
+the received encoded video data.
+The method of Claim 25, further characterized in 
+that the method further comprises the step of storing
+
+the second field of a current frame and the first field
+of the immediately preceding frame prior to step (c),
+
+wherein the one or more blocks of pixel data selected in
+step (c) are selected from the stored second field of a
+
+current frame and/or the stored first field of the
+immediately preceding frame, and wherein step (c) includes
+
+providing address signals for selecting the one
+or more selected blocks of pixel data from a memory.
+The method of Claim 25, further characterized in
+that the video data separated in step (b) includes best
+
+mode signals indicative of the one or more blocks of
+pixel data each having the lowest pixel error when
+
+compared with the corresponding block of pixel data of
+the first field of the current frame, wherein the one or
+
+more blocks derived in step (d) are derived by using the
+best mode signal.
+The method of Claim 25, further characterized in
+that the video data separated in step (b) includes third
+
+motion vector data associated with one or more blocks of
+pixel data of the second field of an immediately preceding
+
+frame (Oct(t-1)) and with one or more corresponding
+blocks of pixel data of an first field of the current
+
+frame, and the one or more blocks of pixel data selected
+in step (c) include one or more blocks of pixel data of
+
+the second field of an immediately preceding frame
+associated with the third motion vector data.
+</CLAIMS>
+</TEXT>
+</DOC>

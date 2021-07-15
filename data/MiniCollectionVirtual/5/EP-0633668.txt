@@ -1,0 +1,182 @@
+<DOC>
+<DOCNO>EP-0633668</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Data compression apparatus
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T900	G06F500	H03M730	H03M730	H04B166	G06T900	G06F500	H04B166	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06F	H03M	H03M	H04B	G06T	G06F	H04B	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T9	G06F5	H03M7	H03M7	H04B1	G06T9	G06F5	H04B1	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An apparatus and method for executing a sequential data compression 
+algorithm that is especially suitable for use where data compression is 
+
+required in a device (as distinguished from host) controller. A history 
+buffer 22 comprises an array of i identical horizontal slice units. Each 
+
+slice unit stores j symbols to define j separate blocks in which the 
+symbols in each slice unit are separated by exactly i symbols. Symbols 
+
+in a string of i incoming symbols are compared by i comparators in 
+parallel with symbols previously stored in the slice units to identify 
+
+matching sequences of symbols. A control unit controls execution of the 
+sequential algorithm to condition the comparators to scan symbols in 
+
+parallel but in each of the blocks sequentially and cause matching 
+sequences and nonmatching sequences of symbols to be stored in the array. 
+
+The parameters i and j are selected to limit the number of comparators 
+required to achieve a desired degree of efficiency in executing the 
+
+algorithm based upon a trade-off of algorithm execution speed versus 
+hardware cost. A priority encoder calculates from signals output by the 
+
+slice units each j,i address in which a matching sequence is identified, 
+but it outputs the address of only one (such as the smallest) of these 
+
+addresses. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+HASSNER MARTIN AURELIANO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KARNIN EHUD DOV
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SCHWIEGELSHOHN UWE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TAMURA TETSUYA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HASSNER, MARTIN AURELIANO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KARNIN, EHUD DOV
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SCHWIEGELSHOHN, UWE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TAMURA, TETSUYA
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to the compression and decompression of data
+in data storage systems, and more particularly to the parallel execution
+of a sequential data compression algorithm.It is known that the efficiency with which data can be compressed
+and decompressed depends primarily on the buffer size and encoding
+implementation used. Executing a compression/decompression algorithm
+using software is slow and therefore not suited to high speed or real
+time applications. Executing the algorithm using hardware requires an
+amount of hardware that varies according to the degree of parallelism of
+the implementation technique employed. If too much hardware is required,
+it may be difficult to integrate the data compression algorithm into a
+controller.A paper by Lempel and Ziv entitled "A Universal Algorithm for
+Sequential Data Compression", published in IEEE Transactions on
+Information Theory, May 1977, at pp. 337-343, describes an algorithm for
+efficiently compressing data.This Lempel-Ziv 1 (LZ1) algorithm is a sequential algorithm that
+compresses strings of binary data of variable length into a fixed length
+compressed binary format. It is implemented using a history buffer that
+contains the most recent bytes or words of a file in the correct
+sequence. Methodically, by repeated executions of a basic routine, new
+bytes are read as long as the sequence of incoming bytes is matched by a
+sequence in the history buffer, thereby generating a sequential stream of
+data. Since each incoming byte is sequentially compared with each byte
+in the history buffer, a significant amount of computation time is
+required, making this technique unsuitable for real time applications.EP 0 546 863 A2 describes a typical implementation
+of the LZ1 algorithm and then cites a number of patents (not deemed
+material to the present invention) which cover techniques of improving 
+the speed with which the LZ1 algorithm is executed or the amount of
+compression achieved.This cited commonly assigned application describes a fully parallel
+architecture that implements the LZ1 algorithm in hardware. With a
+content addressable memory (CAM) serving as a history buffer, each
+incoming byte is compared simultaneously with all the bytes in the
+history buffer. This fully parallel hardware approach desirably provides
+the fastest execution of the LZ1 algorithm.However, it requires a separate comparator for each distinct buffer
+position (i.e., CAM address) and can only achieve the maximal efficiency
+(speed/hardware performance) when the history buffer is
+</DESCRIPTION>
+<CLAIMS>
+Data compression apparatus comprising:
+
+an array (22) of i identical slice units, each of which stores j
+symbols to define j separate blocks comprising one symbol from each slice
+
+unit, the symbols in each slice unit being separated by exactly i
+symbols;
+i comparators, each associated with a slice unit, to compare each
+symbol in a string of i incoming symbols in parallel with the symbols
+
+previously stored in the slice units to identify matching sequences of
+symbols; and
+means for controlling the comparators to scan symbols against the
+slice units in parallel but in each of said blocks sequentially.
+The apparatus of claim 1, wherein each slice unit provides an
+output signal indicating whether a matching sequence is identified, and
+
+said apparatus further includes a priority encoder (24) for calculating
+from said output signals each j,i address in which a matching sequence is
+
+identified, and means for selecting one of the j,i addresses for which a
+matching sequence is identified.
+The apparatus of claim 2, wherein said output signal identifies the
+last byte so far of a previously stored sequence that matches the most
+
+recent sequence in the string of incoming symbols.
+The apparatus of any preceding claim, further including means for
+inhibiting application of the algorithm to any blocks which do not
+
+contain symbols.
+The apparatus of any preceding claim, including:
+
+a single latch in each of the slice units, said latches being
+serially connected to constitute in combination a shift register; and
+means for resetting said latches and hence said shift register
+before symbols are stored in said array.
+The apparatus of any preceding claim, further including means for
+causing matching sequences and nonmatching sequences of symbols to be
+
+stored in said array.
+The apparatus of claim 6, further including means for writing the
+incoming symbols serially into successive symbol positions in the array
+
+until all array positions are filled; and
+
+then replacing the oldest symbol string in the array with the
+incoming symbol.
+A method of compressing data comprising
+
+partitioning an array (22) into i identical slice units, each of
+which stores j symbols to define j separate blocks comprising one symbol
+
+from each slice unit, the symbols in each slice unit being separated by
+exactly i symbols;
+comparing, using i comparators each associated with a slice unit,
+each symbol in a string of i incoming symbols in parallel with the
+
+symbols previously stored in the slice units to identify matching
+sequences of symbols; and
+controlling the comparators to scan symbols against the slice units
+in parallel but in each of said blocks sequentially.
+The method of claim 8, including the step of:
+
+selecting parameters i and j to limit the number of said
+comparators required to achieve a desired degree of efficiency in
+
+executing the algorithm based upon a trade-off of algorithm execution
+speed versus hardware cost.
+</CLAIMS>
+</TEXT>
+</DOC>

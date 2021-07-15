@@ -1,0 +1,126 @@
+<DOC>
+<DOCNO>EP-0638214</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+METHOD FOR DATA COMPRESSION HAVING AN IMPROVED ENCODING ALGORITHM WHICH UTILIZES A TOKEN STACKING TECHNIQUE.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T900	G06T900	H03M730	H03M730	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	H03M	H03M	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T9	G06T9	H03M7	H03M7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The present invention is a data compression method having an improved encoding algorithm which utilizes a token stacking technique. The essential step of the present invention encoding method is constructing a group of stacked tokens. Each stacked token has multiple fields including a substring length counter field and a backward displacement pointer field, where the former is identical among all stacked tokens for serving as the basis in constructing the group of stacked tokens, and the latter is assigned with a respective range of integers. The ranges assigned to the stacked tokens are stacked sequentially without overlapping. The encoding method further comprises the steps of determining a backward displacement pointer for a compressible substring and encoding the backward displacement pointer into a respective stacked token according to the range assigned, such that the backward displacement pointer falls within the range assigned to the respective stacked token. The present invention encoding method is particularly effective in saving the number of bytes required for encoding compressible substrings which are remotely located from their respective previously processed identical substrings because the larger backward displacement pointer can be encoded in a stacked token assigned with a stacked and shifted range of backward displacement pointers.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+INTERSECTING CONCEPTS INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERSECTING CONCEPTS, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+GRAYBILL MARK D
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GRAYBILL, MARK, D.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+ METHOD FOR DATA COMPRESSION HAVINGAN IMPROVED ENCODING ALGORITHM WHICH UTILIZESA TOKEN STACKING TECHNIQUEBACKGROUND OF THE INVENTIONField of The InventionThe present invention generally relates to the field of lossless data compression techniques in processing digital data signals, wherein the digital data signals are compressed and subsequently reconstituted by transforming a body of data to a typically smaller representation from which the original can be reconstructed at a later time. Further, the present invention relates to the field of lossless data compression, wherein the digital data that is compressed and then subsequently decompressed is always ept identical to the original. More particularly, the present invention relates to the field of encoding algorithms for a data compression method which utilizes tokenizing techniques to achieve high compression speed and high compression ratio.Description of The Prior ArtSeveral methods for performing digital data compression are known in the prior art. Generally, an alphabet is a finite set containing at least one element. 
+
+The elements of an alphabet are called characters. A string over an alphabet is a sequence of characters, each of which is an element of that alphabet. A common approach to compress a string of characters is textual substitution. A textual substitution data compression method is any data compression method that compresses text by identifying repeated substrings and replacing some substrings by references to other copies. Such a reference is commonly known as a pointer and the string to which the pointer refers is called a target.Therefore, in general, the input to a data compression algorithm employing textual substitution is a sequence of characters over some alphabet and the output is a sequence of characters from the alphabet interspersed with pointers.The following prior art patents are representative of known prior art data compression methods:1. United States Patent No. 4,464,650 issued to Eastman et al. on August 7, 1984 for "Apparatus And Method For Compressing Data Signals And Restoring The Compressed Data Signals" (hereafter the "Eastman Patent") .2. United States Patent No. 4,558,302 issued to Welch on December 10, 1985 for "High Speed Data Compression And Decompression Apparatus And Method" 
+
+(hereafter the "Welch Patent").3. United States Patent No. 4,586,027 issued to Tsukiyama et al. on April 29, 1986 for "Method And System For Data Compression And Restoration" (hereafter the "Tsukiyama '027 Patent").4. United
+</DESCRIPTION>
+<CLAIMS>
+ WHAT IS CLAIMED IS:
+1. An encoding method for use with digital data compression operations which compress an input data string into an output data string containing compressed and uncompressed substrings mixed in series, the encoding method comprising the following steps: a. constructing a group of stacked tokens each having a plurality of fields including a backward displacement pointer field and a substring length counter field, where the substring length counter field is identical among all stacked tokens in the group for serving as the basis in constructing the group of stacked tokens; b. assigning a respective range of integers to be encoded in said backward displacement pointer field of each respective one of said stacked tokens, where the ranges assigned to said stacked tokens are stacked sequentially without overlapping; c. determining a respective substring length counter for a respective one of said compressed substrings; d. determining a respective backward displacement pointer for said respective one of said compressed substrings, which backward displacement pointer is a respective integer count of displacement between the respective one of said compressed substrings 
+
+
+and a previously processed identical substring in said mixed series; e. representing said respective one of said compressed substrings with a respective one of said stacked tokens by encoding a plurality of indicators into said plurality of fields respectively, including encoding said respective substring length counter into said substring length counter field of said respective one of said stacked tokens, and encoding said respective backward displacement pointer into said backward displacement pointer field of the respective one of said stacked tokens according to the range assigned, such that said respective backward displacement pointer falls within the range assigned to said respective one of said stacked tokens; and f. repeating steps (c) through (e) until all of said compressed substrings are represented by one of said stacked tokens; g. whereby the compressed substring remotely located from its identical substring previously processed can be adequately represented by one of said stacked tokens without increasing the number of bytes required for encoding the remote compressed substring.
+2. The encoding method in accordance with Claim 1 wherein said stacked tokens are 2-byte tokens each having 16 bits.
+3. The encoding method in accordance with Claim 2 wherein said substring length counter field in each one 
+
+
+of said stacked tokens occupies 4 bits.
+4. The encoding method in accordance with Claim 2 wherein said ranges include a first range from 0 to 31 and a second range from 32 to 95.
+5. The encoding method in accordance with Claim 4 wherein said backward displacement pointer field of said stacked token that has been assigned with said first range occupies 5 bits.
+6. The encoding method in accordance with Claim 4 wherein said backward displacement pointer field of said stacked token that has been assigned with said second range occupies 6 bits.
+7. The encoding method in accordance with Claim 2 wherein said ranges further include a third range from 96 to 223.
+8. The encoding method in accordance with Claim 7 wherein said backward displacement pointer field of said stacked token that has been assigned with said third range occupies 7 bits.
+9. The encoding method in accordance with Claim 1 wherein said group of stacked tokens are 3-byte tokens each having 24 bits.
+10. The encoding method in accordance with Claim 1 
+
+
+wherein said plurality of fields of each one of said stacked tokens further includes a substring type identifier field for encoding a substring type identifier.
+11. An encoding method for use with digital data compression operations which compress an input data string into an output data string containing compressed and uncompressed substrings mixed in series, the encoding method comprising the following steps: a. constructing a group of stacked tokens including a first 2-byte stacked token and a second 2-byte stacked token each having a plurality of fields including a substring type identifier field, a backward displacement pointer field and a substring length counter field, where the substring length counter field occupies 4 bits and is identical among all stacked tokens in the group for serving as the basis in constructing the group of 2-byte stacked tokens; b. assigning a respective range of integers to be encoded in said backward displacement pointer field of each respective one of said stacked tokens, where the ranges assigned to said stacked tokens are stacked sequentially without overlapping, particularly the range assigned to said first stacked token is 0 to 31 and the range assigned to said second stacked token is 32 to 95; c. determining a respective substring type identifier for a respective one of said compressed substrings; d. determining a respective substring length 
+
+
+
+counter for said respective one of said compressed substrings; e. determining a respective backward displacement pointer for said respective one of said compressed substrings, which backward displacement pointer is a respective integer count of displacement between the respective one of said compressed substrings and a previously processed identical substring in said mixed series; f. representing said respective one of said compressed substrings with a respective one of said stacked tokens by encoding a plurality of indicators into said plurality of fields respectively, including encoding said respective substring type identifier into said substring type identifier field of said respective one of said stacked tokens, and encoding said respective substring length counter into said substring length counter field of said respective one of said stacked tokens; g. further encoding said respective backward displacement pointer into said backward displacement pointer field of the respective one of said stacked tokens according to the range assigned, such that said respective backward displacement pointer falls within the range assigned to said respective one of said stacked tokens, particularly representing said respective one of said compressed substrings with said first 2-byte stacked token when said respective backward displacement pointer of said respective one of said compressed substrings is within the range of 0 to 31 and representing said 
+
+
+compressed substrings with said second 2-byte stacked token when said respective backward displacement pointer of said respective one of said compressed substrings is within the range of 32 to 95; and h. repeating steps (c) through (h) until all of said compressed substrings are represented by one of said stacked tokens; i. whereby the compressed substring remotely located from its identical substring previously processed can be adequately represented by one of said stacked tokens without increasing the number of bytes required for encoding the remote compressed substring.
+12. The encoding method in accordance with Claim 11 wherein said backward displacement pointer field of said first 2-byte stacked token occupies 5 bits.
+13. The encoding method in accordance with Claim 11 wherein said backward displacement pointer field of said second 2-byte stacked token occupies 6 bits.
+14. The encoding method in accordance with Claim 11 wherein said group of stacked tokens further includes a third 2-byte stacked token.
+15. The encoding method in accordance with Claim 14 wherein particularly the range assigned to said third 2-byte stacked token is 96 to 223.
+16. The encoding method in accordance with Claim 15 
+
+
+wherein said backward displacement pointer field of said third stacked token occupies 7 bits.
+17. The encoding method in accordance with Claim 11 wherein said group of stacked tokens further includes a fourth 2-byte stacked token.
+18. The encoding method in accordance with Claim 17 wherein particularly the range assigned to said fourth 2-byte stacked token is 224 to 479.
+19. The encoding method in accordance with Claim 18 wherein said backward displacement pointer field of said fourth stacked token occupies 8 bits.
+20. The encoding method in accordance with Claim 11 wherein said plurality of fields of each one of said stacked tokens further includes a field for encoding an additional indicator carrying additional encoding information.
+21. A data compression method for compressing an input data string containing a series of compressible substrings, the data compression method comprising the following steps: a. constructing a group of stacked tokens each having a plurality of fields including a backward displacement pointer field and a substring length counter field, where the substring length counter field is identical among all stacked tokens in the group for 
+
+
+serving as the basis in constructing the group of stacked tokens; b. assigning a respective range of integers to be encoded in said backward displacement pointer field of each respective one of said stacked tokens, where the ranges assigned to said stacked tokens are stacked sequentially without overlapping; c. identifying a compressible substring of said input data string when there is a previously processed identical substring; d. determining a backward displacement pointer for said compressible substring, which backward displacement pointer is an integer count of displacement between said compressible substring and said previously processed identical substring; e. representing said compressible substring with a respective one of said stacked tokens by encoding said backward displacement pointer into said backward displacement pointer field of the respective one of said stacked tokens according to the range assigned, such that said backward displacement pointer falls within the range assigned to the respective one of said stacked tokens; and f. repeating steps (c) through (e) until all of the compressible substrings are represented by one of said stacked tokens; g. whereby when said compressible substring is remote from said identical substring previously processed, it can be adequately represented by said respective one of said stacked tokens without increasing 
+
+
+the number of bytes required for encoding said compressible substring.
+22. The encoding method in accordance with Claim 21 wherein said stacked tokens are 2-byte tokens each having
+16 bits.
+23. The encoding method in accordance with Claim 21 wherein said group of stacked tokens are 3-byte tokens each having 24 bits.
+24. The encoding method in accordance with Claim 21 further comprising the step of determining a substring length counter for said compressible substring.
+25. The encoding method in accordance with Claim 24 wherein the step of representing said compressible substring with a respective one of said stacked tokens further includes encoding said substring length counter into said substring length counter field of said respective one of said stacked tokens.
+26. A method of encoding a compressible substring for digital data compression operations, the encoding method comprising the steps of: a. constructing a group of stacked tokens each having a plurality of fields including a backward displacement pointer field and a substring length counter field, where the substring length counter field is identical among all stacked tokens in the group for 
+
+
+serving as the basis in constructing the group of stacked tokens; b. assigning a respective range of integers to be encoded in said backward displacement pointer field of each respective one of said stacked tokens, where the ranges assigned to said stacked tokens are stacked sequentially without overlapping; c. determining a backward displacement pointer for said compressible substring, which backward displacement pointer is an integer count of displacement between said compressible substring and a previously processed identical substring; and d. encoding said backward displacement pointer into said backward displacement pointer field of a respective one of said stacked tokens according to the range assigned, such that said backward displacement pointer falls within the range assigned to the respective one of said stacked tokens; e. whereby when said compressible substring is remotely located from said previously processed identical substring, said compressible substring can be adequately represented by said respective one of said stacked tokens without increasing the number of bytes required for encoding said compressible substring.
+27. The encoding method in accordance with Claim 26 wherein said stacked tokens are 2-byte tokens each having 16 bits.
+28. The encoding method in accordance with Claim 26 
+
+
+wherein said group of stacked tokens are 3-byte tokens each having 24 bits.
+29. The encoding method in accordance with Claim 26 further comprising the step of determining a substring length counter for said compressible substring.
+30. The encoding method in accordance with Claim 29 wherein the step of representing said compressible substring with a respective one of said stacked tokens further includes encoding said substring length counter into said substring length counter field of said respective one of said stacked tokens.
+31. A method of encoding a compressible substring for digital data compression operations, the encoding method comprising the following steps: a. constructing a group of stacked tokens each having a plurality of fields for encoding a plurality of indicators carrying information of said compressible substring, where at least one of the plurality of fields is identical among all of the stacked tokens in the group for serving as the basis in constructing the group of stacked tokens; b. assigning a respective range of integers to be encoded in another one of said plurality of fields other than said at least one identical field for each respective one of said stacked tokens, where the ranges assigned to said stacked tokens are stacked sequentially without overlapping; 
+
+
+ c. determining at least one of said plurality of indicators for said compressible substring, which carries encoding information of said compressible substring; and d. encoding said at least one of said plurality of indicators into said another one of said plurality of fields of a respective one of said stacked tokens, where said at least one of said plurality of indicators falls within the range assigned to the respective one of said stacked tokens; e. whereby said compressible substring can be adequately represented by said respective one of said stacked tokens without increasing the number of bytes required for encoding said compressible substring.
+32. The encoding method in accordance with Claim 31 wherein said stacked tokens are 2-byte tokens each having 16 bits.
+33. The encoding method in accordance with Claim 32 wherein said ranges include a first range from 0 to 31 and a second range from 32 to 95.
+34. The encoding method in accordance with Claim 33 wherein said at least one of said plurality of fields that has been assigned with said first range occupies 5 bits.
+35. The encoding method in accordance with Claim 33 wherein said at least one of said plurality of fields 
+
+
+that has been assigned with said second range, occupies 6 bits.
+36. The encoding method in accordance with Claim 31 wherein said group of stacked tokens are 3-byte tokens each having 24 bits.
+37. The encoding method in accordance with Claim 31 wherein said at least one of said plurality of fields is a substring length counter field.
+38. The encoding method in accordance with Claim 37 wherein said another one of said plurality of fields is a backward displacement pointer field.
+39. The encoding method in accordance with Claim 31 wherein said at least one of said plurality of fields is a backward displacement pointer field.
+40. The encoding method in accordance with Claim 39 wherein said another one of said plurality of fields is a substring length counter field.
+41. An encoding method for data compression operations comprising the following steps: a. building a group of tokens each having at least two variables, where one of the at least two variables is fixed among all of the tokens in the group for serving as the basis in building the group of tokens; and 
+
+
+ b. assigning a respective encoding range to the other one of said at least two variables in each respective one of said tokens, where the encoding ranges assigned to said tokens are stacked sequentially without overlapping; c. whereby a compressible substring can be adequately represented by a respective one of said tokens without increasing the number of bytes required for encoding the compressible substring. 42. The encoding method in accordance with Claim 41 wherein one of said at least two variables is a substring length counter.
+43. The encoding method in accordance with Claim 42 wherein the other one of said at least two variables is a backward displacement pointer.
+44. The encoding method in accordance with Claim 42 wherein the other one of said at least two variables is an offset pointer.
+45. The encoding method in accordance with Claim 42 wherein the other one of said at least two variables is a dictionary entry pointer. 
+
+</CLAIMS>
+</TEXT>
+</DOC>

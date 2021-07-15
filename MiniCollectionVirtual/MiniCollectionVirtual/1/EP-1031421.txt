@@ -1,0 +1,274 @@
+<DOC>
+<DOCNO>EP-1031421</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+PRINTING DATA TRANSFER METHOD AND PRINTER
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06K1510	B41J2045	B41J201	B41J2045	B41J201	G06K1502	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06K	B41J	B41J	B41J	B41J	G06K	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06K15	B41J2	B41J2	B41J2	B41J2	G06K15	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The number of signal lines of a cable between a controller and a carriage is small, and the printing timing of each head is adjustable in
+units each smaller than one pixel. The signal lines include a signal line for serial printing data including printing data arranged in a
+
+predetermined order for printing heads, a signal line for a clock corresponding to each bit of the data, a signal line for a signal HDSL [1..0]
+representing that the printing data included in the serial printing data corresponds to which printing head, and signal lines for the signals for
+
+driving the heads. Before transferring data, one slice section corresponding to the time slot for transferring the unit printing data for each
+head is divided into sections, and further the sections are divided into subsections the number of which is equal to the number of print heads.
+
+The transfer of printing data is started from arbitrary subsection independently for each head.
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+COPYER CO
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+COPYER CO., LTD.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+FUKUDA MICHITAKA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SUGIYAMA YUICHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FUKUDA, MICHITAKA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SUGIYAMA, YUICHI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a printing apparatus such
+as a printer or a plotter, and more particularly to the
+optimization of a method for transferring data to a print head
+having a shift register installed therein.Normally, a printing apparatus, such as an ink jet printer
+or plotter, repeats printing and paper sheet feeding to complete
+an image while moving the print head across the paper sheet.To send print data to the print head carried on the
+carriage, the data is sent from a central processor (engine
+controller), which controls the printing apparatus, to the print
+head via a cable.With the introduction of a full-color, high-speed printing
+apparatus, more heads are installed in the apparatus, usually
+four and, in some cases, six. This requires more signal lines
+between the central processor and the carriage, increasing both
+the apparatus size and the cost.In addition, because of the use of a flexible flat cable,
+more signal lines not only increase the cost but make the
+radiation noise problem more serious. Therefore, there is a
+need for minimizing the number of signal lines.FIGS. 17 and 18 show examples of a conventional method for 
+connection between the engine controller and the carriage. In
+the conventional method shown in FIG. 17, the largest number of
+signal lines is used because all data for each head are
+transferred independently to each print head.On the other hand, in a conventional method shown in FIG.
+18, head data (HDDATA) and drive signals (HDDRIVE) are sent
+independently to each head while a data transfer clock (HDCLK)
+and a latch clock (HDLTCLK) are shared by the heads. This
+configuration uses less signal lines than the configuration
+shown in FIG. 17. However, as shown in the timing chart in FIG.
+19, 128 bits of data are continuously sent to one head and 128
+bits of data are latched at the same time in the configuration
+shown in FIG. 18. In this configuration, data is transferred to
+each head, one slice at a time and, therefore, fine print timing
+adjustment cannot be made. (In this specification, a "slice"
+represents a group of pixels of the number of one-horizontal-pixel
+by vertical print nozzles (128 pixels in this case), as
+one unit. A slice corresponds to a time slot required to
+transfer a unit of print data corresponding to a plurality of
+print nozzles on a plurality of heads). Thus, when printing
+data in color, color mixture adjustment is made by one dot.
+Because human eye can normally identify a color difference of up
+to 1/4 pixel, it is known that adjustment of 1/4 pixel
+</DESCRIPTION>
+<CLAIMS>
+A method for transferring print data from a controller
+to a carriage via a cable in a printing apparatus which performs
+
+printing while moving the carriage bi-directionally over a sheet
+of paper, said carriage carrying thereon a plurality of print
+
+heads each having a plurality of dot printing elements;
+
+   wherein said cable comprises at least a signal line via
+which serial print data to be supplied to said plurality of
+
+print heads is transferred in a predetermined order, a signal
+line via which a clock signal corresponding to individual bits
+
+of the serial print data is transferred, and signal lines via
+which a signal indicating which print head corresponds to which
+
+print data included in the serial print data is transferred,
+
+   said method comprising the steps of:
+
+dividing one slice section into a plurality of sections,
+said slice section corresponding to a time slot required to
+
+transfer a unit of print data corresponding to the plurality of
+dot printing elements of the plurality of heads and further
+
+dividing each divided section into a number of subsections, said
+number being equal to the number of said print heads;
+assigning the different subsections of each divided section
+to said plurality of print heads;
+dividing the unit of print data for each print head into
+the number of the plurality of divided sections; and
+starting a transfer of the print data of each print head
+independently of the print data of other print heads, beginning
+
+with any one of the plurality of subsections assigned to that 
+particular print head in one slice section.
+The method for transferring print data according to
+claim 1, wherein four print heads are used as said plurality of
+
+print heads, said one slice section is divided at least into
+four divided sections, and each divided section is further
+
+divided into four subsections.
+The method for transferring print data according to
+claim 1, wherein drive signals of respective heads are generated
+
+in said controller and said cable further comprises the drive
+signals for the respective heads.
+The method for transferring print data according to
+claim 1, wherein drive signals of respective heads are generated
+
+in said carriage and said cable further comprises a signal line for
+transferring serial data for controlling a pulse width of the
+
+drive signal of each head.
+A printing apparatus which performs printing while
+moving a carriage bi-directionally over a sheet of paper, said
+
+carriage carrying thereon a plurality of print heads each having
+a plurality of dot printing elements, said printing apparatus
+
+comprising:
+
+a controller for generating serial print data including
+print data for said plurality of print heads in a predetermined
+
+order, a clock signal corresponding to individual bits of the 
+serial print data, a signal indicating which print head
+
+corresponds to which print data included in the serial print
+data, and a drive signal of each head;
+a cable for transferring the serial print data and various
+signals generated by said controller to said carriage; and
+a signal distributing means for distributing the print data
+and the various signals received from said cable to said
+
+plurality of print heads, said signal distributing means being
+provided in said carriage;
+
+   wherein said controller divides one slice section into a
+plurality of sections, said slice corresponding to a time slot
+
+required to transfer a unit of print data corresponding to the
+plurality of dot printing elements of the plurality of heads;
+
+further divides each divided section into a number of
+subsections, said number being equal to the number of said print
+
+heads; assigns the different subsections of each divided section
+to said plurality of print heads; divides the unit of print data
+
+for each print head into the number of the plurality of divided
+sections; and starts a transfer of the print data of each print
+
+head independently of the print data of other print heads,
+beginning with a specified subsection of the plurality of
+
+subsections assigned to that particular print head in one
+slice section.
+The printing apparatus according to claim 5, wherein
+four print heads are used as said plurality of print heads, said
+
+one slice section is divided at least into four divided 
+sections, and each divided section is further divided into four
+
+subsections.
+The printing apparatus according to claim 5, wherein
+each print head has a plurality of dot print means arranged in a
+
+direction substantially perpendicular to a carriage moving
+direction and wherein the print data for said plurality of dot
+
+print means of one print head is transferred using said
+plurality of subsections assigned to that particular print head.
+A printing apparatus which performs printing while
+moving a carriage bi-directionally over a sheet of paper, said
+
+carriage carrying thereon a plurality of print heads each having
+a plurality of dot printing elements, said printing apparatus
+
+comprising:
+
+a controller for generating serial print data including
+print data for said plurality of print heads in a predetermined
+
+order, a clock signal corresponding to individual bits of the
+serial print data, and a signal indicating which print head
+
+corresponds to which print data included in the serial print
+data;
+a cable for transferring the serial print data and various
+signals generated by said controller to said carriage;
+a signal distributing means for distributing the print data
+and the various signals received from said cable to said
+
+plurality of print heads, said signal distributing means being
+provided in said carriage; and 
+a drive signal generating means for generating the drive
+signal of each head, said drive signal generating means being
+
+provided in said carriage;
+
+   wherein said controller divides one slice section into a
+plurality of sections, said slice corresponding to a time slot
+
+required to transfer a unit of print data corresponding to the
+plurality of dot printing elements of the plurality of heads;
+
+further divides each divided section into a number of
+subsections, said number being equal to the number of said print
+
+heads; assigns the different subsections of each divided section
+to said plurality of print heads; divides the unit of print data
+
+for each print head into the number of the plurality of divided
+sections; and starts a transfer of the print data of each print
+
+head independently of the print data of other print heads,
+beginning with a specified subsection of the plurality of
+
+subsections assigned to that particular print head in one
+slice section.
+The printing apparatus according to claim 8, wherein
+four print heads are used as said plurality of print heads, said
+
+one slice section is divided at least into four divided
+
+sections, and each divided section is further divided into four
+subsections.
+The printing apparatus according to claim 8 wherein
+each print head has a plurality of dot print means arranged in a
+
+direction substantially perpendicular to a carriage moving 
+direction and wherein the print data for said plurality of dot
+
+print means of one print head is transferred using said
+plurality of subsections assigned to that particular print head.
+The printing apparatus according to claim 8, wherein
+said drive signal generating means comprises means for adjusting
+
+a pulse width of the drive signal of each head and wherein said
+cable further comprises a serial data transfer signal line for
+
+controlling the pulse width of the drive signal of each head.
+</CLAIMS>
+</TEXT>
+</DOC>

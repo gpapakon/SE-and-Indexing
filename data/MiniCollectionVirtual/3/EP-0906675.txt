@@ -1,0 +1,176 @@
+<DOC>
+<DOCNO>EP-0906675</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+METHOD AND APPARATUS OF PROVIDING BIT COUNT INTEGRITY AND SYNCHRONOUS DATA TRANSFER OVER A CHANNEL WHICH DOES NOT PRESERVE SYNCHRONIZATION
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04L912	H04L912	H04Q732	H04Q738	H04Q732	H04J306	H04Q738	H04L918	H04B726	H04J306	H04L918	H04L700	H04L700	H04B726	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04L	H04L	H04Q	H04Q	H04Q	H04J	H04Q	H04L	H04B	H04J	H04L	H04L	H04L	H04B	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04L9	H04L9	H04Q7	H04Q7	H04Q7	H04J3	H04Q7	H04L9	H04B7	H04J3	H04L9	H04L7	H04L7	H04B7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Synchronization and bit count integrity of a synchronous data stream is preserved end to end even as it is transmitted via a medium which does not preserve the synchronous nature of the synchronous data stream. A terminal equipment unit (100) produces a constant rate bit stream which is provided to a communications unit (110). The communications unit (110) produces a first data frame comprising a first set of bits from the constant rate bit stream and a first length field value. A second data frame is produced which comprises a second set of bits from the constant rate bit stream and a second length field. A third data frame is produced which comprises a third set of bits from the constant rate bit stream and a third length field value. The first, second, and third data frames are transmitted to a base unit (118) which places the first set of bits from the first frame into a queue (150). A set of fill bits equal to the maximum number of bits contained in any frame is then placed into the queue (150). The base unit (118) then determines the number of bits in the second set of bits of the third data frame, based on the first length field value and the third length field value. The base unit (118) overwrites excess fill bits in the queue (150) with the third set of bits. The number of excess fill bits is equal to the difference between the maximum possible number of bits which may be contained in any frame and the number of bits in the second set of bits.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+QUALCOMM INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+QUALCOMM INCORPORATED
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+GROB MATTHEW S
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KUDRIMOTI ABHIJIT
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TIEDEMANN EDWARD G JR
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GROB, MATTHEW, S.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KUDRIMOTI, ABHIJIT
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TIEDEMANN, EDWARD, G., JR.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates generally to data transfer communication
+systems and, more particularly, to the transfer of a synchronous data stream
+via a medium which does not preserve the synchronous nature of the data
+stream.In a wireless telephone communication system, many users
+communicate over a wireless channel to connect to other wireless and
+wireline telephone systems. Communication over the wireless channel can
+be one of a variety of multiple access techniques. These multiple access
+techniques include time division multiple across (TDMA), frequency division
+multiple access (FDMA), and code division multiple access (CDMA). The
+CDMA technique has many advantages. An exemplary CDMA system is
+described in U.S. Patent No. 4,901,307 issued February 13, 1990 to K. Gilhousen
+et al., entitled "SPREAD SPECTRUM MULTIPLE ACCESS
+COMMUNICATION SYSTEM USING SATELLITE OR TERRESTRIAL
+REPEATERS," assigned to the assignee of the present invention.In the just mentioned patent, a multiple access technique is disclosed
+where a large number of mobile telephone system users, each having a
+transceiver, communicate through satellite repeaters or terrestrial base
+stations using CDMA spread spectrum communication signals. In using
+CDMA communications, the frequency spectrum can be reused multiple
+times permitting an increase in system user capacity.In the CDMA cellular system, each base station provides coverage to a
+limited geographic area and links the remote units in its coverage area
+through a cellular system switch to the public switched telephone network
+(PSTN). When a remote unit moves to the coverage area of a new base
+station, the routing of that user's call is transferred to the new base station.
+The base station-to-remote unit signal transmission path is referred to as the 
+forward link and the remote unit-to-base station signal transmission path is
+referred to as the reverse link.In a typical wireless telephone communication system, the remote unit
+transmitter may employ a vocoding system which encodes voice information
+in a variable rate format. For example, the data rate may be lowered due to
+pauses in the voice activity. The lower data rate reduces the level of
+interference to other users caused by the remote unit transmissions. At the
+receiver, or otherwise associated with the receiver, a vocoding system is
+employed for reconstructing the voice information. In addition to voice
+information, non-voice information alone or a mixture of the two may be
+transmitted by the remote unit.When a remote unit is producing
+</DESCRIPTION>
+<CLAIMS>
+A method for preserving synchronization and bit count integrity for a synchronous data
+stream which is transmitted via a medium (120, 122) which does not preserve the synchronous nature
+
+of said synchronous data stream, comprising the steps of
+
+receiving data frames, each of said data frames comprising data bits and a length
+field, and replacing any of said data frames with an erasure frame if excess errors occur in
+
+a respective one of said data frames, said erasure frame comprising fill bits;
+placing said data bits and said fill bits sequentially in a queue (150); and
+replacing said fill bits with data bits from a successive data frame in accordance
+
+with the bit count and the value of the length field of
+said successive frame, and with the value of the length field of the frame preceding the erasure frame.
+The method of claim 1, wherein said length field represents a data rate in a first data
+frame relative to a previous data frame.
+The method of claim 2 wherein said length field is a moduto value in proportion to the
+data rate of a corresponding data frame.
+The method of claim 1 wherein the step of placing said data bits and said fill bits
+sequentially in a queue (150) comprises the steps of:
+
+
+determining if a current frame is a data frame or an erasure frame;
+placing data bits corresponding to said current frame sequentially into said queue (150) if
+said current frame is a data frame; and
+placing a number of fill bits equal to the maximum number of bits in a data frame
+sequentially into said queue if said current frame is an erasure frame.
+The method of claim 1 wherein the step of replacing said fill bits with data bits
+comprises the steps of:
+
+
+identifying a first received erasure frame, a first data frame received immediately
+prior to said first received erasure frame, and a second data frame received immediately
+
+after said first received erasure frame;
+determining the actual number of data bits transmitted corresponding to said first
+received erasure frame; and
+replacing a number of fill bits in said queue (150) with data bits corresponding to said
+second data frame, said number of replaced fill bits equal to the difference between the
+
+maximum number of bits in a data frame and said actual number of data bits transmitted
+corresponding to said first received erasure frame.
+The method of claim 5 wherein the step of determining the actual number of data bits
+transmitted corresponding to said first received erasure frame comprises the steps of:
+
+
+adding said length field corresponding to said first data frame to a predetermined
+amount corresponding to a frame rate of said second data frame to produce a first value; 
+subtracting said first value from said length field corresponding to said second data
+frame to produce a second value, wherein said second value corresponds to a data rate of
+
+said data frame corresponding to said first received erasure frame;
+adding a pre-determined modulo number to said second value if said second value
+is a negative number to produce a third value, wherein said third value corresponds to a
+
+data rate of said data frame corresponding to said first received erasure frame; and
+calculating the actual number of data bits transmitted in said first received erasure
+frame using said data rate.
+An apparatus for providing synchronization and bit count integrity with minimum delay
+to a variable rate, frame based, non-error free data stream comprising:
+
+
+means for receiving a first frame of data, said first frame of data comprising a first
+number of bits and a first field length value;
+means for placing said first frame of data in a queue (150) and moving a write pointer (160) to
+indicate a queue position for a next received bit;
+means for receiving an erasure indication in place of a second frame of data;
+means for placing a first number of filler bits in said queue (150) according to said write
+pointer (160) and moving said write pointer (160) to indicate a next bit after a last one of said first
+
+number of filler bits in said queue;
+means for receiving a third frame of data, said third frame of data comprising a
+third number of bits and a third field length value;
+means for calculating a second number of bits in said second frame of data based
+on said third number of bits, said first field length value and said third field length value;
+
+and
+means for moving, if necessary, said write pointer (160) to indicate a next bit after one of
+said first number of filler bits in said queue (150) such that an actual number of filler bits equal to
+
+said second number of bits has been added to said queue (150).
+The apparatus of claim 7 wherein said first number of filler bits is equal to a maximum
+number of bits which may be received in any frame.
+The apparatus of claim 7 wherein said first number of filler bits is equal to an average
+number of bits per frame on said variable rate, frame based, non-error free data stream.
+The apparatus of claim 9 further comprising means for placing a second number of
+filler bits in said queue (150) and moving said write pointer (160) to indicate a next bit after a last one
+
+of said second number of filler bits such that a total number of filler bits equal to said
+second number of bits has been added to said queue (150).
+The apparatus of claim 7 wherein said queue (150) begins to produce a constant rate bit
+stream upon reception of an initial frame.
+The apparatus of claim 7 wherein said third field length value is equal to a modulo
+sum of said first field length value, said second number of bits and said third number of
+
+bits.
+</CLAIMS>
+</TEXT>
+</DOC>

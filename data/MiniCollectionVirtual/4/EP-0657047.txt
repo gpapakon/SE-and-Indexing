@@ -1,0 +1,410 @@
+<DOC>
+<DOCNO>EP-0657047</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+METHOD AND SYSTEM FOR IMPLEMENTING REMOTE PROCEDURE CALLS IN A DISTRIBUTED COMPUTER SYSTEM
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1500	G06F946	H04L2906	G06F944	G06F1300	H04L2906	G06F944	G06F1500	G06F946	G06F1300	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	H04L	G06F	G06F	H04L	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F15	G06F9	H04L29	G06F9	G06F13	H04L29	G06F9	G06F15	G06F9	G06F13	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A system and a method for implementing remote procedure calls in a distributed computer system (Figure 2) provide a base object class (Figures 1(1) and 1(2)) from which all distributed objects can be derived. A program extracting all classes derived from the base class provides an inheritance tree (Figure 3(a)) to allow down casting from a root class to a base class and to allow passing high level data structure between participants of a remote procedure call. An Unix script provides stub routines (Figures 7a and 7b) for implementing client-server model communicating processes.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+TANDEM COMPUTERS INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+TANDEM COMPUTERS INCORPORATED
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+DAVIDSON THOMAS J
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KELLEY MICHAEL T
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DAVIDSON, THOMAS, J.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KELLEY, MICHAEL T.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to distributed computer
+systems, and in particular, relates to the use of remote
+procedure call mechanisms in distributed computer systems.In a distributed computer system, efficiency can be
+enhanced by sharing of resources (e.g. a file system)
+among numerous computers in the system. In addition,
+multiple computers can be used cooperatively in such a
+system to perform a common task. A number of
+communication paradigms have been developed to structure a
+network of computers to allow these computers to work
+cooperatively or to share resources. Among these
+paradigms is the "client-server" model. In the client-server
+model, one or more computers (the "servers") are
+assigned to provide services which other computers (the
+"clients") in the distributed computer system may request,
+either by passing messages to the servers or by invoking
+remote procedure calls. In the client-server paradigm,
+the client initiates a service request, and the server
+responds to such service request.A remote procedure call is a mechanism by which a
+program executing in a process space of one computer
+causes a procedure to be executed in a process space of
+another computer ("remote computer"). One implementation
+of the client-server paradigm has a client process invoke
+a remote procedure call to activate the requested service
+in a server process. A convenient implementation of the
+server process is a daemon process. A daemon process is a
+computer process which receives messages from other 
+processes, and which, once started, is resident in the
+computer until a "kill" message is received from another
+process, a timer times out, or when the all expected
+messages are received. Such a daemon process is often
+used to manage a shared resource. For example, a daemon
+process for a print queue receives messages from processes
+which require the use of one or more printers associated
+with the print queue. To effectuate a print operation, a
+requesting process sends a print request to the daemon
+process which, if appropriate, would set up and schedule
+the necessary print processes to satisfy the print
+request. The daemon process provides efficiency, since
+tasks requiring printer-specific information are assigned
+to the daemon process and off-loaded from the requesting
+processes. A daemon process is said to be "sleeping"
+while waiting for a message from a requesting process, and
+is said to be "awaken" when performing its assigned task.Modern software are designed to exploit the
+advantages of modularization and data
+</DESCRIPTION>
+<CLAIMS>
+A structure for sharing data objects in application
+programs (208, 205) of a distributed computer system, said
+
+distributed computer system comprising first (207, 203,
+251) and second (206, 204, 250) computers, said structure
+
+comprising:
+
+a first application level interface (201), in said
+first computer (207, 203, 251), to a first remote procedure
+
+call mechanism (203);
+a second application level interface (202), in said
+second computer (206, 204, 250), to a second remote
+
+procedure call mechanism (204);
+means (250, 251), in said first (207, 203, 251) and
+second (206, 204, 250) computers, for coupling said first
+
+(203) and said second (204) remote procedure call
+mechanisms, for transporting data between said first (207,
+
+203, 251) and second (206, 204, 250) computers;
+first means, coupled to said first application level
+interface (201), for providing a data structure
+
+representing a base class (SharedThang) of shared objects,
+each shared object being accessible by processes (206, 207)
+
+in said first (207, 203, 251) and second (206, 204, 250)
+computers;
+second means, coupled to said second application level
+interface (202), for providing said data structure
+
+representing said base class (SharedThang) of shared
+objects;
+first means, coupled to said first application level
+interface (201), for providing data structures representing
+
+a plurality of classes of shared objects each derived, in
+accordance with a hierarchy of classes, from said base
+
+class (SharedThang), each shared object in each of said
+plurality of classes of shared objects being accessible by
+
+processes (206, 207) in said first (207, 203, 251) and
+second (206, 204, 250) computers; 
+second means, coupled to said second application level
+interface (202), for providing said data structures
+
+representing said plurality of classes of shared objects;
+first means, in said first computer (207, 203, 251),
+for constructing (step 303) an inheritance tree rooted in a
+
+data structure representing said base class (SharedThang),
+said inheritance tree having data structures representing
+
+relationships among said classes of shared objects and said
+base class (SharedThang), in accordance with said hierarchy
+
+of classes;
+second means, in said second computer (206, 204, 250),
+for constructing (step 303) said inheritance tree in said
+
+second computer (206, 204, 250) ;
+first means (201), in said first computer (207, 203,
+
+251), for traversing said inheritance tree to construct a
+data structure representing a relationship between a first
+
+object and a second object in said first computer (207,
+203, 251), said first object being specified in a machine-independent
+
+format by a process (206) in said second
+computer (206, 204, 250) via said first and second remote
+
+procedure call mechanisms (203, 204); and
+second means (202), in said second computer (206, 204,
+250), for traversing said inheritance tree to construct a
+
+data structure representing a relationship between a first
+object and a second object in said second computer (206,
+
+204, 250), said first object being specified in a machine-independent
+format by a process (207) in said first
+
+computer (207, 203, 251) via said first and second remote
+procedure call mechanisms (203, 204).
+A method for sharing data objects in application
+programs (208, 205) of a distributed computer system, said
+
+distributed computer system comprising first (207, 203,
+251) and second (206, 204, 250) computers, said method
+
+comprising the steps of:
+
+providing, in said first computer (207, 203, 251), a
+first application level interface (201) to a first remote 
+
+procedure call mechanism (203) in said first computer (207,
+203, 251);
+providing, in said second computer (206, 204, 250), a
+second application level interface (202) to a second remote
+
+procedure call mechanism (204) in said second computer
+(206, 204, 250);
+coupling said first (203) and second (204) remote
+procedure call mechanisms in said first (207, 203, 251) and
+
+second (206, 204, 250) computers so as to transport data
+between said first (207, 203, 251) and second (206, 204,
+
+250) computers;
+providing a data structure in each of said first (207,
+203, 251) and second (206, 204, 250) computers for
+
+representing a base class (SharedThang) of shared objects
+in said first (207, 203, 251) and second (206, 204, 250)
+
+computers and providing data structures in each of said
+first (207, 203, 251) and second (206, 204, 250) computers
+
+for representing a plurality of classes of shared objects
+each derived in accordance with a hierarchy of classes, from said base class (SharedThang);
+
+each shared object in each of said plurality of classes of shared objects being
+accessible by processes (206, 207) in said first (207, 203, 251) and second (206, 204, 250)
+
+computers and
+constructing, in each of said first (207, 203, 251) and
+second (206, 204, 250) computers, an inheritance tree
+
+rooted in a data structure representing said base class
+(SharedThang), said inheritance tree having data structures
+
+representing, in accordance with a hierarchy, relationships among said plurality of
+classes of shared objects and said base class (SharedThang); and
+traversing, in each of said first (207, 203, 251) and
+second (206, 204, 250) computers, said inheritance tree to
+
+construct a data structure representing a relationship
+between a first object and a second object, whenever said
+
+first object is specified in a machine-independent format
+by a process (206, 207) in one of said first (207, 203,
+
+251) and second (206, 204, 250) computers and provided to
+the other of said first (207, 203, 251) and second (206,
+
+204, 250) computers via said remote procedure call
+mechanisms (203, 204) in said first (207, 203, 251) and
+
+second (206, 204, 250) computers.
+A structure as in Claim 1, wherein each of said shared
+objects comprises a server object (206) in a selected one
+
+of said first (207, 203, 251) and second (206, 204, 250)
+computers, and a client object (207) in the other of said
+
+first (207, 203, 251) and second (206, 204, 250) computers,
+said server (206) and client (207) objects communicating
+
+via said first (201) and second (202) application level
+interfaces.
+A structure as in Claim 3, wherein said client object
+(207) belongs to either (a) the server object's class of
+
+shared objects, or (b) a class of shared objects derived
+from said server object's class of shared objects.
+A structure as in Claim 3, wherein said server object
+(206) is provided with a plurality of methods to be
+
+executed on said selected computer, and said client object
+(207) accesses (step 704) each of said methods via a
+
+remote procedure call over said first (201) and second
+(202) application level interfaces.
+A structure as in Claim 5, further comprising means
+(201, 202) for computing, based on said inheritance tree
+
+and using a pointer to a shared object, a pointer to either
+(a) a parent object containing said shared object, or (b)
+
+an included object of said parent object.
+A structure as in Claim 6, wherein said server object
+(206) maintains a list of shared objects, and wherein said
+
+client object (207) specifies a method in one of said
+shared objects in said list using an index into said list,
+
+said server object (206) then taking said index to obtain a
+pointer to said method using said means (201, 202) for
+
+computing a pointer.
+A structure as in Claim 5, wherein said server object
+(206) returns (step 755) a result of executing any one of 
+
+said methods to said client object (207) via said first
+(201) and second (202) application level interfaces, and
+
+said client object (207) waits (step 705) in a sleep mode
+until said result is received.
+A structure as in Claim 5, wherein said server object
+(206) returns (step 756) any error message generated during
+
+execution of any one of said methods to said client object
+(207) via said first (201) and second (202) application
+
+level interfaces.
+A structure as in Claim 3, wherein said client object
+(207) creates (step 601) a server communication object
+
+(client side RPC client) and a message notifying said
+server object (206) of creation of said server
+
+communication object (client side RPC client), and wherein,
+in response to said message, said server object (206)
+
+creates (step 606) a client communication object (server
+side RPC client) for sending messages to said client object
+
+(207).
+A structure as in Claim 4, wherein said server object
+(206) sends said client object (207) a server manifest
+
+listing the server object's class and classes from which
+said server object's class is derived, and wherein said
+
+client object (207) sends (step 604) said server object
+(206) a client manifest listing the client object's class
+
+and classes from which said client object's class is
+derived.
+A method as in Claim 2, further comprising the step of
+implementing each of said shared objects as a server object
+
+(206) in a selected one of said first (207, 203, 251) and
+second (206, 204, 250) computers, and a client object (207)
+
+in the other of said first (207, 203, 251) and second (206,
+204, 250) computers, said server (206) and client (207) 
+
+objects communicating via said first (201) and second (202)
+application level interfaces.
+A method as in Claim 12, further comprising the step
+of providing said client object (207) in either (a) the
+
+server object's class of shared objects, or (b) a class of
+shared objects derived from said server object's class of
+
+shared objects.
+A method as in Claim 13, further comprising the steps
+of:
+
+
+providing said server object (206) with a plurality of
+methods to be executed on said selected computer; and
+accessing (step 704), from said client object (207),
+each of said methods via a remote procedure call over said
+
+first (201) and second (202) application level interfaces.
+A method as in Claim 14, further comprising the step
+of computing, in each of said first (207, 203, 251) and
+
+second (206, 204, 250) computers, based on said inheritance
+tree and using a pointer to a shared object, a pointer to
+
+either (a) a parent object containing said shared object,
+or (b) an included object of said parent object.
+A method as in Claim 15, further comprising the steps
+of:
+
+
+maintaining in said server object (206) a list of
+shared objects;
+specifying an index into said list, when accessing any
+method in one of said shared objects in said list; and
+
+taking said index to obtain a pointer to said method using
+said step for computing a pointer.
+A method as in Claim 14, further comprising the steps
+of:
+
+
+returning (step 756) from said server object (206) a
+result of executing any one of said methods to said client 
+
+object (207) via said first (201) and second (202)
+application level interfaces, and
+waiting (step 705) in a sleep mode of said client
+object (207) until said result is received.
+A method as in Claim 14, further comprising the step
+(756) of returning any error message generated during
+
+execution of any one of said methods to said client object
+(207) via said first (201) and second (202) application
+
+level interfaces.
+A method as in Claim 12, further comprising the steps
+of:
+
+
+creating (step 601) in said client object (207) a
+server communication object (client side RPC client) and a
+
+message notifying said server object (206) of creation of
+said server communication object (client side RPC client);
+
+and
+creating (step 606) in said server object (206), in
+response to said message, a client communication object
+
+(server side RPC client) for sending messages to said
+client object (207).
+A method as in Claim 13, further comprising the steps
+of:
+
+
+sending said client object (207) a server manifest
+listing the server object's class and classes from which
+
+said server object's class is derived; and
+sending said server object (206) a client manifest
+listing the client object's class and classes from which
+
+said client object's class is derived.
+</CLAIMS>
+</TEXT>
+</DOC>

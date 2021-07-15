@@ -1,0 +1,270 @@
+<DOC>
+<DOCNO>EP-0640923</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+System and method to notify an empty status from peer cache units to global storage control unit in a multiprocessor data processing system.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1208	G06F1208	G06F1516	G06F1516	G06F15177	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F12	G06F12	G06F15	G06F15	G06F15	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Disclosed is a multiprocessor in which processing units 
+have local private caches and records are stored on at least 
+
+a first global storage control unit. An interconnection 
+system provides node to node data and synchronization 
+
+communications between processing units and the first global 
+storage control unit. The global storage control unit 
+
+includes a coherency controller for tracking each instance of 
+records owned by the global storage control unit currently 
+
+resident on the processing units. Each processing unit 
+executes a cache management process for freeing intervals of 
+
+the local cache for the processing unit. Upon identification 
+of an interval, the processing unit sends empty notification 
+
+to the global storage control unit owning the record an 
+instance of which was resident in the interval. Thereafter 
+
+the interval is marked as invalid in a cache directory for 
+the processing unit and indicia for the instance is deleted 
+
+from a coherency directory for the global storage control 
+unit. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BALDUS DONALD FRANCIS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HOOVER RUSSEL DEAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LIU LISHING
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WILLIS JOHN CHRISTOPHER
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ZIEGLER FREDERICK JACOB
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BALDUS, DONALD FRANCIS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HOOVER, RUSSEL DEAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LIU, LISHING
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WILLIS, JOHN CHRISTOPHER
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ZIEGLER, FREDERICK JACOB
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to multiprocessor data processing 
+systems having local cache storage for a plurality of 
+processors and a global storage control unit utilizing a 
+global storage based directory for tracking intervals of 
+storage drawn from a pool of storage shared by a plurality of 
+processors. Multiprocessors are provided by the coordinated 
+interconnection of computers for the solution of a problem. 
+Of particular interest are multiple-instruction stream, 
+multiple-data stream (MIMD) architectures, which link 
+independent processing units through exchange of data and 
+synchronization of processing operations. The problems to 
+which MIMD architectures are beneficially applied include 
+those where the interaction of operations are not easily 
+predicted a priori. In computers having an MIMD architecture 
+each processing unit can execute its own program on its own 
+data, as contrasted with single-instruction stream, multiple-data 
+stream (SIMD) machines in which each processor executes 
+the same instruction set but on a data stream particular to 
+each processor. In designing an MIMD architecture for a computer, a 
+developer may draw on features of two conceptual types,  
+ 
+including one type where all memory and input/output 
+functions are remote to the processors and shared among the 
+processors, and a second type where all memory and 
+input/output functions are local and private to the 
+processors. What is common to both types of architecture is 
+an interconnection system over which synchronizing functions 
+are carried out and processing units exchange data. The 
+interconnection system may be a bus or a type of network 
+architecture. The data traffic on some types of 
+interconnection system, typically busses, is visible to 
+processors, storage units and input/output units. On some 
+network architectures, however, data traffic is not visible 
+to all processors, storage and input/output units. The treatment of memory in a multiprocessor is a 
+critical design matter. The extreme design types either 
+utilize purely shared memory or purely private memory. In a 
+shared memory all processors have access to a global, remote 
+memory unit. In a private memory scheme all memory is local 
+to the processors and used directly only by a single 
+processor. Both schemes have advantages and disadvantages, 
+which has led to architectures which blend the schemes. One 
+such blended architecture utilizes local, private cache for 
+each processor or group of processors and a shared, remote 
+memory. In these systems,
+</DESCRIPTION>
+<CLAIMS>
+A multiprocessor, comprising: 
+a plurality of processing units; 
+
+a local private cache within each processing unit; 
+at least a first global storage control unit providing 
+
+a shared memory space for storing a plurality of records 
+for access by plurality of processing units; 
+
+an interconnection system between the processing units 
+and the first global storage control unit for providing 
+
+data and synchronization communications between the 
+processing units and the first global storage control 
+
+unit; 
+a coherency controller in the global storage control 
+
+unit for tracking each instance of records owned by the 
+
+global storage control unit currently resident in the 
+local cache for a processing unit; and 
+
+means for transmitting empty notification from a 
+processing unit to the global storage control unit 
+
+identifying instances purged from the local cache for a 
+processing unit. 
+A multiprocessor as set forth in Claim 1, wherein: 
+the means for transmitting is responsive to 
+
+identification of an interval for an instance to be 
+purged for including the interval in the empty 
+
+notification. 
+A multiprocessor as set forth in Claim 1 and 2, wherein 
+the empty notification includes identification of the 
+
+processing unit of the means for transmitting. 
+A multiprocessor as set forth in Claims 1 to 3, and 
+further comprising: 
+
+means for marking an interval as invalid in a cache 
+directory for the processing unit upon identification of 
+
+an instance being purged from a local cache; and 
+means for deleting indicia for the instance from a 
+
+coherency directory for the global storage control unit. 
+A multiprocessor as set forth in Claim 4, wherein the 
+means for deleting invalidates the entry for a record in 
+
+the coherency directory if no indicia of instances 
+remain. 
+A multiprocessor as set forth in Claim 1, and further 
+comprising: 
+
+means for buffering an empty notification when the means 
+for transmitting is unavailable. 
+A multiprocessor as set forth in Claim 1, wherein the 
+instances are clean or shared. 
+A multiprocessor as set forth in Claim 6, wherein the 
+means for buffering is within the interconnection 
+
+system, or the global storage control unit. 
+A multiprocessor as set forth in Claim 7, wherein the 
+coherency controller includes one empty, multiple 
+
+occupancy bits representing one or a set of local 
+caches. 
+A method for maintaining data coherency on a 
+multiprocessor including a plurality of private, caches 
+
+and at least a first shared memory, comprising the steps 
+ 
+
+of: 
+storing instances in the private, caches of records 
+
+resident in the first shared memory; 
+generating a cache directory for each private cache, the 
+
+cache directory including a tag array having an entry 
+for each instance stored in the private cache indicating 
+
+validity or invalidity for each instance, and marking 
+whether an instance is clean; 
+
+executing a cache management process for each private 
+cache to purge instances in the private cache; 
+
+generating a coherency directory having indicia for each 
+instance of a record resident in a private cache; 
+
+upon selection of a valid interval for invalidation, 
+remarking the interval as invalid in the cache directory 
+
+and transmitting empty notification of the interval from 
+the private cache to the first shared memory; and 
+
+then deleting the indicia of the instance from the 
+coherency directory. 
+A method for maintaining data coherency, comprising the 
+steps of: 
+
+copying instances of records from a shared memory to one 
+or more private caches; 
+
+for each instance of a record copied to a private cache, 
+making an entry in a coherency directory for the shared 
+
+memory indicating the private cache where the instance 
+is resident and identifying by a tag for a real address 
+
+where the record is located in shared memory;
+ 
+
+for each instance of a record copied to a private cache, 
+making an entry in a cache directory identifying the 
+
+instance by a tag for a real address for the record and 
+indicating validity or invalidity of the instance; 
+
+upon locally generated invalidation of a clean or shared 
+instance in a private cache, transmitting a message over 
+
+an interconnection system identifying the tag without a 
+data, representation of the instance. 
+A method for maintaining data coherency as set forth in 
+Claim 11, and further comprising the steps of: 
+
+with each entry in the cache directory and the coherency 
+directory, indicating whether a processor associated 
+
+with the private cache that an instance is resident on 
+has write authority through the instance to the record. 
+A method for maintaining data coherency as set forth in 
+Claims 11 and 12, and further comprising buffering the 
+
+messages until a connection slot over an interconnection 
+system becomes available. 
+</CLAIMS>
+</TEXT>
+</DOC>

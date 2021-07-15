@@ -1,0 +1,250 @@
+<DOC>
+<DOCNO>EP-0610204</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+LINE CODE USING BLOCK INVERSION FOR HIGH SPEED LINKS
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04L2549	H04L2549	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04L	H04L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04L25	H04L25	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+High speed telecommunication systems are disclosed which use a novel line coding scheme for better performance. The line code according to the scheme can be used to produce a block code of arbitrary length. It bounds the minimum number of transitions in a block, and the dc balance of the code. The overhead required is 2 bits if framing is not included and 3 bits if it is. A lookup table is not required to implement the code, thus it remains efficient for longer block lengths. The algorithm required to encode and decode the data can be implemented in serial at the transmission rate or in parallel at the block rate. The coding scheme results in a significant reduction in hardware components of the communication system.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+NORTHERN TELECOM LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+NORTHERN TELECOM LIMITED
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+HARRIS GWENDOLYN KATE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HARRIS, GWENDOLYN, KATE
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates generally to a high speed 
+digital telecommunication technique. In particular, it is directed to a 
+method of and an apparatus for communicating serially at high speed 
+digital data signals which are block-coded in a new and more efficient 
+format for a good statistically balanced transmission. In modern data telecommunication, raw data is modulated 
+(encoded, or simply coded) into PCM signals and then are transmitted to 
+a destination terminal or terminals. The received PCM signals are then 
+demodulated (decoded) into the identical raw data at the destination. 
+There are numerous encoding (coding) and decoding schemes (also 
+called formats). A specific coding scheme (or format) is chosen for a 
+particular application, based upon required performance criteria, cost 
+effectiveness, the type of transmission path to be used, etc. It is therefore 
+very common that the raw data is coded and decoded many times in 
+different formats as they travel through the communication path from 
+one level to another before they reach the destination. The present invention relates to a new line code, the term 
+generally used for a data transmission coding scheme and format, which 
+finds particular application in high speed serial data links, optical and 
+non-optical. Line coding is used to create favourable statistical 
+properties in a transmitted signal. In addition to essential requirements 
+of being transparent and uniquely decodable etc., a line code must 
+exhibit some other features. Three important qualities are its dc balance, 
+transition density (and run bound), and bandwidth requirements. An 
+additional practical requirement of the code is that it be simple to 
+implement, at high speed where memory lookup implementations are 
+impractical.  
+ The dc balance (or dc component) is the shift of the 
+transmitted center level created by the average time the signal is on to 
+the time it is off. With code format, it is the pattern of the positive pulse 
+duration and timing to that of the negative pulse or in most instances, it 
+is the algebraic difference between the number of logical ones and the 
+number of logical zeros. Any drift of the transmitted signal from the 
+center baseline level will create a dc imbalance and affects the 
+performance of the communication operation. The line code must 
+therefore have a minimum or zero dc balance. Decoding the data in the receiver can only be achieved if 
+the clock timing of the receiver is fully synchronized with that of the 
+transmitter. Since the
+</DESCRIPTION>
+<CLAIMS>
+A high speed digital telecommunication system having 
+an apparatus for serially transmitting digital data signals in blocks of 
+
+coded bits, said apparatus comprising encoder means for encoding said 
+digital data signals, serializer means for arranging the bits in the coded 
+
+digital data signals, and driver means for serially transmitting said bits 
+in the coded digital data signals, the invention being characterized in 
+
+that: 
+
+said encoder means (10) encodes in each block, data bits B (B0, B1,..., Bn-2, 
+Bn-1) of a preselected length n, n being a positive integer, 
+
+representing data words, a transition bit T and a dc balance bit D, and 
+includes conversion means for converting said data bits B and 
+
+transition bits T into NRZI (Non-Return-to-Zero-Invert-on-one) form, 
+said transition bit T (42) indicating a bit inversion operation performed 
+
+in response to the number of bits in said data bits and said transition bit 
+of said block that are one of the binary states, and said dc balance bit D 
+
+(46) indicating a bit inversion operation performed in response to the 
+dc balance of all the bits in said block with respect to a previously 
+
+accumulated system balance, and 
+said encoder means further comprises system balance means (52) for 
+updating the accumulated system balance by algebraically summing 
+
+said dc balance of all the bits in said block and said previously 
+accumulated system balance. 
+The high speed digital telecommunication system, 
+according to claim 1, wherein said encoder means comprises: 
+
+
+transition means for counting the number of binary ones and setting 
+said transition bit T according to said number; and  
+
+ 
+dc balance means for calculating the dc balance of said block and 
+generating said dc balance bit D according to said calculation result and 
+
+said previously accumulated system balance. 
+The high speed digital telecommunication system, 
+according to claim 2, said apparatus further comprising: 
+
+
+framing means (54) for generating and adding a frame bit F to each 
+block to form a frame, said frame bit F indicating a boundary of said 
+
+frame and control of certain functions in the data transmission; 
+said serializer means arranging all the bits in each of successive frames; 
+and 
+said driver means transmitting each frame successively. 
+The high speed digital telecommunication system, 
+according to claim 3, wherein: 
+
+
+said framing means comprising frame pattern generator for generating 
+a plurality of frame bits F in a specific sequence; 
+control logic means (72) for generating control logic bits C; and 
+logic bit insertion means (72) for inserting said control logic bits into 
+said specific sequence of said frame bits. 
+The high speed digital telecommunication system, 
+according to claim 4, wherein said specific order is said frame bit F, said 
+
+dc balance bit D, said transition bit T and said data bits Bn-1, Bn-2,...,B1, 
+B0 in this order in the time domain. 
+The high speed digital telecommunication system, 
+according to claim 5, said apparatus further comprising bit inversion 
+
+means (40) for selectively inverting bits at certain positions within said 
+data bits so that the energy in the data spectrum for a static pattern of all  
+
+ 
+zero data or all one data is distributed to reduce electro-magnetic 
+
+interference. 
+The high speed digital telecommunication system, 
+according to claim 4, wherein said data bits are parallel data bits and said 
+
+encoder means encodes said data bits in parallel. 
+The high speed digital telecommunication system, 
+according to claim 5, wherein said data bits are serial data bits and said 
+
+encoder means encodes said data bits in serial. 
+A method of serially transmitting digital data signals in 
+blocks of coded bits which has steps of encoding, in each block, data bits B 
+
+(B0, B1...Bn-2,Bn-1) of a preselected length n, n being a positive integer 
+representing data words, a transition bit T and a dc balance bit D, and 
+
+serially transmitting each successive block, the invention being 
+characterized in that said encoding step includes a step of converting 
+
+said data bits B and transition bit T into NRZI (Non-return-to-Zero-Invert-on-one) 
+form, said transition bit T indicating a bit inversion 
+
+operation performed in response to the number of bits in said data bits 
+and said transition bit of said block that are one of the binary states, and 
+
+said dc balance bit D indicating a bit inversion operation performed in 
+response to the dc balance of all the bits in said block with respect to a 
+
+previously accumulated system balance, and said encoding means 
+further comprises steps of calculating the dc balance of each block and 
+
+updating the accumulated system balance by algebraically summing said 
+dc balance of said block and said previously accumulated system balance.  
+
+ 
+The method of serially transmitting digital data signals 
+in blocks of coded bits according to claim 9, wherein said step of 
+
+encoding further comprises steps of: 
+
+setting said transition bit T to binary zero and counting the number of 
+binary ones in said data bits and said transition bit, to change said 
+
+transition bit T to binary one if said number is larger than a preselected 
+number; and 
+calculating the dc balance of said block and generating said dc balance 
+bit D according to said calculation result and said previously 
+
+accumulated system balance. 
+The method of serially transmitting digital data signals 
+in blocks of coded bits according to claim 10, further comprising steps of: 
+
+
+adding in each block a frame bit F to form a frame, said frame bit F 
+indicating a boundary of said frame and control of certain functions in 
+
+the data transmission; 
+repeating the above steps for each of successive frames; and 
+serially transmitting each frame successively. 
+The method of serially transmitting digital data signals 
+in blocks of coded bits according to claim 11, wherein said step of adding 
+
+a frame bit F comprises a step of: 
+
+generating a plurality of frame bits in a pseudo-random pattern; 
+generating control logic bits indicating said certain functions; and 
+replacing certain said frame bits with said control logic bits. 
+The method of serially transmitting digital data signals 
+in blocks of coded bits according to claim 12, wherein said step of 
+
+transmitting facilitates transmitting all the bits in each of successive 
+frames in the folloeing order in the time domain, said frame bit F, said  
+
+ 
+dc balance bit D, said transition bit T and said data bits Bn-1, Bn-2,..., B1, 
+
+B0 in this order. 
+The method of serially transmitting digital data signals 
+in blocks of coded bits according
+ to claim 12, wherein said data bits are 
+parallel data bits and said step of encoding is carried out in parallel. 
+The method of serially transmitting digital data signals 
+in blocks of coded bits according to claim 13, wherein said data bits are 
+
+serial data bits and said step of encoding is carried out in serial. 
+The high speed digital telecommunication system, 
+according to claim 1, further comprising an apparatus for receiving said 
+
+digital data signals, said apparatus for receiving comprising: 
+
+decoder means for decoding in each block which includes said data bits 
+B, said transition bit T and said dc balance bit D in accordance with the 
+
+values of T and D. 
+The high speed digital telecommunication system, 
+according to claim 16, said apparatus for receiving said digital data 
+
+signals further comprising: 
+
+framing circuit means for extracting said frame bits and control logic 
+bits; and 
+control means for initiating loopback functions in accordance with said 
+control logic bits. 
+</CLAIMS>
+</TEXT>
+</DOC>

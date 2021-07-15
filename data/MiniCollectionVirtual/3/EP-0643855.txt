@@ -1,0 +1,120 @@
+<DOC>
+<DOCNO>EP-0643855</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+TIMING DRIVEN METHOD FOR LAYING OUT A USER'S CIRCUIT ONTO A PROGRAMMABLE INTEGRATED CIRCUIT DEVICE.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1750	G06F1750	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F17	G06F17	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The present invention provides suggested delay limits for use by layout tools which cause a programmable integrated circuit device to implement a logic design. The suggested delay limits can be used by such tools as an initial placement algorithm, a placement improvement algorithm, and a routing algorithm for evaluating and guiding potential layouts. The suggested delay limits take into account characteristics of the programmable device being used by estimating lower bound delays for each connection in a logic design, and take into account any previously achieved delays or achievable delays for each connection in calculating the suggested limits. Results of routing benchmark designs using the novel suggested limits show improved timing performance for all benchmark cases tested.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+XILINX INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+XILINX, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+CHENE MON-REN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FRANKLE JON A
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+CHENE, MON-REN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FRANKLE, JON, A.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+ TIMING DRIVEN METHOD FOR LAYING OUT A USER'S CIRCUIT ONTO A PROGRAMMABLE INTEGRATED CIRCUIT DEVICEFIELD OF THE INVENTION The present invention relates to converting a circuit design into a physical integrated circuit structure which implements the design. More particularly, the invention relates to laying out the design onto the physical structure so that the layout meets timing requirements specified by a user.BACKGROUND Programmable logic devices are available for implementing any of a wide variety of logic designs. The user designs a logic circuit, and uses software to direct a computer to program a logic device or to design a set of masks to implement the desired logic design. Timing of signals passed between parts of the logic device depends in part upon placement of the user's circuit elements into transistor groups in the physical structure and the resultant arrangement of the metal wires. In general, longer wires mean longer delays, the actual timing depending upon capacitances, resistances, and the number of logic elements a signal must traverse. As transistors have become faster, a larger percentage of the delay in passing a signal through the device is contributed by the wiring. Therefore it has become a worthwhile effort to select wiring segments carefully to minimize the delay caused by these wiring segments. Logic devices which can be programmed using the method of the present invention include both mask and field programmable devices. Mask programmable devices are programmed at the factory when the device is being manufactured, and field programmable devices are programmed by the user after purchasing the completed device. Mask programmable devices include gate array structures which have an array of transistor groups formed in the substrate of an integrated circuit, and typically a layer of control gates formed in a layer above the 
+
+substrate. Above these standard layers are formed personality layers, usually two or three layers of metallization, which interconnect the transistors to create a circuit desired by a customer. Field programmable devices include programmable logic array (PLA) devices and field programmable gate array (FPGA) devices. PLA devices generally comprise an array of AND gates which provides input to an array of OR gates, and thereby implement logic which is stated as a sum of products. FPGA devices include a plurality of logic blocks or modules connected together by programmable interconnect lines. The programmable blocks can be programmed to implement multiple
+</DESCRIPTION>
+<CLAIMS>
+CLAIMS
+1. A method for laying out a logic deεign made up of logic elementε and connectionε onto a logic device having logic blocks and wire segmentε which can form routes, comprising the stepε of: εpecifying said logic design in machine readable form; estimating lower bound connection delays L(c) for connectionε in εaid logic deεign; εelecting delay limitε U(c) for each of εaid connectionε, each of εaid delay limitε being εelected to be greater than or equal to a corresponding one of said lower bound connection delays; performing a layout step for which actual or estimated delayε D(c) reεult, εaid layout step being performed such that at leaεt εome of said delay limits U(c) are not exceeded by said actual or eεtimated delayε D(c) ; and completing the layout of εaid logic deεign onto said logic device.
+2. A method for laying out a logic design onto a logic device as in Claim 1 in which said layout step compriseε forming εaid logic elementε into groupε to be laid out onto correεponding portionε of εaid logic device.
+3. A method for laying out a logic deεign onto a logic device aε in Claim 1 in which εaid layout step compriseε εelecting initial placementε of εaid logic elementε in εaid logic blockε.
+4. A method for laying out a logic deεign onto a logic device aε in Claim 3 in which εaid initial placement εtep iε performed by a mincut algorithm.
+5. A method for laying out a logic deεign onto a logic device as in Claim 1 in which said layout step comprises improving placement of logic elements of εaid logic deεign into correεponding logic blockε of εaid logic device. 
+
+
+6. A method for laying out a logic deεign onto a logic device as in Claim 1 in which εaid layout step compriseε routing of said connections along wiring segmentε of said logic device to connect ones of said logic elements which have been placed in said logic blocks, thereby to implement said logic design.
+7. A method for laying out a logic design onto a logic device as in Claim 6 comprising the further step after said step of routing of said connections along wiring segments, of: deleting any completed routes which do not meet said revised delay limits, and routing unrouted connections in order of decreaεing ratio of lower bound to delay limit.
+8. A method for laying out a logic deεign onto a logic device as in Claim 1 comprising the further stepε of: computing achieved delayε D(c) computing reviεed delay limitε Ur(c), εaid revised delay limits being a function of said lower bounds L(c) and said achieved delays D(c); performing a next layout step on said logic design using said revised delay limitε Ur(c).
+9. A method for laying out a logic deεign onto a logic device as in Claim 8 in which each of said revised delay limits is a function of εlack S(c) for that connection, slack S(c) being the difference between earliest required signal arrival time R(c) of that connection and latest actual signal arrival time A(c) of that connection.
+10. A method for laying out a logic design onto a logic device as in Claim 9 in which said revised delay limits are computed from the formula Ur(c) = D(c) + f(c) * S(c) where Ur(c) represents said reviεed delay limitε; f(c) is a fraction leεε than or equal to 1; and 
+
+
+ S(c) is said slack.
+11. A method for laying out a logic deεign onto a logic device as in Claim 10 comprising the εtepε performed after εaid step of computing revised delay limitε of iteratively: again calculating said slackε S(c); and if εaid εlackε S(c) are not εufficiently near zero, further reviεing εaid revised delay limitε by the formula Ur(c)
+ne
+w = Ur(c)
+0
+ι
+d
+ + f(c) * S(c) until εaid εlackε are εufficiently near zero.
+12. A method for laying out a logic design onto a logic device as in Claim 10 in which said fraction f (c) is computed from the formula f(c) = weight (c) / max [weight (p) ] where weight (c) = D(c) - L(c) D(c) = estimated or achieved delay for connection c L(c) = lower bound achievable delay for connection c weight (p) = ∑ weight (c) for all connections c on path p max [weight (p) ]
+ is weight (p) on the path with maximum weight that includes connection c
+13. A method for laying out a logic design onto a logic device as in Claim 8 in which said layout step compriseε εelecting a route to implement each said connection.
+14. A method for laying out a logic design onto a logic device as in Claim 13 comprising the further εteps after said step of computing revised delay limits, of: deleting any completed routes which do not meet said revised delay limitε, and routing unrouted connectionε in order of decreaεing ratio of previously achieved delay to delay limit.
+15. A method for laying out a logic design onto a logic device 
+
+
+aε in Claim 8 in which εaid layout step comprises placing logic elements in corresponding logic blocks.
+16. A method for laying out a logic design onto a logic device as in Claim 15 compriεing the further step after said step of computing revised delay limitε of placing additional logic elementε in correεponding logic blockε so as not to violate said reviεed delay limitε.
+17. A method for laying out a logic deεign made up of logic elements and connections onto a logic device having logic blocks and wire segmentε which can form routeε, compriεing the steps of: a) specifying said logic design in machine readable form; b) selecting delay limits U(c) for each of said connections; c) performing an initial placement step for which estimated delays D(c) result, said initial placement step being performed using a modified min-cut partitioning algorithm which determines whether a logic element shall be moved acrosε a cut line baεed on: 1) minimizing the number of connectionε crossing said cut line, and 2) minimizing delay incurred by moving said element acrosε said cut line; and e) completing the layout of said logic design onto said logic device.
+18. A method for laying out a logic design as in Claim 17 in which said step of minimizing delay incurred by moving said element across said cut line compriseε minimizing delay on at leaεt one path of which at leaεt one of εaid connectionε connected to said element is a part.
+19. A method for laying out a logic design as in Claim 17 in which said step of minimizing delay incurred by moving said element acrosε εaid cut line compriseε minimizing the sum of timing costε on connectionε to said element. 
+
+
+20. A method for laying out a logic deεign aε in Claim 17 in which each of εaid timing coεtε is a function of said delay limitε U(c), and also a function of worse timing coεt W(c) of a connection which croεεeε εaid cut line and better timing coεt B(c) of a connection which doeε not croεε εaid cut line.
+21. A method for laying out a logic deεign aε in Claim 20 in which εaid worεe timing cost W(c) and said better timing cost B(c) are functions of estimated delayε computed by assuming that a route used by εaid connection iε the faεtest route available to that connection without using routing resourceε in εaid logic device specifically designated to be fast.
+22. A method for laying out a logic design as in Claim 20 wherein εaid function of worse timing coεt W(c) and better timing cost B(c) iε a function of the difference between said worse timing cost W(c) and εaid better timing coεt B(c).
+23. A method for laying out a logic deεign aε in Claim 22 in which said function of the difference is determine as follows: if W(c) 
+<
+ U(c)/2, C
+de
+i
+ay
+(c) = 0; if U(c) 
+>
+ W(c) 
+>
+ U(c)/2, C
+de
+ι
+ay
+(c) = W(c) - B(c); and if W(C) 
+>
+ U(C) , Caeiay(c) = W(c) - B(c) + [W(c) - (greater of B(c), U(c)] .
+24. A method for laying out a logic design made up of logic elements and connectionε onto a logic device having logic blockε and wire εegmentε which can form routeε, compriεing the εteps of: a) specifying said logic design in machine readable form; b) selecting delay limits U(c) for each of said connections; c) determining estimated delays D(c) for each of said connectionε; d) performing a placement improvement εtep in which a εet of poεitionε εelected for cycling a plurality of logic 
+
+
+ elementε in εaid logic deεign are a function of timing costs for said plurality of logic elements, each said timing coεt coεt(c) being a function of: D a correεponding delay limit U(c) , and 2) a correεponding eεtimated delay D(c); and e) completing the layout of εaid logic deεign onto said logic device.
+25. A method for laying out a logic design aε in Claim 24 in which said estimated delay D(c) asεumeε a route for each connection c is the fasteεt route available to that connection without using routing resourceε in εaid logic device εpecifically deεignated to be faεt.
+26. A method for laying out a logic deεign aε in Claim 24 in which εaid function of timing coεtε for εaid plurality of logic elementε iε a function of connection coεtε coεt(c) for each connection to each of εaid plurality of logic elementε.
+27. A method for laying out a logic deεign aε in Claim 26 in which εaid function of connection coεtε coεt(c) iε the εum of εaid connection coεtε coεt(c) .
+28. A method for laying out a logic deεign aε in Claim 24 in which each of εaid poεitionε εelected for cycling a plurality of logic elementε in εaid logic design are selected from the formulas G
+x
+ = ∑ [ cost (c ) * X (c ) ] / ∑ [ cost ( c ) ]
+ G
+y
+ = ∑ [ cost (c ) * Y ( c ) ] / ∑ [ coεt ( c ) ]
+where coεt(c) iε the timing coεt of a connection c attached to one of εaid plurality of logic elements, X(c) is the X coordinate of the element at the other end of said connection c, Y(c) is the Y coordinate of the element at the other end of 
+
+
+ εaid connection c; and εaid εummation ∑ iε performed over all connectionε c which connect to said logic element.
+29. A method for laying out a logic design as in Claim 28 in which each of said timing coεtε coεt(c) iε equal to a εet value F when εaid eεtimated delay D(c) iε equal to εaid delay limit U(c), decreaεes to zero as a firεt function of the difference D(c) - U(c) for eεtimated delay D(c) less than U(c), and increaseε aε a εecond function of eεtimated delay D(c) minuε delay limit U(c) for eεtimated delay greater than said delay limit.
+30. A method for laying out a logic design as in Claim 29 in which said first function is F + D(c) - U(c), and said second function is F + (2 * (D(c) - U(c))). 
+
+</CLAIMS>
+</TEXT>
+</DOC>

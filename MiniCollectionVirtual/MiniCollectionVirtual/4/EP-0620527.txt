@@ -1,0 +1,163 @@
+<DOC>
+<DOCNO>EP-0620527</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+A method and apparatus for validating labelled, ordered parse trees according to a context-free grammar specification
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1724	G06F1722	G06F1727	G06F1721	G06F1721	G06F1722	G06F1727	G06F1724	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F17	G06F17	G06F17	G06F17	G06F17	G06F17	G06F17	G06F17	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Some document languages such as the Standard Generalized Markup Language 
+(SGML) represent documents as trees (Fig. 1) with each node of the tree labelled with a tag and 
+
+each node's immediate descendants taken in order having tags that satisfy a production 
+corresponding to the parent's tag. Thus, a document is represented as a complete parse tree 
+
+satisfying the production rules of a grammar. To simplify maintaining a valid document/parse 
+tree at all stages, an efficient check is made whether a document is valid or can be extended to 
+
+a valid document and furthermore to show how a document could be changed to be valid. A 
+document can be extended to a valid document if is equal to a valid document with possibly 
+
+some nodes deleted. External (leaf) nodes can just be deleted. Internal nodes are deleted by 
+replacing the arc from the parent with multiple arcs (in the same order) from the parent to 
+
+each of the children of the deleted node. A grammar is constructed from the given grammar 
+that includes those documents that can be completed to a valid document and is called a 
+
+gapped grammar. This invention teaches how a gapped grammar can be constructed from a 
+grammar, and how a parser/checker is efficiently implemented. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+XEROX CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+XEROX CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BROWN ALLEN L JR
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MARSHALL SIDNEY W
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BROWN,ALLEN L. JR.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MARSHALL, SIDNEY W.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to methods for editing documentsDocuments can be described by internal computer structures in accordance with
+varying computer languages. For example, a document represented by one computer may use
+the Word Perfect® language while a document represented by a different computer may use the
+Microsoft Word® language. In order to make document processing more efficient, it is often
+desirable to enable interchange between documents represented using different languages.
+Thus, there should be consistency between interrelated documents.In order to provide such consistency enabling interchange of documents, the
+Standard Generalized Markup Language (SGML) for example, was developed as an external
+representation making document interchange possible.There are many editing applications wherein objects to be edited have hierarchical
+structures. Thus, any editing step must conform to a formal specification of possible content.
+The editing of documents described in SGML document type definitions is a specific instance of
+structured document editing.The article "syntax-directed editing of general data-structures", C. Fraser, ACM SIGPLAN Symposium on
+Text Manipulation, vol. 16, no. 6, 1981 describes a syntax-directed editor for data structure definitions.Structured document editing has been deemed by many users as an excessively
+restrictive way of constructing structured objects (e.g., programs or documents) because of the
+strong ordering constraints (i.e., top- bottom, and sometimes left-right, as well) that grammar-based
+editors typically impose. Thus a more relaxed version of syntax-directed editing is
+desirable. Often the class of hierarchical structures of interest can be made to correspond to
+incomplete parse trees of a particular context-free grammar (set of rules), i.e., any tree
+remaining after having deleted zero or more proper subtrees of a parse tree of the same
+grammar.For example, given the following grammar, it would be desirable to easily and
+efficiently determine whether a user could freely build a hierarchical structure;
+Doc → (Front, Body, Back)Body → (Intro, Mn. Sections+, App.+)
+A parse tree corresponding to the above grammar is illustrated in Fig. 1.An SGML document class is defined by a document type definition or DTD (context-free
+grammar). In accordance with SGML, a document is classified as weakly valid if it can be
+made valid solely by the insertion of additional structural mark-up in appropriate places. For
+example, if "Front" was missing from the parse tree of
+</DESCRIPTION>
+<CLAIMS>
+A method of editing a document, comprising determining whether a given
+parse tree (fig. 5) generated from said document is a weakly-valid parse tree of said document according to
+
+a given context-free grammar, a
+weakly valid parse tree being a parse tree that can be extended into a valid parse
+
+tree that satisfies the given context-free grammar with only an insertion of additional nodes,
+characterized in that it includes the steps of:
+
+
+constructing predetermined regular expressions (figs. 9-13) for selected nodes of the parse
+tree according to said given context-free grammar;
+checking for each selected node of the given parse tree whether the names of the children of
+said node form a string in a language defined by the corresponding predetermined regular expression; and
+determining if the given parse tree is a weakly-valid parse tree by verifying that
+said checking step succeeds for all selected nodes.
+A method according to claim 1, wherein the predetermined regular expression
+attached to a node labeled by a symbol x is an expression "gap(x)" defined by :
+
+
+if x is a terminal symbol of the grammar, gap(x) = (x);
+if x is a non recursive non terminal symbol of rank zero, gap(x) = (ε|x);
+if x is a non-recursive non terminal symbol, gap(x) = (ε |x|R1|R2 ...) where R1, R2,
+are the right-hand-sides of productions for x with gap(w) substituted for each symbol w in the
+
+production;
+if x is a multiply-recursive non terminal symbol, gap(x) = (ε|x|S1|S2 ...) where S1, S2
+is the complete set of symbols reachable from x;
+if x is a singly-recursive non terminal symbol, gap(x) = (left(x)*middle(x)(right(x))*,
+
+where:
+
+SPLIT(exp) is defined as:
+
+if exp does not contain any symbol in the same strongly connected component as
+x than add exp with gap(w) substituted for each symbol w in exp to the set M,
+otherwise, if the top-level operator in exp is "OR", then call SPLIT(alt) where alt
+is each of the alternatives of"OR" in turn, 
+otherwise, if the top-level operator in exp is CONCATENATE (juxtaposition),
+then there must be exactly one term of the CONCATENATE that contains a symbol that is the
+
+strongly connected component containing x, add all the symbols in terms to the left of this term to
+the set L; add all the symbols in terms to the right of this term to the set R, call SPLIT(term) with
+
+the term containing a symbol that is in the strongly connected component containing x,
+otherwise if the top-level operator is "?" (OPTIONAL), rewrite the expression
+using OR and EMPTY, then call SPLIT on the resulting expression;
+left(x) = (L1|L2| ...),
+
+   where L1, L2 is the set of all symbols appearing in the set L or reachable from a
+
+symbol in the set L,
+middle(x) = (ε|x|T1|T2 ... |M1|M2 ...), where T1, T2 are the symbols in the strongly
+connected component containing x and M1, M2 is the set of regular expressions in the set M,
+right(x) = (U1|U2 ...) where U1, U2 is the set of all symbols appearing in the set R or
+reachable from the set R.
+A method according to any one of claims 1 to 2, wherein the selected nodes are
+the nodes labeled with nonterminal symbol of the given context-free grammar.
+A method according to any one of claims 1 to 3, wherein the selected nodes are
+only the root nodes of certain subtrees of the parse tree.
+A method of editing a document according to a computer language, characterized
+in that it comprises determining whether a given parse tree (fig. 5) generated from the document 
+
+can be extended to a valid parse tree of a given context-free grammar G with only an insertion of
+additional nodes, by performing the steps of:
+
+
+constructing regular expression gap(x) for each nonterminal symbol x of the given
+context-free grammar G;
+checking each node having one of the non-terminal symbols of the given parse tree for
+child nodes whose names form a string in a language of the corresponding regular expression
+
+gap(x); and
+determining, when the names form a string in the language of the corresponding regular
+expression gap(x), that the given parse tree can be extended to the valid parse tree.
+A method according to claim 5, including converting the regular expressions to
+finite state machines.
+</CLAIMS>
+</TEXT>
+</DOC>

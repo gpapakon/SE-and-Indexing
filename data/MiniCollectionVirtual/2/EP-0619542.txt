@@ -1,0 +1,5386 @@
+<DOC>
+<DOCNO>EP-0619542</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+METHOD AND APPARATUS FOR MULTIPLYING A PLURALITY OF NUMBERS.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F748	G06F752	G06F7523	G06F753	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F7	G06F7	G06F7	G06F7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method and apparatus for determining the product of 
+a plurality of numbers are disclosed. The preferred 
+
+embodiment of the method comprises the steps of: (1) 
+determining a plurality of respective partial products for 
+
+each pair-combination of a first number's digits and a 
+second number's digits; (2) providing a register having a 
+
+plurality of register cells, each having a hierarchical 
+significance; (3) accumulating selected of the respective 
+
+partial products to produce accumulated values in specified 
+of the register cells according to the following 
+
+relationships: P
+m,n
+―[accumulates in]→ r
+x
+; x=(m+n)-1, where 
+"P
+m,n
+" represents the respective partial product; "m" 
+represents the first number's significance (m = 1, 2, ...); 
+
+"n" represents the second number's significance (n = 1, 2, 
+...); and "r
+x
+" represents a specified register cell having 
+significance "x"; (4) sequentially effecting a shifting 
+
+accumulation operation comprising shifting specific digits 
+of the accumulated value stored in a lesser-significant 
+
+register cell to the next-higher-significant register cell 
+containing an accumulated value, and adding the specific 
+
+digits to the accumulated value stored in the next-higher-significant 
+register cell as least-significant digits 
+
+between significance-adjacent register cells from the least-significant 
+register cell to the most-significant register 
+
+cell; (5) iteratively applying the contents of the register 
+to repeat steps (1) through (4) with a succeeding next 
+
+number until all of the plurality of new numbers have been 
+employed by the method and (6) shifting the contents of the 
+
+register from the register. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+ADVANCED MICRO DEVICES INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+ADVANCED MICRO DEVICES INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+ASGHAR SAFDAR M
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MONDUL DONALD D
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ASGHAR, SAFDAR M.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MONDUL, DONALD D.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention is directed to a method for 
+determining the product of a plurality of numbers and an 
+apparatus for carrying out that method. In a computing system employing solid state components, 
+preferably constructed from silicon components arrayed on 
+a substrate, certain basic design criteria generally apply. 
+For example, it is desired that the least space possible 
+upon the substrate be occupied by each component. Further, 
+it is desired that energy consumed by the apparatus be 
+minimized as much as possible, especially in battery-supplied 
+systems. Also, it is desired that the computing 
+system operate as speedily as possible. A multiplier for such computing systems is generally 
+fashioned of a matrix of switching transistors, which matrix 
+is of sufficient size to accommodate the maximum expected  
+ 
+size of numbers to be handled by the computing apparatus. 
+Thus, for example, in order to have a multiplication of a 
+4-digit number by a 4-digit number, a multiplier would 
+necessarily comprise a 16×16 bit matrix (i.e., 16 columns 
+of transistors, each column having 16 rows of transistors) 
+with additional rows, or columns, or both to accommodate 
+carries and other overhead operations involved in 
+multiplication. For smaller numbers, higher significance bits within 
+the multiplier matrix are zero-filled as appropriate to 
+correctly store the multiplicand and the multiplier involved 
+in the multiplication operation. However, those zero-filled 
+bits must still be powered-up in order to effect such zero-filling. 
+Such zero-filled bits are necessarily involved in 
+the calculations effected by the multiplier, so speed of 
+operation, power requirements, and "real estate" (i.e., 
+space) occupancy on the substrate are all sacrificed in 
+accommodating larger numbers for multiplication operations. It would be advantageous to have a multiplier which 
+only powers-up a sufficient number of bits necessary for a 
+specific multiplication operation to conserve power, 
+especially in a battery-supplied system. It would be 
+further advantageous to have a multiplier which occupies as 
+little "real estate" as possible on the substrate in order 
+to conserve space and enhance packaging of a system 
+employing the multiplier. It would be still further 
+advantageous to have a multiplier which speedily effects  
+ 
+multiplication operations to enhance the operational speed 
+of a system employing the multiplier. It would also be advantageous to effect multiplication 
+by a method which facilitates design and operation
+</DESCRIPTION>
+<CLAIMS>
+A method for determining the product of a 
+plurality of numbers, each respective number of said 
+
+plurality of numbers having a plurality of respective digits 
+hierarchically arranged from a respective least-significant 
+
+place to a respective most-significant place, the method 
+comprising the steps of: 
+
+
+(1) providing a logic means for determining a 
+plurality of partial products; 
+(2) determining said plurality of partial 
+products by said logic means, said 
+
+plurality of partial products 
+comprising a respective partial product 
+
+for each pair-combination of a first 
+plurality of said respective digits of 
+
+a first said respective number and a 
+second plurality of said respective 
+
+digits of a second said respective 
+number, each of said respective partial 
+
+products having a combinational 
+significance, said combinational 
+
+significance being established by said 
+significance of a first digit from said 
+
+first plurality of said respective 
+digits and said significance of a 
+
+second digit from said second plurality 
+of said respective digits; said first 
+
+digit and said second digit comprising 
+ 
+
+said pair-combination involved in said 
+respective partial product; 
+(3) providing an accumulator means for 
+selectively accumulating selected 
+
+partial products of said plurality of 
+partial products; 
+(4) providing a register means for storing 
+information, said register means 
+
+comprising a plurality of register cell 
+means for storing accumulated values, 
+
+each of said plurality of register cell 
+means having a hierarchical 
+
+significance; 
+(5) accumulating said selected partial products 
+by said accumulator means to produce 
+
+said accumulated values for storing in 
+specific register cell means of said 
+
+plurality of register cell means 
+according to the following 
+
+relationships: 
+Pm,n [accumulates in]
+ rx; x=(m+n)-1  
+   where "Pm,n" represents said selected 
+
+partial product; "m" represents said 
+first significance, m = 1, 2, ...; "n" 
+
+represents said second significance, n 
+= 1, 2, ...; "rx" represents said 
+
+specified register cell means having 
+significance "x"; 
+(6) effecting a shifting accumulation operation 
+comprising shifting specific digits of 
+
+said accumulated value stored in a 
+lesser-significant register cell means 
+
+of said plurality of register cell 
+means to the next-higher-significant 
+
+register cell means of said plurality 
+of register cell means containing an 
+
+accumulated value, and adding said 
+specific digits to said accumulated 
+
+value stored in said next-higher-significant 
+register cell means as 
+
+least-significant digits; said specific 
+digits being those digits of said 
+
+accumulated value stored in said 
+lesser-significant register cell means 
+
+having higher significance than the 
+least-significant digit of said 
+
+accumulated value; said shifting 
+accumulation operation being effected 
+
+sequentially between significance-adjacent 
+register cell means of said 
+
+plurality of register cell means from 
+the least-significant register cell 
+
+means to the most-significant register 
+cell means within said register means; 
+(7) shifting the contents of said plurality of 
+register cell means from said plurality 
+
+ 
+of register cell means to a result 
+
+register means for storing said 
+contents; said result register means 
+
+including a plurality of result 
+register cell means for storing said 
+
+contents as a result number having a 
+plurality of result digits in a 
+
+hierarchical arrangement from a least-significant 
+result place to a most-significant 
+
+result place; and 
+(8) repeating steps (1) through (7) employing 
+said result number as one of said first 
+
+said respective number and said second 
+said respective number, and employing 
+
+a next respective number of said 
+plurality of numbers involved in said 
+
+product as the other of said first said 
+respective number and said second said 
+
+respective number than said result 
+number; said repeating continuing until 
+
+all said respective numbers of said 
+plurality of numbers involved in said 
+
+determining said product have been 
+employed. 
+A method for determining the product of a 
+plurality of numbers, each respective number of said 
+
+plurality of numbers having a plurality of respective digits 
+ 
+
+hierarchically arranged from a respective least-significant 
+place to a respective most-significant place, the method 
+
+comprising the steps of: 
+
+(1) determining a plurality of partial products, 
+said plurality of partial products 
+
+comprising a respective partial product 
+for each pair-combination of a first 
+
+plurality of said respective digits of 
+a first said respective number and a 
+
+second plurality of said respective 
+digits of a second said respective 
+
+number, blank places of the shorter 
+number of said first said respective 
+
+number and said second said respective 
+number being treated as zeroes while 
+
+determining said plurality of partial 
+products, each of said respective 
+
+partial products having a combinational 
+significance, said combinational 
+
+significance being established by said 
+significance of a first digit from said 
+
+first plurality of said respective 
+digits and said significance of a 
+
+second digit from said second plurality 
+of said respective digits, said first 
+
+digit and said second digit comprising 
+said pair-combination involved in said 
+
+respective partial product; 
+(2) providing an accumulator means for 
+selectively accumulating selected 
+
+partial products of said plurality of 
+partial products; 
+(3) providing a register means for storing 
+information, said register means 
+
+comprising a plurality of register cell 
+means for storing said accumulated 
+
+values, each of said plurality of 
+register cell means having a 
+
+hierarchical significance; 
+(4) accumulating said selected partial products 
+by said accumulator means to produce 
+
+accumulated values for storing in 
+specific register cell means of said 
+
+plurality of register cell means 
+according to the following 
+
+relationships: 
+Pm,n [accumulates in]
+ rx; x=(m+n)-1  
+   where "Pm,n" represents said selected 
+
+partial product; "m" represents said 
+first significance, m = 1, 2, ...; "n" 
+
+represents said second significance, n 
+= 1, 2, ...; "rx" represents said 
+
+specified register cell means having 
+significance "x"; 
+(5) effecting a shifting accumulation operation 
+comprising shifting specific digits of 
+
+ 
+said accumulated value stored in a 
+
+lesser-significant register cell means 
+of said plurality of register cell 
+
+means to the next-higher-significant 
+register cell means of said plurality 
+
+of register cell means containing an 
+accumulated value, and adding said 
+
+specific digits to said accumulated 
+value stored in said next-higher-significant 
+
+register cell means as 
+least-significant digits; said specific 
+
+digits being those digits of said 
+accumulated value stored in said 
+
+lesser-significant register cell means 
+having higher significance than the 
+
+least-significant digit of said 
+accumulated value; said shifting 
+
+accumulation operation being effected 
+sequentially between significance-adjacent 
+
+register cell means of said 
+plurality of register cell means from 
+
+the least-significant register cell 
+means to the most-significant register 
+
+cell means within said register means; 
+(6) shifting the contents of said plurality of 
+register cell means from said plurality 
+
+of register cell means to a result 
+register means for storing said 
+
+ 
+contents; said result register means 
+
+including a plurality of result 
+register cell means for storing said 
+
+contents as a result number having a 
+plurality of result digits in a 
+
+hierarchical arrangement from a least-significant 
+result place to a most-significant 
+
+result place; and 
+(7) repeating steps (1) through (6) employing 
+said result number as one of said first 
+
+said respective number and said second 
+said respective number, and employing 
+
+a next respective number of said 
+plurality of numbers involved in said 
+
+product as the other of said first said 
+respective number and said second said 
+
+respective number than said result 
+number; said repeating continuing until 
+
+all said respective numbers of said 
+plurality of numbers involved in said 
+
+determining said product have been 
+employed. 
+A method for determining the product of a 
+plurality of numbers, said each respective number of said 
+
+plurality of numbers having a plurality of respective digits 
+hierarchically arranged from a respective least-significant 
+
+ 
+place to a respective most-significant place, the method 
+
+comprising the steps of: 
+
+(1) providing a logic means for determining a 
+plurality of partial products; 
+(2) determining said plurality of partial 
+products by said logic means, said 
+
+plurality of partial products 
+comprising a respective partial product 
+
+for each pair-combination of a first 
+plurality of said respective digits of 
+
+a first said respective number and a 
+second plurality of said respective 
+
+digits of a second said respective 
+number, each of said respective partial 
+
+products having a combinational 
+significance, said combinational 
+
+significance being established by said 
+significance of a first digit from said 
+
+first plurality of said respective 
+digits and said significance of a 
+
+second digit from said second plurality 
+of said respective digits, said first 
+
+digit and said second digit comprising 
+said pair-combination involved in said 
+
+respective partial product; 
+(3) providing a register means for storing 
+information, said register means 
+
+comprising a plurality of register cell 
+ 
+
+means for storing accumulated values, 
+each of said plurality of register cell 
+
+means having a hierarchical 
+significance; 
+(4) accumulating selected partial products of 
+said plurality of partial products to 
+
+produce accumulated values in specified 
+register cell means of said plurality 
+
+of register cell means according to the 
+following relationships: 
+
+Pm,n [accumulates in] rx; x=(m+n)-1  
+
+   where "Pm,n" represents said selected 
+partial product; "m" represents said 
+
+first significance, m = 1, 2, ...; "n" 
+represents said second significance, n 
+
+= 1, 2, ...; "rx" represents said 
+specified register cell means having 
+
+significance "x"; 
+(5) effecting a shifting accumulation operation 
+comprising shifting specific digits of 
+
+said accumulated value stored in a 
+lesser-significant register cell means 
+
+of said plurality of register cell 
+means to the next-higher-significant 
+
+register cell means of said plurality 
+of register cell means containing an 
+
+accumulated value, and adding said 
+specific digits to said accumulated 
+
+ 
+value stored in said next-higher-significant 
+
+register cell means as 
+least-significant digits; said specific 
+
+digits being those digits of said 
+accumulated value stored in said 
+
+lesser-significant register cell means 
+having higher significance than the 
+
+least-significant digit of said 
+accumulated value; said shifting 
+
+accumulation operation being effected 
+sequentially between significance-adjacent 
+
+register cell means of said 
+plurality of register cell means from 
+
+the least-significant register cell 
+means to th
+e most-significant register 
+cell means within said register means; 
+(6) shifting the contents of said plurality of 
+register cell means from said plurality 
+
+of register cell means to a result 
+register means for storing said 
+
+contents; said result register means 
+including a plurality of result 
+
+register cell means for storing said 
+contents as a result number having a 
+
+plurality of result digits in a 
+hierarchical arrangement from a least-significant 
+
+result place to a most-significant 
+result place; and 
+(7) repeating steps (1) through (6) employing 
+said result number as one of said first 
+
+said respective number and said second 
+said respective number, and employing 
+
+a next respective number of said 
+plurality of numbers involved in said 
+
+product as the other of said first said 
+respective number and said second said 
+
+respective number than said result 
+number; said repeating continuing until 
+
+all said respective numbers of said 
+plurality of numbers involved in said 
+
+determining said product have been 
+employed. 
+A method for determining the product of a 
+plurality of numbers, each respective number of said 
+
+plurality of numbers having a plurality of respective digits 
+hierarchically arranged from a respective least-significant 
+
+place to a respective most-significant place, the method 
+comprising the steps of: 
+
+
+(1) determining a plurality of partial products, 
+said plurality of partial products 
+
+comprising a respective partial product 
+for each pair-combination of a first 
+
+plurality of said respective digits of 
+a first said respective number and a 
+
+second plurality of said respective 
+ 
+
+digits of a second said respective 
+number, blank places of the shorter 
+
+number of said first said respective 
+number and said second said respective 
+
+number being treated as zeroes while 
+determining said plurality of partial 
+
+products, each of said respective 
+partial products having a combinational 
+
+significance, said combinational 
+significance being established by said 
+
+significance of a first digit from said 
+first plurality of said respective 
+
+digits and said second significance of 
+a second digit from said second 
+
+plurality of said respective digits, 
+said first digit and said second digit 
+
+comprising said pair-combination 
+involved in said respective partial 
+
+product; 
+(2) providing a register means for storing 
+information, said register means 
+
+comprising a plurality of register cell 
+means for storing accumulated values, 
+
+each of said plurality of register cell 
+means having a hierarchical 
+
+significance; 
+(3) accumulating selected partial products of 
+said plurality of partial products to 
+
+ 
+produce accumulated values in specified 
+
+register cell means of said plurality 
+of register cell means according to the 
+
+following relationships: 
+Pm,n [accumulates in]
+ rx; x=(m+n)-1  
+   where "Pm,n" represents said selected 
+
+partial product; "m" represents said 
+first significance, m = 1, 2, ...; "n" 
+
+represents said second significance, n 
+= 1, 2, ...; "rx" represents said 
+
+specified register cell means having 
+significance "x"; 
+(4) effecting a shifting accumulation operation 
+comprising shifting specific digits of 
+
+said accumulated value stored in a 
+lesser-significant register cell means 
+
+of said plurality of register cell 
+means to the next-higher-significant 
+
+register cell means of said plurality 
+of register cell means containing an 
+
+accumulated value, and adding said 
+specific digits to said accumulated 
+
+value stored in said next-higher-significant 
+register cell means as 
+
+least-significant digits; said specific 
+digits being those digits of said 
+
+accumulated value stored in said 
+lesser-significant register cell means 
+
+ 
+having higher significance than the 
+
+least-significant digit of said 
+accumulated value; said shifting 
+
+accumulation operation being effected 
+sequentially between significance-adjacent 
+
+register cell means of said 
+plurality of register cell means from 
+
+the least-significant register cell 
+means to the most-significant register 
+
+cell means within said register means; 
+(5) shifting the contents of said plurality of 
+register cell means from said plurality 
+
+of register cell means to a result 
+register means for storing said 
+
+contents; said result register means 
+including a plurality of result 
+
+register cell means for storing said 
+contents as a result number having a 
+
+plurality of result digits in a 
+hierarchical arrangement from a least-significant 
+
+result place to a most-significant 
+result place; and 
+(6) repeating steps (1) through (5) employing 
+said result number as one of said first 
+
+said respective number and said second 
+said respective number, and employing 
+
+a next respective number of said 
+plurality of numbers involved in said 
+
+ 
+product as the other of said first said 
+
+respective number and said second said 
+respective number than said result 
+
+number; said repeating continuing until 
+all said respective numbers of said 
+
+plurality of numbers involved in said 
+determining said product have been 
+
+employed. 
+A method for determining the product of a 
+plurality of numbers, each respective number of said 
+
+plurality of numbers having a plurality of respective digits 
+hierarchically arranged from a respective least-significant 
+
+place to a respective most-significant place, the method 
+comprising the steps of: 
+
+
+(1) determining a plurality of partial products, 
+said plurality of partial products 
+
+comprising a respective partial product 
+for each pair-combination of a first 
+
+plurality of said respective digits of 
+a first said respective number and a 
+
+second plurality of said respective 
+digits of a second said respective 
+
+number, blank places of the shorter 
+number of said first said respective 
+
+number and said second said respective 
+number being considered as having a 
+
+value of zero during said determining 
+ 
+
+of said plurality of partial products, 
+each of said respective partial 
+
+products having a combinational 
+significance, said combinational 
+
+significance being established by said 
+significance of a first digit from said 
+
+first plurality of said respective 
+digits and said significance of a 
+
+second digit from said second plurality 
+of said respective digits, said first 
+
+digit and said second digit comprising 
+said pair-combination involved in said 
+
+respective partial product; 
+(2) storing said plurality of partial products 
+in a storage array, said storage array 
+
+being operatively addressable as a 
+matrix, said matrix having a plurality 
+
+of columns and a plurality of rows, 
+said plurality of partial products 
+
+being stored within said matrix 
+according to said combinational 
+
+significance, said significance of said 
+first digit determining a first order 
+
+of storing of said plurality of partial 
+products in one of said plurality of 
+
+columns and said plurality of rows, 
+said significance of said second digit 
+
+determining a second order of storing 
+ 
+
+said plurality of partial products in 
+the other of said plurality of columns 
+
+and said plurality of rows; 
+(3) providing a register means for storing 
+information, said register means 
+
+comprising a plurality of register cell 
+means for storing accumulated values, 
+
+said register means being operatively 
+connected with said storage array, each 
+
+of said plurality of register cell 
+means having a hierarchical 
+
+significance; 
+(4) accumulating selected partial products of 
+said plurality of partial products in 
+
+specified register cell means of said 
+plurality of register cell means 
+
+according to the following 
+relationships: 
+
+Pm,n [accumulated in] rx; x=(m+n)-1,  
+
+   where "Pm,n" represents said selected 
+partial product; "m" represents said 
+
+first order of storing, m = 1, 2, ...; 
+"n" represents said second order of 
+
+storing, n = 1, 2, ...; "rx" represents 
+
+said specified register cell means 
+having significance "x"; 
+(5) effecting a shifting accumulation operation 
+comprising shifting specific digits of 
+
+ 
+said accumulated value stored in a 
+
+lesser-significant register cell means 
+of said plurality of register cell 
+
+means to the next-higher-significant 
+register cell means of said plurality 
+
+of register cell means containing an 
+accumulated value, and adding said 
+
+specific digits to said accumulated 
+value stored in said next-higher-significant 
+
+register cell means as 
+least-significant digits; said specific 
+
+digits being those digits of said 
+accumulated value stored in said 
+
+lesser-significant register cell means 
+having higher significance than the 
+
+least-significant digit of said 
+accumulated value; said shifting 
+
+accumulation operation being effected 
+sequentially between significance-adjacent 
+
+register cell means of said 
+plurality of register cell means within 
+
+said register means from the least-significant 
+register cell means to the 
+
+most-significant register cell means 
+within said register means; 
+(6) shifting the contents of said plurality of 
+register cell means from said plurality 
+
+of register cell means to a result 
+ 
+
+register means for storing said 
+contents; said result register means 
+
+including a plurality of result 
+register cell means for storing said 
+
+contents as a result number having a 
+plurality of result digits in a 
+
+hierarchical arrangement from a least-significant 
+result place to a most-significant 
+
+result place; and 
+(7) repeating steps (1) through (6) employing 
+said result number as one of said first 
+
+said respective number and said second 
+said respective number, and employing 
+
+a next respective number of said 
+plurality of numbers involved in said 
+
+product as the other of said first said 
+respective number and said second said 
+
+respective number than said result 
+number; said repeating continuing until 
+
+all said respective numbers of said 
+plurality of numbers involved in said 
+
+determining said product have been 
+employed. 
+A method for determining the product of a 
+plurality of numbers, each respective number of said 
+
+plurality of numbers having a plurality of respective digits 
+hierarchically arranged from a respective least-significant 
+
+ 
+place to a respective most-significant place, the method 
+
+comprising the steps of: 
+
+(1) providing a logic means for determining a 
+plurality of partial products; 
+(2) determining said plurality of partial 
+products by said logic means, said 
+
+plurality of partial products 
+comprising a respective partial product 
+
+for each pair-combination of a first 
+plurality of said respective digits of 
+
+a first said respective number and a 
+second plurality of said respective 
+
+digits of a second said respective 
+number, each of said respective partial 
+
+products having a combinational 
+significance, said combinational 
+
+significance being established by said 
+significance of a first digit from said 
+
+first plurality of said respective 
+digits and said significance of a 
+
+second digit from said second plurality 
+of said respective digits, said first 
+
+digit and said second digit comprising 
+said pair-combination involved in said 
+
+respective partial product; 
+(3) storing said plurality of partial products 
+in a storage array, said storage array 
+
+being operatively addressable as a 
+ 
+
+matrix, said matrix having a plurality 
+of columns and a plurality of rows, 
+
+said plurality of partial products 
+being stored within said matrix 
+
+according to said combinational 
+significance, said significance of said 
+
+first digit determining a first order 
+of storing of said plurality of partial 
+
+products in one of said plurality of 
+columns and said plurality of rows, 
+
+said significance of said second digit 
+determining a second order of storing 
+
+said plurality of partial products in 
+the other of said plurality of columns 
+
+and said plurality of rows; 
+(4) providing a register means for storing 
+information, said register means 
+
+comprising a plurality of register cell 
+means for storing accumulated values, 
+
+said register means being operatively 
+connected with said storage array, each 
+
+of said plurality of register cell 
+means having a hierarchical 
+
+significance; 
+(5) accumulating selected partial products of 
+said plurality of partial products in 
+
+specified register cell means of said 
+plurality of register cell means 
+
+ 
+according to the following 
+
+relationships: 
+Pm,n [accumulated in]
+ rx; x=(m+n)-1,  
+   where "Pm,n" represents said selected 
+
+partial product; "m" represents said 
+first order of storing, m = 1, 2, ...; 
+
+"n" represents said second order of 
+storing, n = 1, 2, ...; "rx" represents 
+
+said specified register cell means 
+having significance "x"; 
+(6) effecting a shifting accumulation operation 
+comprising shifting specific digits of 
+
+said accumulated value stored in a 
+lesser-significant register cell means 
+
+of said plurality of register cell 
+means to the next-higher-significant 
+
+register cell means of said plurality 
+of register cell means containing an 
+
+accumulated value, and adding said 
+specific digits to said accumulated 
+
+value stored in said next-higher-significant 
+register cell means as 
+
+least-significant digits; said specific 
+digits being those digits of said 
+
+accumulated value stored in said 
+lesser-significant register cell means 
+
+having higher significance than the 
+least-significant digit of said 
+
+ 
+accumulated value; said shifting 
+
+accumulation operation being effected 
+sequentially between significance-adjacent 
+
+register cell means of said 
+plurality of register cell means within 
+
+said register means from the least-significant 
+register cell means to the 
+
+most-significant register cell means 
+within said register means; 
+(7) shifting the contents of said plurality of 
+register cell means from said plurality 
+
+of register cell means to a result 
+register means for storing said 
+
+contents; said result register means 
+including a plurality of result 
+
+register cell means for storing said 
+contents as a result number having a 
+
+plurality of result digits in a 
+hierarchical arrangement from a least-significant 
+
+result place to a most-significant 
+result place; and 
+(8) repeating steps (1) through (7) employing 
+said result number as one of said first 
+
+said respective number and said second 
+said respective number, and employing 
+
+a next respective number of said 
+plurality of numbers involved in said 
+
+product as the other of said first said 
+ 
+
+respective number and said second said 
+respective number than said result 
+
+number; said repeating continuing until 
+all said respective numbers of said 
+
+plurality of numbers involved in said 
+determining said product have been 
+
+employed. 
+A method for determining the product of a 
+plurality of numbers, each respective number of said 
+
+plurality of numbers having a plurality of respective digits 
+hierarchically arranged from a respective least-significant 
+
+place to a respective most-significant place, the method 
+comprising: 
+
+
+(1) zero-filling the most significant places of 
+the shorter number of a first number of 
+
+said plurality of numbers and a second 
+number of said plurality of numbers 
+
+appropriately that said first number 
+and said second number occupy a like 
+
+number of places; 
+(2) segmenting said first number into at least 
+one first segment-pair, each respective 
+
+first segment-pair of said at least one 
+first segment-pair being representable 
+
+by an expression am,bm, where "a" 
+represents a higher-significance first 
+
+segment of said respective first 
+ 
+
+segment-pair, where "b" represents a 
+lower-significance first segment of 
+
+said respective first segment-pair, and 
+where "m" = 1, 2, 3, ..., and 
+
+represents the significance of the 
+
+respective first segment-pair within 
+said first number; and segmenting said 
+
+second number into at least one second 
+segment-pair, each respective second 
+
+segment-pair of said at least one 
+second segment-pair being representable 
+
+by an expression cn,dn, where "c" 
+represents a higher-significance second 
+
+segment of said respective second 
+segment-pair, where "d" represents a 
+
+lower-significance second segment of 
+said respective second segment-pair, 
+
+and where "n" = 1, 2, 3, ..., and 
+represents the significance of the 
+
+respective second segment-pair within 
+said second number, all of said first 
+
+segments and said second segments 
+comprising an equal number of digits; 
+(3) determining a first additive compression for 
+each of said at least one first 
+
+segment-pairs, each said first additive 
+compression being representable by an 
+
+expression (am+bm), and determining a 
+ 
+
+second additive compression for each of 
+said at least one second segment-pair, 
+
+each said second additive compression 
+being representable by an expression 
+
+(cn+dn); 
+(4) determining a first subtractive compression 
+for each of said at least one first 
+
+segment-pair, each said first 
+subtractive compression being 
+
+representable by an expression (am-bm), 
+and determining a second subtractive 
+
+compression for each of said at least 
+one second segment-pair, each said 
+
+second subtractive compression being 
+representable by an expression (cn-dn); 
+(5) determining a set of primary partial 
+products comprising the products of 
+
+each lesser-significant segment of each 
+of said at least one first segment-pairs 
+
+with each lesser-significant 
+segment of each of said at least one 
+
+second segment-pairs, each of said set 
+of primary partial products being 
+
+representable by an expression P1m,n, 
+where P1m,n = bmdn, and m,n establishes 
+
+a combinational significance for each 
+said primary partial product; 
+(6) determining a set of secondary partial 
+products comprising the products of 
+
+each of said first additive 
+compressions with each of said second 
+
+additive compressions, each of said set 
+of secondary partial products being 
+
+representable by an expression P2m,n, 
+where 
+
+P2m,n = (am+bm)(cn+dn),  
+   and m,n establishes a combinational 
+
+significance for each said secondary 
+partial product; 
+(7) determining a set of tertiary partial 
+products comprising the products of 
+
+each of said first subtractive 
+compressions with each of said second 
+
+subtractive compressions, each of said 
+set of tertiary partial products being 
+
+representable by an expression P3m,n, 
+where 
+
+P3m,n = (am-bm)(cn-dn),  
+   and m,n establishes a combinational 
+
+significance for each said tertiary 
+partial product; 
+(8) determining a set of additive factors, each 
+of said additive factors comprising the 
+
+sum of a specific secondary partial 
+product of said plurality of secondary 
+
+ 
+partial products with a specific 
+
+tertiary partial product of said 
+plurality of tertiary partial products, 
+
+said specific secondary partial product 
+and said specific tertiary partial 
+
+product having the same combinational 
+significance, dividing said sum by two, 
+
+and subtracting an appropriate primary 
+partial product of said set of primary 
+
+partial products, said appropriate 
+primary partial product having the same 
+
+combinational significance as said 
+specific secondary partial product, 
+
+each of said plurality of additive 
+factors being representable by an 
+
+expression F⁺m,n, where F⁺m,n = [(P2m,n + 
+P3m,n) ÷ 2]
+ - P1m,n; 
+(9) determining a plurality of subtractive 
+factors, each of said subtractive 
+
+factors comprising the difference of a 
+specific secondary partial product of 
+
+said plurality of secondary partial 
+products less a specific tertiary 
+
+partial product of said plurality of 
+tertiary partial products, said 
+
+specific secondary partial product and 
+said specific tertiary partial product 
+
+having the same combinational 
+ 
+
+significance, and dividing said 
+difference by two, each of said 
+
+plurality of subtractive factors being 
+representable by an expression F⁻m,n, 
+
+where 
+F⁻m,n = (P2m,n - P3m,n) ÷ 2; 
+(10) accumulating said plurality of primary 
+partial products, said plurality of 
+
+subtractive factors and said plurality 
+of additive factors in a plurality of 
+
+register cells of a storage means for 
+storing information to yield an interim 
+
+sum in each of said plurality of 
+register cells, said plurality of 
+
+register cells being arrayed 
+hierarchically from a first register 
+
+cell to a (4j-1) register cell, where 
+j = the number of first segment-pairs 
+
+in said plurality of first segment-pairs, 
+said first register cell being 
+
+of lowest significance in said 
+hierarchical arrangement, each of said 
+
+plurality of register cells being 
+representable by rx, where x indicates 
+
+the significance of a respective 
+register cell, said accumulation of 
+
+said plurality of primary partial 
+products in a respective register cell 
+
+ 
+being effected according to the 
+
+relationship: 
+   P1m,n [accumulates in]
+ r2(m+n)-3; said 
+accumulation of said plurality of 
+
+subtractive factors in a respective 
+register cell being effected according 
+
+to the relationship: 
+F⁻m,n [accumulates in]
+ r2(m+n)-2;  
+   said accumulation of said plurality of 
+
+additive factors in a respective 
+register cell being effected according 
+
+to the relationship: 
+F⁺m,n [accumulates in]
+ r2(m+n)-1; 
+(11) effecting a shifting accumulation operation 
+from a lesser-significant register cell 
+
+to a next-higher-significance cell 
+within said storage means, beginning 
+
+with the least-significant register 
+cell, said shifting accumulation 
+
+operation comprising shifting specific 
+digits in said interim sum of said 
+
+lesser-significance register cell, said 
+specific digits being all digits having 
+
+higher significance than the number of 
+least-significance digits in said 
+
+interim sum of said lesser-significance 
+register cell equal to the number of 
+
+digits in each of said first segments 
+ 
+
+of said at least one first segment-pair 
+from said lesser-significance register 
+
+cell to said next-higher-significance 
+register cell, and summing said shifted 
+
+digits of higher significance as least-significant 
+digits with said interim 
+
+sum in said next-higher-significance 
+register cell; 
+(12) repeating step (11) until said next-higher-significance 
+register cell is said (4j-1) cell; 
+(13) shifting the contents of said plurality of 
+register cells from said plurality of 
+
+register cells to a result register 
+means for storing said contents; said 
+
+result register means including a 
+plurality of result register cell means 
+
+for storing said contents as a result 
+number having a plurality of result 
+
+digits in a hierarchical arrangement 
+from a least-significant result place 
+
+to a most-significant result place; and 
+(14) repeating steps (1) through (13) employing 
+said result number as one of said first 
+
+number and said second number, and 
+employing a next respective number of 
+
+said plurality of numbers involved in 
+said product as the other of said first 
+
+ 
+number and said second number than said 
+
+result number; said repeating 
+continuing until all said respective 
+
+numbers of said plurality of numbers 
+involved in said determining said 
+
+product have been employed. 
+An apparatus for determining the product of 
+a plurality of numbers, each respective number of said 
+
+plurality of numbers having a plurality of respective digits 
+hierarchically arranged from a respective least-significant 
+
+digit to a respective most-significant digit; a first number 
+of said plurality of numbers being segmented into a 
+
+plurality of first segments, each of said plurality of first 
+segments including at least one of said plurality of 
+
+respective digits and spanning a first hierarchical range, 
+said plurality of first segments being arrayed in at lea
+st 
+one first segment-pair of hierarchically adjacent ones of 
+
+said plurality of first segments, each of said at least one 
+first segment-pair having a first pair-significance; a 
+
+second number of said plurality of numbers being segmented 
+into a plurality of second segments, each of said plurality 
+
+of second segments including at least one of said plurality 
+of respective digits and spanning a second hierarchical 
+
+range, there being for each of said plurality of first 
+segments spanning a respective first hierarchical range a 
+
+corresponding one of said second segments spanning a second 
+hierarchical range equal to said respective first 
+
+ 
+hierarchical range; said plurality of second segments being 
+
+arrayed in at least one second segment-pair of 
+hierarchically-adjacent ones of said plurality of second 
+
+segments, there being for each of said at least one first 
+segment-pair having a respective first pair-significance a 
+
+corresponding one of said at least one second segment-pair 
+having a second pair-significance equal to said respective 
+
+first pair-significance; the apparatus comprising: 
+   a plurality of logic means for mathematically 
+
+processing at least one input to 
+generate at least one output, said at 
+
+least one output being mathematically 
+related to selected of said at least 
+
+one input according to a predetermined 
+algorithm; 
+
+   an accumulator means for receiving values and 
+accumulating said values to generate 
+
+accumulated values; 
+   a register means for storing information, said 
+
+register means including a plurality of 
+register cells, said plurality of 
+
+register cells being arranged 
+hierarchically by significance, each of 
+
+said plurality of register cells being 
+representable by "rx", where "x" 
+
+indicates the significance of a 
+respective register cell, said register 
+
+means being responsive to a shifting 
+ 
+
+signal to selectively internally shift 
+said information; and 
+
+   a result register means operatively connected 
+with said register means for storing 
+
+result information; said result 
+register means including a plurality of 
+
+result register cell means for storing 
+said result information as a result 
+
+number having a plurality of result 
+digits in a hierarchical arrangement 
+
+from a least-significant result space 
+to a most-significant result space; 
+
+   a first array of said plurality of logic means 
+receiving said at least one first 
+
+segment-pair and generating a first 
+additive compression for each of said 
+
+at least one first segment-pair, each 
+said first additive compression being 
+
+representable by an expression 
+"(am+bm)"; 
+
+   a second array of said plurality of logic means 
+receiving said at least one second 
+
+segment-pair and generating a second 
+additive compression for each of said 
+
+at least one second segment-pair, each 
+said second additive compression being 
+
+representable by an expression 
+"(cn+dn)";
+
+ 
+   a third array of said plurality of logic means 
+
+receiving a first lesser-significant 
+segment of each of said at least one 
+
+first segment-pair and a second lesser-significant 
+segment of each of said at 
+
+least one second segment-pair and 
+generating a set of primary partial 
+
+products, said set of primary partial 
+products comprising the products of 
+
+each said first lesser-significant 
+segment with each of said second 
+
+lesser-significant segment, each of 
+said set of primary partial products 
+
+being representable by an expression 
+"P1m,n", where P1m,n = bmdn, and m,n 
+
+establishes a combinational 
+significance for each said primary 
+
+partial product; 
+   a fourth array of said plurality of logic means 
+
+receiving each said first additive 
+compression and each said second 
+
+additive compression and generating a 
+set of secondary partial products 
+
+comprising the products of each said 
+first additive compression with each 
+
+said second additive compression, each 
+of said set of secondary partial 
+
+ 
+products being representable by an 
+
+expression "P2m,n", where 
+P2m,n = (am+bm)(cn+dn),  
+
+   and m,n establishes a combinational 
+significance for each said set of 
+
+secondary partial products; 
+   a fifth array of said plurality of logic means 
+
+receiving each said first subtractive 
+compression and each said second 
+
+subtractive compression and generating 
+a set of tertiary partial products 
+
+comprising the products of each of said 
+first subtractive compressions with 
+
+each of said second subtractive 
+compressions, each of said set of 
+
+tertiary partial products being 
+representable by an expression "P3m,n", 
+
+where P3m,n = (am-bm)(cn-dn), and m,n 
+establishes a combinational 
+
+significance for each of said set of 
+tertiary partial products; 
+
+   a sixth array of said plurality of logic means 
+receiving said set of primary partial 
+
+products, said set of secondary partial 
+products, and said tertiary partial 
+
+products and generating a set of 
+additive factors comprising the sum of 
+
+each secondary partial product having 
+ 
+
+a specific combinational significance 
+and a corresponding tertiary partial 
+
+product having the same specific 
+combinational significance, dividing 
+
+said sum by two, and subtracting a 
+corresponding primary partial product 
+
+having the same specific combinational 
+significance, each of said set of 
+
+additive factors being representable by 
+an expression "F⁺m,n", where 
+
+F⁺m,n = [(P2m,n + P3m,n) ÷ 2] - P1m,n;  
+
+   a seventh array of said plurality of logic means 
+receiving said set of secondary partial 
+
+products and said set of tertiary 
+partial products, and generating a set 
+
+of subtractive factors comprising the 
+difference between each secondary 
+
+partial product having a specific 
+combinational significance less a 
+
+corresponding tertiary partial product 
+having the same specific combinational 
+
+significance, and dividing said 
+difference by two, each of said set of 
+
+subtractive factors being representable 
+by an expression "F⁻m,n", where 
+
+F⁻m,n = (P2m,n - P3m,n) ÷ 2];  
+
+   said accumulator means receiving said set of 
+primary partial products, said set of 
+
+ 
+additive factors, and said set of 
+
+subtractive factors for said 
+accumulating, said accumulator means 
+
+generating said accumulated values for 
+storage in said plurality of register 
+
+cells; accumulated primary partial 
+products being stored according to the 
+
+relationship: 
+P1m,n [stored in]
+ r2(m+n)-3;  
+   accumulated subtractive factors being stored 
+
+according to the relationship: 
+F⁻m,n [stored in]
+ r2(m+n)-2;  
+   accumulated additive factors being stored 
+
+according to the relationship: 
+F⁺m,n [stored in]
+ r2(m+n)-1;  
+   where m = 1, 2, 3, ... and n = 1, 2, 3, 
+
+...; 
+   said register means responding to said shifting 
+
+signal to effect a shifting 
+accumulation operation from a lesser 
+
+respective register cell to a next-higher-significance 
+register cell, 
+
+beginning with the least-significant 
+respective register cell, said shifting 
+
+accumulation operation comprising 
+shifting specific digits of an 
+
+accumulated value in said lesser-significant 
+respective register cell, 
+
+ 
+said specific digits being all digits 
+
+having higher significance than the 
+number of least-significant digits in 
+
+said accumulated value equal to the 
+number of digits in each of said first 
+
+segments of said at least one segment-pair, 
+from said lesser-significant 
+
+register cell to said next-higher-significance 
+register cell, and summing 
+
+said shifted digits as least-significant 
+digits with said 
+
+accumulated value in said next-higher-significance 
+register cell; 
+
+   said register means conveying said information to 
+said result register after completing 
+
+said shifting accumulation operation; 
+said result register storing said 
+
+information as said result number, said 
+result register being operatively 
+
+connected with said plurality of logic 
+means and operatively connected with an 
+
+output means for outputting said 
+product; said result register being 
+
+selectively coupled with said plurality 
+of logic means for providing said 
+
+result number to said plurality of 
+logic means for an iterative processing 
+
+operation with succeeding remaining 
+ 
+
+numbers of said plurality of numbers; 
+
+said iterative processing operation 
+employing each next said succeeding 
+
+remaining number as one of said first 
+number and said second number and 
+
+employing said result number as the 
+other of said first number and said 
+
+second number than said next said 
+succeeding remaining number; said 
+
+iterative processing operation being 
+complete when all of said succeeding 
+
+remaining numbers of said plurality of 
+numbers have been processed; said 
+
+result register means being selectively 
+coupled with said output means when 
+
+said iterative processing operation is 
+complete. 
+An apparatus for determining the product of 
+a plurality of numbers, the apparatus comprising: 
+
+   a logic means for mathematically manipulating 
+segments of a first number of said 
+
+plurality of numbers and a second 
+number of said plurality of numbers and 
+
+generating a plurality of output 
+factors;
+
+ 
+   an accumulator means for accumulating said 
+
+plurality of output factors for 
+providing accumulated values; 
+
+   a register means for storing said accumulated 
+values; and 
+
+   a result register means operatively connected 
+with said register means for storing 
+
+result information; said result 
+register means including a plurality of 
+
+result register cell means for storing 
+said result information as a result 
+
+number having a plurality of result 
+digits in a hierarchical arrangement 
+
+from a least-significant result space 
+to a most-significant result space; 
+
+   said first number being segmented into at least 
+one first segment-pair, each respective 
+
+first segment-pair of said at least one 
+first segment-pair comprising a lower-significance 
+
+first segment including a 
+first number of digits, and an adjacent 
+
+higher-significance first segment 
+including a second number of digits; 
+
+said at least one first segment-pair 
+spanning a significance range; 
+
+   said second number being segmented into at least 
+one second segment-pair, each 
+
+respective second segment-pair 
+ 
+
+comprising a lower-significance second 
+segment including said first number of 
+
+digits, and an adjacent higher-significance 
+second segment including 
+
+said second number of digits, said at 
+least one second segment-pair spanning 
+
+said significance range; 
+   each said respective first segment-pair being 
+
+representable by an expression "am,bm"; 
+and each said respective second 
+
+segment-pair being representable by an 
+expression "cn,dn"; where "a" represents 
+
+said higher-significance first segment, 
+"b" represents said lower-significance 
+
+first segment, and "m" = 1, 2, 3, ..., 
+and indicates the significance of said 
+
+respective first segment-pair within 
+said first number; and where "c" 
+
+represents said higher-significance 
+second segment, "d" represents said 
+
+lower-significance second segment, and 
+"n" = 1, 2, 3, ..., and indicates the 
+
+significance of said respective second 
+segment-pair within said second number; 
+
+   said logic means being configured to calculate, 
+for each combinational significance 
+
+m,n, said plurality of output factors; 
+ 
+
+said plurality of output factors comprising a 
+partial product, "Pm,n", where Pm,n= bmdn; 
+
+an additive factor, "F⁺m,n", where: 
+   F⁺m,n = {[(am+bm)(cn+dn) + (am-bm)(cn-dn)]
+ 
+÷ 2}-Pm,n; and a subtractive factor, "F⁻m,n", 
+
+where: 
+   F⁻m,n = [(am+bm)(cn+dn) - (am-bm)(cn-dn)]
+ ÷ 
+2; said accumulator means accumulating 
+
+said output factors for storage as said 
+accumulated values in a register cell, 
+
+rx, within said register means, where 
+"x" indicates the significance of a 
+
+respective register cell, "r", 
+according to the following 
+
+relationships: 
+Pm,n [accumulates for]
+ r2(m+n)-3; F⁻m,n [accumulates for] r2(m+n)-2; and F⁺m,n [accumulates for]
+ r2(m+n)-1;  
+   said accumulated values being received in 
+
+appropriate register cells rx of said 
+register means; said register means 
+
+effecting a shifting accumulation 
+operation with said accumulated values, 
+
+said shifting accumulation operation 
+comprising shifting specific digits of 
+
+said accumulated value stored in a 
+lesser-significance register cell to a 
+
+higher-significance register cell, and 
+ 
+
+adding said specific digits to said 
+accumulated value stored in said 
+
+higher-significance register cell as 
+least-significant digits; said specific 
+
+digits being those digits of said 
+accumulated value in said lesser-significance 
+
+cell having higher 
+significance than the number of least-significant 
+
+digits equal to said first 
+number of digits; said shifting 
+
+accumulation operation being effected 
+sequentially between significance-adjacent 
+
+register cells within said 
+register means from said least-significant 
+
+register cell to said most-significant 
+register cell; 
+
+   said register means conveying said information to 
+said result register after completing 
+
+said shifting accumulation operation; 
+said result register storing said 
+
+information as said result number, said 
+result register being operatively 
+
+connected with said logic means and 
+operatively connected with an output 
+
+means for outputting said product; said 
+result register being selectively 
+
+coupled with said logic means for 
+providing said result number to said 
+
+ 
+logic means for an iterative processing 
+
+operation with succeeding remaining 
+numbers of said plurality of numbers; 
+
+said iterative processing operation 
+employing each next said succeeding 
+
+remaining number as one of said first 
+number and said second number and 
+
+employing said result number as the 
+other of said first number and said 
+
+second number than said next said 
+succeeding remaining number; said 
+
+iterative processing operation being 
+complete when all of said succeeding 
+
+remaining numbers of said plurality of 
+numbers have been processed; said 
+
+result register means being selectively 
+coupled with said output means when 
+
+said iterative processing operation is 
+complete. 
+An apparatus for determining the product of 
+a plurality of numbers, each respective number of said 
+
+plurality of numbers having a plurality of respective digits 
+hierarchically arranged from a respective least-significant 
+
+place to a respective most-significant place, the apparatus 
+comprising: 
+
+   a logic means for determining a plurality of 
+partial products, said plurality of 
+
+ 
+partial products comprising a 
+
+respective partial product for each 
+pair-combination of a first plurality 
+
+of said respective digits of a first 
+said respective number and a second 
+
+plurality of said respective digits of 
+a second said respective number, said 
+
+logic means treating blank places of 
+the shorter number of said first said 
+
+respective number and said second said 
+respective number as zeroes while 
+
+effecting said determining of said 
+plurality of partial products, each of 
+
+said respective partial products having 
+a combinational significance, said 
+
+combinational significance being 
+established by said significance of a 
+
+first digit from said first plurality 
+of said respective digits and said 
+
+significance of a second digit from 
+said second plurality of said 
+
+respective digits, said first digit and 
+said second digit comprising said pair-combination 
+
+involved in said respective 
+partial product; 
+
+   a register means for storing information, said 
+register means comprising a plurality 
+
+of register cell means for storing 
+ 
+
+accumulated values, said register cell 
+means having a hierarchical 
+
+significance result register means 
+operatively connected with said 
+
+register means for storing result 
+information; said result register means 
+
+including a plurality of result 
+register cell means for storing said 
+
+result information as a result number 
+having a plurality of result digits in 
+
+a hierarchical arrangement from a 
+least-significant result space to a 
+
+most-significant result space; and 
+   an accumulating means for accumulating selected 
+
+partial products of said plurality of 
+partial products to produce accumulated 
+
+values in specified register cell means 
+of said plurality of register cell 
+
+means according to the following 
+relationships: 
+
+Pm,n [accumulates in]
+ rx; x=(m+n)-1  
+   where "Pm,n" represents said selected 
+
+partial product; "m" represents said 
+first significance, m = 1, 2, ...; "n" 
+
+represents said second significance, n 
+= 1, 2, ...; "rx" represents said 
+
+specified register cell means having 
+significance "x";
+
+ 
+   said register means effecting a shifting 
+
+accumulation operation comprising 
+shifting specific digits of said 
+
+accumulated value stored in a lesser-significant 
+register cell means of said 
+
+plurality of register cell means to the 
+next-higher-significant register cell 
+
+means of said plurality of register 
+cell means containing an accumulated 
+
+value, and adding said specific digits 
+to said accumulated value stored in 
+
+said next-higher-significant register 
+cell means as least-significant digits; 
+
+said specific digits being those digits 
+of said accumulated value stored in 
+
+said lesser-significant register cell 
+means having higher significance than 
+
+the least-significant digit of said 
+accumulated value; said shifting 
+
+accumulation operation being effected 
+sequentially between significance-adjacent 
+
+register cell means of said 
+plurality of register cell means from 
+
+the least-significant register cell 
+means to the most-significant register 
+
+cell means within said register means; 
+   said register means conveying said information to 
+
+said result register after completing 
+ 
+
+said shifting accumulation operation; 
+said result register storing said 
+
+information as said result number, said 
+result register being operatively 
+
+connected with said logic means and 
+operatively connected with an output 
+
+means for outputting said product; said 
+result register being selectively 
+
+coupled with said logic means for 
+providing said result number to said 
+
+logic means for an iterative processing 
+operation with succeeding remaining 
+
+numbers of said plurality of numbers; 
+said iterative processing operation 
+
+employing each next said succeeding 
+remaining number as one of said first 
+
+said respective number and said second 
+said respective number and employing 
+
+said result number as the other of said 
+first said respective number and said 
+
+second said respective number than said 
+next said succeeding remaining number; 
+
+said iterative processing operation 
+being complete when all of said 
+
+succeeding remaining numbers of said 
+plurality of numbers have been 
+
+processed; said result register means 
+being selectively coupled with said 
+
+ 
+output means when said iterative 
+
+processing operation is complete; 
+contents of said plurality of result 
+
+register cell means after completion of 
+said iterative processing operation is 
+
+complete comprising said product. 
+An apparatus for determining the product of 
+a plurality of numbers, each respective number of said 
+
+plurality of numbers having a plurality of respective digits 
+hierarchically arranged from a respective least-significant 
+
+place to a respective most-significant place, the apparatus 
+comprising: 
+
+   a logic means for determining a plurality of 
+partial products, said plurality of 
+
+partial products comprising a 
+respective partial product for each 
+
+pair-combination of a first plurality 
+of said respective digits of a first 
+
+said respective number and a second 
+plurality of said respective digits of 
+
+a second said respective number, each 
+of said respective partial products 
+
+having a combinational significance, 
+said combinational significance being 
+
+established by said significance of a 
+first digit from said first plurality 
+
+of said respective digits and said 
+ 
+
+significance of a second digit from 
+said second plurality of said 
+
+respective digits, said first digit and 
+said second digit comprising said pair-combination 
+
+involved in said respective 
+partial product; 
+
+   a register means for storing information, said 
+register means comprising a plurality 
+
+of register cell means for storing 
+accumulated values, said register cell 
+
+means having a hierarchical 
+significance; and 
+
+   a result register means operatively connected 
+with said register means for storing 
+
+result information; said result 
+register means including a plurality of 
+
+result register cell means for storing 
+said result information as a result 
+
+number having a plurality of result 
+digits in a hierarchical arrangement 
+
+from a least-significant result space 
+to a most-significant result space; 
+
+   said register means accumulating selected partial 
+products of said plurality of partial 
+
+products to produce accumulated values 
+in specified register cell means of 
+
+said plurality of register cell means 
+ 
+
+according to the following 
+relationships: 
+
+Pm,n [accumulates in] rx; x=(m+n)-1  
+
+   where "Pm,n" represents said selected 
+partial product; "m" represents said 
+
+first significance, m = 1, 2, ...; "n" 
+represents said second significance, n 
+
+= 1, 2, ...; "rx" represents said 
+specified register cell means having 
+
+significance "x"; 
+   said register means effecting a shifting 
+
+accumulation operation comprising 
+shifting specific digits of said 
+
+accumulated value stored in a lesser-significant 
+register cell means of said 
+
+plurality of register cell means to the 
+next-higher-significant register cell 
+
+means of said plurality of register 
+cell means containing an accumulated 
+
+value, and adding said specific digits 
+to said accumulated value stored in 
+
+said next-higher-significant register 
+cell means as least-significant digits; 
+
+said specific digits being those digits 
+of said accumulated value stored in 
+
+said lesser-significant register cell 
+means having higher significance than 
+
+the least-significant digit of said 
+ 
+
+accumulated value; said shifting 
+accumulation operation being effected 
+
+sequentially between significance-adjacent 
+register cell means of said 
+
+plurality of register cell means from 
+the least-significant register cell 
+
+means to the most-significant register 
+cell means within said register means 
+
+to determine said product; 
+   said register means conveying said information to 
+
+said result register after completing 
+said shifting accumulation operation; 
+
+said result register storing said 
+information as said result number, said 
+
+result register being operatively 
+connected with said logic means and 
+
+operatively connected with an output 
+means for outputting said product; said 
+
+result register being selectively 
+coupled with said logic means for 
+
+providing said result number to said 
+logic means for an iterative processing 
+
+operation with succeeding remaining 
+numbers of said plurality of numbers; 
+
+said iterative processing operation 
+employing each next said succeeding 
+
+remaining number as one of said first 
+said respective number and said second 
+
+ 
+said respective number and employing 
+
+said result number as the other of said 
+first said respective number and said 
+
+second said respective number than said 
+next said succeeding remaining number; 
+
+said iterative processing operation 
+being complete when all of said 
+
+succeeding remaining numbers of said 
+plurality of numbers have been 
+
+processed; said result register means 
+being selectively coupled with said 
+
+output means when said iterative 
+processing operation is complete. 
+An apparatus for determining the product of 
+a plurality of numbers, each respective number of said 
+
+plurality of numbers having a plurality of respective digits 
+hierarchically arranged from a respective least-significant 
+
+place to a respective most-significant place, the apparatus 
+comprising: 
+
+   a logic means for determining a plurality of 
+partial products, said plurality of 
+
+partial products comprising a 
+respective partial product for each 
+
+pair-combination of a first plurality 
+of said respective digits of a first 
+
+said respective number and a second 
+plurality of said respective digits of 
+
+ 
+a second said respective number, said 
+
+logic means considering blank places of 
+the shorter number of said first said 
+
+respective number and said second said 
+respective number as having a value of 
+
+zero during said determining of said 
+plurality of partial products, each of 
+
+said respective partial products having 
+
+a combinational significance, said 
+combinational significance being 
+
+established by said significance of a 
+first digit from said first plurality 
+
+of said respective digits and said 
+significance of a second digit from 
+
+said second plurality of said 
+respective digits; said first digit and 
+
+said second digit comprising said pair-combination 
+involved in said respective 
+
+partial product; 
+   a storage array means for storing said plurality 
+
+of partial products, said storage array 
+means being operatively addressable as 
+
+a matrix, said matrix having a 
+plurality of columns and a plurality of 
+
+rows, said plurality of partial 
+products being stored within said 
+
+matrix according to said combinational 
+significance, said first significance 
+
+ 
+determining a first order of storing of 
+
+said plurality of partial products in 
+one of said plurality of columns and 
+
+said plurality of rows, said second 
+significance determining a second order 
+
+of storing said plurality of partial 
+products in the other of said plurality 
+
+of columns and said plurality of rows; 
+   a register means for storing information, said 
+
+register means comprising a plurality 
+of register cell means for storing 
+
+accumulated values, said register means 
+being operatively connected with said 
+
+storage array means, said register cell 
+means having a hierarchical 
+
+significance; and 
+   a result register means operatively connected 
+
+with said register means for storing 
+result information; said result 
+
+register means including a plurality of 
+result register cell means for storing 
+
+said result information as a result 
+number having a plurality of result 
+
+digits in a hierarchical arrangement 
+from a least-significant result space 
+
+to a most-significant result space; 
+   said register means accumulating selected partial 
+
+products of said plurality of partial 
+ 
+
+products in specified register cell 
+means of said plurality of register 
+
+cell means according to the following 
+relationships: 
+
+Pm,n [accumulated in] rx; x=(m+n)-1,  
+
+   where "Pm,n" represents said selected 
+partial product; "m" represents said 
+
+first order of storing, m = 1, 2, ...; 
+"n" represents said second order of 
+
+storing, n = 1, 2, ...; "rx" represents 
+said specified register cell means 
+
+having significance "x"; 
+   said register means effecting a shifting 
+
+accumulation operation comprising 
+shifting specific digits of said 
+
+accumulated value stored in a lesser-significant 
+register cell means of said 
+
+plurality of register cell means to the 
+next-higher-significant register cell 
+
+means of said plurality of register 
+cell means containing an accumulated 
+
+value, and adding said specific digits 
+to said accumulated value stored in 
+
+said next-higher-significant register 
+cell means as least-significant digits; 
+
+said specific digits being those digits 
+of said accumulated value stored in 
+
+said lesser-significant register cell 
+ 
+
+means having higher significance than 
+the least-significant digit of said 
+
+accumulated value; said shifting 
+accumulation operation being effected 
+
+sequentially between significance-adjacent 
+register cell means of said 
+
+plurality of register cell means within 
+said register means from the least-significant 
+
+register cell means to the 
+most-significant register cell means 
+
+within said register means; 
+   said register means conveying said information to 
+
+said result register after completing 
+said shifting accumulation operation; 
+
+said result register storing said 
+information as said result number, said 
+
+result register being operatively 
+connected with said logic means and 
+
+operatively connected with an output 
+means for outputting said product; said 
+
+result register being selectively 
+coupled with said logic means for 
+
+providing said result number to said 
+logic means for an iterative processing 
+
+operation with succeeding remaining 
+numbers of said plurality of numbers; 
+
+said iterative processing operation 
+employing each next said succeeding 
+
+ 
+remaining number as one of said first 
+
+said respective number and said second 
+said respective number and employing 
+
+said result number as the other of said 
+first said respective number and said 
+
+second said respective number than said 
+next said succeeding remaining number; 
+
+said iterative processing operation 
+being complete when all of said 
+
+succeeding remaining numbers of said 
+plurality of numbers have been 
+
+processed; said result register means 
+being selectively coupled with said 
+
+output means when said iterative 
+processing operation is complete. 
+An apparatus for determining the product of 
+a plurality of numbers, each respective number of said 
+
+plurality of numbers having a plurality of respective digits 
+hierarchically arranged from a respective least-significant 
+
+place to a respective most-significant place, the apparatus 
+comprising: 
+
+   means for determining a plurality of partial 
+products, said plurality of partial 
+
+products comprising a respective 
+partial product for each pair-combination 
+
+of a first plurality of 
+said respective digits of a first said 
+
+ 
+respective number and a second 
+
+plurality of said respective digits of 
+a second said respective number, blank 
+
+places of the shorter number of said 
+first said respective number and said 
+
+second said respective number being 
+treated as zeroes while determining 
+
+said plurality of partial products, 
+each of said respective partial 
+
+products having a combinational 
+significance, said combinational 
+
+significance being established by said 
+significance of a first digit from said 
+
+first plurality of said respective 
+digits and said significance of a 
+
+second digit from said second plurality 
+of said respective digits; said first 
+
+digit and said second digit comprising 
+said pair-combination involved in said 
+
+respective partial product; 
+   a register for storing information, said register 
+
+comprising a plurality of register 
+cells for storing accumulated values, 
+
+each of said plurality of register 
+cells having a hierarchical 
+
+significance; 
+   a result register means operatively connected 
+
+with said register means for storing 
+ 
+
+result information; said result 
+register means including a plurality of 
+
+result register cell means for storing 
+said result information as a result 
+
+number having a plurality of result 
+digits in a hierarchical arrangement 
+
+from a least-significant result space 
+to a most-significant result space; 
+
+   means for accumulating selected partial products 
+of said plurality of partial products 
+
+to produce accumulated values in 
+specified register cells of said 
+
+plurality of register cells according 
+to the following relationships: 
+
+Pm,n [accumulates in] rx; x=(m+n)-1  
+
+   where "Pm,n" represents said selected 
+partial product; "m" represents said 
+
+first significance, m = 1, 2, ...; "n" 
+represents said second significance, n 
+
+= 1, 2, ...; "rx" represents said 
+specified register cell means having 
+
+significance "x"; 
+   means for effecting a shifting accumulation 
+
+operation comprising shifting specific 
+digits of said accumulated value stored 
+
+in a lesser-significant register cell 
+of said plurality of register cells to 
+
+the next-higher-significant register 
+ 
+
+cell of said plurality of register 
+cells containing an accumulated value, 
+
+and adding said specific digits to said 
+accumulated value stored in said next-higher-significant 
+
+register cell as 
+least-significant digits; said specific 
+
+digits being those digits of said 
+accumulated value stored in said 
+
+lesser-significant register cell having 
+higher significance than the least-significant 
+
+digit of said accumulated 
+value; said shifting accumulation 
+
+operation being effected sequentially 
+between significance-adjacent register 
+
+cells of said plurality of register 
+cells from the least-significant 
+
+register cell to the most-significant 
+register cell within said register; 
+
+said register means conveying said 
+information to said result register 
+
+after completing said shifting 
+accumulation operation; said 
+
+result register storing said 
+information as said result
+ number, said 
+result register being operatively 
+
+connected with said logic means and 
+operatively connected with an output 
+
+means for outputting said product; said 
+ 
+
+result register being selectively 
+coupled with said logic means for 
+
+providing said result number to said 
+logic means for an iterative processing 
+
+operation with succeeding remaining 
+numbers of said plurality of numbers; 
+
+said iterative processing operation 
+employing each next said succeeding 
+
+remaining number as one of said first 
+said respective number and said second 
+
+said respective number and employing 
+said result number as the other of said 
+
+first said respective number and said 
+second said respective number than said 
+
+next said succeeding remaining number; 
+said iterative processing operation 
+
+being complete when all of said 
+succeeding remaining numbers of said 
+
+plurality of numbers have been 
+processed; said result register means 
+
+being selectively coupled with said 
+output means when said iterative 
+
+processing operation is complete; and 
+   means for shifting the contents of said plurality 
+
+of result register cells from said 
+plurality of result register cells via 
+
+said output means. 
+A method for determining the product of a 
+plurality of numbers, each respective number of said 
+
+plurality of numbers having a plurality of respective digits 
+hierarchically arranged from a respective least-significant 
+
+place to a respective most-significant place, the method 
+comprising the steps of: 
+
+
+(1) providing a logic means for determining a 
+plurality of partial products; 
+(2) determining said plurality of partial 
+products by said logic means, said 
+
+plurality of partial products 
+comprising a respective partial product 
+
+for each pair-combination of a first 
+plurality of said respective digits of 
+
+a first said respective number and a 
+second plurality of said respective 
+
+digits of a second said respective 
+number, each of said respective partial 
+
+products having a combinational 
+significance, said combinational 
+
+significance being established by said 
+significance of a first digit from said 
+
+first plurality of said respective 
+digits and said significance of a 
+
+second digit from said second plurality 
+of said respective digits; said first 
+
+digit and said second digit comprising 
+ 
+
+said pair-combination involved in said 
+respective partial product; 
+(3) providing an accumulator means for 
+selectively accumulating selected 
+
+partial products of said plurality of 
+partial products; 
+(4) providing a register means for storing 
+information, said register means 
+
+comprising a plurality of register cell 
+means for storing accumulated values, 
+
+each of said plurality of register cell 
+means having a hierarchical 
+
+significance; 
+(5) accumulating said selected partial products 
+by said accumulator means to produce 
+
+said accumulated values for storing in 
+specific register cell means of said 
+
+plurality of register cell means 
+according to the following 
+
+relationships: 
+Pm,n [accumulates in]
+ rx; x=(m+n)-1  
+   where "Pm,n" represents said selected 
+
+partial product; "m" represents said 
+first significance, m = 1, 2, ...; "n" 
+
+represents said second significance, n 
+= 1, 2, ...; "rx" represents said 
+
+specified register cell means having 
+significance "x"; 
+(6) effecting a shifting accumulation operation 
+comprising shifting specific digits of 
+
+said accumulated value stored in a 
+lesser-significant register cell means 
+
+of said plurality of register cell 
+means to the next-higher-significant 
+
+register cell means of said plurality 
+of register cell means containing an 
+
+accumulated value, and adding said 
+specific digits to said accumulated 
+
+value stored in said next-higher-significant 
+register cell means as 
+
+least-significant digits; said specific 
+digits being those digits of said 
+
+accumulated value stored in said 
+lesser-significant register cell means 
+
+having higher significance than the 
+least-significant digit of said 
+
+accumulated value; said shifting 
+accumulation operation being effected 
+
+sequentially between significance-adjacent 
+register cell means of said 
+
+plurality of register cell means from 
+the least-significant register cell 
+
+means to the most-significant register 
+cell means within said register means; 
+
+contents of said plurality of register 
+cell means after completion of said 
+
+ 
+shifting accumulation operation being 
+
+a result product of said first said 
+respective number and said second said 
+
+respective number; and 
+(7) repeating steps (1) through (6) employing 
+said result product as one of said 
+
+first said respective number and said 
+second said respective number, and 
+
+employing a next respective number of 
+said plurality of numbers involved in 
+
+said product as the other of said first 
+said respective number and said second 
+
+said respective number than said result 
+product; said repeating continuing 
+
+until all said respective numbers of 
+said plurality of numbers involved in 
+
+said determining said product have been 
+employed. 
+A method for determining the product of a 
+plurality of numbers, each respective number of said 
+
+plurality of numbers having a plurality of respective digits 
+hierarchically arranged from a respective least-significant 
+
+place to a respective most-significant place, the method 
+comprising the steps of: 
+
+
+(1) determining a plurality of partial products, 
+said plurality of partial products 
+
+comprising a respective partial product 
+ 
+
+for each pair-combination of a first 
+plurality of said respective digits of 
+
+a first said respective number and a 
+second plurality of said respective 
+
+digits of a second said respective 
+number, blank places of the shorter 
+
+number of said first said respective 
+number and said second said respective 
+
+number being treated as zeroes while 
+determining said plurality of partial 
+
+products, each of said respective 
+partial products having a combinational 
+
+significance, said combinational 
+significance being established by said 
+
+significance of a first digit from said 
+first plurality of said respective 
+
+digits and said significance of a 
+second digit from said second plurality 
+
+of said respective digits, said first 
+digit and said second digit comprising 
+
+said pair-combination involved in said 
+respective partial product; 
+(2) providing an accumulator means for 
+selectively accumulating selected 
+
+partial products of said plurality of 
+partial products; 
+(3) providing a register means for storing 
+information, said register means 
+
+ 
+comprising a plurality of register cell 
+
+means for storing said accumulated 
+values, each of said plurality of 
+
+register cell means having a 
+hierarchical significance; 
+(4) accumulating said selected partial products 
+by said accumulator means to produce 
+
+accumulated values for storing in 
+specific register cell means of said 
+
+plurality of register cell means 
+according to the following 
+
+relationships: 
+Pm,n [accumulates in]
+ rx; x=(m+n)-1  
+   where "Pm,n" represents said selected 
+
+partial product; "m" represents said 
+first significance, m = 1, 2, ...; "n" 
+
+represents said second significance, n 
+= 1, 2, ...; "rx" represents said 
+
+specified register cell means having 
+significance "x"; 
+(5) effecting a shifting accumulation operation 
+comprising shifting specific digits of 
+
+said accumulated value stored in a 
+lesser-significant register cell means 
+
+of said plurality of register cell 
+means to the next-higher-significant 
+
+register cell means of said plurality 
+of register cell means containing an 
+
+ 
+accumulated value, and adding said 
+
+specific digits to said accumulated 
+value stored in said next-higher-significant 
+
+register cell means as 
+least-significant digits; said specific 
+
+digits being those digits of said 
+accumulated value stored in said 
+
+lesser-significant register cell means 
+
+having higher significance than the 
+least-significant digit of said 
+
+accumulated value; said shifting 
+accumulation operation being effected 
+
+sequentially between significance-adjacent 
+register cell means of said 
+
+plurality of register cell means from 
+the least-significant register cell 
+
+means to the most-significant register 
+cell means within said register means; 
+
+contents of said plurality of register 
+cell means after completion of said 
+
+shifting accumulation operation being 
+a result product of said first said 
+
+respective number and said second said 
+respective number; and 
+(6) repeating steps (1) through (5) employing 
+said result product as one of said 
+
+first said respective number and said 
+second said respective number, and 
+
+ 
+employing a next respective number of 
+
+said plurality of numbers involved in 
+said product as the other of said first 
+
+said respective number and said second 
+said respective number than said result 
+
+product; said repeating continuing 
+until all said respective numbers of 
+
+said plurality of numbers involved in 
+said determining said product have been 
+
+employed. 
+A method for determining the product of a 
+plurality of numbers, said each respective number of said 
+
+plurality of numbers having a plurality of respective digits 
+hierarchically arranged from a respective least-significant 
+
+place to a respective most-significant place, the method 
+comprising the steps of: 
+
+
+(1) providing a logic means for determining a 
+plurality of partial products; 
+(2) determining said plurality of partial 
+products by said logic means, said 
+
+plurality of partial products 
+comprising a respective partial product 
+
+for each pair-combination of a first 
+plurality of said respective digits of 
+
+a first said respective number and a 
+second plurality of said respective 
+
+digits of a second said respective 
+ 
+
+number, each of said respective partial 
+products having a combinational 
+
+significance, said combinational 
+significance being established by said 
+
+significance of a first digit from said 
+first plurality of said respective 
+
+digits and said significance of a 
+second digit from said second plurality 
+
+of said respective digits, said first 
+digit and said second digit comprising 
+
+said pair-combination involved in said 
+respective partial product; 
+(3) providing a register means for storing 
+information, said register means 
+
+comprising a plurality of register cell 
+means for storing accumulated values, 
+
+each of said plurality of register cell 
+means having a hierarchical 
+
+significance; 
+(4) accumulating selected partial products of 
+said plurality of partial products to 
+
+produce accumulated values in specified 
+register cell means of said plurality 
+
+of register cell means according to the 
+following relationships: 
+
+Pm,n [accumulates in] rx; x=(m+n)-1  
+
+   where "Pm,n" represents said selected 
+partial product; "m" represents said 
+
+ 
+first significance, m = 1, 2, ...; "n" 
+
+represents said second significance, n 
+= 1, 2, ...; "rx" represents said 
+
+specified register cell means having 
+significance "x"; 
+(5) effecting a shifting accumulation operation 
+comprising shifting specific digits of 
+
+said accumulated value stored in a 
+lesser-significant register cell means 
+
+of said plurality of register cell 
+means to the next-higher-significant 
+
+register cell means of said plurality 
+of register cell means containing an 
+
+accumulated value, and adding said 
+specific digits to said accumulated 
+
+value stored in said next-higher-significant 
+register cell means as 
+
+least-significant digits; said specific 
+digits being those digits of said 
+
+accumulated value stored in said 
+lesser-significant register cell means 
+
+having higher significance than the 
+least-significant digit of said 
+
+accumulated value; said shifting 
+accumulation operation being effected 
+
+sequentially between significance-adjacent 
+register cell means of said 
+
+plurality of register cell means from 
+ 
+
+the least-significant register cell 
+means to the most-significant register 
+
+cell means within said register means; 
+contents of said plurality of register 
+
+cell means after completion of said 
+shifting accumulation operation being 
+
+a result product of said first said 
+respective number and said second said 
+
+respective number; and 
+(6) repeating steps (1) through (5) employing 
+said result product as one of said 
+
+first said respective number and said 
+second said respective number, and 
+
+employing a next respective number of 
+said plurality of numbers involved in 
+
+said product as the other of said first 
+said respective number and said second 
+
+said respective number than said result 
+product; said repeating continuing 
+
+until all said respective numbers of 
+said plurality of numbers involved in 
+
+said determining said product have been 
+employed. 
+A method for determining the product of a 
+plurality of numbers, each respective number of said 
+
+plurality of numbers having a plurality of respective digits 
+hierarchically arranged from a respective least-significant 
+
+ 
+place to a respective most-significant place, the method 
+
+comprising the steps of: 
+
+(1) determining a plurality of partial products, 
+said plurality of partial products 
+
+comprising a respective partial product 
+for each pair-combination of a first 
+
+plurality of said respective digits of 
+a first said respective number and a 
+
+second plurality of said respective 
+digits of a second said respective 
+
+number, blank places of the shorter 
+number of said first said respective 
+
+number and said second said respective 
+number being treated as zeroes while 
+
+determining said plurality of partial 
+products, each of said respective 
+
+partial products having a combinational 
+significance, said combinational 
+
+significance being established by said 
+significance of a first digit from said 
+
+first plurality of said respective 
+digits and said second significance of 
+
+a second digit from said second 
+plurality of said respective digits, 
+
+said first digit and said second digit 
+comprising said pair-combination 
+
+involved in said respective partial 
+product; 
+(2) providing a register means for storing 
+information, said register means 
+
+comprising a plurality of register cell 
+means for storing accumulated values, 
+
+each of said plurality of register cell 
+means having a hierarchical 
+
+significance; 
+(3) accumulating selected partial products of 
+said plurality of partial products to 
+
+produce accumulated values in specified 
+register cell means of said plurality 
+
+of register cell means according to the 
+following relationships: 
+
+Pm,n [accumulates in] rx; x=(m+n)-1  
+
+   where "Pm,n" represents said selected 
+partial product; "m" represents said 
+
+first significance, m = 1, 2, ...; "n" 
+represents said second significance, n 
+
+= 1, 2, ...; "rx" represents said 
+specified register cell means having 
+
+significance "x"; 
+(4) effecting a shifting accumulation operation 
+comprising shifting specific digits of 
+
+said accumulated value stored in a 
+lesser-significant register cell means 
+
+of said plurality of register cell 
+means to the next-higher-significant 
+
+register cell means of said plurality 
+ 
+
+of register cell means containing an 
+accumulated value, and adding said 
+
+specific digits to said accumulated 
+value stored in said next-higher-significant 
+
+register cell means as 
+least-significant digits; said specific 
+
+digits being those digits of said 
+accumulated value stored in said 
+
+lesser-significant register cell means 
+having higher significance than the 
+
+least-significant digit of said 
+accumulated value; said shifting 
+
+accumulation operation being effected 
+sequentially between significance-adjacent 
+
+register cell means of said 
+plurality of register cell means from 
+
+the least-significant register cell 
+means to the most-significant
+ register 
+cell means within said register means; 
+
+contents of said plurality of register 
+cell means after completion of said 
+
+shifting accumulation operation being 
+a result product of said first said 
+
+respective number and said second said 
+respective number; and 
+(5) repeating steps (1) through (4) employing 
+said result product as one of said 
+
+first said respective number and said 
+ 
+
+second said respective number, and 
+employing a next respective number of 
+
+said plurality of numbers involved in 
+said product as the other of said first 
+
+said respective number and said second 
+said respective number than said result 
+
+product; said repeating continuing 
+until all said respective numbers of 
+
+said plurality of numbers involved in 
+said determining said product have been 
+
+employed. 
+A method for determining the product of a 
+plurality of numbers, each respective number of said 
+
+plurality of numbers having a plurality of respective digits 
+hierarchically arranged from a respective least-significant 
+
+place to a respective most-significant place, the method 
+comprising the steps of: 
+
+
+(1) determining a plurality of partial products, 
+said plurality of partial products 
+
+comprising a respective partial product 
+for each pair-combination of a first 
+
+plurality of said respective digits of 
+a first said respective number and a 
+
+second plurality of said respective 
+digits of a second said respective 
+
+number, blank places of the shorter 
+number of said first said respective 
+
+ 
+number and said second said respective 
+
+number being considered as having a 
+value of zero during said determining 
+
+of said plurality of partial products, 
+each of said respective partial 
+
+products having a combinational 
+significance, said combinational 
+
+significance being established by said 
+significance of a first digit from said 
+
+first plurality of said respective 
+digits and said significance of a 
+
+second digit from said second plurality 
+of said respective digits, said first 
+
+digit and said second digit comprising 
+said pair-combination involved in said 
+
+respective partial product; 
+(2) storing said plurality of partial products 
+in a storage array, said storage array 
+
+being operatively addressable as a 
+matrix, said matrix having a plurality 
+
+of columns and a plurality of rows, 
+said plurality of partial products 
+
+being stored within said matrix 
+according to said combinational 
+
+significance, said significance of said 
+first digit determining a first order 
+
+of storing of said plurality of partial 
+products in one of said plurality of 
+
+ 
+columns and said plurality of rows, 
+
+said significance of said second digit 
+determining a second order of storing 
+
+said plurality of partial products in 
+the other of said plurality of columns 
+
+and said plurality of rows; 
+(3) providing a register means for storing 
+information, said register means 
+
+comprising a plurality of register cell 
+means for storing accumulated values, 
+
+said register means being operatively 
+connected with said storage array, each 
+
+of said plurality of register cell 
+means having a hierarchical 
+
+significance; 
+(4) accumulating selected partial products of 
+said plurality of partial products in 
+
+specified register cell means of said 
+plurality of register cell means 
+
+according to the following 
+relationships: 
+
+Pm,n [accumulated in] rx; x=(m+n)-1,  
+
+   where "Pm,n" represents said selected 
+partial product; "m" represents said 
+
+first order of storing, m = 1, 2, ...; 
+"n" represents said second order of 
+
+storing, n = 1, 2, ...; "rx" represents 
+ 
+
+said specified register cell means 
+having significance "x"; 
+(5) effecting a shifting accumulation operation 
+comprising shifting specific digits of 
+
+said accumulated value stored in a 
+lesser-significant register cell means 
+
+of said plurality of register cell 
+means to the next-higher-significant 
+
+register cell means of said plurality 
+of register cell means containing an 
+
+accumulated value, and adding said 
+specific digits to said accumulated 
+
+value stored in said next-higher-significant 
+register cell means as 
+
+least-significant digits; said specific 
+digits being those digits of said 
+
+accumulated value stored in said 
+lesser-significant register cell means 
+
+having higher significance than the 
+least-significant digit of said 
+
+accumulated value; said shifting 
+accumulation operation being effected 
+
+sequentially between significance-adjacent 
+register cell means of said 
+
+plurality of register cell means within 
+said register means from the least-significant 
+
+register cell means to the 
+most-significant register cell means 
+
+ 
+within said register means; contents of 
+
+said plurality of register cell means 
+after completion of said shifting 
+
+accumulation operation being a result 
+product of said first said respective 
+
+number and said second said respective 
+number; and 
+(6) repeating steps (1) through (5) employing 
+said result product as one of said 
+
+first said respective number and said 
+second said respective number, and 
+
+employing a next respective number of 
+said plurality of numbers involved in 
+
+said product as the other of said first 
+said respective number and said second 
+
+said respective number than said result 
+product; said repeating continuing 
+
+until all said respective numbers of 
+said plurality of numbers involved in 
+
+said determining said product have been 
+employed. 
+A method for determining the product of a 
+plurality of numbers, each respective number of said 
+
+plurality of numbers having a plurality of respective digits 
+hierarchically arranged from a respective least-significant 
+
+place to a respective most-significant place, the method 
+comprising the steps of: 
+(1) providing a logic means for determining a 
+plurality of partial products; 
+(2) determining said plurality of partial 
+products by said logic means, said 
+
+plurality of partial products 
+comprising a respective partial product 
+
+for each pair-combination of a first 
+plurality of said respective digits of 
+
+a first said respective number and a 
+second plurality of said respective 
+
+digits of a second said respective 
+number, each of said respective partial 
+
+products having a combinational 
+significance, said combinational 
+
+significance being established by said 
+significance of a first digit from said 
+
+first plurality of said respective 
+digits and said significance of a 
+
+second digit from said second plurality 
+of said respective digits, said first 
+
+digit and said second digit comprising 
+said pair-combination involved in said 
+
+respective partial product; 
+(3) storing said plurality of partial products 
+in a storage array, said storage array 
+
+being operatively addressable as a 
+matrix, said matrix having a plurality 
+
+of columns and a plurality of rows, 
+ 
+
+said plurality of partial products 
+being stored within said matrix 
+
+according to said combinational 
+significance, said significance of said 
+
+first digit determining a first order 
+of storing of said plurality of partial 
+
+products in one of said plurality of 
+columns and said plurality of rows, 
+
+said significance of said second digit 
+determining a second order of storing 
+
+said plurality of partial products in 
+the other of said plurality of columns 
+
+and said plurality of rows; 
+(4) providing a register means for storing 
+information, said register means 
+
+comprising a plurality of register cell 
+means for storing accumulated values, 
+
+said register means being operatively 
+connected with said storage array, each 
+
+of said plurality of register cell 
+means having a hierarchical 
+
+significance; 
+(5) accumulating selected partial products of 
+said plurality of partial products in 
+
+specified register cell means of said 
+plurality of register cell means 
+
+according to the following 
+relationships: Pm,n [accumulated in]
+ rx; x=(m+n)-1,  
+
+   where "Pm,n" represents said selected 
+partial product; "m" represents said 
+
+first order of storing, m = 1, 2, ...; 
+"n" represents said second order of 
+
+storing, n = 1, 2, ...; "rx" represents 
+said specified register cell means 
+
+having significance "x"; 
+(6) effecting a shifting accumulation operation 
+comprising shifting specific digits of 
+
+said accumulated value stored in a 
+lesser-significant register cell means 
+
+of said plurality of register cell 
+means to the next-higher-significant 
+
+register cell means of said plurality 
+of register cell means containing an 
+
+accumulated value, and adding said 
+specific digits to said accumulated 
+
+value stored in said next-higher-significant 
+register cell means as 
+
+least-significant digits; said specific 
+digits being those digits of said 
+
+accumulated value stored in said 
+lesser-significant register cell means 
+
+having higher significance than the 
+least-significant digit of said 
+
+accumulated value; said shifting 
+accumulation operation being effected 
+
+ 
+sequentially between significance-adjacent 
+
+register cell means of said 
+plurality of register cell means within 
+
+said register means from the least-significant 
+register cell means to the 
+
+most-significant register cell means 
+within said register means; contents of 
+
+said plurality of register cell means 
+after completion of said shifting 
+
+accumulation operation being a result 
+product of said first said respective 
+
+number and said second said respective 
+number; and 
+(7) repeating steps (1) through (6) employing 
+said result product as one of said 
+
+first said respective number and said 
+second said respective number, and 
+
+employing a next respective number of 
+said plurality of numbers involved in 
+
+said product as the other of said first 
+said respective number and said second 
+
+said respective number than said result 
+product; said repeating continuing 
+
+until all said respective numbers of 
+said plurality of numbers involved in 
+
+said determining said product have been 
+employed. 
+A method for determining the product of a 
+plurality of numbers, each respective number of said 
+
+plurality of numbers having a plurality of respective digits 
+hierarchically arranged from a respective least-significant 
+
+place to a respective most-significant place, the method 
+comprising: 
+
+
+(1) zero-filling the most significant places of 
+the shorter number of a first number of 
+
+said plurality of numbers and a second 
+number of said plurality of numbers 
+
+appropriately that said first number 
+and said second number occupy a like 
+
+number of places; 
+(2) segmenting said first number into at least 
+one first segment-pair, each respective 
+
+first segment-pair of said at least one 
+first segment-pair being representable 
+
+by an expression am,bm, where "a" 
+represents a higher-significance first 
+
+segment of said respective first 
+segment-pair, where "b" represents a 
+
+lower-significance first segment of 
+said respective first segment-pair, and 
+
+where "m" = 1, 2, 3, ..., and 
+represents the significance of the 
+
+respective first segment-pair within 
+said first number; and segmenting said 
+
+second number into at least one second 
+ 
+
+segment-pair, each respective second 
+segment-pair of said at least one 
+
+second segment-pair being representable 
+by an expression cn,dn, where "c" 
+
+represents a higher-significance second 
+segment of said respective second 
+
+segment-pair, where "d" represents a 
+lower-significance second segment of 
+
+said respective second segment-pair, 
+and where "n" = 1, 2, 3, ..., and 
+
+represents the significance of the 
+respective second segment-pair within 
+
+said second number, all of said first 
+segments and said second segments 
+
+comprising an equal number of digits; 
+(3) determining a first additive compression for 
+each of said at least one first 
+
+segment-pairs, each said first additive 
+compression being representable by an 
+
+expression (am+bm), and determining a 
+second additive compression for each of 
+
+said at least one second segment-pair, 
+each said second additive compression 
+
+being representable by an expression 
+(cn+dn); 
+(4) determining a first subtractive compression 
+for each of said at least one first 
+
+segment-pair, each said first 
+ 
+
+subtractive compression being 
+representable by an expression (am-bm), 
+
+and determining a second subtractive 
+compression for each of said at least 
+
+one second segment-pair, each said 
+second subtractive compression being 
+
+representable by an expression (cn-dn); 
+(5) determining a set of primary partial 
+products comprising the products of 
+
+each lesser-significant segment of each 
+of said at least one first segment-pairs 
+
+with each lesser-significant 
+segment of each of said at least one 
+
+second segment-pairs, each of said set 
+of primary partial products being 
+
+representable by an expression P1m,n, 
+where P1m,n = bmdn, and m,n establishes 
+
+a combinational significance for each 
+said primary partial product; 
+(6) determining a set of secondary partial 
+products comprising the products of 
+
+each of said first additive 
+compressions with each of said second 
+
+additive compressions, each of said set 
+of secondary partial products being 
+
+representable by an expression P2m,n, 
+where 
+
+P2m,n = (am+bm) (cn+dn), 
+ 
+
+   and m,n establishes a combinational 
+significance for each said secondary 
+
+partial product; 
+(7) determining a set of tertiary partial 
+products comprising the products of 
+
+each of said first subtractive 
+compressions with each of said second 
+
+subtractive compressions, each of said 
+set of tertiary partial products being 
+
+representable by an expression P3m,n, 
+where 
+
+P3m,n = (am-bm)(cn-dn),  
+   and m,n establishes a combinational 
+
+significance for each said tertiary 
+partial product; 
+(8) determining a set of additive factors, each 
+of said additive factors comprising the 
+
+sum of a specific secondary partial 
+product of said plurality of secondary 
+
+partial products with a specific 
+tertiary partial product of said 
+
+plurality of tertiary partial products, 
+said specific secondary partial product 
+
+and said specific tertiary partial 
+product having the same combinational 
+
+significance, dividing said sum by two, 
+and subtracting an appropriate primary 
+
+partial product of said set of primary 
+ 
+
+partial products, said appropriate 
+primary partial product having the same 
+
+combinational significance as said 
+specific secondary partial product, 
+
+each of said plurality of additive 
+factors being representable by an 
+
+expression F⁺m,n, where F⁺m,n= [(P2m,n + 
+P3m,n) ÷ 2]
+ - P1m,n; 
+(9) determining a plurality of subtractive 
+factors, each of said subtractive 
+
+factors comprising the difference of a 
+specific secondary partial product of 
+
+said plurality of secondary partial 
+products less a specific tertiary 
+
+partial product of said plurality of 
+tertiary partial products, said 
+
+specific secondary partial product and 
+said specific tertiary partial product 
+
+having the same combinational 
+significance, and dividing said 
+
+difference by two, each of said 
+plurality of subtractive factors being 
+
+representable by an expression F⁻m,n, 
+where 
+
+F⁻m,n = (P2m,n - P3m,n) ÷ 2; 
+(10) accumulating said plurality of primary 
+partial products, said plurality of 
+
+subtractive factors and said plurality 
+ 
+
+of additive factors in a plurality of 
+register cells of a storage means for 
+
+storing information to yield an interim 
+sum in each of said plurality of 
+
+register cells, said plurality of 
+register cells being arrayed 
+
+hierarchically from a first register 
+cell to a (4j-1) register cell, where 
+
+j = the number of first segment-pairs 
+in said plurality of first segment-pairs, 
+
+said first register cell being 
+of lowest significance in said 
+
+hierarchical arrangement, each of said 
+plurality of register cells being 
+
+representable by rx, where x indicates 
+
+the significance of a respective 
+register cell, said accumulation of 
+
+said plurality of primary partial 
+products in a respective register cell 
+
+being effected according to the 
+relationship: 
+
+P1m,n [accumulates in] r2(m+n)-3;  
+
+   said accumulation of said plurality of 
+subtractive factors in a respective 
+
+register cell being effected according 
+to the relationship: 
+
+F⁻m,n [accumulates in] r2(m+n)-2; 
+
+ 
+   said accumulation of said plurality of additive 
+
+factors in a respective register cell 
+being effected according to the 
+
+relationship: 
+F⁺m,n [accumulates in]
+ r2(m+n)-1; 
+(11) effecting a shifting accumulation operation 
+from a lesser-significant register cell 
+
+to a next-higher-significance cell 
+within said storage means, beginning 
+
+with the least-significant register 
+cell, said shifting accumulation 
+
+operation comprising shifting specific 
+digits in said interim sum of said 
+
+lesser-significance register cell, said 
+specific digits being all digits having 
+
+higher significance than the number of 
+least-significance digits in said 
+
+interim sum of said lesser-significance 
+register cell equal to the number of 
+
+digits in each of said first segments 
+of said at least one first segment-pair 
+
+from said lesser-significance register 
+cell to said next-higher-significance 
+
+register cell, and summing said shifted 
+digits of higher significance as least-significant 
+
+digits with said interim 
+sum in said next-higher-significance 
+
+register cell; 
+(12) repeating step (11) until said next-higher-significance 
+register cell is said (4j-1) 
+
+cell; contents of said storage means 
+after completion of step (12) being a 
+
+result product of said first number and 
+said second number; and 
+(13) repeating steps (1) through (12) employing 
+said result product as one of said 
+
+first number and said second number, 
+and employing a next respective number 
+
+of said plurality of numbers involved 
+in said product as the other of said 
+
+first number and said second number 
+than said result product; said 
+
+repeating continuing until all said 
+respective numbers of said plurality of 
+
+numbers involved in said determining 
+said product have been employed. 
+An apparatus for determining the product of 
+a plurality of numbers, each respective number of said 
+
+plurality of numbers having a plurality of respective digits 
+hierarchically arranged from a respective least-significant 
+
+digit to a respective most-significant digit; a first number 
+of said plurality of numbers being segmented into a 
+
+plurality of first segments, each of said plurality of first 
+segments including at least one of said plurality of 
+
+respective digits and spanning a first hierarchical range, 
+ 
+
+said plurality of first segments being arrayed in at least 
+one first segment-pair of hierarchically adjacent ones of 
+
+said plurality of first segments, each of said at least one 
+first segment-pair having a first pair-significance; a 
+
+second number of said plurality of numbers being segmented 
+into a plurality of second segments, each of said plurality 
+
+of second segments including at least one of said plurality 
+of respective digits and spanning a second hierarchical 
+
+range, there being for each of said plurality of first 
+segments spanning a respective first hierarchical range a 
+
+corresponding one of said second segments spanning a second 
+hierarchical range equal to said respective first 
+
+hierarchical range; said plurality of second segments being 
+arrayed in at least one second segment-pair of 
+
+hierarchically-adjacent ones of said plurality of second 
+segments, there being for each of said at least one first 
+
+segment-pair having a respective first pair-significance a 
+corresponding one of said at least one second segment-pair 
+
+having a second pair-significance equal to said respective 
+first pair-significance; the apparatus comprising: 
+
+   a plurality of logic means for mathematically 
+processing at least one input to 
+
+generate at least one output, said at 
+least one output being mathematically 
+
+related to selected of said at least 
+one input according to a predetermined 
+
+algorithm;
+ 
+
+   an accumulator means for receiving values and 
+accumulating said values to generate 
+
+accumulated values; and 
+   a register means for storing information, said 
+
+register means including a plurality of 
+register cells, said plurality of 
+
+register cells being arranged 
+hierarchically by significance, each of 
+
+said plurality of register cells being 
+representable by "rx", where "x" 
+
+indicates the significance of a 
+respective register cell, said register 
+
+means being responsive to a shifting 
+signal to selectively internally shift 
+
+said information; 
+   a first array of said plurality of logic means 
+
+receiving said at least one first 
+segment-pair and generating a first 
+
+additive compression for each of said 
+at least one first segment-pair, each 
+
+said first additive compression being 
+representable by an expression 
+
+"(am+bm)"; 
+   a second array of said plurality of logic means 
+
+receiving said at least one second 
+segment-pair and generating a second 
+
+additive compression for each of said 
+at least one second segment-pair, each 
+
+ 
+said second additive compression being 
+
+representable by an expression 
+(cn+dn)"; 
+
+   a third array of said plurality of logic means 
+receiving a first lesser-significant 
+
+segment of each of said at least one 
+first segment-pair and a second lesser-significant 
+
+segment of each of said at 
+least one second segment-pair and 
+
+generating a set of primary partial 
+products, said set of primary partial 
+
+products comprising the products of 
+each said first lesser-significant 
+
+segment with each of said second 
+lesser-significant segment, each of 
+
+said set of primary partial products 
+being representable by an expression 
+
+"P1m,n", where P1m,n = bmdn, and m,n 
+establishes a combinational 
+
+significance for each said primary 
+partial product; 
+
+   a fourth array of said plurality of logic means 
+receiving each said first additive 
+
+compression and each said second 
+additive compression and generating a 
+
+set of secondary partial products 
+comprising the products of each said 
+
+first additive compression with each 
+ 
+
+said second additive compression, each 
+of said set of secondary partial 
+
+products being representable by an 
+expression "P2m,n", where 
+
+P2m,n = (am+bm)(cn+dn),  
+   and m,n establishes a combinational 
+
+significance for each said set of 
+secondary partial products; 
+
+   a fifth array of said plurality of logic means 
+receiving each said first subtractive 
+
+compression and each said second 
+subtractive compression and generating 
+
+a set of tertiary partial products 
+comprising the products of each of said 
+
+first subtractive compressions with 
+each of said second subtractive 
+
+compressions, each of said set of 
+tertiary partial products being 
+
+representable by an expression "P3m,n", 
+where P3m,n = (am-bm)(cn-dn), and m,n 
+
+establishes a combinational 
+significance for each of said set of 
+
+tertiary partial products; 
+   a sixth array of said plurality of logic means 
+
+receiving said set of primary partial 
+products, said set of secondary partial 
+
+products, and said tertiary partial 
+products and generating a set of 
+
+ 
+additive factors comprising the sum of 
+
+each secondary partial product having 
+a specific combinational significance 
+
+and a corresponding tertiary partial 
+product having the same specific 
+
+combinational significance, dividing 
+said sum by two, and subtracting a 
+
+corresponding primary partial product 
+having the same specific combinational 
+
+significance, each of said set of 
+additive factors being representable by 
+
+an expression "F⁺m,n", where 
+F⁺m,n = [(P2m,n + P3m,n) ÷ 2]
+ - P1m,n;  
+   a seventh array of said plurality of logic means 
+
+receiving said set of secondary partial 
+products and said set of tertiary 
+
+partial products, and generating a set 
+of subtractive factors comprising the 
+
+difference between each secondary 
+partial product having a specific 
+
+combinational significance less a 
+
+corresponding tertiary partial product 
+having the same specific combinational 
+
+significance, and dividing said 
+difference by two, each of said set of 
+
+subtractive factors being representable 
+by an expression "F⁻m,n", where 
+
+F⁻m,n = (P2m,n - P3m,n) ÷ 2]; 
+
+ 
+   said accumulator means being operatively 
+
+connected with said plurality of logic 
+means and with said register means and 
+
+receiving said set of primary partial 
+products, said set of additive factors, 
+
+and said set of subtractive factors for 
+said accumulating, said accumulator 
+
+means generating said accumulated 
+values for storage in said plurality of 
+
+register cells; accumulated primary 
+partial products being stored according 
+
+to the relationship: 
+P1m,n [stored in]
+ r2(m+n)-3;  
+   accumulated subtractive factors being stored 
+
+according to the relationship: 
+F⁻m,n [stored in]
+ r2(m+n)-2;  
+   accumulated additive factors being stored 
+
+according to the relationship: 
+F⁺m,n [stored in]
+ r2(m+n)-1;  
+   where m = 1, 2, 3, ... and n = 1, 2, 3, 
+
+...; 
+   said register means responding to said shifting 
+
+signal to effect a shifting 
+accumulation operation from a lesser 
+
+respective register cell to a next-higher-significance 
+register cell, 
+
+beginning with the least-significant 
+respective register cell, said shifting 
+
+ 
+accumulation operation comprising 
+
+shifting specific digits of an 
+accumulated value in said lesser-significant 
+
+respective register cell, 
+said specific digits being all digits 
+
+having higher significance than the 
+number of least-significant digits in 
+
+said accumulated value equal to the 
+number of digits in each of said first 
+
+segments of said at least one segment-pair, 
+from said lesser-significant 
+
+register cell to said next-higher-significance 
+register cell, and summing 
+
+said shifted digits as least-significant 
+digits with said 
+
+accumulated value in said next-higher-significance 
+register cell; contents of 
+
+said register means after completion of 
+said shifting accumulation operation 
+
+being a result product of said first 
+number and said second number; 
+
+   said register means being operatively connected 
+with said plurality of logic means and 
+
+operatively connected with an output 
+means for outputting said product; said 
+
+register means being selectively 
+coupled with said plurality of logic 
+
+means for providing said result product 
+ 
+
+to said plurality of logic means for an 
+iterative processing operation with 
+
+succeeding remaining numbers of said 
+plurality of numbers; said iterative 
+
+processing operation employing each 
+next said succeeding remaining number 
+
+as one of said first number and said 
+second number and employing said result 
+
+product as the other of said first 
+number and said second number than said 
+
+next said succeeding remaining number; 
+said iterative processing operation 
+
+being complete when all of said 
+succeeding remaining numbers of said 
+
+plurality of numbers have been 
+processed; said result register means 
+
+being selectively coupled with said 
+output means when said iterative 
+
+processing operation is complete. 
+An apparatus for determining the product of 
+a plurality of numbers, the apparatus comprising: 
+
+   a logic means for mathematically manipulating 
+segments of a first number of said 
+
+plurality of numbers and a second 
+number of said plurality of numbers and 
+
+generating a plurality of output 
+factors;
+
+ 
+   an accumulator means operatively connected with 
+
+said logic means for accumulating said 
+plurality of output factors for 
+
+providing accumulated values; and 
+   a register means operatively connected with said 
+
+accumulator means and with said logic 
+means for storing said accumulated 
+
+values; 
+   said first number being segmented into at least 
+
+one first segment-pair, each respective 
+first segment-pair of said at least one 
+
+first segment-pair comprising a lower-significance 
+first segment including a 
+
+first number of digits, and an adjacent 
+higher-significance first segment 
+
+including a second number of digits; 
+said at least one first segment-pair 
+
+spanning a significance range; 
+   said second number being segmented into at least 
+
+one second segment-pair, each 
+respective second segment-pair 
+
+comprising a lower-significance second 
+segment including said first number of 
+
+digits, and an adjacent higher-significance 
+second segment including 
+
+said second number of digits, said at 
+least one second segment-pair spanning 
+
+said significance range;
+ 
+
+   each said respective first segment-pair being 
+representable by an expression "am,bm"; 
+
+and each said respective second 
+segment-pair being representable by an 
+
+expression "cn,dn"; where "a" represents 
+said higher-significance first segment, 
+
+"b" represents said lower-significance 
+first segment, and "m" = 1, 2, 3, ..., 
+
+and indicates the significance of said 
+respective first segment-pair within 
+
+said first number; and where "c" 
+represents said higher-significance 
+
+second segment, "d" represents said 
+lower-significance second segment, and 
+
+"n" = 1, 2, 3, ..., and indicates the 
+significance of said respective second 
+
+segment-pair within said second number; 
+   said logic means being configured to calculate, 
+
+for each combinational significance 
+m,n, said plurality of output factors; 
+
+   said plurality of output factors comprising a 
+partial product, "Pm,n", where Pm,n= bmdn; 
+
+an additive factor, "F,n", where: 
+   F,n = {[(am+bm)(cn+dn) + (am-bm)(cn-dn)]
+ 
+÷ 2}-Pm,n; and a subtractive factor, 
+
+"F,n", where: 
+   F,n = [(am+bm)(cn+dn) - (am-bm)(cn-dn)]
+ ÷ 
+2; said accumulator means 
+
+ 
+accumulating said output factors for 
+
+storage as said accumulated values in 
+a register cell, rx, within said 
+
+register means, where "x" indicates the 
+significance of a respective register 
+
+cell, "r", according to the following 
+relationships: 
+
+Pm,n [accumulates for] r2(m+n)-3; F,n [accumulates for]
+ r2(m+n)-2; and F,n [accumulates for] r2(m+n)-1;  
+
+   said accumulated values being received in 
+appropriate register cells rx of said 
+
+register means; said register means 
+effecting a shifting accumulation 
+
+operation with said accumulated values, 
+said shifting accumulation operation 
+
+comprising shifting specific digits of 
+said accumulated value stored in a 
+
+lesser-significance register cell to a 
+higher-significance register cell, and 
+
+adding said specific digits to said 
+accumulated value stored in said 
+
+higher-significance register cell as 
+least-significant digits; said specific 
+
+digits being those digits of said 
+accumulated value in said lesser-significance 
+
+cell having higher 
+significance than the number of least-significant 
+
+ 
+digits equal to said first 
+
+number of digits; said shifting 
+accumulation operation being effected 
+
+sequentially between significance-adjacent 
+register cells within said 
+
+register means from said least-significant 
+register cell to said most-significant 
+
+register cell; contents of 
+said register means after completion of 
+
+said shifting accumulation operation 
+being a result product of said first 
+
+number and said second number; 
+   said register means being selectively coupled 
+
+with said logic means for providing 
+said result product to said logic means 
+
+for an iterative processing operation 
+with succeeding remaining numbers of 
+
+said plurality of numbers; said 
+iterative processing operation 
+
+employing each next said succeeding 
+remaining number as one of said first 
+
+number and said second number and 
+employing said result product as the 
+
+other of said first number and said 
+second number than said next said 
+
+succeeding remaining number; said 
+iterative processing operation being 
+
+complete when all of said succeeding 
+ 
+
+remaining numbers of said plurality of 
+numbers have been processed; said 
+
+register means being selectively 
+coupled with said output means when 
+
+said iterative processing operation is 
+complete. 
+An apparatus for determining the product of 
+a plurality of numbers, each respective number of said 
+
+plurality of numbers having a plurality of respective digits 
+
+hierarchically arranged from a respective least-significant 
+place to a respective most-significant place, the apparatus 
+
+comprising: 
+   a logic means for determining a plurality of 
+
+partial products, said plurality of 
+partial products comprising a 
+
+respective partial product for each 
+pair-combination of a first plurality 
+
+of said respective digits of a first 
+said respective number and a second 
+
+plurality of said respective digits of 
+a second said respective number, said 
+
+logic means treating blank places of 
+the shorter number of said first said 
+
+respective number and said second said 
+respective number as zeroes while 
+
+effecting said determining of said 
+plurality of partial products, each of 
+
+ 
+said respective partial products having 
+
+a combinational significance, said 
+combinational significance being 
+
+established by said significance of a 
+first digit from said first plurality 
+
+of said respective digits and said 
+significance of a second digit from 
+
+said second plurality of said 
+respective digits, said first digit and 
+
+said second digit comprising said pair-combination 
+involved in said respective 
+
+partial product; 
+   a register means operatively connected with said 
+
+logic means for storing information, 
+said register means comprising a 
+
+plurality of register cell means for 
+storing accumulated values, said 
+
+register cell means having a 
+hierarchical significance; and 
+
+   an accumulating means operatively connected with 
+said logic means and with said register 
+
+means for accumulating selected partial 
+products of said plurality of partial 
+
+products to produce accumulated values 
+in specified register cell means of 
+
+said plurality of register cell means 
+according to the following 
+
+relationships: Pm,n [accumulates in] rx; x=(m+n)-1  
+
+   where "Pm,n" represents said selected 
+partial product; "m" represents said 
+
+first significance, m = 1, 2, ...; "n" 
+represents said second significance, n 
+
+= 1, 2, ...; "rx" represents said 
+specified register cell means having 
+
+significance "x"; 
+   said register means effecting a shifting 
+
+accumulation operation comprising 
+shifting specific digits of said 
+
+accumulated value stored in a lesser-significant 
+register cell means of said 
+
+plurality of register cell means to the 
+next-higher-significant register cell 
+
+means of said plurality of register 
+cell means containing an accumulated 
+
+value, and adding said specific digits 
+to said accumulated value stored in 
+
+said next-higher-significant register 
+cell means as least-significant digits; 
+
+said specific digits being those digits 
+of said accumulated value stored in 
+
+said lesser-significant register cell 
+means having higher significance than 
+
+the least-significant digit of said 
+accumulated value; said shifting 
+
+accumulation operation being effected 
+ 
+
+sequentially between significance-adjacent 
+register cell means of said 
+
+plurality of register cell means from 
+the least-significant register cell 
+
+means to the most-significant register 
+cell means within said register means; 
+
+contents of said register means after 
+completion of said shifting 
+
+accumulation operation being a result 
+product of said first said respective 
+
+number and said second said respective 
+number; 
+
+   said register means being selectively coupled 
+with said logic means for providing 
+
+said result product to said logic means 
+for an iterative processing operation 
+
+with succeeding remaining numbers of 
+said plurality of numbers; said 
+
+iterative processing operation 
+employing each next said succeeding 
+
+remaining number as one of said first 
+said respective number and said second 
+
+said respective number and employing 
+said result product as the other of 
+
+said first said respective number and 
+said second said respective number than 
+
+said next said succeeding remaining 
+number; said iterative processing 
+
+ 
+operation being complete when all of 
+
+said succeeding remaining numbers of 
+said plurality of numbers have been 
+
+processed; said register means being 
+selectively coupled with said output 
+
+means when said iterative processing 
+operation is complete; the contents of 
+
+said register means after completion of 
+said iterative processing operation 
+
+comprising said product. 
+An apparatus for determining the product of 
+a plurality of numbers, each respective number of said 
+
+plurality of numbers having a plurality of respective digits 
+hierarchically arranged from a respective least-significant 
+
+place to a respective most-significant place, the apparatus 
+comprising: 
+
+   a logic means for determining a plurality of 
+partial products, said plurality of 
+
+partial products comprising a 
+respective partial product for each 
+
+pair-combination of a first plurality 
+of said respective digits of a first 
+
+said respective number and a second 
+plurality of said respective digits of 
+
+a second said respective number, each 
+of said respective partial products 
+
+having a combinational significance, 
+ 
+
+said combinational significance being 
+established by said significance of a 
+
+first digit from said first plurality 
+of said respective digits and said 
+
+significance of a second digit from 
+said second plurality of said 
+
+respective digits, said first digit and 
+said second digit comprising said pair-combination 
+
+involved in said respective 
+partial product; and 
+
+   a register means for storing information, said 
+register means comprising a plurality 
+
+of register cell means for storing 
+accumulated values, said register cell 
+
+means having a hierarchical 
+significance; 
+
+   said register means accumulating selected partial 
+products of said plurality of partial 
+
+products to produce accumulated values 
+in specified register cell means of 
+
+said plurality of register cell means 
+according to the following 
+
+relationships: 
+Pm,n [accumulates in]
+ rx; x=(m+n)-1  
+   where "Pm,n" represents said selected 
+
+partial product; "m" represents said 
+first significance, m = 1, 2, ...; "n" 
+
+represents said second significance, n 
+ 
+
+= 1, 2, ...; "rx" represents said 
+specified register cell means having 
+
+significance "x"; 
+   said register means effecting a shifting 
+
+accumulation operation comprising 
+shifting specific digits of said 
+
+accumulated value stored in a lesser-significant 
+register cell means of said 
+
+plurality of register cell means to the 
+next-higher-significant register cell 
+
+means of said plurality of register 
+cell means containing an accumulated 
+
+value, and adding said specific digits 
+to said accumulated value stored in 
+
+said next-higher-significant register 
+cell means as least-significant digits; 
+
+said specific digits being those digits 
+of said accumulated value stored in 
+
+said lesser-significant register cell 
+means having higher significance than 
+
+the least-significant digit of said 
+accumulated value; said shifting 
+
+accumulation operation being effected 
+sequentially between significance-adjacent 
+
+register cell means of said 
+plurality of register cell means from 
+
+the least-significant register cell 
+means to the most-significant register 
+
+ 
+cell means within said register means 
+
+to determine a result product of said 
+first said respective number and said 
+
+second said respective number; 
+   said register means being operatively connected 
+
+with said logic means and operatively 
+connected with an output means for 
+
+outputting said product; said register 
+means being selectively coupled with 
+
+said logic means for providing said 
+result product to said logic means for 
+
+an iterative processing operation with 
+succeeding remaining numbers of said 
+
+plurality of numbers; said iterative 
+processing operation employing each 
+
+next said succeeding remaining number 
+as one of said first said respective 
+
+number and said second said respective 
+number and employing said result 
+
+product as the other of said first said 
+respective number and said second said 
+
+respective number than said next said 
+succeeding remaining number; said 
+
+iterative processing operation being 
+complete when all of said succeeding 
+
+remaining numbers of said plurality of 
+numbers have been processed
+; said 
+register means being selectively 
+
+ 
+coupled with said output means when 
+
+said iterative processing operation is 
+complete. 
+An apparatus for determining the product of 
+a plurality of numbers, each respective number of said 
+
+plurality of numbers having a plurality of respective digits 
+hierarchically arranged from a respective least-significant 
+
+place to a respective most-significant place, the apparatus 
+comprising: 
+
+   a logic means for determining a plurality of 
+partial products, said plurality of 
+
+partial products comprising a 
+respective partial product for each 
+
+pair-combination of a first plurality 
+of said respective digits of a first 
+
+said respective number and a second 
+plurality of said respective digits of 
+
+a second said respective number, said 
+logic means considering blank places of 
+
+the shorter number of said first said 
+respective number and said second said 
+
+respective number as having a value of 
+zero during said determining of said 
+
+plurality of partial products, each of 
+said respective partial products having 
+
+a combinational significance, said 
+combinational significance being 
+
+ 
+established by said significance of a 
+
+first digit from said first plurality 
+of said respective digits and said 
+
+significance of a second digit from 
+said second plurality of said 
+
+respective digits; said first digit and 
+said second digit comprising said pair-combination 
+
+involved in said respective 
+partial product; 
+
+   a storage array means for storing said plurality 
+of partial products, said storage array 
+
+means being operatively addressable as 
+a matrix, said matrix having a 
+
+plurality of columns and a plurality of 
+rows, said plurality of partial 
+
+products being stored within said 
+matrix according to said combinational 
+
+significance, said first significance 
+determining a first order of storing of 
+
+said plurality of partial products in 
+one of said plurality of columns and 
+
+said plurality of rows, said second 
+significance determining a second order 
+
+of storing said plurality of partial 
+products in the other of said plurality 
+
+of columns and said plurality of rows; 
+and
+
+ 
+   a register means for storing information, said 
+
+register means comprising a plurality 
+of register cell means for storing 
+
+accumulated values, said register means 
+being operatively connected with said 
+
+storage array means, said register cell 
+means having a hierarchical 
+
+significance; 
+   said register means accumulating selected partial 
+
+products of said plurality of partial 
+products in specified register cell 
+
+means of said plurality of register 
+cell means according to the following 
+
+relationships: 
+Pm,n [accumulated in]
+ rx; x=(m+n)-1,  
+   where "Pm,n" represents said selected 
+
+partial product; "m" represents said 
+first order of storing, m = 1, 2, ...; 
+
+"n" represents said second order of 
+storing, n = 1, 2, ...; "rx" represents 
+
+said specified register cell means 
+having significance "x"; 
+
+   said register means effecting a shifting 
+accumulation operation comprising 
+
+shifting specific digits of said 
+accumulated value stored in a lesser-significant 
+
+register cell means of said 
+plurality of register cell means to the 
+
+ 
+next-higher-significant register cell 
+
+means of said plurality of register 
+cell means containing an accumulated 
+
+value, and adding said specific digits 
+to said accumulated value stored in 
+
+said next-higher-significant register 
+cell means as least-significant digits; 
+
+said specific digits being those digits 
+of said accumulated value stored in 
+
+said lesser-significant register cell 
+means having higher significance than 
+
+the least-significant digit of said 
+accumulated value; said shifting 
+
+accumulation operation being effected 
+sequentially between significance-adjacent 
+
+register cell means of said 
+plurality of register cell means within 
+
+said register means from the least-significant 
+register cell means to the 
+
+most-significant register cell means 
+within said register means; contents of 
+
+said register means after completion of 
+said shifting accumulation operation 
+
+being a result product of said first 
+said respective number and said second 
+
+said respective number; 
+   said register means being operatively connected 
+
+with said logic means and operatively 
+ 
+
+connected with an output means for 
+outputting said product; said register 
+
+means being selectively coupled with 
+said logic means for providing said 
+
+result product to said logic means for 
+an iterative processing operation with 
+
+succeeding remaining numbers of said 
+plurality of numbers; said iterative 
+
+processing operation employing each 
+next said succeeding remaining number 
+
+as one of said first said respective 
+number and said second said respective 
+
+number and employing said result 
+product as the other of said first said 
+
+respective number and said second said 
+respective number than said next said 
+
+succeeding remaining number; said 
+iterative processing operation being 
+
+complete when all of said succeeding 
+remaining numbers of said plurality of 
+
+numbers have been processed; said 
+register means being selectively 
+
+coupled with said output means when 
+said iterative processing operation is 
+
+complete. 
+An apparatus for determining the product of 
+a plurality of numbers, each respective number of said 
+
+ 
+plurality of numbers having a plurality of respective digits 
+
+hierarchically arranged from a respective least-significant 
+place to a respective most-significant place, the apparatus 
+
+comprising: 
+   means for determining a plurality of partial 
+
+products, said plurality of partial 
+products comprising a respective 
+
+partial product for each pair-combination 
+of a first plurality of 
+
+said respective digits of a first said 
+respective number and a second 
+
+plurality of said respective digits of 
+a second said respective number, blank 
+
+places of the shorter number of said 
+first said respective number and said 
+
+second said respective number being 
+treated as zeroes while determining 
+
+said plurality of partial products, 
+each of said respective partial 
+
+products having a combinational 
+significance, said combinational 
+
+significance being established by said 
+significance of a first digit from said 
+
+first plurality of said respective 
+digits and said significance of a 
+
+second digit from said second plurality 
+of said respective digits; said first 
+
+digit and said second digit comprising 
+ 
+
+said pair-combination involved in said 
+respective partial product; 
+
+   a register for storing information, said register 
+comprising a plurality of register 
+
+cells for storing accumulated values, 
+each of said plurality of register 
+
+cells having a hierarchical 
+significance; 
+
+   means for accumulating selected partial products 
+of said plurality of partial products 
+
+to produce accumulated values in 
+specified register cells of said 
+
+plurality of register cells according 
+to the following relationships: 
+
+Pm,n [accumulates in] rx; x=(m+n)-1  
+
+   where "Pm,n" represents said selected 
+partial product; "m" represents said 
+
+first significance, m = 1, 2, ...; "n" 
+represents said second significance, n 
+
+= 1, 2, ...; "rx" represents said 
+specified register cell means having 
+
+significance "x"; 
+   means for effecting a shifting accumulation 
+
+operation comprising shifting specific 
+digits of said accumulated value stored 
+
+in a lesser-significant register cell 
+of said plurality of register cells to 
+
+the next-higher-significant register 
+ 
+
+cell of said plurality of register 
+cells containing an accumulated value, 
+
+and adding said specific digits to said 
+accumulated value stored in said next-higher-significant 
+
+register cell as 
+least-significant digits; said specific 
+
+digits being those digits of said 
+accumulated value stored in said 
+
+lesser-significant register cell having 
+higher significance than the least-significant 
+
+digit of said accumulated 
+value; said shifting accumulation 
+
+operation being effected sequentially 
+between significance-adjacent register 
+
+cells of said plurality of register 
+cells from the least-signif
+icant 
+register cell to the most-significant 
+
+register cell within said register; 
+contents of said register after 
+
+completion of said shifting 
+accumulation operation being a result 
+
+product of said first said respective 
+number and said second said respective 
+
+number; 
+   said register being operatively connected with 
+
+said logic means and operatively 
+connected with an output means for 
+
+outputting said product; said register 
+ 
+
+being selectively coupled with said 
+logic means for providing said result 
+
+product to said logic means for an 
+iterative processing operation with 
+
+succeeding remaining numbers of said 
+plurality of numbers; said iterative 
+
+processing operation employing each 
+next said succeeding remaining number 
+
+as one of said first said respective 
+number and said second said respective 
+
+number and employing said result 
+product as the other of said first said 
+
+respective number and said second said 
+respective number than said next said 
+
+succeeding remaining number; said 
+iterative processing operation being 
+
+complete when all of said succeeding 
+remaining numbers of said plurality of 
+
+numbers have been processed; said 
+register being selectively coupled with 
+
+said output means when said iterative 
+processing operation is complete; and 
+
+   means for shifting the contents of said register 
+from said register via said output 
+
+means. 
+</CLAIMS>
+</TEXT>
+</DOC>

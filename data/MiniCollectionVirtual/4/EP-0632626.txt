@@ -1,0 +1,202 @@
+<DOC>
+<DOCNO>EP-0632626</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method and system for interrupt responsive execution of communications protocols
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04L2906	G06F15177	G06F1300	H04L1256	G06F1300	H04L2906	H04L1256	G06F1516	G06F1516	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04L	G06F	G06F	H04L	G06F	H04L	H04L	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04L29	G06F15	G06F13	H04L12	G06F13	H04L29	H04L12	G06F15	G06F15	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method and system for interrupt-responsive 
+execution of a communications protocol which obtains data 
+
+sent by a sending computer a receiving computer via a 
+communications interface. An interrupt handler routine is 
+
+provided which includes the communications protocol. When 
+data requested by an application executing on the 
+
+receiving computer is received by the communications 
+interface, an interrupt is sent by the communications 
+
+interface to the CPU in the receiving computer. When this 
+interrupt is received, the interrupt handler routine is 
+
+immediately accessed and executed to timely execute the 
+communications protocol. As a result, the communications 
+
+protocol obtains the data from the communications 
+interface before it can be overwritten by new data sent by 
+
+the sending computer. The application program can then be 
+executed at a later time to read the data obtained. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MICROSOFT CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MICROSOFT CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+THIELEN DAVID
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+THIELEN, DAVID
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates generally to the
+field of data communications and, more particularly, to
+communications protocols which control the flow of data
+from a modem to a computer.In order to transfer digital data from a sending
+computer to a receiving computer a communications link
+must be established between the computers. In many
+instances, the communications link is established over a
+telephone line. Such a communications link between
+computers over a telephone line is shown in Figure 1. In
+Figure 1, a receiving computer 100 communicates with a
+sending computer 110 to receive data over a communications
+link via a receiving modem (modulator/demodulator) 120. A
+universal asynchronous receiver transmitter (UART) 130 is
+provided within an I/O unit 145 within the receiving
+computer 100, which serves as a communications interface
+and buffers the data in a UART buffer 132. A sending
+modem 135 is employed at the sending computer 110 to
+encode the digital data into a signal sent over the
+telephone line using frequency modulation techniques. The
+data is then sent over the telephone line and received by
+the receiving modem 120 at the receiving computer 100.
+The receiving modem demodulates the signal to extract the
+digital data from the signal. The receiving modem 120
+sends the digital data to the UART 130 which stores the
+digital data in the UART buffer 132. The UART 130 sends
+an interrupt to the CPU 140 to signal the arrival of the 
+digital data. At some point thereafter, the CPU 140
+obtains the digital data from the UART 130 and stores it
+in a communications port 156 in the memory 150 in the
+receiving computer via the I/O unit 145. The
+communications port 156 is a dedicated memory location for
+storing data received over the communications link.A data transfer as described above is often
+initiated by an application program 152 executing on the
+CPU 140 in the receiving computer 100. When the CPU 140
+is executing the application program 152 and encounters an
+instruction to read remote data which the sending computer
+110 must provide, the receiving computer 100 sends an
+appropriate request to the sending computer 110 over the
+communications link. At some point thereafter, the
+sending computer 110 services the request and
+asynchronously sends the requested data back over the
+communications link to the UART 130. In this transaction,
+once the receiving computer 100 has sent the request to
+the sending computer 110 to send the data, the receiving
+computer 100 cannot predict the timing of the arrival of
+the data
+</DESCRIPTION>
+<CLAIMS>
+A method for interrupt-responsive execution of a communications protocol (512,
+614) in a computer system that includes a sending computer (110) for
+
+transferring requested data, and a sending modem (135) connected to the
+sending computer (110) for transmitting the requested data over a telephone
+
+link to a receiving computer (100: 500), and wherein the receiving computer
+(100: 500) receives the transmitted data through a receiving modem (120)
+
+connected to the receiving computer (100: 500), and wherein the receiving
+computer (100: 500) includes an input/output unit (I/O, 145) which serves as a
+
+communication interface and buffers the data, and wherein the receiving
+computer (100: 500) also includes a memory unit (150) that includes a
+
+communications port (156) for receiving the data as well as memory allocation
+for storing programmable instructions for running an operating system (220) for
+
+a CPU (140) and application programs (520), and wherein the method is
+
+characterised in that
+ an interrupt handler routine (510, 612) that includes said
+communications protocol (512, 614) stored within said memory unit (150) is
+
+designed to permit interruption of interim tasks being performed by the CPU
+(140) while waiting for the requested data to be received, without jeopardizing
+
+critical code or data of the operating system kernel by virtue of said
+interruption, the method comprising the steps of:
+
+
+(a) while running (702) an application program at the receiving computer
+(100: 500), sending (704, 706) a request from the receiving computer
+
+(100: 500) through the receiving modem (120) to the sending modem
+(135) of the sending computer (110) for requested data to be used by the
+
+application program; 
+(b) after the request is sent from the receiving computer (100: 500), initiating
+by the CPU (140) the running of one or more other tasks while waiting for
+
+the requested data required by the application program;
+(c) receiving from the sending computer (110) and sending modem (135), the
+requested data, which is transferred from the receiving modem (120) to
+
+said input/output unit (145);
+(d) said input/output unit (145) then sending to the CPU (140) an interrupt
+signal that requests scheduling of the application program after
+
+completion of said one or more tasks;
+(e) thereafter, saving (710) the any of said one or more other tasks not yet
+completed by the CPU (140) in the memory unit (150) so as not to
+
+jeopardize critical code or data of the operating system kernel by
+interrupting said one or more other tasks;
+(f) the CPU (140) then executing (902, 904, 906, 908) said interrupt handler
+routine (510, 612) including said communications protocol (512, 614) so
+
+as to immediately read (908) and store the requested data loaded into
+said input/output unit (145) prior to exceeding the storage capacity of said
+
+input/output unit (145);
+(g) after the requested data is read and stored in the memory unit (150),
+thereafter, the CPU (140) retrieving (1002) and completing (1004) the not
+
+yet completed tasks of said one or more other tasks; and
+(h) then retrieving (1006) the application and processing (1008) the
+requested data required by the application program.
+The method as claimed in claim 1 wherein said interrupt handler routine (510,
+612) has an interrupt privilege level and said communications protocol (512,
+
+614) has a protocol privilege level which is equal to the interrupt privilege level,
+and wherein said interrupt signal causes said interrupt handler routine (510,
+
+612) to invoke said communications protocol (512, 614) having the protocol
+privilege level to thereby obtain the data requested. 
+The method as claimed in claim 1 or 2 wherein said communications protocol
+(512, 614) includes an XON/XOFF protocol.
+The method as claimed in one of claims 1 to 3 wherein said communications
+protocol (512, 614) includes an ACK/NAK protocol.
+The method as claimed in one of claims 1 to 4 wherein said communications
+protocol (512, 614) includes an RTS/CTS protocol.
+The method as claimed in one of claims 1 to 5 wherein the step of executing
+said interrupt handler routine (510, 612) comprises:
+
+   accessing said interrupt handler routine (510, 612) stored at an address in
+the memory (150) identified by an entry (212) in a table (210), said entry
+
+(212) corresponding to the communications interface from which the
+interrupt was received.
+The method as claimed in one of claims 1 to 6 wherein said input/output unit
+(I/O, 145) comprises a universal asynchronous receiver transmitter (UART,
+
+130).
+A computer program product that includes a computer-readable medium comprising
+storage of executable instructions for implementing the computerized method
+
+as claimed in one of claims 1 to 7.
+</CLAIMS>
+</TEXT>
+</DOC>

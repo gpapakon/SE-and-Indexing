@@ -1,0 +1,258 @@
+<DOC>
+<DOCNO>EP-0632379</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Fault tolerant storage controller utilizing tightly coupled dual controller modules
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1120	G06F1120	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F11	G06F11	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A fault tolerant storage controller utilizing tightly
+coupled dual controller modules. The controller modules each
+
+check to see if another controller module or cache module is
+present and, if so, then all configuration information with
+
+respect to the controller modules and attached devices are
+shared between them. Configuration information may be entered
+
+into either or both of the controller modules and the
+information is shared dynamically. Each cache module may be
+
+"locked" by an individual controller module to prevent the
+other controller module from inadvertently disturbing the
+
+contents of the other controller module's cache. During
+initialization, each controller module checks for the
+
+existence of an associated cache module and, if present, it is
+immediately "locked" by the controller module. Should a
+
+controller module fail or give an indication of a malfunction,
+
+the other controller module will disable or "kill" the
+malfunctioning controller module thereby resetting it and
+
+releasing any lock it may have had on its cache module. In
+those instances where the cache module is a write cache, the
+
+surviving controller module can resume operations where the
+malfunctioning controller module left off and complete any
+
+remaining writes to the disabled controller module's storage
+devices preventing the loss of any host computer data. The 
+
+controller modules are tolerant of the other controller module
+failing and then rebooting and the sequence of events is
+
+detected and recognized by the surviving controller module
+such that it does not disable the one that failed. The dual
+
+controller modules communicate asynchronously to verify that
+they are each operational and to exchange and verify
+
+configuration information and to provide operational status
+dynamically.
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+COMPAQ COMPUTER CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+COMPAQ COMPUTER CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+ADAMS THOMAS GENE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BRAME RICHARD G
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FAVA THOMAS F
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+JACKSON JAMES P
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MCLEAN RONALD H
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+OAKEY ROGER L
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SICOLA STEPHEN J
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WALKER MICHAEL D
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ADAMS, THOMAS GENE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BRAME, RICHARD G.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FAVA, THOMAS F.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+JACKSON, JAMES P.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MCLEAN, RONALD H.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+OAKEY, ROGER L.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SICOLA, STEPHEN J.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WALKER, MICHAEL D.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates, in general, to the field
+of storage controllers for interfacing one or more host
+computers to one or more computer mass storage devices such
+as disk drives. More particularly, the present invention
+relates to a fault tolerant storage controller utilizing
+tightly coupled dual controller modules which provides
+essentially fail-safe controller initialization and failover
+in the event that one of the controller modules
+malfunctions.Storage controllers are commonly utilized to off-load
+certain lower level processing functions relating to data
+storage and retrieval from a host computer and to serve as
+an interface between the host and the physical storage
+media, which in most normal operations, may be a number of
+disk drives coupled to one or more storage buses. The
+controller is, therefore, one of the most critical elements
+in the system input/output ("I/O") performance chain.As a consequence, it is critical for continued system
+operation that the host computer(s) be able to continue to
+reliably read and write data from and to the storage media
+without interruption. Thus, to the extent possible, the 
+storage controller must be fault tolerant. Moreover, balancing factors such as cost,
+performance and reliability, it is also important that the storage controller be user
+configurable, for example, as a redundant array of inexpensive disks ("RAID") controller.One such fault tolerant system is described in WO 91/13399, in which a method
+and apparatus for controlling data flow between a computer and a group of memory
+devices arranged in a logical configuration is presented. It uses a pair of interconnected
+controller modules, comprising first and second level controllers. The first and second
+level controllers are connected by data buses for the transfer of data and status signals,
+while the second level controllers are connected to each other by a communication
+medium. The two level controllers and switching circuitry provide a fault tolerant
+architecture for the control of mass storage devices. Failure of a component in the system
+leads to an automatic swapping of the failed component processes to an associated
+normally operating component.The use of a communication medium for the passing of error and status
+information between secondary controllers is known from EP 010 211, in which the
+secondary controllers are able to notify failure of a secondary controller by
+communicating an unavailability signal across the medium.Disclosed herein is a fault tolerant storage controller
+</DESCRIPTION>
+<CLAIMS>
+A computer mass storage device controller system comprising:
+
+first and second controller modules (10A, 10B) for operative
+coupling to a plurality of computer mass storage devices (120
+0
+-120
+5
+), said
+first controller module for controlling a first subset of said plurality of
+
+computer mass storage devices and said second controller module for
+controlling a second subset of said plurality of computer mass storage
+
+devices;
+a communications medium interconnecting said first and second
+controller modules, 
+characterised by
+ said communications medium for
+conveying an indication signal showing a controller presence, from one of
+
+said controller modules to the other of said controller modules when said
+one of said controller modules is included in said system, said
+
+communications medium including a plurality of controller module
+communications lines (19, 21, 26) for communications between said first
+
+and second controller modules when said controller present indication is
+detected by both said first and second controller modules, said
+
+communications lines including a controller module disable line for
+assertion by either said controller modules to operatively disable said other
+
+of said controller modules in response to a malfunction indication from said
+other of said controller modules;
+means (38) for enabling said first controller module operatively to
+disable a malfunctioning second controller module by asserting said
+
+controller module disable line; and
+means (38) for said first controller to assume access to and control of
+said second subset of said plurality of computer mass storage devices.
+The computer mass storage device controller system of claim 1
+further comprising: 
+
+
+first and second data cache modules (110A, 110B) operatively
+coupled to said first and second controller modules (10A, 10B) by
+
+respective first data paths (26A, 26B), said first and second data cache
+modules further having alternative second data paths (88A, 88B) for
+
+operatively coupling said first and second controller modules to said second
+and first data cache modules respectively,
+
+   wherein said first controller module is further operatively coupled to
+said second data cache module by said second data path upon assuming
+
+control of said second subset of said plurality of computer mass storage
+devices.
+The computer mass storage device controller system of claim 1
+wherein said communications medium comprises a backplane (36) into
+
+which said first and second controller modules (10A, 10B) are electrically
+coupled, and communications between said first and second controller
+
+modules on said communications medium are conducted asynchronously.
+The computer mass storage device controller system of claim 3
+wherein said communications medium further comprises first and second
+
+clear-to-send signal lines.
+The computer mass storage device controller system of claim 1
+wherein said other of said controller modules (10A, 10B) is precluded from
+
+functionally disabling said one of said controller modules once said one of
+said controller modules has disabled said other of said controller modules.
+The computer mass storage device controller system of claim 1
+wherein said communications medium includes an asynchronous
+
+communications channel (19), comprising first and second unidirectional
+communications lines. 
+The computer mass storage device controller system of claim 1
+wherein said plurality of controller module communications lines (19, 21,
+
+26) convey configuration and operational information between said first and
+second controller modules (10A, 10B).
+The computer mass storage device controller system of claim 1
+further comprising means (48) to send a message to said second controller
+
+that said first controller is booting.
+The computer mass storage device controller system of claim 1
+further comprising means (38) to prevent each controller module when
+
+properly functioning from disturbing contents of mass storage devices
+corresponding to the other controller mod
+ule when properly functioning.
+The computer mass storage device controller system of claim 1
+further comprising said plurality of computer mass storage devices (120
+0
+-120
+5
+)
+including said first and second subsets thereof.
+</CLAIMS>
+</TEXT>
+</DOC>

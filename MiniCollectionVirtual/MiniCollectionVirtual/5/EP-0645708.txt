@@ -1,0 +1,195 @@
+<DOC>
+<DOCNO>EP-0645708</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Store "UNDO" for cache store error recovery
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1114	G06F1116	G06F1116	G06F1114	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F11	G06F11	G06F11	G06F11	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+In order to efficiently recover from a processing error in a central 
+processing unit (CPU) incorporating a cache memory and a basic processing unit, 
+
+the BPU is provided in duplicate, and all BPU data manipulation operations are 
+performed redundantly. After duplicate data has been obtained from the cache 
+
+memory and manipulated by the duplicate BPUs, the outputs from the duplicate 
+BPUs are placed on respective master (MRB) and slave (SRB) result busses which 
+
+are coupled to the cache unit where the results are compared for identity. If the 
+results are not identical, a local error signal is issued. In response to the error 
+
+signal, the corrupted data is stored into cache, but, before the cache is deliberately 
+frozen, the data is restored again using a segment of the original data withdrawn 
+
+from the cache memory by the BPUs such that, when the cache is frozen in 
+anticipation of remedial action, the 
+data block whose modification took place 
+during the faulting operation will have been restored to its preprocessing 
+
+condition. As a result, restart, if possible, can commence at the same point in the 
+process rather than at an earlier point. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+BULL HN INFORMATION SYST
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+BULL HN INFORMATION SYSTEMS INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+CHAMOUN SLEIMAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ECKARD CLINTON B
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FLOCKEN BRUCE E
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GUENTHNER RUSSELL W
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WEINTRAUB JEFFREY D
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+CHAMOUN, SLEIMAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ECKARD, CLINTON B.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FLOCKEN, BRUCE E.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GUENTHNER, RUSSELL W.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WEINTRAUB, JEFFREY D.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to information processing systems and, more 
+particularly, to processor error detection and responses to errors in a mainframe 
+central processing unit (CPU). In the design of mainframe central processing units, it is highly desirable to 
+provide powerful and reliable error detection and handling features, and this 
+requirement has mandated the provision of various circuits, firmware and software 
+to sense and resolve the diverse types of errors which may occur in operation. Among the possible error conditions encountered in a mainframe CPU are 
+those in which a basic processing unit (BPU) part of the CPU, while performing 
+routine data manipulation such as calculating, simply reaches an incorrect result. 
+It can be shown that employing built-in error detection in the circuitry of a BPU 
+results in both a doubling of the types of chips required and a doubling of the 
+number of chips required as well as the necessity of incorporating precharge 
+circuit techniques. This effect not only significantly extends the design effort 
+required to develop a BPU, but also increases the "real estate" or space occupied 
+by the BPU and its support circuitry and consequently that of the CPU. In the invention disclosed and claimed in United States patent 5,195,101 by 
+Russell W. Guenthner et al (which is assigned to the same assignee as the present 
+invention), this problem was solved, in a CPU incorporating a BPU which 
+included an address and execution (AX) unit, a decimal numeric (DN) unit and a 
+floating point (FP) unit and also incorporating a cache unit situated logically 
+intermediate the BPU and system memory, by duplicating each of the AX, DN and 
+FP chips (i.e., duplicating the BPU) and performing all BPU data manipulation  
+ 
+operations redundantly. The outputs from the duplicate BPUs were placed on 
+respective master (MRB) and slave (SRB) result busses which are coupled to the 
+cache unit, and the results were compared in the cache unit. If the results were not 
+identical in each byte of the result, the individual chip in the cache unit detecting 
+the no-compare condition issued an error signal, and appropriate steps to remedy 
+or otherwise respond to the error signal may be undertaken. This was a very effective technique, but it did leave the CPU in a condition 
+which was somewhat difficult to restart during error recovery, because the BPU 
+would typically have requested a block of memory from the cache unit, and, 
+because of the manner in which the result was stored (even if an error
+</DESCRIPTION>
+<CLAIMS>
+A central processing unit comprising: 
+
+A) first basic processing unit means (10) for executing computer instructions and 
+producing a result for each computer instruction executed; 
+B) second basic processing unit means (10A) for executing computer instructions 
+and producing a result for each computer instruction executed; said first (10) and 
+
+second basic processing unit means (10A) concurrently executing the same 
+computer instruction and producing the result of the execution of the same 
+
+computer instruction concurrently; 
+C) a cache unit (11), said cache unit (11) including random access memory means (41) for 
+providing data concurrently to said first (10) and second basic processing unit 
+
+means (10A) for processing and for storing one of the two concurrently produced 
+results produced by said basic processing unit means (10, 10A) after execution of the 
+
+same computer instruction by said first (10) and second basic processing unit 
+means (10A) using the data obtained from said random access memory (41); 
+D) first result bus means (20) for transmitting the result of the execution of each 
+computer instruction by said first basic processing unit means (10) to said cache 
+
+unit (11); 
+E) second result bus means (21) for transmitting the result of the execution of each 
+computer instruction by said second basic processing unit means (10A) to said 
+
+cache unit (11); said first (20) and second result bus means (21) transmitting the results of 
+the execution of the same computer instruction by said first (10) and second 
+
+basic processing unit means (10A) to said cache unit (11) concurrently; 
+F) said cache unit (11) further including: 
+
+1) first buffer means (51) for temporarily storing the data provided to said 
+first (10) and second basic processing unit means (10A) for processing;  
+
+ 
+2) comparing means (49) for comparing the results transmitted to said cache 
+unit (11) by said first (20) and second result bus means (21) and for issuing an 
+
+error signal if the results do not compare; 
+3) second buffer means (43) for temporarily storing the result of the 
+concurrent execution of the same instruction by one of said first (10) and 
+
+second basic processing unit means (10A) transmitted to said cache unit (11) by 
+
+said first (20) and second result bus means (21); 
+4) merge means (48) for performing a first merge operation to modify the 
+data temporarily stored in said first buffer means (51) by the results 
+
+temporarily stored in said second buffer means (43); 
+5) third buffer means (42) for temporarily storing at least a segment of the 
+data provided to said first (10) and second basic processing unit means (10A) 
+
+for processing, which segment includes the portion of the data 
+temporarily stored in said first buffer means (51) which is subsequently 
+
+modified during the first merge operation; and 
+6) control means (45) responsive to the issuance of an error signal by said 
+comparing means (49) for directing said merge means (48) to perform a 
+
+second merge operation to further modify the once-modified 
+contents temporarily stored in said first buffer means (51) by merging the 
+
+once-modified contents thereof with the contents of said third buffer 
+means (42), thereby restoring the contents of said first buffer means (51) to the 
+
+same data last provided to said first (10) and second basic processing unit 
+means (10A). 
+The central processing unit of Claim 1 which further includes in said cache 
+unit (11), masking means (44) under the direction of said control means (45), which masking 
+
+means (44) serves to identify to said merge means (48) the position in said first buffer  
+ 
+
+means (51) which is to be modified by the results temporarily stored in said second 
+buffer means (43) during the first merge operation. 
+The central processing unit of Claim 1 in which said second buffer means (43) 
+temporarily stores the result of the concurrent execution of the same instruction 
+
+received by said cache unit (11) on said first result bus means (20). 
+The central processing unit of Claim 2 in which said second buffer means (43) 
+temporarily stores the result of the concurrent execution of the same instruction 
+
+received by said cache unit (11) on said first result bus means (20). 
+</CLAIMS>
+</TEXT>
+</DOC>

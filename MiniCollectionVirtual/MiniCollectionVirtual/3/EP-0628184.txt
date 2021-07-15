@@ -1,0 +1,413 @@
+<DOC>
+<DOCNO>EP-0628184</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+CPU HAVING PIPELINED INSTRUCTION UNIT AND EFFECTIVE ADDRESS CALCULATION UNIT WITH RETAINED VIRTUAL ADDRESS CAPABILITY
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F938	G06F932	G06F938	G06F932	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A prefetch unit includes a Branch history table for providing an indication of an occurrence of a Branch instruction having a Target Address that was previously taken. A plurality of Branch mark bits are stored in an instruction queue, on a half word basis, in conjunction with a double word of instruction data that is prefetched from an instruction cache. The Branch Target Address is employed to redirect instruction prefetching. The Branch Target Address is also pipelined and follows the associated Branch instruction through an instruction pipeline. The prefetch unit includes circuitry for automatically self-filling the instruction pipeline. During a Fetch stage a previously generated Virtual Effective Address is applied to a translation buffer to generate a physical address which is used to access a data cache. The translation buffer includes a first and a second translation buffer, with the first translation buffer being a reduced subset of the second. The first translation buffer is probed, during a Generate stage, to prefetch, if possible, the required operand. The prefetch unit further provides 24-bit or 31-bit effective address generation on an instruction by instruction basis.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SAMSUNG ELECTRONICS CO LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SAMSUNG ELECTRONICS CO., LTD.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+SABA JOHN A
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SCHWARTZ MARTIN J
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TANG-KONG RICHARD
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SABA, JOHN, A.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SCHWARTZ, MARTIN, J.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TANG-KONG, RICHARD
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates generally to digital data processors and, in particular, to
+high performance central processing units (CPUs) having pipelined instruction
+execution and virtual addressing capabilities.A pipelined instruction execution unit includes circuitry for implementing a
+hierarchy of execution elements, each of which is responsive, during a given
+instruction cycle, to a different instruction. Instructions make their way through
+the instruction execution unit in sequence such that the various components of the
+instruction execution unit are utilized in an efficient manner. That is, the various
+components are kept maximally occupied with instruction decoding, effective
+address calculations, and other required functions. By example, during a time that
+a first stage of the pipeline is decoding instruction A, a second stage of the
+pipeline is calculating an effective address for a preceding instruction B, and a
+third stage is performing a virtual address translation and operand prefetch for
+a preceding instruction C.One problem that arises during the use of such a pipelined instruction execution
+unit results from the occurrence of conditional Branch instructions. That is, a
+conditional Branch instruction that advances through the pipeline may or may not
+alter a currently pipelined sequence of instruction execution.A number of techniques for accommodating conditional Branch instructions are
+known in the art. These techniques include: suspending the flow of instruction
+execution until the conditional Branch is resolved; causing the flow to provisionally
+take an assumed Branch path; provisionally exploring both possible Branch paths;
+and predicting an outcome of a conditional Branch based on available information.One approach for realizing this latter technique is described in U.S. Patent 
+4,430,106, issued February 7, 1984 "Branch Prediction Apparatus and Method for
+a Data Processing System", by D.B. Sand. This patent discloses the use of a
+Branch prediction memory and the use of a hash-coded version of an instruction
+address to access the prediction memory when a conditional Branch instruction
+is encountered.The following three IBM Technical Disclosure Bulletins all refer to the use of
+Branch History Tables (BHTs): "Subroutine Routine Address Stack", Vol. 24, No.
+7A, (12/81); "Highly Accurate Subroutine Stack Prediction Mechanism", Vol. 28.
+No. 10 (3/86); and "Subroutine Call/Return Stack", Vol. 30, No. 11(4/88).
+As described in the first above referenced article, a BHT is used to predict
+branches
+</DESCRIPTION>
+<CLAIMS>
+Apparatus for use in a digital data processor (10) for
+prefetching individual ones of a plurality of instructions
+
+prior to execution of the instructions, said digital data
+processor including
+
+
+means (40) for generating sequential ones of a plurality of
+instruction addresses,
+instruction cache means (28) having an input responsive to said
+instruction addresses and an output for providing a
+
+corresponding instruction,
+instruction queue means (80, 82, 84, 86) having an input
+coupled to said output of said instruction cache means and
+
+having a plurality of register means each having a width
+sufficient to store at least a portion of one instruction,
+
+instruction execution means (36), and
+Branch history table means (42) having an input responsive to
+said instruction physical addresses and an output for providing
+
+a Mark indication of whether, during a preceding execution of a
+corresponding Branch instruction output by said instruction
+
+cache means, said execution of said corresponding Branch
+instruction resulted in subsequent program execution being
+
+redirected to a Target Address associated with said corresponding
+Branch instruction,
+characterized by
+instruction pipeline means (92, 94, 96, 98) comprised of a
+plurality of serially coupled register means (92, 94, 96) each
+
+having a width sufficient to store a widest possible instruction,
+said instruction pipeline means having an input coupled
+
+to an output of said instruction queue means (80, 82, 84, 86)
+and an output for coupling to said instruction execution means
+
+(36) ;
+wherein some of said instructions are Branch instructions
+having an associated Target Address, and
+wherein each of said register means of said instruction
+queue means (80, 82, 84, 86) and each of said serially coupled
+
+register means (92, 94, 96) of said instruction pipeline means
+(92, 94, 96, 98) further include means for storing a Mark 
+
+indication output from said Branch history table means (42) and
+for advancing said stored Mark indication through said instruction
+
+queue means and through said instruction pipeline means in
+association with a corresponding Branch instruction;
+means (44) for generating effective addresses that reference
+operands, wherein certain of said instructions reference a
+
+specified one or ones of a plurality of general register means;
+wherein the effective address generating means (44) is
+comprised of
+
+
+means (60) for storing a duplicate copy of said plurality
+of general register means, said storing means (60) being
+
+responsive to prefetched instructions (98, 100) for
+outputting a specified one or ones of said copies of said
+
+general register means,
+and
+means (78) for calculating an effective address of an
+
+operand, associated with a prefetched instruction, in
+cooperation with the specified one or ones of said copies
+
+of said general register means output from said storing
+means (60),
+wherein said storing means (60) having inputs coupled to
+outputs of said execution means (32) for storing
+
+information in said copy of said general register means in
+response to a storage of information in said general
+
+register means;
+bypassing means (62, 64, 66), responsive to an occurrence of a
+previously prefetched instruction that modifies, during an
+
+execution of said previously prefetched instruction, a content
+of said storing means (60), for selectively bypassing said
+
+storing means and for receiving said information instead from
+said execution means (36) for use in calculating an effective
+
+address of an operand associated with an instruction that is
+prefetched subsequent to said instruction that modifies said
+
+general register means; and.
+suspending means (170), responsive to an occurrence of a
+previously prefetched instruction that modifies, during an
+
+execution of said previously prefetched instruction, a content
+of said general register means, for suspending an occurrence of
+
+said effective address calculation for an instruction contained 
+in one of said register means (92) until an execution of said
+
+previously prefetched instruction modifies said content of said
+general register means.
+Apparatus of claim 1, characterized in that
+
+the plurality of serially coupled register means (92, 94, 96)
+of said instruction pipeline means (92, 94, 96, 98) include:
+
+
+first register means (IRG 92), having an input coupled to said
+output of said instruction queue means, for storing said
+
+instruction during an effective address generation operation
+for said instruction;
+second register means (IRF 94), having an input coupled to an
+output of said IRG register means, for storing said instruction
+
+during an operand prefetch operation for said instruction; and
+third register means (IRE 96), having an input coupled to an
+output of said IRF register means and an output coupled to said
+
+instruction execution means, for storing said instruction
+during an execution of said instruction.
+Apparatus of Claim 1, characterized in that
+
+the effective address generating means (44) includes a plurality
+of serially coupled address register means comprising,
+
+
+first register means (IAG 52) for storing a virtual instruction
+address during an effective address generation operation for an
+
+instruction;
+second register means (IAF 54), having an input coupled to an
+output of said IAG register means, for storing said virtual
+
+instruction address during said operand prefetch operation for
+said instruction; and
+third register means (IAE 56), having an input coupled to an
+output of said IA
+F register means, for storing said virtual
+instruction address during an execution of said instruction,
+
+and
+wherein said effective address generating means further
+includes:
+fourth register means (IAR 58), having an input coupled to an
+output of said IAE register means, for retaining said virtual
+
+instruction address for use in event that said instruction is a 
+Branch instruction that fails a Branch condition during an
+
+execution of said Branch instruction.
+Apparatus of claim 1, characterized in that
+
+the Branch history table means (42) is comprised of Target
+Address storage means (42a) for outputting a predicted Target
+
+Address associated with a corresponding Branch instruction
+output by said instruction cache means (28),
+and in that the apparatus is comprised of:
+first register means (TARIRO 148), having an input coupled to
+an output of said Target Address storage means (42a), for
+
+storing said Target Address of a Branch instruction stored
+within said instruction queue means (80, 82, 84, 86), said
+
+TARIRO register means having an output coupled to an effective
+address generating means (44) for providing said Target Address
+
+thereto;
+second register means (TARIRG 176), having an input coupled to
+said output of said TARIRO register means, for storing said
+
+Target Address during an effective address generation operation
+for said Target Address associated with said Branch instruction;
+third register means (TARIRF 178), having an input coupled to
+an output of said TARIRG register means, for storing said
+
+Target Address during said operand prefetch operation for said
+Target Address associated with said Branch instruction;
+fourth register means (TARIFE 182), having an input coupled to
+an output of said TARIRF register means, for storing said
+
+Target Address during an execution of said Branch instruction;
+and
+comparator means (198), having a first input coupled to an
+output of said TARIFE register means and a second input coupled
+
+to an output of a Target Address calculation means, for
+comparing said calculated Target Address to said predicted
+
+Target Address.
+Apparatus of Claim 1, characterized by
+
+means (90) for accessing said Branch history table means (42)
+after a Branch instruction has been stored in one of said 
+
+register means of said instruction queue means (80, 82, 84, 86)
+and
+means (158) for then subsequently inputting a mark indication
+output by said accessed Branch history table means (42) into
+
+one of said register means of said instruction queue means (80,
+82, 84, 86) wherein is stored said Branch instruction, and
+means (88b), coupled between said register means, for advancing
+said Branch instruction and said stored associated Mark
+
+indication through said register means prior to said Branch
+instruction and said stored associated Mark indication being
+
+input to said instruction pipeline means.
+Apparatus of Claim 1 characterized by
+
+instruction control memory means (46) having an input coupled
+to said output of said instruction queue means and being
+
+responsive to an instruction for outputting a plurality of
+control signals associated with the instruction; and
+
+control signal pipeline means comprised of a plurality of
+serially coupled register means (136, 140, 142) for storing
+
+said control signals and for advancing said control signals in
+synchronism with an advancement of the corresponding instruction
+
+through an instruction pipeline means (92, 94, 96);
+
+wherein said effective address generating means (44)
+includes means for calculating said effective address of an
+
+operand associated with a prefetched instruction as a function
+of a content of said storing means (60) and as a function of
+
+one or more of said stored control signals; and is responsive
+to at least one of said stored control signals for generating,
+
+for each instruction, an effective address having a first
+number of bits, or an effective address having a second number
+
+of bits.
+Apparatus of claim 6 wherein said first number of bits is
+24 and wherein said second number of bits is 31.
+Apparatus of claim 2, characterized in that
+
+the effective address generating means (44) further comprises:
+means for generating a first virtual effective address of an
+
+operand or operands associated with an instruction stored 
+within said IRG register means (92) of said instruction pipeline
+
+means,
+means for subsequently generating a second virtual effective
+address for said instruction after said instruction is advanced
+
+to said IRF (94) register means;
+virtual address translation buffer means (50) responsive to
+said virtual effective addresses for converting said virtual
+
+effective addresses into a corresponding physical addresses;
+and
+data cache means (30) having an input responsive to said
+physical address and an output for providing a corresponding
+
+operand for use by said execution means (36) ;
+wherein said virtual address translation buffer means (50)
+includes a first translation buffer means (108) having a first
+
+number of page frame entries responsive to said first virtual
+effective address for prefetching, if possible, a required
+
+operand from said data cache means, and a second translation
+buffer means (126) having a second number of page frame entries
+
+responsive to said second virtual effective address, wherein
+said first number of page frame entries is less than said
+
+second number of page frame entries.
+Apparatus of Claim 8, characterized in that
+the virtual address translation buffer means (50) includes
+
+means for generating an indication if a selected page frame
+entry is not present within said first translation buffer means
+
+(108) but is present, and valid, within said second virtual
+address translation buffer means (126) ; and
+
+a data path (PAGE FRAME #) for transferring at least a portion
+of a page frame entry from said second virtual address translation
+
+buffer means (126) to said first virtual address translation
+buffer means (108).
+Apparatus of claim 1, characterized by
+instruction control memory means (46) having an input coupled
+
+to said output of said instruction queue means (80, 82, 84, 86)
+and being responsive to an instruction for outputting a
+
+plurality of control signals associated with the instruction;
+and 
+
+means for generating an effective address (44) of an operand or
+operands that are associated with certain of said instructions,
+
+said effective address generating means (44) comprising means
+(190) responsive to a plurality of system control signals
+
+(AMODE 1, AMODE 2) that specify an addressing mode, and to at
+least one (IUALTAM) of said control signals output from said
+
+instruction control memory means (46), for selectively generating
+on an instruction by instruction basis one of an effective
+
+address having a first number of bits and an effective
+address having a second number of bits.
+Apparatus of claim 10 characterized in that
+when two of said plurality of system control signals (AMODE 1,
+
+AMODE 2) have a first same logical state a 24-bit effective
+address is always generated, wherein when said two of said
+
+plurality of system control signals have a second same logical
+state a 31-bit effective address is always generated, and
+
+wherein when said two of said plurality of system control
+signals have different logical states, one of a 24-bit and a
+
+31-bit effective address is selectively generated as a function
+
+of a state of said at least one control signal (IUALTAM) output
+from said instruction control memory means (46).
+</CLAIMS>
+</TEXT>
+</DOC>

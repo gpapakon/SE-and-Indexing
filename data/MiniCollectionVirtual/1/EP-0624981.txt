@@ -1,0 +1,341 @@
+<DOC>
+<DOCNO>EP-0624981</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Motion vector detecting circuit
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04N514	H04N514	H04N726	G06T720	H04N726	G06T720	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04N	H04N	H04N	G06T	H04N	G06T	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04N5	H04N5	H04N7	G06T7	H04N7	G06T7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A motion vector detecting circuit is for detecting a 
+motion vector in moving picture coding using motion 
+
+compensation prediction in the unit of block composed of L 
+pixels by block matching between a block in a prediction target 
+
+image and a candidate block in a reference image. The motion 
+vector detecting circuit comprises a calculating section for 
+
+calculating a first prediction error between a block in a 
+prediction target image and a candidate block in a reference 
+
+image using L1 (
+<
+L) pixels in block, comparing the first 
+prediction error thus calculated with a threshold, and 
+
+calculating a second prediction error between a block in the 
+prediction target image and a candidate block in the reference 
+
+image using L2 (L1
+<
+L2≦L) pixels in block if a first prediction 
+error of the candidate block is not more than the threshold; 
+
+and a comparing section for comparing the second prediction 
+error with a predetermined value and, if the second prediction 
+
+error is smaller than the predetermined value, replacing the 
+predetermined value with the second prediction error, whereby a 
+
+motion vector to a candidate block giving a minimum second 
+prediction error is determined as an optimum motion vector. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SHARP KK
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SHARP KABUSHIKI KAISHA
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+KATATA HIROYUKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KUSAO HIROSHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MIYAKE TOSHIYUKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KATATA, HIROYUKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KUSAO, HIROSHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MIYAKE, TOSHIYUKI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a motion vector detecting
+circuit, and more particularly to a motion vector detecting
+circuit for detecting a motion vector by block matching between
+a prediction target image and a reference image in moving image
+coding using the motion compensation prediction.There are major methods for obtaining a motion vector by
+block matching, for example the full search, the three-step
+search, etc. as described in "INTERFACE, pp 138, Aug. 1992.The computational complexity is examined in the following
+for the conventional motion vector detecting methods.In the following description, "sub" means subtraction,
+"add" addition, and "ops" computational complexity.Also, it is assumed that a block is a square block in the
+size of 16x16 pixels, a search range of motion vector is a
+square region between -15 and +15 both in the horizontal
+direction and in the vertical direction, the accuracy of motion
+vector is one pixel unit, and a prediction error is a sum of
+absolute values of differences between pixel values.(1) A process for obtaining a prediction error PE using 
+all pixels in block is executed for all candidate blocks of 961
+(i.e., 312).(2) An optimum motion vector is a motion vector to a
+candidate block giving a minimum prediction error PE.The above process requires the following computational
+complexity for block matching.
+Computation of prediction error PE:
+256 (sub)+255 (add)=511 opsComparison between prediction error PE and minimum: 1 opsFor all candidate blocks of 961, necessary computation is:
+(511+1)x961=492032 ops.2. 3-step search
+(1) A process for obtaining a prediction error PE using
+all pixels in block is executed for candidate blocks
+corresponding to motion vectors (4m, 4n).
+Here, m and n are integers between -3 and +3.(2) A minimum value of the prediction errors PE obtained
+in (1) is defined as MIN_PE and a motion vector giving MIN_PE
+as (x, y). Then, a process for obtaining a prediction error PE
+using all pixels in block is conducted for eight candidate
+blocks corresponding to motion vectors (x-2, y-2), (x, y-2),
+(x+2, y-2), (x-2, y), (x+2, y), (x-2, y+2), (x, y+2), and (x+2,
+y+2). If PE<MIN_PE then it is set as MIN_PE=PE.(3) A motion vector giving MIN_PE in (2) is defined as
+(x, y). Then, a process for obtaining a prediction error PE
+using all pixels in block is conducted for eight candidate 
+blocks corresponding to motion vectors (x-1, y-1), (x, y-1),
+(x+1, y-1), (x-1, y), (x+1, y), (x-1, y+1), (x, y+1), and (x+1,
+y+1). If PE<MIN_PE then it is set as MIN_PE=PE.(4) A
+</DESCRIPTION>
+<CLAIMS>
+A motion vector detecting circuit for detecting a
+motion vector in moving picture coding using motion
+
+compensation prediction in the unit of block composed
+of L pixels by block matching between a block in a
+
+prediction target image and a candidate block in a
+reference image, said motion vector detecting circuit
+
+comprising calculating means (5, 6) for calculating a
+first prediction error (PE1) between a block in a
+
+prediction target image and a candidate block in a
+reference image using L1 pixels in block wherein L1 
+<
+ L, and
+for calculating a second prediction error (PE2)
+
+between a block in the prediction target image and a
+candidate block in the reference image using L2
+
+pixels in block wherein L1 
+<
+ L2 ≤ L, and comparing means (7, 8)
+for comparing said second prediction error (PE2) with
+
+a predetermined value (MIN_PE), and for replacing
+said predetermined value (MIN_PE) with said second
+
+prediction error, if said second prediction error
+(PE2) is smaller than said predetermined value
+
+(MIN_PE),
+
+characterized in that
+
+said calculating means (5, 6) is adapted to compare the first
+prediction error (PE1) with a threshold (TH), a
+
+control unit (9) is provided for generating a control
+signal for obtaining the second prediction error
+
+(PE2), if the first prediction error (PE1) of said
+candidate block is not more than said threshold (TH), 
+
+and for generating a control signal for obtaining the
+first prediction error (PE1) for a next candidate
+
+block, if said first prediction error (PE1) is larger
+than said threshold (TH) or if the processing of said
+
+comparing means (7, 8) is finished.
+A motion vector detecting circuit according to claim
+1, characterized in that said calculating means (5,
+
+6) comprises a prediction error calculating unit (5)
+for calculating the first prediction error (PE1) and
+
+the second prediction error (PE2), a first comparator
+(6) for comparing the first prediction error (PE1)
+
+with the threshold value (TH), and said control unit
+(9) for controlling operations of said prediction
+
+error calculating unit (5). 
+A motion vector detecting circuit according to
+Claim 1 or 2, characterized in that said comparing means (7,
+
+8) comprises a second comparator (7) for comparing the
+second prediction error (PE2) with the predetermined value
+
+(MIN_PE), a register (8) for storing the predetermined
+value (MIN_PE) and an optimum motion vector.
+A motion vector detecting circuit according to claim
+2, characterized in that said calculating means (5,
+
+6) further comprises a counter (21) for counting a
+number of candidate blocks used in calculating second
+
+prediction errors thereof (PE2), and a third
+comparator (22) for comparing said number with a
+
+predetermined value (M), wherein said control unit
+(9) is provided for finishing the block matching
+
+between a prediction target image and a reference
+image when said number reaches the predetermined
+
+value (M).
+A motion vector detecting circuit according to
+Claim 4, characterized in that said predetermined value (M)
+
+is smaller than a total number (N) of candidate blocks in a
+reference image.
+A motion vector detecting circuit according to
+Claim 4 or 5, characterized in that said calculating means
+
+(5, 6) further comprises an updating unit (33) for
+adjusting said predetermined value (M) and said threshold
+
+(TH).
+A motion vector detecting circuit according to 
+Claim 6, characterized in that when a number of candidate
+
+blocks used in calculating second prediction errors thereof
+(PE2) reaches said predetermined value (M), said updating
+
+unit (33) updates to increase said predetermined value (M)
+and updates to decrease said threshold (TH).
+A motion vector detecting circuit according to
+Claim 2, characterized in that said calculating means (5,
+
+6) further comprises means (43) for calculating a ratio (R)
+of a number of candidate blocks used in calculating second
+
+prediction errors thereof (PE2), to a number of candidate
+blocks used in calculating first prediction error thereof
+
+(PE1), and updating means (44, 45) for adjusting the
+threshold (TH) according to said ratio (R).
+A motion vector detecting circuit according to
+Claim 8, characterized in that said updating means (44, 45)
+
+comprises a ratio comparator (44) for comparing said ratio
+(R) with a predetermined value (RTH), and an updating unit
+
+(45) for adjusting said threshald (TH) in accordance with
+comparison by said comparator, wherein said updating unit
+
+(45) updates to decrease the threshold (TH) if said ratio
+(R) is larger than the predetermined value (RTH), while the
+
+updating unit updates to increase the threshold (TH) if
+said ratio (R) is smaller than the predetermined value
+
+(RTH).
+A motion vector detecting circuit according to
+Claim 4, further comprising a memory (53) for storing
+
+information about candidate blocks with a first prediction
+error (PE1) not more than the threshold (TH), wherein said
+
+calculating means (5, 6) calculates the second prediction
+errors (PE2) in the order of the first prediction errors
+
+(PE1) stored in the memory (53) from the smallest. 
+A motion vector detecting circuit according to
+Claim 10, characterized in that a number of candidate
+
+blocks to calculate a second prediction error is not more
+than a selected value (M).
+A motion vector detecting circuit according to
+Claim 1, characterized in that said calculating means
+
+comprises:
+
+means (105, 109) for calculating a first prediction
+error (PE1) for all candidate blocks and stores the first
+
+prediction errors thereof;
+means for producing a histogram of the first
+prediction errors;
+cumulative value calculating means (107) for
+calculating a cumulative value of frequencies of the first
+
+prediction errors in the histogram from the smallest;
+cumulative value comparing means (108) for
+comparing said cumulative value with a predetermined value
+
+(M) ;
+storing means (110) for storing as a threshold (TH)
+a maximum first prediction error with a cumulative value
+
+not more than said predetermined value (M); and
+threshold comparing means (111) for comparing said
+stored first prediction errors of all candidate blocks with
+
+said threshold (TH) in order,
+wherein said calculating means calculates a second
+
+prediction error (PE2) for candidate blocks with a first
+prediction error not more than the threshold (TH).
+A motion vector detecting circuit according to
+Claim 12, characterized in that said storing means (110)
+
+stores as a first threshold (TH1) a maximum first
+prediction error with a cumulative value not more than said 
+
+predetermined value (M), a value (M-m) obtained by
+subtracting a cumulative value (m) thereat from the
+
+predetermined value (M), and as a second threshold (TH2) a
+minimum first prediction error with a cumulative value
+
+exceeding said predetermined value (M);
+
+wherein said threshold comparing means (111)
+compares the stored first prediction errors of all
+
+candidate blocks with said first and second thresholds (TH1,
+TH2) in order; and
+wherein said calculating means (105) calculates a
+second prediction error (PE2) for candidate blocks with a
+
+first prediction error not more than the first threshold
+(TH1) and calculates a second prediction error (PE2) for
+
+(M-m) candidate blocks among candidate blocks with a first
+prediction error larger than the first threshold (TH1) but
+
+not more than the second threshold (TH2).
+A motion vector detecting circuit according to
+Claim 12, characterized in that said histogram producing
+
+means produces a histogram only for candidate blocks with a
+first prediction error (PE1) not more than the threshold
+
+(TH).
+A motion vector detecting circuit according to
+Claim 13, characterized in that said histogram producing
+
+means produces a histogram only for candidate blocks with a
+first prediction error (PE1) not more than the second
+
+threshold (TH2).
+</CLAIMS>
+</TEXT>
+</DOC>

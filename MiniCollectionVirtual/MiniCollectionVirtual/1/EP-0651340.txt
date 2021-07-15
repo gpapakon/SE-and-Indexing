@@ -1,0 +1,480 @@
+<DOC>
+<DOCNO>EP-0651340</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Language translation apparatus and method using context-based translation models
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1728	G06F1728	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F17	G06F17	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An apparatus for translating a series of source words in a first 
+language to a series of target words in a second language. For 
+
+an input series of source words, at least two target hypotheses, 
+each comprising a series of target words, are generated. Each 
+
+target word has a context comprising at least one other word in 
+the target hypothesis. For each target hypothesis, a language 
+
+model match score comprises an estimate of the probability of 
+occurrence of the series of words in the target hypothesis. At 
+
+least one alignment connecting each source word with at least one 
+target word in the target hypothesis is identified. For each 
+
+source word and each target hypothesis, a word match score 
+comprises an estimate of the conditional probability of 
+occurrence 
+of the source word, given the target word in the target hypothesis 
+
+which is connected to the source word and given the context in the 
+target hypothesis of the target word which is connected to the 
+
+source word. For each target hypothesis, a translation match 
+score comprises a combination of the word match scores for the 
+
+target hypothesis and the source words in the input series of 
+source words. A target hypothesis match score comprises a 
+
+combination of the language model match score for the target 
+hypothesis and the translation match score for the target 
+
+hypothesis. The target hypothesis having the best target 
+hypothesis match score is output. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BERGER ADAM L
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BROWN PETER FITZHUGH
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DELLA PIETRA STEPHEN ANDREW
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DELLA PIETRA VINCENT JOSEPH
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KEHLER ANDREW SCOTT
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MERCER ROBERT LEROY
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BERGER, ADAM L.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BROWN, PETER FITZHUGH
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DELLA PIETRA VINCENT JOSEPH
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DELLA PIETRA, STEPHEN ANDREW
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KEHLER, ANDREW SCOTT
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MERCER, ROBERT LEROY
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The invention relates to computerized language translation, such
+as computerized translation of a French sentence into an English
+sentence.In EP-A-0 525 470 (originally filed as United States patent application serial number 07/736,278,
+filed July 25, 1991 entitled "Method and System For Natural
+Language Translation" by Peter F. Brown et al) there is described
+a computerized language translation system for translating a text
+F in a source language to a text E in a target language. The
+system described therein evaluates, for each of a number of
+hypothesized target language texts E, the conditional probability
+P(E|F) of the target language text E given the source language
+text F. The hypothesized target language text Ê having the
+highest conditional probability P(E|F) is selected as the
+translation of the source language text F. Using Bayes' theorem, the conditional probability P(E|F) of the
+target language text E given the source language text F can be
+written as
+P(E|F) = P(F|E)P(E)P(F)Since the probability P(F) of the source language text F in the
+denominator of Equation 1 is independent of the target language
+text E, the target language text Ê having the highest conditional
+probability P(E|F) will also have the highest product P(F|E) P(E).
+We therefore arrive at
+In Equation 2, the probability P(E) of the target language text E
+is a language model match score and may be estimated from a target
+language model. While any known language model may be used to
+estimate the probability P(E) of the target language text E, Brown
+et al describe an n-gram language model comprising a 1-gram model,
+a 2-gram model, and a 3-gram model combined by parameters whose
+values are obtained by interpolated estimation.The conditional probability P(F|E) in Equation 2 is a translation
+match score. As described by Brown et al, the translation match 
+score P(F|E) for a source text F comprising a series of source
+words, given a target hypothesis E comprising a series of target
+words, may be estimated by finding all possible alignments
+connecting the source words in the source text F with the target
+words in the target text E, including alignments in which one or
+more source words are not connected to any target words, but not
+including alignments where a source word is connected to more than
+one target word. For each alignment and each target word e in the
+target text E connected to  source words in the source text F,
+there is estimated the fertility probability n(|e) that the
+target word e is connected to the  source words in
+</DESCRIPTION>
+<CLAIMS>
+An apparatus for translating a series of source words in a
+first language to a series of target words in a second language
+
+different from the first language, said apparatus comprising:
+
+means (10) for inputting a series of source words;
+means (12) for generating at least two target hypotheses, each
+target hypothesis comprising a series of target words selected
+
+from a vocabulary of words in the second language, each target
+word having a context comprising at least one other word in the
+
+target hypothesis;
+means (16) for generating, for each target hypothesis, a language
+model match score comprising an estimate of the probability of
+
+occurrence of the series of words in the target hypothesis;
+means (18) for identifying at least one alignment between the
+input series of source words and each target hypothesis, the
+
+alignment connecting each source word with at least one target
+word in the target hypothesis;
+means (20) for generating, for each source word and each target
+hypothesis, a word match score comprising an estimate of the
+
+conditional probability of occurrence of the source word, given
+the target word in the target hypothesis which is connected to the
+
+source word and given the context of the target word in the target
+hypothesis which is connected to the source word;
+means (22) for generating, for each target hypothesis, a
+translation match score comprising a combination of the word match 
+
+scores for the target hypothesis and the source words in the input
+series of source words;
+means (24) for generating a target hypothesis match score for each
+target hypothesis, each target hypothesis match score comprising
+
+a combination of the language model match score for the target
+hypothesis and the translation match score for the target
+
+hypothesis; and
+means (26) for outputting the target hypothesis having the best
+target hypothesis match score.
+An apparatus as claimed in Claim 1, characterized in that each
+target hypothesis comprises a series of target words selected from
+
+a vocabulary comprising words in the second language and a null
+word representing the absence of a word.
+An apparatus as claimed in Claim 2, characterized in that:
+
+the means for identifying at least one alignment identifies
+two or more alignments between the input series of source words
+
+and each target hypothesis, each alignment connecting each source
+word with at least one target word in the target hypothesis;
+the word match score generator generates, for each source
+word and each alignment and each target hypothesis, a word match
+
+score comprising an estimate of the conditional probability of
+occurrence of the source word, given the target word in the target
+
+hypothesis which is connected to the source word and given the 
+context of the target word in the target hypothesis which is
+
+connected to the source word;
+the translation match score generator generates, for each
+target hypothesis, a translation match score comprising a
+
+combination of the word match scores for the target hypothesis and
+the alignments and the source words in the input series of source
+
+words.
+An apparatus as claimed in Claim 2, characterized in that:
+
+the input means comprises means for transforming the input
+series of source words into a series of transformed source words;
+the alignment means identifies at least one alignment between
+
+the series of transformed source words and each target hypothesis,
+the alignment connecting each transformed source word with at
+
+least one target word in the target hypothesis;
+the word match score generator generates, for each
+transformed source word and each target hypothesis, a word match
+
+score comprising an estimate of the conditional probability of
+occurrence of the transformed source word, given the target word
+
+in the target hypothesis which is connected to the transformed
+source word and given the context of the target word in the target
+
+hypothesis which is connected to the transformed source word;
+the translation match score generator generates, for each
+target hypothesis, a translation match score comprising a
+
+combination of the word match scores for the target hypothesis and
+the transformed source words; and 
+the output means comprises means for synthesizing a series
+of output words from the target hypothesis having the best target
+
+hypothesis match score, and means for outputting the synthesized
+output words.
+An apparatus as claimed in Claim 2, characterized in that:
+
+the translation match score for a target hypothesis comprises
+the product of the word match scores for the target hypothesis and
+
+the source words in the input series of source words; and
+the target hypothesis match score for a target hypothesis
+comprises the product of the language model match score for the
+
+target hypothesis multiplied by the translation match score for
+the target hypothesis.
+An apparatus as claimed in Claim 2, characterized in that:
+
+the context of the target word in the target hypothesis which
+is connected to a source word is contained in at least one of two
+
+or more context classes; and
+the estimated conditional probability of occurrence of the
+source word, given the target word in the target hypothesis which
+
+is connected to the source word and given the context of the target
+word which is connected to the source word, comprises at least one
+
+function having a value dependent on the class containing the
+context of the target word which is connected to the source word.
+An apparatus as claimed in Claim 2, characterized in that: 
+
+the context of the target word in the target hypothesis which
+is connected to a source word comprises at least one word having
+
+a part of speech in the target hypothesis; and
+the estimated conditional probability of occurrence of the
+source word, given the target word in the target hypothesis which
+
+is connected to the source word and given the context of the target
+word which is connected to the source word, comprises at least one
+
+function having a value dependent on the part of speech in the
+target hypothesis of at least one word in the context of the target
+
+word which is connected to the source word.
+An apparatus as claimed in Claim 2, characterized in that:
+
+the context of the target word in the target hypothesis which
+is connected to a source word comprises at least one word having
+
+an identity; and
+the estimated conditional probability of occurrence of the
+source word, given the target word in the target hypothesis which
+
+is connected to the source word and given the context of the target
+word which is connected to the source word, comprises at least one
+
+function having a value dependent on the identity of at least one
+word in the context of the target word which is connected to the
+
+source word.
+An apparatus as claimed in Claim 2, characterized in that the
+means for outputting the target hypothesis having the best match
+
+score comprises a display. 
+An apparatus as claimed in Claim 2, characterized in that the
+input means comprises a keyboard.
+An apparatus as claimed in Claim 2, characterized in that the
+input means comprises a computer disk drive.
+An apparatus as claimed in Claim 2, characterized in that the
+input means comprises a computer tape drive.
+A method of translating a series of source words in a first
+language to a series of target words in a second language
+
+different from the first language, said method comprising the steps of:
+
+inputting (10) a series of source words;
+generating (12) at least two target hypotheses, each target
+hypothesis comprising a series of target words selected from a
+
+vocabulary of words in the second language, each target word
+having a context comprising at least one other word in the target
+
+hypothesis;
+generating (16), for each target hypothesis, a language model
+match score comprising an estimate of the probability of
+
+occurrence of the series of words in the target hypothesis;
+identifying (18) at least one alignment between the input series
+of source words and each target hypothesis, the alignment
+
+connecting each source word with at least one target word in the
+target hypothesis; 
+generating (20), for each source word and each target hypothesis,
+a word match score comprising an estimate of the conditional
+
+probability of occurrence of the source word, given the target
+word in the target hypothesis which is connected to the source
+
+word and given the context of the target word in the target
+hypothesis which is connected to the source word;
+generating (22), for each target hypothesis, a translation match
+score comprising a combination of the word match scores for the
+
+target hypothesis and the source words in the input series of
+source words;
+generating (24) a target hypothesis match score for each target
+hypothesis, each target hypothesis match score comprising a
+
+combination of the language model match score for the target
+hypothesis and the translation match score for the target
+
+hypothesis; and
+outputting (26) the target hypothesis having the best target
+hypothesis match score.
+A method as claimed in Claim 13, characterized in that each
+target hypothesis comprises a series of target words selected from
+
+a vocabulary comprising words in the second language and a null
+word representing the absence of a word.
+A method as claimed in Claim 14, characterized in that:
+
+the step of identifying at least one alignment comprises
+identifying two or more alignments between the input series of 
+
+source words and each target hypothesis, each alignment connecting
+each source word with at least one target word in the target
+
+hypothesis;
+the step of generating a word match score comprises
+generating, for each source word and each alignment and each
+
+target hypothesis, a word match score comprising an estimate of
+the conditional probability of occurrence of the source word,
+
+given the target word in the target hypothesis which is connected
+to the source word and given the context of the target word in the
+
+target hypothesis which is connected to the source word;
+the step of generating a translation match score comprises
+generating, for each target hypothesis, a translation match score
+
+comprising a combination of the word match scores for the target
+hypothesis and the alignments and the source words in the input
+
+series of source words.
+A method as claimed in Claim 14, characterized in that:
+
+
+the step of inputting comprises the step of transforming the
+input series of source words into a series of transformed source
+
+words;
+the step of aligning comprises identifying at least one
+alignment between the series of transformed source words and each
+
+target hypothesis, the alignment connecting each transformed
+source word with at least one target word in the target
+
+hypothesis; 
+the step of generating a word match score comprises
+generating, for each transformed source word and each target
+
+hypothesis, a word match score comprising an estimate of the
+conditional probability of occurrence of the transformed source
+
+word, given the target word in the target hypothesis which is
+connected to the transformed source word and given the context of
+
+the target word in the target hypothesis which is connected to the
+transformed source word;
+the step of generating a translation match score comprises
+generating, for each target hypothesis, a translation match score
+
+comprising a combination of the word match scores for the target
+hypothesis and the transformed source words; and
+the step of outputting comprises the step of synthesizing a
+series of output words from the target hypothesis having the best
+
+target hypothesis match score, and means for outputting the
+synthesized output words.
+A method as claimed in Claim 14, characterized in that:
+
+the translation match score for a target hypothesis comprises
+the product of the word match scores for the target hypothesis and
+
+the source words in the input series of source words; and
+the target hypothesis match score for a target hypothesis
+comprises the product of the language model match score for the
+
+target hypothesis multiplied by the translation match score for
+the target hypothesis.
+A method as claimed in Claim 14, characterized in that:
+
+the context of the target word in the target hypothesis which
+is connected to a source word is contained in at least one of two
+
+or more context classes; and
+the estimated conditional probability of occurrence of the
+source word, given the target word in the target hypothesis which
+
+is connected to the source word and given the context of the target
+word which is connected to the source word, comprises at least one
+
+function having a value dependent on the class containing the
+context of the target word which is connected to the source word.
+A method as claimed in Claim 14, characterized in that:
+
+the context of the target word in the target hypothesis which
+is connected to a source word comprises at least one word having
+
+a part of speech in the target hypothesis; and
+the estimated conditional probability of occurrence of the
+source word, given the target word in the target hypothesis which
+
+is connected to the source word and given the context of the target
+word which is connected to the source word, comprises at least one
+
+function having a value dependent on the part of speech in the
+target hypothesis of at least one word in the context of the target
+
+word which is connected to the source word.
+A method as claimed in Claim 14, characterized in that: 
+
+the context of the target word in the target hypothesis which
+is connected to a source word comprises at least one word having
+
+an identity; and
+the estimated conditional probability of occurrence of the
+source word, given the target word in the target hypothesis which
+
+is connected to the source word and given the context of the target
+word which is connected to the source word, comprises at least one
+
+function having a value dependent on the identity of at least one
+word in the context of the target word which is connected to the
+
+source word.
+A method as claimed in Claim 14, characterized in that the step
+of outputting the target hypothesis having the best match score
+
+comprises displaying the target hypothesis having the best match
+score.
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,222 @@
+<DOC>
+<DOCNO>EP-0613274</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Socket structure for concurrent multiple protocol access
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1300	G06F1300	H04L2906	H04L2906	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	H04L	H04L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F13	G06F13	H04L29	H04L29	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+In a multiprotocol environment, a new socket structure is provided 
+which moves the decision on which protocol to use until the time that the 
+
+connection is actually made between nodes in the network. The new socket 
+structure is created for every endpoint. All the protocols which could 
+
+potentially be used to send or receive data is sent a request to create a 
+protocol control block at the time the new socket is created. A 
+
+selection process determines which of the protocols could be used by the 
+endpoint. The new socket then contains information on each selected 
+
+protocol. At the time a connection is established, any of the selected 
+protocols could be used. The choice of which protocol to use can be 
+
+based on user preferences, which protocols are available, the name of the 
+service unit. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+CHENG CHUNGSIANG
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SHARMA MOHAN BYRAPPA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YEUNG YUE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+CHENG, CHUNGSIANG
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SHARMA, MOHAN BYRAPPA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YEUNG, YUE
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates generally to data communication in a network
+of computer systems. More particularly, it relates to a communication
+endpoint structure which enables application programs resident on systems
+to communicate through such a network irrespective of the protocol for
+which the application was written and the protocols available on the
+network.Once upon a time, almost all computer systems were standalone
+processors to which private peripheral devices such as displays, printers
+and disk drives were connected, acting independently from any other
+computer system. Yet, it became apparent that there were substantial
+gains to be made if several computer systems could be cooperatively
+coupled together. Today, it has become commonplace to couple a multitude
+of computer systems into a distributed environment such as a local area
+or wide area network.However, there are many vendors who have developed their own
+hardware and software solutions for integrating multiple computer
+systems. In particular, they have developed different ideas of the
+format and protocols that should be followed in transporting data through
+the networks. Some protocols support expedited data transmission by
+bypassing the standard data flow controls; others require all data to go
+through the controls. Specialized protocols are used for transport tasks
+such as establishing and terminating connections between computer
+systems. Examples of well known communication protocols include System
+Network Architecture (SNA), Digital Network Architecture (DECnet),
+Transmission Control Protocol/Internet Protocol (TCP/IP), Network Basic
+Input/Output System (NetBIOS), Open Systems Interconnection (OSI) and
+AppleTalk. Other protocols are known and widely used.Most distributed application programs are written to an application
+programming interface (API) which assumes a particular communications
+protocol. However, the distributed environments which most organizations 
+have assembled are quite complex, comprised of confederations of
+individual networks running different communication protocols. If the
+transport protocols assumed by the distributed application's API and the
+transport protocols actually implemented in one or more of the networks
+on which the organization would like to send its data are not the same,
+the use of the application is limited. The problems of such
+heterogeneity in communications protocols is expected to get worse as
+more organizations begin to communicate with each other through their
+networks to perform order
+</DESCRIPTION>
+<CLAIMS>
+A method for communicating between nodes (20,22) in a computer
+network in which a plurality of protocols are useable by network nodes,
+
+the method comprising the steps of:
+
+creating a socket structure (110,112) defining communication
+parameters for respective network nodes, the socket structure having
+
+information about a plurality of alternative protocols which are useable
+by said nodes for inter-node communication, wherein the creating step
+
+comprises the steps of:
+
+requesting information of each of the plurality of alternative
+protocols;
+selecting (162) a set of protocols from the plurality of
+alternative protocols, which selected protocols are useable by the
+
+respective nodes;
+building a protocol control block (120,122) for each protocol of
+the selected set of protocols; and
+inserting a pointer (116,119) in the socket structure (112) for
+each protocol control block of a selected protocol; and
+at the time communication is requested between said nodes,
+establishing (200) a connection between said nodes using a protocol
+
+control block of a selected one of the set of protocols.
+A method according to claim 1, wherein the selected protocol is
+chosen based on user preferences.
+A method according to claim 2, further comprising the step of
+creating a list of the selected set of protocols ordered according to
+
+user preferences and the step of establishing a connection using a
+selected one of the set of protocols comprises attempting to establish
+
+the connection by successively using the protocols (200,224) in their
+order in the list until the connection is successfully established
+
+(222,226).
+A method according to claim 1, wherein the selected protocol is
+chosen based on a capability of the selected protocol.
+A method according to claim 1, wherein the order in which the
+pointers are inserted is based on user preference. 
+A method according to claim 1 wherein the selecting step comprises
+the steps of:
+
+
+determining (158,160) whether there is a match for a first protocol
+for a first set of protocol parameters, the first protocol corresponding
+
+to a first pointer in the socket; and,
+responsive to finding no match for the first protocol, determining
+(164) whether the first protocol is supported non-natively in the
+
+network.
+A system for communicating between nodes in a computer network in
+which a plurality of protocols are useable by network nodes, the system
+
+comprising:
+
+means for creating a socket structure defining communication
+parameters for respective network nodes, which socket structure has
+
+information about a plurality of alternative protocols useable by
+said nodes for inter-node communication,
+
+wherein the means for creating comprises:
+
+means for requesting information of each of the plurality of
+alternative protocols;
+means for selecting a set of protocols from said plurality of
+alternative protocols;
+means for building a protocol control block for each protocol of
+the selected set of protocols; and,
+means for inserting a pointer in the socket structure for each
+protocol control block of a selected protocol; and,
+means for establishing a connection between said nodes
+using a protocol control block of one of the
+
+plurality of protocols which is selected at the time communication
+is requested between said nodes.
+A system according to claim 7, which further comprises:
+
+means for determining whether there is a match for a first protocol
+for a first set of protocol parameters, the first protocol corresponding
+
+to a first pointer in the socket; and,
+means for determining, responsive to finding no match for the first
+protocol, whether the first protocol is supported non-natively in the 
+
+network.
+A computer program comprising computer readable program code
+implementing a set of instructions for controlling the operation of a
+
+computer system on which it runs to perform a method for communicating
+between nodes in a computer network in which a plurality of protocols are
+
+useable by network nodes, the method comprising the steps of:
+
+creating a socket structure defining communication parameters for
+respective network nodes, the socket structure having information about a
+
+plurality of alternative protocols which are useable by said nodes for
+inter-node communication, wherein the creating step comprises the steps
+
+of:
+
+requesting information of each of the plurality of alternative
+protocols;
+selecting a set of protocols from the plurality of alternative
+protocols, which selected protocols are useable by the respective
+
+nodes;
+building a protocol control block for each protocol of the selected
+
+set of protocols; and
+inserting a pointer in the socket structure for each protocol
+control block of a selected protocol; and
+at the time communication is requested between said nodes,
+establishing (200) a connection between said nodes using a protocol
+
+control block of a selected one of the set of protocols.
+</CLAIMS>
+</TEXT>
+</DOC>

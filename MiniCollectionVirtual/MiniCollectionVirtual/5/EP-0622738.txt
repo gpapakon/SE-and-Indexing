@@ -1,0 +1,217 @@
+<DOC>
+<DOCNO>EP-0622738</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method for carrying out requests to a multilevel cache memory in a data processing system and cache memory configurated accordingly
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1208	G06F1208	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F12	G06F12	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+By using bank numbers (TA0 to TA2 or SA0, SA1) of the respectively higher level (TLC or SLC), which respectively identify the bank (TBKx or SBKx) which contains the same data block, as TAG entries in the lower levels, and by a linkage, which is output at the highest level (TLC), of the bank-related hit signals (TLC-HIT0-7 or SLC-HIT0-3), as the particular comparison datum with the particular TAG entry in the bank-specific monitoring circuits of the next lower level (SLC or FLC) in each case, independently of the ratio of the block sizes of successive levels (e.g. TLC, SLC), memory space for the TAG entries is saved, and the declaration of data blocks as invalid is restricted to one updating cycle in that the data block can only be declared invalid at the highest level (TLC). Depending on the ratio of the bank memory capacities, individual address bits (AD14-15 or AD16) may be necessary as additional components of the TAG at the lower levels (SLC or FLC). 
+<
+IMAGE
+>
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SIEMENS NIXDORF INF SYST
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SIEMENS NIXDORF INFORMATIONSSYSTEME AKTIENGESELLSCHAFT
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+KOCK ERNST JOSEF DR RER NAT
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KOCK, ERNST JOSEF, DR. RER. NAT.
+</INVENTOR-NAME>
+</INVENTORS>
+<CLAIMS>
+Method for executing requests directed to a
+multi-stage cache memory of a data processing system,
+
+wherein the memories in the individual stages are sub-divided
+into banks and the data blocks in the individual
+
+stages can be of different sizes, characterized in that
+
+apart from the memory of the highest stage (TLC), in
+each case information (TA0 to TA2 or, respectively,
+
+SA0 and SA1) on the bank (TBK... or, respectively,
+SBK...) of the higher stage in each case (TLC or,
+
+respectively, SLC) is used as TAG entry for the
+control entries (T/F) in the memories of the
+
+subsequent lower stages (SLC, FLC),
+in the case of a direct memory request to the cache
+memory, the memories of all stages (FLC, SLC and
+
+TLC) are simultaneously checked for the presence of
+the required data block and a successful access to
+
+the lowest stage (FLC) is only given if the required
+data block exists simultaneously in all stages and
+
+is valid, and
+in the case of updating requests for a predetermined
+data block in the cache memory, initially only the
+
+memory of the highest stage (TLC) is selected and
+the predetermined data block or the data block
+
+containing the latter as a subset is declared to be
+invalid.
+Method according to Claim 1, characterized in
+that in the case of subaddresses formed from successive
+
+address bits (e.g. AD14-23 or, respectively, AD14-25) of
+the main memory address (MAD), for selecting the memories 
+
+which in each case begin with the same address bit (AD14)
+in at least two successive stages (e.g. TLC and SLC),
+
+only the information (TA0 to TA2) on the bank (TBKx),
+containing the required data block, of the higher stage
+
+(TLC) in each case is used as TAG entry in the lower
+stage (SLC) in each case.
+Method according to Claim 1, characterized in
+that in the case of subaddresses formed from successive
+
+address bits (e.g. AD14-23 or, respectively, AD16-25) of
+the main memory address (MAD) for selecting the memories
+
+which in each case begin with another address bit (AD14
+or, respectively, AD16) in at least two successive stages
+
+(e.g. TLC and SLC), the subaddresses for the lower stage
+in each case beginning with a lower address bit (AD16),
+
+in addition to the information (TA0 to TA2) on the bank
+(TBKx), containing the required data block, of the higher
+
+stage (TLC) in each case, the address bits (AD14-15) of
+the main memory address (MAD), which are in each case
+
+located between the last address bit (e.g. AD13) taken
+into consideration as TAG entry in a stage (e.g. TLC) and
+
+the start address bit (e.g. AD16) of the next lower stage
+(SLC), are used as TAG entry in the lower stage (SLC) in
+
+each case.
+Method according to Claim 3, characterized in
+that the number of address bits (e.g. AD14-23 or,
+
+respectively, AD16-25) for the subaddresses of the
+memories of successive stages (e.g. TLC and SLC) in each
+
+case depends on the ratio of the respective block sizes
+and/or of the respective bank memory capacities of two
+
+successive stages, a smaller data block size in the lower
+stage (SLC) leading to an increase in the number of
+
+address bits, whilst a reduction in the bank memory
+capacity in the lower stage has the opposite effect.
+Cache memory which operates in accordance with
+the method according to one of Claims 1 to 4 and is subdivided
+
+into a number of stages, the memories of the
+individual stages (e.g. TLC, SLC and FLC) being subdivided
+
+into banks (TBK..., SBK..., FBK...) and each bank 
+being allocated a monitoring circuit which, 
+in the case
+of an access, compares the TAG entry in a control entry
+
+(T/F) allocated to each data entry with a predetermined
+reference data item and, if they correspond in the case
+
+of a valid data entry, outputs a hit signal as result
+signal (e.g. TLC-HITx), characterized in that
+
+
+with the exception of the highest stage (TLC), the
+TAG entry in the lower stages (SLC, FLC) can be
+
+derived from the bank identification number of the
+bank of the next higher stage (e.g. TLC or,
+
+respectively, SLC) in which the same data block is
+stored,
+starting from the highest stage (TLC) in each case,
+the result lines (TLC-HIT... or, respectively,
+
+SLC-HIT...) of all monitoring circuits (TLC-CTL or,
+respectively, SLC-CTL) for the respective banks
+
+(TBK... or, respectively, SBK...) of a stage (TLC
+or, respectively, SLC) are in each case connected in
+
+parallel to the monitoring circuits (SLC-CTL or,
+respectively, FLC-CTL) of all banks (SBK... or,
+
+respectively, FBK...) in the next lower stage (SLC
+or, respectively, FLC) and in each monitoring circuit,
+
+comparison devices for comparing the bank
+information (TA0 to TA2 or, respectively, SA1, SA2)
+
+supplied via the result lines (TLC-HIT... or,
+respectively, SLC-HIT...) of the higher stage (TLC
+
+or, respectively, SLC) in each case with the bank
+information of the control entries (T/F) read in the
+
+lower stage (SLC or, respectively, FLC) are provided
+so that a hit signal (FLC-HIT...) is only triggered
+
+by the monitoring circuits (FLC-CTL) of the lowest
+stage (FLC) if a monitoring circuit has generated a
+
+hit signal (TLC-HIT..., SLC-HIT...) in each of the
+higher stages (TLC and SLC).
+Cache memory according to Claim 5, characterized
+in that
+
+
+depending on the formation of the subaddresses (e.g.
+AD14-23 or, respectively, AD16-25 or, respectively, 
+
+AD17-27) for the memories of the individual stages
+(TLC, SLC, FLC), address bits (e.g. AD14-15 or,
+
+respectively, AD16) of the main memory address
+(MAD), not taken into consideration in the TAG
+
+entries of the preceding stages, in addition to the
+information (TA0 to TA2 or, respectively, SA0, SA1)
+
+on the bank, (TBK... or, respectively, SBK...) containing
+the same data block, of the higher stage
+
+(TLC or, respectively, SLC), in each case are provided
+as TAG entry in the control entry (T/F),
+additional comparison devices (VG1 or, respectively,
+VG2) for comparing the address bits (AD14-15 or,
+
+respectively, AD16) in each case derived from the
+main memory address (MAD) with the address bits
+
+contained in the control entry (T/F) are provided in
+the associated monitoring circuits (SLC - CTL, FLC-CTL)
+
+and
+the result lines of both comparison devices are
+connected to a logic gate for generating the final
+
+result signal of the respective monitoring circuit.
+</CLAIMS>
+</TEXT>
+</DOC>

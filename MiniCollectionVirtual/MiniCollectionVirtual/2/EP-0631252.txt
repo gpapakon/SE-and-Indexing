@@ -1,0 +1,243 @@
+<DOC>
+<DOCNO>EP-0631252</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Draw processor for a high performance three dimensional graphics accelerator
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T1100	G06T1500	G06T1100	G06T1740	G06T1500	G06T1740	G09G536	G09G536	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	G06T	G06T	G06T	G06T	G09G	G09G	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T11	G06T15	G06T11	G06T17	G06T15	G06T17	G09G5	G09G5	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A draw processor for a graphics accelerator is disclosed that performs 
+edgewalking and scan interpolation functions to render a three dimensional 
+
+geometry object defined by a draw packet. The draw processor renders a subset 
+of pixels on a scan line, such that a set draw processors taken together render the 
+
+entire geometry object. The draw processor renders pixels into an interleave 
+bank of a multiple bank interleaved frame buffer. The draw processor also 
+
+processes direct port data through a direct port pipeline . 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SUN MICROSYSTEMS INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SUN MICROSYSTEMS, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+DEERING MICHAEL F
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DEERING, MICHAEL F.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to the field of computer graphics systems. More
+particularly, this invention relates to a draw processor for a high performance
+three dimensional graphics accelerator in a computer system.A three dimensional graphics accelerator is a specialized graphics
+rendering subsystem for a computer system. Typically, an application program
+executing on a host processor of the computer system generates three
+dimensional geometry input data that defines three dimensional graphics
+elements for display on a display device. The application program typically
+transfers the geometry input data from the host processor to the graphics
+accelerator. Thereafter, the graphics accelerator renders the corresponding
+graphics elements on the display device.The design architecture of a high performance three dimensional graphics
+system historically embodies a balance between system performance and system 
+cost. The typical design goal is to increase system performance while minimizing
+increases in system cost. However, prior graphics systems usually suffer from
+either limited performance or high cost due to a variety of system constraints.For example, a high performance graphics system typically implements an
+interleaved frame buffer comprised of multiple VRAM banks because the
+minimum read-modify-write cycle time for commercially available video
+random access memory (VRAM) chips is a fundamental constraint on rendering
+performance. The implementation of multiple interleaved VRAM banks enables
+parallel pixel rendering into the frame buffer to increase overall rendering
+performance. Unfortunately, the separate addressing logic required for each
+interleave VRAM bank increases the cost and power consumption of such high
+performance systems.On the other hand, a graphics system may implement a rendering
+processor on a single integrated circuit chip to minimize cost and power
+consumption. Unfortunately, such systems suffer from poor rendering
+performance due to the limited number of interface pins available with the single
+integrated circuit chip. The limited number of interface pins reduces the
+interleave factor for the frame buffer, thereby precluding the rendering
+performance benefits of parallel processing.Prior graphics systems often employ a parallel processing pipeline to
+increase graphics processing performance. For example, the scan conversion
+function for a shaded triangle in a graphics system is typically performed by a
+linear pipeline of edgewalking and scan interpolation. Typically in such systems,
+the
+</DESCRIPTION>
+<CLAIMS>
+A draw processor (50) for use in a graphics accelerator, said drawprocessor comprising:
+
+a geometry pipeline interface circuit (200) coupled to receive a draw packet
+that contains a set of geometry parameters that define a geometry object including
+
+high level screen space descriptions of two dimensional and three dimensional
+point line and area graphics primitives;
+a direct port interface circuit (220) coupled to receive a direct port packet
+that contains a set of pixel function parameters that specify a pixel function of the
+
+draw processor (50) from among a set of pixel functions;
+a rendering circuit (210) coupled to receive the geometry
+parameters from the geometry pipeline interface circuit (200) and having circuitry
+
+that generates a set of pixels corresponding to the geometry object by performing
+edgewalking and scan interpolation functions for the geometry
+
+parameters; and
+a memory circuit (230) coupled to receive the pixels from the rendering
+circuit (210) and the pixel function parameters from the direct port interface circuit,
+
+the memory control circuit (230) writing the pixels into a frame buffer (100) while
+performing the pixel function,
+characterised in that
+ the geometry pipeline interface circuit (200) having
+circuitry that generates a set of adjusted geometry parameters by biasing an x
+
+coordinate of each geometry parameter according to an interleave value assigned
+to the draw processor (50); and 
+in that
+ the rendering circuit is coupled to receive
+the set of adjusted geometry parameters.
+The draw processor (50) of claim 1, wherein the 
+geometry pipeline interface circuit (200) generates the
+
+adjusted geometry parameters by adding the interleave value to the x coordinate
+of each geometry parameter.
+The draw processor (50) of claim 1, wherein the set of pixel functions
+comprise a pixel depth cue function, a write pixel function, and a pixel block copy
+
+function.
+The draw processor (50) of claim 3, wherein the memory control circuit
+(230) has circuitry that writes the pixels into a corresponding interleave portion of a
+
+frame buffer (100) while performing the pixel function specified by the pixel
+function parameters.
+A graphics accelerator (24), comprising
+
+   a frame buffer (100) having N horizontal interleaves; and
+
+   a set of N draw processors (50-54) each coupled to receive a draw packet
+over a draw bus (80) from a floating-point processor (40-43) in the graphics
+
+accelerator (24) wherein the draw packet contains a set of geometry parameters
+that define a geometry object including high level screen space descriptions of two
+
+dimensional and three dimensional point line and area graphics primitives,
+
+characterised by
+:
+
+each draw processor (50) having a unique assigned interleave value in a
+range 0 through N-1, 
+each draw processor (50) having circuitry that generates a set of adjusted
+geometry parameters by biasing an x coordinate of each geometry parameter
+
+according to the unique assigned interleave value,
+each draw processor (50) having circuitry that renders a set of pixels
+corresponding to the geometry object by performing edgewalking and scan
+
+interpolation functions for the adjusted geometry parameters such that each draw
+processor (50) generates every Nth pixel on each of a set of scanlines of a.
+
+rasterized image corresponding to the geometry object, wherein each draw
+processor (50) comprises:
+
+
+geometry pipeline interface circuit (200) coupled to receive the draw packet
+over the draw bus (80), the geometry pipeline interface circuit (200) generating the
+
+adjusted geometry parameters by biasing the x coordinate of each geometry
+parameter according to the unique assigned interleave value assigned to the draw
+
+processor (50);
+rendering circuit (210) coupled to receive the adjusted geometry
+parameters from the geometry pipeline interface circuit (200) and having circuitry
+
+for generating the pixels corresponding to the geometry object by performing
+edgewalking and scan interpolation functions for the adjusted geometry
+
+parameters, and
+a memory control circuit (230) coupled to receive the corresponding pixels
+from the corresponding rendering circuit (210) and the pixel function parameters
+
+from the corresponding direct port interface circuit, and
+a direct port interface circuit coupled to receive a direct port
+packet over the draw bus (80) that contains a set of pixel function parameters that
+
+specify a pixel function of the draw processor (50) from among a set of pixel
+functions.
+The graphics accelerator (24) of claim 5, wherein the frame buffer (100)
+
+includes five horizontal interleaves, and wherein each interleave value is in a 
+range of 0 through 4 such that each draw processor (50) renders every fifth pixel
+
+on each scan line.
+The graphics accelerator (24) of claim 6, wherein each geometry pipeline
+interface circuit (200) generates the corresponding adjusted geometry parameters
+
+by adding the corresponding unique assigned interleave value to the x coordinate
+of each corresponding geometry parameter.
+The graphics accelerator (24) of claim 7, wherein the set of pixel functions
+comprise a pixel depth cue function, a write pixel function, and a pixel
+
+block copy function.
+The graphics accelerator (24) of claim 8, wherein the memory control circuit
+(230) has circuitry that writes the corresponding pixels into a corresponding
+
+interleave portion of the frame buffer (100) while performing the pixel function
+specified by the corresponding pixel function parameters.
+A method for rendering in a graphics accelerator (24), comprising the steps
+of:
+
+
+receiving a direct
+port packet that contains a set of pixel function parameters that specify a pixel
+
+function of the drawprocessor from among a set of pixel functions
+receiving a draw packet that contains a set of geometry parameters that
+define a geometry object including high level screen space descriptions of two 
+
+dimensional and three dimensional point line and area graphics primitives;
+
+characterised by
+:-
+
+generating a set of adjusted geometry parameters for each of a set of N
+horizontal interleaves of a frame buffer (100) by biasing an x coordinate of each
+
+geometry parameter according to a unique assigned interleave value for each
+horizontal interleave;
+rendering a set of pixels corresponding to the geometry object by
+performing edgewalking and scan interpolation functions for the adjusted geometry
+
+parameters such that for each horizontal interleave every Nth pixel on each of a
+set of scan lines of a rasterized image corresponding to the geometry object is
+
+rendered; and
+writing the pixels into the frame buffer (100).
+The method of claim 10, wherein the frame buffer (100) comprises 5
+horizontal interleaves, and wherein each unique assigned interleave value is in a
+
+range of 0 through 4 such that each horizontal interleave of the frame buffer (100)
+stores every fifth pixel on each scan line.
+The method of claim 10, wherein the step of generating the adjusted
+geometry parameters for each horizontal interleave comprises the step of adding
+
+the corresponding unique assigned interleave value to the x coordinate of each
+corresponding geometry parameter.
+The method of claim 12, wherein the set of pixel functions 
+comprises a pixel depth cue function,
+
+a write pixel function, and a pixel block copy function.
+The method of claim 13 wherein the pixels are written into the interleaves
+of the frame buffer (100) while performing the pixel functions specified by the
+
+corresponding pixel function parameters.
+</CLAIMS>
+</TEXT>
+</DOC>

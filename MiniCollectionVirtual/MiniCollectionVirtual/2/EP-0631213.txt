@@ -1,0 +1,241 @@
+<DOC>
+<DOCNO>EP-0631213</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Vehicle diagnosis system
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G05B2302	G05B2302	G06F11273	G06F11273	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G05B	G05B	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G05B23	G05B23	G06F11	G06F11	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+In a vehicle diagnosis system in which a diagnosis unit (200) is 
+connected to a control unit (100), the control unit determines 
+
+(800) whether or not there is a code read request from the 
+diagnosis unit. When there is the request, it further determines 
+
+(810) whether or not code erase is in execution. When code erase 
+is not in execution, an abnormality code stored in the standby 
+
+RAM region of its CPU is searched for (830) and the result is 
+transmitted (820) to the diagnosis unit. When code erase is in 
+
+execution, on the other hand, the data after code erase (no 
+abnormality code) is transmitted to the diagnosis unit. Thus, 
+
+during code erase operation, the abnormality data before erase 
+is prevented from being transmitted to the diagnosis unit.
+
+ 
+Further, in case of a RAM-value read request is made from a main 
+
+CPU (110) to other CPU (120, 130) in the controller, it is 
+checked (1710) whether a requested address value from the main 
+
+CPU to the other CPU agrees with the address value transmitted 
+from the other CPU to the main CPU. When the address values 
+
+agree, the flag XA4ANS is set (1730). After a prescribed 
+interval from this flag setting, the RAM value corresponding to 
+
+the requested address are responsively sent out (1760) to the 
+diagnosis unit. Therefore, transmission of erroneous infortion 
+
+to the diagnosis unit can be prevented without fail. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+DENSO CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+DENSO CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+IWAI AKIHITO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+OGURO HIROKAZU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TAKABA KATSUMI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+IWAI, AKIHITO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+OGURO, HIROKAZU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TAKABA, KATSUMI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a vehicle diagnosis system
+which conducts failure diagnosis and the like of a vehicle, and
+more particularly the invention is directed to prevention of
+erroneous abnormality information from a vehicle
+control unit to a diagnosis unit.There is conventionally available a vehicle diagnosis system
+which detects various abnormalities in sensors, actuators or the
+like by means of a controller (vehicle control unit) mounted on
+a vehicle, stores abnormality information (code or data) about
+detected abnormalities, and reads out or erases the abnormality
+information stored in the controller by means of a diagnosis
+unit provided externally to the controller.In the above-mentioned vehicle diagnosis system, when the
+diagnosis unit issues a read request of the abnormality information
+during execution of erase of the abnormality information in
+the controller in response to an erase request of the abnormality
+information from the diagnosis unit, the abnormality
+information before erasing is returned or transmitted to the
+diagnosis unit.In the controller, it is the usual practice to conduct
+processing between the controller and the above-mentioned 
+diagnosis unit and various processing operations for control of
+the vehicle such as engine control and transmission control
+within the same controller. Therefore, the controller is
+constructed by a plurality of CPUs (central processing units),
+and direct memory access (hereinafter simply referred to as
+"DMA") is used for data communication between the individual
+CPUs. In such a case, the problem mentioned above apparently
+appears, because the CPU effecting communication with the
+diagnosis unit cannot determine as to whether the data transmitted
+from the other CPUs through DMA is the one before or after
+erasing, with such data alone.More particularly, in order to improve performance of the
+controller, various controls are divided to be shared by a
+plurality of CPUs and the abnormality information, control
+information (RAM-value stored in RAM of the controller), is
+transmitted and received among the CPUs mutually by the use of
+direct memory access function (DMA).In the event the control information of the controller
+constituted by a plurality of CPUs are read out by the diagnosis
+unit upon the read request from the diagnosis unit, a main CPU
+which transmits and receives data with the diagnosis unit first
+transmits by DMA an address value of RAM corresponding to the
+requested control information to a corresponding CPU. Then, the
+corresponding CPU
+</DESCRIPTION>
+<CLAIMS>
+A vehicle diagnosis system comprising:
+
+storage means (RAM, Fig. 6) that stores abnormality
+information pertaining to various abnormalities of a
+
+vehicle that have been detected;
+abnormality information erasing means (950) that
+erases abnormality information stored in said storage means
+
+in response to an erase signal applied from diagnosis means
+(200);
+erase status detecting means (810) that detects
+whether erasur
+e of abnormality information is in execution
+by means of said abnormality information erasing means
+
+(950); and
+abnormality information output means (820, 830) that,
+in response to a read signal applied from said diagnosis
+
+means (200), outputs information indicating the absence of
+a valid abnormality code when said erase status detecting
+
+means (810) detects that erasure of abnormality information
+is in execution, and that outputs abnormality information
+
+stored in said storage means (RAM) when said erase status
+detecting means (810) detects that erasure of abnormality
+
+information is not in execution.
+The vehicle diagnosis system of claim 1 further
+comprising:
+
+
+a controller (100) installed in said vehicle and
+comprising said storage means (RAM), said abnormality
+
+information erasing means (950) and said abnormality
+information output means (820, 830), said controller
+
+detecting said various abnormalities and executing said
+storage of information about such abnormalities in said
+
+storage means (RAM), wherein
+said diagnosis means (200) comprises a diagnosis unit
+(200) connectable to said controller (100), and 
+said abnormality information output means (820, 830)
+outputs said indicating information or said abnormality
+
+information to said diagnosis unit (200), said diagnosis
+unit (200) comprising:
+
+
+read requesting means (520) to issue said read signal
+to request a read-out of the abnormality information stored
+
+in said storing means (RAM); and
+erase request means (530) to issue said erase signal
+to request erasure of the abnormality information stored in
+
+said storage means (RAM).
+A vehicle diagnosis system as claimed in claim 1 or 2,
+wherein said erase status detecting means (810) includes:
+
+
+measuring means (1000) which measures the elapsed time
+since reception of said erase signal from said diagnosis
+
+means (200); and
+erase status determining means (920) which determines
+whether said erase of abnormality information is in
+
+execution, in reference to the measured elapsed time.
+A vehicle diagnosis system as claimed in claim 3,
+wherein said measuring means includes:
+
+
+battery voltage detecting means that detects the
+battery voltage (+B) of a battery (160) of said vehicle;
+low voltage detecting means (930) which detects
+whether or not said battery voltage (+B) is up to a
+
+prescribed value; and
+clearing means (940) which clears the measured time
+when said low voltage detecting device detects that said
+
+battery voltage (+B) is up to the prescribed voltage.
+The vehicle diagnosis system of claim 2, wherein
+
+said controller (100) comprises a plurality of CPUs
+(110, 120, 130) including a main CPU (110), which control
+
+vehicle operation, detect said various abnormalities and
+conduct information communication with said diagnosis means
+
+(200), 
+said storage means (RAM) comprises a plurality of
+storage devices (RAM) which are provided in said plurality
+
+of CPUs (110, 120, 130) and store said abnormality
+information pertaining to abnormalities detected by the
+
+individual (110, 120, 130) CPUs, and wherein said main CPU
+(110) includes:
+
+
+erase instruction output means (960) which outputs an
+abnormality information erase instruction to the other CPUs
+
+(110, 120, 130) in response to said erase signal from said
+diagnosis means (200);
+said erase status detecting means (810); and
+said abnormality information output means (820, 830).
+A vehicle diagnosis system as claimed in claim 5,
+wherein
+
+   said each of said storage devices (RAM) includes:
+DMA means which transmits information individually stored
+
+through direct memory access to the other storage devices
+(RAM).
+</CLAIMS>
+</TEXT>
+</DOC>

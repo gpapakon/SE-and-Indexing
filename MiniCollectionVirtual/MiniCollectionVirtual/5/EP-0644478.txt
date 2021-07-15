@@ -1,0 +1,224 @@
+<DOC>
+<DOCNO>EP-0644478</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Fill level indicator for self-timed F.I.-F.O.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F506	G06F508	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F5	G06F5	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A FIFO (10) uses a fill indicator circuit (20) to indicate a 
+fill status and provide control signals to a data source and data 
+
+sink to cease operation. A serial string of FIFO cells (14) 
+propagates data from input to output by sending request and 
+
+acknowledge signals between adjacent cells. The request signal 
+initiates data transfer to the next logical cell and the 
+
+acknowledge signal indicates completion of the transfer. The fill 
+indicator has one cell for each FIFO cell for monitoring the 
+
+request and acknowledge signals looking for predetermined state 
+sequences to indicate whether each FIFO cell is full or empty. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+CODEX CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+CODEX CORP
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+HOLT CRAIG S
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HOLT CRAIG S
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates in general to first-in-first-out 
+(FIFO) circuits and, more particularly, to a FIFO operating 
+with a fill level indicator. Many data processing and communication applications, for 
+example computer networks, require data communication between 
+devices operating asynchronously. One problem with 
+asynchronous communication is that data transmission between 
+data source and data sink must be carefully controlled to prevent 
+loss of data. If the data source transmits information faster than 
+the data sink can accept, information may be lost. Alternately, if 
+the data sink accepts information faster than the data source can 
+provide, the data sink may capture the same data twice. Hence, 
+there must be control over asynchronously transmitted data. One solution found in the prior art involves handshaking 
+between the data source and data sink. The data source does not 
+send data until the data sink is ready. Likewise, the data sink 
+does not read until the data source indicates that valid data is 
+present. The handshaking procedure tends to slow the 
+communication process and result in inefficient operation 
+because the higher operating speed of the data source or data sink 
+cannot be fully utilized. Another solution is to insert an asynchronous buffer, e.g. 
+FIFO, between the data source and data sink. The data source may 
+dump data into the buffer at its nominal operating speed. The 
+data sink reads from the buffer at will. The inherent limitation 
+in the buffer approach is its finite length. If the data source is 
+faster than the data sink for some period of time, then the buffer 
+may overflow causing loss of data. If the data sink is faster than 
+the data source, the buffer may become empty and the data sink 
+may read invalid data. Hence, the data source and sink must have 
+feedback from the buffer to help regulate when to enable and 
+disable the flow of data.  Unfortunately, it is difficult to obtain reliable indication of 
+fill status from an asynchronous buffer. If the buffer is 
+implemented as a dual-port RAM with pointers to the first and 
+last location, then a subtractor circuit could compute the 
+difference between the pointers indicating full status of the 
+buffer. However since either pointer can change asynchronously, 
+there is some chance that the data source or data sink will 
+attempt to read the value while it is changing resulting in a 
+significant error. Hence, a need exists to detect the fill status of an interface 
+buffer between the data source and data sink
+</DESCRIPTION>
+<CLAIMS>
+A circuit, comprising: 
+   first means (14) for shifting data received at an input along 
+
+a string of serially coupled data storage cells (22,24,26) to an 
+output where each of said data storage cells provides a request 
+
+control signal (REQ) indicating a request for data transfer to an 
+adjacent cell and an acknowledge control signal (ACK) 
+
+acknowledging data transfer to said adjacent cell; and 
+   second means (20) coupled for receiving said request and 
+
+acknowledge control signals and determining fill status of said 
+data storage cells in a predetermined manner and providing a fill 
+
+level status signal accordingly. 
+The circuit of claim 1 wherein said second means includes a 
+string of serially coupled fill indicator cells (28,30,32) where a 
+
+first fill indicator cell (28) receives a full flag signal from a 
+second fill indicator cell (30) adjacent to said first fill indicator 
+
+cell. 
+The circuit of claim 2 wherein said first fill indicator cell 
+includes: 
+
+   a first NAND gate (60) having first, second and third inputs 
+and an output, said first input receiving a first state signal of 
+
+said first fill indicator cell, said second input receiving said full 
+flag input signal, said third input receiving said request control 
+
+signal; 
+   a second NAND gate (64)
+ having first and second inputs and 
+an output, said first input receiving a second state signal of said 
+
+first fill indicator cell, said second input receiving an inverted 
+request control signal; 
+
+   a third NAND gate (68) having first and second inputs and an 
+output, said first input receiving a second state signal of said 
+
+first fill indicator cell, said second input receiving said 
+ 
+
+acknowledge control signal; 
+   a fourth NAND gate (76) having first and second inputs and 
+
+an output, said first input receiving said first state signal of said 
+first fill indicator cell, said second input receiving said second 
+
+state signal of said first fill indicator cell, said output providing 
+a second full flag output signal; and 
+
+   a fifth NAND gate (78) having first, second, third and fourth 
+inputs and an output, said first input being coupled to said output 
+
+of said first NAND gate, said second input being coupled to said 
+output of said second NAND gate, said third input being coupled to 
+
+said output of said third NAND gate, said fourth input being 
+coupled to said output of said fourth NAND gate, said output 
+
+providing said fill level signal and said second state signal of 
+said fill indicator cell. 
+The circuit of claim 3 wherein said first fill indicator cell 
+further includes: 
+
+   a sixth NAND gate (66) having first and second inputs and an 
+output, said first input receiving said inverted request control 
+
+signal of said first fill indicator cell, said second input receiving 
+an inverted acknowledge control signal; 
+
+   a seventh NAND gate (72) having first, second and third 
+inputs and an output, said first input receiving said first state 
+
+signal of said first fill indicator cell, said second input receiving 
+said inverted acknowledge control signal, said third input 
+
+receiving a reset control signal; and 
+   an eighth NAND gate (74) having first and second inputs and 
+
+an output, said first input being coupled to said output of said 
+sixth NAND gate, said second input being coupled to said output of 
+
+said seventh NAND gate, said output providing said first state of 
+said first fill indicator cell. 
+A method of determining fill status of a data storage cell, 
+comprising the steps of: 
+
+   establishing an empty state indicating that the data storage 
+cell is available for data input;
+
+ 
+   monitoring status of request (REQ) and acknowledge (ACK) 
+
+control signals where said request control signal indicates a 
+request for data transfer to an adjacent data storage cell (28) 
+
+and said acknowledge control signal acknowledges data transfer 
+to said adjacent data storage cell (30); and 
+
+   shifting from said empty state to a propagation state when 
+said request control signal and an inverted acknowledge control 
+
+signal are asserted, where said empty state and said propagation 
+state indicate the fill status. 
+The method of claim 5 further comprising the step of 
+shifting from said propagation state to a full state when an 
+
+inverted request control signal and said inverted acknowledge 
+control signal and a full flag signal from said adjacent data 
+
+storage cell are asserted, where the full state produces the fill 
+status and a full flag signal to the adjacent cell. 
+The method of claim 6 further comprising the step of 
+shifting from said full state to a clearing state when said 
+
+acknowledge control signal is asserted, where the clearing state 
+produces the fill status. 
+The method of claim 7 further comprising the step of 
+shifting from said clearing state to said empty state when a said 
+
+inverted request control signal and said inverted acknowledge 
+control are asserted. 
+The method of claim 8 further comprising the step of 
+shifting from said clearing state to said full state when said 
+
+request control signal and said inverted acknowledge control are 
+asserted. 
+The method of claim 9 further comprising the step of 
+shifting from said propagation state to said empty state when 
+
+said acknowledge control signal and an inverted full flag signal 
+are asserted. 
+</CLAIMS>
+</TEXT>
+</DOC>

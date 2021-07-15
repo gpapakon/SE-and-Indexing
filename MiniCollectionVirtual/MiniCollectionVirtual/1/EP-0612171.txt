@@ -1,0 +1,785 @@
+<DOC>
+<DOCNO>EP-0612171</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Data queueing apparatus and ATM cell switch based on shifting and searching
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04L1256	H04Q1104	H04L1256	H04Q1104	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04L	H04Q	H04L	H04Q	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04L12	H04Q11	H04L12	H04Q11	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A data queueing apparatus is disclosed which can 
+process data switching and queueing using a smaller 
+
+capacity memory and yet which reduces the data discard 
+
+and loss possibility. 
+Received limited-length data at the input line is 
+written in shift memories, which can shift the data to 
+
+the next stage regardless of the destination of the data. 
+Destination indicating bits, which indicate the 
+
+destination of the data, are associated with each of 
+shift memories. A search circuit detects an asserted bit 
+
+among the destination indicating bits corresponding to 
+the output lines. The data is extracted by a selector. 
+
+Then the selector transmits the data to the desired 
+output line, and the data stored in the previous stage of 
+
+the shift memory is shifted. 
+The memory is used in common for a plurality of the 
+output lines, so that a lower possibility of data discard 
+
+and loss can be attained in a smaller capacity memory. 
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MITSUBISHI ELECTRIC CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MITSUBISHI DENKI KABUSHIKI KAISHA
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+KONDOH HARUFUSA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NOTANI HIROMI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+OSHIMA KAZUYOSHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SAITO HIROTAKA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TSUZUKI MUNENORI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YAMADA HIROTOSHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YAMANAKA HIDEAKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KONDOH, HARUFUSA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NOTANI, HIROMI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+OSHIMA, KAZUYOSHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SAITO, HIROTAKA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TSUZUKI, MUNENORI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YAMADA, HIROTOSHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YAMANAKA, HIDEAKI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to an address controller of a
+data switching apparatus and a data switching apparatus
+having a shared buffer for temporary storing, delaying,
+and switching a limited length of data, such as blocked-frame
+information of various kinds of multimedia, for
+example, voice, data, image, etc., and fixed-length
+packets.In ATM (Asynchronous Transfer Mode) communication
+systems, continuous signals such as line signals or voice
+signals, and bursty signals such as data signals or
+motion video are divided into fixed lengths of data,
+appended to a header indicating destination information,
+thus forming a packet. This packet is called a "cell" in
+ATM. Data are transferred in the same packet form.
+Synchronization of frames is not needed between terminal
+equipment and a channel, and the operating speed of the
+terminal equipment and the channel can be set
+independently. This system can be applied to many kinds
+of terminal equipment. But a high-speed packet switch 
+receives packets at random, and a lot of packets may be
+addressed to one destination, so that packets need to be
+queued for processing to prevent loss of information.To solve this problem, for example, a high-speed
+packet switch is proposed and shown in Figs. 5 and 6 of
+"PRELUDE: An Asynchronous Time-Division Switched
+Network," by Jean-Pierre Coudreuse and Michel Servel in
+International Conference on Communications, 1987, session
+22, document No.2. This document relates to a high-speed
+packet switch of an asynchronous transfer mode (ATM)
+communication system for efficiently multiplexing and
+transmitting line switching data or packet switching
+data. A conventional data queueing apparatus is shown in
+a controller 16 according to the above document. Fig. 30
+shows a block diagram of an example of the conventional
+data queueing apparatus.In the figure, n (n>=2) input ports 111 - 11n are
+provided for incoming fixed-length packets. Also
+provided are m (m>=2) output ports 121 - 12m for outgoing
+packets. Packet multiplexer 13 multiplexes received
+packets. Memory 14 is provided for writing data in a
+predefined address. Data can be read from the memory by
+indicating a read address regardless of the order of
+writing data. Packet demultiplexer 15 demultiplexes
+read-out packets. The controller 16 controls switching 
+packets.The controller 16 is shown in detail in Fig. 31.
+The controller 16 has a conventional data queueing
+apparatus shown in Fig. 10 of the above document. Fig.
+31 shows the conventional data queueing apparatus with a
+little deformation
+</DESCRIPTION>
+<CLAIMS>
+A data queueing apparatus comprising:
+
+(a) a plurality of output lines (2
+1
+-2
+m
+) for
+transmitting data;
+(b) input means (1, 3
+1
+-3
+m
+) for receiving data
+with destination information which indicates at least
+
+one of the output lines (2
+1
+-2
+m
+) ;
+(c) memory means (4
+1
+-4
+k
+, 5
+11
+-5
+km
+), which is
+provided for the plurality of output lines (2
+1
+-2
+m
+),
+for storing data received at the input means 1, 
+3
+1
+-3
+m
+)
+;
+characterized by
+(d) search (6
+1
+-6
+m
+) and select means (7
+1
+-7
+m
+) for
+searching outgoing data for each of the output lines
+
+(2
+1
+-2
+m
+) among the data stored in the memory means (4
+1
+-4
+k
+,
+5
+11
+-5
+km
+) with the destination information, and for
+selecting the searched data in the memory means 4
+1
+-4
+k
+,
+5
+11
+-5
+km
+) for the corresponding output line (2
+1
+-2
+m
+)
+for transmitting.
+The data queueing apparatus of claim 1, wherein
+the memory means (4
+1
+-4
+k
+, 5
+11
+-5
+km
+) comprises:
+
+(a) a plurality of shift memories (4
+1
+-4
+k
+) for
+shifting data and storing data therein; and
+(b) a plurality of destination memories (5
+11
+-5
+km
+)
+each of which corresponds to both each shift memory
+
+(4
+1
+-4
+k
+) and each output line (2
+1
+-2
+m
+) and stores the
+destination information of data therein.
+The data queueing apparatus of claim 2, wherein
+the search and select means comprises a plurality of
+
+search means (6
+1
+-6
+m
+) each of which corresponds to
+each of the plurality of the output lines (2
+1
+-2
+m
+) and
+searches destination information stored in the
+
+corresponding destination memories (5
+11
+-5
+km
+) for
+finding data to transmit to the corresponding output
+
+line (2
+1
+-2
+m
+).
+The data queueing apparatus of claim 2, wherein
+the search and select means comprises a plurality of
+
+select means (7
+1
+-7
+m
+) each of which corresponds to
+each of the plurality of output lines (2
+1
+-2
+m
+) and
+selects data found by the search means (6
+1
+-6
+m
+) and
+transmits data to the corresponding output lines (2
+1
+-2
+m
+). 
+The data queueing apparatus of claim 1, further
+comprising delete means for deleting data stored in
+
+the memory means (4
+1
+-4
+k
+, 5
+11
+-5
+km
+) after being selected
+and transmitted by the search and select means (6
+1
+-6
+m
+,
+7
+1
+-7
+m
+).
+The data queueing apparatus of claim 5, wherein
+input means (1, 3
+1
+-3
+m
+) are provided for receiving
+data with destination information, indicative of
+
+destination output lines (2
+1
+-2
+m
+), and the delete
+means are provided for deleting data after being
+
+transmitted to the plurality of output lines (2
+1
+-2
+m
+)
+indicated by the destination information.
+The data queueing apparatus of claim 2, further
+comprising a plurality of shift detectors (8
+1
+-8
+k
+),
+each of which corresponds to each of the shift
+
+memories (4
+1
+-4
+k
+), for requesting a previous shift
+memory to shift data when it detects selecting and
+
+transmitting of the data stored in the corresponding
+shift memory.
+The data queueing apparatus of claim 2, wherein
+the input means (1, 3
+1
+-3
+m
+) are provided for receiving
+data every time slot, which has predefined time
+
+length, the plurality of shift memories (4
+1
+-4
+k
+) are 
+provided for shifting data more than once every time
+
+slot, and the search and select means (6
+1
+-6
+m
+, 7
+1
+-7
+m
+)
+are provided for searching data once every predefined
+
+X, X
+>
+=2, time slot.
+The data queueing apparatus of claim 2, wherein
+the input means (1, 3
+1
+-3
+m
+) are provided for receiving
+data each time slot which has a predefined time
+
+length, includes Y, Y
+>
+=2, number of input lines (1a,
+1b, 1c) which are coupled to the Y number of shift
+
+memories (4
+7
+, 4
+8
+, 4
+9
+) respectively for receiving data
+once to the coupled shift memory (4
+1
+-4
+9
+) for every
+time slot, and the plurality of shift memories (4
+1
+-4
+9
+)
+are provided for shifting data Y number of times
+
+for every time slot.
+The data queueing apparatus of claim 3, wherein
+the search and select means comprises search means
+
+(6
+1
+, 6
+2
+) whose number is less than the number of
+output lines (2
+1
+-2
+4
+).
+The data queueing apparatus of claim 4, wherein
+the search and select means comprises select means
+
+(7
+1
+, 7
+2
+) whose number is less than the number of
+output lines (2
+1
+-2
+4
+). 
+The data queueing apparatus of claim 1, wherein
+the input means (1) is provided for receiving a
+
+serial signal and includes serial-parallel converter
+(1x) for transforming the serial signal to the
+
+parallel signal, and the memory means (4
+1
+-4
+k
+) is
+provided for receiving the parallel signal from the
+
+serial-parallel converter (1x).
+The data queueing apparatus of claim 2, wherein
+the shift memory (4
+1
+-4
+k
+) and the destination memory
+(5
+11
+-5
+km
+) are coupled together as a memory unit.
+A data queueing system, 
+characterized by
+:
+
+(a) first data queueing apparatus (100) of claim
+1 for processing data having a first priority;
+(b) second data queueing apparatus (200) of
+claim 1 for processing data having a second priority
+
+lower than the first priority;
+(c) data distributing means (17) for inputting
+data with a first or a second priority and
+
+transferring the data to one of the first and second
+data queueing apparatuses based on the first and
+
+second priority, respectively, of the received data.
+The data queueing apparatus of claim 2, wherein
+the input means (1, 3
+1
+-3
+m
+) is adapted to receive the destination 
+information, along with priority for processing data,
+
+the memory means (4
+1
+-4
+k
+, 5
+11
+-5
+km
+) is adapted to store the
+destination information and the priority, and the
+
+search and select means (6
+1
+-6
+m
+, 7
+1
+-7
+m
+) is adapted to searche the
+destination information for selecting data based on
+
+the stored priority.
+A data queueing apparatus comprising:
+
+(a) an input line (1) for receiving a limited
+length of data defined by a predefined fixed time;
+(b) a plurality of output lines (2
+1
+-2
+m
+) for
+transmitting a limited length of data; and
+(c) destination input means (3
+1
+-3
+m
+), which
+corresponds to the input line (1), for receiving
+
+destination information which indicates one of the
+plurality of output lines (2
+1
+-2
+m
+) corresponding to
+the data; 
+characterized by
+:
+(d) a plurality of shift memories (4
+1
+-4
+k
+), which
+are connected serially, for storing received data and
+
+shifting stored data forward serially;
+(e) a plurality of destination indicating bits
+(5
+11
+-5
+km
+), each of which corresponds to both of each
+of the shift memories (4
+1
+-4
+k
+) and each of the output
+lines (2
+1
+-2
+m
+), and is asserted when the bit 
+corresponds to a destination of data stored in one of
+
+the shift memories (4
+1
+-4
+k
+), for storing the
+
+destination received at the destination input means
+(3
+1
+-3
+m
+), and shifting the stored destination
+synchronous with the shifting of the data stored in
+
+the corresponding shift memories (4
+1
+-4
+k
+);
+(f) search circuits (6
+1
+-6
+m
+), each of which
+corresponds to each of the output lines (2
+1
+-2
+m
+), for
+searching backward for an asserted bit in the
+
+destination indicating bits; and
+(g) selectors (7
+1
+-7
+m
+) for selecting data from
+the plurality of shift memories (4
+1
+-4
+k
+) to the output
+lines (2
+1
+-2
+m
+) based on search results of the search
+circuits (6
+1
+-6
+m
+).
+The data queueing apparatus of claim 16, wherein
+one of a limited length of data is transmitted to the
+
+plurality of output lines (2
+1
+-2
+m
+), further comprising
+shift detectors (8
+1
+-8
+k
+), each of which corresponds to
+each of the shift memories (4
+1
+-4
+k
+), for detecting
+that all of the destination indicating bits (5
+11
+-5
+km
+)
+which correspond to one of the shift memories (4
+1
+-4
+k
+)
+are not asserted and directing next shift memory and
+
+next destination indicating bits to shift data and 
+the destination forward.
+A data queueing method 
+characterized by
+ the
+steps:
+
+
+(a) receiving data with destination information
+from an input line every time slot;
+(b) storing data with the destination
+information in a common memory (4
+1
+-4
+k
+, 5
+11
+-5
+km
+) in an
+order;
+(c) searching the destination information in the
+order for destinations corresponding to each of a
+
+plurality of output lines (2
+1
+-2
+m
+);
+(d) selecting data for each of the plurality of
+output lines (2
+1
+-2
+m
+) based on a search result;
+(e) transmitting selected data to each of output
+lines (2
+1
+-2
+m
+).
+The data queueing method of claim 18, wherein the
+receiving step comprises the steps of:
+
+
+(a) checking if the common memory is full of
+data;
+
+and
+(b) discarding data received if the common
+memory is full of data.
+The data queueing method of claim 18, further
+comprising the step of marking as deleted that data
+
+transmitted from the common memory (4
+1
+-4
+k
+, 5
+11
+-5
+km
+)
+after the transmitting step.
+The data queueing method of claim 20, wherein the
+storing step comprises the steps of
+
+
+(a) checking if the common memory (4
+1
+-4
+k
+, 5
+11
+-5
+km
+)
+holds the data marked as deleted;
+(b) shifting other data in the common memory
+(4
+1
+-4
+k
+, 5
+11
+-5
+km
+) onto the data marked as deleted if the
+common memory (4
+1
+-4
+k
+, 5
+11
+-5
+km
+) holds the data marked as
+deleted;
+The data queueing method of claim 18, wherein the
+searching step comprises the step of repeating the
+
+receiving step and the storing step a plurality of
+times before searching the destination information.
+An Asynchronous Transfer Mode switch for
+switching cells, having destination information
+
+therewith, between input ports and output ports,
+comprising:
+
+
+(a) a shared multibuffer having addresses for
+storing cells;
+(b) a controller (16) having a data queueing 
+apparatus (180) as recited in claim 1, providing the
+
+addresses, whereat the cells are stored in the shared
+multibuffer with the destinations of the stored cells
+
+to the data queueing apparatus (180), whereby the
+data queueing apparatus (180) is provided for
+
+transmitting the addresses of cells to be transmitted
+to the output ports.
+</CLAIMS>
+</TEXT>
+</DOC>

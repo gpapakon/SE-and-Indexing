@@ -1,0 +1,648 @@
+<DOC>
+<DOCNO>EP-0650290</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+System and method for encoding facsimile data.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T900	G06T900	H03M730	H03M730	H04N141	H04N141	H04N1417	H04N1417	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	H03M	H03M	H04N	H04N	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T9	G06T9	H03M7	H03M7	H04N1	H04N1	H04N1	H04N1	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A system and method for facsimile data encoding uses vectors indicating the 
+locations of changing elements along a horizontal scan line. The change vectors are stored in 
+
+a vector table. The system may use a reference vector table and a coding vector table if 
+CCITT recommendation T.6 two dimensional encoding is used. The system encodes 
+
+horizontal scan lines using the vectors to determine the location of the changing elements. 
+The value of the reference changing element is easily determined using the vector tables. 
+
+The system determines the locations of all changing elements on a horizontal scan line before 
+performing any encoding of that particular scan line thus simplifying the encoding process. 
+
+The system can receive and decode facsimile data to generate change vectors. The change 
+vectors provide a simple mechanism for regenerating the raw data. The change vectors are 
+
+used to encode raw data into any standard facsimile encoding format, to decode facsimile 
+data, and to interconvert from one encoding format to another without having to convert the 
+
+encoded data back to raw data. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MICROSOFT CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MICROSOFT CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+FRIEDMAN STEVEN J
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FRIEDMAN, STEVEN J.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention is directed to a system and method for encoding 
+data, and more specifically, a system and method for encoding facsimile data. Facsimile (FAX) machines have long been used as a convenient system 
+for transmitting data from one location to another. A transmitting FAX machine 
+transmits a facsimile message over a telephone line to a receiving FAX machine. The 
+telephone line may be a wire or optical cable, or may include a remote connection such 
+as a microwave or satellite link. Thus, a user may send the facsimile message from one 
+FAX machine to another FAX machine located anywhere in the world via the telephone 
+line. The cost of sending a facsimile message long distance includes the 
+transmission cost of the telephone call which is directly related to the length of the 
+message being sent and the time at which the facsimile telephone call is placed. To 
+reduce costs, the user may send the facsimile message during low-cost periods, such as 
+at night, when the demand for telephone lines is minimal. Thus, the phone rate is 
+decreased and the cost of sending the facsimile message is correspondingly decreased. The cost can also be reduced by minimizing the duration of the facsimile 
+telephone call. One such method for minimizing the duration is to compress the data 
+prior to transmission. Early facsimile machines used a basic data encoding technique, 
+known as Modified Huffman (MH) encoding. This form of encoding permits 
+compression of the facsimile message, with a corresponding decrease in the duration of 
+the facsimile telephone call. Other data encoding techniques were developed for newer 
+facsimile machines, although newer facsimile machines continue to retain MH 
+encoding capability to enable facsimile communication with machines of the older 
+design. A Modified Read (MR) encoding permits two-dimensional data encoding, 
+which permits a higher degree of data compression than MH encoding. Both MH and 
+MR encodings are described in standards established by the International Telegraph and 
+Telephone Consultative Committee (CCITT) and published as Terminal Equipment and 
+Protocols for Telematic Services (1989). The MH and MR data encodings are 
+described in recommendation T.4 of the CCITT standard.  A third type of data compression is the Modified Modified Read (MMR 
+encoding), which is described in recommendation T.6 of the CCITT standard and 
+permits two-dimensional encoding of low- or high-resolution facsimile messages. The techniques used for encoding a facsimile message using
+</DESCRIPTION>
+<CLAIMS>
+A system for encoding facsimile data in a first facsimile machine for 
+transmission from the first facsimile machine to a second facsimile machine, comprising: 
+
+   a data file storage area containing a raw data file to be encoded according to a 
+predetermined standard encoding format, said raw data file comprising a series of horizontal 
+
+scan lines each having first and second ends, each of said horizontal scan lines comprising a 
+plurality of pixels having first and second logic states; 
+
+   a generator analyzing said horizontal scan lines and determining positions on 
+said horizontal scan lines relative to said first end where said pixels change from said first 
+
+logic state to said second logic state and from said second logic state to said first logic state; 
+   a reference storage table coupled to said generator and receiving said positions 
+
+for a single one of said horizontal scan lines designated as a reference scan line; 
+   a reference index pointing to a location within said reference table; 
+
+   a coding storage table coupled to said generator and receiving said positions 
+for a single one of said horizontal scan lines adjacent to said reference line and designated as 
+
+a coding scan line; 
+   a coding index pointing to a location within said coding table; 
+
+   an analyzer analyzing said reference scan line and said coding scan line by 
+analyzing entries in said reference table and said coding table, said analyzer generating 
+
+compressed data for said coding scan line using a plurality of standard predetermined codes 
+to encode said coding scan line according to said predetermined standard encoding format; 
+
+   a compressed data file storage area receiving said compressed data and 
+temporarily storing said compressed data; and 
+
+   a facsimile interface sequentially receiving said stored compressed data from 
+said compressed data file storage area and generating standard predetermined electrical 
+
+signals representative of said compressed data. 
+The system of claim 1 wherein said predetermined encoding standard 
+format is defined by one of CCITT standards comprising recommendation T.6 two 
+
+dimensional facsimile encoding standard, recommendation T.4 two dimensional facsimile 
+encoding standard, and recommendation T.4 one dimensional facsimile encoding standard. 
+The system of claim 1 wherein said facsimile interface generates a 
+plurality of standard predetermined audio signals representative of said compressed data and 
+
+ 
+couples said audio signals to a telephone line for transmission over said telephone line to the 
+
+second facsimile machine. 
+The system of claim 1 wherein said analyzer initializes said coding 
+index to point to a first location within said coding table and initially defines first, second, 
+
+and third coding change vectors having values contained within first, second, and third 
+locations in said coding table. 
+The system of claim 4 wherein said first, second, and third locations in 
+said coding table are locations pointed to by said coding index, said coding index plus one, 
+
+and said coding index plus two, respectively. 
+The system of claim 4 wherein said analyzer initializes said reference 
+index to point to a first location within said reference table and initially defines first and 
+
+second reference change vectors having values contained within first and second locations in 
+said reference table. 
+The system of claim 6 wherein said first and second locations in said 
+reference table are locations pointed to by said reference index and said reference index plus 
+
+one, respectively. 
+The system of claim 6 wherein said analyzer redefines said first coding 
+vector as having said second reference vector value if said analyzer determines that said value 
+
+of said second reference vector is less than said value of said second coding vector, said 
+
+analyzer further altering said reference index from a present location in said reference table to 
+a new location in said reference table two locations from said present location and redefining 
+
+said first and second reference change vectors having values contained within said reference 
+vector table at said new location, and a first location next to said new location, respectively. 
+The system of claim 8 wherein said analyzer increments said reference 
+index by two to point to said location in said reference table two locations from said present 
+
+location and redefines said first and second reference change vectors by assigning values 
+contained within said reference vector table at locations pointed to by said reference index, 
+
+and said reference index plus one. 
+The system of claim 6 wherein said analyzer alters said coding index 
+from a present location in said coding table to a new location in said coding table two 
+
+ 
+locations from said present location and redefines said first, second, and third coding change 
+
+vectors having values contained within said coding table at said new location pointed to by 
+said coding index, a first location in said coding table next to said new location, and a second 
+
+location in said coding table next to said first location, said analyzer further altering said 
+reference index from a present location in said reference table to a new location in said 
+
+reference table two locations from said present location until the value contained in said 
+reference table at said new location is greater than the value of said first coding vector and 
+
+redefining said first and second reference change vectors having values contained within said 
+reference vector table at said new location and a first location in said reference table 
+
+following said new location. 
+The system of claim 10 wherein said analyzer alters said coding index 
+by incrementing said coding index by two, and redefines said coding change vectors by 
+
+assigning the value contained in said coding vector table at locations pointed to by said 
+coding index, said coding index plus one, and said coding index plus two, respectively, said 
+
+analyzer further altering said reference index by incrementing said reference index by two, 
+said analyzer redefining said first and second reference change vectors having values 
+
+contained within said reference table at locations pointed to by said reference index, and said 
+reference index plus one. 
+The system of claim 6 wherein said analyzer alters said coding index 
+from a present location in said coding table to a new location in said coding table two 
+
+locations from said present location and redefines said first, second, and third coding change 
+vectors having values contained within said coding table at said new location, a first location 
+
+in said coding table next to said new location, and a second location in said coding table next 
+to said first location if said analyzer determines that the value of said second coding change 
+
+vector is within three of the value of said first reference change vector, said analyzer also 
+altering said reference index from a present location in said reference table to a next previous 
+
+location in said reference table and determining if the value contained in said reference table 
+at said next previous location indicated by said reference index is greater than the value of 
+
+said first coding vector, and if the value contained in said reference table at the location 
+indicated by said reference index is not greater than the value of said first coding vector, 
+
+altering said reference index from said next previous location to a new location in said 
+reference table two locations from said next previous location until the value contained in 
+
+said reference table at said new location is beater than the value of said first coding vector 
+and redefining said first and second reference change vectors having values contained within 
+
+ 
+said reference vector table at said location and a first location in said reference table next to 
+
+said new location. 
+The system of claim 12 wherein said analyzer alters said coding index 
+by incrementing said coding index by one and redefines said first, second, and third coding 
+
+change vectors by assigning values contained within said coding vector table at locations 
+pointed to by said coding index, said coding index plus one, and said coding index plus two, 
+
+respectively, said analyzer altering said reference index by decrementing said reference index 
+by one and determining if the value contained in said reference vector table at the location 
+
+indicated by said reference index is greater than the value of said first coding vector, and if 
+the value contained in said reference vector table at the location indicated by said reference 
+
+index is not greater than the value of said first coding vector, said analyzer further 
+incrementing said reference vector by two until the value contained in said reference vector 
+
+table at the location indicated by said reference index is greater than the value of said first 
+coding vector, said analyzer redefining said first and second reference change vectors having 
+
+values contained within said reference vector table at locations pointed to by said reference 
+index, and said reference index plus one. 
+A system for encoding facsimile data in a first facsimile machine for 
+transmission from the first facsimile machine to a second facsimile machine, comprising: 
+
+   a data file storage area containing a raw data file to be encoded according to a 
+predetermined standard encoding format, said raw data file comprising a series of horizontal 
+
+scan lines each having first and second ends, each of said horizontal scan lines comprising a 
+plurality of pixels having first and second logic states; 
+
+   a generator analyzing said horizontal scan lines and determining positions on 
+said horizontal scan lines relative to said first end where said pixels change from said first 
+
+logic state to said second logic state and from said second logic state to said first logic state; 
+   a storage table coupled to said generator and receiving said positions for a 
+
+single one of said horizontal scan lines; 
+   an analyzer analyzing said one scan line by analyzing entries in said table, said 
+
+analyzer generating compressed data for said one scan line using a plurality of standard 
+predetermined codes to encode said one scan line according to said predetermined standard 
+
+encoding format; 
+   a compressed data file storage area receiving said compressed data and 
+
+temporarily storing said compressed data; and
+ 
+
+   a facsimile interface sequentially receiving said stored compressed data from 
+said compressed data file storage area and generating standard predetermined electrical 
+
+signals representative of said compressed data. 
+The system of claim 14, further including conversion means for 
+converting said compressed data in said predetermined standard encoding format to a second 
+
+predetermined standard encoding format. 
+The system of claim 14 wherein said predetermined encoding standard 
+format is defined by one of CCITT standards comprising recommendation T.6 two 
+
+dimensional facsimile encoding standard, recommendation T.4 two dimensional facsimile 
+encoding standard, and recommendation T.4 one dimensional facsimile encoding standard. 
+The system of claim 14 wherein said plurality of predetermined 
+standard encoding formats comprise MH encoding, MR encoding and MMR encoding. 
+The system of claim 14 wherein said facsimile interface generates a 
+plurality of standard predetermined audio signals representative of 
+said compressed data and 
+couples said audio signals to a telephone line for transmission over said telephone line to the 
+
+second facsimile machine. 
+A system for decoding facsimile data previously encoded according to 
+a predetermined standard format, the decoded facsimile data comprising a series of horizontal 
+
+scan lines, each of the horizontal scan lines comprising a plurality of pixels having first and 
+second logic states, the system comprising: 
+
+   an encoded data storage area containing the encoded facsimile data; 
+   means for retrieving a portion of the encoded data from said encoded data 
+
+storage area for analysis; 
+   a state transition table having a first index indicating a current decoding 
+
+position and a second index having values corresponding to said portion of the encoded data, 
+said state transition table containing data values indicating a next decoding position; 
+
+   an action data table having said first index and said second index, said action 
+data table containing data values indicating a decoding action to be performed; 
+
+   an analyzer receiving said encoded data portion and using said state transition 
+table to determine said next machine state, said analyzer using said action table to determine 
+
+said decoding action, said analyzer generating a plurality of change vectors indicating 
+ 
+
+positions the horizontal scan lines where the pixels change from the first logic state to the 
+second logic state and from the second logic state to the first logic state; and 
+
+   a change vector data storage area containing said change vectors for each of 
+the horizontal scan lines. 
+The system of claim 19, further including a data generator receiving 
+said change vectors for each of the horizontal scan lines and generating pixel data indicating 
+
+the logic state for each of the plurality of pixels on each of the horizontal scan lines. 
+The system of claim 20, further including a print engine receiving said 
+pixel data and generating a printed page containing the horizontal scan lines. 
+The system of claim 19 wherein said portion of the encoded data 
+comprises two data bits. 
+The system of claim 19 wherein the predetermined standard format is 
+defined by one of CCITT standards comprising recommendation T.6 two dimensional 
+
+facsimile encoding standard, recommendation T.4 two dimensional facsimile encoding 
+standard, and recommendation T.4 one dimensional facsimile encoding standard. 
+A system for decoding facsimile data previously encoded according to 
+a predetermined standard format, the decoded facsimile data comprising a series of horizontal 
+
+scan lines, each of the horizontal scan lines comprising a plurality of pixels having first and 
+second logic states, the system comprising: 
+
+   an encoded data storage area containing the encoded facsimile data; 
+   means for retrieving a portion of the encoded data from said encoded data 
+
+storage area for analysis; 
+   a data table having a first index indicating a current decoding position and a 
+
+second index having values corresponding to said portion of the encoded data, said data table 
+containing data values indicating a next decoding position and a decoding action to be 
+
+performed; 
+   an analyzer receiving said encoded data portion and using said data table to 
+
+determine said next decoding position and said decoding action, said analyzer generating a 
+plurality of change vectors indicating positions on the horizontal scan lines where the pixels 
+
+change from the first logic state to the second logic state and from the second logic state to 
+the first logic state; and
+
+ 
+   a change vector data storage area containing said change vectors for the 
+
+horizontal scan lines. 
+The system of claim 24 wherein the predetermined standard format is 
+defined by one of CCITT standards comprising recommendation T.6 two dimensional 
+
+facsimile encoding standard, recommendation T.4 two dimensional facsimile encoding 
+standard, and recommendation T.4 one dimensional facsimile encoding standard. 
+A system for converting facsimile data previously encoded according 
+to a first predetermined standard format to a second predetermined standard format, the 
+
+facsimile data representing a series of horizontal scan lines, each of the horizontal scan lines 
+comprising a plurality of pixels having first and second logic states, the system comprising: 
+
+   a first encoded data storage area containing the facsimile data encoded 
+according to the first predetermined standard format; 
+
+   means for retrieving a portion of the facsimile data encoded according to the 
+first predetermined standard format from said first encoded data storage area for analysis; 
+
+   a data table having a first index indicating a current decoding position and a 
+second index having values corresponding to said portion of the facsimile data encoded 
+
+according to the first predetermined standard format, said data table containing data values 
+indicating a next decoding position and a decoding action to be performed; 
+
+   a decoding analyzer receiving said portion of the encoded data and using said 
+data table to determine said next decoding position and said decoding action, said analyzer 
+
+generating a plurality of change vectors indicating positions on the horizontal scan lines 
+where the pixels change from the first logic state to the second logic state and from the 
+
+second logic state to the first logic state; 
+   a storage table receiving said change vectors for the horizontal scan lines; and 
+
+   an encoding analyzer analyzing the horizontal scan lines by analyzing entries 
+in said storage table, said encoding analyzer generating data representing the horizontal scan 
+
+lines using a plurality of standard predetermined codes encoded according to the second 
+predetermined standard format. 
+The system of claim 26 wherein the first and second predetermined 
+standard formats are defined by two of the CCITT standards comprising recommendation T.6 
+
+two dimensional facsimile encoding standard, recommendation T.4 two dimensional 
+facsimile encoding standard, and recommendation T.4 one dimensional facsimile encoding 
+
+standard. 
+A method for use in a facsimile machine for two dimensional encoding 
+of raw data into facsimile data encoded to conform to a predetermined standard, the raw data 
+
+comprising a series of horizontal lines of data having first and second ends, each of said 
+horizontal lines comprising a series of horizontal pixels having first and second logic states 
+
+corresponding to white and black pixels, respectively, the method comprising the steps of: 
+
+(a) selecting one of the horizontal lines of data as a reference line; 
+(b) determining a set of reference change vectors for said reference line, 
+each of said reference vectors having a position value indicating the position on said 
+
+reference line relative to the first end of said reference line at which the horizontal pixels 
+change logic states from the first to second logic state and from the second to first logic state; 
+(c) storing said set of reference vector values in a reference table, said 
+reference table having a reference pointer indicating a position within said reference table; 
+(d) determining a set of coding change vectors for a coding line, said 
+coding line being the horizontal line of data adjacent said reference line, each of said coding 
+
+vectors having a position value indicating the position on said coding line relative to the first 
+end of said coding line where the horizontal pixels changes logic state
+s from the first to 
+second logic state and from the second to first logic state; 
+(e) storing said set of coding vector values in a coding table, said coding 
+table having a coding pointer indicating a position within said coding table; 
+(f) comparing the value of said second reference vector to the value of 
+said second coding vector to determine if the value of said second reference vector is less 
+
+than the value of said second coding vector; 
+(g) if the value of said second reference vector is less the value of said 
+second coding vector: 
+
+
+(1) inserting a predetermined code for a pass mode in a coded data storage 
+area; 
+(2) assigning the value of said second reference vector to said first coding 
+vector; 
+(3) assigning to said second and third coding vectors the values of the next 
+two coding vectors; 
+(4) incrementing said reference index by two until the value of said first 
+reference vector pointed to by said reference index is greater than the value of said first 
+
+coding vector; and 
+(5) assigning to said second reference vector the value in said reference 
+coding table at the next subsequent location to said reference index; 
+(h) if the value of said second reference vector is not less the value of said 
+second coding vector, determining if the value of said first coding vector and the value of 
+
+said first reference vector are within three of each other; 
+(i) if the value of said first coding vector is within three of the value of 
+said first reference vector: 
+
+
+(1) inserting a predetermined code for a vertical mode in said coded data 
+storage area, said predetermined code indicating the relative position of said first coding 
+
+vector with respect to said first reference vector; 
+(2) assigning the value of said third coding vector to said first coding 
+vector; 
+(3) assigning to said second and third coding vectors the values of the next 
+two coding vectors in said coding table; 
+(4) decrementing said reference index by a value of one and determining if 
+the value of said reference table pointed to by said reference index is greater than the value of 
+
+said first coding vector; 
+(5) if the value of said reference table pointed to by said reference index is 
+not greater than the value of said first coding vector, incrementing said reference index by 
+
+two until the value of said reference table at the location pointed to by said reference index is 
+greater than the value of said first coding vector; and 
+(6) assigning to said second reference vector the value in said reference 
+table at the next subsequent location to said reference index; 
+(j) if the value of said first coding vector is not within three of the value 
+of said first reference vector: 
+
+
+(1) inserting a predetermined code for a horizontal mode in said coded 
+data storage area, said predetermined code indicating the relative position of said first coding 
+
+vector with respect to said second coding vector and the logic state of the pixels between said 
+first and second coding vectors, and the relative position of said second coding vector with 
+
+respect to said third coding vector and the logic state of the pixels between said second and 
+third coding vectors; 
+(2) assigning the value of said third coding vector to said first coding 
+vector; 
+(3) assigning to said second and third coding vectors the values of the next 
+two locations in said coding table; 
+(4) incrementing said reference index by two until the value of said 
+reference table at the location pointed to by said reference index is greater than the value of 
+
+said first coding vector; and 
+(5) assigning to said second reference vector the value in said reference 
+coding table at the next subsequent location to said reference index; and 
+(k) repeating steps (f) to (j) for the entire coding line. 
+A method for use in a facsimile machine for encoding raw data into 
+encoded facsimile data, the raw data comprising a series of horizontal lines of data having 
+
+first and second ends, each of said horizontal lines comprising a series of pixels having first 
+and second logic states corresponding to white and black pixels, respectively, the method 
+
+comprising the steps of: 
+
+(a) selecting one of a plurality of predetermined standard encoding 
+formats, the raw data encoded to conform to said selected standard; 
+(b) determining a set of change locations for one of the horizontal lines of 
+data, each of said change locations having a position value indicating the position on said one 
+
+line relative to the first end of said one line at which the pixels change logic states from the 
+rust to second logic state and from the second to first logic state; 
+(c) storing said set of change locations in a table, said table having a 
+pointer indicating a position within said table; 
+(d) using said table and said pointer to generate compressed data for said 
+one line using of a plurality of standard data encoding modes required to encode at least a 
+
+portion of said one line according to said one selected predetermined standard encoding 
+format; 
+(e) storing said compressed data in a compressed data storage area; and 
+(f) repeating steps (d)-(e) for the entire said one line. 
+The method of claim 29 wherein said plurality of standard encoding 
+formats comprise MH, MR, and MMR data encoding formats. 
+The method of claim 29 where said plurality of standard encoding 
+modes comprise pass mode, horizontal mode, and vertical mode. 
+The method of claim 29, further including the steps of: 
+   initiating a facsimile telephone; 
+
+   receiving in the facsimile machine, data from a receiving facsimile machine 
+information relating to ones of said plurality of standard encoding formats capable of being 
+
+processed by said receiving facsimile machine, said step (a) selecting said one selected 
+predetermined standard encoding format based on said received data. 
+The method of claim 29 wherein steps (d) to (f) encode the raw data 
+into said one selected predetermined standard encoding format, the method further including 
+
+the steps of: 
+   initiating a facsimile telephone; 
+
+   receiving in the facsimile machine, data from a receiving facsimile machine 
+information relating to ones of said plurality of standard encoding formats capable of being 
+
+processed by said receiving facsimile machine; 
+   converting said compressed data in said compressed data storage area from 
+
+said one selected predetermined standard encoding format to another of said plurality of data 
+encoding formats different from said one selected predetermined standard encoding format, 
+
+said step of converting using said vector table and said pointer. 
+A method for use in a facsimile machine for encoding raw data into 
+encoded facsimile data according to a predetermined standard encoding format, the raw data 
+
+comprising a series of horizontal lines of data having first and second ends, each of said 
+horizontal lines comprising a series of pixels having first and second logic states 
+
+corresponding to white and black pixels, respectively, the method comprising the steps of: 
+
+(a) determining a set of change locations for one of the horizontal lines of 
+data, each of said change locations having a position value indicating the position on said one 
+
+line relative to the first end of said one line at which the pixels change logic states from the 
+first to second logic state and from the second to first logic state; 
+(b) storing said set of change locations in a table, said table having a 
+pointer indicating a position within said table; 
+(c) using said table and said pointer to generate compressed data for said 
+one line using of a plurality of standard data encoding modes required to encode at least a 
+
+portion of said one line according to the predetermined standard encoding format; 
+(d) storing said compressed data in a compressed data storage area; and 
+(e) repeating steps (c)-(d) for the entire said one line. 
+The method of claim 34 wherein the predetermined encoding standard 
+format is defined by one of CCITT standards comprising recommendation T.6 two 
+
+dimensional facsimile encoding standard, recommendation T.4 two dimensional facsimile 
+encoding standard, and recommendation T.4 one dimensional facsimile encoding standard. 
+A method for decoding facsimile data previously encoded according to 
+a predetermined standard format, the decoded facsimile data comprising a series of horizontal 
+
+ 
+scan lines, each of the horizontal scan lines comprising a plurality of pixels having first and 
+
+second logic states, the method comprising the steps of: 
+
+(a) retrieving a portion of the encoded data for one of the horizontal scan 
+lines from an encoded data storage area; 
+(b) analyzing said portion of the encoded data and using a data table 
+having a first index indicating a current decoding position and a second index having values 
+
+corresponding to said portion of the encoded data, said data table containing data values 
+indicating a next decoding position and a decoding action to be performed; 
+(c) generating a plurality of change vectors indicating positions on said 
+one horizontal scan line where the pixels change from the first logic state to the second logic 
+
+state and from the second logic state to the first logic state; 
+(d) storing said change vectors for said one horizontal scan line in a 
+change vector data storage area; and 
+(e) repeating steps (a) to (d) for each of the series of horizontal scan lines. 
+The method of claim 36, further including the step of generating pixel 
+data indicating the logic state for each of the plurality of pixels for each of the horizontal scan 
+
+line using said change vectors. 
+The method of claim 36, further including the step of generating a 
+printed page containing the horizontal scan lines on a print engine, said print engine using 
+
+said pixel data. 
+The method of claim 36 wherein said portion of the encoded data 
+comprises two data bits. 
+The method of claim 34 wherein the predetermined standard format is 
+defined by one of CCITT standards comprising recommendation T.6 two dimensional 
+
+facsimile encoding standard, recommendation T.4 two dimensional facsimile encoding 
+standard, and recommendation T.4 one dimensional facsimile encoding standard. 
+A method for converting facsimile data representing a facsimile 
+message comprising a series of horizontal scan lines, each of the horizontal scan lines 
+
+comprising a plurality of pixels having first and second logic states, the facsimile data having 
+been previously encoded according to a first predetermined standard format to a second 
+
+predetermined standard format, the encoded facsimile data the method comprising: 
+(a) retrieving a portion of the encoded data for one of the horizontal scan 
+lines from an encoded data storage area; 
+(b) analyzing said portion of the encoded data and using a data table 
+having a first index indicating a current decoding position and a second index having values 
+
+corresponding to said portion of the encoded data, said data table containing data values 
+indicating a next decoding position and a decoding action to be performed; 
+(c) generating a plurality of change vectors indicating positions on said 
+one horizontal scan line where the pixels change from the first logic state to the second logic 
+
+state and from the second logic state to the first logic state; 
+(d) storing said change vectors for said one horizontal scan line in a 
+change vector data storage area; 
+(e) analyzing said one horizontal scan line using an encoding analyzer that 
+analyzes entries in said change vector data storage area, said encoding analyzer generating 
+
+data representing said one horizontal scan line using a plurality of standard predetermined 
+codes encoded according to the second predetermined standard format; and 
+(f) repeating steps (a) to (e) for each of the series of horizontal scan lines. 
+The method of claim 39 wherein the first and second predetermined 
+standard formats are defined by two of CCITT standards comprising recommendation T.6 
+
+two dimensional facsimile encoding standard, recommendation T.4 two dimensional 
+facsimile encoding standard, and recommendation T.4 one dimensional facsimile encoding 
+
+standard. 
+</CLAIMS>
+</TEXT>
+</DOC>

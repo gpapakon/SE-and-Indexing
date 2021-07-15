@@ -1,0 +1,477 @@
+<DOC>
+<DOCNO>EP-0657874</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Voice coder and a method for searching codebooks
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G10L1902	G10L1912	G10L1900	G10L1900	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G10L	G10L	G10L	G10L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G10L19	G10L19	G10L19	G10L19	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+After dividing voice signals into subframes, the 
+voice coder of the present invention calculates auditory 
+
+sense masking threshold values for each subframe with a 
+masking threshold value calculating circuit (205), and 
+
+transforms the auditory sense masking threshold values 
+to auditory sense weighting filter coefficients. An 
+
+auditory sense weighting circuit (220) performs auditory sense 
+weighting to the signals using the auditory sense 
+
+weighting filter coefficients and searches excitation 
+codebooks or multipulses using auditory sense weighted 
+
+signals. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+NIPPON ELECTRIC CO
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+NEC CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+OZAWA KAZUNORI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+OZAWA, KAZUNORI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to voice coding technics
+for encoding voice signals in high quality at low bit
+rates, especially at 8 to 4.8 kb/s.As a method for coding voice signals at low bit rates
+of about 8 to 4.8 kb/s, for example, there is CELP (Code
+Excited LPC Coding ) method described in the paper titled
+"Code-excited linear prediction: High quality speech at
+very low bit rates" (Proc. ICASSP, pp.937-940, 1985) by M.
+Sahroeder and B. Atal (reference No.1) and the paper titled
+"Improved speech quality and efficient vector quantization
+in SELP " (ICASSP, pp.155-158, 1988) by Kleijn et al.
+(reference No.2).In the method described in these papers, spectral
+parameters representing spectral characteristics of voice
+signals are extracted in the transmission side from voice
+signals for each frame (20ms, for example). Then, the
+frames are divided into subframes (5ms, for example), and
+pitch parameters of an adaptive codebook representing long-term
+correlation (pitch correlation) are extracted so as to
+minimize a weighted squared error between a signal
+regenerated based on a past excitation signal for each
+subframe and the voice signal. Next, the subframe's voice 
+signals are predicted in long-term based on these pitch
+parameters, and based on residual signals calculated
+through this long-term prediction, one kind of noise
+signals is selected so as to minimize weighted squared
+error between a signal synthesized from signals selected
+from a codebook consisting of pre-set kinds of noise
+signals and the voice signal, and an optimal gain is
+calculated. Then, an index representing a type of the
+selected noise signal, gain, the spectral parameter and
+the pitch parameters are transmitted.In addition, as another method for coding voice
+signals at low bit rates of about 8 to 4.8 kb/s, the
+multi-pulse coding method described in the paper titled
+"A new model of LPC excitation for producing natural-sounding
+speech at low bit rates" (Proc. ICASSP, pp.614-617,
+1982) by B. Atal et al. (reference No.3) etc. is
+known.In the method of reference No.3, the residual
+signal of above-mentioned method is represented by a
+multi-pulse consisting of a pre-set number of pulse
+strings of which amplitude and locations are different
+from others, amplitude and location of the multi-pulse
+are calculated. Then, amplitude and location of the
+multi-pulse, the spectral parameter and the pitch
+parameters are transmitted. In the prior art described in references No.1, No.2
+and No.3, as an error evaluation criterion, a weighted
+squared error
+</DESCRIPTION>
+<CLAIMS>
+A voice coder comprising:
+
+a masking calculating means (205, 360, 910) for calculating masking
+threshold values from supplied discrete voice signals
+
+based on auditory sense masking characteristics;
+an auditory sense weighting means (220) for calculating
+filter coefficients based on said masking threshold
+
+values and weighting input signals based on said filter
+coefficients;
+a codebook (210, 235) consisting of a plurality of code
+vectors; and
+a searching means (230) for searching a code vector that
+minimizes output signal power of said auditory sense
+
+weighting means from said codebook.
+The voice coder of Claim 1, wherein said codebook is
+an excitation codebook (235).
+The voice coder of Claim 1, wherein said codebook is
+an adaptive codebook (210, 710).
+The voice coder of any of claims 1 to 3, comprising a subframe
+generating means (150) for dividing said voice signals into
+
+frames of a pre-set time length and generating subframes
+by dividing said frames into pre-set time length
+
+divisions, wherein searching of said codebook is
+performed for each said subframe. 
+The voice coder of claim 1, further comprising:
+
+a dividing means (110) for dividing said supplied discrete
+voice signals into pre-set time length frames;
+a subframe generating means (150) for generating
+subframes by dividing said frames into pre-set time
+
+length divisions;
+an adaptive codebook means, being a part of said codebook, for regenerating said
+voice signals for said subframes based on an adaptive
+
+codebook (210, 710);
+said masking calculating means being for calculating masking
+
+threshold values for each of said subframes;
+said auditory sense weighting means being further for
+performing auditory sense weighting to an
+
+error signal of a signal regenerated with said adaptive
+codebook means and said voice signal;
+an excitation codebook (235), being a further part of said codebook, consisting of a plurality of
+code vectors; and
+said searching means being for searching a code vector that
+minimizes error signal power weighted with said auditory
+
+sense weighting means.
+The voice coder of claim 1, further comprising:
+
+a dividing means (110) for dividing said supplied discrete
+voice signals into pre-set time length frames;
+a subframe generating means (150) for generating
+subframes by dividing said frames into pre-set time
+
+length divisions; 
+said masking calculating means being for calculating masking
+threshold values for each of said subframes;
+said auditory sense weighting means (220) further being for
+performing auditory sense weighting to said
+
+voice signals;
+an adaptive codebook means (210), being a part of said codebook, for calculating an
+adaptive code vector that minimizes power of a
+
+difference signal between a response signal and a voice
+signal weighted with said auditory sense weighting
+
+means;
+said codebook being an excitation codebock (235), being a further part of said codebook, consisting of a plurality of
+excitation code vectors; and
+said searching means being for searching a code vector that
+minimizes error signal power between an output signal of
+
+said adaptive codebock means and said difference signal.
+The voice coder of claim 6, wherein said adaptive
+codebook means (210, 710) calculates, for each of said subframes, a
+
+pitch parameter so that a signal regenerated based on an
+adaptive codebook consisting of past excitation signals
+
+comes close to said voice signal.
+A voice coder comprising:
+
+a dividing means (110) for dividing supplied discrete
+voice signals into pre-set time length frames;
+a subframe generating means (150) for generating 
+subframes by dividing said frames into pre-set time
+
+length divisions;
+an adaptive codebook means (210) for regenerating said
+voice signals for each of said subframes based on an
+
+adaptive codebook;
+a masking calculating means (205) for calculating masking
+threshold values from said voice signals based on
+
+auditory sense masking characteristics;
+an auditory sense weighting means (220) for calculating
+filter coefficients based on said masking threshold
+
+values and performing auditory sense weighting to an
+error signal between said voice signal and a signal
+
+regenerated with said adaptive codebook means based on
+said filter coefficients; and
+a calculating means (3000) for calculating a multi-pulse
+that minimizes error signal power weighted with said
+
+auditory sense weighting means.
+The voice coder of any of Claims 1 to 8, further comprising a
+subbanding means for subbanding said voice signals,
+
+wherein said auditory sense weighting means performs
+weighting to a signal subbanded with said subbanding
+
+means.
+The voice coder of Claim 9, further comprising:
+
+a bit allocating means (340, 715) for allocating quantization
+bits to subbanded signals; and
+a switching means (350) for switching a number of bits of
+said excitation codebook according to bits allocated
+
+with said allocating means.
+The voice coder of any of claims 1 to 10, comprising a spectral
+parameter calculating means for calculating and
+
+outputting, for each said frames, a spectral
+parameter representing spectral envelope of said voice
+
+signals.
+The voice coder of claim 8, wherein
+
+   said adaptive codebook means is provided for calculating pitch
+parameters so as to make signals regenerated based on
+
+said adaptive codebocks made of past excitation signals
+come close, for each of said subframes, said voice
+
+signals;
+
+   said voice coder further comprising
+
+a deciding means for deciding a number of
+multipulses for each of said subframes based on said
+
+masking threshold values; wherein
+said calculating means calculate a multipulse
+minimizing said error signal power using a number of
+
+multipulses decided for each of said subframes and
+representing excitation signals of said voice signals
+
+using said multipulse.
+The voice coder of claim 1, comprising
+
+   a dividing means (610, 650) for dividing supplied discrete
+voice signals into frames of pre-set time length and
+
+further dividing said frames into subframe of pre-set
+time length;
+ 
+said voice coder further
+
+comprising:
+
+a deciding means for deciding a number of
+multipulse for each of said subframes based on said
+
+masking threshold values; and
+a means for representing excitation signals of said
+voice signals in a form of multipulse using a number of
+
+multipulses decided for each of said subframes.
+The voice coder of claim 13 further comprising a subbanding
+means for subbanding said voice signals, wherein said
+
+deciding means decides a number of multipulses for each
+subbanded signal.
+The voice coder of claim 1, further comprising:
+
+a dividing means (610, 650) for dividing supplied discrete
+voice signals into frames of pre-set time length and
+
+further dividing said frames into subframes of pre-set
+time length; 
+said codebook being structured as containing a plurality of codebooks (750
+1
+, ..., 750
+N
+; 1000
+1
+, ..., 1000
+N
+) of which bit numbers are
+different from others;
+a bit number allocating means (715, 920) for allocating number
+of bit of said codebooks based on said masking threshold
+
+values; and
+said searching means (730, 1030) for searching a code vector by
+switching said codebooks for each of said subframes
+
+based on the allocated number of bits.
+The voice coder of Claim 15, wherein said codebooks are
+excitation codebooks.
+The voice coder of Claim 15, wherein said codebooks are gain
+codebooks.
+The voice coder of any of claims 15 to 17, further comprising a
+subbanding means for subbanding said voice signals.
+The voice coder of claim 16, further comprising:
+
+an adaptive codebook means (710) for calculating pitch
+parameters so as to make signals regenerated based on
+
+said adaptive codebooks made of past excitation signals
+come close, for each of said subframes, said voice
+
+signals;
+said auditory sense weighting means being further for
+conducting auditory sense weighting to error
+
+signals between signals regenerated with said adaptive
+codebook means and said voice signals based on said
+
+filter coefficients; 
+said searching means for switching said excitation
+codebooks for each of said subframes based on the
+
+allocated number of bits and searching an excitation
+code vector minimizi
+ng error signal power weighted with
+said auditory sense weighting means from a switched
+
+excitation codebook.
+The voice coder of Claim 19, further comprising a
+subbanding means for subbanding said voice signals,
+
+wherein said bit allocating means allocates bit number
+to subbanded signals.
+The voice coder of Claim 18 or 20, wherein impulse
+responses of subbanding filters are convoluted in said
+
+codebooks.
+A method for searching codebook used for coding
+discrete voice signals, using signals weighted with
+
+masking threshold values calculated from said voice
+signals based on auditory sense masking characteristics,
+
+wherein filter coefficients are calculated based on said masking threshold
+values and the input signals are weighted based on said filter coefficients.
+The method of Claim 22,
+comprising the steps of:
+
+
+(a) dividing said voice signals into pre-set
+time length frames;
+(b) generating subframes by dividing said
+frames into pre-set time length divisions;
+(c) regenerating said voice signals for
+each of said subframes based on an adaptive codebook;
+(d) calculating masking threshold values
+from said voice signals based on auditory sense masking 
+
+characteristics;
+(e) calculating filter coefficients based
+on said masking threshold values and performing auditory
+
+sense weighting to an error signal between a signal
+regenerated in said step (c) and said voice signal,
+
+based on said filter coefficients; and
+(f) searching an excitation code vector
+that minimizes error signal power weighted in said
+
+step (e).
+The method of Claim 22,
+comprising the steps of :
+
+
+(a) dividing said voice signals into pre-set
+time length frames;
+(b) generating subframes by dividing said
+frames into pre-set time length divisions;
+(c) calculating masking threshold values
+from said voice signals based on auditory sense masking
+
+characteristics;
+(d) calculating filter coefficients based
+on said masking threshold values and performing auditory
+
+sense weighting to said voice signal based on said
+filter coefficients;
+(e) calculating, for each of said subframes
+and using a difference signal between a response signal
+
+and a voice signal weighted in said step (d), an
+adaptive code vector that minimizes power of said
+
+difference signal, and regenerating said voice signal;
+and 
+(f) searching an excitation code vector
+that minimizes error signal power between a signal
+
+regenerated in said step (e) and said voice signal.
+The method of Claim 23 or 24,
+comprising (g) calculating a multi-pulse that
+
+minimizes error signal power weighted in said step (e)
+instead of said step (f).
+The method of Claim 23 or 24,
+further comprising a step of subbanding said voice
+
+signals, wherein said step (d) is a step of performing
+weighting to subbanded signals.
+The method of Claim 26,
+further comprising a step of allocating quantization bit
+
+to subbanded signals and a step of switching a number of
+bits of said excitation codebook according to bits
+
+allocated in said step of allocating quantization bits.
+The method of claim 22, comprising the steps of
+
+(a) step of dividing supplied discrete voice
+signals into frames of pre-set time length and further
+
+dividing said frames into subframes of pre-set time
+length;
+(b) step of calculating masking threshold values
+from said voice signals based on auditory sense masking
+
+characteristics;
+(c) step of allocating bit number of codebooks to
+each of said subframes based on said masking threshod values; and
+(d) step of searching a code vector for each of
+said subframes using a codebook having allocated bit
+
+number.
+The method of Claim 28,
+wherein said codebooks are excitation codebooks.
+The method of Claim 28,
+wherein said codebooks are gain codebooks.
+The method of any of claims 28 to 30, said steps
+(b) to (d) are conducted in each band.
+The method of Claim 31,
+wherein impulse responses of subbanding filters are
+
+convoluted in advance.
+A multipulse calculating method comprising:
+
+(a) step of dividing and subbanding supplied
+discrete voice signals into frames of pre-set time
+
+length and further dividing said frames into subframes
+of pre-set time length;
+(b) step of calculating masking threshold values
+from said voice signals based on auditory sense masking
+
+characteristics,
+(c) step of deciding number of multipulses for each
+of said subframes based on said masking threshold
+
+values; and
+(d) step of calculating a multipulse minimizing
+said error signal power using a number of multipulses
+
+decided for each of said subframes and representing
+excitation signals of said voice signals using said
+
+multipulse.
+The multipulse calculating method of Claim 33,
+wherein said steps (b) to (d) are conducted in each band.
+</CLAIMS>
+</TEXT>
+</DOC>

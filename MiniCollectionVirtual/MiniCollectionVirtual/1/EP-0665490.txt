@@ -1,0 +1,217 @@
+<DOC>
+<DOCNO>EP-0665490</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+SCSI disk drive power down apparatus.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F126	G06F126	G06F132	G06F132	G06F306	G06F306	G06F1310	G06F1310	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F1	G06F1	G06F1	G06F1	G06F3	G06F3	G06F13	G06F13	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An SCSI controller having a mechanism for receiving 
+a power down request indicating that the SCSI disk drives 
+
+should be spun down. Preferably, the SCSI controller has 
+an input for receiving a power down request signal. The 
+
+SCSI controller monitors activity on the SCSI bus and 
+asserts a signal indicative thereof to power management 
+
+logic. The power management logic monitors the resources 
+of the computer system and generates a system interrupt 
+
+and the power down signal to initiate a power down mode 
+when the computer system is determined to be idle. The 
+
+CPU receives the system interrupt to perform traditional 
+power down sequences. The SCSI controller receives the 
+
+power down signal and generates a SCSI interrupt. The 
+CPU also receives the SCSI interrupt and executes an SCSI 
+
+device driver. The SCSI device driver determines that 
+power down mode is being initiated, and sends spin down 
+
+request commands to the SCSI controller for each SCSI 
+drive. The SCSI controller powers down each of the SCSI 
+
+devices in response. Any subsequent activity requiring 
+access to any SCSI drive is detected by interrupt calls 
+
+to the SCSI device driver, which then sends spin up 
+requests to the SCSI controller, if necessary. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+COMPAQ COMPUTER CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+COMPAQ COMPUTER CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BELMONT BRIAN V
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BELMONT, BRIAN V.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to an apparatus for 
+powering down SCSI disk drives, and more particularly, to 
+a SCSI controller receiving a power down request and 
+providing an interrupt to the SCSI device driver to 
+initiate power down of the SCSI disk drives. Most of the smaller computers, including portable, 
+laptop and notebook computers, have the option of being 
+powered by a rechargeable battery. Since a battery has 
+a finite and limited amount of energy, these smaller 
+computers almost invariably include a power down mode to 
+conserve energy. In typical power down schemes, the 
+system BIOS provides complete control over most of the 
+system assets, including the monitor or display, disk 
+drives including floppy and Integrated Drive Electronics 
+(IDE) hard disk drives, the input/output (I/O) devices, 
+the system clock and sometimes even a portion of the 
+power supply itself. Hard and floppy disk drives are an integral part of 
+a power down management scheme, since the electrical 
+motors and some of the drive circuitry consume a 
+significant amount of energy. The system BIOS usually 
+has complete control over IDE-type disk drives, so that 
+when a power down mode is initiated during periods of 
+inactivity, the motors and part of the power drive 
+circuitry are shut off as controlled by the system BIOS.  
+ 
+This is often referred to as spinning down the disk 
+drives. In order to meet the Energy Star ratings issued by 
+the Environmental Protection Agency, it is considered 
+desirable to apply power down techniques to all levels of 
+professional or personal computer systems, including 
+desktop PCs and server systems. Many of the larger PC 
+systems, particularly the higher end workstation and 
+server systems, require a significant amount of permanent 
+data storage. This data storage need is often achieved 
+with a separate array of small computer system interface 
+(SCSI) disk drives. Up to seven SCSI disk drives may be 
+coupled to a single SCSI bus and controlled by a SCSI 
+controller. An array of SCSI disk drives may also 
+include multiple SCSI buses, where each bus includes 
+multiple SCSI disk drives. The SCSI disk drives consume 
+a considerable amount of power during operation, so that 
+each should be placed in a spun down state to achieve an 
+effective power down scheme. However, SCSI disk drive 
+systems are usually completely independent of the system 
+BIOS, where the system BIOS has no understanding of or 
+control over the SCSI system including the SCSI device 
+driver, controller and bus. Therefore,
+</DESCRIPTION>
+<CLAIMS>
+A computer system, comprising: 
+   a SCSI bus; 
+
+   a SCSI disk drive coupled to said SCSI bus, 
+said SCSI disk drive operative to a plurality of 
+
+commands, including a spin down command; 
+   a SCSI controller coupled to said SCSI bus, 
+
+including: 
+   means for transferring received commands 
+
+to said SCSI bus; 
+   means for monitoring activity on said SCSI 
+
+bus and for providing a SCSI activity signal indicative 
+thereof; and 
+
+   a SCSI interrupt status register receiving 
+a power down request signal and providing an interrupt 
+
+signal in response to the receipt of said power down 
+request signal; 
+
+   a power management device coupled to said SCSI 
+controller for monitoring a plurality of computer system 
+
+activity conditions, said power management device 
+including means for receiving said SCSI activity signal 
+
+and for providing said power down request signal if said 
+SCSI activity signal indicates that said SCSI bus has 
+
+been inactive for a predetermined period of time; and 
+   a CPU coupled to said SCSI controller and said 
+
+power management device, said CPU including means for 
+receiving said SCSI interrupt signal and for executing a 
+
+SCSI device driver routine in response, wherein said SCSI 
+device driver routine causes said CPU to read said SCSI 
+
+interrupt status register and determine if a power down 
+condition is indicated by said power down signal, and to 
+
+provide a spin down command to said SCSI controller to 
+ 
+
+spin down said SCSI disk drive if said power down signal 
+is present. 
+The computer system of claim 1, wherein said 
+SCSI device driver further includes: 
+
+   an internal buffer for queuing tasks to be 
+performed by said SCSI disk drive; and 
+
+   wherein said SCSI device driver routine causes 
+said CPU to queue up said spin down command into said 
+
+internal buffer and perform all other tasks outstanding 
+in said internal buffer before executing said spin down 
+
+command. 
+The computer system of claim 2, wherein if 
+other tasks are queued in said internal buffer to be 
+
+performed before said spin down command, said SCSI device 
+driver routine causes said CPU to perform those tasks 
+
+first and then to read said SCSI interrupt status 
+register again and execute said spin down command only if 
+
+said power down condition is still indicated by said 
+power down signal in said SCSI interrupt status register. 
+The computer system of claim 1, wherein said 
+SCSI device driver routine further includes: 
+
+   means for receiving task calls associated with 
+said SCSI disk drive, wherein if a task call is received 
+
+requiring said SCSI disk drive and said SCSI disk drive 
+is spun down, said SCSI device driver routine causes said 
+
+CPU to issue a spin up command to said SCSI controller. 
+The computer system of claim 1, wherein said 
+means for receiving said SCSI activity signal and 
+
+providing said power down request signal comprises:
+ 
+
+   an inactivity counter continually counting 
+down; 
+
+   means coupled to said inactivity counter for 
+re-loading said inactivity counter with a count value 
+
+representing said predetermined period of time whenever 
+said SCSI activity signal indicates activity on said SCSI 
+
+bus; and 
+   means coupled to said inactivity counter for 
+
+detecting when said inactivity counter reaches zero and 
+providing said power down request signal. 
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,560 @@
+<DOC>
+<DOCNO>EP-0632365</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Modified buddy system for managing disk space
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F306	G06F306	G06F1200	G06F1200	G06F1202	G06F1202	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F3	G06F3	G06F12	G06F12	G06F12	G06F12	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A modified buddy system is adopted for managing disk
+space in a disk storage. The modified buddy system uses a
+
+minimal amount of memory space and provides very quick access
+to extents within the disk space. The modified buddy system
+
+utilizes a tree structure of nodes, wherein each node
+represents an extent of disk space. A bitmap is provided for
+
+holding state bits for each of the nodes in the tree
+structure. The bitmap is organized to preserve locality of
+
+reference.
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MICROSOFT CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MICROSOFT CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+FERGUSON ROBERT I
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ZBIKOWSKI MARK
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FERGUSON, ROBERT I.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ZBIKOWSKI, MARK
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates generally to data 
+processing systems and, more particularly, to a modified 
+buddy system for managing disk space in a data processing 
+system. Free space on disk has generally been managed in 
+one of three ways. In a first approach, the allocation of 
+a disk space for a file has been described by a linked 
+list of sectors allocated to the file. In a second 
+approach, a bitmap has been provided to monitor which 
+sectors of disk space have been allocated. A bit is 
+provided in the bitmap for each sector. The value of the 
+bit associated with the sector specifies whether the 
+sector has been allocated or not. In a third approach, 
+allocation is performed on extents (i.e., a contiguous set 
+of sectors on the disk). As such, space is allocated in 
+ranges of adjacent sectors rather than in individual 
+sectors. In accordance with a first aspect of the present 
+invention, a method is practiced in a data processing 
+system having disk storage with disk space of a given 
+size. In this method, disk space is managed by initially 
+modeling the disk space as a tree structure having 
+multiple levels of nodes wherein the levels successively 
+decrease from a top level to a bottom level. Each node in 
+each level represents an extent of the disk space and, for 
+each level, nodes within the level represent extents of a 
+like size. The size of the extents represented by the 
+nodes decreases with decreasing level, but the number of  
+ 
+nodes increases with decreasing level. The sum of the 
+sizes of the nodes for each successive level equals the 
+given size of the disk space. Each node in each level 
+represents an extent of the disk space and, for each 
+level, nodes within the level represent extents of a like 
+size. Each node in each level other than the bottom level 
+is a parent node having links connecting the parent node 
+to the child nodes in a next successive level. The child 
+nodes are siblings of each other. The child nodes 
+represent extents that are subdivisions of the extent 
+represented by the parent node. State information about 
+each node is stored in the bitmap that specifies whether 
+the extent represented by the node is known to be at least 
+partially allocated or not. The bitmap of the tree 
+structure is used to manage the disk space. The state information may constitute at least 
+one state bit for each node in the tree structure. The 
+bitmap is preferably an ordered bitmap where the state 
+bits for the nodes are ordered in a breadth first fashion 
+beginning with the top level
+</DESCRIPTION>
+<CLAIMS>
+In a data processing system having disk storage 
+with disk space of a given size, a method of managing the disk 
+
+space, comprising the steps of: 
+
+(a) modeling the disk space as a tree structure 
+having multiple successively decreasing levels of nodes 
+
+ranging from a top level to a bottom level, wherein each node 
+represents an extent of the disk space and, for each level, 
+
+nodes within the level represent extents of a like size, each 
+node in each level other than the bottom level is a parent 
+
+node having links connecting the parent node to child nodes, 
+that are siblings, in a next successive level, the extents 
+
+represented by the child nodes constitute a complete 
+subdivision of the extent represented by the parent node, the 
+
+size of the extents represented by the nodes decreases in each 
+successive level and the sum of the sizes of the extents 
+
+represented by the nodes for each successive level equals the 
+given size of the disk space; 
+(b) storing state information about each node in a 
+bitmap that specifies whether the extent represented by the 
+
+node is known to be at least partially allocated or not; and 
+(c) using the bitmap and the tree structure to 
+manage the disk space. 
+The method recited in claim 1 wherein the step 
+of using the bitmap and the tree structure to manage the disk 
+
+space further comprises the step of allocating an extent of 
+the disk space represented by a node. 
+The method recited in claim 2 wherein the step 
+of allocating an extent of the disk space represented by the 
+
+node further comprises the steps of: 
+
+(i) updating the state information that is stored 
+in the bitmap about the node to specify that the extent 
+
+represented by the node is known to be at least partially 
+allocated; 
+(ii) examining the state information that is stored 
+in the bitmap about a parent node of the node to determine 
+
+whether the extent represented by the parent node is known to 
+be at least partially allocated or not; 
+(iii) where it is determined that the extent 
+represented by the parent node is not known to be at least 
+
+partially allocated, updating the state information that is 
+stored in the bitmap about the parent node to specify that the 
+
+extent represented by the parent node is known to be at least 
+partially allocated; and 
+(iv) where it is determined that the extent 
+represented by the parent node is known to be at least 
+
+partially allocated, maintaining the state information that is 
+stored in the bitmap about the parent node. 
+The method recited in claim 3, further 
+comprising the steps of: 
+
+
+(v) denoting the parent node as a current node; 
+(vi) determining whether there is an additional 
+parent node for the current node; 
+(vii) where there is the additional parent node for 
+the current node, examining the state information that is 
+
+stored in the bitmap about the additional parent node to 
+determine whether the extent represented by the additional 
+
+parent node is known to be at least partially allocated or 
+not; 
+(viii) where there is no additional parent node 
+for the current node or where there is the additional extent 
+
+represented by the parent node for the current node and the 
+additional parent node is known to be at least partially 
+
+allocated, maintaining the state information stored in the 
+bitmap; and 
+(ix) where there is the additional parent node for 
+the current node and the extent represented by the additional 
+
+parent node is not known to be at least partially allocated, 
+updating the state information that is stored in the bitmap 
+
+about the additional parent node to specify that the extent 
+ 
+
+represented by the additional parent node is known to be at 
+least partially allocated. 
+The method recited in claim 4, further 
+comprising the steps of: 
+
+
+(x) denoting the additional parent node as the 
+current node; 
+(xi) determining whether there is a new additional 
+parent node for the current node; and 
+(xii) where there is the new additional parent 
+node, repeating steps (vii) - (ix) using the new additional 
+
+parent node as the additional parent node. 
+The method recited in claim 1 wherein the step 
+of using the bitmap and the tree structure to manage the disk 
+
+space further comprises the step of deallocating an extent of 
+the disk space represented by one of the nodes. 
+The method recited in claim 6 wherein the step 
+of deallocating an extent of the disk space represented by a 
+
+node further comprises the steps of: 
+
+(i) updating the state information that is stored 
+in the bitmap about the node to indicate that the extent 
+
+represented by the node is not known to be at least partially 
+allocated; 
+(ii) determining if the node has at least one 
+sibling node; and 
+(iii) if the node has at least one sibling node, 
+examining the state information that is stored in the bitmap 
+
+about each sibling node to determine if each of the extents 
+represented by the sibling nodes is not known to be at least 
+
+partially allocated and where it is determined that each of 
+the extents represented by the sibling nodes is not known to 
+
+be at least partially allocated, updating the state 
+information stored in the bitmap about the parent node to 
+
+specify the extent represented by the parent node is not known 
+to be at least partially allocated. 
+The method recited in claim 1 wherein the step 
+of modeling allocation of the disk space as the tree structure 
+
+having multiple successively decreasing levels of nodes 
+further comprises the step of providing the top level to the 
+
+tree structure which consists of a single node representing an 
+extent comprising all of the disk space. 
+The method recited in claim 1 wherein the step 
+of modeling the disk space as the tree structure having 
+
+multiple successively decreasing levels of nodes further 
+comprises the step of providing the bottom level of the tree 
+
+structure, which comprises nodes that represent extents which 
+are each a disk sector in size. 
+The method recited in claim 1 wherein the step 
+of using the bitmap and the tree structure to manage the disk 
+
+space further comprises the steps of: 
+
+(i) allocating the extent of disk space represented 
+by one of the nodes in the tree structure to hold information; 
+
+and 
+(ii) and updating the state information held in the 
+bitmap to specify that the allocated extent is known to be at 
+
+least partially allocated. 
+The method recited in claim 1 wherein the step 
+of using the bitmap and the tree structure to manage the disk 
+
+space further comprises the steps of: 
+
+(i) deallocating an extent of disk space 
+represented by one of the nodes in the tree structure; and 
+(ii) updating the state information held in the 
+bitmap to specify that the deallocated extent node is not 
+
+known to be at least partially allocated. 
+In a data processing system having disk storage 
+with disk space of a given size, a method comprising the steps 
+
+of: 
+(a) modeling the disk space as a tree structure 
+having multiple successively decreasing levels of nodes 
+
+ranging from a top level to a bottom level, wherein each node 
+represents an extent of the disk space, and for each level, 
+
+nodes within the level represent extents of a like size, each 
+node in each level other than the bottom level is a parent 
+
+node having links connecting the parent node to child nodes, 
+that are siblings, in a next successive level, the extents 
+
+represented by the child nodes constitute a complete 
+subdivision of the extent represented by the parent node, the 
+
+size of the extents represented by the nodes decreases in each 
+successive level and the sum of the sizes of the extents 
+
+represented by the nodes for each successive level equals the 
+given size of the disk space; 
+(b) storing at least one state bit for each node in 
+an ordered bitmap where the state bits for the nodes are 
+
+ordered in a breadth first fashion beginning with the top 
+level and continuing in breadth first fashion for each 
+
+successive level, wherein the state bit for each node 
+specifies whether the extent represented by the node is known 
+
+to at least partially allocated; and 
+(c) using the bitmap and the tree structure to 
+manage the disk space. 
+The method recited in claim 12 wherein the step 
+of using the bitmap and the tree structure to manage the disk 
+
+space further comprises the step of allocating an extent 
+represented by one of the nodes. 
+The method recited in claim 13 wherein the step 
+of allocating the extent represented by the node further 
+
+comprises the steps of: 
+
+(i) updating the state bit that is stored in the 
+bitmap about the node to specify that the extent represented 
+
+by the node is known to be at least partially allocated; 
+(ii) examining the state bit that is stored in the 
+bitmap about a parent node of the node to determine whether 
+
+ 
+the extent represented by the parent node is known to be at 
+
+least partially allocated or not; 
+(iii) where it is determined that the extent 
+represented by the parent node is not known to be at least 
+
+partially allocated, updating the state bit that is stored in 
+the bitmap about the parent node to specify that the extent 
+
+represented by the parent node is known to be at least 
+partially allocated; and 
+(iv) where it is determined that the extent 
+represented by the parent node is known to be at least 
+
+partially allocated, maintaining the state bit that is stored 
+in the bitmap about the parent node. 
+The method recited in claim 14, further 
+comprising the steps of: 
+
+
+(v) denoting the parent node as a current node; 
+(vi) determining whether there is an additional 
+parent node for the current node; 
+(v) where there is the additional parent node for 
+the current node, examining the state bit that is stored in 
+
+the bitmap about the additional parent node to determine 
+whether the extent represented by the additional parent node 
+
+is known to be at least partially allocated or not; 
+(vi) where there is no additional parent node for 
+the current node or whether there is the additional parent 
+
+node for the current node and the extent represented by the 
+additional parent node is known to be at least partially 
+
+allocated, maintaining the state bit stored in the bitmap; and 
+(vii) where there is the additional parent node for 
+the current node and the extent represented by the additional 
+
+parent node is not known to be at least partially allocated, 
+updating the state bit that is stored in the bitmap about the 
+
+additional parent node to specify that the extent represented 
+by the additional parent node is known to be at least 
+
+partially allocated. 
+The method recited in claim 15, further 
+comprising the steps of: 
+
+
+(viii) denoting the additional parent node as the 
+current node; 
+(ix) determining whether there is a new additional 
+parent node for the current node; and 
+(x) where there is the new additional parent node 
+repeat steps (v) - (x) using the new additional parent node as 
+
+the additional parent node. 
+The method recited in claim 12 wherein the step 
+of using the bitmap and the tree structure to manage the disk 
+
+space further comprises the step of deallocating an extent of 
+the disk space represented by one of the nodes. 
+The method recited in claim 17, further 
+comprising the steps of: 
+
+
+(i) updating the state bit that is stored in the 
+bitmap about the node to indicate that the extent represented 
+
+by the node is not known to be at least partially allocated; 
+(ii) determining if the node has at least one 
+sibling node; and 
+(iii) if the node has at least one sibling node, 
+examining the state bit that is stored in the bitmap about 
+
+each sibling node to determine if each of the extents 
+represented by the sibling nodes is known to be at least 
+
+partially allocated and updating the state bit stored in the 
+bitmap about the parent node to specify the extent represented 
+
+by the parent node is not known to be at least partially 
+allocated. 
+The method recited in claim 12 wherein the step 
+of storing the state bit for each node in the ordered bitmap 
+
+further comprises the step of storing the state bit for a node 
+immediately next to the state bit for a sibling node in the 
+
+ordered bitmap. 
+The method recited in claim 12 wherein the step 
+of modeling the disk space a
+s the tree structure further 
+comprises the step of modeling the disk space as a binary tree 
+
+structure. 
+The method as recited in claim 20 wherein the 
+size of the nodes decreases in each successive level by 
+
+one-half. 
+The method recited in claim 12 wherein the step 
+of modeling the disk space as the tree structure having 
+
+multiple successively decreasing levels of nodes further 
+comprises the step of providing the top level of the tree 
+
+structure which consists of a single node representing an 
+extent comprising all of the disk space. 
+The method recited in claim 12 wherein the step 
+of modeling the disk space as the tree structure having 
+
+multiple successively decreasing levels of nodes further 
+comprises the step of providing the bottom level to the tree 
+
+structure, which comprises nodes representing extents that are 
+a disk sector in size. 
+In a data processing system having disk storage 
+with disk space of a given size, a method of locating free 
+
+disk space in the disk storage, comprising the steps of: 
+
+(a) modeling the disk space as a tree structure 
+having multiple successively decreasing levels of nodes 
+
+ranging from a top level to a bottom level, wherein each node 
+represents an extent of the disk space and, for each level, 
+
+nodes within the level represent extents of a like size, each 
+node in each level other than the bottom level is a parent 
+
+node having links connecting the parent node to child nodes 
+that are siblings in a next successive level, the extents 
+
+represented by the child nodes constitute a complete 
+subdivision of the extent represented by the parent node, the 
+
+size of the extents represented by the nodes decreases in each 
+ 
+
+successive level and the sum of the sizes of the extents 
+represented by the nodes for each successive level equals the 
+
+given size of the disk space; 
+(b) storing state information about each node in a 
+bitmap that specifies whether the extent is known to be at 
+
+least partially allocated or not; 
+(c) examining the state information in the bitmap 
+about a selected one of the nodes in the tree structure that 
+
+represents an extent of disk space of a desired size; 
+(d) where the state information in the bitmap about 
+the selected node specifies that the extent represented by the 
+
+selected node is not known to be at least partially allocated, 
+
+(i) examining the state information in the 
+bitmap about each sibling of the selected node to determine if 
+
+any of the siblings are known to be at least partially 
+allocated; and 
+(ii) where any sibling is known to be at least 
+partially allocated, concluding that the selected node is 
+
+free. 
+The method recited in claim 24, further 
+comprising the steps, of where the state information about the 
+
+selected node specifies that the extent represented by the 
+selected node is known to be at least partially allocated and 
+
+additional nodes exist in the tree structure at the same level 
+as the selected node, designating a next node in the tree 
+
+structure, at the same level as the selected node, as the 
+selected node and repeating the method beginning with 
+
+step (d). 
+The method recited in claim 25, further 
+comprising the step of storing state information in the bitmap 
+
+in a breadth first fashion according to ordering of the nodes 
+in the tree structure beginning with the top level and 
+
+continuing in breadth first fashion for each successive level 
+of nodes. 
+The method recited in claim 26 wherein the next 
+node is a node which has its state information in the bitmap 
+
+immediately adjacent to the selected node. 
+The method recited in claim 26 wherein the next 
+node is a node which has its state information stored closest 
+
+in the bitmap to state information for a predetermined node 
+among the nodes of the same level as the selected node and 
+
+having state information that has not yet been examined in the 
+method. 
+The method recited in claim 24, the method 
+further comprising the steps of, where it is determined that 
+
+none of the sibling nodes are known to be at least partially 
+allocated: 
+
+   examining state information in the bitmap about a 
+parent node of the selected node to determine whether the 
+
+parent node is known to be at least partially allocated; and 
+   where the patent node is not known to be at least 
+
+partially allocated, designating the parent node as the 
+selected node and repeating the method beginning with 
+
+step (d). 
+The method recited in claim 29, further 
+comprising the steps of, where it is determined that the 
+
+parent node is known to be at least partially allocated, 
+designating a next node in the tree structure at the same 
+
+level as the selected node, other than the selected node and 
+the siblings of the selected node, as the selected node and 
+
+repeating the method beginning with step (d). 
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,362 @@
+<DOC>
+<DOCNO>EP-0645025</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+SYSTEM AND METHOD FOR CONTROLLING A PLANT
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G05B1302	G06N300	G05B1304	G05B1302	G05B1304	G06N300	G06F1518	G06F1518	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G05B	G06N	G05B	G05B	G05B	G06N	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G05B13	G06N3	G05B13	G05B13	G05B13	G06N3	G06F15	G06F15	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A plant (72) is operable to receive control inputs c(t) and provide an output y(t). The plant (72) has associated therewith state variables s(t) that are not variable. A control network (74) is provided that accurately models the plant (72). The output of the control network (74) provides a predicted output which is combined with a desired output to generate an error. This error is back propagated through an inverse control network (76), which is the inverse of the control network (74) to generate a control error signal that is input to a distributed control system (73) to vary the control inputs to the plant (72) in order to change the output y(t) to meet the desired output. The control network (74) is comprised of a first network NET 1 that is operable to store a representation of the dependency of the control variables on the state variables. The predicted result is subtracted from the actual state variable input and stored as a residual in a residual layer (102). The output of the residual layer (102) is input to a hidden layer (108) which also receives the control inputs to generate a predicted output in an output layer (106). During back propagation of error, the residual values in the residual layer (102) are latched and only the control inputs allowed to vary.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+PAVILION TECH INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+PAVILION TECHNOLOGIES INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+FERGUSON RALPH BRUCE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HARTMAN ERIC JON
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KEELER JAMES DAVID
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LIANO KADIR
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FERGUSON, RALPH, BRUCE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HARTMAN, ERIC, JON
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KEELER, JAMES, DAVID
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LIANO, KADIR
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention pertains in general to neural networks, and more
+particularly to a method and apparatus for improving performance and accuracy in
+neural networks by utilizing the residual activation in subnetworks. Neural networks are generally utilized to predict, control and optimize a
+process. The neural network is generally operable to learn a non-linear model of a
+system and store the representation of that non-linear model. Therefore, the neural
+network must first learn the non-linear model in order to optimize/control that
+system with that non-linear model. In the first stage of building the model, the
+neural network performs a prediction or forecast function. For example, a neural
+network could be utilized to predict future behavior of a chemical plant from the
+past historical data of the process variables. Initially, the network has no knowledge
+of the model type that is applicable to the chemical plant. However, the neural
+network "learns" the non-linear model by training the network on historical data of
+the chemical plant. This training is effected by a number of classic training
+techniques, such as back propagation, radial basis functions with clustering, non-radial
+basis functions, nearest-neighbor approximations, etc. After the network is
+finished learning on the input data set, some of the historical data of the plant that
+was purposefully deleted from the training data is then input into the network to
+determine how accurately it predicts on this new data. If the prediction is accurate,
+then the network is said to have "generalized" on the data. If the generalization
+level is high, then a high degree of confidence exists that the prediction network has
+captured useful properties of the plant dynamics.In order to train the network, historical data is typically provided as a
+training set, which is a set of patterns that is taken from a time series in the form of
+a vector, x(t) representing the various input vectors and a vector, y(t) representing
+the actual outputs as a function of time for t=1, 2, 3 ... M, where 
+M is the number of training patterns. These inputs could be temperatures,
+pressures, flow-rates, etc., and the outputs could be yield, impurity levels, variance,
+etc. The overall goal is to learn this training data and then generalize to new
+patterns.With the training set of inputs and outputs, it is then possible to construct a
+function that is imbedded in the neural network as follows:
+o(t) = f(x(t),P)
+Where o(t) is an output vector and P is a vector or parameters
+</DESCRIPTION>
+<CLAIMS>
+A control system for controlling a plant (72), the system
+having plant control inputs for receiving plant control variables (c(t)),
+
+measurable state variables (s(t)) of the plant and desired plant outputs
+(O
+D
+(t)), the measurable state variables (s(t)) having dependencies on the
+plant control variables (c(t)) and unmeasurable external influences on the
+
+plant, the system comprising:
+
+a control network input (83) for receiving as network inputs
+
+the current plant control variables (c(t)), the measurable state variables
+(s(t)) and desired plant outputs (O
+D
+(t));
+a control network output (82), for outputting predicted
+plant control variables (c(t+1)) necessary to achieve the desired plant
+
+outputs;
+a processing system (74, 76, 77 and 78) for processing the
+received plant control variables (c(t)) through an inverse representation
+
+(76) of the plant (72) that represents the dependencies of the plant
+output on the plant control variables (c(t)) and the measurable state
+
+variables (s(t)) parameterized by an estimation of the unmeasurable
+external influences to provide the predicted plant control variables
+
+(c(t+1)) to achieve the desired plant outputs (O
+D
+(t)); and
+an interface device (73) for inputting the predicted plant
+control variables that are output by said control network output to the
+
+plant as plant control variables (c(t+1) to achieve the desired plant
+outputs.
+A control system as claimed in Claim 1, wherein said
+processing system comprises:
+
+
+an estimation network (76, 78) for estimating the
+unmeasurable external influences on the plant (72) and output estimated
+
+external influences; and 
+means for parameterizing the inverse representation of the
+plant with the estimated influences.
+A control system as claimed in Claim 1 or Claim 2, wherein
+the inverse representation of said processing system is a general non-linear
+
+inverse representation.
+A control system as claimed in any preceding claim,
+wherein the control variables are variables that can be manipulated.
+A control network system as claimed in any of Claims 2 to
+4, wherein said processing system comprises:
+
+
+a first intermediate output (102) for providing a predicted
+plant output;
+a first intermediate processing system (76) for receiving the
+plant control variables (c(t)) from said control network input and the
+
+estimated external influences from said estimation network for
+processing through a predictive model of the plant to generate the
+
+predicted plant outputs for output from said intermediate output;
+an error generation device (78) for comparing the
+predicated plant outputs to the desired plant outputs and generating an
+
+error representing the difference therebetween;
+a second intermediate processing system (76) for
+processing the error through the inverse representation of the plant that
+
+represents the dependencies of the plant output on the plant control
+variables (c(t)) and the measurable state variable (s(t)) parameterized by
+
+the estimated unmeasurable external influences to output predicted
+control variable change values; and
+a control system (73) for inputting said predicted control
+variable change values to the input of said first intermediate processing
+
+system for summing with the control variable input to provide a summed 
+control variable value, and processing the summed control variable
+
+through said first processing system to minimize said error and output
+the summed control variable value (c(t+1)) as the predicted control
+
+variables.
+A control network system as claimed in Claim 5, wherein
+said second intermediate processing system (76) comprises:
+
+
+a neural network having an input layer (96) for receiving
+said error;
+an output layer (100) for providing the predicted output of
+the plant;
+a hidden layer (98) for mapping said input layer to said
+output layer through an inverse representation of the plant that
+
+represents the dependencies of the plant output on the plant control
+variables and the measurable state variables (s(t)) parameterized by the
+
+unmeasurable external influences to provide as an output from the
+output layer the control variable change values.
+A control system as claimed in Claim 5 or Claim 6, wherein
+said control system utilizes a gradient descent procedure to minimize
+
+said error.
+A control system as claimed in Claim 5 or Claim 6, wherein
+said control system utilizes a Monte Carlo technique to minimize said
+
+error.
+A control system as claimed in any of Claims 5 to 8,
+wherein said second intermediate processing system and said estimation
+
+network comprise:
+
+a residual activation neural network having: 
+a residual neural network for receiving at inputs in an input
+layer (96, 104) the plant control variables (c(t)) and non-manipulatable
+
+plant state variables (s(t)) dependant on the plant control variables, and
+mapping the received plant control variables through a hidden layer
+
+(108) to an output layer (106), the hidden layer (108) having a
+representation of the dependencies of the measurable plant state
+
+variables (s(t)) on the plant control variables (c(t)) to provide as an
+output from said output layer predicted state variables,
+a residual layer (102) for determining as a residual the
+difference between the plant state variables and the predicted state
+
+variables as an estimation of the external influences on the plant, and
+a latch (113) for latching said residual determined in said
+residual layer (102) after determination thereof; and
+
+a main neural network having:
+an input layer (96) for receiving the plant control variables
+(c(t)) and said latched residual,
+an output layer (100) for outputting a predicted plant
+output, and
+a hidden layer (98) for mapping said input layer to said
+output layer through a representation of the plant as a function of the
+
+plant control variable inputs and said latched residual, said main neural
+network operating in an inverse mode to receive at the output layer said
+
+error and back propagate said error through said hidden layer to said
+input layer with said residual latched in said latch to output from said
+
+input layer said predicted control variable change values.
+A method of controlling a plant (72) having measurable
+state variables (s(t)) and plant control inputs for receiving plant control
+
+variables (c(t)) and desired plant outputs (O
+D
+(t)), the measurable state
+variables (s(t)) being a function of the plant control variables (c(t)) and
+
+unmeasurable external influences on the plant, 
+
+the method comprising the steps of:
+receiving the current plant control variables (c(t)) and
+desired plant outputs (O
+D
+(t));
+processing the received plant control variables through an
+inverse representation (76) of the plant (72) that represents the
+
+dependencies of the plant output on the plant control variables (c(t)) and
+the measurable state variables (s(t)) parameterized by an estimation of
+
+the unmeasurable external influences to provide the predicted plant
+control variables necessary to achieve the desired plant outputs (O
+D
+(t));
+outputting as an output the predicted plant control variables
+necessary to achieve the desired plant outputs (O
+D
+(t)); and
+controlling the plant with the predicted plant control
+variables.
+A method as claimed in Claim 10, wherein the inverse
+representation of the processing system is a general non-linear inverse
+
+representation.
+A method as claimed in Claim 10 or 11, wherein the control
+variables are variables that can be manipulated.
+A method as claimed in any of Claims 11 to 12, comprising:
+
+estimating the unmeasurable external influences on the
+plant as estimated external influences; and
+parameterizing the inverse representation of the plant with
+the estimated external influences.
+A method as claimed in Claim 13, wherein the step of
+processing comprises:
+
+
+processing in a first intermediate processing step the plant
+control variables and the unmeasurable estimated external influences 
+
+through a predictive model of the plant to generate the predicted plant
+outputs for output from an intermediate output (102);
+comparing the predicted plant outputs to the desired plant
+outputs (O
+D
+(t)) and generating an error representing the difference
+therebetween; and
+processing in a second intermediate processing step the
+error through the inverse representation of the plant that represents the
+
+dependencies of the plant output on the plant control variables and the
+measurable state variables (s(t)) parameterized by the estimated
+
+unmeasurable external influences to output predicted control variable
+change values; and
+changing the input control variables to the first intermediate
+step by the control variable change values to provide the predicted plant
+
+control variables.
+A method as claimed in Claim 14, wherein the second
+intermediate processing step comprises:
+
+
+receiving on input layer (104) of a neural network the error;
+mapping the neural network input layer to a neural network
+output layer (106) through a neural network hidden layer (108) having
+
+stored therein a local representation of the plant; and
+operating the neural network in an inverse relationship
+wherein the error is received as an input in the output layer and
+
+propagated through the hidden layer having a local inverse
+representation of the plant that represents the dependencies of the plant
+
+output on the plant control variables and the measurable state variables
+(s(t)) parameterized by the estimate of unmeasurable external influences
+
+to provide as an output from the neural network input layer the
+predicted plant control variable change values, wherein the error is back
+
+propagated through the neural network hidden layer to the neural
+network input layer.
+A method as claimed in Claim 14 or Claim 15, wherein the
+first intermediate processing step includes the step of estimating and
+
+comprises:
+
+receiving the plant control variables (c(t)) on an input layer
+to a residual neural network and mapping the received plant control
+
+variables (c(t)) to a residual neural network output layer (106) through a
+hidden layer (108), the hidden layer (108) having a representation of the
+
+dependencies of non-manipulatable plant state variables (s(t)) on the
+plant control variables (c(t)) to provide from the output layer predicted
+
+state variables as a function of the plant control variables, the residual
+comprising the estimation of the external influences;
+determining as a residual the difference between the plant
+state variables (s(t)) and the predicted state variables;
+latching the determined residual after determination thereof;
+receiving the plant control variables and the latched residual
+on an input layer (96) of a main neural network; and
+mapping the input layer (96) of the main neural network to
+an output layer (100) of the main neural network through a main neural
+
+network hidden layer (98) having stored therein a representation of the
+plant as a function of the plant control variable inputs and the residual,
+
+to output from the output layer the predicted plant outputs.
+A method as claimed in Claim 16, wherein the step of
+changing the input control variables comprises iteratively changing the
+
+input control variables by summing with the predicted control variable
+change values to minimize the error in accordance with a gradient
+
+descent technique.
+</CLAIMS>
+</TEXT>
+</DOC>

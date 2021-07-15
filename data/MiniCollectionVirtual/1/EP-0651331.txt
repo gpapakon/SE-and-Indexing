@@ -1,0 +1,407 @@
+<DOC>
+<DOCNO>EP-0651331</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+A write buffer for a superpipelined, superscalar microprocessor
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1208	G06F938	G06F1204	G06F1208	G06F938	G06F1204	G06F9312	G06F9312	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F12	G06F9	G06F12	G06F12	G06F9	G06F12	G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A superscalar, superpipelined microprocessor having a write buffer located 
+between the central processing unit core and memory cache. The write buffer stores 
+
+the results of write operations to memory until the cache memory becomes 
+available, i.e., when no high-priority reads are to be performed. The write buffer 
+
+includes multiple entries that are split into two circular buffer sections for 
+facilitating the interaction with the two core pipelines. Cross-dependency tables are 
+
+provided for each write buffer entry to ensure that the data is written from the write 
+buffer to memory in program order, while considering any prior data in the 
+
+opposite section. Non-cacheable reads from memory are also ordered in program 
+order with the writing of data from the write buffer. Features for performing 
+
+misaligned writes, handling speculative execution, detecting and handling data 
+dependencies and exceptions, and performing gathered writes are also included 
+
+within the microprocessor. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+NAT SEMICONDUCTOR CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+NATIONAL SEMICONDUCTOR CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BLUHM MARK
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GARIBAY RAUL A JR
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HERVIN MARK W
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+PATWA NITAL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+QUATTROMANI MARC A
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BLUHM, MARK
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GARIBAY, RAUL A., JR.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HERVIN, MARK W.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+PATWA, NITAL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+QUATTROMANI, MARC A.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention is in the field of integrated circuits of the microprocessor type,
+and is more specifically directed to memory access circuitry in the same.In the field of microprocessors, the number of instructions executed per
+second is a primary performance measure. As is well known in the art, many
+factors in the design and manufacture of a microprocessor impact this measure. For
+example, the execution rate depends quite strongly on the clock frequency of the
+microprocessor. The frequency of the clock applied to a microprocessor is limited,
+however, by power dissipation concerns and by the switching characteristics of the
+transistors in the microprocessor.The architecture of the microprocessor is also a significant factor in the
+execution rate of a microprocessor. For example, many modern microprocessors
+utilize a "pipelined" architecture to improve their execution rate if many of their
+instructions require multiple clock cycles for execution. According to conventional
+pipelining techniques, each microprocessor instruction is segmented into several
+stages, and separate circuitry is provided to perform each stage of the instruction.
+The execution rate of the microprocessor is thus increased by overlapping the
+execution of different stages of multiple instructions in each clock cycle. In this
+way, one multiple-cycle instruction may be completed in each clock cycle. An article by M Nakajima et al, entitled "OHMEGA: A VLSI Superscalar
+Processor Architecture for Numerical Applications" and published in Computer
+Architecture News, vol. 19, no. 3, May 1991 at pages 160-168, describes a processor
+incorporating a two-stage pipelining and a data cache with a four stage entry store
+buffer.European patent application EP-A-0,422,690 describes a processor, for
+example a microprocessor. A write buffer in the processor receives instruction results.
+The write buffer includes a plurality of buffer entries. An external cache memory also
+has a plurality of memory locations. External control logic is provided.By way of further background, some microprocessor architectures are of the
+"superscalar" type, where multiple instructions are issued in each clock cycle for 
+execution in parallel. Assuming no dependencies among instructions, the increase
+in instruction throughput is proportional to the degree of scalability.Another known technique for improving the execution rate of a
+microprocessor and the system in which it is implemented is the use of a cache
+memory. Conventional cache memories are small high-speed memories
+</DESCRIPTION>
+<CLAIMS>
+A microprocessor comprising:
+
+central processing means (20) for processing data according to operations
+defined by instructions to be executed in a program order;
+a write buffer (29) coupled to the central processing means (20) for
+receiving instruction results, the write buffer including a plurality of buffer entries (152),
+
+each write buffer entry being arranged in first and second sections (152x, 152y);
+a cache memory (60) that has a plurality of memory locations and is
+coupled to the write buffer (29) for receiving data therefrom, and to the central processing
+
+means (20) for presenting data thereto;
+a bus (DATA, ADS) coupled to the central processing means (20), the write
+buffer (29), and the cache memory (60); and
+control logic means (150) for controlling the write buffer (29) so that
+instruction results stored therein are presented to the cache memory (60) in program
+
+order,
+
+   wherein:
+
+each buffer entry in said first and second sections (152x, 152y) includes a plurality
+of cross-dependency bits (XDEP), each cross-dependency bit corresponding to one of the
+
+buffer entries in the respective second and first sections (152x, 152y) and indicating,
+when set, that the corresponding buffer entry was allocated in advance thereof and its
+
+contents have not yet been presented to said cache; and
+said control logic means (150) is operable to present the data of each write buffer
+entry (152) to said cache only when its cross-dependency control bits (XDEP) are clear.
+A microprocessor according to claim 1, wherein the central processing
+means includes first and second pipelines (102, 104) and said first and second sections 
+
+(152x, 152y) of the write buffer entries are associated with the respective first and second
+pipelines.
+A microprocessor according to claim 1 or claim 2, wherein said write buffer
+entries or write buffer entry sections (152) each comprises a data portion to receive
+
+operation results and an address portion to store physical memory addresses at which
+results are stored.
+A microprocessor according to any of claims 1 - 3, wherein
+
+said central processing means (20) is operable to process data according to
+operations defined by a first type of program instructions;
+said microprocessor also including secondary processing means (70) operable to
+process data according to operations defined by a second type of program instructions, the
+
+secondary processing means providing results having a data word greater in bit width than
+that provided by the central processing means (20); and including
+secondary data latch means (166) for storing results of the secondary processing
+means that are written to memory at a physical address stored in a buffer entry; and
+
+routing means (163) for routing the data portion of the write buffer entry (152) or
+
+contents of the secondary data latch means, to the cache memory (60).
+A microprocessor according to any of claims 1-4, further comprising:
+
+misaligned write control logic (150) coupled to the bus, to detect whether an
+instruction is a misaligned write instruction;
+a shifter (164) coupled to the write buffer (29) to shift the contents of a first entry
+of the plurality of entries detected as a misaligned write instruction by the misaligned
+
+write control logic (150), prior to presentation of the first entry to the cache memory (60);
+and 
+a misaligned write latch (162) coupled to the shifter and to the cache memory (60)
+to latch the shifted contents of the first entry of the plurality of entries and to present the
+
+data corresponding to the misaligned write to the cache memory (60) in first and second
+write cycles.
+The microprocessor of claim 5, wherein each of the plurality of entries in
+the write buffer (29) includes a misaligned write control bit (MAW) that is set by the
+
+misaligned write control logic (150) in response to detection that an instruction is a
+misaligned write instruction.
+The microprocessor of claim 6, wherein the misaligned write control logic
+(150) further sets the misaligned write control bit (MAW) in all of the plurality of entries
+
+responsive to detecting the misaligned write instruction.
+The microprocessor of claim 7, wherein the misaligned write control logic
+(150) further loads the first entry of the plurality of entries with a physical address in
+
+response to the write operation being detected as a misaligned write, and further loads a
+second entry of the plurality of entries with a higher order physical address from that
+
+stored in the first entry of the plurality of entries to serve as the address for the second
+write cycle.
+A microprocessor according to any of claims 1 - 8, further comprising:
+
+gathered write control logic means (150) for detecting that first and second
+instructions include memory writes to addresses in the same byte group; and
+gathered write latch means (165) for storing a data portion of the first and
+second instructions responsive to the gathered write control logic means (150), and for
+
+presenting its contents to the cache memory (60) in a single write cycle.
+A microprocessor according to any of claims 1 - 9, wherein
+
+said central processing means (20) comprises central processing pipeline means
+(102, 104) for processing data according to operations defined by program instructions so
+
+that a writeback stage (WB) and an address calculation stage (AC) of a first and a second
+program instruction, respectively, are processed substantially simultaneously;
+read after write control logic means (150) for comparing a physical address of a
+read operation requested by the second instruction in the address calculation stage (AC) to
+
+addresses associated with each of the plurality of buffer entries (152) to detect a read-after-write
+data dependency between the first and second instructions.
+A microprocessor according to any of claims 1 - 10, wherein each of the
+plurality of buffer entries (152) includes at least one speculation control bit (SPEC)
+
+indicating, when set, that data to be written to its buffer entry is from execution of an
+instruction in a predicted branch in program sequence after an instruction of the
+
+conditional branch type; and
+
+   speculation control logic (150) for controlling the presentation of data by the write
+buffer (29) to the cache memory (60) so that each write buffer entry (152) presents data to
+
+the cache memory (60) only if the speculation control bit is not set.
+A method of buffering results of data processing operations executed by a
+microprocessor central processing unit (20) according to a series of instructions in a
+
+program order, comprising:
+
+(a) for each of a plurality of instructions, determining a physical address to
+which instruction results are to be written (170), and for each such physical address,
+
+storing the determined physical address into one of a plurality of write buffer entries
+(176), each write buffer entry being arranged in first and second sections (152x, 152y); 
+(b) executing the instructions (190);
+(c) storing the executed instruction results into the write buffer entries (152) in
+which are stored the corresponding physical addresses for the respective instructions
+
+(194); and
+(d) retrieving, in the program order, the stored results from the write buffer
+entries (200), for storage in the cache memory (60) at a location associated with the stored
+
+memory address (210);
+
+   wherein:
+
+each buffer entry in said first and second sections (152x, 152y) includes a plurality
+of cross-dependency bits (XDEP), each cross-dependency bit corresponding to one of the
+
+buffer entries in the respective second and first sections (152x, 152y) and indicating,
+when set, that the corresponding buffer entry was allocated in advance thereof and its
+
+contents have not yet been presented to said cache; and
+the data of each write buffer entry (152) is retrieved from the write buffer entries
+only when its cross-dependency control bits (XDEP) are clear.
+A method according to claim 14, wherein said first and second sections
+(152x, 152y) are associated with respective pipelines of the central processing unit.
+A method according to claim 12 or claim 13, wherein for processing a
+misaligned write operation:
+
+
+said step (a) is effected by initially identifying whether an instruction is a
+misaligned write operation (281), and determining a first physical memory address of a
+
+first portion to which results of an identified misaligned write operation are to be written,
+storing the first physical memory address in a first write buffer entry (286), and
+
+determining a second physical memory address of a second portion to which results of an
+identified misaligned write operation are to be written; 
+in step (b) executing the misaligned write operation (190);
+in step (c) storing the first and second portions of the executed operation results in
+the first write buffer entry (152) and latching the first and second portions of the
+
+operation results from the first write buffer entry (152) into a latch (292); and
+in step (d) presenting the first physical address and the first latched portion of the
+operation results to the cache memory (60) in a first write cycle (294); and presenting the
+
+second physical address and the second latched portion of the operation results to the
+cache memory (60) in a second write cycle (296).
+The method of claim 14, wherein the first physical address corresponds to a
+lower order address than the second physical address.
+The method of claim 15, further comprising, prior to step (d), shifting the
+first and second portions of the instruction results so that the first portion of the
+
+instruction results resides in higher order byte positions than the second portion of the
+instruction results.
+The method of claim 16, further comprising in response to identification
+
+that an instruction is a misaligned write operation, setting a misaligned write control bit in
+the first write buffer entry (152) to indicate that the write operation thereto will be a
+
+misaligned write (284).
+The method of claim 17, wherein the latching of the first and second
+portions of the instruction results is performed responsive to the misaligned write control
+
+bit (MAW) being set in the first write buffer entry (292). 
+A method according to any of claims 12 - 18, wherein for processing writes
+to memory and non-cacheable reads from memory:
+
+
+said step (a) includes storing the determined physical address into one of a
+plurality of write buffer entries (152) and setting an address valid control bit (AV) in the
+
+write buffer entry (152) in which the physical address is stored, determining the physical
+address of the memory location from which the non-cacheable read is to be accessed for
+
+each non-cacheable read instruction (312), and loading a non-cacheable read dependency
+field (310) having a plurality of bit positions (314), each bit position corresponding to one
+
+of the write buffer entries (152), with the state of the address valid control bits for the
+corresponding write buffer entry (152);
+and in said step (d) also includes clearing the bit in the non-cacheable read
+dependency field corresponding to the retrieved write buffer entry (152), and performing
+
+the non-cacheable read (320), responsive to the non-cacheable read dependency field
+being clear.
+A method according to any of claims 12 - 19, of buffering results of data
+processing operations executed by a pipelined microprocessor, comprising for data that is
+
+communicated in a byte group from the write buffer (29) to the cache memory (60) in a
+write cycle,
+
+
+in step (a) detecting that first and second instructions include memory writes to
+addresses in the same byte group (299); determining first and second physical memory
+
+addresses to which results of the instruction are to be written in memory; and storing the
+first and second physical addresses in first and second write buffer entries (152),
+
+respectively (302);
+in step (c) storing and latching the results of the first and second instructions in the
+first and second write buffer entries (152), respectively (304); and 
+in step (d) presenting a physical address corresponding to the byte group of the
+first and second physical addresses and the said latched results to the cache memory (60)
+
+in a write cycle (308).
+A method according to any of claims 12 - 20, wherein:
+
+said step (a) comprises determining a first memory address for storage of results of
+a first instruction and storing that first memory address in a first entry of a plurality of
+
+write buffer entries (152), determining a second memory address from which data is to be
+read for a second instruction, the second instruction being later in program order than the
+
+first instruction, and comparing that second memory address against the first memory
+address stored in the first entry of the plurality of write buffer entries (152) to detect a
+
+match;
+in step (e) executing a first instruction to produce a first result (190);
+in step (c) storing the first result in the first write buffer entry (194); and,
+in step (d) retrieving the first result from the first write buffer entry (200) for
+storage in the cache memory (60) at a location associated with the first memory address
+
+(210).
+A method according to any of claims 12 - 21, wherein for executing data
+operations by a pipelined microprocessor according to a series of instructions including at
+
+least one conditional branch instruction:
+
+step (a) includes detecting a conditional branch instruction; predicting a first
+sequence of instructions to be executed prior to determining the state of a condition upon
+
+which step said detection depends; for an instruction in a predicted first sequence
+corresponding to a write to memory, determining a first physical memory address to
+
+which results are to be written in memory; and storing the first physical address in a first
+write buffer entry (242); 
+step (b) includes executing the write to memory instruction predicted in step (a)
+(244);
+step (c) includes storing the results of step (b) in the first write buffer entry (152);
+determining the condition upon which the conditional branch instruction depends, and in
+
+response to such determination, indicating that said prediction was correct (260); and
+step (d) includes retrieving the results of the first write buffer entry (152) for
+storage in the cache memory (60).
+A method according to any of claims 12 - 22, wherein for buffering results
+of data processing operations executed by said central processing means (20) and a
+
+secondary processing means (70), wherein a said write buffer entry (152) has a data
+portion and an address portion, and wherein results of the secondary processing unit
+
+operations correspond to data words of greater bit width than that of the data portion of
+the write buffer entries (152):
+
+
+effecting said step (a) by determining a first memory address to store results of a
+first instruction (170), and storing the first memory address determined in the address
+
+portion of a first write buffer entry (176);
+effecting said step (b) by executing a first instruction with either the central
+processing means (20) or the secondary processing means (70);
+in said step (c), in response to the secondary processing unit executing the first
+instruction, storing results in a secondary data latch (166) having a wider bit width than
+
+the data portion of the plurality of write buffer entries (152), and in response to the central
+processing unit executing the first instruction, storing the results of the first instruction in
+
+the data portion of the first write buffer entry (194);
+and effecting said step (d) by retrieving results of the first instruction from the
+write buffer (29) to store in the cache memory (60) by selecting the contents of the
+
+secondary data latch (166) if the first instruction was executed by the secondary 
+processing means (70), or selecting the contents of the data portion of the first write
+
+buffer entry (152) if the first instruction was executed by the central processing unit (20);
+and presenting the contents selected in step (f) to the cache memory (60) in combination
+
+with the first physical address stored in the first write buffer entry (152).
+</CLAIMS>
+</TEXT>
+</DOC>

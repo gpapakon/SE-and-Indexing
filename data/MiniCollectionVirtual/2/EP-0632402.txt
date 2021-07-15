@@ -1,0 +1,260 @@
+<DOC>
+<DOCNO>EP-0632402</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method for image segmentation and classification of image elements for document processing
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06K934	G06K936	G06K920	G06K934	G06K920	G06K900	G06K962	G06K936	G06K900	G06K962	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06K	G06K	G06K	G06K	G06K	G06K	G06K	G06K	G06K	G06K	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06K9	G06K9	G06K9	G06K9	G06K9	G06K9	G06K9	G06K9	G06K9	G06K9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method to segment, classify and clean an image is presented. 
+It may be used in applications which have image data as their 
+
+input that contains different classes of elements. The method 
+will find, separate and classify those elements. Only 
+
+significant elements must be kept for further processing and 
+thus the amount of processed data may be significantly 
+
+reduced. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+RINDTORFF KLAUS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+RINDTORFF, KLAUS
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The invention pertains to a method for image segmentation and
+classification of image elements for document processing,
+especially for removing unwanted information like e. g. form
+elements, lines or printed characters or the like, from
+documents prior to character recognition of written
+information, especially prior to analyzing and recognizing a
+signature.For the processing of images a picture is usually captured
+using a camera or a scanner. The resulting image is stored as
+a two dimensional array of individual pixels each representing
+the intensity of the image at that specific location.In most cases there will be unwanted information in the
+resulting image. Dirt and unwanted background information may
+be reduced by manipulating the capture process. If the
+unwanted information falls into a different frequency band
+than the significant information it may simply be filtered out
+during capturing.The image quality after the capture process may still be not
+good enough. There exist several ways to filter the image
+information like the median filter, the high-pass and the
+low-pass filter or the Laplace operator. Those solutions are
+able to significantly enhance the image quality but are very
+time consuming.In the case of pattern recognition applications the image
+quality is defined by the requirements for a good contrast
+between background and foreground. For example a black and
+white image used for a typical character recognition
+application should consist of a white background and black 
+characters in the foreground. Unwanted information like
+lines, drawings, stamps and other parts from the captured
+image which are not input to the recognition process must be
+removed. This can not be done by a filter operation like
+those described before.Other pattern recognition processes like signature
+verification or handwriting recognition also need a well
+defined input. They are typically based on the extraction of
+feature values from the image and because of that unwanted
+image information will hinder the recognition process. An
+example for a technique based on the extraction and
+comparison of significant features is given in IBM's
+published patent application EP-A-0 483 391, concerning an
+automatic signature verification. Conventional OCR systems, e.g. the one described in US-A-4 769 849, apply 8- and
+4-connectedness rules to track the outline of image elements, which might or
+might not be characters. Thus what is given to the subsequent OCR algorithm is
+data already defining its outline. As is well known, outline
+</DESCRIPTION>
+<CLAIMS>
+Method for removing unwanted information, form elements,
+lines or printed characters or the like from documents
+
+prior to character recognition of written information,
+especially prior to analyzing and recognizing a
+
+signature, the method including
+the following steps:
+
+
+1) segmentation of an image into image elements by
+scanning the complete image of the document in
+
+horizontal and vertical direction, and determining
+for groups of pixels having about the same
+
+intensity, if they belong to the same image element
+by
+
+
+a) storing abrupt direction changes and their
+location along a scanning line to notice
+
+breaking points where the pixel connection is
+cut, or
+b) calculating the length of the borders between
+the pixels of two parallel runs and, if the
+
+length is below a certain threshold value,
+cutting the pixel connection, or
+c) a combination of both steps a) and b) above to
+separate image elements not belonging
+
+together;
+2) extraction of feature information from each image
+element by calculating neighborhood and local
+
+features, said neighborhood feature values
+describing the relationship between the single
+
+image element and its neighboring image elements,
+said local feature values describing properties of
+
+the image element itself;
+3) classification based on the feature information generated by
+step 2) of each of the image elements gained
+
+by step 1); 
+4) removal of those image elements which are
+classified as unwanted information.
+Method as in claim 1, wherein
+
+the segmentation in step 1) is performed by searching
+each image element and storing each image element found
+
+for further processing.
+Method as in claim 1 or 2, wherein
+
+said classification is
+performed context
+
+sensitive.
+Method as in any one of the preceding claims, wherein
+those image elements that are below a required minimum
+
+size and/or are not carrying any significant information
+are discarded, preferably immediately, thus omitting
+
+background noise in the image and keeping the number of
+image elements low.
+Method as in any one of the preceding claims, wherein
+said feature extraction from each image element is in
+
+most cases performed immediately during the segmentation
+process.
+Method as in any one of the preceding claims, wherein
+as a neighborhood feature value the number of
+
+neighbored image elements in a specific direction is
+calculated which in combination with counts of only
+
+those image elements having nearly the same size
+properties may be indicative for printed text.
+Method as in any one of the preceding claims, wherein
+as local feature value there is calculated
+
+
+a density feature being the ratio between the number of
+foreground pixels and the number of background pixels in
+
+a rectangular area described by the maximum horizontal
+and vertical extensions of the image element, and/or 
+a complexity feature in vertical and horizontal
+direction being given by the average number of changes
+
+between high and low intensities for the specific
+direction and describing the number of line parts
+
+belonging to an image element, and/or
+an aspect ratio feature being the quotient of the width
+and the height of the envelope of an image element.
+Method as in any one of the preceding claims, wherein
+each local feature value has a corresponding
+
+neighborhood feature value equivalent said equivalent
+being calculated as the average of the local feature
+
+values from each image element inside a region given by
+a fixed radius, said calculated feature values being
+
+weighted by their specific distances.
+Method as in any one of the preceding claims, wherein
+the classification step is performed with an artificial
+
+neural network, preferably a multi-layer feed forward
+net.
+Method as in any one of the preceding claims, wherein
+in said classification step the feature values of each
+
+image element are fed into an artificial neural net,
+weighted internally, and an output is calculated giving
+
+a value indicative of the probability that the image
+element for that feature set does belong to a specific
+
+class.
+Method as in any one of the preceding claims, wherein
+in said classification using an artificial neural
+
+network having multiple outputs probability values for
+each image element class presented during training of
+
+the neural network are calculated, and the class
+membership of each image element is stored together with
+
+the image element for further processing, whereby
+recognized and stored classes might be document parts 
+
+like lines, stamps, signatures, handwritten or printed
+text.
+Method as in claim 10 or 11, wherein
+
+said classification step is repeated several times,
+preferably until a stable result is achieved.
+Method as in claim 10, 11 or 12, wherein
+
+a feedback is incorporated by using a known probability
+value of a specific class membership for each image
+
+element as an additional feature value, preferably by
+calculating the average value of the probability values
+
+for a specific class from each image element inside a
+region given by a fixed radius, these feature values
+
+also feeding into said neural network for further
+improving the recognition rate.
+Method as in any one of the claims 9 to 13, wherein
+classified image elements are grouped together into
+
+clusters of corresponding image elements, said grouping
+being based preferably on information regarding size,
+
+position or associated features values.
+Method as in any one of the preceding claims, wherein
+before removing unwanted image elements, those elements
+
+are checked for intersections with other image elements
+not to be removed.
+Method as in claim 15, wherein
+
+the pair of intersecting image elements is replaced by a
+number of new image elements having no intersection, and
+
+the intersecting area itself is made part of one of the
+pair of original image elements.
+</CLAIMS>
+</TEXT>
+</DOC>

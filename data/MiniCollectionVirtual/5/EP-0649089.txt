@@ -1,0 +1,378 @@
+<DOC>
+<DOCNO>EP-0649089</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+System and method for optimizing message flows between agents in distributed computations
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F946	G06F946	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A distributed computation system has a set of agents that perform each 
+specified distributed computation. State transition events in each agent are 
+
+conditioned or dependent on state transition events in other ones of the 
+agents participating in the same distributed computation. The event 
+
+dependencies between events in the agents are dynamically specified at run 
+time from a set of predefined dependency types. The assigned conditions 
+
+for resolving the truth value of these events are stored in local knowledge 
+databases in each of the agents. Each agent stores in its local knowledge 
+
+database a representation of the conditions for local events, which are state 
+transition events in that agent, and a representation of the conditions for 
+
+those external events that depend on notifications of local events in this 
+agent and for those external events on which the local events are 
+
+dependent. The local knowledge database also stores status information on 
+the current truth value of the local and external events. Event notifications 
+
+are sent by each agent when the truth value of a local event is changed. 
+Whenever the truth value of a local event changes the agent inspects the 
+
+local knowledge database to identify external events that depend on the 
+local event. Notifications of events that are known, based on knowledge 
+
+available to the agent, to be insufficient to resolve an external event's truth 
+value are delayed or withheld until all the local events required to resolve the 
+
+external event's truth value have been assigned final truth values. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+DIGITAL EQUIPMENT CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+DIGITAL EQUIPMENT CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+KLEIN JOHANNES
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+UPTON FRANCIS IV
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KLEIN, JOHANNES
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+UPTON, FRANCIS IV
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates generally to distributed processing computer
+systems in which a distributed application is performed by multiple
+processes or agents that coordinate their computations by exchanging
+messages. More particularly, the present invention relates to a system and
+method in which each agent maintains a store of local knowledge
+concerning the state variables in other agents and uses that local knowledge
+store to determine when messages that would normally be sent to other
+agents can be omitted or delayed.The present invention is related to U.S. Patent No. 5,329,626, issued
+July 12, 1994, entitled Rule Driven Transaction Management System and
+Method, which is assigned to the same assignee as the present invention.Referring to Figure 1, the present invention concerns interactions and
+interdependencies of agents 102-1 through 102-N cooperating in a
+distributed processing computer system 100. Depending on the operating
+system used, each agent 102 may be a thread or process, and thus is a unit
+that executes a computation or program. Some of the agents 102-1 through
+102-N may be executing on one data processing unit while others are
+executing at remote sites on other data processing units. More generally,
+agents can be hosted on different computer systems using different
+operating systems. For the purposes of the present discussion, it is
+sufficient to assume that there is a communications path or bus 110 which 
+interconnects all the agents in the system 100.In addition to agents which represent computer processes, a distributed
+system 100 may also include agents which represent "external" devices 104.
+The infrastructure of a distributed computer system also contains, among
+other well known components, journal services (herein called journal
+processes) 106 that record state information on stable, non-volatile, storage
+108, and at least one restart manager process 109 that restarts other
+processes in the system after a failure. Application processes use journal
+services to record state information on stable storage. To further protect
+from failures, journal processes 106 often store data on two or more
+non-volatile storage media to compensate for the unreliability of storage
+devices such as magnetic disks. Typically, data written to a journal service
+is recorded on stable storage in the order received, and the data stored on
+stable storage cannot be modified, making write operations to stable storage
+irrevocable operations.The restart manager process 109 is used when a computer system is
+po
+</DESCRIPTION>
+<CLAIMS>
+In a computer system, a method of performing distributed
+computations, comprising:
+
+
+providing cooperating agents to perform each distributed computation,
+each agent having an associated set of events representing state transitions
+
+among a predefined set of states, each said event having a truth value that
+said agent changes while performing said distributed computation, each
+
+agent further having means for sending event value notifications to other
+ones of said agents when said agent changes said truth value of any said
+
+event;
+storing in a computer memory associated with each agent a local
+knowledge database, said local knowledge database including data
+
+representing conditions for changing the truth value of local events,
+comprising events in said each agent and data representing conditions for
+
+changing the truth value of external events, comprising events in other ones
+of said agents, each of said conditions being represented in said local
+
+knowledge database as a boolean expression of the truth values of specified
+ones of said events in specified ones of said agents; said local knowledge
+
+database further storing data representing truth values for said local and
+external events known to said each agent; wherein said data representing
+
+said known truth values for at least a plurality of said local and external
+events is initialized to represent that said truth values are undefined;
+performing each distributed computation with said agents provided for
+that distributed computation, including:
+
+
+whenever any one of said agents changes the truth value of
+any one of said local events, said one agent identifying from said conditions
+
+represented in said one agent's associated local knowledge database (A)
+those of said external events whose condition depends on said one local
+
+event, (B) for each identified external event, other ones of said local events,
+if any, upon which said external events' conditions depend, and (C) the truth 
+
+values of said other local events;
+evaluating said condition for each said identified external event
+to generate a truth value for said evaluated condition; and
+sending notifications of said one local event and said other
+local events from said one agent to said agent associated with each said
+
+identified external event only when the evaluated condition associated with
+each said identified external event has a truth value other than an undefined
+
+truth value.
+The method of claim 1, said step of sending notifications including
+preventing sending notifications of said one local event and said other local
+
+events from said one agent to said agent associated with each said
+identified external event when said data in said one agent's local knowledge
+
+database represents a truth value of TRUE or FALSE for each said identified
+external event.
+The method of claim 1, wherein said evaluating step evaluates said
+boolean expression represented in said local knowledge database for said
+
+condition and excludes from said boolean expression any of said external
+events included in said boolean expression for which local knowledge
+
+database does not store a defined truth value.
+The method of claim 1, wherein said conditions represented in said
+local database include "true conditions" which identify when the truth values
+
+of corresponding ones of said events can be set to TRUE, as well as "false
+conditions" which identify when the truth values of corresponding ones of
+
+said events can be set to FALSE.
+The method of claim 1, wherein each of said conditions represented
+in said local knowledge database as a boolean expression is stored in said
+
+local knowledge database in conjunctive normal form such that said each
+condition is represented as a set of one or more conjuncts, each said
+
+conjunct comprising a set of one or more disjuncts, wherein each said
+disjunct comprises one of said events. 
+The method of claim 1, wherein:
+
+whenever any one of said agents receives one of said notifications
+sent by another of said agents, said receiving agent performs the steps of:
+
+
+comparing said notification with said data stored in said local
+knowledge database representing truth values for said local and external
+
+events known to said receiving agent to determine whether said notification
+contradicts said data in said local knowledge database; and
+when said notification is determined by said comparing step to
+be consistent with said data in said local knowledge database, updating said
+
+data in said local knowledge database with said received notification.
+The method of claim 6,
+
+said receiving agent further performing the step of:
+
+when said received notification is determined by said
+comparing step to be inconsistent with said data in said local knowledge
+
+database, performing a predefined error response step.
+The method of claim 6,
+
+said conditions represented in said local database including "true
+conditions" which identify when the truth values of corresponding ones of
+
+said events can be set to TRUE, as well as "false conditions" which identify
+when the truth values of corresponding ones of said events can be set to
+
+FALSE;
+said receiving agent further performing the steps of:
+
+evaluating said conditions in said receiving agent's local
+knowledge database for each external event whose truth value as
+
+represented in said local knowledge database is not equal to TRUE or
+FALSE and that depends on said received notification,
+said evaluating step including updating said local knowledge
+database to represent an external event's truth value
+ 
+as TRUE when said external event's true condition evaluates TRUE and said
+
+data in said local knowledge database includes a complete representation of
+said external event's true condition, and
+said evaluating step including updating said local knowledge
+datab
+ase to represent an external event's truth value as FALSE when said
+external event's false condition evaluates TRUE and said data in said local
+
+knowledge database includes a complete representation of said external
+event's false condition.
+A computer system for performing distributed computations,
+comprising:
+
+
+a set of cooperating computational agents for performing each
+distributed computation, each agent having an associated set of events
+
+representing state transitions among a predefined set of states, each said
+event having a truth value that said agent changes while performing said
+
+distributed computation, each agent further having means for sending event
+value notifications to other ones of said agents when said agent changes
+
+said truth value of any said event;
+at least one computer memory associated with each said agent; said
+computer memory associated with each said agent storing a local knowledge
+
+database, said local knowledge database including data representing
+conditions for changing the truth value of local events, comprising events in
+
+said each agent and data representing conditions for changing the truth
+value of external events, comprising events in other ones of said agents,
+
+each of said conditions being represented in said local knowledge database
+as a boolean expression of the truth values of specified ones of said events
+
+in specified ones of said agents; said local knowledge database further
+including data representing truth values for said local and external events
+
+known to said each agent; wherein said data representing said known truth
+values for at least a plurality of said local and external events is 
+
+initialized to represent that said truth values are undefined; and
+a notification message processing module associated with each said
+agent, said notification message processing module including:
+
+
+condition identification means for identifying, whenever the truth
+value of any one of said local events for said each agent changes value, (A)
+
+those of said external events whose condition depends on said one local
+event, (B) for each identified external event, other ones of said local events,
+
+if any, upon which said external events' conditions depend, and (C) the truth
+values of said other local events;
+condition evaluating means for evaluating said condition for
+each said identified external event to generate a truth value for said
+
+evaluated condition; and
+message sending means for sending notifications of said one
+local event and said other local events from said one agent to said agent
+
+associated with each said identified external event only when the evaluated
+condition associated with each said identified external event has a truth
+
+value other than an undefined truth value.
+The system of claim 9, said message sending means including means
+for preventing the sending notifications of said one local event and said
+
+other local events from said one agent to said agent associated with each
+said identified external event when said data in said one agent's local
+
+knowledge database represents a truth value of TRUE or FALSE for each
+said identified external event, wherein said condition evaluating means
+
+evaluates said boolean expression represented in said local knowledge
+database for said condition and excludes from said boolean expression any
+
+of said external events included in said 
+boolean expression for which local knowledge database does not store a
+
+defined truth value.
+The system of claim 9, wherein said conditions represented in said
+local database include "true conditions" which identify when the truth values
+
+of corresponding ones of said events can be set to TRUE, as well as "false
+conditions" which identify when the truth values of corresponding ones of
+
+said events can be set to FALSE, wherein each of said conditions
+represented in said local knowledge database as a boolean expression is
+
+stored in said local knowledge database in conjunctive normal form such
+that said each condition is represented as a set of one or more conjuncts,
+
+each said conjunct comprising a set of one or more disjuncts, wherein each
+said disjunct comprises one of said events.
+The system of claim 9, said notification message processing module
+associated with each said agent further including:
+
+
+message receiving means for receiving said notifications sent by other
+ones of said agents, for comparing said notification with said data stored in
+
+said local knowledge database representing truth values for said local and
+external events known to said agent receiving said message to determine
+
+whether said notification contradicts said data in said local knowledge
+database, and for updating said data in said local knowledge database with
+
+said received notification when said notification has been determined to be
+consistent with said data in said local knowledge database.
+The system of claim 12,
+
+said message receiving means including means for generating a
+predefined error response when said received notification is 
+
+determined to be inconsistent with said data in said local knowledge
+database.
+The system of claim 12,
+
+said conditions represented in said local database including "true
+conditions" which identify when the truth values of corresponding ones of
+
+said events can be set to TRUE, as well as "false conditions" which identify
+when the truth values of corresponding ones of said events can be set to
+
+FALSE;
+said message receiving means further including means for:
+
+evaluating said conditions in said receiving agent's local
+knowledge database for each external event whose truth value as
+
+represented in said local knowledge database is not equal to TRUE or
+FALSE and that depends on said received notification,
+updating said local knowledge database to represent an
+external event's truth value as TRUE when said external event's true
+
+condition evaluates TRUE and said data in said local knowledge database
+includes a complete representation of said external event's true condition,
+
+and
+updating said local knowledge database to represent an
+external event's truth value as FALSE when said external event's false
+
+condition evaluates TRUE and said data in said local knowledge database
+includes a complete representation of said external event's false condition.
+</CLAIMS>
+</TEXT>
+</DOC>

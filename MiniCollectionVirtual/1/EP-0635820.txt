@@ -1,0 +1,304 @@
+<DOC>
+<DOCNO>EP-0635820</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Minimum error rate training of combined string models
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G10L1514	G10L1500	G10L1506	G10L1528	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G10L	G10L	G10L	G10L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G10L15	G10L15	G10L15	G10L15	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method of making a speech recognition model database is disclosed. 
+The database is formed based on a training string utterance signal and a plurality of 
+
+sets of current speech recognition models. The sets of current speech recognition 
+models may include acoustic models, language models, and other knowledge 
+
+sources. In accordance with an illustrative embodiment of the invention, a set of 
+confusable string models is generated, each confusable string model comprising 
+
+speech recognition models from two or more sets of speech recognition models 
+(such as acoustic and language models). A first scoring signal is generated based on 
+
+the training string utterance signal and a string model for that utterance, wherein the 
+string model for the utterance comprises speech recognition models from two or 
+
+more sets of speech recognition models. One or more second scoring signals are 
+also generated, wherein a second scoring signal is based on the training string 
+
+utterance signal and a confusable string model. A misrecognition signal is generated 
+based on the first scoring signal and the one or more second scoring signals. Current 
+
+speech recognition models are modified, based on the misrecognition signal to 
+increase the probability that a correct string model will have a rank order higher than 
+
+other confusable string models. The confusable string models comprise 
+N
+-best word 
+string models. The first recognizer scoring signal reflects a measure of similarity 
+
+between the training string utterance signal and the string model for that utterance. 
+The second recognizer scoring signal reflects a measure of similarity between the 
+
+training string utterance signal and a confusable string model. The misrecognition 
+signal reflects a difference of the first scoring signal and a combination of one or 
+
+more second scoring signals. The modification of current speech recognition models 
+is accomplished by generating a recognition model modification signal according to 
+
+a gradient of a function, which function reflects a recognizer score of a training 
+string utterance based on a string model for that utterance and one or more 
+
+recognizer scores of the training string utterance based on one or more confusable 
+string models. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+AT 
+&
+ T CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+AT
+&
+T CORP.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+CHOU WU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+JUANG BIING-HWANG
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LEE CHIN-HUI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+CHOU, WU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+JUANG, BIING-HWANG
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LEE, CHIN-HUI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates generally to the training of pattern
+databases and, more specifically, to the training of speech pattern databases for
+speech processing tasks, such as speech recognition.The objective of continuous speech recognition is to identify (i.e.,
+recognize) an underlying word sequence from an input speech utterance.
+Recognition is performed with use of a set of speech recognition patterns or models
+(hereinafter, models). These basic speech recognition models are the building blocks
+for words and strings of words, such as phrases or sentences. Recently, significant
+research effort has been concentrated on the problem of how to select and represent
+these basic speech recognition units for use in continuous speech recognition.One conventional approach to the continuous speech recognition
+problem is that of statistical pattern recognition using acoustic recognition models,
+such as templates or hidden Markov models (HMMs). Based on a lexical
+description of a vocabulary, acoustic speech recognition models are prescribed and
+their parameters are then statistically determined through a process known as
+training. The basic models may reflect vocabulary words or subwords (such as
+phones that are the acoustic manifestation of linguistically-based phonemes). One
+assumption generally made in this approach to continuous speech recognition is that
+a fluently spoken sequence of words, i.e. a word string, may be adequately
+represented by a linear concatenation of the basic speech recognition models (of
+words or subwords) according to the lexical transcription of the words in the string.
+Conventionally, this has meant a concatenation of speech recognition models
+estimated directly from training tokens (such as words). A concatenation of acoustic
+recognition models forms a model of the word string and is a type of word string
+model. In continuous speech recognition, multiple string models are hypothesized
+for a given recognition task. Each such string model is compared with a continuous
+utterance to be recognized. The closeness of each comparison is indicated by a
+recognition score. The string model which most closely compares with the
+continuous utterance "recognizes" the utterance. Another conventional approach to continuous speech recognition is to
+augment word string models with non-acoustic recognition models. These non-acoustic
+recognition models include, inter alia, language models, phonetic-based
+models, semantic models, syntactic models, and other knowledge sources (e.g.,
+pitch, energy,
+</DESCRIPTION>
+<CLAIMS>
+A method of making a speech recognition model database based on a
+training speech utterance signal and a plurality of sets of current speech recognition
+
+models, the method comprising the steps of:
+
+a. generating a set of one or more confusable string models, a confusable
+string model comprising a plurality of said current speech recognition models from two
+
+or more of said sets of said current speech recognition models, wherein each of at least
+two of said sets of models corresponds to different characteristics of speech and wherein
+
+the confusable string model is a model which, if selected to represent the training
+speech utterance, would result in a misrecognition of the training speech utterance;
+b. generating a first scoring signal based on the training speech utterance
+signal and a string model for that utterance, the string model for the utterance
+
+comprising a plurality of said current speech recognition models from said two or more
+of said sets of said current speech recognition models;
+c. generating one or more second scoring signals, a second scoring
+signal based on the training speech utterance signal and a confusable string model;
+d. generating a signal reflecting a comparison of a likelihood of
+correctly recognizing the training speech utterance and a likelihood of incorrectly
+
+recognizing the training speech utterance, said likelihood of correctly recognizing the
+training speech utterance based on the first scoring signal and said likelihood of
+
+incorrectly recognizing the training speech utterance based on the one or more second
+scoring signals; and
+e. based on the signal reflecting the comparison of said likelihoods,
+modifying one or more of said current speech recognition models to increase the
+
+probability that a string model for the utterance will have a rank order higher than the
+confusable string models.
+The method of claim 1 wherein the step of generating the set of one or
+more confusable string models comprises generating N- best word string models. 
+The method of claim 1 wherein the first scoring signal reflects a
+measure of similarity between the training speech utterance signal and the string model
+
+for that utterance.
+The method of claim 3 wherein the measure of similarity comprises a
+log-likelihood recognizer score.
+The method of claim 1 wherein the second scoring signal reflects a
+measure of similarity between the training speech utterance signal and one of said
+
+confusable string models.
+The method of claim 5 wherein the measure of similarity comprises a
+log-likelihood recognizer score.
+The method of claim 1 wherein the step of generating a signal
+reflecting a comparison comprises forming a difference of the first scoring signal and a
+
+combination of one or more second scoring signals.
+The method of claim 1 wherein the step of modifying the one or more
+of said current speech recognition models comprises the steps of:
+
+
+1. generating a recognition model modification signal reflecting a gradient of a
+function, the function reflecting a recognizer score of a training speech utterance
+
+based on a string model for that utterance and one or more recognizer scores of
+the training speech utterance based on one or more confusable string models;
+
+and
+2. adjusting the one or more of said current speech recognition models based on
+the modification signal.
+The method of claim 8 wherein the function reflects a difference of a
+recognizer score of a training speech utterance based on a string model for that utterance
+
+and a weighted sum of the one or more recognizer scores of the training speech
+utterance based on one or more confusable string models.
+The method of claim 1 wherein one of said sets of current speech
+recognition models comprises acoustic models. 
+The method of claim 10 wherein the acoustic models comprise
+hidden Markov models.
+The method of claim 1 wherein one of said sets of current speech
+recognition models comprises language models.
+The method of claim 1 wherein one of said sets of current speech
+recognition models comprises pitch models.
+The method of claim 1 wherein one of said sets of current speech
+recognition models comprises energy models.
+The method of claim 1 wherein one of said sets of current speech
+recognition models comprises speaking rate models.
+The method of claim 1 wherein one of said sets of current speech
+recognition models comprises duration models.
+A speech recognizer trainer for making a speech recognition model
+database based on a training speech utterance signal and a plurality of sets of current
+
+speech recognition models, the trainer comprising
+
+a. means for generating a set of one or more confusable string models, a
+confusable string model comprising a plurality of said current speech
+
+recognition models from two or more of said sets of said current speech
+recognition models, wherein each of at least two of said sets of models
+
+corresponds to different characteristics of speech and wherein the Confusable
+string model is a model which, if selected to represent the training speech
+
+utterance. would result in a misrecognition of the training speech utterance;
+b. means for generating a first scoring signal based on the speech
+utterance signal and a string model for that utterance, the string model for the
+
+utterance comprising a plurality of said current speech recognition models from
+said two or more of said sets of said current speech recognition models;
+c. means for generating one or more second scoring signals, a second
+scoring signal based on the training speech utterance signal and a confusable
+
+string model; 
+d. means for generating a signal reflecting a comparison of a likelihood
+
+of correctly recognizing the training speech utterance and a likelihood of
+incorrectly recognizing the training speech utterance, said likelihood of correctly
+
+recognizing the training speech utterance based on the first scoring signal and
+said likelihood of incorrectly recognizing the training speech utterance based on
+
+the one or more second scoring signals; and
+e. means, responsive to the signal reflecting the comparison of said
+likelihoods, for modifying one or more of said current speech recognition
+
+models to increase the probability that a string model for the utterance will have
+a rank order higher than the confusable string models.
+The trainer of claim 17 wherein the means for generating a signal
+reflecting a comparison comprises means for forming a difference between the first
+
+scoring signal and a combination of the one or more second scoring signals.
+The trainer of claim 17 wherein the means for modifying the one or
+more of said current speech recognition models comprises:
+
+
+1. means for generating a recognition model modification signal reflecting a gradient
+of a function, the function reflecting a recognizer score of a training speech utterance
+
+based on a string model for that utterance and one or more recognizer scores of the
+training speech utterance based on the one or more confusable string models; and
+2. means for adapting the one or more of said current speech recognition models
+based on the modification signal.
+A speech recognition system comprising:
+
+a. a feature extractor (20) for receiving an unknown speech signal and
+generating feature signals characterizing the unknown speech signal;
+b. a memory (70) having stored therein a plurality of sets of speech recognition models,
+one or more of the speech recognition models generated in accordance with a
+
+process of modifying parameters of predetermined speech recognition models to
+enhance the probability that a correct string model will have a rank order higher
+
+than one or more confusable string models,
+
+wherein each of at least two of said sets of speech recognition models
+corresponds to different characteristics of speech and wherein said confusable 
+
+string models are models which, if selected to represent a training speech
+utterance, would result in a misrecognition of the training speech utterance,
+and wherein the modification of said parameters is based on a
+comparison of a likelihood of correctly recognizing a training speech utterance
+
+and a likelihood of incorrectly recognizing the training speech utterance, the
+likelihood of correctly recognizing the training speech utterance based on a first
+
+scoring signal and the likelihood of incorrectly recognizing the training speech
+utterance based on one or more second scoring signals,
+the first scoring signal generated based on the training speech utterance
+and a string model for that utterance, the string model for the utterance
+
+comprising a plurality of said speech recognition models from said at least two
+of said sets of said speech recognition models, and each of the second scoring
+
+signals generated based on the training speech utterance signal and one of said
+confusable string models; and
+c. a scoring processor (40,50), coupled to the feature extractor and the memory,
+for comparing a string model with features of the unknown speech signal, the
+
+string model comprising one or more of said speech recognition models from
+each of the plurality of said sets of speech recognition models, and for
+
+recognizing the unknown speech signal based on one of a plurality of string
+models which most closely compares with the features of the unknown speech
+
+signal.
+</CLAIMS>
+</TEXT>
+</DOC>

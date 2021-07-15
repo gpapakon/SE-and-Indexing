@@ -1,0 +1,504 @@
+<DOC>
+<DOCNO>EP-0625764</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Accelerated OCR classification.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06K962	G06K962	G06K968	G06K968	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06K	G06K	G06K	G06K	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06K9	G06K9	G06K9	G06K9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A comparison function based OCR method is employed 
+for recognizing the nearest neighbor classification of an 
+
+input vector S with respect to a library of T template 
+vectors. The input vector S defines an unclassified symbol 
+
+(the unknown input letter) and the T template vectors 
+define the pre-classified characters (known letters of an 
+
+alphabet font in memory). Nearest neighbor classification 
+is an iterative OCR matching technique in which the 
+
+closest match between the input vector and the template 
+vectors is recognized by the exclusion of distant 
+
+templates. The closest match (the nearest neighbor) is 
+accepted as the proper identification of the input symbol. 
+
+The OCR method is accelerated by employing the Triangle of 
+Inequality Principle which excludes distant neighbors in 
+
+bulk as the iteration cycles proceed. The sequence of 
+selection of template vectors from the diminishing 
+
+candidate group may be random or ordered. Ordered 
+selections optimize the exclusion process resulting in a 
+
+nearest neighbor classification of the input symbol with 
+fewer iterations. The ordering may be based on the 
+
+frequency of use of the template characters, or on 
+"historical inference", the statistical likelihood that 
+
+any known character will be followed (or preceded) by any 
+particular character remaining in the candidate group. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+CANON KK
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+CANON KK
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+AVI-ITZHAK HADAR
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+AVI-ITZHAK HADAR
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to the OCR classification of 
+input symbols, and more particularly to comparison 
+function based nearest neighbor classification. Heretofore, comparison functions have been employed 
+to classify input character bit maps against a library 
+template bit maps. The summation of all of the pixel 
+comparisons in each of the input/template matches 
+produced correlation values which revealed the closest 
+match. The present invention employs inter-template 
+comparisons and the "Triangle of Inequality Principle" 
+in order to exclude distant templates and accelerate the 
+recognition procedure. European patent application no. 93306854.6 entitled 
+Method and Apparatus for RECOGNITION TEMPLATE 
+ENHANCEMENT, teaches the use of a comparison function to 
+enhance a library of templates with respect to the 
+particular font of the input characters. European patent application no. 94300472.1 entitled 
+RECOGNITION  
+ 
+TEMPLATE ENHANCEMENT, teaches enhancement of library 
+templates with a provision for template sub-classes to 
+accommodate multiple fonts and other variations in the 
+input characters. A publication entitled "A Fast Nearest Neighbor 
+Search Algorithm" by Michael T. Orchard appearing in IEEE 
+ICASSP conference at Toronto Canada 14-17 May 1991 (pages 
+2297-2300 Vol 4) teaches a nearest neighbor search. The 
+Orchard disclosure involves a speech codebook and color 
+quantization of images employing the Triangle of 
+Inequality Principle (Figure 1 on page 2298). In a first aspect, the invention aims to 
+provide an improved comparison function based 
+OCR vector recognition method to recognize the nearest 
+neighbor. In another aspect, the invention aims to provide 
+such a comparison function based method which is 
+accelerated by employing the Triangle of Inequality 
+Principle. In yet another aspect, the invention aims to provide 
+such a comparison function based method in which 
+inter-template comparison values are pre-compared and 
+stored for immediate use. In yet another aspect the invention aims to provide 
+such a comparison function based method in which the 
+template vector selection for each iteration is method 
+driven.  In one particular embodiment, the invention provides a comparison 
+function based OCR method of recognizing the nearest 
+neighbor classification of an input vector S with respect 
+to a library of T template vectors. The input vector S 
+defines an unclassified symbol to be recognized, and the 
+library of T template vectors define pre-classified 
+characters available for
+</DESCRIPTION>
+<CLAIMS>
+A comparison based OCR method, comprising the 
+following steps: 
+
+   providing an input vector S of an unclassified 
+symbol; 
+
+   providing a library of T template vectors; 
+   selecting a template vector from the library of T 
+
+template vectors; 
+   comparing the selected template vector with the input 
+
+vector S and generating an input comparison value: 
+   determining a comparison value threshold; 
+
+   providing inter-template comparison values between 
+the selected template vector and the library; 
+
+   identifying template vectors within the library of T 
+templates having an inter-template comparison value within 
+
+the determined comparison value threshold and forming a 
+candidate group which excludes template vectors having an 
+
+inter-template comparison value outside the value 
+threshold; and 
+
+   repeating the selecting step and the comparing step 
+and the determining step and the providing inter-template 
+
+comparison values step and the identifying step. 
+A comparison function based OCR method of 
+recognizing the nearest neighbor classification of an 
+
+input vector S defining an unclassified symbol, with 
+respect to a library of T template vectors defining pre-classified 
+
+characters, comprising the following steps: 
+   providing the input vector S of the unclassified 
+
+symbol in the form of a sequence of elements, each element 
+having a numerical value; 
+
+   providing the library of T template vectors (T₁, T₂, 
+... Ti ... TT) in the form of T sequences of elements, 
+
+each element having a numerical value; 
+   selecting an initial template vector (1stTi) from the 
+
+library of T template vectors; 
+   comparing the initial template vector (1stTi) with the 
+
+input vector S based on an input comparison function to 
+generate an initial input comparison value (1stV): 
+
+   determining an initial comparison value threshold 
+(1stR) as a function of the initial input comparison value 
+
+(1stV); 
+   providing inter-template comparison values between 
+
+the initial template vector (1stTi) and the T-1 other 
+template vectors (T₁, T₂ .... TT) based on an inter-template 
+
+comparison function;
+ 
+
+   identifying template vectors within the library of T 
+templates having an inter-template comparison value within 
+
+the initial comparison value threshold (1stV); to form a 
+first candidate group (1stG) of template vectors which 
+
+includes the nearest neighbor classification of the input 
+vector S with respect to the library of T templates, and 
+
+which excludes template vectors having an inter-template 
+comparison value outside the value threshold; 
+
+   selecting a second template vector (2ndTi) from the 
+first candidate group (1stG); 
+
+   comparing the second template vector (2ndTi) with the 
+input vector S based on the input comparison function to 
+
+generate a second input comparison value (2ndV); 
+   providing inter-template comparison values between 
+
+the second template vector (2ndTi) and the non-selected 
+template vectors within the first candidate group 1stG 
+
+based on the inter-template comparison function; 
+   identifying template vectors within the first 
+
+candidate group lstG having an inter-template comparison 
+value within a value threshold determined by the second 
+
+input comparison value (2ndV), to form a second candidate 
+group (2ndG) of template vectors which includes the nearest 
+
+neighbor classification of the input vector S, and which 
+excludes template vectors from the first candidate group 
+
+(1stG) having an inter-template comparison value outside the 
+value threshold, and which also excludes all of the 
+
+template vectors excluded in the previous identifying 
+step;
+
+ 
+   repeating the selecting step and the comparing step 
+
+and the determining step and the providing inter-template 
+comparison values step and the identifying step until all 
+
+of the template vectors have been excluded except a single 
+final template vector (FinTi) which is the nearest neighbor 
+
+classification of the input vector S with respect to the 
+library of T template vectors. 
+The OCR method of Claim 1 or 2, wherein the inter-template 
+comparison values are stored in a memory means. 
+The OCR method of Claim 3, wherein the inter-template 
+comparison values stored in a memory means are 
+
+pre-compared. 
+The OCR method of Claim 3, wherein the inter-template 
+comparison values stored in the memory means 
+
+include T² entries. 
+The OCR method of Claim 3, wherein the inter-template 
+comparison values stored in the memory means 
+
+include (T²-T)/2 entries. 
+The OCR method of any preceding claim, wherein the input 
+vector S is formed by Es elements, and the each of the 
+
+template vectors is formed by Et elements. 
+The OCR method of Claim 7, wherein the 
+unclassified symbol is defined by the input vector S at 
+
+the same resolution as the template vectors, and the 
+number of elements Es in the input vector S is equal to 
+
+the number of elements Et in the template vector. 
+The OCR method of Claim 7, wherein the 
+unclassified symbol is defined by the input vector S at a 
+
+different resolution than the template vectors, and the 
+number of elements Es in the input vector S is not equal 
+
+to the number of elements Et in the template vectors. 
+The OCR method of Claim 9, wherein the 
+resolution of the unclassified input symbol is a multiple 
+
+m of the resolution of the template vectors, and the 
+number of elements Es in the input vector S is a multiple 
+
+m of the number of elements Et in the template vectors. 
+The OCR method of Claim 10, wherein the number of 
+elements Es in the input vector S is reduced to match the 
+
+number of elements Et in the template vectors by averaging 
+every m consecutive elements of the input vector S into a 
+
+single compound element. 
+The OCR method of Claim 10, wherein the number of 
+elements Es in the input vector S is reduced to match thenumber 
+
+of elements Et in the template vectors by using 
+only every mth element of the input vector S. 
+The OCR method of Claim 9 , wherein the 
+resolution of the template vectors is a multiple m of the 
+
+resolution of the unclassified input symbol, and the 
+number of elements Et in the template vectors is a 
+
+multiple m of the number of elements Es in the input 
+vector S. 
+The OCR method of Claim 13, wherein the number of 
+elements Et in the template vector is reduced to match the 
+
+number of elements Es in the input vector S by averaging 
+every m consecutive elements of the template vectors into 
+
+a single compound element. 
+The OCR method of Claim 13, wherein the number of 
+elements Et in the template vectors is reduced to match 
+
+the number of elements Es in the input vector S by using 
+only every mth element of the template vectors. 
+The OCR method of any preceding claim, wherein the input 
+comparison function is mathematically equivalent to the 
+
+inter-template comparison function. 
+The OCR method of Claim 16 , wherein the 
+comparison function is a dissimilarity function, and the 
+
+input comparison value generated at each iteration is a 
+distance "r" between the selected template vector and the 
+
+input vector S. 
+The OCR method of any preceding claim, wherein the 
+comparison value threshold determin
+ed at each iteration is 
+two times the input comparison value generated at that 
+
+iteration in accordance with the relationship: 
+kth R = (2) x (kth CV)  
+
+where 
+kis the kth iteration cycle of the OCR method, Ris the comparison value threshold 
+
+for the kth iteration, and CVis the comparison value for the kth iteration. 
+The OCR method of any preceding claim, wherein the input 
+comparison function for comparing the selected template 
+
+vector each iteration with the input vector S, is the 
+subtractive dissimilarity function: 
+
+CV = (s₁ - t₁)² + (s₂ - t₂)² +.. (sj - tj)² ..+ (sn - tn)² 
+where 
+
+CVis the comparison value generated, tjis the jth element 
+of the selected template vector sjis the jth element of the input vector S 
+
+(or other template vector) under comparison, and nis the number of elements in the vectors. 
+The OCR method of any preceding claim, wherein the 
+comparison function is a similarity function. 
+The OCR method of Claim 20, wherein the similarity 
+function is the dot product similarity function: 
+
+CV = (s₁.t₁) + (s₂.t₂) + ... (sj.tj) 
+... + (sn.tn)(s₁²+ .. sj²+ 
+
+.. sn²).(t₁²+ .. tj²+ .. 
+tn²) 
+
+where 
+where 
+
+CVis the comparison value generated, sjis the jth element of the input vector S, tjis the jth element of the template vector 
+under comparison, and nis the number of elements in the vectors. 
+The OCR method of any preceding claim, wherein the sequence 
+of elements in the input vector S defines visual aspects 
+
+of the unclassified symbol, and the T sequences of 
+elements in the T template vectors defines corresponding 
+
+visual aspects of the pre-classified characters. 
+The OCR method of Claim 22, wherein the visual 
+aspects comprise a feature set defining the unclassified 
+
+symbol and the pre-classified characters. 
+The OCR method of any of claims 1 to 21, wherein the sequence 
+of elements in the input vector S defines an image of the 
+
+unclassified symbol, and the T sequences of elements in 
+the T template vectors define images of the pre-classified 
+
+characters. 
+The OCR method of Claim 24, wherein the images 
+defined by the input vector S and the T template vectors 
+
+are stored as foreground and background digital data in a 
+pixel bit map memory. 
+The OCR method of Claim 25, wherein each element 
+of the input vectors and each element of the T template 
+
+vectors are stored as one pixel of digital data. 
+The OCR method of Claim 26, wherein the 
+foreground and background digital data is in binary 
+
+format. 
+The OCR method of Claim 26, wherein the 
+foreground and background digital data is intensity level 
+
+data in greyscale format. 
+The OCR method of Claim 26, wherein the 
+foreground and background digital data is shade level data 
+
+in color format. 
+The OCR method of any of claims 26 to 29, wherein the number of 
+pixels Ps in the pixel image of the input vector S is 
+
+equal to the number of pixels Pt in the pixel images of 
+each of the T template vectors. 
+The OCR method of Claim 30, wherein the pixel 
+image of the input vector S is a pixel matrix having Rs 
+
+rows and Cs columns,and the pixel image of each of the T 
+template vectors is a pixel matrix having Rt rows and Ct 
+
+columns. 
+The OCR method of Claim 31, wherein the number of 
+rows Rs in the pixel image of the input vector S is equal 
+
+to the number of rows Rt in the pixel image of each of the 
+T template vectors, and the number of Columns Cs in the 
+
+pixel image of the input vector S is equal to the number 
+of columns Ct in the pixel image of each of the T template 
+
+vectors. 
+The OCR method of any preceding claim, wherein the order of 
+selection of the template vector each iteration from the 
+
+candidates remaining in the candidate group is a random 
+sequence. 
+The OCR method of any of claims 1 to 32, wherein the order of 
+selection of the template vector each iteration from the 
+
+candidates remaining in the candidate group is a random 
+fixed sequence. 
+The OCR method of any of claims 1 to 32, wherein the order of 
+selection of the template vector each iteration from the 
+
+candidates remaining in the candidate group is a sequence 
+based on frequency of use of the pre-classified 
+
+characters. 
+The OCR method of any of claims 1 to 32, wherein the order of 
+selection of the template vector each iteration from the 
+
+candidates remaining in the candidate group is a sequence 
+based on historical inference of the pre-classified 
+
+characters. 
+A method of optical character recognition (OCR) 
+wherein input symbols are compared with pre-stored 
+
+templates, the method comprising an iterative process in 
+which, following comparison with a currently selected 
+
+template, inter-template comparison values are used to 
+restrict the set of templates to be considered in future 
+
+iterations. 
+A method as claimed in claim 37 wherein said 
+iterative process comprises the steps of (a) selecting 
+
+a current template and comparing it with the input symbol 
+to obtain a comparison value, (b) using said inter-template 
+
+comparison values, relative to the currently 
+selected template, to eliminate templates from future 
+
+consideration, in accordance with the obtained comparison 
+value for the input symbol relative to the selected 
+
+template; (c) selecting a new template from those not 
+eliminated, and repeating steps (a) and (b) until only 
+
+one template remains. 
+A method according to claim 37 or 38 wherein 
+inter-template comparison values are pre-stored for the 
+
+set of templates. 
+A method according to claim 37, 38 or 39 
+wherein for each iteration the selected template is 
+
+chosen with reference to expected statistics of a series 
+ 
+
+of input symbols. 
+An apparatus for performing optical character 
+recognition comprising: 
+
+   means for storing a library of templates; 
+   means for receiving input symbols for classification 
+
+in accordance with the stored templates; and 
+   comparison means for comparing received input 
+
+symbols with the stored templates and outputting 
+character codes in accordance with the best matching 
+
+template, 
+   characterised in that said comparing means is 
+
+arranged to operate automatically in accordance with a 
+method as claimed in any preceding claim. 
+A storage device for use in an apparatus 
+according to claim 41, wherein are stored a library of 
+
+templates describing a character font for optical 
+character recognition, said storage device further 
+
+storing inter-template comparison values for the library. 
+</CLAIMS>
+</TEXT>
+</DOC>

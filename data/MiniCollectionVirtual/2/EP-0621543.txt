@@ -1,0 +1,478 @@
+<DOC>
+<DOCNO>EP-0621543</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Inverse discrete cosine transform processor
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04N141	H04N730	H03M730	G06F1714	G06T120	G06T120	H04N141	G06F1714	H04N730	H03M730	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04N	H04N	H03M	G06F	G06T	G06T	H04N	G06F	H04N	H03M	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04N1	H04N7	H03M7	G06F17	G06T1	G06T1	H04N1	G06F17	H04N7	H03M7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method and apparatus (10) are provided for 
+inverse transforming a matrix of discrete cosine 
+
+transform (DCT) coefficients. The DCT coefficients 
+are processed at least two bits at a time to obtain 
+
+the vector dot products thereof with a DCT kernel 
+matrix. A matrix of the vector dot products is 
+
+transposed (112) to obtain a transposed matrix of 
+dot product elements. The dot product elements of 
+
+the transposed matrix are processed at least two 
+bits at a time to obtain the vector dot products 
+
+thereof with the DCT kernel matrix. The resultant 
+dot products are interleaved into a proper order and 
+
+buffered in a series of output registers (118). 
+Further efficiencies are achieved by implementing a 
+
+post-add stage (104) of an IDCT flowgraph prior to 
+the output registers. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+GEN INSTRUMENT CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+GENERAL INSTRUMENT CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+HOOGENBOOM CHRISTOPHER L
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HOOGENBOOM, CHRISTOPHER L.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to the
+communication of digital video signals, and more
+particularly to a method and apparatus for
+implementing an inverse discrete cosine (IDCT)
+processor to recover transform coefficients.Television signals are conventionally
+transmitted in analog form according to various
+standards adopted by particular countries. For
+example, the United States has adopted the standards
+of the National Television System Committee
+("NTSC"). Most European countries have adopted
+either PAL (Phase Alternating Line) or SECAM
+(Sequential Color And Memory) standards.Digital transmission of television signals can
+deliver video and audio services of much higher
+quality than analog techniques. Digital
+transmission schemes are particularly advantageous
+for signals that are broadcast by satellite to cable
+television affiliates and/or directly to home
+satellite television receivers. It is expected that
+digital television transmitter and receiver systems
+will replace existing analog systems just as digital
+compact discs have largely replaced analog
+phonograph records in the audio industry. A substantial amount of digital data must be
+transmitted in any digital television system. This
+is particularly true where high definition
+television ("HDTV") is provided. In a digital
+television system, a subscriber receives the digital
+data stream via a receiver/descrambler that provides
+video, audio, and data to the subscriber. In order
+to most efficiently use the available radio
+frequency spectrum, it is advantageous to compress
+the digital television signals to minimize the
+amount of data that must be transmitted.The video portion of a television signal
+comprises a sequence of video "frames" that together
+provide a moving picture. In digital television
+systems, each line of a video frame is defined by a
+sequence of digital data referred to as "pixels." A
+large amount of data is required to define each
+video frame of a television signal. For example,
+7.4 megabits of data is required to provide one
+video frame at NTSC resolution. This assumes a 640
+pixel by 480 line display is used with 8 bits of
+intensity value for each of the primary colors red,
+green and blue. High definition television requires
+substantially more data to provide each video frame.
+In order to manage this amount of data, particularly
+for HDTV applications, the data must be compressed.Video compression techniques enable the
+efficient transmission of digital video signals over
+conventional communication channels. Such 
+techniques use compression
+</DESCRIPTION>
+<CLAIMS>
+Apparatus for inverse transforming a matrix of N
+arrays of N discrete cosine transform, DCT, coefficients,
+
+comprising:
+
+first means (152, 154) for processing each of the N
+arrays, said first processing means including:
+means (152, 46-60, 62-76) for repeatedly forming an
+address by combining at least two bits from each of the N
+
+coefficients contained in an array being processed, and
+thereby forming a first stream of successive addresses;
+means (80, 82) responsive to said first stream of
+addresses for outputting successive partial dot products
+
+between each of said N coefficients contained in said array
+being processed and a DCT kernel matrix; and
+means (84-102, 154) for accumulating and combining
+said successive partial dot products to form a complete dot
+
+product for each of the N coefficients of said array being
+processed;
+
+said apparatus further comprising:
+means (112; 156) for transposing a matrix of said
+dot products to obtain a transposed matrix of dot product
+
+elements; and
+second processing means (46-60; 62-76; 158) for
+processing said dot product elements of said transposed
+
+matrix at least two bits at a time to obtain the complete dot
+products thereof with said DCT kernel matrix.
+Apparatus in accordance with claim 1, wherein said
+first processing means are responsive to successive clock
+
+cycles for forming said first stream of successive addresses. 
+Apparatus in accordance with claim 1 or 2, wherein
+said second processing means comprise:
+
+
+means (46-76; 158) for providing a second stream of
+successive addresses by combining at least two bits of said
+
+dot product elements at a time;
+means (80, 82) responsive to said second stream of
+addresses for outputting successive partial dot products
+
+between each of said dot product elements and said DCT kernel
+matrix; and
+means (84-102) for accumulating and combining said
+successive partial dot products for the dot product elements
+
+of the transposed matrix being processed to form a complete
+dot product for each element.
+Apparatus in accordance with any of the preceding
+claims wherein said first and second processing means process
+
+successive arrays from said matrix of DCT coefficients and
+said matrix of transposed dot product elements on an
+
+interleaved basis.
+Apparatus in accordance with any of the preceding
+claims wherein the complete dot products for said transposed
+
+matrix define a block of inverse transform elements
+corresponding to the coefficients contained in said matrix of
+
+DCT coefficients, said first and second processing means
+comprising:
+
+
+a dot product engine;
+means for inputting bits from said matrix of DCT
+
+coefficients during a first pass through said dot product
+engine to produce an array of said matrix of dot product
+
+elements; and
+means for inputting bits from an array of said
+transposed matrix during a second pass through said dot
+
+product engine to produce an array of said block of inverse
+transform elements.
+Apparatus in accordance with claim 5 wherein said
+dot product engine comprises:
+
+
+shift register means (46-76) for receiving
+coefficients from said matrix of DCT coefficients during said
+
+first pass and for receiving dot product elements from said
+transposed matrix (112) during said second pass, said shift
+
+register means being responsive to successive clock cycles
+for outputting said streams of successive addresses; and
+look up table means (80, 82) responsive to said
+addresses for outputting said successive partial dot products
+
+to said accumulating means (100, 102).
+Apparatus in accordance with claim 6 wherein:
+
+said shift register means comprise a first bank of
+shift registers (46-60) for receiving even coefficients
+
+during said first pass and even dot product elements during
+said second pass and a second bank of shift registers (62-76)
+
+for receiving odd coefficients during said first pass and odd
+dot product elements during said second pass;
+said look up table means comprise a first look up
+table (80) responsive to addresses produced by said first
+
+bank of shift registers and a second look up table (82)
+responsive to addresses produced by said second bank of shift
+
+registers; and
+said accumulating and combining means comprise a
+first set of accumulators (100) following said first look up
+
+table and a second set of accumulators (102) following said
+second look up table, each set of accumulators followed by
+
+means (104, 106) for alternatingly adding and subtracting
+selected accumulator outputs to implement a post add stage
+
+(148) of an IDCT flowgraph (130).
+Apparatus in accordance with claim 7 wherein: 
+
+said first bank of shift registers (46-60)
+comprises N/2 pairs of registers, each pair providing two
+
+bits of an N bit address per clock cycle; and
+said second bank of shift registers (62-76)
+comprises N/2 pairs of registers, each pair providing two
+
+bits of an N bit address per clock cycle.
+Apparatus in accordance with claim 8 wherein each
+pair of registers in said first and second banks comprises a
+
+first register (46, 50, 54, 58, 62, 66, 70, 74) for storing
+even bits of DCT coefficients and dot product elements and a
+
+second register (48, 52, 56, 60, 64, 68, 72, 76) for storing
+odd bits of DCT coefficients and dot product elements.
+Apparatus in accordance with one of claims 7 to 9
+wherein:
+
+
+each of said DCT coefficients and said dot product
+elements are processed in M-bit words;
+the pairs of shift registers in said first bank
+have lengths which successively decline by two, commencing
+
+with a length of M-1; and
+the pairs of shift registers in said second bank
+have lengths which successively decline by two, commencing
+
+with a length of M-2.
+Apparatus in accordance with one of the preceding
+claims wherein said complete dot products are formed using
+
+twos complement arithmetic, with all but the last one of a
+plurality of successive partial dot products being added to
+
+form a sum, and the last partial dot product being subtracted
+from said sum to provide the complete dot product.
+Apparatus in accordance with any of the preceding
+claims wherein: 
+
+
+the complete dot products for said transposed
+matrix define a block of inverse transform elements
+
+corresponding to the coefficients contained in said matrix of
+DCT coefficients;
+said first processing means comprise a first dot
+product engine (154) for receiving bits from said matrix of
+
+DCT coefficients to produce arrays of said matrix of dot
+product elements; and
+said second processing means comprise a second dot
+product engine (158) for receiving bits from said transposed
+
+matrix to produce arrays of said matrix of inverse transform
+elements.
+Apparatus in accordance with claim 12 wherein said
+first and second dot product engines each comprise:
+
+
+shift register means responsive to clock cycles for
+outputting said streams of successive addresses; and
+look up table means responsive to said addresses
+for outputting said successive partial dot products to said
+
+accumulating means.
+Apparatus in accordance with claim 13 wherein:
+
+said first dot product engine shift register means
+comprise a first bank of shift registers for receiving even
+
+coefficients and a second bank of shift registers for
+receiving odd coefficients;
+said second dot product engine shift register means
+comprise a first bank of shift registers for receiving even
+
+dot product elements and a second bank of shift registers for
+receiving odd dot product elements;
+said look up table means of each dot product engine
+comprise a first look up table responsive to addresses
+
+produced by the first bank of shift registers in the
+respective dot product engine and a second look up table 
+
+responsive to addresses produced by the second bank of shift
+registers in the respective dot product engine;
+said accumulator means of each dot product engine
+comprise a first set of accumulators following the first look
+
+up table of the respective dot product engine and a second
+set of accumulators following said second look up table of
+
+the respective dot product engine; and
+said accumulators are followed by means for
+alternatingly adding and subtracting selected complete dot
+
+products formed in the accumulators to implement a post add
+stage of an IDCT flowgraph.
+Apparatus in accordance with claim 14 wherein:
+
+said first banks of shift registers each comprise
+N/2 pairs of registers, each pair providing two bits of an N
+
+bit address per clock cycle; and
+said second banks of shift registers each comprise
+N/2 pairs of registers, each pair providing two bits of an N
+
+bit address per clock cycle.
+Apparatus in accordance with claim 15 wherein each
+pair of registers in said first and second banks comprises a
+
+first register for storing even bits of DCT coefficients or
+dot product elements and a second register for storing odd
+
+bits of DCT coefficients or dot product elements.
+Apparatus in accordance with claim 16 wherein:
+
+each of said DCT coefficients and said dot product
+elements are processed in M-bit bytes;
+the pairs of shift registers in said first banks
+have lengths which successively decline by two, commencing
+
+with a length of M-1; and
+the pairs of shift registers in said second banks
+have lengths which successively decline by two, commencing
+
+with a length of M-2.
+Apparatus in accordance with one of claims 7 to 10
+further comprising a plurality of output registers (118)
+
+following said means for alternatingly adding and subtracting
+
+selected accumulator outputs, for interleaving and buffering
+even and odd inverse transform elements to provide the
+
+inverse transform elements in a desired order at a desired
+output rate.
+Apparatus in accordance with one of claims 3 to 18
+wherein said means responsive to said first stream of
+
+addresses and said means responsive to said second stream of
+addresses comprise:
+
+
+means for splitting each of the addresses in said
+streams into a plurality M of shorter addresses (160, 164),
+
+with the bits in each individual shorter address all having
+the same weight;
+M look up table means (162, 166), each associated
+with one of the plurality of M shorter addresses, for
+
+providing look up values that are scaled according to the
+weight of the bits contained in the associated shorter
+
+address; and
+means (172) for summing the scaled look up values
+for successive addresses to provide said successive partial
+
+dot products.
+Apparatus in accordance with claim 19 wherein said
+means responsive to said first stream of addresses and said
+
+means responsive to said second stream of addresses further
+comprise:
+
+
+means (170) responsive to a sign bit identifier for
+negating a scaled look up value, prior to use in said summing
+
+means, when the shorter address responsible for the scaled
+look up value comprises sign bits.
+A method for inverse transforming a matrix of N
+arrays of N discrete cosine transform (DCT) coefficients,
+
+comprising the steps of:
+
+processing each of the N arrays by repeatedly forming an
+address by combining at least two bits from each of the N
+
+coefficients contained in an array being processed, thereby
+forming a first stream of successive addresses;
+outputting successive partial dot products between each
+of said N coefficients contained in said array being
+
+processed and a DCT kernel matrix in response to said first
+stream of successive addresses;
+accumulating and combining said successive partial
+dot products to form a complete vector dot product for each
+
+of the N coefficients of said array being processed;
+transposing a matrix of said dot products to obtain
+a transposed matrix of dot product elements; and
+processing said dot product elements of said
+transposed matrix at least two bits at a time to obtain the
+
+complete dot products thereof with said DCT kernel matrix.
+A method in accordance with claim 21 wherein arrays
+of transform coefficients from the DCT matrix and arrays of
+
+dot product elements from the transposed matrix are processed
+on an interleaved basis.
+A method in accordance with one of claims 21 or 22
+comprising the further steps of:
+
+
+obtaining an array of transform coefficients from
+said DCT matrix;
+forming said first stream of successive addresses
+from at least two bits of each of said transform coefficients
+
+in said array, said accumulating and combining steps forming
+a complete dot product for each of said transform
+
+coefficients contained in said array; 
+repeating the foregoing steps for each of a
+plurality of remaining arrays in said DCT matrix to obtain
+
+said matrix of vector dot products for transposition during
+said transposing step; and
+for each array of dot product elements in said
+transposed matrix of dot product elements:
+forming second successive addresses from at least
+two bits of each of the dot product elements in the array;
+providing successive second outputs in response to
+said second successive addresses, said second outputs
+
+comprising partial dot products between each of said dot
+product elements contained in the array and an array of said
+
+DCT kernel matrix; and
+accumulating and combining said successive second
+outputs to form a complete dot product for each of said dot
+
+product elements contained in the array;
+
+wherein the complete dot products for the arrays of
+said transposed matrix define a block of inverse transform
+
+elements corresponding to the coefficients contained in said
+matrix of DCT coefficients.
+</CLAIMS>
+</TEXT>
+</DOC>

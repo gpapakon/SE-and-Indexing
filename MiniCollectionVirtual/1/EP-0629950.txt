@@ -1,0 +1,197 @@
+<DOC>
+<DOCNO>EP-0629950</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+File backup file system
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1200	G06F906	G06F1114	G06F1200	G06F1730	G06F906	G06F1730	G06F946	G06F1120	G06F1120	G06F1114	G06F946	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F12	G06F9	G06F11	G06F12	G06F17	G06F9	G06F17	G06F9	G06F11	G06F11	G06F11	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A backup file system which can be used without modification of 
+application programs, the operating system, or the hardware. The backup file system 
+
+is implemented by means of a dynamically-linkable replacement library and user-level 
+processes on a primary computer system and a backup computer system. The 
+
+dynamically-linkable replacement library has the same interfaces as a standard 
+dynamically-linkable library of file operations. The functions in the replacement 
+
+library perform the same file operations as their counterparts in the standard library; 
+in addition, they send messages specifying the just-performed operation to a user-level 
+
+process on the backup computer system. The user-level process executes the 
+operation specified in the message on a backup file in the backup computer system. 
+
+The files to be backed up are specified by identifying subtrees in the namespace of 
+the primary file system; the subtrees make up a user-defined namespace. The backup 
+
+file system is made fault tolerant by the use of monitor processes which monitor the 
+backup computer system and the processes of the backup file system and deal with 
+
+failures as required to keep the backup file system operating. 
+
+
+ 
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+AT 
+&
+ T CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+AT
+&
+T CORP.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+FOWLER GLENN STEPHEN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HUANG YENNUN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KORN DAVID GERARD
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+RAO CHUNG-HWA HERMAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FOWLER, GLENN STEPHEN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HUANG, YENNUN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KORN, DAVID GERARD
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+RAO, CHUNG-HWA HERMAN
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The invention relates to computer systems generally and more
+specifically to techniques used at the application program level of the system for
+modifying the effects of calls made to the operating system.Computer systems are layered. In a typical system, the layers include a
+bottom layer of hardware: the processors, the memories, the mass storage devices,
+and the communications media which link these components. The next layer is the
+operating system. The operating system controls the operation of the hardware and
+defines a set of logical devices. Operations on the logical devices become operations
+in the hardware controlled by the operating system. The logical devices provided by
+the operating system are used by programs in layers above the operating system.
+These layers are termed the user level of the system.An important issue in the design of computer systems is the level at
+which operations performed by the system are defined. For example, an operating
+system may provide a rich set of logical devices to the application program level, or
+it may provide a smaller set of primitive logical devices and expect the users'
+applications programs to combine the primitive devices as required to perform its
+operations. The same is the case with the hardware. The design trade off at each
+level is the same: the rich set of logical devices simplifies programming at the next
+level, but increases the complexity of the level providing the logical devices and
+decreases the overall flexibility of the system. In particular, when complex
+operations are performed at lower layers of the system, they are necessarily done
+without the benefit of information available at the higher layers. The design issue
+just outlined in discussed in detail in J.H. Saltzer, D.P. Reed, and D.D. Clark, "End-to-End
+Arguments in System Design", ACM Transactions on Computer Systems,
+Vol. 2, No. 4, Nov. 1984, pp. 277-288. An example of the tradeoffs is provided by the design of backup file
+systems. A backup file system provides a backup of part or all of another file
+system. Since it is the system which is being backed up, the backup file system
+preserves not only file contents, but also the name by which the file is known within
+the portion of the system being backed up. There are many situations where it is
+desirable that an operation performed on a file be duplicated on a file in a backup file
+system. When a backup file system exists, there is no information loss if the original
+file system is destroyed or becomes inoperable. Further, since
+</DESCRIPTION>
+<CLAIMS>
+Apparatus (301,501,701) for selectively adding a side effect (323) to
+an operation which is performed by executing a function in a dynamically-linked
+
+library, the side effect serving to modify the behaviour of a process without modifying
+the application programs being executed by the process, the apparatus comprising:
+
+
+means (405,505) for associating an indication that the side effect is to be
+added with the operation; and
+a dynamically-linked replacement library (403,507) which replaces the
+dynamically-linked library and contains a replacement function, the replacement
+
+function performing the operation in the same manner as the function in the
+dynamically-linked library and further determining from the means for associating the
+
+indication whether the side effect is to be performed for the operation and performing
+the side effect when the means for associating the indication so indicates.
+A file replication system (501,701) comprising:
+
+means (305a) for executing an application program (309) which operates
+on a first file using a function from a first dynamically-linked library (315);
+a second dynamically-linked library (321,507) which replaces the first
+dynamically-linked library and contains a replacement function for the function from
+
+the first dynamically-linked library, the replacement function operating on the file in the
+same fashion as the function from the first library and further sending a message (512)
+
+specifying another operation on another file which is substantially the same as the
+operation performed by executing the function from the first dynamically-linked library.
+The apparatus set forth in claim 1 wherein:
+
+   the operation is an operation on an entity in a computer system, such as a
+function, a file or a device; and the means for associating (405,505) associates the
+
+indication with the entity.
+The apparatus set forth in claim 3 wherein:
+
+   the side effect (323) is performing another operation on another entity in
+
+a computer system, such as a function, a file or a device.
+The apparatus set forth in claim 4 wherein: 
+
+the operation is performed in a first system (511);
+the other operation is performed in a second system (513); and the side
+effect sends a message (512) to the second system specifying the other operation and the
+
+second system responds thereto by performing the other operation.
+The apparatus set forth in claim 5 wherein:
+
+the means for associating (405,505) associates the indication with the
+entity by associating the indication with an identifier for the entity;
+the apparatus further comprises
+means (517) for mapping the identifier for the entity to an identifier for
+the other entity; and
+the message (512) includes the identifier for the entity and the second
+system (513) employs the means for mapping to obtain the identifier for the other entity.
+The apparatus set forth in claim 6 wherein:
+
+   when the function from the dynamically-linked library has an effect on
+the identifier for the entity, the side effect includes altering the means for associating
+
+(505) and the means for mapping (517) as required by the effect on the identifier.
+The apparatus set forth in claim 6 wherein:
+
+   the first system (511) and the second system (513) have separate name
+spaces.
+The apparatus set forth in any of claims 5 to 8, wherein:
+
+the operation is one of a sequence thereof; and the apparatus further
+comprises
+fault tolerant means (717,719) for determining whether either the first
+system or the second system has failed and restarting the failed system;
+first means (711) responsive to the fault tolerant means for recording the
+sequence of operations which occur during the failure; and
+second means (716) responsive to the fault tolerant means for performing
+the recorded sequence when the failed system is restarted.
+The apparatus set forth in any of claims 3 to 8, wherein:
+
+   the entity is a file.
+The apparatus set forth in any of claims 3 to 6 or claim 8, wherein:
+
+   the other operation is substantially the same as that performed by
+executing the function in the dynamically-linked library.
+The apparatus set forth in any of claims 3 to 6 or claim 8 wherein:
+
+   the side effect includes modifying the means for associating an
+indication.
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,520 @@
+<DOC>
+<DOCNO>EP-0635952</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Data transmission system with automatic repeat request (ARQ)
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04L100	H04L100	H04L116	H04L118	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04L	H04L	H04L	H04L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04L1	H04L1	H04L1	H04L1	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An ARQ data transmission scheme in which the overhead 
+due to the ARQ control data is reduced to resolve the 
+
+problem of the throughput deterioration. The error 
+correction code for the original data is used for each re-transmission 
+
+block or sub-block, and the block or sub-block 
+corresponding to each re-transmission block or sub-block is 
+
+found by carrying out the error correction operation with 
+respect to each block or sub-block to be re-transmitted 
+
+which is stored in the memory, so that there is no need to 
+include the block or sub-block number for identifying each 
+
+block or sub-block in the re-transmission frame, and 
+consequently the ratio of the ARQ control data with respect 
+
+to the transmission data can be made relatively smaller and 
+the throughput can be improved. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+NIPPON TELEGRAPH 
+&
+ TELEPHONE
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+NTT MOBILE COMMUNICATIONS NETWORK INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+HAGIWARA JUNICHIROU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SAWAI KOUICHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+UEBAYASHI SHINJI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HAGIWARA, JUNICHIROU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SAWAI, KOUICHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+UEBAYASHI, SHINJI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a data transmission
+scheme incorporating an automatic repeat request (ARQ)
+function in which the receiver side makes the re-transmission
+of the data portion originally transmitted
+with transmission errors to the transmitting side
+automatically.A typical data transmission system using the ARQ has a
+basic configuration as shown in Fig. 1, in which a
+transmission side data terminal 1 outputs the bit streams
+of the transmission data, which are then given to an ARQ
+transmitter 2. At the ARQ transmitter 2, the error
+detection codes such as the cyclic redundancy checking
+(CRC) codes are attached to the transmission data and
+resulting transmission signals in the ARQ frames are
+transmitted toward an ARQ receiver 4 on the reception side
+through a transmission path 3. Then, at the ARQ receiver 4,
+the presence of an error in each frame of the received
+signals is checked, and a re-transmission request signal is
+transmitted to the ARQ transmitter 2 whenever the error is
+detected. When there is no error detected in the received
+signals, the ARQ receiver 4 outputs the received data
+contained in the receive signals to a reception side data
+terminal 5. and transmits the successful reception signal
+to the ARQ transmitter 2.Now, in the data transmission system using the
+conventional simple ARQ, the ARQ control data is attached
+to every re-transmission unit. Namely, the transmission frame in the conventional
+simple ARQ scheme has a structure as shown in Fig. 1B,
+which comprises ARQ control data 6, transmission data 7,
+and error detection code 8, which are sequentially arranged
+in this order. Here, the ARQ control data 6 includes data
+for distinguishing the transmission and the re-transmission,
+and data for identifying the frame to be re-transmitted
+such as the frame number.In the typical conventional simple ARQ scheme, the
+sequential timing chart for the data transmission operation
+appears as shown in Fig. 1C, which depicts an exemplary
+case of having an error in the second frame "2" and an
+error in its re-transmission frame as well. In this case,
+the transmission side transmits the transmission frames
+sequentially, starting from the first frame "1". At the
+reception side, the error detection code is decoded when
+each frame is received, and the presence of the error is
+checked. In a case no error is detected, it is regarded as
+correctly received, and an acknowledgement signal ACK
+accompanied by the frame number of the correctly received
+frame is returned to the transmission side. On the
+</DESCRIPTION>
+<CLAIMS>
+A data transmission method using automatic repeat
+request function for automatically requesting a re-transmission
+
+of data received with an error at a reception
+side (5) to a transmission side (1), comprising the steps of:
+
+
+(a) dividing transmission data into a plurality of
+blocks (1,2,..., N) and attaching error detection code (8) to
+
+each block (1,2,... N) to form a plurality of transmission
+blocks at the transmission side (1);
+(b) grouping N transmission blocks obtained at the step
+(a) together and attaching one ARQ control data (6) to a
+
+group of N transmission blocks to form a transmission frame
+at the transmission side (1), where N is an integer;
+(c) transmitting transmission blocks of the
+transmission frame formed at the step (b) sequentially from
+
+the transmission side (1) to the reception side (5);
+(d) detecting a presence of an error in each
+transmission block transmitted from the transmission side (1)
+
+and received at the reception side (5) at the step (c);
+(e) storing in a memory (233) each transmission block
+for which the presence of the error is detected at the step
+
+(d) as an error block along with a block number identifying
+said each transmission block at the reception side (5), and
+
+returning a re-transmission request signal (NAK) for the
+error block from the reception side (5) to the transmission
+
+side (1);
+(f) producing an error correction code (CRC) for each
+error block as a re-transmission block at the transmission
+
+side (1) in response to the re-transmission request signal
+(NAK) for said each error block returned at the step (e);
+(g) grouping M re-transmission blocks (2',3',4',5')
+produced at the step (f) together and attaching one ARQ 
+
+control data (6) to a group of M re-transmission blocks to
+form a re-transmission frame at the transmission side, where
+
+M is an integer;
+(h) transmitting the re-transmission blocks of the re-transmission
+frame formed by the step (g) sequentially from
+
+the transmission side (1) to the reception side (5) whenever
+the re-transmission frame is formed at the step (g);
+(i) carrying out an error correction operation for each
+re-transmission block of the re-transmission frame
+
+transmitted from the transmission side (1) and received at
+the reception side (5) at the step (h) with respect to each
+
+error block stored in the memory (233) to obtain an error
+correction trial block for each error block at the reception
+
+side;
+(j) judging each re-transmission block of the re-transmission
+frame transmitted from the transmission side (1)
+
+and received at the reception side (5) at the step (h) as a
+re-transmission block corresponding to one error block for
+
+which the error correction trial block obtained at the step
+(i) has no error at the reception side (5); and
+(k) adopting the error correction trial block for said
+one error block as a recovered block for said one error block
+
+at the reception side (5).
+The data transmission method of claim 1, further
+comprising the step of:
+
+(1) after the step (d), receiving each transmission block for
+which the presence of the error is not detected at the step
+
+(d) as a correctly received block at the reception side (5),
+and returning an acknowledge signal (ACK) for the correctly
+
+received block from the reception side (5) to the
+transmission side (1).
+The data transmission method of claim 1, wherein the
+step (k) also returns an acknowledge signal for said one
+
+error block from the reception side (5) to the transmission
+side (1). 
+The data transmission method of claim 1, further
+comprising the step of:
+
+
+(m) after the step (k), deleting said one error block
+in the memory (233); and
+(n) after the steps (i), (j), (k), and (m) are carried
+out for all the re-transmission blocks
+ (2',3',4',5') of the
+re-transmission frame transmitted from the transmission side
+
+(1) and received at the reception side (5) at the step (h),
+returning a re-transmission request signal (NAK) for each
+
+error block which is still remaining in the memory (233) from
+the reception side (5) to the transmission side (1).
+The data transmission method of claim 1, wherein the
+step (k) adopts the error correction trial block for said one
+
+error block as a recovered block for said one error block
+only when the step (j) judges that there is no other error
+
+block for which the error correction trial block obtained at
+the step (i) has no error.
+The data transmission method of claim 1, wherein the ARQ
+control data (6) of each transmission frame formed at the
+
+step (b) includes data for distinguishing each transmission
+frame from each re-transmission frame formed at the step (g)
+
+and data for identifying the transmission blocks contained in
+each transmission frame, whereas the ARQ control data of each
+
+re-transmission frame formed at the step (g) includes only
+data for distinguishing each re-transmission frame from each
+
+transmission frame formed at the step (b).
+The data transmission method of claim 1, wherein M used
+in the step (g) is greater than N used in the step (b).
+A data transmission method using automatic repeat
+request function (ARQ) for automatically requesting a re-transmission
+
+of data received with an error at a reception
+side (5) to a transmission side (1), comprising the steps of: 
+
+
+(a) dividing transmission data (B
+1
+, ..., B
+N
+) into a
+plurality of transmission sub-blocks arranged in two
+
+dimensional matrix (1-1, ..., N-M),, and attaching a first
+error detection code (CRC1) to each group of transmission
+
+sub-blocks arranged in each column of the two dimensional
+matrix while attaching a second error detection code (CRC2)
+
+to each group of transmission sub-blocks arranged in each row
+of the two dimensional matrix at the transmission side (1);
+(b) forming a transmission frame by attaching one ARQ
+control data (6) to each group of transmission sub-blocks
+
+arranged in each row of the two dimensional matrix at the
+transmission side (1);
+(c) transmitting transmission sub-blocks of the
+transmission frame formed at the step (b) sequentially from
+
+the transmission side (1) to the reception side (5);
+(d) detecting a presence of an error in each
+transmission sub-block (B521) transmitted from the
+
+transmission side (1) and received at the reception side (5)
+at the step (c);
+(e) storing in a memory each transmission sub-block for
+which the presence of the error is detected at the step (d)
+
+as an error sub-block (B521) along with a sub-block number
+identifying said each transmission sub-block at the reception
+
+side (5), and returning a re-transmission request signal
+(NAK) for the error sub-block from the reception side (5) to
+
+the transmission side (1);
+(f) producing an error correction code for each error
+sub-block as a re-transmission sub-block at the transmission
+
+side (1) in response to the re-transmission request signal
+(NAK) for said each error sub-block returned at the step (e);
+(g) grouping a plurality of re-transmission sub-blocks
+produced at the step (f) together and attaching one ARQ
+
+control data (6) to said plurality of re-transmission sub-blocks
+to form a re-transmission frame at the transmission
+
+side (1);
+(h) transmitting the re-transmission sub-blocks of the
+re-transmission frame formed by the step (g) sequentially 
+
+from the transmission side (1) to the reception side (5)
+whenever the re-transmission frame is formed at the step (g);
+(i) carrying out an error correction operation for each
+re-transmission sub-block of the re-transmission frame
+
+transmitted from the transmission side (1) and received at
+the reception side (5) at the step (h) with respect to each
+
+error sub-block stored in the memory (233) to obtain an error
+correction trial sub-block for each error sub-block at the
+
+reception side (5);
+(j) judging each re-transmission sub-block of the re-transmission
+frame transmitted from the transmission side (1)
+
+and received at the reception side (5) at the step (h) as a
+re-transmission sub-block corresponding to one error sub-block
+
+for which the error correction trial sub-block obtained
+at the step (i) has no error according to at least one of the
+
+first and second error correction codes (CRC1, CRC2) at the
+reception side (5); and
+(k) adopting the error correction trial sub-block for
+said one error sub-block as a recovered sub-block for said
+
+one error sub-block at the reception side.
+The data transmission method of claim 8, further
+comprising the step of:
+
+(1) after the step (d), receiving each transmission sub-block
+for which the presence of the error is not detected at
+
+the step (d) as a correctly received sub-block at the
+reception side (5), and returning an acknowledge signal (ACK)
+
+for the correctly received sub-block from the reception side
+(5) to the transmission side (1).
+The data transmission method of claim 8, wherein the
+step (k) also returns an acknowledge signal (ACK) for said
+
+one error sub-block from the reception side (5) to the
+transmission side (1).
+The data transmission method of claim 8, further
+comprising the step of: 
+
+
+(m) after the step (k), deleting said one error sub-block
+in the memory (233); and
+(n) after the steps (i), (j), (k), and (m) are carried
+out for all the re-transmission sub-blocks of the re-transmission
+
+frame transmitted from the transmission side (1)
+and received at the reception side (5) at the step (h),
+
+returning a re-transmission request signal (NAK) for each
+error sub-block which is still remaining in the memory (233)
+
+from the reception side (5) to the transmission side (1).
+The data transmission method of claim 8, wherein the
+step (k) adopts the error correction trial sub-block for said
+
+one error sub-block as a recovered sub-block for said one
+error sub-block only when the step (j) judges that there is
+
+no other error sub-block for which the error correction trial
+sub-block obtained at the step (i) has no error.
+The data transmission method of claim 8, wherein the ARQ
+control data (6) of each transmission frame formed at the
+
+step (b) includes data for distinguishing each transmission
+frame from each re-transmission frame formed at the step (g)
+
+and data for identifying the transmission sub-blocks
+contained in each transmission frame, whereas the ARQ control
+
+data (6) of each re-transmission frame formed at the step (g)
+includes only data for distinguishing each re-transmission
+
+frame from each transmission frame formed at the step (b).
+A data transmission system using automatic repeat
+request function for automatically requesting a re-transmission
+
+of data received with an error at a reception
+side (5) to a transmission side (1), comprising:
+
+
+a transmission section including:
+first means for forming a transmission frame by dividing
+(110) transmission data into a plurality of blocks, attaching
+
+(120) error detection code (CRC) to each block to form a
+plurality of transmission blocks, grouping (130) N
+
+transmission blocks together, and attaching (160) one ARQ 
+control data (6) to a group of N transmission blocks where N
+
+is an integer;
+second means (150) for producing an error correction
+
+code for each block occuring at the reception side (5) as a
+re-transmission block in response to a re-transmission
+
+request signal (NAK) for said each error block returned from
+the reception side (5);
+third means (230) for forming a re-transmission frame by
+grouping M re-transmission blocks produced by the second
+
+means (150) together and attaching one ARQ control data (6)
+to a group of M re-transmission blocks where M is an integer;
+
+and
+transmitter means (170) for transmitting transmission
+blocks of the transmission frame formed by the first means
+
+(110, 120, 130, 160) sequentially from the transmission side
+(1) to the reception side (5), and transmitting the re-transmission
+
+blocks of the re-transmission frame formed by
+the third means (230) sequentially from the transmission side
+
+(1) to the reception side (5) whenever the re-transmission
+frame is formed by the third means (230); and
+
+   a reception section including:
+
+fourth means (230, 232) for detecting a presence of an
+error in each transmission block transmitted from the
+
+transmission side (1);
+memory (233) for storing each transmission block for
+which the presence of the error is detected by the fourth
+
+means as an error block along with a block number identifying
+said each transmission block;
+fifth means (232) for returning the re-transmission
+request signal (NAK) for the error block to the transmission
+
+side (170);
+sixth means (231) for carrying out an error correction
+operation for each re-transmission block of the re-transmission
+
+frame transmitted from the transmission side in
+response to the re-transmission request signal (NAK) returned
+
+by the fifth means (232) with respect to each error block 
+stored in the memory (233) to obtain an error correction
+
+trial block for each error block;
+seventh means for judging each re-transmission block of
+the re-transmission frame transmitted from the transmission
+
+side in response to the re-transmission request signal (NAK)
+returned by the fifth means (232) as a re-transmission block
+
+corresponding to one error block for which the error
+correction trial block obtained by the sixth means has no
+
+error; and
+eighth means for adopting the error correction trial
+block for said one error block obtained by the sixth means as
+
+a recovered block for said one error block.
+The data transmission system of claim 14, wherein the
+reception section further comprises:
+
+   ninth means (250) for receiving each transmission block
+for which the presence of the error is not detected by the
+
+fourth means (232) as a correctly received block, and
+returning an acknowledge signal (ACK) for the correctly
+
+received block to the transmission side.
+The data transmission system of claim 14, wherein the
+eighth means also returns an acknowledge signal (ACK) for
+
+said one error block to the transmission side.
+The data transmission system of claim 14, further
+comprising:
+
+
+means for deleting said one error block in the memory
+(233); and
+means for returning a re-transmission request signal
+(NAK) for each error block which is still remaining in the
+
+memory (233) to the transmission side (1) after the sixth,
+seventh, eighth, and deleting means operated with respect to
+
+all the re-transmission blocks of the re-transmission frame
+transmitted from the transmission side (1).
+The data transmission system of claim 14, wherein the
+eighth means adopts the error correction trial block for said
+
+one error block as a recovered block for said one error block
+only when the seventh means judges that there is no other
+
+error block for which the error correction trial block
+obtained by the sixth means has no error.
+The data transmission system of claim 14, wherein the
+ARQ control data (6) of each transmission frame formed by the
+
+first means (110, 120, 130, 160) includes data for
+distinguishing each transmission frame from each re-transmission
+
+frame formed by the third means (230) and data
+for identifying the transmission blocks contained in each
+
+transmission frame, whereas the ARQ control data (6) of each
+re-transmission frame formed by the third means (230)
+
+includes only data for distinguishing each re-transmission
+frame from each transmission frame formed by the first means.
+The data transmission system of claim 14, wherein M used
+by the third means (230) is greater than N used by the first
+
+means (110, 120, 130, 160).
+</CLAIMS>
+</TEXT>
+</DOC>

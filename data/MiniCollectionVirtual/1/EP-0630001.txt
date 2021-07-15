@@ -1,0 +1,290 @@
+<DOC>
+<DOCNO>EP-0630001</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method and apparatus for initialization and calibration of magnetic tape having multiple servo areas.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G11B555	G11B555	G11B556	G11B556	G11B5584	G11B5584	G11B1502	G11B1502	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G11B	G11B	G11B	G11B	G11B	G11B	G11B	G11B	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G11B5	G11B5	G11B5	G11B5	G11B5	G11B5	G11B15	G11B15	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An apparatus and method for initializing a magnetic tape (22) when it is mounted in a tape drive (10) 
+is provided. Each time a tape is mounted, control parameters pertaining to the servo system 
+are set 
+to predetermined values and servo read elements in the tape head are activated. When the tape (22) 
+
+is moved and a number of position error signal (PES) samples are read and averaged for each of the 
+active servo elements. The value of one or more of the parameters is modified and new PES readings 
+
+and averages are obtained. This process is repeated for a predetermined combination of parameter 
+values whereupon read and write offsets are calculated and stored for each servo element. The 
+
+resulting adjusted PES is used by the servo controller to optimize track following. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BACA ROBERT CARL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+CHLIWNYJ ALEX
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+COMEAUX WAYNE THOMAS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+CROSSLAND JAMES FRANCIS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+RHODES RONALD KEITH
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BACA ROBERT CARL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+CHLIWNYJ ALEX
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+COMEAUX WAYNE THOMAS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+CROSSLAND JAMES FRANCIS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+RHODES RONALD KEITH
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to magnetic tape data storage, and in particular, to initialization of a servo 
+positioning device upon mounting a magnetic tape cartridge. In the information storage industry, increases in the data capacity of tape have been achieved with 
+thinner tape substrates and with various data compression techniques. Advances in the magnetic tape 
+media and tape head technologies have generated further increases in data capacity by increasing both 
+the number of tracks on a magnetic tape (by narrowing the width of each track) and the number of data 
+read/write "gaps" or elements on the head. For example, the IBM 3490-E magnetic tape subsystem 
+for 12.7 mm (1/2 inch) wide tape employs a head with 36 data read/write elements and has a tape 
+capacity of about 800 megabytes (MB). 3490-E tape drives perform serpentine (bi-directional) linear 
+(as opposed to helical scan) recording and, to reduce the number of tape rewinds and thereby improve 
+performance, sets of data head elements are interleaved. In an interleaved head, element pairs having 
+a read-element/write-element configuration (when viewed toward the face of the head) alternate with 
+element pairs having an opposite, write-element/read-element configuration, each pair of elements 
+being associated with one track on the tape. When the tape travels in one direction, the element pairs 
+having one configuration access the associated tracks (such as the even numbered tracks) in a 
+read-after-write manner and when the tape travels in the opposite direction, the element pairs having 
+the other configuration access the other associated tracks (the odd numbered tracks), also in a 
+read-after-write manner. To further enhance performance with such a large number of tracks 
+requiring an equally large number of closely spaced elements, a magneto-resistive transducer formed 
+through thin film deposition techniques can be employed as the tape head. However, the number of parallel, longitudinal tracks which can be established on tape media has been 
+limited by the number of read/write elements which could be fabricated on a head to write/read 
+narrower tracks. Therefore, data tape drives have been designed to process a tape using a head 
+having fewer sets of read/write elements than there are tracks on the tape. The tracks are divided into  
+ 
+groups, each containing the same number of tracks as there are read/write element pairs in the head. 
+To access all of the groups, the head is indexed transversely relative to the tape width, such as
+</DESCRIPTION>
+<CLAIMS>
+An apparatus for initializing a multi-track magnetic tape (22) having spaced-apart, longitudinal 
+servo areas (AB, BC, CD), comprising: 
+
+   a multi-track magnetic tape head (20) having a plurality of sets of servo read elements, each set 
+in a corresponding relationship with a selected one of a like plurality of servo areas on the tape, each 
+
+servo element capable of generating an unadjusted position error signal (PES); 
+   servo control means for moving said head in small increments about a desired position whereby 
+
+one servo element in each of said at least one set of servo elements maintains a predetermined 
+alignment with the corresponding servo area during a tape access operation; characterized by further 
+
+comprising 
+   means for calculating a read offset for each of said servo elements indicative of a dimensional 
+
+and spacing variation of each of said servo elements relative to each other of said servo elements; and 
+
+   means for calculating, from the calculated read offsets, an adjusted position error signal for each 
+of said servo elements which are active during a data read operation. 
+The apparatus of Claim 1, wherein: 
+   each of the servo areas (AB, BC, CD) on the tape (22) has an upper (U) alignment edge and a 
+
+lower (L) alignment edge, a first parameter E having a value of U and L, respectively; 
+   each of said sets of servo elements includes an upper (U) servo element and a lower (L) servo 
+
+element, a second parameter G having a value of U and L, respectively; and 
+   said servo control means includes means for moving said head (20) to a desired one of a plurality 
+
+of index positions. 
+The apparatus of Claim 2, wherein said means for calculating a read offset comprises: 
+   means for determining individual average position errors AvgPES(C,G,E), where C is an integer 
+
+from 1 to n, n being the number of sets of servo elements on said head; 
+   means for calculating group average position errors 
+
+GroupAvg(D,E,G) = (1/n) * {AvgPES(1,E,G) 
++ AvgPES(2,E,G) + ... + AvgPES(n,E,G)}  
+
+, 
+   whereby read offsets 
+
+ReadOffset(C,E,G) = AvgPES(C,E,G) - GroupAVG(E,G)  
+; and
+
+ 
+   means for storing the calculated read offsets. 
+The apparatus of Claim 2, wherein: 
+   each of said sets of servo elements includes upper and lower left (L) servo elements and upper 
+
+and lower right (R) servo elements, said left servo elements operable for track following when the tape 
+is moving in a first direction and said right servo elements operable for track following when the tape 
+
+is moving in an opposite direction; 
+   said head (20) comprises left (L) and right (R) modules on which are located said left (L) servo 
+
+elements and said right (R) servo elements, respectively, of each set of servo elements, a third 
+parameter M having a value of L and R, respectively; and 
+
+   said means for calculating a read offset comprises: 
+means for determining individual average position errors AvgPES(C,D,G,E,M),where C is an integer from 
+
+1 to n, n being the number of sets of servo elements on said head; 
+   means for calculating group average position errors 
+
+GroupAvg(D,E,G,M) = GroupAvg(D,E,G,M) 
+= (1/n) * {AvgPES(1,D,E,G,M) + AvgPES(2,D,E,G,M) + ... + AvgPES(n,D,E,G,M)}  
+
+; and 
+   means for calculating module-to-module average position errors 
+
+ModModAvg(D) = (1/4) * 
+{GroupAvg(D,E=U,G=U,M=L) - GroupAvg(D,E=U,G=U,M=R) + GroupAvg(D,E=L,G=U,M=L) - 
+
+GroupAvg(D,E=L,G=U,M=R) + GroupAvg(D,E=U,G=L,M=L) - GroupAvg(D,E=U,G=L,M=R) + 
+GroupAvg(D,E=L,G=L,M=L) - GroupAvg(D,E=L,G=L,M=R)}  
+
+, 
+   whereby read offsets 
+
+ReadOffset(C,D,E,G,M) = AvgPES(C,D,E,G,M) - GroupAvg(D,E,G,M)  
+. 
+The apparatus of Claim 19, further comprising: 
+   means for calculating a first write offset 
+
+WriteOffset(C,D=F,E,G,M=R) = 
+ReadOffset(C,D=F,E,G,M=R) - ModModAvg(D=F)  
+
+; and 
+   means for calculating a second write offset 
+
+WriteOffset(C,D=B,E,G,M=L) = 
+ReadOffset(C,D=B,E,G,M=L) - ModModAvg(D=B)  
+
+. 
+The apparatus of Claim 5, further comprising means for calculating, from the calculated write 
+offsets, an adjusted position error signal for each of said servo elements which are active during a data 
+
+write operation. 
+A method of calibrating a multi-track, magnetic tape drive (10) for positioning a multi-element 
+tape head (20) under servo control, comprising the steps of: 
+
+   mounting a removable magnetic tape cartridge in the tape drive (10), the tape (22) having a 
+plurality of spaced-apart, longitudinal servo areas (AB, BC, CD) parallel to data tracks and the tape 
+
+head (20) having a like plurality of sets of servo read elements, each set having at least one servo 
+element; 
+
+   initializing a plurality of control parameters; 
+   activating a servo element in each of the sets; 
+
+   moving the tape in a first direction; 
+   obtaining a predetermined number of position error signals (PES) from each of the active servo 
+
+elements; 
+   determining a separate average of the position error signals obtained from each of the active 
+
+servo elements; 
+   modifying at least one of the control parameters; 
+
+   repeating said activating, moving, obtaining, determining and modifying steps for predetermined 
+combinations of the control parameters; and 
+
+   calculating a read offset for each servo element from the determined position error signal 
+averages, each read offset being indicative of dimensional and spacing variations of the associated 
+
+servo element. 
+The method of Claim 7, wherein: 
+   the tape includes n servo areas, the tape head (20) includes n sets of servo elements, each servo 
+
+area includes an upper and a lower edge (400, 402), and each set of servo elements includes an upper 
+and a lower element, ali of the upper elements comprising an upper (U) group and all of the lower 
+
+elements comprising a lower group; and 
+   said step of initializing parameters includes the step of setting a parameter E, representing a 
+
+selected one of the upper and lower servo area edges, to U and setting a parameter G, representing 
+a selected one of the upper (U) and lower groups, to U. 
+The method of Claim 8, wherein said step of determining an average of the position error signals 
+includes the step of determining AvgPES(C,E,G), where C is an integer from 1 to n. 
+The method of Claim 9, wherein said step of calculating a read offset comprises the steps of: 
+calculating group average position error signals GroupAvg(E,G) from AvgPES(C,E,G); and 
+
+calculating read offsets ReadOffset(C,G,E) from AvgPES(C,E,G) and GroupAvg(E,G). 
+The method of Claim 8, wherein: 
+   the tape head (20) further includes left and right modules, each set of servo elements includes 
+
+an upper and a lower element on each of the left module and the right module and the tape drive 
+transports the tape in forward (F) and backward (B) directions; and 
+
+   said step of initializing parameters further includes the steps of setting a parameter D, 
+representing a selected one of the forward and backward tape directions, to F and a parameter M, 
+
+representing a selected one of the left and right modules, to R. 
+The method of Claim 11, wherein said step of determining an average of the position error signals 
+includes the step of determining AvgPES(C,D,E,G,M), where C is an integer from 1 to n. 
+The method of Claim 12, wherein said step of calculating a read offset comprises the steps of: 
+   calculating group average position error signals 
+
+GroupAvg(D,E,G,M) = GroupAvg(D,E,G,M) = 
+(1/n) * {AvgPES(1,D,E,G,M) + AvgPES(2,D,E,G,M) + ... + AvgPES(n,D,E,G,M)}  
+
+; and 
+   calculating module-to-module average position error signals 
+
+ModModAvg(D) = (1/4) * 
+{GroupAvg(D,E=U,G=U,M=L) - GroupAvg(D,E=U,G=U,M=R) + GroupAvg(D,E=L,G=U,M=L) - 
+
+GroupAvg(D,E=L,G=U,M=R) + GroupAvg(D,E=U,G=L,M=L) - GroupAvg(D,E=U,G=L,M=R) + 
+GroupAvg(D,E=L,G=L,M=L) - GroupAvg(D,E=L,G=L,M=R)}  
+
+. 
+The method of Claim 13, wherein said step of calculating a read offset further comprises the step 
+of calculating 
+
+ReadOffset(C,D,E,G,M) = AvgPES(C,D,E,G,M) - GroupAvg(D,E,G,M)  
+. 
+The method of Claim 14, further comprising the steps of: 
+   calculating a first write offset 
+
+WriteOffset(C,D=F,E,G,M=R) = ReadOffset(C,D=F,E,G,M=R) - 
+ModModAvg(D=F)  
+
+; and 
+   calculating a second 
+
+WriteOffset(C,D=B,E,G,M=L) = ReadOffset(C,D=B,E,G,M=L) - 
+ModModAvg(D=B)  
+
+. 
+The method as claimed is any claim from 7 to 15, further comprising the steps of: 
+   detecting defective servo areas; 
+
+   detecting defective tape guiding problems; and 
+
+   detecting independent position sensor home mis-positioning. 
+</CLAIMS>
+</TEXT>
+</DOC>

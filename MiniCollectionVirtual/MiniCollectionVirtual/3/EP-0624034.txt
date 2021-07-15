@@ -1,0 +1,329 @@
+<DOC>
+<DOCNO>EP-0624034</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Image coding and decoding system.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T900	G06T900	H03M730	H03M730	H04N724	H04N724	H04N726	H04N728	H04N736	H04N736	H04N746	H04N746	H04N750	H04N750	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	H03M	H03M	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T9	G06T9	H03M7	H03M7	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+In an image coding and decoding device, input 
+digital image signals are divided into blocks of prescribed 
+
+size, and coding processing is performed to differential 
+signal taken between the input block signal and interframe 
+
+forcasting signal thereby transmission recording is 
+performed. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MITSUBISHI ELECTRIC CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MITSUBISHI DENKI KABUSHIKI KAISHA
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+ASAI KOHTARO C O MITSUBISHI DE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ASANO KENICHI C O MITSUBISHI D
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ITOH ATSUSHI C O MITSUBISHI DE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KINJO NAOTO C O MITSUBISHI DEN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MURAKAMI TOKUMICHI C O MITSUBI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NISHIDA MASAMI C O MITSUBISHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ASAI, KOHTARO, C/O MITSUBISHI DENKI K.K.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ASANO, KENICHI, C/O MITSUBISHI DENKI K.K.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ITOH, ATSUSHI, C/O MITSUBISHI DENKI K.K.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KINJO, NAOTO, C/O MITSUBISHI DENKI K.K.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MURAKAMI, TOKUMICHI, C/O MITSUBISHI DENKI K.K.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NISHIDA, MASAMI, C/O MITSUBISHI DENKI K.K.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to an image coding 
+and decoding device, and more particularly to an image 
+coding and decoding device which can efficiently code 
+and decode the motion image signals so as to transmit 
+and record the signals by the interframe coding. FIG. 3 is a block diagram which shows a 
+transmitting section of an image coding transmitter in 
+the prior art. In FIG. 3, numeral 2 designates a motion 
+compensating circuit, numeral 6 designates a differential 
+section, numeral 8 designates a coding and decoding 
+circuit, numeral 11 designates an adder, and numeral 13 
+designates a frame memory. FIG. 4 is a block diagram which shows a motion 
+vector detecting section in the motion compensating 
+circuit 2. In FIG. 4, numeral 14 designates a 
+differential section, numeral 16 designates a distortion 
+operator, and numeral 18 designates a comparator. The operation of the device will be described. In the motion compensating circuit 2, using 
+digitally transformed input signals 1 and previous frame 
+reconstruction signals 3 stored in the frame memory 13, 
+with the picture element blocks of the prescribed size  
+ 
+N₁ x N₂ (N₁, N₂ being plus integers) used as a unit, a 
+block which has the most similar pattern to the block of 
+the input signal is detected from the previous signals, 
+and signals of the detected block are outputted as 
+predicting signals 4, and index information 5 indicating 
+motion vectors being position shift between the position 
+of the block and that of the input signal block is 
+transmitted to the receiving side. An example of the motion detecting method is shown 
+in FIG. 4. Assuming that the input signal block be S(1), the 
+previous frame signal block be S'i(3), the number of the 
+searched blocks be L (L being plus integer), the matching 
+distortion between the blocks be di(17), and 
+K = N₁ x N₂  
+.
+
+S = (S₁, ..., SK), S'i = (S'i1, ..., S'iK), Among di(11) estimated by the differential section 17 
+and the distortion operator 16 based on the above 
+formulas, the block having the smallest matching 
+distortion value is detected by the comparator 18, and 
+the block signal is transformed into the predicting signal 
+4 block by block, and the index information 5 of the 
+block motion vectors is outputted. However, in FIG. 4, 
+the hardware composition is simplified by applying the 
+serial process to the distortion operation and the  
+ 
+comparing process at each searching block. In FIG. 5, 
+an example of the arrangement of the searching vectors 
+is shown. Differences between the
+</DESCRIPTION>
+<CLAIMS>
+A dynamic vector quantizer provided with a 
+coding section comprising: 
+
+   an average value separation circuit which 
+separates the average value within a block from input 
+
+vectors formed with every k samples (k being integer of 
+two or more) of input signal; 
+
+   an average value coding circuit which encodes 
+the average value;
+
+ 
+   a normalization circuit which normalizes the 
+
+average value separated input vector obtained through 
+average value separation by the average value separation 
+
+circuit according to the amplitude of the input vector; 
+   a fixed code book which stores a plurality of 
+
+normalized output vectors suited for the distribution of 
+the normalized input vectors; 
+
+   a dynamic code book which stores the plurality 
+of normalized input vectors supposing them as normalized 
+
+output vectors, the stored content being updated; 
+   an inner product operation section which 
+
+calculates inner product value between the average value 
+separated input vector and a plurality of normalized 
+
+output vectors stored in the fixed code book and the 
+dynamic code book; 
+
+   a maximum inner product detecting section for 
+finding maximum inner product value among a plurality of 
+
+inner product values calculated by the inner product 
+operation section; 
+
+   an amplitude coding circuit which encodes 
+either the maximum inner product value or the 
+
+normalization coefficient; 
+   a dynamic code book control section which 
+
+calculates a degree of approximation between the input 
+vector and the decoded vector after vector quantization 
+
+of the input vector using the maximum inner product 
+value and the normalization coefficient, and controls 
+
+ 
+the updating operation of the dynamic code book based 
+
+on comparison result of the degree of approximation and 
+threshold value previously set; 
+
+   a coded data multiplexing section which 
+multiplexes either discrimination code relating to the 
+
+update procedure, the output data of the average value 
+coding circuit, the output data of the amplitude coding 
+
+circuit and the maximum inner product value or 
+normalized output vector and the discrimination code is 
+
+attached according to the prescribed format, and then 
+transmits it; 
+
+   means which calculates the degree of 
+approximation with the normalization coefficient and the 
+
+maximum inner product value and selects the maximum 
+inner product value as input signal to the amplitude 
+
+coding circuit when the degree of approximation is 
+larger than the threshold value, and defines the input 
+
+signal to the coding data multiplexing section with the 
+discrimination code, of the output data of the average 
+
+value coding circuit, the output data of the amplitude 
+coding circuit and the normalized output vector; and 
+
+   means which replaces the oldest normalized 
+input vector stored in the dynamic code book 
+
+corresponding to the input vector with the normalized 
+input vector thereby executes the update operation when 
+
+the degree of approximation is less than the threshold 
+value, and selects the normalization coefficient as 
+
+ 
+input signal to the amplitude coding circuit, and 
+
+further defines the input signal to the coding data 
+multiplexing section with the normalized input vector 
+
+and the output data of the average value coding circuit, 
+the output data of the amplitude coding circuit and the 
+
+discrimination symbol indicating that the updating 
+operation has been done thereto, 
+
+   decoding section comprising: 
+   a coded data demultiplexing section which 
+
+separates the coded data transmitted from the coding 
+section into the average value coded data, the amplitude 
+
+coded data and the discrimination symbol according to 
+the prescribed format; 
+
+   an average value decoding circuit which 
+decodes the average value coded data; 
+
+   an amplitude decoding circuit which decodes 
+the amplitude coded data; 
+
+   a fixed code book and a dynamic code book 
+corresponding to the fixed code book and the dynamic 
+
+code book at the side of the coding section respectively; 
+   means which reads the normalized output vector 
+
+on the address indicated by the discrimination symbol 
+from the fixed code book or the dynamic code book when 
+
+the discrimination symbol indicates the normalized 
+output vector, and performs prescribed operation based 
+
+on the normalized output vector, the decoded amplitude 
+value outputted from the amplitude decoding circuit, 
+
+ 
+and the decoded average value outputted from the average 
+
+value decoding circuit thereby obtains the decoded 
+vector to the input vector; and 
+
+   means which replaces the oldest vector stored 
+in the dynamic code book with th
+e normalized input 
+vector received following the discrimination symbol in 
+
+the case that the discrimination symbol indicates the 
+update operation thereby executes similar to the update 
+
+in the coding section, and performs prescribed operation 
+of the normalized input vector based on the decoded 
+
+amplitude value and decoded average value thereby 
+obtains the decoded vector to the input vector. 
+A dynamic vector quantizer as set forth in 
+claim 1, wherein in the coding section, a plurality of 
+
+normalized output vectors within the fixed code book 
+are arranged in tree structure in step per 2n (n: 
+
+natural number), and a normalized output vector giving 
+the maximum inner product value to the input vector is 
+
+selected among 2n pieces of the normalized output 
+vectors in sequence from upper step of the tree 
+
+structure towards lower step and tree searching method 
+is used. 
+A dynamic vector quantizer as set forth in 
+claim 1, wherein the normalization circuit performs 
+
+normalization using the root of the sum of the squared 
+ 
+
+average value-separated-input vector as the normalization 
+coefficient. 
+A dynamic vector quantizer as set forth in 
+claim 1, wherein the fixed code book stores a plurality 
+
+of normalized output vectors with average value zero and 
+magnitude 1 determined depending on the statistical 
+
+characteristics of plural normalized input vectors. 
+A dynamic vector quantizer as set forth in 
+claim 1, wherein the degree of approximation between 
+
+the input vector and the decoded vector after vector 
+quantization is estimated using the squared normalization 
+
+coefficient and the squared maximum inner product value. 
+A dynamic vector quantizer as set forth in 
+claim 1, wherein the discrimination symbol indicates 
+
+the existence of the index corresponding to the output 
+vector, the normalized output vector is multiplied by 
+
+the decoded amplitude value and the product is added to 
+the decoded average value. 
+A dynamic vector quantizer as set forth in 
+claim 1, wherein the discrimination symbol indicates 
+
+that the update operation has been done, the normalized 
+input vector is multiplied by the decoded amplitude 
+
+value and the product is added to the decoded average 
+value. 
+</CLAIMS>
+</TEXT>
+</DOC>

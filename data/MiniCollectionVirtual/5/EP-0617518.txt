@@ -1,0 +1,235 @@
+<DOC>
+<DOCNO>EP-0617518</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Variable length codeword packer
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04B166	H04N726	H03M740	H03M740	H04B166	H04N726	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04B	H04N	H03M	H03M	H04B	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04B1	H04N7	H03M7	H03M7	H04B1	H04N7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A variable length codeword packer (Fig. 3) 
+communicates codeword data in successive m-bit 
+
+bytes. A binary sum is accumulated (86) indicative 
+of a total number of codeword bits received over 
+
+time. A byte pointer (90) is derived from at least 
+one most significant bit of the binary sum. A bit 
+
+pointer (92) is derived from a plurality of least 
+significant bits of the binary sum. A first data 
+
+storage array (20) has a plurality of m-bit first 
+storage bytes and is responsive to the byte pointer 
+
+for storing received codeword data in the first 
+storage bytes. A second data storage array (22) has 
+
+a plurality of m-bit second storage bytes and is 
+responsive to the byte and bit pointers for filling 
+
+the second storage bytes with codeword data from the 
+first data storage array (20). m-bit bytes of 
+
+codeword data (25) are output from each filled 
+second storage byte to provide successive m-bit 
+
+bytes of codeword data. The use of a multistage 
+approach in packing variable length codewords 
+
+substantially reduces the complexity as compared to 
+single stage designs. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+GEN INSTRUMENT CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+GENERAL INSTRUMENT CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+DEROVANESSIAN HENRY
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LIU VINCENT
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DEROVANESSIAN, HENRY
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LIU, VINCENT
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to the
+communication of compressed digital data, and more
+particularly to apparatus for arranging variable
+length codewords for transmission in successive
+fixed length data bytes.In order to efficiently use the available radio
+frequency spectrum for the communication of digital
+data, such as high definition television data, it is
+advantageous to compress the digital signals to
+minimize the amount of data that must be
+transmitted. One well known compression technique
+is referred to as variable length coding. A coding
+scheme of this type will cause bit strings of fixed
+length to be encoded into bit strings of variable
+length, with the more commonly occurring codes being
+represented by bit strings having lengths shorter
+than those of the fixed length codes. If the
+assignment of variable length codes is properly
+made, the average length of such codes in a given
+data stream will be much less than that of the
+corresponding fixed length codes, even though many
+of the variable length codes are much longer than
+the corresponding fixed length codes. One such
+variable length coding scheme is known as Huffman
+coding. In order to transmit variable length encoded messages
+through a fixed bit rate system, a buffer that can store the
+messages should be maintained. In this manner, the variable
+length codewords can be accumulated and transmitted in fixed
+length bytes at a fixed bit rate.Prior art input/output buffer interfaces are
+configured in a byte format. The variable bit codes are packed
+and formatted in the proper byte boundaries prior to writing
+them into the appropriate buffers. In such prior art schemes,
+each cell in a buffer array must be mapped to every single
+incoming data line, in order to pick off and store the variable
+length codes in a sequential order that enables the fixed rate
+output of fixed length bytes. Where the maximum codeword length
+is, for example, 19 bits, a 32-cell buffer array would require
+608 electrical connections (19 x 32) in order to enable each
+cell to store any one of the 19 incoming bits. The
+implementation of such a structure is very complex, and
+requires a large amount of real estate in an integrated circuit
+implementation. Such complexity increases the cost of the
+device significantly.EP-A-0 353 826 discloses a statistical coding
+arrangement for producing variable length codewords by
+transferring data from first and second parallel registers to
+an output register.It is the object of the present invention to provide
+a variable length codeword packer
+</DESCRIPTION>
+<CLAIMS>
+A variable length codeword packer for use in
+communicating codeword data in successive m-bit bytes,
+
+comprising:
+
+means (86, 104) for accumulating a binary sum indicative of
+a total number of codeword bits received over time;
+means (104, 106, 108) for deriving first and second
+information from the binary sum;
+a first (20) and second (22) data storage array for storing
+codeword data;
+means (25) for outputting an m-bit byte of codeword data
+from a filled second storage byte to provide successive m-bit
+
+bytes of codeword data;
+
+characterized in that:
+the first information is a byte pointer (BYTE_PTR) derived
+from at least one most significant bit of said binary sum;
+the second information is a bit pointer (BIT_PTR) derived
+from a plurality of least significant bits of said binary sum;
+the first data storage array (20) has a plurality of m-bit
+first storage bytes (A0-A7, A8-A15, A16-A23, A24-A31) and is
+
+responsive to said byte pointer for storing codeword data in said
+first storage bytes;
+the second data storage array (22) has a plurality of m-bit
+second storage bytes (B0-B7, B8-B15, B16-B23, B24-B31) and is
+
+responsive to said byte and bit pointers for filling said second
+storage bytes with codeword data from said first data storage 
+
+array (20);
+the outputting means (25) outputs an m-bit byte of codeword
+data (OUTPUT BYTE 0, OUTPUT BYTE 1, OUTPUT BYTE 2) from each
+
+filled second storage byte (B0-B7, B8-B15, B16-B23, B24-B31) to
+provide the successive m-bit bytes of codeword data;
+incoming variable length codewords (CODE WORD) are
+successively stored in said first data storage array (20), each
+
+codeword commencing at the beginning of a first storage byte
+identified by said byte pointer based on the binary sum of
+
+preceding codeword bit lengths; and
+each of the variable length codewords stored in said first
+data storage array (20) is transferred to said second data
+
+storage array (22) commencing at a location within a second
+storage byte identified by said byte pointer and bit pointer
+
+based on the binary sum of preceding codeword bit lengths.
+A variable length codeword packer in accordance with
+claim 1, wherein said incoming codewords are grouped in sets
+
+containing a plurality of codewords, said codeword packer further
+comprising:
+
+
+means for resetting (100) said accumulating means (86, 104)
+to zero at the beginning of each new set of codewords.
+A variable length codeword packer in accordance with
+claim 1 or 2, wherein said codewords have a maximum length of n
+
+bits, each of said first and second data storage arrays comprise
+k storage bytes, and each storage byte contains m bit-storage
+
+cells (A0-A31, B0-B31), where
+
+A variable length codeword packer in accordance with
+one of the preceding claims, wherein said accumulating means (86,
+
+104) comprise a q-bit accumulator with the p least significant
+bits thereof forming said bit pointer and the remaining (q-p)
+
+most significant bits forming said byte pointer, where p is the
+number of bits required to identify any one of m bit-storage
+
+cells (B0-B31) in a storage byte and (q-p) is the number of bits
+required to identify any one of k storage bytes (B0-B7, B8-B15,
+
+B16-B23, B24-B31).
+A variable length codeword packer in accordance with
+one of the preceding claims, further comprising clock means (21,
+
+23, 87, 89) for:
+
+clocking said codeword data into said first data storage
+array (20) one codeword at a time, 
+clocking said byte pointer into said first data storage
+array (20) when a codeword is clocked therein,
+clocking said codeword data from said first data storage
+array (20) into said second data storage array one codeword at a
+
+time, and
+clocking said byte and bit pointers into said second data
+storage array (22) when a codeword is clocked therein.
+A variable length codeword packer in accordance with
+claim 5 wherein the codeword data is clocked into said second
+
+data storage array (22) one clock cycle after it is clocked into
+said first data storage array (20), said codeword packer further
+
+comprising:
+
+means (88) for delaying the clocking of said byte and bit
+pointers into said second data storage array (22) by one clock
+
+cycle.
+A variable length codeword packer in accordance with
+one of the preceding claims, wherein said outputting means (25)
+
+are responsive to an incrementing of said byte pointer (BYTE_PTR)
+for outputting data from a second storage byte that has been
+
+filled.
+</CLAIMS>
+</TEXT>
+</DOC>

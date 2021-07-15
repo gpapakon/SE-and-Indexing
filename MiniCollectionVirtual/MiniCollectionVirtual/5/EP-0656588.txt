@@ -1,0 +1,342 @@
+<DOC>
+<DOCNO>EP-0656588</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Storage device
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F306	G06F306	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F3	G06F3	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+In a storage device (30), a dump process can 
+be conducted without any intervention of a CPU, and 
+
+dump objective data at a dump start point can be completely 
+dumped even when a data update is conducted 
+
+during a period of time from the dump start point to a 
+dump end point. A disk device with dump function (30) 
+
+transfers data from a data not-updated region of a 
+magnetic disk (100) to a disk device (31) as a dump 
+
+destination in a predetermined sequence. In a case 
+where a data update request is received during a period 
+
+of time from the dump start point to the dump end 
+point, when an area of the write data is other than the 
+
+data not-updated region, the write data is written on 
+the magnetic disk (100). When the area is in the data 
+
+not-updated region, a before image block thereof is 
+saved in the buffer (70) and then the write data is 
+
+written on the magnetic disk (100). Thereafter, at an 
+earlier one of the opportunity to transfer the pertinent 
+
+data to the dump destination disk device (31) when 
+the quantity of data saved in the buffer (70) exceeds a 
+
+predetermined value or the opportunity to transfer the 
+data thereto when an update request for the data is not 
+
+done, the data saved in the buffer (70) is transferred 
+to the dump destination disk device (31). 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+HITACHI LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+HITACHI, LTD.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+KANDA MOTOHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SATOH TAKAO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YAMAMOTO AKIRA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KANDA, MOTOHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SATOH, TAKAO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YAMAMOTO, AKIRA
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a storage
+device, and in particular, to a storage device capable
+of conducting a dump process without any intervention
+of a CPU and capable of completely dumping, even when a
+data update operation is effected during a period of
+time from a dump start point to a dump end point, the
+dump objective data at the dump start point.There has been written on pages 105 to 113
+of the "draft proposed American National Standard for
+information system-SMALL COMPUTER SYSTEM INTERFACE-2
+(SCSI-2), May 20, 1991" a function in which a dump process
+is conducted from a storage device to another
+storage device without any intervention of a CPU
+(called "initiator" in the SCSI standards) by use of a
+"COPY" command defined according to the SCSI standards.Furthermore, there has been described in the
+JP-A-5-210555 a storage device having a function to
+dump data from a storage medium into another storage
+device. In the storage device, dump objective data is
+copied onto a CPU in a predetermined order such that
+the copied data is transferred by the CPU to another
+storage device. In a case where there occurs, due to
+another job executed in concurrence with the dump
+process, an update request for data which is dump 
+objective data and which has not been dumped, a before
+image thereof is saved in a side file and the update of
+the pertinent data is then executed. Thereafter, the
+data saved in the side file is copied onto the CPU.
+The CPU transfers the data to the dump destination
+storage device at an opportunity identical to the
+opportunity at which the data is transferred thereto
+when no update request for the pertinent data is done.Other conventional technologies related to
+the present invention have been described, for example,
+in the JP-A-57-90770 and the JP-A-1-231150.According to the conventional technology in
+which the dump process is accomplished by the "COPY"
+command defined by the SCSI standards, the dump process
+can be achieved without imposing any load upon the CPU.
+However, in a case where a data update is effected
+during the dump start point to the dump end point for a
+region which belongs to the dump objective area of the
+storage medium and which has not undergone the dump
+process, the before image is lost. Consequently, the
+data update cannot be conducted during the dump start
+point to the dump end point, leading to a problem that
+the dump objective storage device cannot be used for
+another job process.On the other hand, according to the conventional
+storage device described in the
+</DESCRIPTION>
+<CLAIMS>
+A storage device (30) having a function to
+dump data from a storage medium (100) onto another
+
+storage device (31), comprising:
+
+region recognizing means (60, 700, 820, Fig.
+4) for discriminatingly recognizing dump objective
+
+regions (850) of the storage medium as dumped regions which have
+undergone a dump operation and not-dumped regions as those which have not
+
+undergone a dump operation and discriminatingly recognizing
+the not-dumped regions as data updated regions which have
+
+undergone a data update operation and data not-updated
+regions as those which have not undergone a data update operation (Fig. 7);
+data update means (Figs. 3 and 4) for updating,
+when a data update request is received for data in
+
+other than the data not-updated regions during a period
+from a dump start point to a dump end point, the pertinent
+
+data, saving, when a data update request is received
+for data in the data not-updated regions, the
+
+pertinent data into a buffer (70, 71) and updating
+thereafter the data in the data not-updated regions,
+
+and changing an attribute of a storage region of the
+data from a data not-updated region to a data updated
+
+region;
+data transfer means (Figs. 4 and 5) for
+transferring data for which an update request is not
+
+done from the data not-updated region of the storage
+medium or data from the data updated region to a dump
+
+destination storage device in a predetermined sequence 
+and changing an attribute of a storage region of the
+
+transferred data from a data not-dumped region to a
+dumped region; and
+saved data transfer means (Figs. 4 to 6) for
+transferring the data saved in the buffer to the dump
+
+destination storage device at a predetermined opportunity,
+changing an attribute of the storage region of
+
+the data from a not-dumped region to a dumped region,
+and substantially erasing the data from the buffer.
+A storage device according to Claim 1,
+
+wherein the opportunity at which the data saved in the
+buffer is transferred to the dump destination storage
+
+device is the earlier one of an opportunity to transfer the
+pertinent data to the dump destination storage device
+
+when a quantity of data saved in the buffer exceeds a
+predetermined quantity and an opportunity to transfer
+
+the pertinent data to the dump destination storage
+device when an update request is not done for the
+
+pertinent data (Fig. 1, 60).
+A storage device according to Claim 1,
+wherein the opportunity at which the data saved in the
+
+buffer is transferred
+to the dump destination storage device is an
+
+opportunity to transfer the pertinent data to the dump
+destination storage device when the ratio of the quantity
+
+of data saved in the buffer to the capacity of the buffer
+exceeds a predetermined value (Fig. 1, 60).
+A storage device according to Claim 1, 
+wherein the opportunity at which the data saved in the
+
+buffer is transferred to the dump destination storage
+device is an opportunity to transfer the pertinent data
+
+to the dump destination storage device when an update
+request is not done for the pertinent data (Fig. 1,
+
+60).
+A storage device according to Claim 1,
+wherein the opportunity at which the data saved in the
+
+buffer is transferred to the dump destination storage
+device is an opportunity between a point of time immediately
+
+after the data is saved in the buffer and
+a point of time immediately before the update
+
+request for the data is terminated (Fig. 1, 60).
+A storage device according to Claim 1,
+wherein the opportunity at which the data saved in the
+
+buffer is transferred to the dump destination storage
+device is an opportunity which appears at a predetermined
+
+interval (Fig. 1, 60).
+A storage device according to Claim 1, wherein the
+buffer is duplicated (70, 71), or nonvolatile (70, 71, 80).
+A storage device (30') having a function to
+dump data from a storage medium (100) onto another
+
+storage device (31), comprising:
+
+region recognizing means (60', 700', 820,
+Fig. 10) for discriminatingly recognizing dump objective
+
+regions (850) of the storage medium as dumped 
+regions which have undergone a dump operation and not-dumped
+
+regions which have not undergone a dump operation;
+data transfer means (700', 820, Figs. 9 and
+11) for transferring data from the not-dumped region of
+
+the storage medium to a dump destination storage device
+in a predetermined sequence, changing when a data
+
+update request is not done an attribute of a storage
+region of the transferred data from a not-dumped region
+
+to a dumped region, transferring, when a data update
+request is received for data in the data not-dumped
+
+regions during a period from a dump start point to a
+dump end point, the pertinent data with a higher priority
+
+to the dump destination storage device, and changing
+an attribute of a storage region of the data from a
+
+not-dumped region to a dumped region; and
+data update means (Figs. 7, 10, and 12) for
+updating, when a data update request is received for
+
+data in other than the not-dumped regions during a
+period from the dump start point to the dump end point,
+
+the pertinent data and updating, when a data update
+request is received for data in the not-dumped regions,
+
+the data in the not-dumped regions after the high
+priority transfer by the data transfer means.
+A storage device according to Claim 1 or 8,
+
+wherein the storage area (852) of the dump destination
+storage device to which the dump objective data is
+
+transferred is commonly used as the storage area (852)
+to which the data in the data not-updated regions is 
+
+transferred when the update request is not done for the
+data (Figs. 10 and 11).
+A storage device according to Claim 1 or 8,
+
+wherein the storage area (852) of the dump destination
+storage device to which the dump objective data is
+
+transferred is an area (852) next to an area to which
+another data is transferred immediately before a transfer
+
+thereof (Figs. 10 and 11).
+A storage device according to Claim 10,
+
+further including identifier adder means for adding to
+the dump objective data an identifier including a
+
+logical block address (LBA; 1102) indicating a storage
+area on a source storage medium of the data, thereby
+
+preparing data (1100) to be transferred to the dump
+destination storage device.
+A storage device according to Claim 11,
+
+wherein the identifier (1102) includes information of
+time such as "update time" and/or "dump time" of the
+
+pertinent data.
+A storage device according to Claim 1 or 8,
+
+further including data restore means for restoring
+from data stored in the dump destination device data
+
+stored in the dump source device before the dump start
+point (Fig. 16).
+A storage device according to Claim 1 or 8,
+
+wherein an interface (40) for establishing connection
+between the storage device and the CPU conforms to SCSI
+
+standards. 
+A storage device according to Claim 1 or 8,
+
+wherein in the storage device (31) as the dump destination,
+a storage media (2010) for storing data of the
+
+not-updated regions is different from a storage medium
+(2020) for storing data saved in the buffers.
+A storage device according to Claim 15,
+
+further including identifier adding means for adding,
+for the data saved in the buffer or the data for which
+
+the data update request is received, an identifier
+containing a logical block address (LBA; 1102) indicating
+
+a storage area on the original storage medium of
+the data as data (1100) to be transferred to the storage
+
+device of the dump destination.
+</CLAIMS>
+</TEXT>
+</DOC>

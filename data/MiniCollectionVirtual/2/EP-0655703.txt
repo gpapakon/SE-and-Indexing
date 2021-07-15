@@ -1,0 +1,220 @@
+<DOC>
+<DOCNO>EP-0655703</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method for scanning small fonts in an optical character recognition system.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06K920	G06K920	G06K942	G06K942	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06K	G06K	G06K	G06K	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06K9	G06K9	G06K9	G06K9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method for improving scanning accuracy of small fonts. The 
+method first sharpens the data (210) and then up samples (222, 224) 
+
+the data to increase the size of characters. Sharpening occurs 
+first in the y direction (402-412) by examining pixels above and 
+
+below each pixel as it is processed and adjusting the pixel. After 
+sharpening the data, the data is upsampled in the y direction by 
+
+creating a new scan row (702-716) of pixels between each existing 
+scan row of pixels, by averaging (708-712) the gray scale level of 
+
+the pixels of the two scan rows and placing the average value in 
+the new scan row. In a similar manner, the data is increased 
+
+within each scan row by adding a new pixel between each of the 
+existing pixels (902-918). The new pixel between each pair of 
+
+pixels is formed by averaging the value of the two pixels within 
+the pair. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+HEWLETT PACKARD CO
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+HEWLETT-PACKARD COMPANY
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BURKE KEVIN S
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BURKE, KEVIN S.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to computer systems and more 
+particularly to optical character recognition (OCR) within computer 
+systems. Even more particularly, the invention relates to 
+recognizing very small and very large fonts using optical character 
+recognition. Optical character recognition systems have a high accuracy 
+rate of identifying characters when those characters are between 
+eight and fourteen "points" in size, where a point is 1/72 of an 
+inch. As the point size varies from this "golden range" the 
+recognition accuracy can drop off dramatically, especially for 
+smaller point sizes below eight points. One factor affecting the  
+ 
+drop off in accuracy is that most documents are composed of text in 
+the size range of eight to twelve points, so most OCR systems have 
+been tuned to these particular point sizes. When attempting to 
+recognize characters outside this size range, many of the features 
+used for recognition of character sizes within the eight-twelve 
+range may be distorted or invalid for character sizes outside this 
+range. For example, a system might have a heuristic that expects 
+a relatively narrow character stroke width when compared to the 
+bounding box width of the character, however, for very large text, 
+the stroke widths are all very wide, and thus, would be invalid. 
+These types of problems can still occur even if the OCR 
+application normalizes characters prior to feature extraction. Another factor affecting recognition of very small characters 
+is feature loss. Feature loss occurs with small text when 
+character features, such as closures that occur in characters like 
+"a", "e", etc. become filled in. For example, if the closure in an 
+"e" becomes filled in, the "e" might be recognized incorrectly as 
+a "c" by an OCR system. There is need in the art then for a system to improve the 
+accuracy of recognition of very small characters in an optical 
+character recognition system. The present invention meets this and 
+other needs in the art.  It is an aspect of the present invention to improve scanning 
+accuracy for small fonts in an optical character recognition 
+system. It is another aspect of the invention to improve such accuracy 
+by upsampling scanned data to provide a larger font for scanning. Still another aspect of the invention is to sharpen the 
+scanned data before upsampling the data. The above and other aspects of the invention are accomplished 
+in a system that processes scanned gray scale image data by first 
+sharpening the data and then up sampling the data to
+</DESCRIPTION>
+<CLAIMS>
+A computer implemented upsampling method for producing 
+upsampled data for input to a recognizer of an optical character 
+
+recognition system, wherein characters formed from said upsampled 
+data may be more accurately recognized by said recognizer, said 
+
+computer implemented upsampling method comprising the steps of: 
+
+(a) scanning (202) at least two scan lines of data from a 
+document, wherein pixels of said scan lines have tonal 
+
+values; 
+(b) sharpening (210) said at least two scan lines to produce 
+sharpened scan lines of data from said tonal values; 
+(c) producing (222) additional y direction upsampled scan 
+lines of data by combining said tonal values of said 
+
+sharpened scan lines of data in a y direction; 
+(d) producing (224) x direction upsampled scan lines of data 
+by combining said tonal values of said sharpened scan 
+
+lines of data in an x direction and by combining said 
+tonal values of said additional y direction upsampled 
+
+scan lines of data in an x direction; and 
+(e) sending said x direction upsampled scan lines of data to 
+said recognizer. 
+The method of claim 1 wherein step (b) further comprises the 
+ 
+
+step of combining tonal values (408, 410) of all pixels adjacent 
+each pixel within each scan line of data. 
+The method of claim 1 wherein step (b) further comprises the 
+step of combining (408, 410) a tonal value of a pixel above each 
+
+pixel (404), in a y direction, and a tonal value of a pixel below 
+each pixel (408), in a y direction, within each scan line to 
+
+produce a tonal value for a sharpened pixel. 
+The method of claim 3 wherein said combining comprises the 
+steps of: 
+
+   when said pixel above each pixel and said pixel below each 
+pixel have equal or darker tonal values, averaging (410) 
+
+tonal values for all three pixels to produce a tonal 
+value for said sharpened pixel; and 
+
+   when either said pixel above each pixel or said pixel below 
+each pixel do not have equal or darker tonal values, 
+
+summing a tonal value (410) of said pixel above each 
+pixel and a tonal value of said pixel below each pixel, 
+
+subtracting the result from four times a tonal value of 
+said pixel and dividing this result by two to produce a 
+
+tonal value for said sharpened pixel. 
+The method of claim 4 wherein said combining comprises the 
+steps of: 
+
+   concatenating (408) a tonal value of said pixel above each 
+pixel, a tonal value of each pixel, and a tonal value of 
+
+said pixel below each pixel into an index value; and 
+   retrieving a tonal value (410) for said sharpened pixel from 
+
+a table using said index value. 
+The method of claim 1 wherein step (c) further comprises the 
+step of producing a third scan line of data between successive 
+
+pairs of sharpened scan lines of data (702-716), wherein a tonal 
+value of each pixel of said third scan line comprises a combination 
+
+of tonal values for corresponding pixels within each line of said 
+successive pairs of sharpened scan lines. 
+The method of claim 6 wherein step (c) further comprises 
+forming tonal values for pixels in said third scanned pixel line of 
+
+data by averaging (708, 710, 712) tonal values of corresponding 
+pixels in each line of said pair of lines of data. 
+The method of claim 1 wherein step (d) further comprises the 
+step of producing a pair of destination pixels in said x direction 
+
+ 
+upsampled scan line of data for each original pixel in each 
+
+sharpened scan line of data and each additional y direction 
+upsampled scan line of data (902-918), wherein tonal values for 
+
+said pair of pixels comprises a tonal value from said original 
+pixel and a tonal value comprising a combination of said tonal 
+
+value from said original pixel and a tonal value from a pixel 
+previous to said original pixel within each scan line of data. 
+The method of claim 8 wherein step (d) further comprises 
+forming said combination by averaging (906-914) said tonal value 
+
+from said original pixel and said tonal value from said pixel 
+previous to said original pixel. 
+The method of claim 1 wherein step (d) further comprises the 
+following steps: 
+
+   retrieving tonal values of four pixels from a scan line (904); 
+   concatenating a tonal value of a last pixel from a previous 
+
+producing, and tonal values of said four pixels to create 
+a concatenated index (906, 908); 
+
+   separating tonal values of a first three pixels of said 
+concatenated index into a first index (906); 
+
+   separating tonal values of a last three pixels of said 
+ 
+
+concatenated index into a second index (908); 
+   retrieving tonal values for a first four sharpened pixels from 
+
+a table using said first index value (910); 
+   retrieving tonal values for a second four sharpened pixels 
+
+from a table using said second index value (912); and 
+   storing said tonal values (914) for said first four sharpened 
+
+pixels and said tonal values for said second four 
+sharpened pixels into said x direction upsampled scan 
+
+lines of data. 
+</CLAIMS>
+</TEXT>
+</DOC>

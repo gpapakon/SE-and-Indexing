@@ -1,0 +1,403 @@
+<DOC>
+<DOCNO>EP-0637887</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Image processing.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04N521	H04N521	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04N5	H04N5	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A process for enhancing a frame of an image 
+sequence, the process comprising dividing the frame 
+
+into a number of blocks and matching the blocks with 
+corresponding blocks in the directly preceding and 
+
+directly succeeding frames of the sequence to 
+compensate for object motion between frames. Damaged 
+
+pixels are identified by comparing their actual 
+intensity values with intensity values predicted by an 
+
+autoregressive process conducted on the motion 
+compensated data. Once identified, the intensity values 
+
+of the damaged pixels are replaced by values 
+interpolated by a further autoregressive process 
+
+modified to ignore the effects of damaged pixels. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+AVT COMMUNICATIONS LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+AVT COMMUNICATIONS LIMITED
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+KOKARAM ANIL CHRISTOPHER C O E
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KOKARAM, ANIL CHRISTOPHER, C/O ENGINEERING DEPT.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to image processing and is 
+concerned with repairing corrupted data in a frame of 
+an image sequence, e.g. due to dirt or scratches. An image sequence, such as a motion picture, 
+comprises a plurality of frames which are generally 
+equally spaced in time and each of which represents a 
+snapshot taken at one instant in time. The frames often 
+contain noise which is significant enough to affect 
+picture quality and which may be due to a variety of 
+reasons including transmission errors, conversion 
+errors arising during conversion of the sequence from 
+one format to another, e.g. from 9mm cine to video, 
+contamination by dirt and scratches. Two broad 
+categories of noise can be identified, global noise and 
+local noise. Global noise, for example Gaussian noise 
+or a generalised blur, results in some alteration of 
+the data in the frame. If the form of the alteration 
+is known it may be possible to improve image quality by 
+producing a simple compensation model which holds true 
+for the entire image sequence. In the case of localised 
+noise however, for example that due to dirt or 
+scratches, the original data is obliterated and 
+replaced by some other random data. This presents an 
+entirely different problem from that presented by 
+global noise. Local noise cannot be predicted and hence 
+cannot be removed with the use of a global type model. 
+The only way in which data corrupted by local noise can 
+be restored is by considering the data which remains 
+intact in the region surrounding the damaged area. The 
+following discussion and description is concerned with 
+the problem of localised noise and the elimination of 
+its effect. Previous attempts to remove the effects of local 
+noise in image sequences have drawn to a large extent  
+ 
+on work in the field of 2-D image restoration. This 
+ignores, however, the valuable information which is 
+contained in frames which precede or succeed a damaged 
+frame which it is desired to restore, i.e. in a third 
+dimension which is time, and which usually contain 
+images which closely correspond to those contained in 
+the damaged frame (unless of course there occurs an 
+abrupt scene change). Early image sequence restoration work which took 
+advantage of this three dimensional information 
+includes the median filtering method disclosed by G. R. 
+Arce and E. Malaret in an article entitled "Motion 
+preserving ranked-order filters for image sequence 
+processing", IEEE Int. Conference Circuits and Systems, 
+pages 983-986, 1989. This method considered
+</DESCRIPTION>
+<CLAIMS>
+A method of digital image processing for repairing a 
+damaged pixel in a current frame f of an image sequence 
+
+having a plurality of frames, the method being 
+characterised by replacing the value I(x,y,f) of the 
+
+damaged pixel with a corrected value obtained by an 
+autoregression process using an autoregression model 
+
+involving the values of pixels in a 3-dimensional zone 
+containing the damaged pixel and located in the current 
+
+frame and in substantially the same zone of a motion 
+compensated frame preceding and/or succeeding the 
+
+current frame in the image sequence. 
+A method according to claim 1 wherein the 
+autoregression model has M coefficients and the process 
+
+comprises defining for a pixel (having coordinates 
+[x,y,f]
+) in the current frame a support region of M 
+pixels having intensity values Ik from which a 
+
+prediction Iand(x,y,f) of the intensity value of the said 
+pixel can be made. 
+A method according to claim 2 wherein the support 
+region contains pixels in the frame directly preceding 
+
+and/or directly succeeding the current frame. 
+A method according to claim 3 wherein the support 
+region comprises the eight surrounding pixels in the 
+
+current frame and a corresponding 3 x 3 pixel block in 
+the preceding or succeeding frame. 
+A method according to claim 2, 3 or 4 wherein the 
+prediction is made from a linear weighted sum of the 
+
+values Ik so that: 
+
+A method according to claim 5 and comprising 
+choosing the coefficients ak to minimise a function of 
+
+the prediction error ε over a data volume surrounding 
+the damaged pixel, where: ε(x,y,f) = I(x,y,f)- I(x,y,f) 
+A method according to claim 6 wherein the function 
+to be minimised is the mean value over the data volume 
+
+of the squared prediction error ε for each pixel within 
+the volume. 
+A method according to claim 6 or 7 wherein the data 
+volume is selected to contain substantially more 
+
+undamaged pixels than damaged pixels. 
+A method according to claim 8 wherein the ratio of 
+undamaged to damaged pixels in the data volume is 5 to 
+
+1. 
+A method according to any one of claims 6 to 9 
+wherein the replacement value is chosen to minimise a 
+
+second function of the prediction error ε over a second 
+data volume. 
+A method according to claim 10 wherein the second 
+function is the sum over the second data volume of the 
+
+squared prediction error for each pixel within the 
+second data volume. 
+A method according to claim 10 or 11 wherein the 
+second data volume lies wholly within the first data 
+
+volume. 
+A method according to claim 10, 11 or 12 comprising 
+setting the prediction errors for damaged pixels to 0 
+
+when evaluating the function. 
+A method according to any one of the preceding 
+claims wherein the damaged pixel is first detected by 
+
+evaluating the magnitude of the difference ε(x,y,f) 
+between the actual intensity value I(x,y,f) of a 
+
+current frame test pixel and a predicted intensity 
+value Iand(x,y,f) for the test pixel by a process using an 
+
+autoregression model involving the intensity values of 
+pixels in a zone containing the test pixel and located 
+
+in both the current frame and in substantially the same 
+zone of a motion compensated frame preceding and/or 
+
+ 
+succeeding the current frame and comparing the 
+
+difference to a threshold error value εt. 
+A method of detecting a damaged pixel in a current 
+frame f of an image sequence having a plurality of 
+
+frames, the method being characterised by the steps of: 
+evaluating the magnitude of the difference ε(x,y,f) 
+
+between the actual intensity value I(x,y,f) of a 
+current frame test pixel and a predicted intensity 
+
+value Iand(x,y,f) for the test pixel by a process using an 
+autoregression model involving the intensity values of 
+
+pixels in a zone containing the test pixel and located 
+in both the current frame and in substantially the same 
+
+zone of a motion compensated frame preceding and/or 
+succeeding the current frame; and comparing the 
+
+difference to a threshold error value εt. 
+A method according to claim 14 or 15 wherein the 
+autoregression model has M coefficients, the process 
+
+comprising defining for a pixel (x,y,f) in the current 
+frame a support region of M surrounding pixels having 
+
+intensity values Ik from which a prediction Iand(x,y,f) of 
+the intensity value of a pixel surrounded by those 
+
+pixels can be made. 
+A method according to claim 16 wherein the support 
+region contains pixels in the frame directly preceding 
+
+and/or directly succeeding the current frame. 
+A method according to claim 16 or 17 wherein the 
+support region comprises only the corresponding pixel 
+
+in either the directly preceding or the directly 
+succeeding frame so that M=1. 
+A method according to claim 18 comprising setting 
+a₁=1 and generating a forward difference 
+
+εf(x,y,f) = I(x,y,f) - I(x,y,f-1)  
+and a backward difference 
+
+εb(x,y,f) = I(x,y,f) - I(x,y,f-1)  
+and identifying a pixel as damaged if both the forward 
+
+and backward errors exceed the threshold value εt. 
+A method according to any one of claims 16 to 19 
+wherein the prediction is made from a linear weighted 
+
+sum of the values Ik so that: 
+
+A method according to claim 20 comprising choosing 
+the coefficients ak to minimise a function of the 
+
+prediction error ε over a data volume surrounding the 
+damaged pixel, where; 
+
+ε(x,y,f) = I(x,y,f) - I(x,y,f) 
+A method according to claim 23 wherein the function 
+to be minimised is the mean value over the data volume 
+
+of the squared prediction error ε for each pixel within 
+the volume. 
+A method according to any one of claims 14 to 23 
+and comprising additionally identifying as damaged 
+
+those pixels in the current frame which are in the 
+locality of the detected damaged pixels. 
+A method according to claim 23 wherein the pixels 
+additionally identified are those pixels which are 
+
+adjacent to the detected damaged pixels. 
+A method according to any one of the preceding 
+claims wherein the image displacement between two 
+
+frames is first estimated by calculating the mean 
+absolute error MAE₀ between a block in a first of the 
+
+frames and a block in the same, or corresponding, 
+location in the second of the frames, calculating the 
+
+mean absolute error MAEm between the first block in the 
+first frame and a plurality of blocks of a search 
+
+region of m blocks in the second frame and which region 
+contains the second block, each of the m blocks being 
+
+offset from the second block in the second frame, 
+identifying which of said plurality of searched blocks 
+
+of the search region in the second frame gives rise to 
+ 
+
+the minimum MAEm(MAEmin) and assigning to the first 
+
+block, in the first frame, a displacement vector 
+corresponding to said offset of the identified block. 
+A method according to claim 25 wherein said 
+displacement vector corresponding to said offset is 
+
+only assigned to the first block if rMAEmin ≦ MAE₀, 
+where r is a constant greater than 1. 
+A method of estimating image displacement between 
+two frames of an image sequence, wherein each frame 
+
+comprises an array of pixels having intensity values, 
+the method being characterised by the swteps of: 
+
+calculating the mean absolute error MAE₀ between a 
+block in a first of the frames and a block in the same, 
+
+or corresponding, location in the second of the frames; 
+calculating the mean absolute error MAEm between the 
+
+first block in the first frame and a plurality of 
+blocks of a search region of m blocks in the second 
+
+frame and which region contains the second block, each 
+of the m blocks being offset from the second block in 
+
+the second frame; identifying which of said plurality 
+of searched blocks of the search region in the second 
+
+frame gives rise to the minimum MAEm(MAEmin); and, 
+where r*MAEmin ≦ MAE₀ where r is a constant greater 
+
+than 1, assigning to the first block, in the first 
+frame, a displacement vector corresponding to said 
+
+offset of the identified block. 
+A method according to claim 25, 26 or 27 comprising 
+generating for each frame L0 at least one sublevel Ln 
+
+of reduced resolution, dividing the level of lowest 
+resolution into a plurality of said blocks, obtaining 
+
+displacement vectors for each block, and assigning to 
+the next level Ln-1 the displacement vectors obtained. 
+A method according to claim 28 wherein a level Ln 
+is generated by passing a low pass filter mask over the 
+
+preceding level Ln-1 and subsampling the resulting 
+filtered frame in the horizontal and vertical 
+
+ 
+directions. 
+A method according to claim 29 wherein the low pass 
+filter mask has a Gaussian form. 
+An apparatus arranged and adapted for digitally 
+processing images in the form of an image sequence for 
+
+repairing a damaged pixel in a current frame f of the 
+image sequence, the apparatus comprising: 
+
+   means arranged to store successive frames of the 
+sequence, including a current frame and at least one of 
+
+a preceding and a succeeding frame; 
+   a motion compensator arranged to apply a motion 
+
+compensation process to derive motion compensation 
+vectors for pixels of at least one of a preceding and a 
+
+succeeding frame relative to the current frame; 
+characterised by: 
+
+   means for selecting a zone in said current frame 
+containing said damaged pixel and a plurality of 
+
+surrounding pixels; 
+   means arranged to select, using the motion 
+
+compensation vectors, substantially the same zone of 
+the at least one of the preceding and succeeding frame, 
+
+thus to define a three-dimensional support region of 
+pixels; 
+
+   means arranged for applying an autoregression 
+process, using an autoregression model in the form of a 
+
+linear weighted combination of the values of the pixels 
+in the selected support region, to determine a 
+
+corrected value for said damaged pixel; and 
+   means arranged to replace the value I (x,y,f) of 
+
+said damaged pixel with said corrected value to restore 
+the image content of the digital image of the current 
+
+frame. 
+Apparatus according to claim 31 wherein 
+there is embodied in the apparatus an autoregression 
+
+model for the images and having M coefficients and said 
+applying means is arranged to apply an autoregression 
+
+ 
+process which comprises defining for a pixel (having 
+
+coordinates [x,y,f]) in the current frame f said 
+
+support region having M pixels having intensity values 
+Ik from which a prediction Iand(x,y,f) of the intensity 
+
+value of the said damaged pixel can be made. 
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,333 @@
+<DOC>
+<DOCNO>EP-0655706</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+A data transfer circuit and a recording apparatus and method
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F312	G06K1510	G06K1502	G06F312	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06K	G06K	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F3	G06K15	G06K15	G06F3	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A data transfer circuit or a recording apparatus 
+includes an address setting unit for setting a start address 
+
+for a buffer memory, an offset setting unit for setting an 
+offset for the buffer memory, and an address creating unit 
+
+for creating a predetermined number of consecutive transfer 
+addresses to be supplied for the buffer memory using a 
+
+reference address. The circuit also includes an arithmetic 
+logic unit that, after the address creating unit has created 
+
+transfer addresses using the start address as a reference 
+address, calculates a new reference address in 
+accordance 
+with the offset relative to the start address so as to 
+
+provide the new reference address to the address creating 
+unit. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+CANON KK
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+CANON KABUSHIKI KAISHA
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+HIRASAWA SHINICHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+INUI TOSHIHARU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NAKAJIMA KAZUHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NAKATA KAZUHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YAMAMOTO TADASHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HIRASAWA, SHINICHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+INUI, TOSHIHARU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NAKAJIMA, KAZUHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NAKATA, KAZUHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YAMAMOTO, TADASHI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a data transfer
+circuit, and to a recording apparatus and method. More
+particularly, this invention is concerned with a data
+transfer circuit for transferring data between a memory and a
+print head in a serial printer, and with a recording
+apparatus and method for realizing time-sharing recording.Currently, many serial printers such as ink-jet printers
+and wire-dot printers are designed to print an image composed
+of dots on recording paper. For printing, data and commands
+sent from a host system (a computer) must be analyzed in
+order to produce print data (which may be referred to as
+record data) in the form of bit image data provided in
+one-to-one correspondence with dots constituting an image to
+be printed. The bit image data is then stored in a print
+buffer in a memory. While a carriage having a print head
+(which may be referred to a record or recording head) mounted
+is being scanned, print data is read from the print buffer.
+Based on the data, the print head is driven. Thus, the 
+recording paper is printed.In recent years, there has been a tendency toward
+adopting a smaller dot pitch (which may be referred to as a
+pixel pitch) for a printer in an effort to improve image
+definition. An amount of print data is proportional to a dot
+density. The amount of print data to be stored in a print
+buffer therefore increases with higher definition. On the
+other hand, the frequency used for driving a print head is
+also increasing. This is intended to increase a printing
+speed. For reading the print buffer, it is therefore
+necessary to transfer a large amount of data quickly. Data
+transfer dependent on software imposes a large load on a
+processor (MPU). Recently, it has become common to install a
+data transfer circuit designed exclusively for reading the
+print buffer in order to implement direct memory access (DMA)
+and other hardware processing.However, a conventional data transfer circuit has a
+relatively simple transfer function alone. Such a data
+transfer circuit therefore merely reads data sequentially
+from a print buffer and prints the data. A data structure in
+the print buffer must be consistent with a dot array formed
+by a print head. When a print head has a complex structure,
+for example, when a dot array formed by a print head lies
+askew with respect to a scan direction, or when a print head
+such as the one in a color printer has printing elements
+(which may be referred to as recording elements) differing 
+among respective colors, the data structure in the print
+buffer is
+</DESCRIPTION>
+<CLAIMS>
+A data transfer circuit for transferring recording
+data from a buffer memory (3) to a recording head of a
+
+bi-directional printing apparatus in which buffer memory
+data units to be recorded in a column are stored at
+
+consecutive addresses (K..K+15), the recording data of
+each column determining recording for a single drive
+
+cycle of the recording elements of the recording head,
+said circuit comprising:
+
+
+address setting means (11) for setting a start
+reference address of the buffer memory (3), for a first
+
+data unit of a column;
+address creating means (17, 18) for creating from
+the start reference address transfer addresses
+
+consecutive for each column for addressing data in said
+buffer memory (3) to be transferred to the recording
+
+head; the transfer circuit being 
+characterised by
+:
+
+offset setting means (12) for setting a
+predetermined offset (KH) for the buffer memory (3)
+
+indicating the difference between an address of a data
+unit to be transferred first in the first column and an
+
+equivalent address of a data unit to be transferred first
+in a second column adjacent to said first column; and
+arithmetic logic means (15, 16, 17) for calculating
+a new start reference address of the second column of a
+
+data unit to be transferred first in accordance with said
+offset relative to the start reference address of the
+
+first column so as to provide the new start reference 
+address to said address creating means for creating
+
+further transfer addresses, said arithmetic logic means
+(15,16,17) being arranged to calculate the new start
+
+reference address by adding said offset to the start
+reference address for printing in one of said two
+
+directions and by subtracting said offset from the start
+reference address for printing in the other of said two
+
+directions.
+A data transfer circuit according to claim 1,
+wherein said address setting means (101a to 101d) is
+
+arranged to set a plurality of said start reference
+addresses for a buffer memory;
+
+   address selecting means (103) are provided for
+sequentially selecting said plurality of start reference
+
+addresses;
+
+   said offset setting means (102a to 102d) is arranged
+to set a plurality of offsets for the buffer memory, each
+
+said offset being associated with one of said start
+reference addresses;
+
+   offset selecting means (106) are provided for
+selecting offsets associated with the start reference
+
+addresses selected by said address selecting means;
+
+   said address creating means (109,110) is arranged to
+create a predetermined number of consecutive transfer
+
+addresses to be supplied for reading from the buffer
+memory using reference addresses; and
+
+   said arithmetic logic means (107,108,109) is
+arranged, after said address creating means has created
+
+transfer addresses using said start reference addresses 
+as reference addresses, to calculate new start reference
+
+addresses in accordance with said selected offsets
+relative to said associated selected start reference
+
+addresses so as to provide said new reference addresses
+to said address creating means for creating further
+
+transfer addresses.
+A data transfer circuit according to claim 1,
+wherein said address creating means (17,18) includes
+
+means (18) for incrementing a transfer address and means
+(17) for adding said offset to said transfer address to
+
+be incremented.
+A data transfer circuit according to claim 1, 2 or
+3, wherein said arithmetic logic means (15,16,17)
+
+includes means for designating whether an offset is added
+to or subtracted from the start reference address.
+A data transfer circuit according to claim 1,
+wherein said address creating means comprises first and
+
+second address creating means (109 and 110, 209 and 210),
+each including means for setting a start reference
+
+address for a respective buffer memory and means (211)
+are provided for selecting a first transfer address
+
+created by said first address creating means or a second
+transfer address created by said second address creating
+
+means.
+A data transfer circuit according to claim 5,
+further comprising modifying means for modifying 
+
+data transferred from said first transfer address using
+data transferred from said second transfer address.
+A data transfer circuit according to claim 5 or 6,
+adapted for use in a printer wherein the buffer memory
+
+is arranged to mask print data transferred from said
+first transfer address in a print buffer forming the
+
+associated buffer memory using mask data transferred from
+said second transfer address in a mask buffer forming the
+
+associated buffer memory to enable the printer to record
+masked print data using a print head.
+A data transfer circuit according to claim 1 or 7,
+adapted for use with a print head arranged to eject ink
+
+by means of heat.
+A recording apparatus for recording on a recording
+medium using one or more print heads, comprising a data
+
+transfer circuit in accordance with any one of the
+preceding claims and the buffer memory for storing print
+
+data.
+A recording apparatus according to claim 9 when
+dependent on claim 2, wherein a plurality of said print
+
+heads are provided and said plurality of start reference
+addresses set by said address setting means are
+
+respectively associated with said plurality of print
+heads. 
+A recording apparatus according to claim 9 or 10,
+further comprising transport means for transporting the
+
+recording medium.
+A copying machine comprising a recording apparatus
+according to any one of claims 9 to 11.
+A facsimile machine comprising a recording apparatus
+according to any one of claims 9 to 11.
+A computer terminal comprising a recording apparatus
+according to any one of claims 9 to 11.
+A data transfer method for transferring recording
+data from a buffer memory (3) to a recording head of a
+
+bi-directional printing apparatus in which buffer memory
+data units to be-recorded in a column are stored at
+
+consecutive addresses (K..K+15), the recording data of
+each column determining recording for a single drive
+
+cycle of the recording elements of the recording head,
+said method comprising the steps of:
+
+
+setting a start reference address of the buffer
+memory (3), for a first data unit of a column;
+creating from the start reference address transfer
+addresses consecutive for each column for addressing data
+
+in said buffer memory (3) to be transferred to the
+recording head; the method being 
+characterised by
+:
+
+setting a predetermined offset (KH) for the buffer
+memory (3) indicating the difference between an address
+
+of a data unit to be transferred first in the first 
+column and an equivalent address of a data unit to be
+
+transferred first in a second column adjacent to said
+first column; and
+then calculating a new start reference address of
+the second column of a data unit to be transferred first
+
+in accordance with said offset relative to the start
+reference address of the first column so as to provide
+
+the new start reference address for creating further
+transfer addresses, wherein said calculating step
+
+calculates the new start reference address by adding said
+offset to the start reference address for printing in one
+
+of said two directions and by subtracting said offset
+from the start reference address for printing in the
+
+other of said two directions.
+</CLAIMS>
+</TEXT>
+</DOC>

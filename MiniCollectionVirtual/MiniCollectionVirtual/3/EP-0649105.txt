@@ -1,0 +1,280 @@
+<DOC>
+<DOCNO>EP-0649105</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Word/number and number/word mapping
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1722	G06F1722	G06F1727	G06F1727	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F17	G06F17	G06F17	G06F17	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A stored word list can be used for word-to-number (W/N) and number-to-word (N/W) 
+mapping. Each word in the list can be mapped to a unique number within a dense set of 
+
+numbers ranging from zero to one less than the total number of words in the list. Some 
+branches of the data structure can be skipped during mapping because of branching 
+
+information associated with branch points. The branching information permits mapping to 
+continue with a next branch or with an alternative branch. The branching information 
+
+indicates the number of suffix endings in the next branch; this number is used to keep a count 
+of the word endings during W/N mapping; it is also used both to determine whether to 
+
+continue with the next branch and also to reduce the number being mapped during N/W 
+mapping. The branching information can include a full length pointer to the next branch or a 
+
+shorter length pointer index to a table in which the full length pointer is stored. In either case, 
+the number of suffix endings in the next branch can be annexed to the pointer. Where sublists 
+
+of words have identical suffixes, the suffixes can be collapsed into shared branches. 
+
+ 
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+XEROX CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+XEROX CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+KAPLAN RONALD M
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KAY MARTIN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KAPLAN, RONALD M.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KAY, MARTIN
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to techniques for mapping words into numbers and 
+numbers into words. Lucchesi, C.L. and Kowaltowski, T., "Applications of Finite Automata Representing 
+Large Vocabularies," Software--Practice and Experience, Vol. 23(1), January 1993, pp. 15-30, 
+describe techniques for compressing a very large vocabulary of words into a minimal acyclic 
+deterministic finite automaton, motivated by the problem of implementing an efficient 
+spelling checker. Fig. 4 shows such an automaton for all forms of certain English verbs. A 
+technique for constructing the automaton is described beginning on page 18; the technique 
+includes a minimization step. The data structure is described at pages 19-20: Each state is 
+represented as an array with N entries, where N is the size of the alphabet. Most entries 
+correspond to non-existent transitions, and state arrays can therefore be shifted and 
+overlapped in such a way that existing entries do not collide. To each state is attached one N-bit 
+vector that selects the existing transitions for the state. Array packing is done by a greedy 
+algorithm, which almost always gives optimal results due to a very large percentage of states 
+with one, two, or three transitions. Also, the number of distinct bit-vectors is much lower than 
+the number of states, so that many are shared. Besides packing the state arrays, short (relative) 
+and long (absolute) state indices are used. For Portugese, letters are stripped of their diacritical 
+marks, the positions of which are encoded after the word terminator. Pages 26-27 describe 
+minimal perfect hashing in relation to Figs. 8-10. The automaton includes, for each state, an 
+integer that gives the number of words that would be accepted by the automaton starting 
+from that state, and two simple functions implement a one-to-one correspondence between 
+the integers 1 to L, where L is the number of words accepted by the automaton, and the words 
+themselves. To handle a string of elements such as a word in a digital data processing system, it is 
+frequently desirable to map between words and numbers. While words vary greatly in length, 
+a word's number can ordinarily be expressed digitally as a binary number of a fixed length 
+shorter than the digital codes for that word's characters. Therefore, handling the binary 
+numbers is far more efficient than handling the words themselves. Another reason for 
+mapping a word to a number is to obtain an address or pointer to access information relevant 
+to that word. It is also
+</DESCRIPTION>
+<CLAIMS>
+A product comprising: 
+
+a storage medium for storing data in machine-accessible form; and 
+word list data stored by the storage medium; the word list data indicating a list of 
+words; the word list data comprising: 
+a plurality of suffix data items indicating suffix endings of words in the list such that 
+the word list data can be used to perform mapping between each word in the list and a 
+
+respective number; the suffix data items including a first suffix data item indicating a first set of 
+suffix endings that cannot be skipped during mapping and a second suffix data item indicating 
+
+a second set of suffix endings that can be skipped during mapping; the first suffix data item 
+being accessible during mapping to obtain a count of suffix endings in the first set; the second 
+
+suffix data item being accessible during mapping to obtain a count of suffix endings in the 
+second set; and 
+a first branching data item; the first branching data item including: 
+branch taking information that can be used to perform mapping in relation to a 
+word that ends with one of the suffix endings in the second set; the branch taking information 
+
+indicating a location of the second suffix data item; and 
+branch skipping information that can be used to perform mapping in relation to a 
+word that does not end with one of the suffix endings in the first set; the branch skipping 
+
+information indicating a number of suffix endings in the second set; 
+the number of suffix endings in the first suffix data item only being obtainable by 
+accessing the first suffix data item. 
+A product as claimed in claim 1, in which the second suffix data item indicates suffix 
+endings of first and second sublists of the list of words; the first and second sublists being 
+
+different; the first branching data item being reached in using the word list data to map 
+between the words in the first sublist and their numbers; the word list data further comprising 
+
+a second branching data item that is reached in using the word list data to map between the 
+words in the second sublist and their numbers; the second branching data item including: 
+
+
+branch taking information that can be used to perform mapping in relation to a 
+word that ends with one of the suffix endings in the second set; the branch taking information 
+
+indicating a location of the second suffix data item; and 
+branch skipping information that can be used to perform mapping in relation to a 
+word that does not end with one of the suffix endings in the second set; the branch skipping 
+
+information indicating a number of suffix endings in the second set. 
+A product as claimed in claim 1 or claim 2, in which the branching data item further 
+includes label information indicating at least one of a set of character types; the suffix data 
+
+items further including a third suffix data item indicating a third set of suffix endings; the 
+word list data comprising a sequence of data items including the branching data item, the 
+
+second suffix data item, and the third suffix data item; the branch taking information further 
+indicating whether the branching data item has a next data item in the sequence to which 
+
+mapping can continue if a current character in the word matches the label information, the 
+next data item being the second suffix data item; the branch skipping information further 
+
+indicating whether the branching data item has an alternative data item in the sequence to 
+which mapping can continue if a current character in the word does not match the label 
+
+information, the alternative data item being the third suffix data item. 
+A product as claimed in claim 3, in which the third suffix data item immediately 
+follows the branching data item in the sequence. 
+A product as claimed in any one of the preceding claims, in which the branch taking 
+information includes pointer data and the branch skipping information includes number data; 
+
+the number data being annexed to the pointer data. 
+A product as claimed in any one of the preceding claims, in which the word list data 
+further comprise a table with an entry that includes the branch taking information and the 
+
+branch skipping information; the branching data item including an index to the entry in the 
+table. 
+A method of mapping a word to a number using word list data; the word list data 
+indicating a list of words that includes the word; the word list data including: 
+
+
+a plurality of suffix data items indicating suffix endings of words in the list; the suffix 
+data items including a first suffix data item indicating a first set of suffix endings that cannot be 
+
+skipped during mapping and a second suffix data item indicating a second set of suffix endings 
+that can be skipped during mapping; the first suffix data item being accessible during mapping 
+
+to obtain a count of suffix endings in the first set; the second suffix data item being accessible 
+
+during mapping to obtain a count of suffix endings in the second set; and
+ 
+a branching data item; the branching data item including: 
+branch taking information indicating a location of the second suffix data item; and 
+branch skipping information indicating a number of suffix endings in the second set; 
+the number of suffix endings in the first suffix data item only being obtainable by 
+accessing the first suffix data item;  
+
+ 
+the method comprising: 
+accessing the first suffix data item and using the first suffix data item to update a 
+running count of suffix endings based on the number of suffix endings in the first suffix data 
+
+item; 
+accessing the branching data item; 
+if a word being mapped has a suffix ending in the second set of suffix endings, using 
+the branch taking information to access the second suffix data item; and
+ 
+if the word being mapped does not have a suffix ending in the second set of suffix endings, 
+
+using the branch skipping information to update the running count of suffix endings. 
+A method as claimed in claim 7, in which the act of using the branch skipping 
+information comprises adding the number of suffix endings in the second set to the count of 
+
+suffix endings. 
+A method as claimed in claim 8, in which the suffix data items further include a third 
+suffix data item indicating a third set of suffix endings; the third suffix data item including a 
+
+sequence of bytes, the bytes including, for each suffix ending in the third set, a suffix ending 
+byte indicating the suffix ending; the method further comprising, if the word being mapped 
+
+has a suffix ending that is not in the second set of suffix endings: 
+
+accessing the third suffix data item; 
+scanning the sequence of bytes, incrementing the count of suffix endings for each 
+suffix ending byte, until reaching a suffix ending byte indicating a suffix ending of the word 
+
+being mapped; and 
+providing the count of suffix endings as a number for the word being mapped. 
+A method as claimed in any one of claims 7 to 9, in which the branching data item 
+further includes label information indicating a character that precedes each suffix ending in 
+
+the second set of suffix endings; the method further comprising:
+ 
+   comparing a character from the word being mapped with the label information to 
+
+determine whether the word being mapped has a suffix ending in the second set of suffix 
+endings. 
+A method of mapping a number to a word using word list data; the word list data 
+indicating a list of words that includes the word; the word list data including: 
+
+
+a plurality of suffix data items indicating suffix endings of words in the list; the suffix 
+data items including a first suffix data item indicating a first set of suffix endings that cannot be 
+
+skipped during mapping and a second suffix data item indicating a second set of suffix endings  
+ 
+
+that can be skipped during mapping; the first suffix data item being accessible during mapping 
+to obtain a count of suffix endings in the first set; the second suffix data item being accessible 
+
+during mapping to obtain a count of suffix endings in the second set; and 
+a branching data item; the branching data item including: 
+branch taking information indicating a location of the second suffix data item; and 
+branch skipping information indicating a number of suffix endings in the second set; 
+the number of suffix endings in the first suffix data item only being obtainable by 
+accessing the first suffix data item; 
+the method comprising: 
+accessing the first suffix data item and using the first suffix data item to update a 
+running count of suffix endings based on the number of suffix endings in the first suffix data 
+
+item; 
+accessing the branching data item; 
+if a number being mapped has a word with a suffix ending in the second set of suffix 
+endings, using the branch taking information to access the second suffix data item; and 
+if the number being mapped has a word with a suffix ending that is not in the second 
+set of suffix endings, using the branch skipping information to update the running count of 
+
+suffix endings. 
+A method as claimed in claim 11, in which the act of using the branch skipping 
+information comprises subtracting the number of suffix endings in the second set from the 
+
+count of suffix endings; the count of suffix endings starting as the number being mapped. 
+A method as claimed in claim 12, in which the suffix data items further include a third 
+suffix data item indicating a third set of suffix endings; the third suffix data item includes a 
+
+sequence of bytes; the bytes including, for each suffix ending in the third set, a suffix ending 
+byte indicating the suffix ending; the bytes further including label bytes, each label byte 
+
+indicating a character in a suffix ending in the third set; the method further comprising, if the 
+number being mapped has a word with a suffix ending that is not in the second set of suffix 
+
+endings: 
+
+accessing the third suffix data item; 
+scanning the sequence of bytes, updating a stack to store characters indicating a 
+current prefix for each label byte and decrementing the count of suffix endings for each suffix 
+
+ending byte, until the count of suffix endings reaches zero; and 
+providing the current prefix from the stack as a word for the number being mapped. 
+A method as claimed in any one of claims 11 to 13, further comprising:
+  
+ 
+
+comparing the count of suffix endings with the number of suffix endings in the second set to 
+determine whether the number being mapped has a word with a suffix ending in the second 
+
+set of suffix endings. 
+</CLAIMS>
+</TEXT>
+</DOC>

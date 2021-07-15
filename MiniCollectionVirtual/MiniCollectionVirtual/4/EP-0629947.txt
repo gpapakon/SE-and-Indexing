@@ -1,0 +1,153 @@
+<DOC>
+<DOCNO>EP-0629947</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Shared resource control in a distributed processing system.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F946	G06F946	G06F952	G06F1300	G06F1300	G06F1516	G06F1516	G06F15177	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	G06F9	G06F13	G06F13	G06F15	G06F15	G06F15	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A system and method for determining a master process for control of 
+a shared system resource. The improved system requires the master 
+
+process to hold exclusive access on a shared resource control file only 
+intermittently. The master process periodically updates the shared 
+
+resource control file with a new timestamp. Processes seeking resource 
+access read the shared control file and determine whether another process 
+
+has been designated master. If the interval since the latest timestamp 
+is greater than a preset staleness interval, the shared control file is 
+
+discarded and a new one created by the accessing process. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+FORMAN IRA RICHARD
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MADDURI HARI HARANATH
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FORMAN IRA RICHARD
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MADDURI HARI HARANATH
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to the operation of distributed 
+processing computer systems. In particular it relates to those systems 
+that have a plurality of processing nodes each one having access to a 
+number of shared resources and which require apparatus and methods for 
+managing access to the shared resources. Still more particularly, the 
+present invention relates to the management of a shared control file that 
+designates one of a number of distributed processes as the master process 
+for controlling access to that shared resource. Distributed computer systems are created by linking a number of 
+computer systems using a communications network. Distributed systems 
+frequently have the ability to share data resident on individual systems. 
+Replicated data systems implement data sharing by providing a replica 
+copy of a data object to each process using that data object. 
+Replication reduces the access time for each processor by eliminating the 
+need to send messages over the network to retrieve and supply the 
+necessary data. A replicated object is a logical unit of data existing 
+in one of the computer systems but physically replicated to multiple 
+distributed computer systems. Replicated copies are typically maintained 
+in the memories of the distributed systems. Replicated data objects also speed the update process by allowing 
+immediate local update of a data object. Replication introduces a 
+control problem, however, because many copies of the data object exist. 
+The distributed system must have some means for controlling data update 
+to ensure that all copies of the data remain consistent. Prior art systems control data consistency by establishing a master 
+data object copy in one of the distributed systems. The master copy is 
+always assumed to be valid. Data object update by a system other than 
+that of the master copy requires sending the update request to the master 
+for update and propagation to all replicas. This approach has the 
+disadvantage of slowing local response time as the master data object 
+update and propagation are performed. Another means for controlling replicated data is described in 
+Moving Write Lock for Replicated Objects, commonly assigned, filed on 
+October 16, 1992 as US patent application Serial Number 07/961,757 and  
+ 
+having attorney docket number AT992-046. This document which does not 
+form part of the state of the art as defined in article 54(2) and 54(3) 
+EPC describes an apparatus and method that require that a single "write 
+lock" exist in a distributed
+</DESCRIPTION>
+<CLAIMS>
+A method of determining a master process for control of a shared 
+resource in a computer system having a plurality of processes operating 
+
+on at least one processor that has a memory and access to a shared data 
+storage means, the method comprising: 
+
+   testing said shared data storage means for the presence of a shared 
+resource control file for said shared resource; 
+
+   if no file exists, creating a shared resource control file in said 
+shared data storage means, writing master process identification 
+
+information to said shared resource control file, and writing a timestamp 
+to said control file; 
+
+   if a file exists, requesting exclusive access to said file; 
+   if access denied, waiting and retrying; 
+
+   if access granted, determining the difference between current time 
+and the last time stamp; 
+
+   if said difference is less than a first preset interval, 
+designating the requesting process as a shadow process; 
+
+   if said difference is greater than said first preset interval, 
+discarding said shared resource control file, creating a new shared 
+
+resource control file and writing master process identification 
+information to said shared resource control file, and writing a timestamp 
+
+to said control file; 
+   if said requesting process is a master process for said shared 
+
+resource, replacing the timestamp in said shared resource control file 
+with a current timestamp after a preset second interval has passed. 
+A method as claimed in claim 1 wherein said shared data storage 
+means is a network file system. 
+A method as claimed in claim 1 wherein said shared data storage 
+means is shared volatile memory. 
+A system for controlling sharing of a plurality of shared resources 
+in a distributed processing system having a plurality of processors 
+
+connected by a communications means, the system comprising: 
+   shared resource control means for storing data indicating a process 
+
+as a controlling process for each of said plurality of shared resources 
+and data indicating a time of a last update of said shared resource 
+
+control means by said controlling process; 
+   access control means for limiting exclusive access to said shared 
+
+resource control means to at most one process; 
+   shared resource control read means for reading data from said 
+
+shared resource control means; 
+   comparison means for comparing said data indicating the time of the 
+
+last update and the current time to determine an elapsed interval; 
+   release means for releasing said shared resource control file if 
+
+said elapsed interval is greater than a first value; 
+   update means for periodically causing said controlling process to 
+
+replace said data indicating the time of the last update with the current 
+time. 
+</CLAIMS>
+</TEXT>
+</DOC>

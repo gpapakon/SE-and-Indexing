@@ -1,0 +1,436 @@
+<DOC>
+<DOCNO>EP-0643349</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Client-side stub interpreter
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F944	G06F1516	G06F1300	G06F944	G06F1300	G06F946	G06F1516	G06F946	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F15	G06F13	G06F9	G06F13	G06F9	G06F15	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The present invention provides an elegant and compact way to provide mechanisms for 
+invocation of objects by client applications and for argument passing between client applications 
+
+and object implementations, which reduce the memory space required for the client-side stubs, 
+without the client application or the operating system knowing the details of how these mechanisms 
+
+work. Moreover, these mechanisms functions in a distributed computer environment with similar 
+ease and efficiency, where client applications may be on one computer node and object 
+
+implementations on another. Additionally the invention is independent of the particular C++ 
+compiler used for generation of the stub code. 
+The mechanism used to reduce this memory space comprises a 
+stub generator
+ (called 
+``CONTOCC''), a data base of client-side stub description files and a 
+stub-interpreter
+ which knows 
+how to read these client-side stub description files. CONTOCC reads interface definition language 
+
+(``IDL'') files and generates corresponding C++ files. CONTOCC has the ability to read the IDL 
+data and generate either normal C++ stub files or the special client-side stub interpreter files 
+
+described in more detail below. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SUN MICROSYSTEMS INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SUN MICROSYSTEMS, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+GIBBONS JONATHAN J
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HAMILTON GRAHAM
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KESSLER PETER B
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GIBBONS, JONATHAN J.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HAMILTON, GRAHAM
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KESSLER, PETER B.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to the fields of distributed computing systems, client-server
+computing and object oriented programming. Specifically, the present invention is a method and
+apparatus comprising logic modules, called a client-side stub generator and a client-side
+stub interpreter, that have been designed to minimize the memory space required by
+client-side stubs.A key problem in Operating Systems development and maintenance is permitting the
+introduction of new interfaces and implementation techniques in a way which allows clients and
+programmers maximum flexibility without loading the operating system down with implementation
+details. Moreover, this problem becomes more intense when developing object oriented operating
+systems which have micro-kernel architectures. Micro-kernels typically permit clients to
+implement complex subsystems at the client level, such as file systems, for example. Nevertheless,
+basic system processes such as interclient or intercomputer communications are so complex that
+clients and object implementors should not be concerned with these processes. That is, these
+inherently "system" type processes are more efficiently done by standard modules, but should be
+handled in a way which does not require that the base operating system is constrained by these
+processes.As a part of the solution to this basic problem for systems which use the object metaphor to
+define the interfaces between different components of a system, stubs and other similar types of 
+intermediate logic modules have been used. Such stubs are described as standard modules to handle
+communications of object calls between remote computers which may be sending other objects as
+parameters of the calls. These stubs and other similar modules and their relationship to each other
+are described more fully below within the context of the detailed description of this invention
+comprising the stub generator and stub interpreter.In an object oriented system, an object is a component comprising data and operations
+which can be invoked to manipulate the data. The operations are invoked on the object by
+sending calls to the object. Each object has an object type. The object type defines the
+operations that can be performed on objects of that type. The object operations are implemented
+independent of the objects themselves. Additionally, one object type may inherit the object
+operations defined and implemented for other object types. For further description of object
+oriented design and programming techniques see
+</DESCRIPTION>
+<CLAIMS>
+A method for executing a particular stub operation invoked
+by a client in a computer system so as to reduce the amount of
+
+memory space required for client-side stubs, characterised by
+the steps of:
+
+
+accessing from a first area of computer memory a first
+portion of code required to execute said stub operation by
+
+invoking a stub interpreter (158) to execute said stub
+operation, said stub interpreter (158) supplying said first
+
+portion of code whenever said stub operation is invoked, said
+first portion of code identified as common to a plurality of
+
+different stub operations;
+accessing from a second area of computer memory a second
+portion of code required to execute said stub operation, said
+
+second portion of code identified as unique to said particular
+stub operation, and said second portion of code being stored in
+
+a compressed format; and
+executing said stub operation at run-time by interpreting
+said first and second code portions without explicit C++ code
+
+for a method, argument and exception of said stub operation.
+The method described in claim 1, characterised by the
+additional steps of:
+
+
+separating code generated to execute a stub operation into
+a first portion of code as described in claim 1, and a second
+
+portion of code as described in claim 1;
+using a stub interpreter (158) to contain a copy of said
+first portion of code, said stub interpreter (158) supplying
+
+said first portion of code whenever a stub operation is invoked
+by a client; and 
+accessing said second portion of code by said stub
+interpreter (158) as required whenever a particular stub
+
+operation is invoked by a client.
+The method described in claim 2, wherein the step of
+compressing said second portion of code is creating encoded
+
+representations of said variable portion of code of said stub
+operations to further reduce said computer memory space required
+
+for client-side stubs.
+The method described in claim 3, wherein said encoded
+representations of each stub operation is characterised by:
+
+
+encoded representations for an operation identifier;
+encoded representations for a parameter mode and parameter
+type;
+encoded representations for a return type of an operation;
+encoded representations for pointers to methods needed to
+marshal, unmarshal, initialise, and cleanup a parameter and
+
+return type; and
+encoded representations for each exception and for pointers
+to raise said exceptions.
+The method described in claim 4, wherein said step of
+generating said variable portion of code which is unique to each
+
+of said stub operations for storage in computer memory is
+characterised by the steps of:
+
+
+reading interface definition language ("IDL") code (150)
+for a stub operation;
+generating said encoded representations for said variable
+portion of code which is unique to each of said stub operations;
+
+and 
+storing side encoded representations for said variable
+portion of code which is unique to each of said stub operations
+
+into computer memory.
+The method described in claim 4, wherein said stub
+interpreter (158) supplies said first portion of code whenever a
+
+stub operation is invoked by a client by a process characterised
+by the steps of:
+
+
+recognising a client invocation of a stub operation;
+receiving as a part of said client invocation data
+representing a distinguished object, ar
+guments to said stub
+operation and a pointer to said encoded representations for said
+
+second portion of code which is unique to said invoked stub
+operation; and
+executing said stub operation invoked by a client.
+The method described in claim 6, wherein said stub
+operations are object methods.
+The method as described in claim 1, characterised by the
+additional steps of executing client operation calls on client-side
+
+stubs, for use in a data processing system having a
+plurality of interactive workstations, each of which
+
+workstations may execute client applications that may invoke
+client-side stubs, said method characterised by the following
+
+steps:
+
+using a stub interpreter (158) to contain a copy of said
+first portion of code, said stub interpreter (158) supplying
+
+said first portion of code whenever a stub operation is invoked
+by a client;
+compressing said second portion of code by creating encoded
+representations of said second portion of code to further reduce
+
+said computer memory space required for client-side stubs; and 
+accessing said second portion of code by said stub
+interpreter as required whenever a stub operation is invoked by
+
+a client.
+The method described in claim 8, characterised by the
+additional steps of:
+
+
+separating code generated to execute a stub operation into
+a first portion of code as described in claim 1 and a second
+
+portion of code as described in claim 1;
+executing a client operation call by calling a particular
+client-side stub operation; and
+calling said stub interpreter to execute said client
+operation by using said encoded representations.
+The method described in claim 9, wherein said client
+operation call to a particular client-side stub operation is
+
+characterised by the additional steps of:
+
+passing a distinguished object to said stub interpreter
+(158);
+passing arguments of said client operation call to said
+stub interpreter (158); and
+passing a pointer to a data base of encoded representations
+which represents said second portion of said particular client-side
+
+stub operation.
+The method described in claim 10, wherein said encoded
+representations of a client-side stub operation is characterised
+
+by:
+
+encoded representations for an operation identifier;
+encoded representations for a parameter mode and parameter
+type;
+encoded representations for a return type of an operation; 
+encoded representations for pointers to methods needed to
+marshal, unmarshal, initialise, and cleanup a parameter and
+
+return type; and
+encoded representations for each exception and for pointers
+to raise said exceptions.
+The method described in claim 11, wherein said stub
+operations are object methods.
+A computer system for executing client-side stub operations
+so as to reduce the amount of memory space required for
+
+client-side stubs, characterised by:
+
+a data base of client-side stub operations, said data base
+generated to contain a second portion of data which is unique to
+
+particular client-side stub operations in a compressed form,
+said second portion of data being stored in a compressed format;
+a computer for receiving and storing said data base of
+client-side stub operations; and
+a processor within said computer to execute a client call
+on a client-side stub operation using said data base of client-side
+
+stub operations and a stub interpreter (158), wherein a
+first portion of data which is a single copy of data which is
+
+common to a plurality of stub operations is contained in said
+stub interpreter (158), and
+
+said processor executing said stub operation at run-time by
+interpreting said first portion of data and second portion of
+
+data without explicit C++ code for a method, argument and
+exception of said stub operation.
+The system described in claim 13, further characterised by
+a stub generator coupled to said computer for converting said
+
+second portion of data into encoded representations of said data 
+to further reduce said computer memory space used for storing
+
+data for client-side stub operations.
+The system described in claim 14, wherein said stub
+interpreter (158) receives said client call on a client-side
+
+stub operation and executes said client-side stub operation call
+by means of said data base of client-side stub operations and
+
+said first portion of code.
+The system described in claim 15, wherein said client call
+on a client-side stub operations passes information to said stub
+
+interpreter which represents;
+
+a distinguished object;
+arguments of said client-side stub operation; and
+a pointer to encoded representations of said second portion
+of data of said particular client-side stub operations which was
+
+called.
+The system described in claim 16, wherein said operations
+are object methods.
+A system as described in claim 13 for executing a
+particular stub operation invoked by a client in a computer said
+
+system minimising computer memory space required for client-side
+stubs, each of said client-side stubs characterised by a first
+
+potion of code which is common to a plurality of stub operations
+and a second portion of code which is unique to each of said
+
+particular stub operations, said system characterised by:
+
+a stub interpreter (158) which contains a copy of said
+first portion of code, said stub interpreter supplying said
+
+first portion of code whenever said particular stub operation is
+invoked by a client; and 
+a computer for storing said second portion of code in a
+computer memory, said second portion of code being accessed by
+
+said stub interpreter as required whenever said particular stub
+operation is invoked by a client, whereby said computer memory
+
+space required for client-side stubs is reduced.
+The system described in claim 18, further characterised by
+a stub generator, coupled to said computer, for compressing said
+
+second portion of code by creating encoded representations of
+said second portion of code to further reduce said computer
+
+memory space required for client-side stubs.
+The system described in claim 19, wherein said encoded
+representations of each stub operation is characterised by:
+
+
+encoded representations for an operation identifier;
+encoded representations for a parameter mode and parameter
+type;
+encoded representations for a return type of an operation;
+encoded representations for pointers to methods needed to
+marshal, unmarshal, initialise, and cleanup a parameter and
+
+return type; and
+encoded representations for each exception and for pointers
+to raise said exceptions.
+The system described in claim 20, wherein said stub
+generator generates said portion of code tor storage in computer
+
+memory by;
+
+reading interface definition language ("IDL") code (150)
+
+for a stub operation;
+generating said encoded representations for said second
+portion of code; and
+
+storing said encoded representations into computer memory.
+The system described in claim 21, wherein said stub
+interpreter (158) supplies said first portion of code whenever a
+
+particular stub operation is invoked by a client by:
+
+recognising a client invocation of said particular stub
+operation;
+receiving as a part of said client invocation, data
+representing a distinguished object, arguments to said
+
+particular stub operation and a pointer to said encoded
+representations for said second portion of code for said invoked
+
+stub operation; and
+executing said particular stub operation invoked by said
+client.
+The system described in claim 22, wherein said stub
+operations are object methods.
+The system described in claim 23, wherein said clients, and
+stubs are objects and said system is an object oriented system.
+A system having a computer readable medium having a
+computer program recorded thereon for use in an object oriented
+
+system wherein there exists client applications, objects, object
+type definitions, object implementations and servers, for
+
+processing a particular operation invoked on an object by a
+client operation, said system characterised by:
+
+
+a data base of encoded data which represents a second
+portion of code required to execute said particular operation
+
+invoked on an object, said second portion of code identified as
+unique to a particular client-side stub method related to said
+
+particular operation which was encoded and stored in computer
+memory said second portion of code being stored in a compressed
+
+format using byte-code representations of various methods,
+texts, and parameters; and 
+program code for executing client-side stub operations
+invoked by said particular client operation request, said
+
+program code accessing a first portion of code required to
+execute said stub operation, said first portion of code
+
+identified as a single copy of code which is common to a
+plurality of different client-side stub operations, and said
+
+program code accessing from computer memory said second portion
+of code to execute the particular stub method invoked by said
+
+client operation, said program code executing said client-side
+stub operation at run-time by interpreting said first portion of
+
+data and second portion of data without explicit C++ code for a
+method, argument and exception of said stub operation.
+The method described in any of claims 7, 12, 17 or 24
+wherein said encoded representations are byte code
+
+representations.
+The system described in claim 25, wherein
+said encoded data are byte code representations of said data.
+</CLAIMS>
+</TEXT>
+</DOC>

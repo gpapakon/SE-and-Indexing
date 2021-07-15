@@ -1,0 +1,297 @@
+<DOC>
+<DOCNO>EP-0635184</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+DATA TRANSMISSION DEVICE AND METHOD FOR RANDOM ACCESS NETWORK HAVING ADVANCED COLLISION RESOLUTION
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04L12407	H04L12413	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04L	H04L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04L12	H04L12	</CLASSIFICATIONS-FOURTH>
+<APPLICANTS>
+<APPLICANT-NAME>
+INST NAT RECH INF AUTOMAT
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INRIA INSTITUT NATIONAL DE RECHERCHE EN INFORMATIQUE ET EN AUTOMATIQUE
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+JACQUET PHILIPPE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MUHLETHALER PAUL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+JACQUET, PHILIPPE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MUHLETHALER, PAUL
+</INVENTOR-NAME>
+</INVENTORS>
+<CLAIMS>
+Device for connecting a data processing apparatus 
+to a transmission channel or medium, with a view to its 
+
+participation in a computer network, comprising: 
+
+a network-interface (I;RE) , capable of 
+sending/receiving messages on the channel, with 
+
+monitoring of the channel in order to establish event 
+signals which selectively represent the detection of the 
+
+start of a transmission on the channel, the detection of 
+any new collision and the detection of the return of the 
+
+channel to the vacant state, 
+a send/receive handling device (DG), for managing 
+the network-interface on the basis of the event signals, 
+
+and 
+a means whereby, in the case of a collision with 
+regard to local sending, the send is maintained with 
+
+collision signalling for at least a first minimum 
+duration (C), after which all transmission is 
+
+interrupted, 
+ 
+characterized in that it comprises a channel observation 
+
+register (RO) which receives the event signals and in 
+response establishes a so-called channel observation 
+
+signal, this observation signal having a predetermined 
+set of possible states, which set comprises successful 
+
+transmission (sending or receiving), "collision slot", or 
+"vacant slot", whereas observation register refresh 
+
+instants are defined at least at each vacant channel 
+event,
+ 
+and in that the handling device (DG) comprises means for 
+
+reacting to a request to send a new data packet by: 
+
+a) a normal mode consisting in awaiting the next  
+ 
+
+refresh of the observation register and in performing or 
+not performing a first send attempt, on the basis of a 
+
+predetermined criterion, applied to the state of the 
+observation register, before this refresh, 
+b) in the case of failure (send refusal or collision), 
+
+b1) the initialization of a running integer (E), to a 
+value lying between a first (0) and a second (M-1) limit 
+
+integer, inclusive, 
+b2) modification of the running integer (E) at each 
+change of state of the observation register, according to 
+
+a predetermined law which tends to move the running 
+integer away from the first limit-integer (0) in case of 
+
+abundance of collision slots, and to move it towards this 
+limit in case of abundance of vacant slots, 
+ 
+a return to the normal mode a) being authorized only when 
+
+the running integer (E) has reached the first limit-integer 
+(0), so that the reaction of the handling device 
+
+to a request to send a new data packet is independent of 
+the past history of the channel, upstream of the last 
+
+normal mode executed. 
+Device according to Claim 1, characterized in 
+that the predetermined criterion comprises the absence of 
+
+any collision slot. 
+Device according to one of Claims 1 and 2, 
+characterized in that the transmission (successful) 
+
+observation is noted, after a start of transmission 
+event, upon a channel vacant event not preceded by a 
+
+collision since the start of transmission; in that the 
+collision time slot observation is noted at the channel 
+
+vacant event which follows the said sending with 
+collision signalling; and in that the channel vacant 
+
+observation is noted when the channel vacant event has 
+endured for a second minimum duration (B). 
+Device according to one of Claims 1 to 3, 
+characterized in that the initial value of the chosen 
+
+integer (E) is substantially random. 
+Device according to one of Claims 1 to 4, 
+characterized in that the running integer is also moved 
+
+towards the first limit-integer in the presence of a  
+ 
+
+collision-free transmission. 
+Device according to one of Claims 1 to 5, 
+characterized in that the said predetermined law 
+
+comprises: 
+
+as long as the running integer (E) is not equal to 
+the first limit-integer (0), incrementing the running 
+
+integer by a first chosen increment (M-1), if the state 
+
+of the channel is collision slot, or decrementing the 
+running integer by a second chosen increment (1) if the 
+
+state of the channel is vacant slot, the ratio of the 
+first increment to the second being substantially equal 
+
+to the gap (M-1) between the two limit-integers. 
+Device according to one of Claims 1 to 6, 
+characterized in that the sending/receiving handling 
+
+device (DG) is send-disabled if a collision state already 
+exists when it receives a send request. 
+Device according to one of Claims 1 to 7, 
+characterized in that the gap (M-1) between the two 
+
+limit-integers is substantially equal to the integer part 
+of the ratio of the first duration (C) to the second (B). 
+Device according to one of Claims 1 to 8, 
+characterized in that the chosen integer (E) is delivered 
+
+by a pseudo-random generator (GPA) operating on an 
+integer of at least 10 bits, modulated by at least one 
+
+integer of at most 10 bits, which is specific to the 
+relevant apparatus, the result being referred back to the 
+
+interval of the limits of the said chosen integer (E). 
+Device according to Claim 9, characterized in 
+that the chosen integer (E) is delivered by a pseudo-random 
+
+generator (GPA) operating on an integer of at 
+least 10 bits, modulated by at least one integer of at 
+
+most 10 bits, which is specific to the relevant 
+apparatus, and by a clock integer, the result being 
+
+referred back to the interval of the limits of the said 
+chosen integer (E). 
+Device according to one of Claims 1 to 10, 
+characterized in that the send requests are accompanied 
+
+by a priority cue, picked from a predetermined set of 
+priority classes; and in that the handling device (DG)  
+
+ 
+logs, for each priority class, a quantity (P
+i
+) 
+representing the congestion factor for the transmission 
+
+medium, having regard to priority, whereas any request in 
+progress is taken into account only if the said quantity, 
+
+for its priority class, is in a predetermined 
+relationship with a random quantity (g(t)). 
+Device according to Claim 11, characterized in 
+that each quantity (P
+i
+) varies according to a 
+predetermined law dependent on the said observation 
+
+signal, in order to increase the congestion which it 
+represents in the case of a collision slot, and to 
+
+decrease it in the case of a vacant slot. 
+Device according to Claim 12, characterized in 
+that the quantity (p
+i
+) is also modified in order to 
+decrease the congestion which it represents, in the 
+
+presence of a collision-free transmission. 
+Device according to one of Claims 11 to 13, 
+characterized in that the quantities (p
+i
+) and the random 
+quantity (g(t)) are normalized to one, the predetermined 
+
+relationship being a comparison of the random quantity 
+with the relevant representative quantity (p
+i
+) . 
+Process for resolving collisions in a data 
+transmission network of the random access type, in which 
+
+each apparatus is furnished with a network-interface for 
+sending/receiving on a transmission medium or channel, 
+
+with monitoring of the channel so as to establish event 
+signals which selectively represent the detection of a 
+
+start of transmission, the detection of any new 
+collision, and the detection of the return of the channel 
+
+to the vacant state, 
+
+in which, following a request to send a data packet, the 
+packet is sent upon obtaining the channel vacant state, 
+
+with, in the absence of any collision in regard to this 
+sending, validation of the sending of the data packet in 
+
+progress and return to the awaiting of a request to send 
+another data packet, 
+whereas in the presence of a collision in regard to this 
+sending, the sending is prolonged for a first chosen 
+
+duration (C), referred to as the "collision slot", and  
+ 
+
+then interrupted; 
+ 
+characterized in that in response to any event signal, a 
+
+channel observation signal is established from among a 
+predetermined set of possibilities, this set comprising 
+
+transmission (sending or receiving), "collision slot" and 
+"vacant slot", the collision time slot being restricted 
+
+to a first minimum duration (C), starting from any new 
+collision detection, and the vacant slot existing only 
+
+when the channel vacant state has endured for a second 
+minimum duration (B), at least equal to the maximum round 
+
+trip propagation time of a signal on the channel, and 
+less than the first minimum duration (C),
+ 
+and in that, in the presence of a collision, 
+
+
+i) a running integer (E) is initialized to a value 
+lying between a first (0) and a second (M-1) limitinteger, 
+
+inclusive, 
+ii) at each new observation, the running integer (E) is 
+varied, according to a predetermined law dependent on 
+
+the said observation, in order to move it away from the 
+first limit-integer (0) in case of abundance of collision 
+
+slots, and to move it towards this limit in case of 
+abundance of vacant slots, 
+iii) sending being possible only when the running integer 
+(E) reaches the first limit-integer (0). 
+</CLAIMS>
+</TEXT>
+</DOC>

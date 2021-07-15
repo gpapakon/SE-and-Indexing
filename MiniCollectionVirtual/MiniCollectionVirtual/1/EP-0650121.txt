@@ -1,0 +1,798 @@
+<DOC>
+<DOCNO>EP-0650121</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Resource assignment apparatus
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F945	G06F945	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Object 
+The object of the present invention is to provide a 
+compiler for compiling a source program written in a high-level 
+
+language into a machine language program, which 
+assigns the variables in the program to the resources 
+
+consisting of registers, memory and suchlike. 
+Construction 
+The resource assignment apparatus 33 generates the 
+assignments consisting of the variables and their live 
+
+ranges and finds the inference cost incurred when assigning 
+these various assignments to the each of the various 
+
+resources consisting of data registers, address registers, 
+memory and suchlike. It then sorts the assignments into 
+
+groups whereby these inference costs will be the lowest. 
+The resource element minority assignment unit 12 then 
+
+carries out the assigning of each of these groups of sorted 
+assignments. The various assignments with live ranges which 
+
+interfere are assigned to different resource elements. When 
+there are a number of resource elements to which an 
+
+assignment can be assigned, then it investigates which is 
+the most appropriate resource element, before assigning the 
+
+assignment to this most appropriate resource element. When 
+there is no resource element for which assigning is 
+
+possible, the assignment is then moved to another resource 
+group. 
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC IND CO LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC INDUSTRIAL CO., LTD.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+IRIMAJIRI JUNKO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TANAKA AKIRA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TOMINAGA NOBUKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+IRIMAJIRI, JUNKO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TANAKA, AKIRA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TOMINAGA, NOBUKI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a resource assignment
+apparatus which assigns the variables in a program to
+resources such as registers and memory, to be used by a
+compiler when compiling a program written in a high-level
+language into machine language.In recent years, there have been many improvements in
+the efficiency of program development by writing programs
+in high-level programming languages, such as C language:By using high-level programming languages, the
+programmer can express such processes as the storage,
+operation and transmission of numerical values as operations
+(steps) taking the variables as operands. Since these
+variables are defined voluntarily by the programmer, and
+comprise the necessary number of figures, the operator
+can describe the program freely. When compiled, these
+described programs (known as source programs) become machine
+language programs which can be understood by the computer.
+Operations in such machine language programs are expressed
+as machine language instructions, and since these machine
+language instructions take the registers and memory as
+operands, it becomes necessary to assign the above variables
+to the registers and memory. This assigning process is
+known as the resource assignment process. Before describing the resource assignment process under
+the prior art, several of the terms to be used will be
+explained.The live range, in its widest sense, refers to the
+range for which the stored value of the variables is valid,
+while in its narrowest sense, it refers to the range of the
+program from the step in which values are substituted into
+the variable to the step in which these substituted values
+are used.Figures 1A and 1B show one example of a source program
+and the corresponding live ranges. The live ranges are
+shown by lines s1, s2, and s3 in Figure 1B. The defining
+step and final using step mentioned above are known
+respectively as the starting point and the end point and are
+expressed in the drawing by the points p1, p2, p3, p4, p5
+etc. In Figure 1B, there are two starting points for each
+of the variables c and d, but this is because variables c,
+d are defined in terms of the two processes p1 and p2 in the
+decision statement if (b>=10) {process p1} else {process
+p2}.The assignment of resources can be simply the taking of
+a variable, but, since the assignment can be to several
+separate resource elements for each respective live range,
+when there are several live ranges for one variable, this
+specification takes an assignment as the combination of a 
+variable
+</DESCRIPTION>
+<CLAIMS>
+A resource assignment apparatus (33;35) used by a compiler which compiles programs
+written in a high-level language into programs written in machine language for assigning
+
+assignments which are a pairing of variables and live ranges in a program to separate resource
+elements which make up resources, divided up according to function, such as registers and
+
+memory, according to a priority value of the assignment, 
+characterised in that
+ the apparatus
+comprises:
+
+
+assignment storage means (3) for storing the assignments in a program and their
+priority values;
+first resource element assigning means (7) for taking an assignment with a highest
+priority value from the assignment storage means (3) and assigning the assignment with the
+
+highest priority value to a resource element;
+assigning result storage means (8) for storing assigning results;
+assignment retrieval means (7) for retrieving from the assignment storage means (3) an
+assignment which has a next highest priority value after a priority value of an assignment
+
+which has just been assigned;
+interfering assignment extraction means (5) for extracting assignments whose live
+ranges interfere with a live range of the assignment retrieved by the assignment retrieval
+
+means (7);
+same resource remaining resource element determination means (9) for determining
+whether there are any resource elements of resources which perform a same function as each
+
+of the resource elements to which the assignments extracted by the interfering assignment
+extraction means (5) have been assigned by referring to the assigning result storage means (8);
+coherent assignment retrieval means (6) for retrieving the assignments for which, by
+referring to the starting point and end point of the live range, a starting point is coincident with
+
+the end point of the assignment retrieved by the assignment retrieval means (7) and
+assignments for which an end point is coincident with the starting point of the assignment
+
+retrieved by the assignment retrieval means (7); 
+succession resource element determination means (9) for determining the resource
+elements to which the assignments retrieved by the coherent assignment retrieval means (6)
+
+are assigned, by referring to the assigning result storage means (8);
+second resource element assigning means
+for assigning, when there is only one resource element determined by the same
+
+resource remaining resource element determination means (9), the assignment retrieved by the
+assignment retrieval means (7) to the resource element,
+for assigning the assignment taken by the assignment retrieval means (7) to any
+resource element which is the determination result of the same resource remaining resource
+
+element determination means (9) and, moreover, the determination result of the succession
+resource element determination means (9), when there is a plurality of resource elements
+
+determined by the same resource remaining resource element determination means (9) and a
+resource element determined by the succession resource element determination means (9)
+
+exists, and
+for storing the assignment result in the assignment result storage means (8); and
+control means (1;19) for repeatedly having the assignment retrieval means (7)
+activated, until all of the assignments have been assigned.
+A resource assignment apparatus (33;35) according to Claim 1, further comprising:
+
+reserved assignment extraction means for extracting assignments in the program which
+should be assigned to a previously determined resource element;
+reserved resource element storage means for storing the resource elements to which the
+assignments extracted by the reserved assignment extraction means should be assigned; and
+reserved assigning means for assigning the assignments extracted by the reserved
+assignment extraction means to the corresponding resource elements out of the resource
+
+elements stored by the reserved resource element storage means, and having the assigning
+results stored by the assigning result storage means (8).
+The resource assignment apparatus (33;35) of Claim 1 or 2, wherein the second
+resource element assigning means comprises:
+
+
+first assigning means for assigning, when there is only one resource element
+determined by the same resource remaining resource element determination means (9), the
+
+assignment taken by the assignment retrieval means (7) to the resource element;
+second assigning means for assigning the assignment taken by the assignment retrieval
+means (7) to any of the resource elements determined by the same resource remaining resource
+
+element determination means (9) when there is a plurality of resource elements determined by
+the same resource remaining resource element determination means (9) and there is no
+
+corresponding resource element determined by the succession resource element determination
+means (9); and
+third assigning means for assigning the assignment taken by the assignment retrieval
+means (7) to any of the resource elements determined as the determination result of the same
+
+resource remaining resource element determination means (9) and, moreover, determined as
+the determination result of the succession resource element determination means (9), when
+
+there is a plurality of resource elements determined by the same resource remaining resource
+element determination means (9) and a resource element determined by the succession
+
+resource element determination means (9) exists.
+The resource assignment apparatus (33;35) of Claim 3, further comprising:
+
+profit value calculation means (12;15) for calculating the profit value which shows
+how memory size and/or execution time are reduced for a machine language program after
+
+compiling if an assignment is assigned to one of the resource
+elements determined by the same resource remaining resource element determination
+
+means (9), for each of the resource elements determined by the same resource remaining resource element determination means (9);
+loss value calculation means (12;15) for calculating the loss value which shows how
+memory size and/or execution time are increased for a machine language program after
+
+compiling if an assignment is assigned to one of the resource elements determined by the same
+resource remaining resource element determination means (9), for each of the resource 
+
+elements determined by the same resource remaining resource element determination means
+(9); and
+greatest difference resource element determination means (12;15) for calculating a
+difference between the profit value and the loss value and determining which resource
+
+elements have a greatest difference;
+wherein the third assigning means assigns the assignments retrieved by the assignment
+retrieval means (7) to one of the resource elements determined by the greatest difference
+
+resource element determination means (12;15).
+The resource assignment apparatus (33;35) of Claim 4, wherein the profit value
+calculation means (12;15) calculates the profit value for the resource element determined by
+
+the succession resource element determination means (9) based on the priority values of the
+assignments assigned to the resource element, with the profit values of the resource elements
+
+aside from the resource element determined by the succession resource element determination
+means (9) being set to equal 0.
+The resource assignment apparatus (33;35) of Claim 5, further comprising:
+
+secondary interfering assignment retrieval means for retrieving assignments which
+have live ranges which interfere with the live ranges of the assignments retrieved by the
+
+coherent assignment retrieval means (6), but are not the retrieved results of the interfering
+assignment extraction means (5); and
+first loss occurring resource element determination means for determining to which
+resource elements the assignments which are the retrieval results of the secondary interfering
+
+assignment retrieval means are assigned, by referring to the assigning result storage means
+(8);
+wherein the loss value calculation means (12;15) calculates loss values of the resource
+elements determined by the first loss occurring resource element determination means based
+
+on the priority values of the assignments determined by the coherent assignment retrieval
+means (6) and, moreover, whose live range interferes with the live range of the assignment 
+
+which is assigned to each of the resource elements, with the loss values of all of the resource
+elements aside from the resource element determined by the loss occurring resource element
+
+determination means being set at 0.
+The resource assignment apparatus (33;35) of Claim 6, further comprising:
+
+non-commutative operation definition determination means for determining whether
+the assignment taken by the assignment retrieval means (7) is defined by a non-commutative
+
+operation such as subtraction and division; and
+second loss occurring resource element retrieval means for retrieving, when the non-commutative
+operation definition determination means determines that the assignment is
+
+defined as a non-commutative operation, a resource element to which an assignment which is
+on a right side of an operator of the non-commutative operation is assigned;
+wherein, once the second loss occurring resource element retrieval means has retrieved
+the resource element, the loss value calculation means (12;15) adds the priority values of the
+
+assignments which are assigned to the resource element to the loss value of the resource
+element which is the determination result of the second loss occurring resource element
+
+retrieval means.
+The resource assignment apparatus (33;35) of Claim 7, further comprising:
+
+secondary interfering assignment retrieval means for retrieving assignments which
+have live ranges which interfere with the live ranges of the assignments retrieved by the
+
+coherent assignment retrieval means (6), but are not the retrieved results of the interfering
+assignment extraction means (5); and
+first loss occurring resource element determination means for determining to which
+resource elements the assignments which are the retrieval results of the secondary interfering
+
+assignment retrieval means are assigned, by referring to the assignment result storage means
+(8);
+wherein the loss value calculation means (12;15) calculates loss values of the resource
+elements determined by the first loss occurring resource element determination means based 
+
+on the execution frequencies of each of the assignments determined by the coherent
+assignment retrieval means (6) and whose live range interferes with the live range of the
+
+assignment which is assigned to each of the resource elements, with the loss values of all of
+the resource elements aside from the resource element determined by the loss occurring
+
+resource element determination means being set at 0.
+The resource assignment apparatus (33;35) of Claim 4 or 8, further comprising:
+
+global group creation means for retrieving a plurality of assignments whose live ranges
+are connected one after another, out of the assignments stored in the assignment storage means
+
+(3), and setting the retrieved assignments as a global group;
+global group retrieval means for retrieving a global group which contains the
+assignment retrieved by the assignment retrieval means (7), when there are a plurality of
+
+resource elements determined by the greatest resource element determination means (12;15);
+global profit value calculation means for calculating a global profit value which shows
+how memory size and/or execution time are reduced if an as yet unassigned assignment is
+
+assigned to a common resource element, for each of the resource elements determined by the
+same resource remaining resource element determination means (9); and
+global loss calculation means for calculating a global loss value which shows how
+memory size and/or execution time are increased if an as yet unassigned assignment is
+
+assigned to a common resource element, for each of the resource elements determined by the
+same resource remaining resource element determination means (9);
+wherein for a case when a plurality of resource elements are determined by the greatest
+difference resource element determination means (12;15), the third assigning means calculates
+
+a difference between the global profit value and the global loss value, and then assigns the
+taken assignment to a resource element for which the difference is greatest.
+The resource assignment apparatus (33;35) of Claim 9, wherein the global profit value
+calculation means comprises: 
+
+
+a first global group retrieval unit for retrieving, once the assignment retrieval means
+has retrieved an assignment, a global group to which the retrieved assignment belongs;
+a global profit value storage unit for storing a total of the profit values for every
+resource element corresponding to a global group as the global profit value; and
+a first total value managing unit for adding, once the profit value calculation means
+(12;15) has calculated the profit value of a resource element for the assignment, the profit
+
+value to the global profit value of the resource element.
+The resource assignment apparatus (33;35) of Claim 10, wherein the global loss
+calculation means comprises:
+
+
+an interfering global group retrieval unit for retrieving, once the assignment retrieval
+means has retrieved an assignment, global groups which contain the assignments which are the
+
+retrieval results of the interfering assignment extraction means (5) in regard to the taken
+assignment;
+a second total storage unit for storing the total of the priority values of the assignments
+belonging to the global group as the global loss value corresponding to every resource
+
+element; and
+a second total managing unit for adding, once the profit value calculation means
+(12;15) has calculated the profit value of the resource element for the assignment retrieved by
+
+the assignment retrieval means (7), the priority value of assignment for the resource element
+which is the retrieval result of the interfering assignment extraction means (5) to the total of
+
+the global loss value for the resource element.
+The resource assignment apparatus (33;35) of Claim 9 or 11, wherein the global profit
+value calculation means comprises:
+
+
+a first global group retrieval unit for retrieving, once the assignment retrieval means
+has retrieved an assignment, the global group to which the assignment belongs; 
+a first total storage unit for storing the number of assignments in a global group
+assigned to a resource element as the global profit value corresponding to each of the resource
+
+elements; and
+a first total managing unit for adding, once the profit value calculation means (12;15)
+has calculated the profit value of a resource element for an assignment, 1 to the global profit
+
+value of the resource element.
+The resource assignment apparatus (33;35) of Claim 12, wherein the global loss value
+calculation means comprises:
+
+
+an interfering global group retrieval unit for retrieving, once the assignment retrieval
+means has retrieved an assignment, the global groups which contain the assignments which are
+
+the retrieval result of the interfering assignment extraction means (5) in regard to the taken
+assignment;
+a second total storage unit for storing a number of assignments assigned to resource
+elements belonging to a global group as the global loss value corresponding to every resource
+
+element; and
+a second total managing unit for adding 1 to the global loss value of the resource
+element, once the profit value calculation means (12;15) has calculated the profit value of a
+
+resource element for an assignment retrieved by the assignment retrieval means (7).
+The resource assignment apparatus (33;35) of Claim 13, further comprising:
+
+non-commutative operation operand determination means for determining whether the
+assignment taken by the assignment retrieval means (7) is on a right side of an operator of a
+
+non-commutative operation such as subtraction and division; and
+third loss occurring resource element retrieval means for retrieving a resource element
+to which the assignment defined by the non-commutative operation is defined, once the non-commutative
+
+operation operand determination means has determined that the assignment is on
+the right side; 
+wherein, once the third loss occurring resource element retrieval means has retrieved
+the resource element, the loss value calculation means (12;15) adds the priority values of the
+
+assignments which are assigned to the resource element to the loss value and global loss value
+of the resource element which is the retrieved result of the third loss occurring resource
+
+element retrieval means.
+The resource assignment apparatus (33;35) of Claim 14, wherein the reserved
+assignment extraction means extracts assig
+nments which store arguments for function calls
+from the program, and the reserved resource element storage means stores argument registers
+
+to which the assignments should be assigned.
+The resource assignment apparatus (33;35) of Claim 14, wherein the reserved
+assignment extraction means extracts assignments which store return values for function calls
+
+from the program, and the reserved resource element storage means stores return value
+registers to which the assignments should be assigned.
+The resource assignment apparatus (33;35) of Claim 14, wherein the reserved
+assignment extraction means extracts the assignments whose values may be changed from the
+
+program, and the reserved resource element storage means stores broken registers to which the
+assignments should be assigned.
+The resource assignment apparatus (33;35) of Claim 4 or 11, wherein the profit value
+calculation means (12;15) calculates the profit value for the resource element determined by
+
+the succession resource element determination means (9) based on the priority values of the
+assignments assigned to the resource element, with the profit values of the resource elements
+
+aside from the resource element determined by the succession resource element determination
+means (9) being set to equal 0.
+The resource assignment apparatus (33;35) of Claim 18, further comprising: 
+
+secondary interfering assignment retrieval means for retrieving assignments which
+have live ranges which interfere with the live ranges of the assignments retrieved by the
+
+coherent assignment retrieval means (6), but are not the retrieved results of the interfering
+assignment extraction means (5); and
+first loss occurring resource element determination means for determining to which
+resource elements the assignments which are the retrieval results of the secondary interfering
+
+assignment retrieval means are assigned, by referring to the assigning result storage means (8);
+wherein the loss value calculation means (12;15) calculates loss values of the resource
+elements determined by the first loss occurring resource element determination means based
+
+on the priority values of each of the assignments determined by the coherent assignment
+retrieval means (6) and, moreover, whose live range interferes with the live range of the
+
+assignment which is assigned to each of the resource elements, with the loss values of all of
+the resource elements aside from the resource element determined by the loss occurring
+
+resource element determination means being set at 0.
+The resource assignment apparatus (33;35) of Claim 19, further comprising:
+
+non-commutative operation definition determination means for determining whether
+the assignment taken by the assignment retrieval means (7) is defined by a non-commutative
+
+operation such as subtraction and division; and
+second loss occurring resource element retrieval means for retrieving, when the non-commutative
+operation definition determination means determines that the assignment is
+
+defined as a non-commutative operation, a resource element to which an assignment which is
+on a right side of an operator of the non-commutative operation is assigned;
+wherein, once the second loss occurring resource element retrieval means has retrieved
+the resource element, the loss value calculation means (12;15) adds the priority values of the
+
+assignments which are assigned to the resource element to the loss value and the global loss
+value of the resource element which is the determination result of the second loss occurring
+
+resource element retrieval means.
+The resource assignment apparatus (33;35) of Claim 19 or 20, further comprising:
+
+non-commutative operation operand determination means for determining whether
+the assignment taken by the assignment retrieval means (7) is on a right side of an operator
+
+of a non-commutative operation such as subtraction and division; and
+third loss occurring resource element retrieval means for retrieving a resource element
+to which the assignment defined by the non-commutative operation is assigned, once the non-commutative
+
+operation operand determination means has determined that the assignment is on
+the right side;
+wherein, once the third loss occurring resource element retrieval means has retrieved
+the resource element, the loss value calculation means (12;15) adds the priority values of the
+
+assignments which are assigned to the resource element to the loss value and global loss value
+of the resource element which is the retrieved result of the third loss occurring resource
+
+element retrieval means.
+The resource assignment apparatus (33;35) of Claim 4 or 21, further comprising:
+
+loop-nesting depth level retrieval means for retrieving a loop-nesting depth level of
+each of the loops in the program;
+wherein the profit value calculation means (12;15) calculates the profit value for the
+resource element determined by the succession resource element determination means (9)
+
+based on the loop-nesting depth levels of the assignments assigned to the resource element,
+with the profit values of the resource elements aside from the resource element determined by
+
+the succession resource element determination means (9) being set to equal 0.
+The resource assignment apparatus (33;35) of Claim 22, further comprising:
+
+secondary interfering assignment extraction means (5) for retrieving assignments
+which have live ranges which interfere with the live ranges of the assignments retrieved by
+
+the coherent assignment retrieval means (6), but are not the retrieved results of the interfering
+assignment extraction means (5); and 
+first loss occurring resource element determination means for determining to which
+resource elements the assignments which are the retrieval results of the secondary interfering
+
+assignment retrieval means are assigned, by referring to the assignment result storage means
+(8);
+wherein the loss value calculation means (12;15) calculates loss values of the resource
+elements determined by the first loss occurring resource element determination means based
+
+on the loop-nesting depth levels of each of the assignments determined by the coherent
+assignment retrieval means (6) and, moreover, whose live range interferes with the live range
+
+of the assignment which are assigned to the resource element, with the loss values of all of the
+resource elements aside from the resource element determined by the loss occurring resource
+
+element determination means being set at 0.
+The resource assignment apparatus (33;35) of Claim 23, further comprising:
+
+non-commutative operation definition determination means for determining whether
+the assignment taken by the assignment retrieval means (7) is defined by a non-commutative
+
+operation such as subtraction and division; and
+second loss occurring resource element retrieval means for retrieving, when the non-commutative
+operation definition determination means determines that the assignment is
+
+defined as a non-commutative operation, a resource element to which an assignment which is
+on a right side of an operator of the non-commutative operation is assigned;
+wherein, once the second loss occurring resource element retrieval means has retrieved
+the resource element, the loss value calculation means
+ (12;15) adds the loop-nesting depth
+levels of the assignments which are assigned to the resource elements to the loss value of the
+
+resource element which is the determination result of the second loss occurring resource
+element retrieval means.
+The resource assignment apparatus (33;35) of Claim 24, further comprising: 
+
+non-commutative operation operand determination means for determining whether
+the assignment taken by the assignment retrieval means (7) is on a right side of an operator
+
+of a non-commutative operation such as subtraction and division; and
+third loss occurring resource element retrieval means for retrieving a resource
+element to which the assignment defined by the non-commutative operation is assigned, once
+
+the non-commutative operation operand determination means has determined that the
+assignment is on the right side;
+wherein, once the third loss occurring resource element retrieval means has retrieved
+the resource element, the loss value calculation means (12;15) adds the loop-nesting depth
+
+levels of the assignments which are assigned to the resource element to the loss value of the
+resource element which is the retrieved result of the third loss occurring resource element
+
+retrieval means.
+The resource assignment apparatus (33;35) of Claim 4, wherein the profit value
+calculation means (12;15) calculates the profit value for the resource element determined by
+
+the succession resource element determination means (9), based on a number of assignments
+out of the retrieved results of the coherent assignment retrieval means (6) which are assigned
+
+to the resource element with the profit values of the resource elements aside from the resource
+element determined by the succession resource element determination means (9) being set to
+
+equal 0.
+The resource assignment apparatus (33;35) of Claim 26, further comprising:
+
+secondary interfering assignment extraction means (5) for retrieving assignments
+which have live ranges which interfere with the live ranges of the assignments retrieved by the
+
+coherent assignment retrieval means (6), but are not the retrieved results of the interfering
+assignment extraction means (5); and
+first loss occurring resource element determination means for determining to which
+resource elements the assignments which are the retrieval results of the secondary interfering 
+
+assignment retrieval means are assigned, by referring to the assignment result storage means
+(8);
+wherein the loss value calculation means (12;15) calculates loss values of the resource
+elements determined by the first loss occurring resource element determination means based
+
+on the number of assignments which are assigned determined by the coherent assignment
+retrieval means (6) and, moreover, whose live range interferes with the live ranges of the
+
+assignments which are assigned to the resource element, with the loss values of all of the
+resource elements aside from the resource element determined by the loss occurring resource
+
+element determination means being set at 0.
+The resource assignment apparatus (33;35) of Claim 4, further comprising:
+
+execution frequency storage means for storing a frequency which shows how often
+each step in the program is executed corresponding to every step in the program; and
+execution frequency totalling means for totalling the frequencies of steps in the
+program for every assignment stored in the assignment storage means (3), setting the
+
+corresponding totalled values as the execution frequency of every assignment;
+wherein the profit value calculation means (12; 15) calculates the profit value for the
+resource element determined by the succession resource element determination means (9)
+
+based on the execution frequencies of the assignments assigned to the resource element, with
+the profit values of the resource elements aside from the resource element determined by the
+
+succession resource element determination means (9) being set to equal 0.
+The resource assignment apparatus (33;35) of Claim 28, further comprising:
+
+secondary interfering assignment extraction means (5) for retrieving assignments
+which have live ranges which interfere with the live ranges of the assignments retrieved by the
+
+coherent assignment retrieval means (6), but are not the retrieved results of the interfering
+assignment extraction means (5); and
+first loss occurring resource element determination means for determining to which
+resource elements the assignments which are the retrieval results of the secondary interfering 
+
+assignment retrieval means are assigned, by referring to the assignment result storage means
+(8),
+wherein the loss value calculation means (12;15) calculates loss values of the resource
+elements determined by the first loss occurring resource element determination means based
+
+on the execution frequencies of each of the assignments determined by the coherent
+assignment retrieval means (6) and whose live range interferes with the live range of the
+
+assignment which is assigned to each of the resource elements, with the loss values of all of
+the resource elements aside from the resource element determined by the loss occurring
+
+resource element determination means being set at 0.
+A resource assignment apparatus (33;35) according to Claim 1, further comprising:
+
+cost storage means (3) for storing for every resource a cost which shows code size
+and/or execution time of every instruction used by the resource;
+cost retrieval means (4) for retrieving the cost for every resource by referring to the
+cost storage means (3), for each of the instructions in a program which are used in the live
+
+range of a variable in one assignment;
+cost totalling means (4) for totalling the costs retrieved by the cost retrieval means (4)
+of each of the assignments for each resource; and
+priority value calculation means for calculating the priority value based on the cost
+total value calculated for each of the assignments and the live ranges of the various
+
+assignments.
+The resource assignment apparatus (33;35) of Claim 30, further comprising:
+
+resource classified assignment supply means for supplying all of the assignments
+which can be assigned to the same resource to the assignment storage means (3), wherein
+the resource classified assignment supply means comprises:
+
+resource determination means (9) for determining which resource has a lowest total
+cost, out of the totalled costs for the various assignments calculated by the cost totalling means
+
+(4); 
+resource classified group conversion means for referring to the various assignments
+and the resources which correspond to the assignments determined by the resource
+
+determination means (9) and converting into groups the assignments obtained as having the
+same determination results to form resource classified groups;
+resource classified group selection means for selecting one group out of the several
+resource classified groups formed by the resource classified group conversion means;
+resource classified group writing means for writing the resource classified group
+selected by the resource classified group selection means into the assignment storage means
+
+(3); and
+control means (1;19) for indicating a selection of a next resource classified group,
+
+when all the assignments stored in the assignment storage means (3) have been taken by
+the assignment retrieval means (7).
+The resource assignment apparatus (33;35) of Claim 31, further comprising:
+
+resource classified group cost totalling means for totalling the total cost values of the
+assignments found by the cost totalling means (4) for each of the resource classified groups
+
+formed by the resource classified group conversion means;
+wherein the resource classified group selection means selects a resource classified
+group with a highest total cost totalled by the group cost totalling means, out of as yet
+
+unselected resource classified groups.
+The resource assignment apparatus (33;35) of Claim 32, wherein the same resource
+remaining resource element determination means (9) further comprises:
+
+
+first resource classified group determination means for determining the resource
+classified group to which the assignment retrieved by the assignment retrieval means (7)
+
+belongs;
+second resource classified group determination means for determining, when all of the
+resource elements of the resource corresponding to the resource classified group have been
+
+assigned assignments retrieved by the interfering assignment extraction means (5), the 
+resource classified group for an assignment with a higher cost value total for the assignment
+
+than the first determined resource but, moreover, with a lowest total cost value; and
+first transference means for transferring, once the second resource classified group
+determination means has determined a resource classified group, an assignment retrieved by
+
+the assignment retrieval means from the resource classified group determined by the first
+resource classified group determination means to the resource classified group determined by
+
+the second resource classified group determination means.
+The resource assignment apparatus (33;35) of Claim 33, wherein the cost totalling
+means (4) further comprises:
+
+
+loop-nesting depth level retrieval means for retrieving the loop-nesting depth level of
+the loop processes for the various instructions using the variable in one assignment;
+wherein the cost totalling means (4) adds the loop-nesting depth level to the cost
+retrieved by the cost retrieval means (4).
+The resource assignment apparatus (33;35) of Claim 31, further comprising:
+
+group element count retrieval means for retrieving a number of the assignments
+belonging to one resource classified group;
+wherein the resource classified group selection means selects the resource classified
+group with a highest number of assignments retrieved by the group element count retrieval
+
+means, out of the as yet unselected resource classified groups.
+The resource assignment apparatus (33;35) of Claim 35, wherein the same resource
+remaining resource element determination means (9) further comprises:
+
+
+first resource classified group determination means for determining the resource
+classified group to which the assignment retrieved by the resource retrieval means belongs;
+second resource classified group determination means for determining the resource
+classified group with a next highest number of assignments, when all of the resource elements
+
+of the resource corresponding to the resource classified group which is the determination 
+result of the first resource classified group determination means have been assigned
+
+assignments retrieved by the interfering assignment extraction means (5); and
+a first transference means for transferring, once the second resource classified group
+determination means has determined a resource classified group, an assignment retrieved by
+
+the assignment retrieval means from the resource classified group determined by the first
+resource classified group determination means to the resource classified group determined by
+
+the second resource classified group determination means.
+The resource assignment apparatus (33;35) of Claim 31, further comprising:
+
+resource element number retrieval means for retrieving a number of resource elements
+in a resource corresponding to a resource classified group;
+wherein the resource classified group selection means selects the resource classified
+groups in order of the number of resource elements retrieved by the resource element number
+
+retrieval means starting with a lowest number.
+The resource assignment apparatus (33;35) of Claim 37, wherein the same resource
+
+   remaining resource element determination means (9) further comprises:
+
+first resource classified group determination means for determining the resource
+classified group to which an assignment retrieved by the assignment retrieval means (7)
+
+belongs;
+second resource classified group determination means for determining the resource
+classified group with a next lowest number of resource elements, when all of the resource
+
+elements of the resource corresponding to a resource classified group have been assigned
+assignments retrieved by the interfering assignment extraction means (5); and
+a first transference means for transferring, once the second resource classified group
+determination means has determined a resource classified group, an assignment retrieved by
+
+the assignment retrieval means (7) from the resource classified group determined by the first
+resource classified group determination means to the resource classified group determined
+
+by the second resource classified group determination means.
+The resource assignment apparatus (33;35) of Claim 30, further comprising:
+
+resource element number determination means for referring to the assigning result
+storage means (8) and finding a number of resource elements which have already been
+
+assigned, out of the retrieval result of the interfering assignment extraction means (5) in regard
+to the assignment retrieved by the assignment retrieval means (7), wherein
+the priority value calculation means recalculates the priority value of the assignments
+stored by the assignment storage means (3), based on the determination results of the resource
+
+element number determination means.
+The resource assignment apparatus (33;35) of Claim 30, further comprising:
+
+resource element number determination means for referring to the assigning result
+storage means (8) and finding a number of resource elements which have already been
+
+assigned, out of the retrieval results of the coherent assignment retrieval means (6) in regard to
+the assignment extracted by the assignment retrieval means (7), wherein
+the priority value calculation means recalculates the priority value of the assignments
+stored by the assignment storage means (3), based on the determination results of the resource
+
+element number determination means.
+</CLAIMS>
+</TEXT>
+</DOC>

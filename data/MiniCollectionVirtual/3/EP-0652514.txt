@@ -1,0 +1,360 @@
+<DOC>
+<DOCNO>EP-0652514</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Data processing apparatus handling plural divided interruptions
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1320	G06F946	G06F948	G06F1324	G06F1326	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F13	G06F9	G06F9	G06F13	G06F13	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The object of the present invention is to provide an 
+interruption processing apparatus which allows for 
+
+improvements in operational speed and offers flexibility for 
+a variety of systems, while using a lower amount of 
+
+hardware. When an interruption occurs, then for the present 
+invention shown in Figure 2, the corresponding interruption 
+
+request flag in the interruption control register 1 in the 
+group interruption control unit 5 is set. The interruption 
+
+request unit 2 then outputs the interruption signal to the 
+CPU 6 based on the interruption request flag. The 
+
+interruption level arbitration unit 3 adjusts any conflict 
+with other group control units and outputs, as the 
+
+arbitration result, a signal showing whether output is 
+possible or not for the interruption signal. The group 
+
+number output unit 4 then outputs the fixed group number for 
+the group in accordance with the arbitration result in 
+
+response to access from the CPU 6. Once the CPU 6 receives 
+the interruption request signal, no matter from what group 
+
+interruption control unit the interruption was from, it 
+activates the start of a program starting at the same 
+
+address. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC IND CO LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC INDUSTRIAL CO., LTD.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+HIGAKI NOBUO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MATSUZAKI TOSHIMICHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HIGAKI, NOBUO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MATSUZAKI, TOSHIMICHI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a interruption
+handling apparatus for a microcomputer with advanced
+flexibility.In recent years, advances in electronics and
+information processing have led to improvements in the
+efficiency of microprocessors, and to their widespread use
+in machinery and appliances.Under the prior art, interruption handling apparatuses
+installed in information processing devices such as
+microprocessors have used a method changing the starting
+address of the processing program for every interruption
+factor, otherwise known as a vector interruption method.Under the vector interruption method, along with the
+assignment of the specified vector to each interruption
+factor, a table which corresponds starting addresses of
+interruption processing programs to vectors is constructed.When interruption occurs, after waiting for the
+completion of the instruction currently being executed, the
+interruption is received. The vector for distinguishing the
+interruption factor is generated, the starting address of
+the interruption processing program corresponding to the 
+vector is retrieved from the above table, and then the
+necessary control of the branching from the address of the
+current execution to the starting address is performed. The
+starting address is controlled by hardware such as a
+microprogram. After branching to the starting address, the
+interruption processing program starts. Then, once the
+interruption processing program has been completed, the
+hardware control executes the control process returning to
+the original program address.Under the vector interruption method, interruption
+processing programs are created for each interruption
+factor, and the interruption processing programs for each
+interruption factor are activated by the hardware control by
+setting the address at the head of every program as a
+starting address in the above table. Therefore,
+interruption processing programs are made use of in a
+variety of separate circumstances.However, under the prior art, there has been the
+problem of having to increase the hardware scale, so that
+the processes from the occurrence of the interruption to the
+start of the interruption processing program, and from the
+end of the interruption program to the return to the
+original program, can be carried out by hardware.Also, although there are many kinds of systems which
+feature built-in microcomputers, from large scale systems to
+small scale systems, there has been the problem that in
+terms of the properties of the system, there have been
+insufficien
+</DESCRIPTION>
+<CLAIMS>
+An interruption processing apparatus for controlling
+interruptions, installed in a microcomputer (7) which
+
+contains a CPU (6) which receives a number of
+interruption signals, the apparatus comprising:
+
+
+mask level output means (52) for outputting a
+mask level below which interrupts can be accepted by
+
+the CPU;
+a plurality of group interruption control means
+(5,9), each receiving interruptions at different levels
+
+from I/O and outputting to the CPU and each being
+identified by a respective group number, and
+interruption handler initiation means (31) for
+initiating a program starting from a fixed address
+
+which processes a transfer to an interruption process,
+at an address determined by the group number output by
+
+a group interruption control means, once the CPU has
+received an interruption signal, no matter from what
+
+group interruption control means the interruption is
+received,
+
+characterized in that every group interruption control
+means (5,9) comprises:
+
+
+an interruption control register (1) for storing
+the predetermined interruption level (LV) for a group
+
+and interruption request flags (IRQ) registering the
+occurrence of each interruption request in a group;
+interruption request means (2) for outputting to
+the CPU an interruption signal corresponding to the
+
+interruption level (LV) in the interruption control
+register, based on the interruption request flags; 
+interruption arbitration means (3) for
+adjudicating a conflict with other group interruption
+
+control means, based on the interruption level stored
+in the interruption control register and on the mask
+
+level input from the mask level output means (52), and
+group number output means (4) arranged to output
+the group number of its group interruption control
+
+means, outputting of said group number being gated in
+accordance with the arbitration result.
+The interruption processing apparatus of claim 1,
+further comprising:
+
+
+handler storage means (79) for storing a program
+which selects one interruption factor out of a group
+
+and transfers said factor to an interruption program, once an
+interruption signal has been inputted into the CPU (6)
+
+and the group number has been taken from the group
+interruption control means (5,9) which outputted the
+
+interruption signal;
+wherein the interruption handler initiation means
+has the program with the fixed starting address
+
+executed, once the CPU has received the interruption
+signal.
+The interruption processing apparatus of claim 2,
+wherein for one of the group interruption control means
+
+(5,9), the interruption request means (2) outputs the
+interruption signal (11) to the CPU (6) regardless of
+
+the arbitration result, when any one of the 
+interruption request flags (IRQ) in the interruption
+
+control register (1) is set.
+The interruption processing apparatus of claim 2,
+further comprising:
+
+
+a first port (8) for outputting a mask level from
+the mask level output means (52); and
+a second port (8) for outputting an arbitration
+result of the interruption arbitration means (3) in an
+
+interruption group control means (5) which is assigned
+a lowest interruption level, out of the internal
+
+interruption group control means which are inside the
+microcomputer (7);
+wherein the first port (8) and the second port
+(8) are connected to at least one interruption group
+
+control means (9) external to the microcomputer having
+a same construction as the internal interruption group
+
+control means.
+The interruption processing apparatus of claim 2,
+wherein every interruption group control means (5,9)
+
+further comprises:
+
+noise elimination means (91,92) for eliminating
+an interruption occurrence signal which notifies that
+
+an interruption has occurred, if it is shorter than a
+predetermined time; and
+selection means (93) for selecting one of the
+output of the noise elimination means and the
+
+interruption occurrence signal and outputting to the 
+interruption request flag (IRQ) in the interruption
+
+control register (1).
+The interruption processing apparatus of claim 5,
+wherein the selection means (93) selects the output of
+
+the noise elimination means (91,92) when an operation
+clock of the CPU (6) is not stopped, and selects the
+
+interruption occurrence signal when the operation clock
+of the CPU is stopped.
+The interruption processing apparatus of claim 2,
+further comprising:
+
+
+pointer storage means (61) for storing a pointer
+which shows the prefetch position of an instruction
+
+when an interruption is received;
+prefetched amount storage means (32) for storing
+the amount of instructions prefetched when an
+
+interruption is received; and
+address calculation initiation means (33) for
+initiating the microprogram for calculating a return
+
+address for a return from an interruption program,
+based on prefetch position of the pointer storage means
+
+and the prefetched amount in the prefetched amount
+storage means.
+The interruption processing apparatus of claim 2,
+further comprising:
+
+
+execution status holding means (52) for holding
+information showing an end of an execution of an 
+
+instruction and a decoding position of an instruction;
+and
+interruption permission means (IM) for showing a
+reception permission status of an interruption for
+
+every clock cycle corresponding to the decoding
+position during the execution of the instruction;
+wherein the interruption processing apparatus
+receives the interruption at a point in time at which
+
+an interruption is permitted by the interruption
+permission means, even when the information held by the
+
+execution status holding means does not show that the
+instruction has ended.
+The interruption processing apparatus of claim 2,
+further comprising:
+
+
+flag storage means (T of 52) for storing a single
+step flag showing an execution of one instruction at a
+
+time; and
+single step interruption request means (304) for
+outputting an interruption request at an execution of
+
+each instruction, when the single step flag is set;
+wherein the interruption processing apparatus
+does not receive the interruptio
+n during the execution
+of an instruction, when there is a single step flag
+
+interruption request.
+An interruption processing apparatus according to
+any preceding claim, wherein every interruption control
+
+register (1) stores enable flags (1E) showing that
+interruption is permitted, each enable flag 
+
+corresponding to a respective interruption request flag
+(IRQ), and every interruption request means (2) outputs
+
+the interruption signal to the CPU (6) when the
+corresponding interruption request flag and the enable
+
+flag are both valid.
+The interruption processing apparatus of claim 10,
+wherein every interruption arbitration means (3) is
+
+connected in series via arbitration signal lines, and
+wherein every interruption arbitration means further
+
+comprises:
+
+mask level determination means (3A) for
+determining whether the mask level outputted by the CPU
+
+and the interruption level of the interruption control
+register are equal; and arbitration signal output means
+
+(3E, 3F) for invalidating and outputting the
+arbitration signal from a previous interruption
+
+arbitration means in the series, when the mask level
+determination means determines that the levels are
+
+equal, and for outputting an arbitration signal from a
+previous interruption arbitration means in the series
+
+as it is, when it is determined that the levels are not
+equal;
+wherein the CPU (6) outputs a group number read
+signal, by means of executing the program, and a first
+
+interruption arbitration means in the series receives
+the group number read signal from the CPU as the
+
+arbitration signal.
+The interruption processing apparatus of claim 11,
+wherein every group number output means (4) comprises:
+
+
+a group number register (4A) for storing the
+predetermined group number for a group; and
+group number output means (4B) for outputting the
+group number stored in the group number register to the
+
+CPU (6), when the arbitration signal outputted by the
+arbitration signal output means (3E, 3F) in the group
+
+is valid.
+</CLAIMS>
+</TEXT>
+</DOC>

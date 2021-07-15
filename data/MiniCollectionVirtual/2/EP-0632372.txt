@@ -1,0 +1,397 @@
+<DOC>
+<DOCNO>EP-0632372</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Methods and apparatus for optimizing decision making.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G05B1302	G05B1302	G06F944	G06F944	G06N500	G06N500	G06N504	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G05B	G05B	G06F	G06F	G06N	G06N	G06N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G05B13	G05B13	G06F9	G06F9	G06N5	G06N5	G06N5	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Techniques for optimizing decision making apparatus by instrumenting 
+the apparatus and running it on test data which has the characteristics of the data 
+
+upon which the decision making apparatus is to be used. The information provided 
+by the instruments is then used to reorder the application of the criteria used by the 
+
+decision making apparatus to the data. As disclosed, the decision making apparatus 
+is a rule-based system which employs a decision network to evaluate the rules. The 
+
+decision network includes within tests, between tests, and result caches which hold 
+the data items which pass the tests. The optimization is done by rearranging the 
+
+condition elements of the rules so that the flow of data through the decision network 
+is minimized. The decision net is instrumented with two counters for each test and a 
+
+counter for each result cache. The counters for a test indicate how many times the 
+test was performed on the test data and how many times the test failed; the counter 
+
+for a result cache is incremented each time an item of data is added to the cache and 
+decremented each time an item is removed. A function employing the counter 
+
+values is used to make a list of condition elements by decreasing restrictiveness. 
+The list and a graph of the condition elements which relates the condition elements 
+
+according to shared variables are then used to reorder the rules, whereupon the 
+decision network is reconstructed as required for the reordered rules. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+AT 
+&
+ T CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+AT
+&
+T CORP.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+KOWALSKI THADDEUS JULIUS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+PEMAN MARIA JESUS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ROWLAND JAMES R
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KOWALSKI, THADDEUS JULIUS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+PEMAN, MARIA JESUS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ROWLAND, JAMES R.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The invention relates to data processing generally and more specifically 
+to data processing involving decisions based on the values of data. Many data processing operations involve making decisions about data 
+items based on a list of criteria concerning the data items. For example, a system 
+which sorted blocks according to color and weight might want to sort out blocks 
+which were black and had a weight between 1 and 3 pounds. There are thus three 
+criteria by which a block will be selected: 
+Is its color black? Does it weigh less than 1 pound? Does it weigh more than 3 pounds? How long it takes to sort a given block will depend on how the criteria are ordered. 
+For example, if a block is white, only the first criterion need be applied; if it is black, 
+but weighs less than 1 pound, the first two must be applied; if it is black and weighs 
+more than 1 pound, all three must be applied. It is also clear from the foregoing example that the most efficient 
+ordering of the criteria will depend on the characteristics of the blocks being sorted. 
+For example, if almost all of them are black and weigh less than 1 pound, the criteria 
+should be ordered with "Does it weigh less than 1 pound" first. If, on the other hand, 
+very few of the blocks are black but almost all of them weigh between 1 and three 
+pounds, the criteria should be ordered with "Is its color black?" first. In many cases, data processing systems apply long lists of criteria to 
+data When this is so, the performance of the data processing system depends 
+crucially on the efficient ordering of the criteria. In the prior art, such orderings have 
+been produced by skilled programmers with detailed knowledge both of the system 
+which is applying the criteria and of the data to which the criteria have been applied. 
+There are two difficulties with this procedure: it takes time and effort on the part of 
+the skilled people, and the analysis must be redone each time the data the system is 
+dealing with changes. What is lacking, and what is supplied by the present  
+ 
+invention, is an automatic technique for ordering the criteria applied to data 
+according to the nature of the data being processed. The invention solves the foregoing problem by including an 
+optimization component in the data processing system. The optimization component 
+analyzes the application of the criteria to the data the system is presently dealing 
+with and uses the results of the analysis to reorder the application of the criteria to 
+the data so that the number of tests made
+</DESCRIPTION>
+<CLAIMS>
+Apparatus for making a decision by applying decision criteria to data 
+according to an order, the apparatus being characterized by: 
+
+   optimization means for responding to the data by changing the order to 
+reduce the extent to which the decision criteria are applied to the data in making the 
+
+decision. 
+The apparatus set forth in claim 1 further characterized in that: 
+   the optimization means comprises 
+
+   instrumentation means for recording information about application of 
+the decision criteria during operation of the apparatus on the data; and 
+
+   analysis means for changing the order in response to the information. 
+The apparatus set forth in claim 2 wherein the decision criteria are 
+specified in condition elements, each condition element having one or more tests and 
+
+the tests including tests on variables shared between the condition elements, 
+   the apparatus being further characterized in that: 
+
+   the analysis means determines a restrictiveness for each condition 
+element, determines groups of condition elements which share variables, and 
+
+employs the restrictiveness and the groups to change the order of the condition 
+elements. 
+The apparatus set forth in claim 3 further characterized in that the 
+analysis means includes 
+
+   means for making a list in which the condition elements are ordered by 
+
+restrictiveness; 
+   means for determining the groups by making a representation of a graph 
+
+of the condition elements in which each condition element is a node of the graph and 
+there is an edge in the graph connecting the node for a given condition element with 
+
+any nodes for condition elements with which the given element shares at least one of 
+the variables; and 
+
+   the analysis means employs the list and the representation of the graph 
+to change the order of the condition elements. 
+The apparatus set forth in claim 1 further including a decision network 
+for applying the decision criteria to the data and being further characterized in that:
+
+ 
+   the optimization means changes the order such that flow of the data in 
+
+the decision network is minimized. 
+The apparatus set forth in claim 5 further characterized in that: 
+   the optimization means comprises 
+
+   instrumentation means for recording information about operation of the 
+decision network on the data; and 
+
+   analysis means for changing the order in response to the information. 
+The apparatus set forth in claim 6 further characterized in that: 
+   the decision criteria include within tests and between tests, 
+
+   the decision network includes 
+   first elements which apply the within tests to items of the data, 
+
+   result caches which contain items of the data, and 
+   second elements which apply the between tests to the items of the data 
+
+contained in the result caches and 
+the apparatus is further characterized in that: 
+
+   the instrumentation means comprises 
+   first counters on the within tests and the between tests which indicate 
+
+how many times each test is performed, 
+   second counters on the within tests and the between tests which indicate 
+
+how many times a certain result of each test occurs, and 
+   third counters on the result caches indicating the number of items of 
+
+data in each result cache; and 
+   the analysis means responds to the values of the counters. 
+The apparatus set forth in claim 7 further characterized in that: 
+   the decision criteria are specified in condition elements and the 
+
+apparatus is further characterized in that: 
+   the analysis means reorders the condition elements, includes 
+
+   means for employing the values of the counters to compute a 
+restrictiveness value for each of the condition elements and make a first list of the 
+
+condition elements which is ordered by decreasing restrictiveness value, and 
+   employs the list in reordering the condition elements. 
+The apparatus set forth in claim 7 further characterized in that:
+ 
+
+   the analysis means includes means for specifying cross product groups 
+of the decision criteria and responds to the specified cross product groups in addition 
+
+to the values of the counters. 
+The apparatus set forth in claim 9 further characterized in that: 
+   the decision criteria are specified in condition elements which include 
+
+tests on variables shared between condition elements; and 
+   the means for specifying cross product groups includes a representation 
+
+of a graph of the condition elements in which each condition element is a node of the 
+graph and there is an edge in the graph connecting the node for a given condition 
+
+element with any node for a condition element with which the given element shares 
+at least one of the variables. 
+The apparatus set forth in claim 10 further characterized in that: 
+   the analysis means further includes 
+
+   means for employing the values of the counters to compute a 
+restrictiveness value for each of the condition elements; 
+
+   means for employing the values of the third counters to compute a 
+cross-product effect of a condition element; and 
+
+   the analysis means employs the first list, the representation of the graph, 
+and the cross product effect to order the condition elements by performing the steps 
+
+of: 
+
+1. making a restrictiveness list of the condition elements by order of decreasing 
+restrictiveness; 
+2. beginning with the first condition element on the restrictiveness list, while 
+there are condition elements left on the restrictiveness list, do: 
+
+
+a. add the condition element to a selected list and remove it from the 
+restrictiveness list; 
+b. use the representation of the graph to determine the condition elements 
+which belong to the same cross product group as the condition element 
+
+added to the selected list; 
+c. add these condition elements to a candidates list; 
+d. while there are condition elements on the candidates list, do: 
+
+i. use the third values from the third counters to determine which of 
+the condition elements on the candidates list has the largest 
+
+potential cross product and select that condition element; 
+ii. add that condition element to the selected list and remove it from 
+the restrictiveness list; and 
+iii. use the representation of the graph to determine any condition 
+elements which belong to the same cross product group as the 
+
+condition element added to the selected list; and 
+iv. add these condition elements to the candidates list. 
+The apparatus set forth in any of claims 1, 2 or 5 further 
+characterized in that: 
+
+   the changed order produced by the optimization means further reflects 
+any requirements imposed by the apparatus for making a decision. 
+The apparatus set forth in any of claims 1,2 or 5 further characterized 
+in that: 
+
+   the apparatus has a training mode and an operational mode; and 
+   the optimization means operates only in the training mode. 
+The apparatus set forth in claim 13 further characterized in that: 
+   the apparatus operates in the training mode on test data which is 
+
+representative of the data upon which the apparatus operates in operational mode. 
+The apparatus set forth in claim 13 further characterized in that: 
+   the optimization means includes means for retaining a current state and 
+
+   means for saving the current state, 
+   whereby operation in the training mode may be interrupted and 
+
+continued. 
+An automatic method of optimizing operation of apparatus for 
+making a decision by applying decision criteria to data according to an order, the 
+
+method comprising the steps of:
+ 
+
+   instrumenting the apparatus to obtain values which indicate how the 
+decision criteria are applied to the data; 
+
+   operating the instrumented apparatus on the data; and 
+   responding to the values obtained as a result of the operation by 
+
+changing the order to reduce the extent to which the decision criteria are applied to 
+the data in making the decision. 
+The method set forth in claim 16 wherein the decision criteria are 
+specified in condition elements, each condition element having one or more tests and 
+
+the tests including tests on variables shared between the condition elements and the 
+step of responding to the values comprises the steps of: 
+
+   determining a restrictiveness for each condition element; 
+   determining groups of condition elements which share variables; and 
+
+   employing the restrictiveness and the groups to change the order of the 
+
+condition elements. 
+The method set forth in claim 17 further comprising the steps of: 
+   making a list in which the condition elements are ordered by 
+
+restrictiveness; 
+   the step of determining groups of condition elements includes the step 
+
+of making a representation of a graph of the condition elements in which each 
+condition element is a node of the graph and there is an edge in the graph connecting 
+
+the node for a given condition element with any nodes for condition elements with 
+which the given element shares at least one of the variables; and 
+
+   the step of employing the restrictiveness and the groups employs the list 
+and the representation of the graph. 
+The method set forth in claim 16 wherein the apparatus includes a 
+decision network for applying the decision criteria to the data; 
+
+   the step of instrumenting the apparatus includes the step of 
+instrumenting the decision network; and 
+
+   the step of responding to the values includes the step of changing the 
+order such that flow of the data in the decision network is minimized. 
+The method set forth in claim 19 wherein the decision criteria 
+include within tests and between tests,
+
+ 
+   the decision network includes 
+
+   first elements which apply the within tests to items of the data, 
+   result caches which contain items of the data, and 
+
+   second elements which apply the between tests to the items of the data 
+contained in the result caches and 
+
+the step of instrumenting the apparatus includes the steps of: 
+   placing first counters on the within tests and the between tests which 
+
+produce first values indicating how many times each test is performed, 
+   placing second counters on the within tests and the between tests which 
+
+produce second values indicating how many times a certain result of each test 
+occurs, and 
+
+   placing third counters on the result caches indicating the number of 
+items of data in each result cache. 
+The method set forth in claim 20 wherein the decision criteria are 
+specified in condition elements and the apparatus is further characterized in that: 
+
+   the step of responding to the values changes the order of the condition 
+elements and includes the steps of 
+
+   employing the first, second, and third values to compute a restrictiveness 
+value for each of the condition elements and 
+
+   making a first list of the condition elements which is ordered by 
+decreasing restrictiveness value. 
+The method set forth in claim 20 wherein the step of responding to 
+the values further includes the steps of: 
+
+   specifying cross product groups of the decision criteria; and 
+   employing the cross product groups and the first, second, and third 
+
+values to change the order. 
+The method set forth in claim 22 wherein the decision criteria are 
+specified in condition elements and the step of specifying cross product groups 
+
+further includes the steps of: 
+   making a representation of a graph of the condition elements in which 
+
+each condition element is a node of the graph and there is an edge in the graph 
+connecting the node for a given condition element with any nodes for condition 
+
+elements with which the given element shares at least one of the variables; and
+ 
+
+   the step of specifying cross product groups further uses the 
+representation. 
+The method set forth in any of claims 16, 17 or 19 further comprising 
+the steps of: 
+
+   placing the apparatus in a training mode prior to performing the steps of 
+instrumenting the apparatus, operating the instrumented apparatus, and responding 
+
+the values obtained; and 
+   after changing the order, placing the apparatus in an operational mode in 
+
+which the steps of the training mode are no longer performed. 
+The method set forth in claim 24 wherein: 
+   the step of placing the apparatus in a training mode includes the step of 
+
+providing test data as the data, the test data being representative of the data upon 
+which the apparatus operates in operational mode. 
+The method set forth in claim 24 wherein: 
+   the steps performed in training mode further includes the step of 
+
+retaining a current state of the instrumentation and 
+   the step of restoring the retained current state. 
+</CLAIMS>
+</TEXT>
+</DOC>

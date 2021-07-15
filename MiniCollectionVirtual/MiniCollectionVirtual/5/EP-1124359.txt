@@ -1,0 +1,220 @@
+<DOC>
+<DOCNO>EP-1124359</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Laroia-Tretter-Farvardin precoder for PCM modems
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04L2549	H04L2549	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04L	H04L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04L25	H04L25	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+For PCM upstream, the analog modem must transmit a filtered
+sequence of symbols so that the samples of the signal at the
+
+input to the codec at the central office (CO) are at a
+predetermined set of levels. This requires that the analog modem
+
+use an 8 kHz symbol rate synchronized to the co clock. Typical
+telephone channels have nulls at DC and at 4 kHz. Therefore, for
+
+best performance, the signal transmitted by the analog modem
+should be spectrally shaped to match the channel. The present
+
+invention utilizes a qeneralized Laroia-Tretter-Farvardin (LTF)
+precoder similar to the one used in V.34. This precoder
+
+structure allows spectral shaping and could also allow for
+constellation shaping gains. Using this precoder structure with
+
+spectral shaping has the potential to improve data rates by 3-3.5
+kbps.
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+TEXAS INSTRUMENTS INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+TEXAS INSTRUMENTS INCORPORATED
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+MODLIN CORY SAMUEL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MODLIN, CORY SAMUEL
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to upstream precoders for digital
+signals. More particularly, the invention relates to a precoder
+structure to account for nonuniform code set levels compensating
+for nulls in a system utilized to transmit a digital signal,
+allowing spectral and constellation shaping.For V.92, it has been agreed that a "PCM upstream" scheme
+will be used. This means that the analog modem transmits a signal
+from a constellation of points that is received at the central
+office (CO) codec at predetermined levels. This is different
+than PCM downstream (as in V.90) in part because the channel and
+noise come before the CO codec, Unlike downstream where any
+sequence of levels is possible, it is not possible, given power
+constraints, to make arbitrary decisions about the sequence of 
+levels that will be received by the co codec in the upstream
+direction. As a simple example, it is not possible to
+continuously transmit the same level since the modem channel does
+not pass a DC component. In addition, it is not possible to do
+any equalization before the CO codec.3Com, Conexant systems, and Motorola ING have proposed using
+a generalized Tomlinson-Harashima (TH) precoder followed by a
+linear FIR equalizer in the transmitter. The combination of the
+precoder and linear equalizer compensate for the channel response
+so that the levels received by the codec match the levels
+transmitted.Unlike V.34, the transmitted upstream symbols in V.92 must
+be at a symbol rate of 8kHz in order to match the CO codec. This
+is true regardless of the channel response. The channel, however,
+does not typically pass either a DC or a Nyquist component. From
+results in information theory, the spectrum of the transmitted
+signal should be shaped to match the channel.Exemplary methods for communication using constellation
+precoding, Tomlinson precoders and trellis decoder are found in
+the prior art, including in US patents 5,388,124 to Laroia
+6,026,120 to Betts, US patent 5,881,108 to Herzberg and US patent
+5,973,725 to Lee. The Laroia-Tretter-Farvardin (LTF) precoder structure of the
+present invention will allow spectral shaping at the transmitter
+whereas a TH precoder will not. The present invention teaches
+that an LTF precoder can be applied to V.92 to allow spectral
+shaping and potential constellation shaping. The output of a TH
+precoder has an approximately uniform probability density
+function and samples are approximately independent. Its spectrum
+is flat regardless of the spectrum of the input sequence. The
+output of the LTF precoder
+</DESCRIPTION>
+<CLAIMS>
+A method for PCM upstream encoding, comprising:
+
+receiving a signal having a spectral shape from an analog
+modem;
+providing a constellation of points shaped with non-uniform
+probability density matched to the input spectrum of said
+
+spectral shaped received signal;
+providing an output signal of points from said constellation
+of points, closely corresponding to said spectral shape of said
+
+received signal.
+The method of Claim 1, further comprising the steps of:
+
+defining a pointer into said constellation of points based
+upon the present value of said received signal;
+defining a window of constellation points within a
+predetermined range based upon said pointer value;
+selecting constellation point from within said window
+corresponding to said present value of said received signal.
+The method of Claim 1, wherein:
+   each of said constellation points (y) is determined by the
+
+formula yn =a(mn) by the selection of mn as follows:
+mn = Ki + refn -Mi2for k = [0,1,2]
+The method of Claim 2, wherein said points in said
+constellation are assigned to equivalence classes based upon said
+
+definition of said window.
+A method for PCM upstream encoding, comprising:
+
+providing a spectral shaper for receiving a signal of input
+data bits;
+providing a transmitter for accepting PCM code set levels
+from said spectral shaper and having a feedback element for
+
+producing a feedback signal and a feed forward element; wherein
+said PCM code set level having a symbol frame structure,
+including constellation frames and trellis frames;
+parsing the data bits into magnitude and sign, and inputting
+said parsed data bits to said spectral shaper to shape said
+
+signal based on said magnitude;
+choosing said PCM code set levels from a sliding window of
+constellation points to minimize the power;
+determining a reference point in said constellation, as the
+smallest element in the window larger than said feedback signal;
+determining a transmitted constellation point from said
+sliding window of constellation points, based on said reference
+
+point and said feedback signal;
+determining the sum of the indices of said trellis encoded
+signal,
+selecting the trellis coder output from one of two cosets
+determined by the value of the sum of indices as even or odd;
+providing said transmitted constellation point to said
+feedforward element; and
+providing said sequence to an inverse precoder filter to
+recover said original input sequence.
+The method of Claim 5, wherein:
+   said transmitted constellation point is selected based on
+
+the output of said modulus encoder, and said reference point.
+The method of Claim 6, wherein: said selection of said
+transmitted constellation point yn =a(mn), is determined by the
+
+selection of mn as follows:
+mn = Ki + refn -Mi2for k = [0,1,2]
+The method of Claim 7, wherein when k = 3, said index
+is selected from one of the following equations, depending on
+
+whether refn is even or odd:
+mn = 2·Ki-Mi+refn+[(mn-3+mn-2+mn-1+Y0) mod 2]
+ for refn evenmn = 2·Ki-Mi+refn+1-[(mn-3+mn-2+mn-1+Y0) mod 2] for refn odd
+An encoder for PCM upstream encoding, comprising:
+
+a spectral shaper for receiving a signal of input data bits
+and having a precoder and a pre-equalizer;
+a transmitter for accepting PCM code set levels from said
+spectral shaper and having a feedback element for producing a
+
+feedback signal; wherein
+
+said PCM code set level having a symbol frame
+structure, including constellation frames and trellis
+
+frames;
+the data bits are parsed into magnitude and mign,
+and input to said spectral shaper to shape said signal
+
+based on said magnitude;
+said PCM code set levels are chosen from a sliding
+window 
+of constellation points to minimize the power;
+a selector for determining a reference point in said
+constellation, as the smallest element in the window larger than
+
+said feedback signal;
+a comparator for determining the transmitted constellation
+point based on said reference point and said feedback signal;
+a summer for determining the sum of the indices of said
+trellis encoded signal,
+selecting the trellis coder output from one of two cosets
+determined by the value of the sum of indices as even or odd;
+a feedforward element for receiving said transmitted
+constellation point; and
+an inverse precoder filter for receiving said sequence to
+recover said original input sequence.
+A method for spectrally shaping an analog modem signal,
+comprising:
+
+
+providing a modem having an 8 kHz symbol rate;
+synchronizing said modem to the central office clock;
+utilizing a precoder that allows a spectrally shaped
+
+distribution of the analog modem signal to eliminate transmission
+at DC and 4 kHz.
+A shaper for spectrally shaping an analog modem signal,
+comprising:
+
+
+a receiver for receiving a signal from a modem having an 8
+kHz symbol rate; and
+a precoder for spectrally shaped distribution of the analog
+modem signal to eliminate transmission at DC and 4 kHz.
+</CLAIMS>
+</TEXT>
+</DOC>

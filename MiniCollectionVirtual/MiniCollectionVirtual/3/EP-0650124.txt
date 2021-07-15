@@ -1,0 +1,462 @@
+<DOC>
+<DOCNO>EP-0650124</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Virtual memory computer system address translation mechanism that supports multiple page sizes
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1202	G06F1210	G06F1202	G06F1210	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F12	G06F12	G06F12	G06F12	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method and apparatus for providing address translations for a computer 
+system having a virtual memory that is mapped onto physical memory. The 
+
+apparatus has at least one page frame descriptor (PFD) for describing a contiguous 
+portion of physical memory, at least one translation block (TB) for describing a 
+
+contiguous portion of virtual memory and a hash list. Each PFD has a base physical 
+address (PA), a PA range beginning at the base PA and a translation entry pointer. 
+
+Each TB has a base virtual address (VA), a VA range beginning at the base VA, and a 
+page size used to map the VA range of the TB. Each TB also has a header and at least 
+
+one translation entry. Each header has a TB pointer and each translation entry has a 
+backward pointer. Each translation entry of the TB corresponds to a different equal-sized 
+
+translation range of the VA range of the TB. If the translation range of a 
+translation entry is backed by a physical memory page frame, then the backward 
+
+pointer of the translation entry points to a describing PFD that describes the 
+corresponding page frame and the translation entry pointer of the describing PFD 
+
+points to the translation entry. The hash list has a plurality of hash entries. Each 
+hash entry has a translation header pointer and an associated hash index unique to 
+
+the hash entry. If a VA translation chain of at least one TB exists, each TB of the VA 
+
+translation chain has a VA range such that each VA of the VA range of a TB of the 
+VA translation chain can be hashed to provide a hash index of a same hash entry. 
+
+The translation header pointer of the hash entry having the hash index obtained 
+will point to a first TB of the VA translation chain. If more than one TB is in the 
+
+VA translation chain, then the TB pointer of the first TB will point to a second TB 
+in the VA translation chain and every TB of the VA translation chain except the 
+
+first TB will be pointed to by a TB pointer of a different TB of the VA translation 
+chain. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SUN MICROSYSTEMS INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SUN MICROSYSTEMS, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+JOSHI VIKRAM P
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KHALIDI YOUSEF A
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TALLURI MADHUSUDHAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WILLIAMS DOCK G
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+JOSHI, VIKRAM P.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KHALIDI, YOUSEF A.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TALLURI, MADHUSUDHAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WILLIAMS, DOCK G.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to the field of computer systems. More
+specifically, the present invention relates to translation between virtual addresses
+and physical addresses in a virtual memory computer system.Virtual memory is a technique that allows an application to see the system as
+providing a large uniform primary memory, which in reality may be smaller, more
+fragmented, and/or partially simulated by secondary storage such as a hard disk.
+Applications access memory through virtual addresses, which are translated
+(mapped) by special hardware onto physical addresses. Paging and segmentation are
+two common implementations of virtual memory.When implementing virtual memory using the paging technique, the virtual
+address space is divided into a number of fixed-size blocks called pages, each of
+which can be mapped onto any of the similarly sized physical pages available on the
+system. Typically, special memory management hardware such as a memory
+management unit (MMU) or paged memory management unit (PMMU) performs
+the address translation from virtual addresses to physical addresses. In this type of
+memory management, any attempt to access data that is not present in physical
+(system) memory causes the PMMU to send an interrupt signal to the central
+processing unit (CPU); the operating system then transfers the data in from other
+storage (such as hard disk), without the application "knowing" about the transfer. In one virtual memory scheme, there is only one mapping from virtual
+memory space to physical memory space. In other implementations however, there
+can be several address spaces, each with its own mapping to the physical address
+space. Thus, a first process may refer to a given physical address using a first virtual
+address and a second process running on the same CPU, or on a different CPU in a
+multi-processor environment, will refer to the given physical address by a second
+virtual address. In such a case, the two virtual addresses corresponding to the same
+physical address are referred to as "aliases".Some CPUs are able to operate using more than one size of virtual page. This
+permits the virtual page size used in a mapping to be selected to best meet the needs
+of the virtual address space being mapped. If one uses big pages, a large amount of
+virtual memory can be translated using a single translation entry in the MMU.
+Therefore, fewer resources are needed for the MMU thereby increasing performance.
+The use of big pages can, however, lead to memory fragmentation problems not
+encountered
+</DESCRIPTION>
+<CLAIMS>
+An apparatus for providing address translations for a computer system
+having a virtual memory that is mapped onto a physical memory, the apparatus
+
+comprising:
+
+at least one page frame descriptor for describing a contiguous portion of
+physical memory, each page frame descriptor having a base physical address, a
+
+physical address range beginning at the base physical address and a translation entry
+pointer;
+at least one translation block for describing a contiguous portion of virtual
+memory, each translation block having a base virtual address, a virtual address
+
+range beginning at the base virtual address, a page size used to map the virtual
+address range of the translation block, a header and at least one translation entry,
+
+each header having a translation block pointer and each translation entry having a
+backward pointer, each translation entry of the translation block corresponding to a
+
+different equal-sized translation range of the virtual address range of the translation
+block, if the translation range of a translation entry is backed by a physical memory
+
+page frame, then the backward pointer of the translation entry points to a describing
+page frame descriptor that describes the corresponding page frame and the
+
+translation entry pointer of the describing page frame descriptor points to the
+translation entry; and
+a hash list having a plurality of hash entries, each hash entry having a
+translation header pointer and an associated hash index unique to the hash entry, if
+
+a virtual address translation chain of at least one translation block exists, wherein
+each translation block of the virtual address translation chain has a virtual address 
+
+range such that each virtual address of the virtual address range of a translation
+block of the virtual address translation chain can be hashed to provide a hash index
+
+of a same hash entry, then the translation header pointer of the hash entry having
+the hash index obtained will point to a first translation block of the virtual address
+
+translation chain, if more than one translation block is in the virtual address
+translation chain then the translation block pointer of the first translation block will
+
+point to a second translation block in the virtual address translation chain and every
+translation block of the virtual address translation chain except the first translation
+
+block will be pointed to by a translation block pointer of a different translation block
+of the virtual address translation chain.
+The apparatus as set forth in claim 1 wherein a particular physical page
+can be mapped by more than one virtual page, the translation entries of the
+
+translation blocks further having a forward pointer, if a physical page is mapped by
+more than one virtual page then a physical address translation chain having at least
+
+two translation entries will exist, wherein each translation entry of the physical
+address translation chain will have a virtual address range corresponding to at least
+
+a portion of the physical address range of the physical page described by a page frame
+descriptor, the translation entry pointer of the describing page frame descriptor will
+
+point to a first translation entry of the physical address translation chain, the
+forward pointer of the first translation entry will point to a second translation entry
+
+in the physical address translation chain and every translation entry of the physical
+address translation chain except the first translation entry will be pointed to by a
+
+translation entry pointer of a different translation entry of the physical address
+translation chain. 
+The apparatus as set forth in claim 1 wherein each translation entry
+further comprises at least one specific attribute, the specific attribute pertaining to
+
+the equal-sized translation range of the translation entry.
+The apparatus as set forth in claim 1 wherein each translation block
+header further comprises at least one general attribute, the general attribute
+
+pertaining to the virtual address range of the translation block.
+A method for providing address translations for a computer system
+having 
+a virtual memory that is mapped onto a physical memory, the method
+comprising:
+
+
+a) providing at least one page frame descriptor for describing a contiguous
+portion of physical memory, each page frame descriptor having a base physical
+
+address, a physical address range beginning at the base physical address and a
+translation entry pointer;
+b) providing at least one translation block for describing a contiguous portion
+of virtual memory, each translation block having a base virtual address, a virtual
+
+address range beginning at the base virtual address, a page size used to map the
+virtual address range of the translation block, a header and at least one translation
+
+entry, each header having a translation block pointer and each translation entry
+having a backward pointer, each translation entry of the translation block
+
+corresponding to a different equal-sized translation range of the virtual address
+range of the translation block, if the translation range of a translation entry is backed
+
+by a physical memory page frame, then the backward pointer of the translation entry
+points to a describing page frame descriptor that describes the corresponding page
+
+frame and the translation entry pointer of the describing page frame descriptor
+points to the translation entry; and 
+c) providing a hash list having a plurality of hash entries, each hash entry
+having a translation header pointer and an associated hash index unique to the
+
+hash entry, if a virtual address translation chain of at least one translation block
+exists, wherein each translation block of the virtual address translation chain has a
+
+virtual address range such that each virtual address of the virtual address range of a
+translation block of the virtual address translation chain can be hashed to provide a
+
+hash index of a same hash entry, then the translation header pointer of the hash
+entry having the hash index obtained will point to a first translation block of the
+
+virtual address translation chain, if more than one translation block is in the virtual
+address translation chain then the translation block pointer of the first translation
+
+block will point to a second translation block in the virtual address translation chain
+and every translation block of the virtual address translation chain except the first
+
+translation block will be pointed to by a translation block pointer of a different
+translation block of the virtual address translation chain;
+d) receiving a virtual address to be translated;
+e) extracting a first translation hash index from the virtual address to be
+translated;
+f) if the hash entry corresponding to the first translation hash index is not
+empty, then making the translation block pointed to by the translation header
+
+pointer of the hash entry corresponding to the first translation hash index a
+translation block being examined and examining the virtual address range of the
+
+translation block being examined to determine whether the virtual address to be
+translated is contained within the virtual address range of the translation block
+
+being examined;
+g) if the virtual address to be translated is contained within the virtual
+address range of the translation block being examined, examining the translation
+
+entry of the translation block being examined having a translation range that 
+contains the virtual address to be translated to determine whether the translation
+
+entry is valid, if the translation entry is valid, using the backward pointer of the
+translation entry to locate the page frame descriptor that describes a page frame that
+
+is backed by the translation entry;
+h) if the virtual address to be translated is not contained within the virtual
+address range of the translation block being examined, then examining the
+
+translation block pointer of the translation block being examined and, if the
+translation block pointer is not empty, making the translation block pointed to by
+
+the translation block pointer of the translation block being examined the translation
+block being examined and repeating steps g) and h).
+The method as set forth in claim 5 further comprising the steps of:
+
+i) receiving a physical address to be translated;
+j) determining whether a page frame descriptor exists that has a physical
+address range that contains the physical address to be translated;
+k) if a page frame descriptor exists that has a physical address range that
+contains the physical address to be translated, examining the translation entry
+
+pointer of the page frame descriptor to see if the translation entry pointer points to a
+translation entry;
+l) if the translation entry pointer points to a translation entry, making the
+translation entry pointed to by the translation entry pointer a translation entry being
+
+examined;
+m) using the translation entry being examined and the header of the
+translation block containing the translation entry being examined to identify a
+
+virtual address corresponding to the physical address being translated.
+The method as set forth in claim 6 wherein a particular physical page
+can be mapped by more than one virtual page, the translation entries of the
+
+translation blocks further having a forward pointer, if a physical page is mapped by
+more than one virtual page then a physical address translation chain having at least
+
+two translation entries will exist, wherein each translation entry of the physical
+address translation chain will have a virtual address range corresponding to at least
+
+a portion of the physical address range of the physical page described by a page frame
+descriptor, the translation entry pointer of the describing page frame descriptor will
+
+point to a first translation entry of the physical address translation chain, the
+forward pointer of the first translation entry will point to a second translation entry
+
+in the physical address translation chain and every translation entry of the physical
+address translation chain except the first translation entry will be pointed to by a
+
+translation entry pointer of a different translation entry of the physical address
+translation chain, the method further comprising the step of:
+
+   n) successively making every translation entry in the physical address chain
+containing the translation entry identified in step 1) of claim 6, the translation entry being
+
+examined and repeating step m) of claim 6.
+The method as set forth in claim 5 wherein each translation entry
+further comprises at least one specific attribute, the specific attribute pertaining to
+
+the equal-sized translation range of the translation entry.
+The method as set forth in claim 5 wherein each translation block
+header further comprises at least one general attribute, the general attribute
+
+pertaining to the virtual address range of the translation block. 
+A method for providing address translations for a computer system
+having a virtual memory that is mapped onto a physical memory, the method
+
+comprising:
+
+a) providing at least one page frame descriptor for describing a contiguous
+portion of physical memory, each page frame descriptor having a base physical
+
+address, a physical address range beginning at the base physical address and a
+translation entry pointer;
+b) providing at least one translation block for describing a contiguous portion
+of virtual memory, each translation block having a base virtual address, a virtual
+
+address range beginning at the base virtual address, a page size used to map the
+virtual address range of the translation block, a header and at least one translation
+
+entry, each header having a translation block pointer and each translation entry
+
+having a backward pointer, each translation entry of the translation block
+corresponding to a different equal-sized translation range of the virtual address
+
+range of the translation block, if the translation range of a translation entry is backed
+by a physical memory page frame, then the backward pointer of the translation entry
+
+points to a describing page frame descriptor that describes the corresponding page
+frame and the translation entry pointer of the describing page frame descriptor
+
+points to the translation entry; and
+c) providing a hash list having a plurality of hash entries, each hash entry
+having a translation header pointer and an associated hash index unique to the
+
+hash entry, if a virtual address translation chain of at least one translation block
+exists, wherein each translation block of the virtual address translation chain has a
+
+virtual address range such that each virtual address of the virtual address range of a
+translation block of the virtual address translation chain can be hashed to provide a
+
+hash index of a same hash entry, then the translation header pointer of the hash
+entry having the hash index obtained will point to a first translation block of the 
+
+virtual address translation chain, if more than one translation block is in the virtual
+address translation chain then the translation block pointer of the first translation
+
+block will point to a second translation block in the virtual address translation chain
+and every translation block of the virtual address translation chain except the first
+
+translation block will be pointed to by a translation block pointer of a different
+translation block of the virtual address translation chain;
+d) if a virtual address to be translated is received, performing steps e) through
+h);
+e) extracting a first translation hash index from the virtual address to be
+translated;
+f) if the hash entry corresponding to the first translation hash index is not
+empty, then making the translation block pointed to by the translation header
+
+pointer of the hash entry corresponding to the first translation hash index a
+translation block being examined and examining the virtual address range of the
+
+translation block being examined to determine whether the virtual address to be
+translated is contained within the virtual address range of the translation block
+
+being examined;
+g) if the virtual address to be translated is contained within the virtual
+address range of the translation block being examined, examining the translation
+
+entry of the translation block being examined having a translation range that
+contains the virtual address to be translated to determine whether the translation
+
+entry is valid, if the translation entry is valid, using the backward pointer of the
+translation entry to locate the page frame descriptor that describes a page frame that
+
+is backed by the translation entry;
+h) if the virtual address to be translated is not contained within the virtual
+address range of the translation block being examined, then examining the
+
+translation block pointer of the translation block being examined and, if the 
+translation block pointer is not empty, making the translation block pointed to by
+
+the translation block pointer of the translation block being examined the translation
+block being examined and repeating steps g) and h);
+i) if a physical address to be translated is received, performing steps j) through
+m);
+j) determining whether a page frame descriptor exists that has a physical
+address range that contains the physical address to be translated;
+k) if a page frame descriptor exists that has a physical address range that
+contains the physical address to be translated, examining the translation entry
+
+pointer of the page frame descriptor to see if the translation entry pointer points to a
+translation entry;
+l) if the translation entry pointer points to a translation entry, making the
+translation entry pointed to by the translation entry pointer a translation entry being
+
+examined;
+m) using the translation entry being examined and the header of the
+translation block containing the translation entry being examined to identify a
+
+virtual address corresponding to the physical address being translated.
+The method as set forth in claim 10 wherein a particular physical page
+can be mapped by more than one virtual page, the translation entries of the
+
+translation blocks further having a forward pointer, if a physical page is mapped by
+more than one virtual page then a physical address translation chain having at least
+
+two translation entries will exist, wherein each translation entry of the physical
+address translation chain will have a virtual address range corresponding to the
+
+physical address range of the physical page described by a page frame descriptor, the
+translation entry pointer of the describing page frame descriptor will point to a first
+
+translation entry of the physical address translation chain, the forward pointer of the 
+first translation entry will point to a second translation entry in the physical address
+
+translation chain and every translation entry of the physical address translation
+chain except the first translation entry will be pointed to by a translation entry
+
+pointer of a different translation entry of the physical address translation chain, the
+method further comprising the step of:
+
+   n) successively making every translation entry in the physical address chain
+containing the translation entry identified in step 1) of claim 10, the translation entry being
+
+examined and repeating step m) of claim 10.
+The method as set forth in claim 10 wherein each translation entry
+further comprises at least one specific attribute, the specific attribute pertaining to
+
+the equal-sized translation range of the translation entry.
+The method as set forth in claim 10 wherein each translation block
+header further comprises at least one general attribute, the general attribute
+
+pertaining to the virtual address range of the translation block.
+The method as set forth in claim 10 wherein if a virtual address to be
+translated is received in step d) of claim 10 and performing steps e) through h) of claim 10, at least one
+
+additional hash index, different from the first hash index, is formed from the
+virtual address to be translated and steps e) through h) of claim 10 are repeated using the at least
+
+one additional hash index in place of the first hash index.
+</CLAIMS>
+</TEXT>
+</DOC>

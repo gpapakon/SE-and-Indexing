@@ -1,0 +1,247 @@
+<DOC>
+<DOCNO>EP-0613085</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Multitask processing unit
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F946	G06F938	G06F938	G06F948	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The microcomputer shall be offered which has realized 
+more simplified peripheral circuits and more reduced price, 
+
+besides being provided with the functions of timer, runaway 
+monitor and backup logic. To that effect, the address 
+
+register and the register are installed which have two areas 
+each in correspondence with two tasks (CPU0 and CPU1) to 
+
+perform a pipeline processing of the two tasks in parallel and 
+in time division by changing over alternately the two areas 
+
+of the address register and the register by means of task 
+switching signal. Then, while composing one task (L-task) 
+
+with a fix-looped program for which a branch instruction is 
+prohibited, the L-task is embedded with a routine to execute 
+
+a runaway monitor and a timer operation for the other task 
+(A-task). Furthermore, in case where anything abnormal is 
+
+detected by L-task about the processing of A-task and it is 
+reset, the L-task will execute a backup sequence to obtain a 
+
+failsafe of the system. 
+
+</ABSTRACT>
+<APPLICANTS>
+</APPLICANTS>
+<INVENTORS>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a multitasking method
+and a multitask processing unit for performing same which
+is equipped with the function of time-shared parallel processing
+of a plurality of programs.Document "I.E.E.E. Transactions on Acoustics, Speech
+and Signal Processing, New York, NY, US, Vol. 35, No. 9,
+September 1987, pages 1320 to 1333", on which the preamble
+of claim 1 is based already discloses a multitasking processing
+unit having a pipeline architecture. This conventional
+processing unit includes a program memory for storing
+the programs of the multiple processes or tasks as well
+as respective address registers provided in correspondence
+with each of the programs. Execution means execute the instructions
+of the respective programs based on the respective
+address registers selected by a switching signal. Further conventional microcomputers are designed to perform
+a time shared parallel processing of plural tasks by changing
+over the multitask processing in consecutive order by means
+of a register counter or a multiplexer as described, for
+instance, in the
+JP-A-58-155406, and JP-A-59-191654. In those conventional
+compositions, an exclusive hard timer is required to perform
+time processing by letting the elapsed time known when a task
+is executed. In addition, it is necessary to provide
+externally a runaway monitoring logic like a watchdog timer
+to monitor the runaway of program of each task, which
+contributes, combined with the above-mentioned matter, to
+make the peripheral circuits of a microcomputer complicated,
+leading to the product becoming larger-sized and more
+expensive.Furthermore, in the conventional compositions, an
+erroneous jump to the address of other task and the execution
+of its instruction occurs due to an unexpected cause like 
+noise. In the past, a reset method employed in such a case
+has been to provide a runaway monitoring logic such as a
+watchdog timer in the peripheral circuits, which involves time
+loss before a runaway is detected since it has to be monitored
+externally, and a risk of the memory data or port data being
+destroyed in the meantime.Furthermore, the pipeline processing in the conventional
+microcomputers has the problem of there occurring pipeline
+disturbances when a branch instruction is executed, causing
+at least one wasteful cycle, i.e. delayed cycle, thereby
+delaying the pipeline processing. The cause of this wasteful
+cycle occurring after a branch instruction in the conventional
+pipeline processing is that if the branch instruction is
+fetched, the
+</DESCRIPTION>
+<CLAIMS>
+A multitask processing unit comprising:
+
+a program memory (12) storing programs of first and
+second tasks;
+first and second address registers (19, 20) provided
+in correspondence with each of said programs of said first
+
+and second tasks;
+means (39) for generating a switching signal to switch
+alternately said first and second address registers (19,
+
+20) in a certain time division ratio; and
+means (CPUO, CPU1) for executing an instruction, which
+fetches the instruction of said program of said first task
+
+(L-task) or second task (A-task) based on one of said first
+or second address register (19, 20) selected by said
+
+switching signal from said generating means (39) and
+executes the fetched instruction; characterized by
+means (25) for memorizing a midway condition of said
+instruction when switched by said generating means (39),
+
+wherein said program of said first task (L-task) is
+prohibited from branch instructions, and is composed to be
+
+executed fix-looped from its start address to a specific
+address, with at least one routine of runaway monitor and
+
+timer for said second task (A-task) incorporated.
+The multitask processing unit according to claim 1,
+characterized in that each instruction of the programs of
+
+said first and second tasks includes a task identification
+bit (30) to indicate the kind of task, and further
+
+comprising a task discrimination means (31) for checking a
+content of said task identification bit (30) before an
+
+execution of the instruction by the executing means.
+The multitask processing unit according to claim 2,
+characterized in that said task discrimination means (31)
+
+checks an execution task based on said switching signal 
+from said generating means (39) and the content of said
+
+task identification bit (30).
+The multitask processing unit according to claim 3,
+characterized by means (33, 34, 35) for sending
+
+prohibition instruction which are sending a no-operation
+instruction in place of each instruction of said programs
+
+to the executing means, when said task discrimination
+means (31) judges that the content of the task
+
+identification bit and the execution task does not
+conform.
+The multitask processing unit according to claim 4,
+characterized in that a parity bit is provided for said
+
+task identification bit.
+The multitask processing unit according to claim 1,
+characterized in that said executing means (CPUO, CPU1)
+
+has first and second registers (21, 22) installed in
+correspondence with each of the programs of the said first
+
+and second tasks.
+The multitask processing unit according to claim 6,
+characterized in that said first and second registers (21,
+
+22) are alternately switched based on the switching signal
+from the generating means (39).
+The multitask processing unit according to claim 7,
+characterized in that said executing means (CPU0, CPU1),
+
+when fetching a branch instruction, finishes setting the
+branch address one cycle before the next instruction fetch
+
+stage of the program in which said branch instruction is
+contained.
+The multitask processing unit according to claim 1,
+characterized in that said program memory (12) stores a
+
+data area (29) to be used for operation, each instruction 
+of the programs of the first and second tasks indicates
+
+whether it is a caution-requiring instruction or not by a
+small number bit (36, 37) in the instruction, and the data
+
+area is provided with the value indicating a non-caution-requiring
+instruction for the value of the small number
+
+bit (36, 37).
+A multitasking method for performing a parallel
+processing of more than one program by switching for every
+
+several cycles in a certain time division, a function of
+that, in case where the instruction contained in the
+
+program is on the way of execution when switched, the
+program is switched while retaining a midwa
+y condition
+of the instruction, and a function of starting an
+
+execution from said midway condition at the next execution
+cycle of the program in which the said instruction is
+
+contained, to thereby allow a switching in a certain cycle
+division ratio not depending on the required number of
+
+cycle of the instruction, wherein a specific program (L-task)
+of said more than one program being prohibited a
+
+branch instruction and performing a fix-loop execution
+from the start address to the specific address, said
+
+specific program (L-task) including at least one routine
+of the runaway monitor and the timer for another program
+
+(A-task).
+A method according to claim 10, wherein each
+instruction of said plural programs includes a task
+
+identification bit (30) to distinguish the kind of
+program, whereby each program is protected from other
+
+programs and the independence is secured by performing
+error check after reading the instruction.
+A method according to claim 11, wherein a parity bit
+is attached for said task identification bit (30). 
+A method according to any of claims 10 to 12, wherein
+when a branch instruction (JMP) is fetched, a setting a
+
+branch address (XX) is finished at least one cycle before
+the next instruction fetch stage of the program in which
+
+the branch instruction is contained, to thereby fetch the
+instruction of the branch address (XX) at the next
+
+instruction fetch stage without generating a delayed
+cycle.
+A method according to any of claims 10 to 13, wherein
+a memory (12) stores a program, said memory (12) having a
+
+data area (29) used for operation, each instruction of the
+program including a small number bit (36, 37) for
+
+indicating whether it is a caution-requiring instruction
+like a branch instruction (JMP) which has a risk of leading
+
+to a program runaway, the data area (29) including a value
+indicating a non-caution-requiring instruction as said
+
+small number bit, thereby prohibiting the execution of the
+caution-requiring instruction of the data area.
+</CLAIMS>
+</TEXT>
+</DOC>

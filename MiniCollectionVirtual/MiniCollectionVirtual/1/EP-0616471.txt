@@ -1,0 +1,163 @@
+<DOC>
+<DOCNO>EP-0616471</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Coding of digital signals
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04N730	H03M742	H03M742	H04N726	G06T900	H04N730	H04N726	G06T900	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04N	H03M	H03M	H04N	G06T	H04N	H04N	G06T	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04N7	H03M7	H03M7	H04N7	G06T9	H04N7	H04N7	G06T9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A number of tables based on condition series, such as 
+"0 run, value" or "size", are formed by repeatedly executing 
+
+operation in which quantization coarseness of a quantizer is 
+controlled by supplying total code length data obtained in 
+
+Huffman code processing to the quantizer. When coefficient data 
+is coded by using these tables, a table corresponding to a size 
+
+of coefficient data provided before that coefficient data is 
+selected and the coefficient data is coded on the basis of the 
+
+selected table, thereby making it possible to suppress the total 
+code length to be short. The coding apparatus includes a 
+
+Huffman table generating apparatus, a transform circuit (2), a 
+quantizer (3), and a variable length coder (4) having a memory 
+
+(4a) which stores therein tables provided for every condition 
+series. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SONY CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SONY CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+KITAMURA TAKUYA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MURAKAMI YOSHIHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SEGAWA YOSHIHISA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KITAMURA,TAKUYA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MURAKAMI,YOSHIHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SEGAWA,YOSHIHISA
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The invention relates generally to coding of
+digital signals and provides coding apparatus for use for
+example with apparatus for transmitting or recording and
+reproducing a variety of information, such as video and
+audio signals or the like.A variety of video signal coding apparatus have
+hitherto been proposed to transmit or record an image at a bit
+rate as low as possible with a sufficiently high picture
+quality.As one of such coding apparatus, there has been proposed
+a high-efficiency coding apparatus using a DCT (discrete cosine
+transform) and a Huffman coding.In this coding apparatus, data such as
+video and audio data to be coded is converted into coefficient
+data by a discrete cosine transform (DCT) circuit, for example,
+at every block from a DC component to a high-order AC component.
+The coefficient data is then quantized and the coefficient data
+thus quantized is coded by a variable length coder.The DCT circuit converts a DC component to a high-order
+AC component of the blocked data into two-dimensional
+coefficient data. Converted coefficient data is scanned (in a
+so-called zigzag scan fashion) and then coded, as shown in FIG.
+1. Coding is carried out in accordance with the scanning order, 
+and coefficient data of the last coefficient which becomes non-zero
+after quantization lies in a coding range.Coefficient data obtained within the coding range by
+the zigzag scanning are arrayed in a line as shown in FIG. 2,
+for example. The coefficient data thus arrayed are coded by the
+variable length coder according to some suitable methods, such
+as the Huffman coding method or the like. U.S. patent No.
+4,901,075 describes the Huffman coding technique.In FIG. 2, DC represents DC component coefficient data
+("168" in this example shown in FIG. 2), and AC01 through AC33
+represent AC component coefficient data. The AC component
+coefficient data becomes high-order as their numerals become
+large. As shown in FIG. 2, the DC component coefficient data DC
+to the high-order AC component coefficient data AC33 are coded
+as codes C1 to Cn, in that order. Also, as shown in FIG. 2,
+when coefficient data are coded, they are coded at the unit of
+consecutive "0"s and the succeeding value. In the following
+description, "0 run" means the number of consecutive "0"s.
+Expression of "0 run 0" shows that the number of "0 run" is "0",
+i.e., there exists no "0".In FIG. 2, AC component coefficient data AC20 is "0",
+the next AC component coefficient data AC11 is "0", the next AC
+component coefficient data AC02 is "0" and the next AC
+</DESCRIPTION>
+<CLAIMS>
+A method of coding a digital signal comprising the steps of:
+
+step (a) for convening a digital signal into a data series formed of consecutive
+zero coefficients and non-zero coefficients;
+step (b) for classifying each of said non-zero coefficients into one of a
+plurality of size groups in response to the value of said non-zero coefficient;
+step (c) for dividing said data series into a plurality of events, each event
+comprising either a single non-zero coefficient or a run of zero coefficients having
+
+a run length and accompanied by a non-zero coefficient immediately preceding or
+succeeding said run of zero coefficients; and
+step (d) for determining a code word for each of said events using data from
+one of a plurality of tables, the table being used for each event being selected in
+
+dependence upon the size group of the non-zero coefficient of the preceding event.
+A method of coding a digital signal according to claim 1 wherein said code
+word includes order information representing a sequential order position within its
+
+size group of the non-zero coefficient of said event.
+A method of coding a digital signal as claimed in claim 1, wherein said
+plurality of tables are generated by the steps of:
+
+
+step (a) for converting a predetermined digital signal into a data series formed
+of consecutive zero coefficients and non-zero coefficients;
+step (b) for dividing said data series into a plurality of events, each event
+comprising either a single non-zero value or a run of zero coefficients having a run
+
+length and accompanied by a non-zero coefficient immediately preceding or
+succeeding said run of zero coefficients;
+step (c) for classifying each of said non-zero coefficients into one of a plurality
+of size groups in response to the value of said non-zero coefficient;
+step (d) for detecting an occurrence frequency at which a next event occurs; 
+and
+step (e) for generating table data, for use when events within a desired data
+series are to be coded in response to the size group of immediately preceding events
+
+within said data series, in response to the detected occurrence frequency of said events and
+storing the same in a memory.
+A coding apparatus comprising:
+
+convening means for convening a digital signal into a data series formed of
+consecutive zero coefficients and non-zero coefficients;
+classifying means for classifying each of said non-zero coefficients into one
+of a plurality of size groups in response to the value of said non-zero coefficient;
+memory means (4a) for storing therein a plurality of tables, each table
+containing table data representing code words for coding a plurality of events, each
+
+event comprising either a single non-zero value or a run of zero coefficients having
+a run length and accompanied a non-zero coefficient immediately preceding or
+
+succeeding said run of zero coefficients; and
+coding means (4) for dividing said data series into a plurality of events and
+assigning a code word to each of said plurality of events on the basis of table data
+
+from one of said plurality of tables selected in dependence upon the size group of the non-zero coefficient of an
+immediately preceding event.
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,295 @@
+<DOC>
+<DOCNO>EP-0611076</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method and system for producing mesh representations of objects.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1750	G06F1750	G06F1900	G06F1900	G06T1500	G06T1500	G06T1720	G06T1720	G06T1740	G06T1740	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06T	G06T	G06T	G06T	G06T	G06T	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F17	G06F17	G06F19	G06F19	G06T15	G06T15	G06T17	G06T17	G06T17	G06T17	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method is provided for producing a mesh representation of an 
+arbitrarily shaped object, for applications such as finite element 
+
+analysis. The method includes the steps of identifying elements of a 
+mesh, such as a tetrahedral mesh, which are suitable, based on 
+
+predetermined criteria, for merging into one of a predetermined set of 
+target elements. For instance, if the predetermined set of target 
+
+elements includes pentahedra and hexahedra, and the method operates on a 
+tetrahedral mesh, then tetrahedra of the mesh are identified based on 
+
+known ways of decomposing the target elements into tetrahedra. In a 
+preferred embodiment, the groups of tetrahedra are identified based on 
+
+whether they share faces in common, and whether they have faces which 
+share a common edge and which are either coplanar or have an angle 
+
+between the faces which satisfies a predetermined condition. The latter 
+faces are referred to as quadrilateral pairs. A graph representation of 
+
+the mesh is used, preferably including nodes representing regions of the 
+mesh (i.e., tetrahedra) and edges between the nodes representing faces 
+
+shared in common and quadrilateral pairs of faces. Using a search tree 
+representation of a graph of a target element, the graph of the mesh is 
+
+searched to identify subsets of the graph of the mesh, which represent 
+groups of the tetrahedra of the mesh which are suitable for merging into 
+
+the target element. By merging the tetrahedra this way, the total number 
+of elements of the mesh is reduced, compared with the original 
+
+tetrahedral mesh. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+MESHKAT SIAVASH NAVADEH
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MESHKAT SIAVASH NAVADEH
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates generally to the field of computer 
+modelling and graphical display. More specifically, the invention 
+relates to the field of determining a physical attribute of an object by 
+producing a mesh representation of the object. Various computer graphics applications call for modelling objects. 
+This modelling may be done for purposes such as computation and 
+rendering, and numerical analysis using the finite element analysis 
+method. A solid object is conveniently modeled by creating a mesh of 
+points having a geometry corresponding with that of the object being 
+modeled. Many applications require that an object being modeled, having 
+an arbitrary shape, be modeled by decomposing the object into a set of 
+simple elements such as tetrahedra. For each tetrahedron, a calculation 
+is made to determine a physical attribute of the object, under a 
+predetermined condition. The physical attribute could be shading, 
+vibrational displacement responsive to a predetermined forcing function, 
+a temperature gradient, etc. Then, the graphic representation of the 
+object as a whole is shaded or deformed, using the calculated values for 
+the tetrahedra. Each element is made up of vertices (nodes), edges, and faces, and 
+each element defines a region enclosed within its faces. In a mesh, 
+there are predefined rules about how two elements may be geometrically 
+connected. For instance it might be required that any two elements be 
+either disjoint, or share one or more vertices. Alternatively, it might 
+be required that any two elements share a whole face, edge, vertex, or 
+nothing. Such rules have been referred to as a "geometric complex" in 
+Hocking et al., "Topology", Mineola, N.Y.: Dover Publications, Inc. 
+(1988), pp. 199-206. Hocking et al. defined a geometric complex as a 
+collection of properly joined geometric simplices, wherein, for each 
+geometric simplex which belongs to the geometric complex, every face of 
+that geometric simplex also belongs to the geometric complex. Simplices 
+are "properly joined" if their intersection is either the empty set or a 
+subsimplex of each of the simplices. Geometric simplices are defined for various numbers of dimensions. 
+A geometric 0-simplex is a single point, a geometric 1-simplex is a 
+closed line segment, a geometric 2-simplex is a closed triangular plane  
+ 
+region, a geometric 3-simplex is a solid tetrahedron, and so on. The 
+present invention is primarily concerned with three-dimensional modelling 
+of arbitrarily shaped objects as a geometric
+</DESCRIPTION>
+<CLAIMS>
+A method for determining a physical attribute of an object using a 
+mesh representation of the object, the mesh including elements from a 
+
+predetermined set of polyhedral elements, the method comprising the steps 
+of: 
+
+   identifying a group of first elements of the mesh as being suitable 
+for merging into an element from the predetermined set; and 
+
+   merging the identified group of first elements into the element 
+from the predetermined set. 
+A method as claimed in claim 1, wherein: 
+   the step of identifying includes identifying (i) a first element of 
+
+the mesh, having first and second faces, and (ii) a second element of the 
+mesh, having third and fourth faces, the first and third faces being 
+
+shared in common by the first and second elements, the second and fourth 
+faces having a common edge and an angle therebetween which satisfies a 
+
+predetermined condition; and 
+   the step of merging includes merging the first and second elements 
+
+into an element of the predetermined set, and merging the second and 
+fourth faces into a face of the element from the predetermined set. 
+A method as claimed in claim 1, wherein: 
+   the step of identifying includes identifying a plurality of 
+
+elements of the first set, each of the plurality of elements having a 
+face in common with a face of another of the plurality of elements, first 
+
+and second ones of the plurality of elements having respective faces 
+which share a common edge and have an angle therebetween which satisfies 
+
+a predetermined condition; and 
+   the step of merging includes merging the plurality of elements into 
+
+an element of the predetermined set, and merging the faces which share 
+the common edge and have the angle therebetween into a face of the 
+
+element of the predetermined set. 
+A method as claimed in claim 2 or claim 3, wherein, in the step of 
+identifying, the predetermined condition is that the angle falls within a 
+
+threshold representing a predetermined maximum deviation from 
+coplanarity. 
+A method as claimed in claim 4 wherein: 
+   the step of identifying includes determining whether a greatest one 
+
+of angles between adjacent edges of the face to be produced from the 
+merger of the second and fourth faces falls within a predetermined range 
+
+of acceptable face angles; and 
+   the step of merging is executed responsive to a determination that 
+
+the maximum angle falls within the predetermined range. 
+A method as claimed in any preceding claim, further comprising the 
+step of representing the elements of the mesh in the form of a graph. 
+A method as claimed in claim 6, wherein the step of representing 
+includes representing the elements of the mesh in the form of a graph 
+
+which shows (i) nodes representing the elements, (ii) first node 
+connectors representing faces shared in common between pairs of the 
+
+elements, and (iii) second node connectors representing faces of 
+different ones of the elements which have an edge in common and have an 
+
+angle therebetween which satisfies a predetermined condition. 
+A method as claimed in claim 7, wherein: 
+   the elements of the predetermined set are represented as a set of 
+
+respective subgraphs representing groups of the first elements which may 
+be merged into respective ones of the elements of the predetermined set; 
+
+   the step of identifying includes finding a portion of the graph, 
+the portion matching one of the respective subgraphs, and representing a 
+
+group of the elements of the mesh; and 
+   the step of merging includes merging the elements of the mesh 
+
+represented by the portion into the respective element of the 
+predetermined set. 
+A method as claimed in claim 8, wherein: 
+   the elements of the predetermined set are additionally represented 
+
+as a set of respective search trees representing arrangements of the 
+nodes of the respective subgraphs into (i) a root node corresponding with 
+
+a first node of the subgraph representation of the element, and (ii) 
+other nodes corresponding with other nodes of the subgraph and having 
+
+node connectors which correspond with the first and second node 
+connectors of the respective subgraphs; and 
+
+   the step of identifying includes finding a portion of the graph, 
+the portion matching one of the set of search trees. 
+A method as claimed in claim 9, wherein the step of identifying 
+includes: 
+
+   selecting an initial node of the graph as corresponding to a root 
+node of the search tree; 
+
+   searching for other nodes of the graph which have connectors to at 
+least one of the initial node and each other which correspond with 
+
+connectors between nodes of the search tree; and 
+   determining that a group of nodes of the graph which, together, 
+
+correspond with the nodes of the search tree and have corresponding 
+connectors correspond with a group of elements of the mesh which are 
+
+suitable for merging into one of the predetermined set of elements. 
+A method as claimed in any preceding claim, wherein: 
+   the first elements of the mesh include tetrahedra; and 
+
+   the step of identifying includes identifying a group of tetrahedra 
+as being suitable for merging into an element from the predetermined set. 
+A method as claimed in any preceding claim, wherein: 
+   the predetermined set of elements Includes pentahedra and 
+
+hexahedra; and
+ 
+
+   the step of identifying includes identifying a group of the first 
+elements of the mesh as being suitable for merging into one of (i) a 
+
+pentahedron and (ii) a hexahedron. 
+A method as claimed in any preceding claim, further comprising the 
+step of initially decomposing the object into a mesh including a set of 
+
+tetrahedra. 
+A processing system for determining a physical attribute of an 
+object using a mesh representation of the object, the mesh including 
+
+elements from a predetermined set of polyhedral elements, the system 
+comprising: 
+
+   means for identifying a group of first elements of the mesh as 
+being suitable for merging into an element from the predetermined set; 
+
+and 
+   means for merging the identified group of first elements into the 
+
+element from the predetermined set. 
+A system as claimed in claim 14, wherein: 
+   the means for identifying includes means for identifying (i) a 
+
+first element of the mesh, having first and second faces, and (ii) a 
+second element of the mesh, having third and fourth faces, the first and 
+
+third faces being shared in common by the first and second elements, the 
+second and fourth faces having a common edge and an angle therebetween 
+
+which satisfies a predetermined condition; and 
+   the means for merging includes means for merging th
+e first and 
+second elements into an element of the predetermined set, and means for 
+
+merging the second and fourth faces into a face of the element from the 
+predetermined set. 
+A system as claimed in claim 15, wherein, in the means for 
+identifying, the predetermined condition is that the angle falls within a 
+
+threshold representing a predetermined maximum deviation from 
+coplanarity. 
+A system as claimed in claim 16 wherein:
+ 
+
+   the means for identifying includes means for determining whether a 
+greatest one of angles between adjacent edges of the quadrilateral face 
+
+to be produced from the merger of the second and fourth faces falls 
+within a predetermined range of acceptable face angles; and 
+
+   the means for merging is operable responsive to a determination 
+that the maximum angle falls within the predetermined range. 
+A system as claimed in any of claims 15 to 17, wherein: 
+   the first elements of the mesh include tetrahedra; and 
+
+   the means for identifying includes means for identifying a group of 
+tetrahedra as being suitable for merging into an element from the 
+
+predetermined set. 
+A system as claimed in any of claims 15 to 18, wherein: 
+   the predetermined set of elements includes pentahedra and 
+
+hexahedra; and 
+   the means for identifying includes means for identifying a group of 
+
+the first elements of the mesh as being suitable for merging into one of 
+(i) a pentahedron and (ii) a hexahedron. 
+</CLAIMS>
+</TEXT>
+</DOC>

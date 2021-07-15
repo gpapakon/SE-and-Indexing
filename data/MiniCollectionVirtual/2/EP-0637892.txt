@@ -1,0 +1,1420 @@
+<DOC>
+<DOCNO>EP-0637892</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+System and method for transmitting images at high efficiency
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04N750	H04L100	H04L100	H04N726	H03M736	H04N764	H04B1402	H04N726	H04B1406	H04N724	H04N750	H03M736	H04N724	H04N766	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04N	H04L	H04L	H04N	H03M	H04N	H04B	H04N	H04B	H04N	H04N	H03M	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04N7	H04L1	H04L1	H04N7	H03M7	H04N7	H04B14	H04N7	H04B14	H04N7	H04N7	H03M7	H04N7	H04N7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A transmitting device encodes an animated image by 
+detecting a difference between one image frame and a reference 
+
+image frame, then transmits the encoded image to a receiving 
+device by a radio line at high efficiency. The transmitting 
+
+device comprises an image storing unit for storing the 
+reference image frame, an initialization unit for initializing 
+
+the image storing unit, a difference encoding unit for 
+detecting and encoding the difference, an encoded data storing 
+
+unit for storing the encoded difference, a transmitting unit 
+for detecting an error detection code in the encoded 
+
+difference, and transmitting the encoded difference together 
+with transmission information including the error detection 
+
+code to the receiving device, a receiving unit for receiving 
+reception information from the receiving device which indic
+ates 
+whether the receiving device finds either OK or NG as a result 
+
+of error detection check which is based on the error detection 
+code, a reproducing unit for reproducing the encoded difference 
+
+and storing it as one reference frame into the image unit when 
+the reception information indicates OK, and a controlling unit 
+
+for controlling the difference encoding unit to encode the next 
+image frame when the reception information indicates NO, while 
+
+controlling the difference encoding unit to encode the next 
+image frame only after the reproducing unit stores a new 
+
+reference image frame when the received reception information 
+indicates OK. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC IND CO LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC INDUSTRIAL CO., LTD.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+ANDO KAZUHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+IMAI HIROYUKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+OHMI SHINICHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SUEMATSU TAKAYUKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ANDO, KAZUHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+IMAI, HIROYUKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+OHMI, SHINICHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SUEMATSU, TAKAYUKI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a transmitting device,
+a receiving device, a system including these devices, and a
+method of transmitting digital data which is processed by
+animated image compression methods (frame encoding, animated
+compensation prediction) to a radio circuit at high efficiency.Recently, various methods have been realized to process
+digital data of animated images. Generally, the information
+volume of an image is considerably large, so that it is
+necessary to compress/reduce the information volume before
+recording or reducing the image. For example, "ITU advice H.
+261 video encoding method for audio visual service" is a method
+of encoding difference information between frames of an
+animated image.In this encoding method or the like, the problem of
+transmission error is overcome by adding an error correction
+code to encoded image data. Also, a single frame of compressed
+data is transmitted at a certain interval so as to prevent the
+transfer of an error in difference information to succeeding
+frames. However, when transmitting data by a radio line, the
+conventional encoding method has the following problem.
+Adding an error correction code to image data does not
+eliminate a burst error derived from a fading which is
+unique to a radio line. Originally, an error correction code
+was invented to overcome the problem of random error in a
+wire communication line.Also, the addition of an error correction code
+increases the transmission amount, and this slows down the
+actual transmission rate.Further, compared to the data amount taken to send
+difference information, the data amount taken to send one
+frame data is considerably large. Therefore, data
+transmission will be slowed down at large. Especially when
+sending data at a low bit rate, the slow down of data
+transmission extends the time taken since the transmission
+starts until the reproduction ends (reproduction delay).
+Accordingly, scheduled smooth movements of animated images
+are interfered very badly.A conventional system for transmitting video data
+over radio links is described by MacDonald in BT Technology,
+Vol 11, no. 2, April 1993, Ipswich, GB, Pages 182-185,
+'Transmission of compressed video over radio links'. This
+system takes the output of a H.261 encoder and converts it
+into a format suitable for transmission according to the
+DECT (Digital European Cordless Telecommunications)
+standard. The system performs forward error correction,
+interleaving and automatic repeat request. Even though some
+improvement over the standard H.261
+</DESCRIPTION>
+<CLAIMS>
+A transmitting device (100)for encoding to compress
+an animated image including a plurality of image frames by
+
+detecting a difference between one image frame to be encoded
+and a reference image frame, then transmitting data of the
+
+encoded image to a receiving device (110,120,130) by a radio
+line at high efficiency, the transmitting device (100)
+
+comprising:
+
+an image storing means (4) for storing the reference
+image frame which is referred to detect the difference
+
+relating to the image frame to be encoded;
+an initialization means for, before a first
+transmission, initializing the image storing means (4) by
+
+initial data which is identical to initial data held by the
+receiving device (110,120,130);
+a difference encoding means (5) for detecting the
+difference between the image frame to be encoded and the
+
+reference image frame, and encoding to compress the
+difference;
+an encoded data storing means (6) for storing the
+encoded difference data received from the difference
+
+encoding means (5);
+a transmitting means (7,8) for adding an error
+detection code to the encoded difference data, and
+
+transmitting the encoded difference data together with
+transmission information including the error detection code
+
+to the receiving device (110,120,130); 
+a receiving means (8,9) for receiving reception
+information from the receiving device (110,120,130), the
+
+reception information including information which indicates
+whether the receiving device (110,120,130) finds either OK
+
+or NG as a result of error detection check which is based on
+the error detection code;
+a reproducing means (10) for decoding to reproduce
+the encoded difference data stored in the encoded data
+
+storing means (6), then storing it as one reference frame
+into the image storing means (4) when the received reception
+
+information indicates OK; and
+a controlling means (1;12) for controlling the
+difference encoding means (5) to encode to compress the next
+
+image frame when the received reception information
+indicates NG, while controlling the difference encoding
+
+means (5) to encode to compress the next image frame only
+after the reproducing means (10) stores a new reference
+
+image frame when the received reception information
+indicates OK.
+The transmitting device (100) of Claim 1,
+wherein the transmitting means (7,8) divides the encoded
+
+difference data into a plurality of radio frames, and
+transmitting each radio frame and transmission information
+
+which includes the error detection code which corresponds to
+the radio frame to the receiving device (110,120,130);
+
+
+the receiving means (8,9) receives from the
+receiving. device the reception information which
+
+corresponds to the transmitted radio frame; and 
+the controlling means (1;12) controls the reproducing
+means (10) to reproduce the encoded difference data for a
+
+single image frame when all the reception information for it
+indicates OK, while the controlling means (1;12) controls
+
+the difference encoding means (5) to encode the difference
+for a next image frame when at least one of the reception
+
+information for a single image frame indicates NG.
+The transmitting device (100) of Claim 2, wherein
+each radio frame is fixed length, and an excess of encoded
+
+data over the data amount of a predetermined number of radio
+frames is abandoned.
+The transmitting device (100) of Claim 3,
+wherein the transmission information includes a transmission
+
+frame number which indicates the number of image frames
+which have been transmitted safely; and
+
+
+the controlling means (1;12) increments the
+transmission frame number by one upon each updating of the
+
+reference image frame in the image storing means (4) by the
+reproducing means (10), whereby the receiving device
+
+(110,120,130) can check if its own reference image frame is
+identical to the reference image frame stored in the
+
+transmitting device (100).
+The transmitting device (100) of Claim 4,
+wherein the initialization means initializes the image
+
+storing means (4) when a radio link is established between 
+the transmitting device (100) and the receiving device
+
+(110,120,130).
+The transmitting device (100) of Claim 1 further
+comprising:
+
+
+an error detection/correction code generating means
+(11) for generating an error detection/correction code
+
+relating to the reference image frame in the image storing
+means (4), wherein
+the reception information received by the receiving
+means (8,9) includes the error/correction code relating to
+
+the reference image frame stored in the receiving device
+(110,120,130); and
+the controlling means (1;12) controls the
+initialization means to compare the error detection/correction
+
+code included in the reception information
+received by the receiving means (8,9) with the error
+
+detection/correction code generated by the error
+detection/correction code generating means (11), and
+
+controls the initialization means to initialize the
+reference image frame stored in the image storing means (4)
+
+when they do not coincide with each other, as well as
+controls the transmitting means (7,8) to transmit the
+
+transmission information which directs to initialize the
+reference image frame stored in the receiving device
+
+(110,120,130).
+The transmitting device (100) of Claim 6, wherein the
+transmitting means (7,8) divides the encoded difference 
+
+data. into a plurality of radio frames, and transmitting
+each radio frame and the transmission information which
+
+includes the error detection code which corresponds to the
+radio frame to the receiving device (110,120,130);
+
+
+the receiving means (8,9) receives the reception
+information which corresponds to the transmitted radio frame
+
+from the receiving device (110,120,130);
+the controlling means (1;12) controls the reproducing
+means (10) to reproduce the encoded difference data for a
+
+single image frame when all the reception information for it
+indicates OK, while the controlling means (1;12) controls
+
+the difference encoding means (5) to encode the difference
+for a next image frame when at least one of the reception
+
+information for a single image frame indicates NG;
+the error detection/correction code generating means
+(11) divides each reference image frame in the image storing
+
+means (4) into a plurality of areas, and generates the
+detection/correction code for each area; and
+the controlling means (1;12) operates the comparison
+as for each area, and, when it does not coincide with that
+
+in the receiving device (110,120,130), controls the
+transmitting means (7,8) to transmit the transmission
+
+information which directs to initialize the area in the
+receiving device (110,120,130).
+The transmitting device (100) of Claim 7, wherein the
+transmission information includes a trans
+mission frame.
+number which indicates the number of image frames which have
+
+been transmitted safely; and 
+
+the controlling means (1;12) increments the
+transmission frame number by one whenever the reproducing
+
+means (10) updates the reference image frame in the image
+storing means (4), whereby
+the receiving device (110,120,130) can check if its
+own reference image frame coincides with the reference image
+
+frame in the transmitting device (100).
+The transmitting device (100) of Claim 8, wherein the
+error/correction code is CRC (Cyclic Redundancy Check) code
+
+relating to the image data in the area.
+The transmitting device (100) of Claim 6, wherein the
+error detection/correction code generating means divides
+
+the reference image frame in the image storing means (4)
+into a plurality of areas, and generates the error
+
+detection/correction code relating to each area;
+
+the transmitting means (7,8) divides the encoded
+difference data into a plurality of radio frames, and
+
+transmits the transmission information which includes each
+radio frame, the error detection code corresponding to the
+
+radio frame, and the error detection/correction code
+corresponding to the area to the receiving device
+
+(110,120,130);
+the receiving means (8,9) receives the reception
+information from the receiving device (110,120,130) which
+
+includes a check result according to the error detection
+code, and information which indicates if the area
+
+corresponding to the error detection/correction code is 
+identical to one of areas into which the reference image
+
+frame in the receiving device (110,120,130) is divided; and
+the controlling means (1;12) controls the
+transmitting means (7,8) to transmit the radio frame which
+
+was transmitted at the last transmission together with the
+error detection/correction code for the next area when the
+
+check result included in the reception information indicates
+an error, also controls the initialization means to
+
+initialize all the areas which are not identical to those in
+the receiving device (110,120,130) according to the
+
+reception information after the error detection/correction
+codes for all the areas are transmitted and the reference
+
+image frame in the image storing means (4) is updated.
+A receiving device (110,120,130) for receiving
+encoded difference data at high efficiency from a
+
+transmitting device (100) via a radio line, the receiving
+device (110,120,130) comprising:
+
+
+an image storing means (24) including an area where a
+reproduced image basing upon the encoded difference data is
+
+stored;
+an initialization means for initializing the image
+storing means (24) by initial data which is identical to
+
+initial data held by the transmitting device (100);
+a receiving means (21,22) for receiving the encoded
+difference data from the transmitting device (100), and
+
+detects an error according to an error detection code added
+to transmission information which was transmitted together
+
+with the encoded difference data; 
+an encoded data storing means (23) for storing the
+encoded difference data received by the receiving means
+
+(21,22);
+a reproducing means (25) for decoding the encoded
+difference data in the encoded data storing means (23) when
+
+a result of the error detection is OK, reproducing the image
+frame by adding the decoded data to the contents of the
+
+image storing means (24), and storing the reproduced image
+frame into the image storing means (24);
+a controlling means (20;30) for generating reception
+information which includes the result of the error detection
+
+by the receiving means (21,22); and
+a transmitting means (21,26) for transmitting the
+reception information to the transmitting device (100).
+The receiving device (110,120,130) of Claim 11,
+wherein the receiving means (21,22) receives radio frames
+
+into which the encoded difference data is divided; and
+
+the controlling means (20;30) controls the
+reproducing means (25) to reproduce one image frame of the
+
+encoded difference data when the error detection result as
+for all of the radio frames included in it is OK.
+The receiving device (110,120,130) of Claim 12,
+wherein the receiving means (21,22) receives the
+
+transmission information which includes a transmission frame
+number indicating how many image frames are transmitted
+
+safely together with the encoded difference data; 
+
+the controlling means (20;30) holds a reception frame
+number indicating how many image frames are received safely
+
+and increments the reception frame number by one whenever
+the reproducing means (25) updates the reference image frame
+
+in the image storing means (24); and
+the reproducing means (25) decodes the encoded
+difference data when the result of the error detection is OK
+
+as well as the transmission frame number coincides with the
+reception frame number.
+The receiving device of Claim 13, wherein the
+initialization means initializes the image storing means
+
+(24) when a radio link is established between the
+transmitting device (100) and the receiving device
+
+(110,120,130).
+The receiving device (110,120,130) of Claim 11
+further comprising an error detection/correction code
+
+generating means (29) for generating an error detection/correction
+code relating to a reference image frame stored
+
+in the image storing means (24), wherein
+
+the transmission information includes information
+which directs whether or not the reference image frame in
+
+the image storing means (24) should be initialized; and
+the controlling means (20;30) generates reception
+information which includes the generated error detection/correction
+
+code, controls the transmitting means (21,26) to
+transmit the reception information, and controls the
+
+initialization means to initialize the reference image frame 
+in the image storing means (24) when the information
+
+included in the transmission information received by the
+receiving means (21,22) directs the initialization.
+The receiving device (110,120,130) of Claim 15,
+wherein the receiving means (21,22) receives radio frames
+
+into which the encoded difference data is divided;
+
+the controlling means (20;30) controls the
+reproducing means (25) to reproduce one image frame of the
+
+encoded difference data when the error detection result
+relating to all of the radio frames included in it is OK;
+the error detection/correction code generating means
+(29) divides each reference image frame in the image storing
+
+means (24) into a plurality of areas, and generates the
+error detection/correction code for each area; and
+the controlling means (20;30) further generates the
+reception information including the error detection/correction
+
+code corresponding to each area, and controls the
+transmitting means (21,26) to transmit the reception
+
+information.
+The receiving device (110,120,130) of Claim 16,
+wherein the receiving means (21,22) receives the
+
+transmission information which includes a transmission frame
+number indicating how many image frame are transmitted
+
+safely together with the encoded difference data;
+
+the controlling means (20;30) holds a reception frame
+number indicating how many image frames are received safely
+
+and increments the reception frame number by one whenever 
+
+the reproducing means (25) updates the reference image frame
+in the image storing means (24); and
+the reproducing means (25) decodes the encoded
+difference data when the result of the error detection is OK
+
+as well as the transmission frame number coincides with the
+reception frame number.
+The receiving device (110,120,130) of Claim 17,
+wherein the error detection/correction code is CRC (Cyclic
+
+Redundancy Check) code relating to the image data in the
+area.
+The receiving device (110,120,130) of Claim 15,
+wherein the error detection/correction code generating means
+
+(29) divides the reference image frame in the image storing
+means (24) into a plurality of areas, and generates the
+
+error detection/correction code relating to each area;
+
+the receiving means (21,22) receives the transmission
+information which includes one of the radio frames into
+
+which the encoded difference data is divided, the error
+detection code corresponding to the radio frame, and the
+
+error detection/correction code relating to the
+corresponding area in the transmitting device (100);
+the transmitting means (21,26) transmits the
+reception information which includes a check result
+
+according to the error detection code, and information which
+indicates if the area corresponding to the error
+
+detection/correction code is identical to one of areas into 
+which the reference image frame in the transmitting device
+
+(100) is divided; and
+the controlling means (20;30) examines if the area
+which is received according to the error detection/correction
+
+code included in the transmission information is
+identical to the area, and when the error detection/correction
+
+codes for all the areas are transmitted, as well
+as the reference image frame in the image storing means (24)
+
+is updated, initializes all the areas in the image storing
+means (24) which are not identical to those in the
+
+transmitting device (100) according to the reception
+information.
+A high efficiency transmitting system which comprises
+a transmitting device (100) and a receiving device
+
+(110,120,130) for encoding to compress an animated image
+which includes a plurality of image frames by detecting a
+
+difference between one image frame to be encoded and a
+reference image frame, then transmitting data of the encoded
+
+image to a receiving device (110,120,130) by a radio line at
+high efficiency, wherein the transmitting device (100)
+
+comprises:
+
+a first image storing means (4) for storing the
+reference image frame which is referred to detect the
+
+difference relating to the image frame to be encoded;
+a first initialization means for, before a first
+transmission, initializing the first image storing means (4)
+
+by initial data which is identical to initial data held by
+the receiving device (110,120,130); 
+a first difference encoding means (5) for detecting
+the difference between the image frame to be encoded and the
+
+reference image frame, and encoding to compress the
+difference;
+a first encoded data storing means (6) for storing
+the encoded difference data received from the first
+
+difference encoding means (5);
+a first transmitting means (7,8) for adding an error
+detection code to the encoded difference data, and
+
+transmitting the encoded difference data together with
+transmission information including the error detection code
+
+to the receiving device (110,120,130);
+a first receiving means (8,9) for receiving reception
+information from the receiving device (110,120,130), the
+
+reception information including information which indicates
+whether the receiving device (110,120,130) finds either OK
+
+or NG as a result of error detection check which is based on
+the error detection code;
+a first reproducing means (10) for decoding to
+reproduce the encoded difference data stored in the first
+
+encoded data storing means (6), then storing it as one
+reference frame into the first image storing means (4) when
+
+the received reception information indicates OK; and
+a first controlling means (1;12) for controlling the
+first difference encoding means (5) to encode to compress
+
+the next image frame when the reception information
+indicates NG, while controlling the first difference
+
+encoding means (5) to encode to compress the next image
+frame only after the first reproducing means (10) stores a 
+
+new reference frame when the reception information indicates
+OK, and the receiving device (110,120,130) comprises:
+a second image storing means (24) including an area
+where a reproduced image basing upon the encoded difference
+
+data is stored;
+a second initialization means for initializing the
+second image storing means (24) by initial data which is
+
+identical to initial data held by the transmitting device
+(100);
+a second receiving means (21,22) for receiving the
+encoded difference data from the transmitting device (100),
+
+and detects an error according to an error detection code
+added to transmission information which was transmitted
+
+together with the encoded difference data;
+a second encoded data storing means (23) for storing
+the encoded difference data received by the second receiving
+
+means (21,22);
+a second reproducing means (25) for decoding the
+encoded difference data in the second encoded data storing
+
+means (23) when a result of the error detection is OK,
+reproducing the image frame by adding the decoded data to
+
+content of the second image storing means (24), and storing
+the reproduced image frame into the second image storing
+
+means (24);
+a second controlling means (20;30) for generating
+reception information which includes the result of the error
+
+detection by the second receiving means (21,22); and
+a second transmitting means for transmitting the
+reception information to the transmitting device (100).
+The high efficiency transmitting system of Claim 20,
+wherein the first transmitting means (7,8) divides the
+
+encoded difference data into a plurality of radio
+frames, and transmitting each radio frame and transmission
+
+information which includes the error detection code which
+corresponds to the radio frame to the receiving device
+
+(110,120,130);
+
+the first receiving means (8,9) receives from the
+receiving device (110,120,130) the reception information
+
+which corresponds to the transmitted radio frame;
+the first controlling means (1;12) controls the first
+reproducing means (10) to reproduce the encoded difference
+
+data for a single image frame when all the reception
+information for it indicates OK, while the first controlling
+
+means (1;12) controls the first difference encoding means
+(5) to encode the difference for a next image frame when at
+
+least one of the reception information for a single image
+frame indicates NG;
+the second receiving means (21,22) receives radio
+frames into which the encoded difference data is divided;
+
+and
+the second controlling means (20;30) controls the
+second reproducing means (25) to reproduce one image frame
+
+of the encoded difference data when the error detection
+result as for all of the radio frames included in it is OK.
+The high efficiency transmitting system of Claim 21,
+wherein each radio frame is fixed length, and an excess of 
+
+encoded data over the data amount of a predetermined number
+of radio frames is abandoned.
+The high efficiency transmitting system of Claim 22,
+wherein the first transmission information inc
+ludes a
+transmission frame number which indicates the number of
+
+image frames which have been transmitted safely;
+
+the first controlling means (1;12) increments the
+transmission frame number by one upon each updating of the
+
+reference image frame in the first image storing means (4)
+by the first reproducing means (10);
+the second receiving means (21,22) receives the
+transmission information which includes a transmission
+
+frame number indicating how many image frames are
+transmitted safely together with the encoded difference
+
+data;
+the second controlling means (20;30) holds a
+reception frame number indicating how many image frames are
+
+received safely and increments the reception frame number by
+one whenever the second reproducing means (25) updates the
+
+reference image frame in the second image storing means
+(24); and
+the second reproducing means (25) decodes the encoded
+difference data when the result of the error detection is OK
+
+as well as the transmission frame number coincides with the
+reception frame number, whereby the receiving device
+
+(110,120,130) can check if its own reference image frame is
+identical to the reference image frame stored in the
+
+transmitting device (100).
+The high efficiency transmitting system of Claim 23,
+wherein the first initialization means and the second
+
+initialization means initialize the first image storing
+means (4) and the second image storing means (24)
+
+respectively when a radio link is established between the
+transmitting device (100) and the receiving device
+
+(110,120,130).
+The high efficiency transmitting system of Claim 20,
+wherein the transmitting device (100) further comprises:
+
+
+a first error detection/correction code generating
+means (11) for generating an error detection/correction code
+
+relating to the reference image frame in the first image
+storing means (4), wherein the reception information
+
+received by the first receiving means (8,9) includes the
+error/correction code relating to the reference image frame
+
+in the receiving device (110,120,130); and
+the first controlling means (1;12) controls the first
+initialization means to compare the error detection/correction
+
+code included in the reception information
+received by the first receiving means (8,9) with the error
+
+detection/correction code generated by the first error
+detection/correction code generating means (11), and
+
+controls the first initialization means to initialize the
+reference image frame stored in the first image storing
+
+means (4) when they do not coincide with each other, as well
+as controls the first transmitting means (7,8) to transmit
+
+the transmission information which directs to initialize the
+reference image frame stored in the receiving device 
+
+(110,120,130), and the receiving device (110,120,130)
+further comprises:
+a second error detection/correction code generating
+means (29) for generating an error detection/correction code
+
+relating to a reference frame stored in the second image
+storing means (24), wherein
+the second transmission information includes
+information which directs whether or not the reference frame
+
+in the second image storing means (24) should be
+initialized; and
+the second controlling means (20;30) generates
+reception information which includes the generated error
+
+detection/correction code, controls the second transmitting
+means (21,26) to transmit the reception information, and
+
+controls the second initialization means to initialize the
+reference image frame in the second image storing means (24)
+
+when the information included in the transmission
+information received by the second receiving means (21,22)
+
+directs the initialization.
+The high efficiency transmitting system of Claim 25,
+wherein the first transmitting means (7,8) divides the
+
+encoded difference data into a plurality of radio frames,
+and transmitting each radio frame and the transmission
+
+information which includes the error detection code which
+corresponds to the radio frame to the receiving device
+
+(110,120,130); 
+
+the first receiving means (8,9) receives from the
+receiving device (110,120,130) the reception information
+
+which corresponds to the transmitted radio frame;
+the first controlling means (1;12) controls the first
+reproducing means (10) to reproduce the encoded difference
+
+data for a single image frame when all the reception
+information for it indicates OK, while the first controlling
+
+means (1;12) controls the difference encoding means (5) to
+encode the difference for a next image frame when at least
+
+one of the reception information for a single image frame
+indicates NG;
+the first error detection/correction code generating
+means (11) divides each reference image frame in the first
+
+image storing means (4) into a plurality of areas, and
+generates the error detection/correction code for each area;
+the first controlling means (1;12) operates the
+comparison as for each area, and, when it does not coincide
+
+with that in the receiving device (110,120,130), controls
+the first transmitting means (7,8) to transmit the
+
+transmission information which directs to initialize the
+area in the receiving device (110,120,130);
+the second receiving means (21,22) receives radio
+frames into which the encoded difference data is divided;
+the second controlling means (20,30) controls the
+second reproducing means (25) to reproduce one image frame
+
+of the encoded difference data when the error detection
+result as for all of the radio frames included in it is OK;
+the second error detection/correction code generating
+means (29) divides each reference image frame in the second 
+
+image storing means (24) into a plurality of areas, and
+generates the error detection/correction code for each area;
+
+and
+the second controlling means (20;30) generates the
+reception information including the error detection/correction
+
+code corresponding to each area, and controls
+the second transmitting means (21,26) to transmit the
+
+reception information.
+The high efficiency transmitting system of Claim 26,
+wherein the first transmission information includes a
+
+transmission frame number which indicates the number of
+image frames which have been transmitted safely;
+
+
+the first controlling means (1;12) increments the
+transmission frame number by one upon each updating of the
+
+reference image frame in the first image storing means (4)
+by the first reproducing means (10) whereby the receiving
+
+device (110,120,130) can check if its own reference image
+frame is identical to the reference image frame stored in
+
+the transmitting device (100); and
+the second receiving means (21,22) receives the
+transmission information which includes a transmission
+
+frame number indicating how many image frames are
+transmitted safely together with the encoded difference
+
+data;
+the second controlling means (20;30) holds a
+reception frame number indicating how many image frames are
+
+received safely and increments the reception frame number by
+one whenever the second reproducing means (25) updates the 
+
+reference image frame in the second image storing means
+(24); and
+the second reproducing means (25) decodes the encoded
+difference data when the result of the error detection is OK
+
+as well as the transmission frame number coincides with the
+reception frame number.
+The high efficiency transmitting system of Claim 27,
+wherein the error/correction code is CRC (Cyclic Redundancy
+
+Check) code relating to the image data in the area.
+The high efficiency transmitting system of Claim 25,
+wherein the first error detection/correction code generating
+
+means (11) divides the reference image frame in the first
+image storing means (4) into a plurality of areas, and
+
+generates the error detection/correction code relating to
+each area;
+
+
+the first transmitting means (7,8) divides the
+encoded difference data into a plurality of radio frames,
+
+and transmits the transmission information which includes
+each radio frame, the error detection code corresponding to
+
+the radio frame, and the error detection/correction code
+corresponding to the area to the receiving device
+
+(110,120,130);
+the first receiving means (8,9)receives the reception
+information from the receiving device (110,120,130) which
+
+includes a check result according to the error detection
+code, and information which indicates if the area
+
+corresponding to the error detection/correction code is 
+identical to one of areas into which the reference image
+
+frame in the receiving device (110,120,130) is divided;
+the first controlling means (1;12) controls the first
+transmitting means (7,8) to transmit the radio frame which
+
+was transmitted at the last transmission together with the
+error detection/correction code for the next area when the
+
+check result included in the reception information indicates
+an error, also controls the first initialization means
+
+to initialize all the areas which are not identical to those
+in the receiving device (110,120,130) according to the
+
+reception information after the error detection/correction
+codes for all the areas are transmitted and the reference
+
+image frame in the first image storing means (4) is updated;
+the second error detection/correction code generating
+means (29) divides the reference image frame in the second
+
+image storing means (24) into a plurality of areas, and
+generates the error detection/correction code relating to
+
+each area;
+the second receiving means (21,22) receives the
+transmission information which includes one of the radio
+
+frames into which the encoded difference data is divided,
+the error detection code corresponding to the radio frame,
+
+and the error detection/correction code relating to the
+corresponding area in the transmitting device (100);
+the second transmitting means (21,26) transmits the
+reception information which includes a check result
+
+according to the error detection code, and information which
+indicates if the area corresponding to the error detection/correction
+
+code is identical to one of areas into which the 
+reference image frame in the transmitting device (100) is
+
+divided; and
+the second controlling means (20;30) examines if the
+area which is received according to the error detection/correction
+
+code included in the transmission information is
+identical to the area, and when the error detection/correction
+
+codes for all the areas are transmitted, as well
+as the reference image frame in the second image storing
+
+means (24) is updated, initializes all the areas in the
+second image storing means (24) which are not identical to
+
+those in the transmitting device (100) according to the
+reception information.
+A high efficiency transmitting method employed in a
+system which comprises a transmitting device (100) and a
+
+receiving device (110,120,130), for encoding to compress an
+animated image including a plurality of image frames by
+
+detecting a difference between one image frame to be encoded
+and a reference image frame, then transmitting data of the
+
+encoded image to a receiving device (110,120,130) by a radio
+line at high efficiency, wherein the transmitting method
+
+comprises:
+
+a first initialization step for, before a
+first transmission, initializing a first image storing means
+
+(4) by initial data which is identical to initial data held
+by the receiving device (110,120,130);
+a first difference encoding step for detecting the
+difference between the image frame to be encoded and the
+
+reference image frame, and encoding to compress the 
+difference, and storing the encoded difference data into a
+
+first encoded data storing means (6);
+a first transmitting step for adding an error
+detection code to the encoded difference data, and
+
+transmitting the encoded difference data together with
+transmission information including the error detection code
+
+to the receiving device (110,120,130);
+a first receiving step for receiving reception
+information from the receiving device (110,120,130), the
+
+reception information including information which indicates
+whether the receiving device (110,120,130) finds either OK
+
+or NG as a result of error detection check which is based on
+the error detection code;
+a first reproducing step for encoding to reproduce
+the encoded difference data stored in the first encoded data
+
+storing means (6), then storing it as one reference frame
+into the first image storing means (4) when the reception
+
+information indicates OK; and
+a first controlling step for controlling the first
+difference encoding step to encode to compress the next
+
+image frame when the reception information indicates NG,
+while controlling the first difference encoding step to
+
+encode to compress the next image frame only after a new
+reference frame is stored at the first reproducing step when
+
+the reception information indicates OK, and the receiving
+method comprises:
+a second initialization step for initializing a
+second image storing means (24) which includes an area where
+
+a reproduced image basing upon the encoded difference data 
+is stored by initial data which is identical to initial data
+
+held by the transmitting device (100);
+a second receiving step for receiving the encoded
+difference data from the transmitting device (100) and
+
+storing it into a second encoded data storing means (23), as
+well as detecting an error according to an error detection
+
+code added to transmission information which was transmitted
+together with the encoded difference data;
+a second reproducing step for decoding the encoded
+difference data in the second encoded data storing means
+
+(23) when a result of the error detection at the second
+receiving step is OK, reproducing the image frame by adding
+
+the decoded data to content of the second image storing
+means (24), and storing the reproduced image frame into the
+
+second image storing means (24);
+a second controlling step for generating reception
+information which includes the result of the error detection
+
+at the second reproducing step; and
+a second transmitting step for transmitting the
+reception information to the transmitting device (100).
+The high efficiency transmitting method of Claim 30,
+wherein at the first transmitting step the encoded
+
+difference data is divided into a plurality of radio frames,
+and each radio frame and transmission information which
+
+includes the error detection code which corresponds to the
+radio frame is transmitted to the receiving device
+
+(110,120,130); 
+
+at the first receiving step the reception information
+which corresponds to the transmitted radio frame is received
+
+from the receiving device (110,120,130);
+at the first controlling step, when all the reception
+information for a single image frame is OK, it is controlled
+
+to return to the first reproducing step for reproducing the
+encoded difference data, while when at lest one of the
+
+reception information for a single frame indicates NG, it is
+controlled to return to the difference encoding step for
+
+encoding the difference for a next image frame;
+at the second receiving step radio frames into which
+the encoded 
+difference data is divided are received; and
+at the second controlling step, when the error
+detection result for all of the radio frames included in one
+
+image frame of the encoded and compressed difference data is
+OK, it is controlled to return to the second reproducing
+
+step for reproducing one image frame of the encoded
+difference data.
+The high efficiency transmitting method of Claim 31,
+wherein each radio frame is fixed length, and an excess of
+
+encoded data over the data amount of a predetermined number
+of radio frames is abandoned.
+The high efficiency transmitting method of Claim 32,
+wherein the first transmission information includes a
+
+transmission frame number which indicates the number of
+image frames which have been transmitted safely; 
+
+
+the first controlling step controls to increment the
+transmission frame number by one upon each updating of the
+
+reference image frame in the first image storing means (4)
+at the first reproducing step;
+at the second receiving step the transmission
+information which includes a transmission frame number
+
+indicating how many image frames are transmitted safely is
+received together with the encoded difference data;
+at the second controlling step a reception frame
+number indicating how many image frames are received safely
+
+is held and the reception frame number is incremented by one
+whenever the reference image frame in the second image
+
+storing means (24) is updated at the second reproducing
+step; and
+at the second reproducing means (25) the encoded
+difference data is decoded when the result of the error
+
+detection is OK as well as the transmission frame number
+coincides with the reception frame number, whereby the
+
+receiving device (110,120,130) can check if its own
+reference image frame is identical to the reference image
+
+frame stored in the transmitting device (100).
+The high efficiency transmitting method of Claim 33,
+wherein at the first initialization step and the second
+
+initialization step the first image storing means (4) and
+the second image storing means (24) are initialized
+
+respectively when a radio link is established between the
+transmitting device (100) and the receiving device
+
+(110,120,130). 
+The high efficiency transmitting method of Claim 30,
+wherein the transmitting method comprises a first error
+
+detection/correction code generating step between the first
+reproducing step and the first controlling step, the first
+
+error detection/correction code generating step for
+generating an error detection/correction code relating to
+
+the reference image frame in the first image storing means
+(4);
+
+
+the reception information received at the first
+receiving step includes the error/correction code relating
+
+to the reference image frame stored in the receiving device
+(110,120,130);
+at the first controlling step it is controlled to
+compare the error detection/correction code included in the
+
+reception information with the error detection/correction
+code generated at the error detection/correction code
+
+generating step, and controlled to initialize the reference
+image frame stored in the first image storing means (4) when
+
+they do not coincide with each other at the first
+initialization step, as well as controlled to transmit the
+
+transmission information which directs to initialize the
+reference image frame stored in the receiving device
+
+(110,120,130) at the first transmitting step;
+the receiving method further comprises a second error
+detection/correction code generating step between the second
+
+reproducing step and the second controlling step, the second
+error detection/correction code generating step for
+
+generating an error detection/correction code relating to a 
+reference frame stored in the second image storing means
+
+(24);
+the second transmission information includes
+information which directs whether or not the reference frame
+
+in the second image storing means (24) should be
+initialized; and
+at the second controlling steps it is controlled. to
+generate reception information which includes the generated
+
+error detection/correction code, and transmit the reception
+information at the second transmitting step, and initialize
+
+the reference image frame in the second image storing means
+(24) when the information included in the transmission
+
+information received at the second receiving step directs
+the initialization.
+The high efficiency transmitting method of Claim 35,
+wherein at the first transmitting step the encoded
+
+difference data is divided into a plurality of radio frames,
+and each radio frame and transmission information which
+
+includes the error detection code which corresponds to the
+radio frame is transmitted to the receiving device
+
+(110,120,130);
+
+at the first receiving step the reception information
+which corresponds to the transmitted radio frame is received
+
+from the receiving device (110,120,130);
+at the first controlling step, the first reproducing
+step is controlled to reproduce encoded difference data for
+
+a single image frame when all the reception information for
+it indicates OK, while the difference encoding step is 
+
+controlled to encode the difference for a next image frame
+when at least one of the reception information for a single
+
+image frame indicates NG;
+at the first error detection/correction code
+generating step each reference image frame in the first
+
+image storing means (4) is divided into a plurality of
+areas, and the error detection/correction code for each area
+
+is generated;
+at the first controlling step the comparison is
+operated as for each area, and, when it does not coincide
+
+with that in the receiving device (110,120,130), the first
+transmitting step is controlled to transmit the transmission
+
+information which directs to initialize the area in the
+receiving device (110,120,130);
+at the second receiving step radio frames into which
+the encoded difference data is divided are received;
+at the second controlling step the second reproducing
+step is controlled to reproduce one image frame of the
+
+encoded difference data when the error detection result as
+for all of the radio frames included in it is OK;
+at the second error detection/correction code
+generating step each reference image frame in the second
+
+image storing means (24) is divided into a plurality of
+areas, and the error detection/correction code is generated
+
+for each area; and
+at the second controlling step the reception
+information including the error detection/correction code
+
+corresponding to each area is generated, and the second 
+transmitting step is controlled to transmit the reception
+
+information.
+The high efficiency transmitting method of Claim 36,
+wherein the first transmission information includes a
+
+transmission frame number which indicates the number of
+image frames which have been transmitted safely;
+
+
+at the first controlling step the transmission frame
+number is incremented whenever the reference image frame in
+
+the first image storing means (4) is updated at the first
+reproducing step, whereby
+the receiving device (110,120,130) can check if its
+own reference image frame is identical to the reference
+
+image frame in the transmitting device (100); and
+at the second receiving step the transmission
+information which includes a transmission frame number
+
+indicating how many image frames are transmitted safely is
+received together with the encoded 
+difference data;
+at the second controlling step a reception frame
+number indicating how many image frames are received safely
+
+is held and the reception frame number is incremented by one
+whenever the reference image frame in the second image
+
+storing means (24) is updated at the second reproducing
+step; and
+at the second reproducing step the encoded difference
+data is decoded when the result of the error detection is OK
+
+as well as the transmission frame number coincides with the
+reception frame number.
+The high efficiency transmitting method of Claim 37,
+wherein the error/correction code is CRC (Cyclic Redundancy
+
+Check) code relating to the image data in the area.
+The high efficiency transmitting method of Claim 35,
+wherein at the first error detection/correction code
+
+generating step the reference image frame in the first image
+storing means (4) is divided into a plurality of areas, and
+
+the error detection/correction code relating to each area is
+generated;
+
+
+at the first transmitting step the encoded difference
+data is divided into a plurality of radio frames, and the
+
+transmission information which includes each radio frame,
+the error detection code corresponding to the radio frame,
+
+and the error detection/correction code corresponding to the
+area is transmitted to the receiving device (110,120,130);
+at the first receiving step the reception information
+is received from the receiving device (110,120,130) which
+
+includes a check result according to the error detection
+code, and information which indicates if the area
+
+corresponding to the error detection/correction code is
+identical to one of areas into which the reference image
+
+frame in the receiving device (110,120,130) is divided;
+at the first controlling step the first transmitting
+step is controlled to transmit the radio frame which was
+
+transmitted at the last transmission together with the error
+detection/correction code for the next area when the check
+
+result included in the reception information indicates an
+error, also the first initialization step is controlled to 
+
+initialize all the areas which are not identical to those in
+the receiving device (110,120,130) according to the
+
+reception information after the error detection/correction
+codes for all the areas are transmitted and the reference
+
+image frame in the first image storing means (4) is updated;
+at the second error detection/correction code
+generating step the reference image frame in the second
+
+image storing means (24) is divided into a plurality of
+areas, and the error detection/correction code relating to
+
+each area is generated;
+at the second receiving step the transmission
+information which includes one of the radio frames into
+
+which the encoded difference data is divided, the error
+detection code corresponding to the radio frame, and the
+
+error detection/correction code relating to the
+corresponding area in the transmitting device (100) is
+
+received;
+at the second transmitting step the reception
+information which includes a check result according to the
+
+error detection code, and information which indicates if the
+area corresponding to the error detection/correction code is
+
+identical to one of areas into which the reference image
+frame in the receiving device (110,120,130) is divided is
+
+transmitted; and
+at the second controlling step it is examined if the
+area which is received according to the error detection/correction
+
+code included in the transmission information is
+identical to the area, and when the error detection/correction
+
+codes for all the areas are transmitted, as well 
+as the reference image frame in the second image storing
+
+means (24) is updated, all the areas in the second image
+storing means (24) which are not identical to those in the
+
+transmitting device (100) according to the reception
+information are initialized.
+</CLAIMS>
+</TEXT>
+</DOC>

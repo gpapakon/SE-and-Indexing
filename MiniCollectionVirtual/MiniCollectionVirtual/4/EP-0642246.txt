@@ -1,0 +1,196 @@
+<DOC>
+<DOCNO>EP-0642246</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Network communication method for systems equipped with virtual memory
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04L2902	H04L2906	H04L1256	G06F15173	G06F1516	H04L2914	H04L2914	H04L2906	H04L1256	G06F1300	G06F1300	H04L2902	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04L	H04L	H04L	G06F	G06F	H04L	H04L	H04L	H04L	G06F	G06F	H04L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04L29	H04L29	H04L12	G06F15	G06F15	H04L29	H04L29	H04L29	H04L12	G06F13	G06F13	H04L29	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A network communication method (and system) enables 
+received data to be transferred directly to the user data 
+
+region, thereby eliminating the need to perform data copy 
+operations. Packets are each provided with received region 
+
+assignment information (port ID) for showing the region in 
+which the packet is to be received and/or division information 
+
+for dividing the packet. The region which is to receive 
+data contained in the packet is determined from a port table 
+
+and conversion tables, and the packet data is transferred to 
+the region directly. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+HITACHI LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+HITACHI, LTD.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+AIMOTO TAKESHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HAYASHI TAKEHISA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+INOUCHI HIDENORI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+IWAMOTO HIROSHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MURAYAMA HIDEKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YOSHIZAWA SATOSHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+AIMOTO, TAKESHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HAYASHI, TAKEHISA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+INOUCHI, HIDENORI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+IWAMOTO, HIROSHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MURAYAMA, HIDEKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YOSHIZAWA, SATOSHI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to a technique for improving
+the information communication performance of a network
+consisting of interconnected information processing systems
+such as computer systems and the like.This invention particularly relates to a technique for
+high speed information communication processing in a network
+of interconnected computer systems or other such information
+processing systems equipped with virtual memory.Accompanying the widespread use of local area networks in
+recent years, a distributed system has now been widely used to
+concurrently execute on a plurality of machines the processing
+that could not be done with a single WS (work station). Owing
+to the advent of a high-speed network medium such as optical
+fibers and the like, the latency and throughput in the network
+layer has improved strikingly. It is therefore becoming
+possible to adapt the decentralized processing even for the
+processings which, so far, could not be done with this system.A multi-computer system is the one in which a plurality
+of network computers are linked together through a network and
+which executes the processing concurrently. Network computers
+carry out parallel processing while transferring messages via 
+the network. In a multi-computer system, resources are
+decentralized to prevent the occurrence of bottlenecks that
+results from the concentration of the resources. Since the
+resources are decentralized in the multi-computer system,
+message communication takes place frequently, as required, to
+exchange resources between computers. In order to improve the
+system throughput, therefore, it is important to reduce the
+software overhead in the message communication.A major portion of the overhead in the communication
+software processing is the data copy processing. The reasons
+for requesting the data copy processing may differ depending
+upon the transmitting side and the receiving side. Shown
+below are the factors for requesting data copy depending upon
+the transmitting side and the receiving side.Copies are needed on the transmitting side because of the
+following reasons.
+(1) The data to be transmitted must exist in
+a region where main memory exists at all times.(2) Asynchronous operation must be carried out
+by which the processing is executed
+without being blocked.In the case of the item (1), the user data cannot be
+transferred by DMA (direct-memory access, a procedure for
+gaining direct access to memory for data input/output (I/O)
+processes) processing unless the data exists in the main 
+memory when the
+</DESCRIPTION>
+<CLAIMS>
+A method for communicating information between network
+computers (100) each including at least one processor (130),
+
+a physical main memory (150, 170) and a network adapter (110)
+connected to a network (190), a virtual memory system being
+
+implemented on each network computer (100), the method comprising:
+
+prior to arrival of a data packet from a transmitting
+network computer (100T), pre-assigning a receiving region
+
+(171, 172) in a part of the main memory (150, 170) of a
+receiving network computer (100R) inhibited from page-out by
+
+the virtual memory system, and initialising in the main memory
+of the receiving network computer address conversion
+
+tables (164, 165) for conversion of virtual to physical memory
+addresses and a port table (167) linking a port ID with
+
+an address conversion table (164, 165);
+transmitting a packet from a transmitting network computer
+(100T), the packet including a port ID (312-b);
+receiving the packet at the receiving network computer
+(100R);
+extracting from the port table (167) of the receiving
+network computer (100R) information on the basis of the port
+
+ID (312-b) of the received packet; and
+determining from the address conversion tables (164,
+165) a physical address in the receiving region in the main
+
+memory (140, 170) of the receiving network computer (100R) on 
+the basis of the information extracted from the port table
+
+(167), and
+directly transferring data of the received packet to the
+receiving region in the main memory (150, 170) of the receiving
+
+network computer (100R) identified by said physical
+address.
+The method of claim 1, further including
+
+   adding by the transmitting network computer (100T) a security key to the transmitted data packet;
+
+   determining a security key information from said extracted
+information; and
+ 
+   comparing the security key added to the transmitted
+
+packet with the security key information, before said step of directly
+transferring data to the main memory (150, 170).
+The method of claim 1 or 2, further including
+
+   adding division information (311-b) to the transmitted
+data packet that identifies divisions of the
+
+transmitted data packet when the data portion of the packet is divided into
+at least two parts; and
+
+   transferring each of the parts of the data portion
+to the user data region (170) of the main memory (150, 170) of the
+
+receiving network computer (100R) based on the division
+information.
+The method of any one of claims 1 to 3, wherein address
+conversion tables (164, 165) are used in said step of determining a
+
+physical address to convert a user data region that has
+continuous virtual address space to a user data region that
+
+has non-continuous physical addresses.
+The method of any one of claims 1 to 4, wherein the
+receiving network computer (100R) issues an interrupt when
+
+the last transmitted data packet of a set of packets has been transmitted to the
+user data region.
+</CLAIMS>
+</TEXT>
+</DOC>

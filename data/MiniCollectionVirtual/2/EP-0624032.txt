@@ -1,0 +1,293 @@
+<DOC>
+<DOCNO>EP-0624032</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Video format conversion apparatus and method
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04N750	H04N544	H04N750	H04N726	H04N544	H04N726	H04N746	H04N746	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04N7	H04N5	H04N7	H04N7	H04N5	H04N7	H04N7	H04N7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Video format conversion apparatus and method for a high-definition 
+TV including motion compensation of 
+
+macroblocks, determining stationary condition, motion-involved 
+condition or scene change pixel by pixel and achieving 
+
+interpolation pixel-wise, thereby realizing 
+conversion of a interlaced scanning video format into 
+
+a progressive scanning video format. 
+The video 
+format conversion is achieved by substituting the value of 
+
+the current pixel by the mean of the values of reference 
+pixels, positioned at the same position 
+
+in a previous respectively a next field when the 
+current pixel is a stationary pixel; interpolating the current 
+
+pixel through a motion compensation when the current pixel is 
+a motion-involved pixel; determining whether a displaced frame 
+
+difference is less than a predetermined threshold value when 
+the current pixel is neither of the stationary nor the 
+
+motion-involved type to substitute the current pixel value by 
+the mean of the reference pixel values of the previous and 
+
+next fields when the displaced frame difference is less than 
+the threshold value, and substitute the current pixel value 
+
+by an intra-field generated pixel value when the displaced frame 
+differen
+ce is above the threshold value. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+LG ELECTRONICS INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+LG ELECTRONICS INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+KIM SEUNG IL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LEE DONG HO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KIM, SEUNG IL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LEE, DONG HO
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to video format conversion
+apparatus and method for a television (TV), and more
+particularly to video format conversion apparatus and method
+for a TV for converting an interlaced video format into a
+progressive video format.High definition TVs (HDTVs) of the interlaced scanning
+system developed in Japan and being experimentally on the air
+utilize easily a video source because their peripheral
+appliances such as camera and video cassette recorders have
+already been developed. In a case of a HDTV of the
+progressive scanning system developed in U.S.A., it is
+difficult to utilize a video source of the progressive
+scanning system because of no peripheral appliance developed.
+In the latter case, it, therefore, is required to convert a
+video of the interlaced scanning format into a video of the
+progressive scanning format. In particular, the format of
+videos displayed on a monitor should be of the progressive
+scanning system. For transmitting compressed videos of the
+interlaced scanning format, accordingly, it is important and
+essential to efficiently convert them into those of the
+progressive scanning format as a display format. In conventional analog systems, pixel (line)
+interpolation for NTSC TV or digital TV is carried out using
+one of the following methods:
+First, the intra-field interpolation that is to
+interpolate lines not scanned by using scanned lines in the
+current field. Although this method is most simple, there is
+a problem of a deterioration in resolution because each line
+is interpolated by the mean value of pixels on scanned upper
+and lower lines positioned with respect to the line to be
+interpolated;Second, the inter-field interpolation that is to simply
+interpolate lines not scanned by using scanned lines of the
+current field and other fields, without any motion
+compensation. Although recovering videos with high resolution
+for stationary video portions, there is a problem of a severe
+artifact for motion-involved video portions: andThird, the interpolation involving the motion
+compensation. This method solves the problems encountered in
+the intra-field interpolation method and the inter-field
+interpolation method.In accordance with the interpolation method involving the
+motion compensation, motion information is searched. Based on
+the searched motion information, a video scene is divided into
+a stationary video portion and a motion video portion which
+will be adaptively interpolated. For example, the stationary video portion is substituted
+by the mean value of
+</DESCRIPTION>
+<CLAIMS>
+A video format conversion apparatus comprising:
+
+a decoding means (1) for decoding input data to be
+separated into quantization coefficients, motion vectors
+
+and control parameters;
+a dequantizing means (2) for dequantizing signals
+separated by the decoding means (1);
+an inverse discrete cosine transforming means (3)
+for performing an inverse discrete cosine transform for
+
+dequantized signals outputted from the dequantizing means
+(2) to recover displaced frame differences (DFD) in
+
+accordance with an estimation of motions of video
+signals;
+a field storing means (5) for storing motion
+compensated video signals of frame unit in fields;
+a motion compensating means (4) for performing a
+motion compensation by moving prior field video signals
+
+stored in the field storing means (5) in accordance with
+the motion vectors outputted from the decoding means (1)
+
+and adding the prior field video signals to the video
+signals outputted from the inverse discrete cosine
+
+transforming means (3) to output the motion compensated
+video signals of frame unit to the field storing means
+
+(5);
+a format conversion controlling means (6) for
+controlling a format conversion by pixels using the
+
+motion vectors provided from the decoding means (1), the 
+displaced difference outputted from the inverse discrete
+
+cosine transforming means (3), and the video signals
+stored in the field storing means (5);
+a first slice buffer means (7) for combining control
+signals, outputted from the format conversion controlling
+
+means (6), in slices and outputting the same;
+a second slice buffer means (8) for combining the
+motion vectors, outputted from decoding means (1) , in
+
+slices and for outputting the same; and
+an interpolating means (9) for performing an inter-field
+interpolation, an intra-field interpolation, or an
+
+interpolation by motion compensation in accordance with
+the control signal outputted from the first slice buffer
+
+means (7) and the motion vectors outputted from the
+second slice buffer means (8) so as to convert video signals of the
+
+interlaced scanning format into video signals of the progressive
+scanning format.
+A video format conversion apparatus in accordance with
+claim 1, wherein the field storing means (5) comprises:
+
+
+even field storing means (51) for storing therein even field
+ones of video signals sequentially outputted from the
+ motion
+compensating means (4); and
+odd field storing means (52) for storing therein odd field
+ones of the video signals sequentially outputted from the
+
+motion compensating means.
+A video format conversion apparatus in accordance with
+claim 1, wherein the interpolating means (9) comprises:
+
+
+third and fourth slice buffer means (10, 11) for converting an even
+field video signal and an odd field video signal outputted
+
+from the field storing means (5) into video signals for
+individual lines, respectively;
+a first multiplexer (12) for multiplexing the video signals
+from the third and fourth slice buffer means (10, 11);
+intra-field interpolating means (13) for substituting the
+value of a current pixel to be interpolated by the mean of the
+
+values of upper and lower adjacent pixels in the same field as
+the current pixel by use of a video signal from the first
+
+multiplexer (12);
+inter-field interpolating means (14) for substituting the
+value of the current pixel by the mean of the values of
+
+reference pixels, positioned at the same position as the 
+current pixel, respectively in a previous field preceding a
+
+current field including the current pixel and a next field
+following the current field by use of the video signal from
+
+the first multiplexer (12);
+a correlation detecting means (16) for detecting
+correlation between an interpolating pixel to be
+
+interpolated and a peripheral pixel in the field using the
+video signals outputted from the first multiplexer (12);
+a filter means for performing an interpolation for the
+current pixel by use of the values of the peripheral pixels
+
+under a control of the correlation detecting means
+a field memory means (17) for storing video signals
+sequentially outputted from the first multiplexer (12) by
+
+frames;
+a motion compensating and interpolating means (18) for
+performing motion compensation and an interpolation if the
+
+output signals from the first and second slice buffer means
+(7) and (8) represent motion part;
+a second multiplexer (19) for selecting video signals
+outputted from the inter-field interpolating means (14) or
+
+the motion compensating and interpolating means (18) in
+accordance with the control signal outputted from the first
+
+slice buffer means (7), and selecting video signals output
+from the intra-field interpolation means (13) and the mean
+
+filter (15) in accordance with the control signal outputted
+from the correlation detecting means (16); and
+a third multiplexer (20) for selecting and outputting
+the outputs of the first and second multiplexer (12, 19) in
+
+turn.
+A video format conversion apparatus in accordance with
+claim 3, wherein the field memory means (17) comprises a pair of
+
+field memories (171, 172) connected to each other in series.
+A video format conversion apparatus in accordance with
+claim 3, wherein the intra-field interpolating means (13)
+
+comprises:
+
+first line delay means (131) for storing the video signals
+sequentially outputted from the first multiplexer (12) by lines;
+second line delay means (131) for storing the video signals
+sequentially outputted from the first line delay means (131) by
+
+lines; and
+mean calculating means (133) for calculating the mean value of
+video signals respectively outputted from the first
+
+multiplexer (12) and the second line delay means (132).
+A video format conversion apparatus in accordance with
+claim 3, wherein the inter-field interpolating means (14) comprises
+
+mean calculating means (142) for calculating the mean value of video
+signals respectively outputted from the first multiplexer (12) and
+
+the field memory means (17).
+A video format conversion apparatus in accordance with 
+claim 5, wherein the mean calculating means (133) comprises:
+
+
+an adder (1331) for adding a signal value outputted from the
+second line delay means (132) to a signal value outputted from the
+
+first multiplexer (12); and
+an 1/2 multiplier (1332) for multiplying a signal value
+outputted from the adder (1331) by 1/2.
+A video format conversion apparatus in accordance with
+claim 6, wherein the mean calculating means (142) comprises:
+
+an adder (1421) for adding a signal value outputted from the
+field memory means (17) to a signal value outputted from the first
+
+multiplexer (12); and
+
+an 1/2 multiplier (1422) for multiplying a signal value
+outputted from the adder (1421) by 1/2.
+</CLAIMS>
+</TEXT>
+</DOC>

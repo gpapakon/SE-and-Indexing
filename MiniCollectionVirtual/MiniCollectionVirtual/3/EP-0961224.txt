@@ -1,0 +1,211 @@
+<DOC>
+<DOCNO>EP-0961224</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Non-linear image filter for filtering noise
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T500	G06T500	G06T520	G06T520	G09G320	G09G320	G09G536	G09G536	H04N1409	H04N1409	H04N521	H04N521	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	G06T	G06T	G09G	G09G	G09G	G09G	H04N	H04N	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T5	G06T5	G06T5	G06T5	G09G3	G09G3	G09G5	G09G5	H04N1	H04N1	H04N5	H04N5	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A system and method for reducing noise using recursive noise level
+estimation. The system and method for noise reduction substitute a target pixel in a
+
+processing window with a weighted average of a plurality of neighboring pixels
+according to the degree of similarity between the target pixel and the neighboring
+
+pixels. The similarity is based on the noise level affecting the image and the local
+brightness of the processing window. The filter is based on fuzzy logic and filters out
+
+noise without smoothing the image's fine details. The filter uses a human visual
+system (HVS) response to adjust brightness.
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+ST MICROELECTRONICS INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+STMICROELECTRONICS, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+MANCUSO MASSIMO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MANCUSO, MASSIMO
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The invention is related generally to digital signal processing and,
+in particular, digital signal processing of images.Noise is an inherent feature in any communication system, and
+efforts to reduce noise are continually being explored. For example, it is well
+known that low-pass filters with pre-set frequency ranges reduce high-frequency
+noise. Moreover, it is known that in many communication systems it is
+advantageous to reduce noise prior to displaying the signal (or image) because
+noise reduction improves image display quality.Modern-day image processors also use other techniques to enhance
+image display. For example, image processes utilize compression (or encoding)
+techniques to minimize the amount of memory needed to process images. There
+are compression standards for still images (or pictures), color facsimile (fax)
+machines, medical imaging systems, video cassette records (VCRs),
+entertainment systems, televisions (TVs), high-definition TVs (HDTVs), World-Wide
+Web browsers, and for personal computer (PC) displays, for example.The coding efficiency of an image processor can be improved if
+system noise is reduced prior to encoding. Adaptive filters have been applied to
+images for this purpose. For example, adaptive filters reduce noise by monitoring
+the communication system and feeding back communication system information
+to automatically and dynamically adjust their filtering characteristics. Generally,
+adaptive filters can be obtained using non-linear approaches, such as median-based
+filters or filters having variable behavior according to the estimation of
+certain system or image parameters. For example, some adaptive filters are
+obtained by estimating the temporal correlation of certain parameters. These adaptive filters have limitations, however. For example, if a
+video signal is greatly affected by noise, these adaptive filters confuse the
+undesirable noise with image motion. This limitation causes the fine details of
+the image to be attenuated, or smoothed, which also is undesirable. Proposed
+solutions include variable-strength filters, i.e., filters with curved selectivity.
+Arbitrary curve selection, however, affects the temporal frequency of the
+adaptive filter, resulting in the so-called "comet effect," which is more annoying
+than detail smoothing. It can be appreciated therefore that what is needed is an
+image enhancement technique that reduces noise without blurring fine details of
+the image or affecting the temporal frequency.Presented herein is a system and method for reducing
+</DESCRIPTION>
+<CLAIMS>
+An image noise reduction filter, comprising:
+
+a differencing block that computes absolute values of differences
+between a plurality of metrics of a target pixel X and a plurality of neighboring pixels
+
+in a processing window, and that determines a minimum computed difference and a
+maximum computed difference selected from among the absolute values of differences
+
+between the metrics of the target pixel X and the plurality of neighboring pixels in the
+processing window; and
+a new pixel value generator, coupled to the differencing block, that
+generates a replacement value for the target pixel based on a weighted average of the
+
+absolute values of degrees of similarity between the target pixel X and the plurality of
+neighboring pixels.
+The image noise reduction filter of claim 1, further comprising a
+metric computation block, coupled to the differencing block, that computes a first
+
+metric that represents a weighted luminance value for the target pixel X, and a second
+metric that represents an estimated noise level of a neighboring pixel (X-1) selected
+
+from among the plurality of neighboring pixels.
+The image noise reduction filter of claim 1, further comprising a
+fuzzy logic processor, coupled to the differencing block, that generates a first
+
+threshold value and a second threshold value, which represent the boundaries of a
+fuzzy set, the fuzzy set boundaries being based on values representative of a maximum
+
+and minimum value of an absolute value of the differences among the target pixel X
+and the plurality of neighboring pixels.
+The image noise reduction filter of claim 1, further comprising a
+filter coefficient block, coupled to the differencing block, that generates a filter
+
+coefficient that represents the measure of the degree of similarity between the target
+pixel and any one of the plurality of neighboring pixels.
+A method of filtering noise in a scanned image, comprising the
+steps of:
+
+
+providing a processing window for portions of a scanned image, the
+processing window having a target pixel and a plurality of neighboring pixels; and
+substituting the target pixel with a weighted average of the degree of
+similarity between the target pixel and the neighboring pixels,
+wherein the degree of similarity depends on a noise level affecting the
+scanned image and a local brightness of the processing window.
+The method of claim 5, further comprising the step of computing
+an absolute value of the differences among the target pixel and the plurality of
+
+neighboring pixels.
+The method of claim 5, further comprising the step of
+determining a maximum and minimum value of an absolute value of the differences
+
+among the target pixel and the plurality of neighboring pixels.
+The method of claim 5, further comprising the step of computing
+a filter strength based on a gray level associated with the target pixel, on a maximum
+
+value of the absolute value of the differences among the target pixel and the plurality
+of neighboring pixels, and on the noise level affecting the scanned image.
+The method of claim 5, further comprising the step of evaluating
+a minimum noticeable gray level difference between the target pixel and a neighboring
+
+pixel selected from among the plurality of neighboring pixels.
+The method of claim 5, further comprising the step of summing
+an evaluation of a minimum noticeable gray level difference between the target pixel
+
+and a first neighboring pixel selected from among the plurality of neighboring pixels
+with an estimation of a noise level associated with a second neighboring pixel selected
+
+from among the plurality of neighboring pixels.
+The method of claim 5, further comprising the step of estimating
+a noise level associated with a neighboring pixel selected from among the plurality of
+
+neighboring pixels using the equation NL(t-1) = Kn(t-1) • Dmax(t-1) + [1-Kn(t-1)] •
+
+NL(t-2).
+The method of claim 5, further comprising the step of
+determining a shape of a membership function in a fuzzy logic process according to a
+
+first threshold value computed using the equation th1(t) = Kn(t) • Dmax(t) + [1-Kn(t)] •
+
+Dmin(t) and a second threshold value computed using the equation th2(t) = Kn(t) •
+Dmax(t) + [1-Kn(t)]
+ • [Dmax(t) + Dmin(t)]/2.
+The method of claim 5, further comprising the step of generating
+a plurality of filter coefficients that represent the measure of the degree of similarity
+
+between the target pixel and any one of the neighboring pixels.
+An image filter, comprising:
+a metric generator that generates a plurality of metrics associated with
+the strength of filtering to be applied to a target pixel X,
+wherein a first metric chosen from among the plurality of metrics is
+associated with a first noise level of a neighboring pixel X-1, and
+wherein a second metric selected from among the plurality of metrics is
+associated with a second noise level of neighboring pixel X-2.
+The image filter of claim 14, further comprising a fuzzy processor
+that defines the boundaries of a fuzzy set associated with the first and second metrics.
+The image filter of claim 14, further comprising:
+
+a third metric chosen from among the plurality of metrics associated
+with a similarity between the target pixel X and the neighboring pixel X-1; and
+a fourth metric chosen from among the plurality of metrics associated
+with a similarity between the target pixel X and the neighboring pixel X-2.
+The image filter of claim 14, further comprising:
+
+a third metric chosen from among the plurality of metrics associated
+with a brightness of the target pixel X;
+a fourth metric chosen from among the plurality of metrics associated
+with a brightness of the neighboring pixel X-1; and
+a fifth metric chosen from among the plurality of metrics associated with
+a brightness of the neighboring pixel X-2.
+The image filter of claim 14, further comprising means for
+estimating a minimum noticeable gray level difference among the target pixel X and
+
+one of the neighboring pixel X-1 or the neighboring pixel X-2.
+The image filter of claim 14 wherein the strength of filtering to be
+applied to a target pixel X is associated with a weighted average of the plurality of
+
+metrics associated with the target pixel X, the neighboring pixel X-1, and the
+neighboring pixel X-2.
+An image filter, comprising:
+
+a fuzzy logic processor that defines a fuzzy logic set associated with a
+plurality of local features of a target 
+pixel and a plurality of global features of a
+plurality of pixels neighboring the target pixel,
+wherein the plurality of local features includes a brightness of the target
+pixel and the plurality of global features include a noise level of the plurality of pixels
+
+neighboring the target pixel, and
+wherein the plurality of local features and the plurality of global features
+determine the strength of filtering to be applied to the target pixel.
+The image filter of claim 20 wherein the target pixel and the
+plurality of pixels neighboring the target pixel are associated with a still picture or with
+
+a video sequence.
+</CLAIMS>
+</TEXT>
+</DOC>

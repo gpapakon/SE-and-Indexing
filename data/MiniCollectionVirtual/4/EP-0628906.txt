@@ -1,0 +1,589 @@
+<DOC>
+<DOCNO>EP-0628906</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Data storage apparatus.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F306	G06F306	G06F906	G06F906	G06F1200	G06F1200	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F3	G06F3	G06F9	G06F9	G06F12	G06F12	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A peripheral data storage subsystem has means for responding to a 
+MOUNT command received from a host processor to create and mount a host-processor-addressable 
+
+logical data-storage volume. Such logical data-storage 
+volume has a serial number VOLSER indicated in the MOUNT command. 
+
+The logical data volume is assigned a predetermined area of a physical 
+data volume, such area being termed a partition. The illustrated 
+
+embodiment shows a tape subsystem in which the partitions are accessed by 
+a control using a reel tachometer that identifies segments of the tape. 
+
+Each partition has a number of the tape segments. Controls and methods 
+are described for initializing the subsystem for effecting the automatic 
+
+volume creation, appending data into a logical volume, how logical 
+volumes are made to be portable, moving logical volumes amongst diverse 
+
+physical media, tape formats usable for such logical volumes, data base 
+control of the logical volumes and volume creation processing. The 
+
+physical volume in which one or more logical volumes reside is not host-processor 
+addressable. Some physical volumes are ejectable from the data 
+
+storage subsystem. The physical volumes storing the logical volumes are 
+not ejectable. To eject a logical volume, it is copied from the storing 
+
+physical volume to an ejectable physical volume. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+ALLEN VINCENT KANARD
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GONCHARSKY ROBERT SAMUEL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+RIPBERGER RICHARD ANTHONY
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ALLEN VINCENT KANARD
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GONCHARSKY ROBERT SAMUEL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+RIPBERGER RICHARD ANTHONY
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to peripheral data storage apparatus, more 
+particularly to such apparatus that can automatically create data-storing 
+logical or virtual volumes and the management of such volumes without any 
+or reduced host processor intervention. The following terms are used in this document: A data storage volume or volume is a unit of a data storage medium 
+that is separately addressable and is identified by a volume identifier. 
+As used below, only for the purpose of consistency in terminology, the 
+volume identifier for a logical volume is termed VOLSER while the volume 
+identifier for a physical volume is termed VOLID. In the prior art 
+VOLSER and VOLID have been used interchangeably. To effect access to 
+data storing locations in a volume, a host processor requests that an 
+addressed volume be mounted in an addressed device for accessing data 
+storage space of such volume. A physical volume is a volume that is always a physical package, 
+such as a tape cassette or cartridge, a disk cartridge, and the like. 
+Each physical volume is independently mountable into a device to provide 
+access by a host processor to its data storage space. In the prior art, 
+such physical volumes are directly addressable by the host processor. In 
+practicing this invention, a plurality of logical volumes (LV) are 
+located in, but transportable from, a physical volume. To access data 
+storage space in a physical volume having LVs, only the LVs are addressed 
+by a host processor. This physical volume is not separately directly 
+addressable by a host processor. The volume identifier VOLID on a 
+physical volume is readable by a human being. In the prior art data 
+storage, the VOLID is repeated internally in the physical volume as a 
+machine-readable copy of the VOLID. Each LV has an internally stored 
+VOLSER that identifies it as a data storage volume.  A logical volume is a data storage volume that is addressable by a 
+host processor independently of which physical volume is storing it. The 
+volume identifier VOLSER of each logical volume is independent of the 
+physical volume identifier VOLID and is usually not externally available 
+on the physical volume. A physical volume -- partitioned (PVP) is a physical volume that is 
+divided into a plurality of physically-identifiable partitions, each 
+partition is logically co-extensive with a single logical volume. That 
+is, one partition has one logical volume that may or may not completely 
+occupy the one partition. The medium physical locations in the physical 
+volume
+</DESCRIPTION>
+<CLAIMS>
+Apparatus for storing data peripherally to a host processor, 
+including, in combination: 
+
+   attachment means for attaching the apparatus to one or more host 
+processors for receiving commands from an attached host processor, 
+
+exchanging data with the attached host processor and for supplying status 
+information to the attached host processor; 
+
+   a plurality of host-processor-addressable media drives in the 
+subsystem, each said media drive capable of mounting for reading from and 
+
+writing to and a physical volume having a record medium; 
+   a plurality of said physical volumes in the subsystem, each of said 
+
+physical volume for storing data therein in one or more host-processor-addressable 
+logical data-storage volumes residing in respective ones of 
+
+said physical volumes; 
+   volume moving means drives for inserting and removing said physical 
+
+volumes into and out of said media drives; 
+   peripheral controller means having volume manager means connected 
+
+to the attachment means for receiving mount commands from the attached 
+host processor, said mount commands including an address of one of said 
+
+media drives and a volume serial number of a host-processor-addressable 
+data-storage volume to be mounted on said addressed media drive; 
+
+   said peripheral controller means having data flow means connected 
+to the attachment means and to the media drives for processing digital 
+
+signals between said attachment means and said media drives; 
+   volume map means connected to the volume manager means for storing 
+
+identifications of said volume serial numbers and indications of which of 
+said physical volumes said host-processor-addressable data-storage volume 
+
+contain said host-processor-addressable logical data-storage volumes, 
+respectively; 
+
+   said volume manager means responding to each of said received mount 
+commands for examining said volume map means for identify one of said 
+
+physical volumes storing said mount command addressed host-processor-addressable 
+data-storage volume, 
+
+   first means, in the volume manager means for responding to 
+identification of one of said physical volumes storing said mount command 
+
+addressed host-processor-addressable data-storage volume for effecting 
+mounting of said one physical volume on said addressed media drive; and
+
+ 
+   second means, in the volume manager means for responding to 
+
+identification of none of said physical volumes storing said mount 
+command addressed host-processor-addressable data-storage volume, for 
+
+selecting a second physical volume, comprising volume initialization 
+means for automatically establishing a new host-processor-addressable 
+
+data-storage volume as said host-processor-addressed data-storage volume 
+and for actuating said first means to mount said second physical volume 
+
+in said addressed media drive. 
+A apparatus as claimed in in claim 1, further including, in 
+combination: 
+
+   said media drives removably mounting said physical volumes, each 
+said media drive removably mounting one of said physical volumes at a 
+
+time for said reading and writing; 
+   said volume map means having entry means for indicating that first 
+
+and second host-processor-addressable logical data-storage volumes reside 
+in a first one of said physical volumes; 
+
+   said volume manager means for actuating said volume moving means 
+for mounting said first one of said physical volumes in a first one of 
+
+said media drives for enabling a current access to said first host-processor-addressable 
+logical data-storage volume; 
+
+   said volume manager means, responding to a second received mount 
+command for mounting said second host-processor-addressable logical data-storage 
+
+volumes to identify that said mount command requires access to 
+said first one of said physical volumes, said volume manager means having 
+
+hold means responsive to a current access to said first one of said host-processor-addressable 
+logical data-storage volume to hold response to 
+
+said second received mount command until said current access completes; 
+   said volume moving means mounting a second physical volume on a 
+
+second media drive; 
+   completion means in the peripheral controller means for detecting 
+
+and indicating completion of said current access; 
+   said volume manager means having conflict means connected to said 
+
+completion means for responding to said hold means and to completion of 
+said current access to access said first one of said mounted first 
+
+physical volume to copy said first addressable data storage volume from 
+said first physical volume to said mounted second physical volume and to 
+
+update said volume map means for identifying said second addressable 
+host-processor-addressable logical data-storage volume being in said 
+
+mounted second physical volume and for removing said hold such that both 
+ 
+
+said first and second addressable logical data-storage volumes can be 
+simultaneously accessed. 
+A apparatus as claimed in claim 1, further including, in 
+combination: 
+
+   said volume map means indicating that first and second host-processor-addressable 
+logical data-storage volumes reside in a first one 
+
+of said physical volumes; 
+   said volume manager means mounting said first one of said physical 
+
+volumes in a first one of said media drives for enabling a current access 
+to said first host-processor-addressable data storage volume; 
+
+   said volume manager means responding to said received mount command 
+for said second host-processor-addressable logical data-storage volumes 
+
+to identify that said mount command requires access to said first one of 
+said physical volumes, said volume manager means having hold means 
+
+responsive to said current access to of said first one of said 
+addressable data storage volume to hold response to said mount command 
+
+until said current access completes; 
+   completion means in said peripheral controller means for detecting 
+
+completion of said current access; 
+   said attachment means having a plurality of paths over which data 
+
+may be transmitted, said first media drive being connected to a first one 
+of said paths; 
+
+   said volume manager means having conflict means connected to said 
+completion means for responding to said hold and completion of said 
+
+current access to connect said first media drive to a second one of said 
+paths for enabling access to said second addressable data storage volume. 
+A apparatus as claimed in claim 1, further including, in 
+combination: 
+
+   said volume map means identifying a first sub-plurality of said 
+physical volumes as partitioned physical volumes, each of said first sub-plurality 
+
+of said physical volumes having a respective VOLID volume 
+serial number and a visually sensible copy of said respective VOLID 
+
+volume serial number, all of said VOLID volume serial numbers of said 
+first sub-plurality of said physical volumes being unique such that none 
+
+of the VOLID serial numbers in said first sub-plurality of physical 
+volumes are duplicated; 
+
+   a set of unique VOLSER volume serial numbers for identifying 
+respective ones of said host-processor-addressable logical data-storage 
+
+ 
+volumes, a first predetermined subset of said VOLSER volume serial 
+
+numbers being different from any of said VOLID volume serial numbers; 
+   said 
+volume map means further indicating that first predetermined 
+ones of said VOLSER volume serial numbers in said first predetermined 
+
+subset respectively identify ones of said host-processor-addressable 
+logical data-storage volumes residing on predetermined ones of said first 
+
+sub-plurality of physical volumes, a given plurality of said first sub-plurality 
+of physical volumes storing a plurality of said host-processor-addressable 
+
+logical data-storage volumes and a predetermined plurality of 
+said VOLSER volume serial numbers not identifying any host-processor-addressable 
+
+logical data-storage volumes; and first predetermined 
+received ones of said mount command respectively indicating respective 
+
+ones of said first predetermined set of said VOLSER volume serial 
+numbers. 
+A apparatus as claimed in claim 4, further including, in combination: 
+   said volume map means further identifying a second sub-plurality of 
+
+said physical volumes as physical only physical volumes, each of said 
+physical only physical volumes having a visual-sensible indication of a 
+
+respective VOLID volume serial number, all of said VOLID volume serial 
+numbers being a unique number and different from said first predetermined 
+
+first VOLSER volume serial numbers; 
+   said listing having a second predetermined subset of said VOLSER 
+
+volume serial numbers being identical to said VOLID volume serial numbers 
+for said second sub-plurality of physical volumes; 
+
+   each of said physical only physical volumes having a VOLSER volume 
+serial number in said second set of VOLSER volume serial numbers recorded 
+
+therein that is identical to the respective VOLID volume serial number; 
+and 
+
+   given predetermined ones of said received mount commands indicating 
+respective ones of said VOLID identical VOLSER volume serial numbers such 
+
+that said physical volumes having a VOLID in said first sub-plurality of 
+physical volumes are addressable by said apparatus but not addressable by 
+
+said host processor. 
+A apparatus as claimed in claim 1, further including, in 
+combination: 
+
+   initialization means connected to said volume manager means for 
+actuating the volume manager means to enter volume serial number data 
+
+into said volume map means, said initialization means including:
+ 
+
+   first data means for actuating said volume manager means to insert 
+identifying data into said volume map means for identifying a first sub-plurality 
+
+of said physical volumes as partitioned physical volumes, each 
+of said first sub-plurality of said physical volumes having a respective 
+
+VOLID volume serial number and a visually sensible copy of said 
+respective VOLID volume serial number, all of said VOLID volume serial 
+
+numbers of said first sub-plurality of said physical volumes being unique 
+such that none of the VOLID serial numbers in said first sub-plurality of 
+
+physical volumes are duplicated; 
+   second data means for actuating said volume manager means to insert 
+
+identifying data into said volume map means for identifying a set of 
+unique VOLSER volume serial numbers for identifying respective ones of 
+
+said host-processor-addressable logical data-storage volumes, a first 
+predetermined subset of said VOLSER volume serial numbers being different 
+
+from any of said VOLID volume serial numbers; 
+   third data means for actuating said volume manager means to insert 
+
+identifying data into said volume map means for further indicating that 
+first predetermined ones of said VOLSER volume serial numbers in said 
+
+first predetermined subset respectively identify ones of said host-processor-addressable 
+logical data-storage volumes that are to reside on 
+
+ones of said first sub-plurality of physical volumes wherein said first 
+sub-plurality of physical volumes are for storing a plurality of said 
+
+host-processor-addressable logical data-storage volumes; and 
+   fourth data means connected to a host processor that is connected 
+
+to said attachment means for supplying VOLSER data to a host processor 
+all of said VOLSER volume serial numbers as identifying host-processor-addressable 
+
+logical data-storage volumes whether or not any respective 
+ones of said VOLSER volume serial numbers actual identify a host-processor-addressable 
+
+data-storage volume such that the volume manager 
+means can respond to said received mount command to create a host-processor-addressable 
+
+logical data-storage volume using said VOLSER 
+volume serial numbers in said volume map means. 
+A apparatus as claimed in claim 6, further including, in combination: 
+   fifth data means for actuating said volume manager means to insert 
+
+into said volume map means identifying data for identifying a second sub-plurality 
+of said physical volumes as physical only physical volumes in 
+
+which each of said physical only physical volumes are to have a visual-sensible 
+indication of a respective VOLID volume serial number, all of 
+
+said VOLID volume serial numbers being a unique number;
+ 
+
+   said listing having a second predetermined subset of said VOLSER 
+volume serial numbers being identical to said VOLID volume serial numbers 
+
+for said second sub-plurality of physical volumes; and 
+   each of said physical only logical data-storage volumes having one 
+
+of said VOLSER serial numbers of said second predetermined subset 
+recorded therein for machine sensing and that is equal to the VOLID 
+
+volume serial number of said respective physical only data storage 
+volume. 
+A apparatus as claimed in claim 6, further including, in 
+combination: 
+
+   said initialization means being in one of said host processor 
+means, said initialization means for sending an initialization command to 
+
+said attachment means that contains the data from said initialization 
+means first through fourth data means for actuating the volume manager 
+
+means to insert said identifying data into said volume map means; and 
+   said volume manager means having means connected to said attachment 
+
+means for receiving said initialization command for responding to said 
+initialization command for inserting said identifying data into said 
+
+volume map means. 
+A apparatus as claimed in claim 1, further including, in 
+combination: 
+
+   each of said physical volumes for movably mounting a data storage 
+medium; 
+
+   each of said media drives having medium displacement indicating 
+means for indicating displacement of said data storage medium of a 
+
+physical volume mounted therein from a medium reference position of the 
+data storage medium in each said media drive for indicating displacement 
+
+of the data storage medium from said reference position; 
+   said peripheral controller means having means for detecting and 
+
+indicating a block ID of data recorded on said mounted medium and being 
+connected to the medium displacement indicating means for reading and 
+
+storing the block ID and the indicated position from said reference 
+position and means for supplying said block ID, said indicated position a 
+
+first one of the host-processor-addressable logical data-storage volumes 
+having a first VOLSER to a one of said host processors as a first 
+
+position reference value in said mounted medium;
+ 
+
+   said peripheral controller means actuating said volume moving means 
+and said media means to copy said first VOLSER identified host-processor-addressable 
+
+data storage volume to a different displacement position on a 
+different one of said first sub-plurality of said physical volumes, said 
+
+volume manager means receiving from said peripheral controller means and 
+an indication of said different physical location for said first VOLSER 
+
+host-processor-addressable data storage volume; 
+   said volume moving means mounting said different one of the first 
+
+sub-plurality of said physical volumes in one of said media drives; 
+   said attachment means receiving a locate command for commanding t
+he 
+peripheral controller means to position said medium having said first 
+
+VOLSER host-processor-addressable data storage volume; 
+   said peripheral controller means actuating the volume manager means 
+
+to change the physical position indicated in the locate command to said 
+different position on said different physical volume; and 
+
+   said peripheral controller means actuating the one media drive to 
+position the medium in the mounted physical data storage volume to said 
+
+different position. 
+A method of operating a peripheral data-storage system, programmed 
+control means in the peripheral data-storage system for controlling its 
+
+operation and attachment means connected to the control means for 
+attaching the subsystem to a host processor, a plurality of addressable 
+
+media devices for removably receiving physical volumes of media, means 
+connected to the control means and to the media devices for mounting and 
+
+demounting said physical volumes of media, said media devices being 
+connected to the attachment means for exchanging data signals therewith, 
+
+the method including the steps: 
+   establishing a plurality of volume serial numbers; 
+
+   establishing a listing in said control means containing indications 
+of a first set having a plurality of first ones of said volume serial 
+
+numbers that are to be used only for identifying host-processor-addressable 
+logical data-storage volumes and establishing a second set of 
+
+second ones of said volume serial numbers that are to be used only to 
+identify stack ones of said physical volumes in which said host-processor-addressable 
+
+logical data-storage volumes can reside; 
+   initializing predetermined ones of said host-processor-addressable 
+
+logical data-storage volumes including first allocating a predetermined 
+partition of predetermined ones of said physical volumes for respective 
+
+ones of said host-processor-addressable data-storage volumes and 
+ 
+
+establishing addressability of said host-processor-addressable data-storage 
+volumes by inserting respective ones of said volume serial 
+
+numbers of said first set in said host-processor-addressable logical 
+data-storage volumes on respective ones of said physical volumes, 
+
+including initializing fewer of said host-processor-addressable logical 
+data-storage volumes that the number of said established first volume 
+
+serial numbers; 
+   in said control means, listing said initialized host-processor-addressable 
+
+logical data-storage volumes having said first volume serial 
+numbers, respectively, and identifying, respectively, said initialized 
+
+ones of said host-processor-addressable logical data-storage volumes and 
+said physical volumes in which the respective logical data-storage volume 
+
+reside; 
+   receiving a mount command from an attached host processor into said 
+
+control means that includes an addressed of one of said media devices and 
+an addressed volume serial number, in said control means checking said 
+
+listing for determining whether or not an initialized one of said logical 
+data-storage volumes is identified by said addressed volume serial 
+
+number, if said checking shows that no initialized logical data-storage 
+volume is identified by said addressed volume serial number, then 
+
+selecting one of said physical volumes having one of said second volume 
+serial numbers for identifying in said listing said selected one physical 
+
+volume by said addressed volume serial number in addition to said one 
+second volume serial number; 
+
+   mounting said selected one physical volume in said addressed media 
+device; 
+
+   then, allocating a predetermined addressable partition of said 
+mounted physical volume for receiving and storing a host-processor-addressable 
+
+logical data-storage volume having said commanded volume 
+serial number and then recording in said allocated partition of said 
+
+selected physical volume said commanded volume serial number such that 
+said allocated partition is addressable as an initialized logical data-storage 
+
+volume by said commanded volume serial number; 
+   then, recording in said mounted physical volume an index to said 
+
+initialized logical data-storage volume that includes an address of said 
+allocated addressable partition whereby said one logical data-storage 
+
+volume is initialized; 
+   then updating said listing for showing that said commanded volume 
+
+serial number identifies said one logical data-storage volume and that 
+ 
+
+said one logical data-storage volume resides in said selected physical 
+volume; 
+
+   if said addressed volume serial number is identified in said 
+listing, then selecting a second one of said physical volumes identified 
+
+in said listing by said addressed volume serial number for mounting in 
+said addressed media device; 
+
+   then mounting said first selected physical volume in said addressed 
+media device as being said logical data-storage volume; and 
+
+   if said checking shows that the commanded serial number is not a 
+volume serial number in said first plurality of serial numbers, rejecting 
+
+the received mount command as not identifying any data-storage volume, 
+including if said received mount command identifies a volume serial 
+
+number in said second plurality of volume serial numbers. 
+</CLAIMS>
+</TEXT>
+</DOC>

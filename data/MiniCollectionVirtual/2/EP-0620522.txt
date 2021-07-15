@@ -1,0 +1,543 @@
+<DOC>
+<DOCNO>EP-0620522</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+High performance dynamic linking through caching
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F9445	G06F906	G06F9445	G06F906	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method is disclosed for a method to dynamically link a new program image and related 
+library programs into an executable application program image. The method provides for producing 
+
+a linked list of the required programs by giving the linker a n argument representing the designated 
+program image and a naming context which contains data on the associated library programs which 
+
+are to be linked together. The linker finds all of the required programs, and links them together. 
+The parent maps the program images into the designated addresses thereby completing the linking 
+
+of the executable application program. In finding the required programs, the linker first checks the 
+image cache to see if the new program and its related library programs is already linked and cached 
+
+because it was executed before. If the new program is not found in the image cache, the linker object 
+then checks the library program cache to see if the library programs are cached in partially linked 
+
+form, and will use as many of these as it can find. For any library programs that must still be located, 
+the linker will retrieve them from a data store and will then proceed to link all library programs and 
+
+the new program image together to form an executable whole. This process of caching new program 
+images with their library programs and caching partially linked library programs individually guarantees 
+
+a procedure which minimizes the time delay in program start-up when a new program is 
+executed. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SUN MICROSYSTEMS INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SUN MICROSYSTEMS, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+HAMILTON GRAHAM
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NELSON MICHAEL N
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HAMILTON, GRAHAM
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NELSON, MICHAEL N.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to the fields of distributed computing systems, client-server
+computing and object oriented programming.A computer programmer writes a program, the source program, in a high level language
+which typically makes use of symbols for addresses, and special characters or acronyms for operation
+codes. This source code comprises a set of instructions for the computer and data with which
+or upon which the instructions are to operate. These instructions and data must be loaded into a computer's
+memory at certain addresses in order for the computer to execute the program process. In
+order to make this happen, the source code is processed by a compiler which generates binary object
+code which a computer can execute. Before the computer can execute this newly written program,
+the program must go through several additional steps, during which the addresses in the program
+may be represented in different ways. The compiler typically will bind the symbolic addresses of
+the source code to relocatable addresses (such as 16 bytes from the beginning address of the program).
+A linkage editor or loader will in turn bind these relocatable addresses to absolute addresses
+(such as memory location 64216). Each binding is a mapping from one address space to another.
+This binding of instructions and data to memory addresses can be done either at compilation time,
+load time or at program execution time.Referring to Figure 1, the several steps described above are depicted. The source program
+1 is processed by a compiler 2 producing an object code module 3. This object code module 3, generally
+along with other previously compiled object modules 4, is processed by a linkage editor 5 to
+produce a load module 6. The load module 6 and any system libraries 7 required are processed by
+a loader 8 producing an in-memory binary image 10 of the original program and its related modules
+and libraries. This in-memory binary image 10 can now be executed by the computer. Continuing to refer to Figure 1, when it is known at compile time 12 where the program will
+reside in memory, these programs are compiled with absolute code for addresses. In most cases however,
+it is not known at compile time where the program will reside in memory, and the compiler
+must generate relocatable code for the memory addresses. In this case, final binding of memory
+locations to the addresses is delayed until either load time 13 or execute time 14. Some modern systems
+delay such address binding until execute time 14 when the program image
+</DESCRIPTION>
+<CLAIMS>
+A method of efficiently generating a fully-linked program image of a
+designated program and related library programs using a dynamic linking
+
+system having an image cache, the method implemented in a computer system,
+the method characterized by the steps of:
+
+
+invoking said linking system with parameters representing an unlinked
+program image of said designated program;
+searching (22) for said fully-linked program image of said designated
+program and said related library programs in said image cache; and
+ 
+if said fully-linked program image is found (28) in said image cache, then
+the method further includes the steps of:
+
+
+retrieving (38) said fully-linked program image with a list of program
+identifiers and related addresses for each said related library program from said
+
+image cache; and
+ 
+mapping (38) said fully-linked program image of said designated
+program and each of said related library programs at said addresses from said
+
+list of program identifiers.
+ 
+ 
+The method of claim 1 wherein if the fully-linked program image is not
+found in said image cache, the method further comprises the steps of:
+
+
+generating (26) an unlinked copy of said designated program;
+searching(26) for a provisionally fixed-up copy of said related library
+programs in a library cache of said linking system; and 
+if said provisionally fixed-up library programs is found in said library
+cache, then the method further including the steps of:
+
+
+retrieving (34) said provisionally fixed-up library programs from said
+library cache;
+linking (34) said provisionally fixed-up library, programs with each other
+and with said unlinked designated program to create said fully linked program
+
+image of said designated program and related library programs with a list of
+program identifiers and related addresses comprising an identifier and related
+
+address for said designated program and for each of said related library
+programs; and
+mapping (38) said fully-linked program image of said designated program
+and each of said provisionally fixed-up library programs at said related
+
+addresses from said list of program identifiers.
+The method of claim 2 wherein if said provisionally fixed-up library
+programs is not found in said library cache, then the method further comprises
+
+the following steps:
+
+selecting an address (32) to which to link related library programs;
+generating an unlinked copy (32) of said related library programs;
+provisionally fixing-up relocation symbols (32) in said copy of said related
+library programs;
+linking (32) said provisionally fixed-up library programs with each other
+and with said unlinked designated program to create said fully linked program
+
+image of said designated program and related library programs with a list of
+program identifiers and related addresses comprising an identifier and related 
+
+address for said designated program and for each of said related library
+programs;
+mapping (32) said fully-linked program image of said designated program
+and each of said related library programs at said related addresses from said list
+
+of program identifiers; and
+adding (34) said provisionally fixed-up library programs to said library
+cache.
+The method of claim 3 wherein if said program image is not found in said
+image cache then the method further comprises the steps of:
+
+   adding (34) to said image cache said fully-linked program image with said
+provisionally fixed-up library programs and said list of program identifiers and
+
+related addresses for subsequent retrieval by said linking system.
+The method of claim 4 wherein all programs are object oriented programs.
+The method of claim 1 wherein said step of searching for said fully-linked
+program image in said image cache comprises the step of:
+
+   checking said image cache for a key which matches said designated
+program and said related library programs.
+The method of claim 2 wherein said step of searching for a provisionally
+fixed-up copy of said related library programs includes the additional steps of:
+
+
+creating (308) a first name list containing names of said library programs
+which are related to said designated program; and 
+resolving (310) each of said names of said library programs contained on
+said first list into a library program identifier and adding each of said library
+
+program identifiers to a second list.
+The method of claim 7 wherein said step of retrieving said provisionally
+fixed-up library programs includes the additional steps of:
+
+
+checking (316) said library cache for a match for each library program
+identifier in said second list;
+obtaining (322) a matching library program from said library cache in the
+event that a matching library program identifier is found; and
+adding (336) said matching library program identifier from said library
+cache to a third list.
+The method of claim 8 comprising the additional steps of:
+
+selecting an address to which to link related library programs identified in
+said second list in the event that a matching library program identifier is not
+
+found in said library cache;
+generating (330) an unlinked copy of said related library programs;
+provisionally (332) fixing-up relocation symbols in said copy of said
+
+related library programs;
+linking (332) said provisionally fixed-up library programs with each other
+and with said unlinked designated program to create said fully linked program
+
+image of said designated program and related library programs with a list of
+program identifiers and related addresses comprising an identifier and related 
+
+address for said designated program and for each of said related library
+programs;
+adding (334) said provisionally fixed-up library programs to said library
+cache; and
+adding (336) said provisionally fixed-up library program identifier to said
+third list.
+The method of claim 9 comprising the additional steps of:
+
+making a copy (342) of said program image and adding an identifier of
+said copy of said program image to a fourth list, said copy of said program
+
+image having a symbol table and a relocation table; and
+making a copy (344) of each of said library programs from said third list
+and adding an identifier of said copy of said library programs to said fourth list,
+
+each of said copies of said library programs have a symbol table and a relocation
+table.
+The method of claim 10 comprising the additional steps of:
+
+finding each symbol (352) to be relocated in said copy of said program
+image; and
+searching (336) all of said library programs identified in said fourth list
+and in the event that a first symbol definition which matches said symbol to be
+
+relocated is found, using an address of said first symbol definition which
+matches said symbol to be relocated, to perform a relocation for said symbol to
+
+be relocated.
+The method of claim 11 comprising the additional steps of:
+
+using said symbol table (356) in each of said library programs identified in
+said fourth list in turn, starting with a first of said library programs identified in
+
+said fourth list, comparing each symbol of said symbol table to said program
+image's symbol table and marking a symbol in said library program's symbol
+
+table as overridden in the event that said symbol matches a symbol in said
+program image's symbol table;
+comparing each symbol of each of said symbol tables to all of said symbol
+tables of said library programs identified in said fourth list which are higher in
+
+said fourth list than said symbol table being checked and which have been
+marked as already checked;
+upon completion of the check of said symbol table of each of said library
+program identified in said fourth list, marking said library program's identifier
+
+in said fourth list as one whose symbol table has been checked; and
+comparing said symbols in said symbol tables in each of said library
+programs identified in said fourth list in like manner until all of said symbol
+
+tables have been compared.
+The method of claim 12 comprising the additional steps of:
+
+using said relocation table (366) in each of said programs identified in said
+fourth list in turn, starting with a first of said programs identified in said fourth
+
+list, scanning each of said relocation tables to find an undefined symbol;
+in the event that a symbol in one of said relocation tables is a defined
+symbol (370), checking said defined symbol and in the event said defined symbol 
+
+has been marked as overridden, undoing a relocation address for said defined
+symbol which has been marked as overridden;
+using each undefined symbol (368) and each defined symbol whose
+relocation address was undone, as a search argument, checking said symbol table
+
+of said copy of said program image and said symbol tables of each of said library
+programs identified in said fourth list to find a symbol matching said search
+
+argument, and in the event said matching symbol is found, using said found
+symbol's address to perform said address relocation for said symbol which was
+
+used as said search argument; and
+providing an exception message (372) in the event no symbol is found to
+match said search argument.
+The method of claim 13 comprising the additional steps of:
+
+creating a cachable list (388) of program identifiers, containing a copy of
+said designated program image and each of said library programs identified in
+
+said fourth list;
+entering said cachable list (388) of program identifiers into said image
+cache; and
+returning said cachable list (390) of program identifiers in response to said
+linking system.
+The method of claim 14 wherein said programs are objects and said
+computing system is an object oriented system. 
+The method of claim 15 wherein said identifiers and said program
+identifiers are memory objects.
+The method of claim 1, wherein:
+
+if said fully-linked program image is not found (24) in said image cache,
+then the method further including the steps of:
+
+
+checking a library cache (26) for a provisionally fixed-up copy of said
+related library programs and in the event that said library cache contains said
+
+provisionally fixed-up related library programs retrieving said provisionally
+fixed up library programs; and
+if said provisionally fixed up library programs is not found in said library
+cache (30), then the method further including the steps of:
+
+
+creating (32) a list of library program identifiers and related addresses
+from said library cache;
+linking (34) each of said library programs to each other and to said
+program image to create said fully-linked program image; and
+mapping (38) said fully-linked program image identified by said program
+identifiers at said related address from said list of program identifiers.
+The method of claim 17 wherein said step of creating a list of library
+program identifiers and related addresses from said library program cache
+
+comprises the additional steps of:
+
+creating (308) a first list containing names of said library programs which
+
+are related to said designated program; 
+resolving (310) each of said names of said library programs contained on
+said first list into a library program identifier and adding each of said library
+
+program identifiers to a second list;
+checking (322) said library cache for a match for each library program
+identifier in said second list;
+obtaining (336) a matching library program from said library cache in the
+event that a matching library program identifier is found; and
+adding (336) said matching library program identifier from said library
+cache to a third list.
+The method of claim 18 comprising the additional steps of:
+
+selecting (328) an address to which to link related library programs
+identified in said second list in the event that a matching library program
+
+identifier is not found in said library cache;
+generating (330) an unlinked copy of said related library programs;
+provisionally (332) fixing-up relocation symbols in said copy of said
+related library programs;
+adding (334) said provisionally fixed-up library programs to said library
+cache; and
+adding (336) said provisionally fixed-up library program identifier to said
+third list.
+The method of claim 19 comprising the additional steps of: 
+
+making (342) a copy of said program image and adding an identifier of
+said copy of said program image to a fourth list, said copy of said program
+
+image having a symbol table and a relocation table; and
+making (342) a copy of each of said library programs from said third list
+and adding an identifier of said copy of said library programs to said fourth list,
+
+each of said copies of said library programs having a symbol table and a
+relocation table.
+The method of claim 20 comprising the additional steps of:
+
+finding (352) each symbol to be relocated in said copy of said program
+image; and
+searching (356) all of said library programs identified in said fourth list
+and in the event that a first symbol definition which matches said symbol to be
+
+relocated is found, using an address of said first symbol definition which
+matches said symbol to be relocated, to perform a relocation for said symbol to
+
+be relocated.
+The method of claim 21 comprising the additional steps of:
+
+using (358) said symbol table in each of said library programs identified in
+said fourth list in turn, starting with a first of said library programs identified in
+
+said fourth list, comparing each symbol of said symbol table to said program
+image's symbol table and marking a symbol in said library program's symbol
+
+table as overridden in the event that said symbol matches a symbol in said
+program image's symbol table; 
+comparing each symbol of each of said symbol tables to all of said symbol
+tables of said library programs identified in said fourth list which are higher in
+
+said fourth list than said symbol table being checked and which have been
+marked as already checked;
+upon completion of the check of said symbol table of each of said library
+program identified in said fourth list, marking said library program's identifier
+
+in said fourth list as one whose symbol table has been checked; and
+comparing said symbols in said symbol tables in each of said library
+programs identified in said fourth list in like manner until all of said symbol
+
+tables have been compared.
+The method of claim 22 comprising the additional steps of:
+
+using (366) said relocation table in each of said programs identified in said
+fourth list in turn, starting with a first of said programs identified in said fourth
+
+list, scanning each of said relocation tables to find an undefined symbol;
+in the event that a symbol in one of said relocation tables is a defined
+symbol, checking said defined symbol (378) a second time and in the event said
+
+defined symbol has been marked as overridden, undoing a relocation address for
+said defined symbol which has been marked as overridden;
+using each undefined symbol (368) and each defined symbol whose
+relocation address was undone as a search argument, checking said symbol table
+
+of said copy of said program image and said symbol tables of each of said library
+programs identified in said fourth list to find a symbol matching said search
+
+argument, and in the event said matching symbol is found, using said found 
+symbol's address to perform said address relocation for said symbol which was
+
+used as said search argument; and
+providing an exception message (372) in the event no symbol is found to
+match said search argument.
+The method of claim 23 comprising the additional steps of:
+
+creating (388) a cachable list of program identifiers, containing a copy of
+said designated program image and each of said library programs identified in
+
+said fourth list; and
+returning (390) said cachable list of program identifiers in response to said
+linking system.
+The method of claim 24 wherein said programs are objects and said
+computing system is an object oriented system.
+The method of claim 25 wherein said identifiers and said program
+identifiers are memory objects.
+An image caching system for providing a fully-linked program image of a
+designated program and related library programs to a dynamic linking system,
+
+the caching system being implemented in a computer system, the image caching
+system characterized by:
+
+
+an image cache (144) for caching said fully-linked program image with a
+list of program identifiers and related addresses for each said related library
+
+program, said list for mapping said fully-linked program image; 
+a first searching facility (22), coupled to said image cache, for searching
+said image cache to determine whether said image cache contains said fully-linked
+
+program image, said search being made in response to a request to link
+said designated program; and
+a first communications facility (38), coupled to said first searching facility,
+for responding to said request to link said designated program, said response
+
+containing said list of program identifiers and addresses related to said program
+identifiers obtained from said image cache in the event that said fully linked-program
+
+image is found in said image cache.
+The image caching system as recited in claim 27 further comprising:
+
+a library cache (148), coupled to said image cache, for caching
+provisionally fixed-up library programs; and
+a second searching facility (263), coupled to said library cache, for
+searching said library cache to determine whether at least one of said
+
+provisionally fixed-up library programs matches at least one of said related
+library programs.
+The image caching system as recited in claim 28 wherein said search of
+said library cache is made in the event that said fully-linked program image is
+
+not found in said image cache which matches said designated program, and
+
+wherein said first searching facility obtains an unlinked copy of said designated
+program.
+The image caching system as recited in claim 29 further comprising:
+ 
+   a first linking facility (32), coupled to said second searching facility, for
+
+linking a found library program to said unlinked program image, in the event
+that at least one of said provisionally fixed-up library programs is found in said
+
+library cache which matches at least one of said related library programs.
+The image caching system as recited in claim 30 further comprising:
+
+a third searching facility (36), coupled to said second searching facility, for
+finding unlinked library programs in the event that a library program is not
+
+found in said library cache which matches said related library programs; and
+a second linking facility (32), coupled to said third searching facility, for
+linking said unlinked library programs to each other and to said found library
+
+programs and to said unlinked program image, producing fully-linked program
+image of said designated program with related library programs.
+The image caching system as recited in claim 31 wherein:
+
+said second linking facility (32) provisionally fixes-up any of said
+unlinked library programs and stores said provisionally fixed-up library
+
+programs in said library cache; and
+said second linking facility (32) stores said fully-linked program image
+with related library programs in said image cache (144).
+The image caching system as recited in claim 32 wherein said designed
+program and library programs are object oriented programs.
+The image caching system as recited in claim 28, wherein said second
+searching facility (26) performing said search in response to a request to link said 
+
+designated program when said fully-linked program image of said designated
+program is not found by the dynamic linking system; and
+
+   a first linking facility (38) coupled to said second searching facility, for
+linking a found library program to said designated program, in the event that
+
+said found library program is found in said library cache.
+The image caching system as recited in claim 34 wherein said first
+searching facility further comprises:
+
+   a second searching facility (26), coupled to said library cache (148), for
+searching said library cache to determine whether said library cache contains an
+
+unlinked library program which matches one of said related library program.
+The image caching system as recited in claim 34 further comprising:
+
+a second searching facility (26), coupled to said memory of said computer,
+for finding said unlinked library programs which matches said related library
+
+programs; and
+a second linking facility (32), coupled to said second searching facility, for
+linking said unlinked library programs to each other and to said found library
+
+programs and to said unlinked copy of said designated program, producing a
+fully-linked program image of said designated program with related library
+
+programs.
+The image caching system as recited in claim 36 wherein:
+ 
+   said second linking facility (32) provisionally fixes-up any of said
+
+unlinked library programs and stores said provisionally fixed-up library
+programs in said library cache.
+The Dynamic Linking system as recited in claim 37 wherein said library
+programs in said library program cache (148) are partially linked library
+
+programs.
+The Dynamic Linking system as recited in claim 38 wherein said
+application programs and said library programs are object oriented programs.
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,338 @@
+<DOC>
+<DOCNO>EP-0656710</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method for generating DSA dignatures with low cost portable devices
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G07F710	H04L932	G07F710	H04L932	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G07F	H04L	G07F	H04L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G07F7	H04L9	G07F7	H04L9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The invention relates to a method of generating digital signatures from portable devices (A1, A2..Ai...An) of the microprocessor-card type, including calculation, communication and data-storage means which comprise at least one electrically programmable non-volatile memory, consisting in preparing encrypted data constituting coupons and loading these coupons into the non-volatile memories in order then to use these coupons so as to signal a message sent by a verifying unit. According to the method, the preparation of the coupons is carried out by a certified central authority B or by the card itself. Application to electronic signature of messages. 
+<
+IMAGE
+>
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+GEMPLUS CARD INT
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+GEMPLUS
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+M RAIHI DAVID
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NACCACHE DAVID
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+M'RAIHI, DAVID
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NACCACHE, DAVID
+</INVENTOR-NAME>
+</INVENTORS>
+<CLAIMS>
+Method of generating DSA digital signatures from portable devices A1, A2, Ai, ..., An of the type with a microprocessor chip, comprising means for calculation, communication and data storage, which comprise at least one electronically programmable read-only memory, hereinafter referred to as EEPROM, in which a card-key is registered, which is specific to each card and represents the key of the DES algorithm, this method including the following steps:
+
+- preparation of encrypted data constituting the coupons J,r or J,x,
+- loading these coupons in the non-volatile memories,
+- and using these coupons to sign a message received from a certified central authority B or a verifier,
+
+the preparation being carried out based on a random number J obtained by this authority B or by the card, stored in a compressed form with Z1 bytes, and used in the calculations in the form of a number i obtained by expansion of J to Z2 bytes.
+Method of generating digital signatures according to claim 1, according to which the preparation of the coupons is carried out by the certified central authority or verifier equipped with calculation means, and regularly setting up individual sessions with the devices Ai by means of a shared communication interface, in order to send encrypted and
+ pre-calculated data to each device, which will allow each device to quickly generate a digital signature or to participate in an authentication session using a public-key protocol.
+Method of generating digital signatures according to claim 1 or 2, 
+characterised in that
+ the public-key protocol is implemented by the DSA algorithm and in which the data exchange between the device Ai and the certified authority B comprises at least the following steps:
+
+the authority B obtains the random number J with Z1 bytes and expands it i to Z2 bytes,
+the authority calculates c = DES (card_key, J), calculates k = (l/i) mod q, calculates r = (g
+k
+ mod p) mod q,
+and sends c and r to the card, which calculates J = DES
+-1
+ (card_key, c) and saves J and r in the EEPROM non-volatile memory.
+Method according to any one of the claims from 1 to 3, 
+characterised in that
+ the operation of loading J and r in the EEPROM is repeated t times so as to finally save t different couples {J, r} in the EEPROM.
+Method according to any one of the claims from 1 to 4, 
+characterised in that
+ the portable devices are cards, 
+characterised in that
+ the card_key parameter is derived directly from x, the DSS secret key contained in the card.
+Method according to any one of the claims from 1 to 4, 
+characterised in that
+ the DES algorithm used in
+ the calculation is replaced by an exclusive OR with a constant key.
+Method according to any one of the claims from 1 to 4, 
+characterised in that
+ the card Ai generates a DSA signature of a message m by performing at least the following operations:
+
+a. Extracting J and r from the EEPROM memory
+b. Producing an expansion i of J to Z2 bytes
+c. Calculating s = (m + x r) i mod q
+d. Sending s and r to the verifier
+e. Disabling the couple {J, r} by deleting it from the EEPROM.
+Method according to claim 1, 
+characterised in that
+ the public-key protocol is implemented by the digital signature algorithm (DSA), and 
+in that
+ the data exchange between the card Ai and the certified authority B comprises at least the following steps:
+
+Ai obtains a random number J with Z1 bytes and sends it to the authority,
+the authority calculates k = (1 / SHA (x,J)) mod q and r = (g
+k
+ mod p) mod q, and
+the authority sends r to the card, which saves J and r in the EEPROM.
+Method according to claim 8, 
+characterised in that
+ the card Ai generates a DSA signature of a message m by performing at least the following operations:
+
+a. Extracting J and r from the EEPROM memory
+b. Calculating s = (m + x r) i mod q
+c. Sending s and r to the verifier
+d. Disabling the couple {J, r} by deleting it from the EEPROM.
+Method according to claims 1 and 8, 
+characterised in that
+, in order to reduce the time it takes to generate a DSA signature using a card equipped with a cryptographic operator, the calculation of the term r = (g
+k
+ mod p) mod q is postponed until the time of verification, which makes it possible to calculate r during the working time of the verifier.
+Method according to claim 10, 
+characterised in that
+ the card extracts J and r from the EEPROM, produces an expansion i of J to Z2 bytes, receives the message m from the verifier, calculates s = (m +x r) i mod q, sends s and r to the verifier and disables the couple {r, J} by deleting it from the EEPROM, and 
+in that
+, while the verifier is verifying the validity of the couple {r, s}, the card obtains a new random number J with Z1 bytes, produces an expansion of this number i to Z2 bytes, back-calculates k = (l/i) mod q, calculates r = (g
+k
+ mod p) mod q, and re-writes the new coupon {r, J} in the EEPROM.
+Method of generating digital signatures according to claim 1 or 2, 
+characterised in that
+, in order to obtain quick, simultaneous loading of n DSS coupons by the authority, the following steps are carried out:
+
+a. The authority calculates the following for b = 1 to n:
+
+J
+b
+ = random number with 20 bytes
+i
+b
+ = expansion of J
+b
+k
+b
+ = (1/i
+b
+) mod q
+R
+b
+ = 1
+b. The authority calculates:
+
+Acc = g
+For a = 0 to 159 do
+{
+For b = 1 to n do if k
+b
+ [a] == 1 then R
+b
+ = R
+b
+Acc mod q
+Acc = Acc
+2
+ mod p
+}
+For b = 1 to n: coupon
+b
+ = {R
+b
+ mod q, J
+b
+}
+c. The authority sends the n coupons to the card.
+Method of generating digital signatures according to claim 1, 
+characterised in that
+ the quick, simultaneous loading of n DSA-type coupons by the authority consists of the following steps:
+
+a. The card generates a random number J, saves it in the EEPROM and sends it to the authority
+b. The authority calculates the following for b = 1 to n:
+
+k
+b
+ = (1 / SHA (x, J, b) mod q and adds R
+b
+ = 1
+c. The authority calculates:
+
+Acc = g
+For a = 0 to 159 do
+{
+For b = 1 to n do if k
+b
+ [a] == 1 then R
+b
+ = R
+b
+Acc mod q
+Acc = Acc
+2
+ mod p
+}
+For b = 1 to n: R
+b
+ = R
+b
+ mod q
+d. The authority sends the n coupons r
+1
+,..., r
+n
+ to the cards.
+Method of generating digital signatures according to claim 1 or 2, 
+characterised in that
+, in order to obtain quick, simultaneous loading of n coupons in cases in which these coupons are obtained by the authority using a Schnorr algorithm, the following steps are carried out:
+
+a. The card generates a random number J, saves it in the EEPROM and sends it to the authority
+b. The authority calculates the following for b = 1 to n:
+
+temp
+b
+ = SHA (x, J, i) mod q
+
+X
+b
+ = 1
+c. The authority calculates:
+
+Acc = a
+For a = 0 to 159 do
+{
+For b = 1 to n do if temp
+b
+ [a] == 1 then x
+b
+ =
+X
+b
+ Acc mod q
+Acc = Acc
+2
+ mod p
+}
+d. The authority sends the n coupons x
+1
+, ..., x
+n
+ to the cards.
+Method of generating digital signatures according to claim 13, 
+characterised in that
+ the card Ai generates a DSA signature for a message m by performing at least the following operations:
+a. Extracting J and an r
+b
+ from the EEPROM memory
+b. Calculating s = (m + x r
+b
+) SHA (x, J, b) mod q
+c. Sending r
+b
+ and s to the verifier
+d. Disabling the coupon r
+b
+ by deleting it from the EEPROM.
+Method of generating digital signatures according to claim 13, 
+characterised in that
+ the card AI generates a Schnorr signature of a message m by performing at least the following operations:
+
+a. Extracting J and an x
+b
+ from the EEPROM
+b. Calculating e = SHA (m, s) mod q
+c. Calculating y = SHA (s, J, b) + se mod q
+d. Sending X
+b
+ and y to the verifier
+e. Disabling the coupon {X
+b
+} by deleting it from the EEPROM.
+Method of generating digital signatures according to any one of the claims from 1 to 16, 
+characterised in that
+ the preparation of the encrypted data the make up the coupons also comprises the following step:
+
+- for a set of n coupons, calculating a certificate (R, S) based on a DSS algorithm and control data, such that: (R, S) = DSS [SHA (Control_Data, r
+1
+, r
+2
+, ..., r
+n
+)].
+Method of generating digital signatures according to claim 17, in which the authority calculates the certificate for a set of n coupons, 
+characterised in that
+ the generation and loading of the coupons then comprises the following steps:
+(1) The card obtains a random number J with Z1 bytes, where Z1 is, for example, equal to 8 bytes, and saves it in the EEPROM
+(2) The card sends J to the authority
+(3) The authority calculates the k
+i
+ for i = 1 to n, where n is.the number of coupons to be loaded, and the corresponding r
+i
+, as follows:
+
+For i = 1 to n:
+k
+i
+ = (1 / SHA (x, J, i) mod q
+r
+i
+ = (g
+ki
+ mod p) mod q
+(4) The authority calculates the Certificate (R, S) that corresponds to the n coupons:
+
+If X is the secret key of the authority
+
+(1) The authority generates a random number K
+(2) M = Hashed (Control_Data, r
+1
+,r
+2
+,...,r
+n
+)
+(3) R = (g
+k
+ mod p) mod q
+(4) S = ((M + XR) /K) mod q
+5. The authority sends the Certificate (R, S), the control data and the r
+i
+ to the card
+6. The card saves the Certificate (R, S), the control data and the r
+i
+ in the EEPROM.
+Method of generating digital signatures according to claim 17, 
+characterised in that
+ the signature of a message m by the card comprises the following steps:
+
+(1) The card extracts J and an r
+i
+ from EEPROM
+(2) The card receives the message m from the verifier
+(3) The card calculates s = (m + x r) SHA (x, J, i) mod q
+(4) The card sends s, r
+i
+, the Certificate and the data required to verify it to the verifier and disables r
+i
+ by deleting it from the EEPROM.
+A method of generating digital signatures according to any one of the preceding claims, 
+characterised in that
+ the devices {Ai} are chip cards, PCMCIA cards, swipe cards, contactless cards or any other portable device.
+Method of generating digital signatures according to any one of the preceding claims, 
+characterised in that
+ the communication between each device Ai and/or the certified authority B and/or the verifier of the signature takes place by means of an exchange of electronic signals.
+Method of generating digital signatures according to any one of the preceding claims, 
+characterised in that
+ the communication between each device Ai and/or the certified authority B and/or the verifier of the signature takes place by means of an exchange of radio waves or infrared signals.
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,465 @@
+<DOC>
+<DOCNO>EP-0912004</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Communication method between devices having different sampling rates and communication system employing the same
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04H100	H04H100	H04J306	H04J306	H04L700	H04L700	H04L704	H04L704	H04L1228	H04L1228	H04L1242	H04L1242	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04H	H04H	H04J	H04J	H04L	H04L	H04L	H04L	H04L	H04L	H04L	H04L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04H1	H04H1	H04J3	H04J3	H04L7	H04L7	H04L7	H04L7	H04L12	H04L12	H04L12	H04L12	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+When a route hub(RH) receives device data synchronized
+with a device reference clock set in a source device connected
+
+to the route hub(RH) from the source device(N), the route
+hub(RH) modulates the device data to communication data
+
+synchronized with a transmission reference clock; adds a
+phase information to be used to demodulate the modulated
+
+communication data into the device data, to an empty area which
+is equivalent to a difference between a number of bits of each
+
+unit block of the device data and a number of bits of each
+unit block of the communication data synchronized with the
+
+transmission reference clock, at the time of the modulation.
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+YAZAKI CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+YAZAKI CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+NAKATSUGAWA YOSHINORI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NAKATSUGAWA, YOSHINORI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a communication system
+constructed by interconnecting a plurality of repeaters each
+having one or more devices connected thereto by a data
+transmission line and particularly to a communication method
+and a communication system capable of truly and precisely
+transmitting digital data from an input device to an output
+device having a different sampling rate from that of the input
+device.In recent years, digital audio equipment for recording
+and reproducing digitized characters, voice, image data or
+the like, such as CD (Compact Disk) drives, CD-ROM drives and
+DAT (Digital Audio Tape-recorder) units, have been rapidly
+widespread.To record and reproduce original digital data (to be
+referred to as "original data" hereinafter) truly and
+precisely, a sampling rate is set in each of these digital
+audio equipment.A sampling rate of 44.1 kHz is used for CD drives, 32,
+44.1 or 48 kHz for DAT units, 32 kHz for RDS (Radio Data System)
+units which provide character information service and
+automatic broadcast reception service by FM multiplex
+broadcasting, 44.1 kHz for digital audio amplifiers
+incorporating a DSP (Digital Signal Processor), and 44.1 or
+48 kHz for MD (Mini Disc) drives.There may be a request for transferring digital data
+from an output unit having a relatively low sampling rate to
+an input unit having a relatively high sampling rate, for 
+example, transferring original data from an RDS unit having
+a sampling rate of 32 kHz to a digital audio amplifier having
+a sampling rate of 48 kHz to output voice, or transferring
+original data from a CD drive having a sampling rate of 44.1
+kHz to an MD drive having a sampling rate of 48 kHz to be
+recorded.In this case, it is conceivable to interpose an
+interface between the input unit and the output unit to carry
+out the processing of matching the sampling rates of these
+units.That is, as a first method, interpolation is carried
+out on the original data, thereby making it possible to
+exchange digital data between input and output units having
+different sampling rates. As a second method, original data
+from an output unit is stored in a transmission buffer using
+a FIFO (First-In First-Out) system, DMA (Direct Memory
+Access) system or the like, the stored digital data is
+transmitted at a predetermined bit rate higher than the
+sampling rate of an input unit, the digital data received at
+this predetermined bit rate is stored in a receiving buffer,
+and the stored digital data is transmitted to the input unit
+at a transmission bit rate
+</DESCRIPTION>
+<CLAIMS>
+A transmission method, used in a transmission system
+constructed by interconnecting a plurality of
+
+repeaters(RH1-RH5), each having at least one device(N1-N5)
+connected thereto, by a transmission line(3), for exchanging
+
+digital data between devices, between repeaters, or between
+a device and a repeater, the method comprising the steps of:
+
+
+setting a transmission reference clock which is the
+basis for an exchange of communication data between repeaters
+
+to an appropriate value in advance with reference to a
+plurality of device reference clocks set in at least one
+
+device;
+setting a number of bits of each unit block of
+communication data synchronized with the transmission
+
+reference clock and a number of bits of each unit block of
+plural device data synchronized with the plurality of device
+
+reference clocks respectively, to appropriate values in
+advance with reference to frequencies of the plurality of
+
+device reference clocks and a frequency of the transmission
+reference clock;
+modulating, by a repeater, device data to communication
+data synchronized with the transmission reference clock, when
+
+the device data synchronized with the device reference clock
+set in a source device connected to the repeater is output
+
+from the source device;
+adding a phase information to be used to demodulate the
+modulated communication data into device data, to an empty
+
+area which is equivalent to a difference between a number of
+bits of each unit block of the device data and a number of
+
+bits of each unit block of the communication data synchronized
+with the transmission reference clock, at the time of the
+
+modulation by the repeater; and
+transmitting the modulated communication data to a
+predetermined destination by the repeater.
+The transmission method of claim 1, wherein the phase
+information comprises a phase difference between a block
+
+synchronous signal of communication data synchronized with
+the transmission reference clock and a synchronous signal of
+
+a device reference clock bet in the source device.
+A transmission method, used in a transmission system
+constructed by interconnecting a plurality of
+
+repeaters(RH1-RH5), each having at least one device(N1-N5)
+connected thereto, by a transmission line(3), for exchanging
+
+digital data between devices, between repeaters, or between
+a device and a repeater, the method comprising the steps of:
+
+
+setting a transmission reference clock which is the
+basis for an exchange of communication data between repeaters
+
+to an appropriate value in advance with reference to a
+plurality of device reference clocks set in at least one
+
+device;
+setting a number of bits of each unit block of
+communication data synchronized with the transmission
+
+reference clock and a number of bits of each unit block of
+plural device data synchronized with the plurality of device
+
+reference clocks respectively, to appropriate values in
+advance with reference to frequencies of the plurality of
+
+device reference clocks and a frequency of the transmission
+reference clock;
+demodulating, by a repeater, received communication
+data to device data synchronized with the device reference
+
+clock set in a destination device connected to the repeater,
+when the repeater receives communication data modulated to
+
+synchronize with the transmission reference clock and
+addressed to the destination device;
+extracting a phase information added at the time of
+modulation by using an empty area which is equivalent to a
+
+difference between a number of bits of each unit block of the
+device data and a number of bits of each unit block of the
+
+communication data synchronized with the transmission
+reference clock, at the time of demodulation by the repeater;
+
+and
+transmitting, by the repeater, the demodulated
+communication data to the destination device.
+The transmission method of claim 3, wherein the phase
+information comprises a phase difference betw
+een a block
+synchronous signal of communication data synchronized with
+
+the transmission reference clock and a synchronous signal of
+a device reference clock set in a source device.
+A transmission method, used in a transmission system
+constructed by interconnecting a plurality of
+
+repeaters(RH1-RH5), each having at least one device(N1-N5)
+connected thereto, by a transmission line(3), for exchanging
+
+digital data between devices, between repeaters, or between
+a device and a repeater, the method comprising the steps of:
+
+
+setting a transmission reference clock which is the
+basis for an exchange of communication data between repeaters
+
+to an appropriate value in advance with reference to a
+plurality of device reference clocks set in at least one
+
+device;
+setting a number of bits of each unit block of
+communication data synchronized with the transmission
+
+reference clock and a number of bits of each unit block of
+plural device data synchronized with the plurality of device
+
+reference clocks respectively, to appropriate values in
+advance with reference to frequencies of the plurality of
+
+device reference clocks and a frequency of the transmission
+reference clock;
+modulating, by a repeater, device data to communication
+data synchronized with the transmission reference clock, when
+
+the device data synchronized with the device reference clock
+set in a source device connected to the repeater is output
+
+from the source device;
+adding a phase information to be used to demodulate the
+modulated communication data into device data, to an empty
+
+area which is equivalent to a difference between a number of
+bits of each unit block of the device data and a number of
+
+bits of each unit block of the communication data synchronized
+with the transmission reference clock, at the time of the
+
+modulation by the repeater;
+transmitting the modulated communication data to a
+predetermined destination by the repeater;
+demodulating, by the repeater, received communication
+data to device data synchronized with the device reference
+
+clock set in a destination device connected to the repeater,
+when the repeater receives communication data modulated to
+
+synchronize with the transmission reference clock and
+addressed to the destination device;
+extracting the phase information added at the time of
+modulation by using the empty area which is equivalent to the
+
+difference between the number of bits of each unit block of
+the device data and the number of bits of each unit block of
+
+the communication data synchronized with the transmission
+reference clock, at the time of demodulation by the repeater;
+
+and
+transmitting, by the repeater, the demodulated
+communication data to the destination device.
+The transmission method of claim 5, wherein the phase
+information comprises a phase difference between a block
+
+synchronous signal of communication data synchronized with
+the transmission reference clock and a synchronous signal of
+
+a device reference clock set in the source device.
+A transmission system constructed by
+interconnecting a plurality of repeaters(RH1-RH5), each
+
+having at least one device(N1-N5) connected thereto, by a
+transmission line(3), for exchanging digital data between
+
+devices, between repeaters, or between a device and a repeater,
+each of the plurality of repeaters comprising:
+modulating means(11) for modulating device data to
+communication data synchronized with the transmission
+
+reference clock, when the device data synchronized with the
+device reference clock set in a source device connected to
+
+the repeater is output from the source device, the
+transmission reference clock being the basis for an exchange
+
+of communication data between repeaters and being set to an
+appropriate value in advance with reference to a plurality
+
+of device reference clocks set in at least one device;
+phase information adding means(11) for adding a phase
+information to be used to demodulate the modulated
+
+communication data into device data, to an empty area which
+is equivalent to a difference between a number of bits of each
+
+unit block of the device data and a number of bits of each
+unit block of the communication data synchronized with the
+
+transmission reference clock, at the time of the modulation
+by the modulating means(11), a number of bits of each unit
+
+block of the communication data synchronized with the
+transmission reference clock and a number of bits of each unit
+
+block of plural device data synchronized with the plurality
+of device reference clocks respectively being set to
+
+appropriate values in advance with reference to frequencies
+of the plurality of device reference clocks and a frequency
+
+of the transmission reference clock; and
+transmitting means for transmitting the communication
+data modulated by the modulating means(11) to a predetermined
+
+destination.
+The transmission system of claim 7, wherein the phase
+information comprises a phase difference between a block
+
+synchronous signal of communication data synchronized with
+the transmission reference clock and a synchronous signal of
+
+a device reference clock set in the source device.
+A transmission system constructed by
+interconnecting a plurality of repeaters(RH1-RH5), each
+
+having at least one device(N1-N5) connected thereto, by a
+transmission line (3), for exchanging digital data between
+
+devices, between repeaters, or between a device and a repeater,
+each of the plurality of repeaters comprising:
+
+
+demodulating means (13) for demodulating received
+communication data to device data synchronized with the
+
+device reference clock set in a destination device connected
+to the repeater, when the repeater receives communication
+
+data modulated to synchronize with the transmission reference
+clock and addressed to the destination device, the
+
+transmission reference clock being the basis for an exchange
+of communication data between repeaters and being set to an
+
+appropriate value in advance with reference to a plurality
+of device reference clocks set in at least one device;
+phase information extracting means (13) for extracting
+a phase information added at the time of modulation by using
+
+an empty area which is equivalent to a difference between a
+number of bits of each unit block of the device data and a
+
+number of bits of each unit block of the communication data
+synchronized with the transmission reference clock, at the
+
+time of demodulation by the demodulating means (13), a number
+of bits of each unit block of the communication data
+
+synchronized with the transmission reference clock and a
+number of bits of each unit block of plural device data
+
+synchronized with the plurality of device reference clocks
+respectively being set to appropriate values in advance with
+
+reference to frequencies of the plurality of device reference
+clocks and a frequency of the transmission reference clock;
+
+and
+transmitting means for transmitting the communication
+data demodulated by demodulating means(13) to the destination
+
+device.
+The transmission system of claim 9, wherein the
+phase information comprises a phase difference between a
+
+block synchronous signal of communication data synchronized
+with the transmission reference clock and a synchronous
+
+signal of a device reference clock set in a source device.
+A transmission system constructed by
+interconnecting a plurality of repeaters (RH1-RH5), each
+
+having at least one device(N1-N5) connected thereto, by a
+transmission line(3), for exchanging digital data between
+
+devices, between repeaters, or between a device and a repeater,
+
+each of the plurality of repeaters comprising:
+
+modulating means(11) for modulating device data to
+communication data synchronized with the transmission
+
+reference clock, when the device data synchronized with the
+device reference clock set in a source device connected to
+
+the repeater is output from the source device, the
+transmission reference clock being the basis for an exchange
+
+of communication data between repeaters and being set to an
+appropriate value in advance with reference to a plurality
+
+of device reference clocks set in at least one device;
+phase information adding means(11) for adding a phase
+information to be used to demodulate the modulated
+
+communication data into device data, to an empty area which
+is equivalent to a difference between a number of bits of each
+
+unit block of the device data and a number of bits of each
+unit block of the communication data synchronized with the
+
+transmission reference clock, at the time of the modulation
+by the modulating means(11), a number of bits of each unit
+
+block of the communication data synchronized with the
+transmission reference clock and a number of bits of each unit
+
+block of plural device data synchronized with the plurality
+of device reference clocks respectively being set to
+
+appropriate values in advance with reference to frequencies
+of the plurality of device reference clocks and a frequency
+
+of the transmission reference clock;
+first transmitting means for transmitting the
+communication data modulated by the modulating means(11) to
+
+a predetermined destination;
+demodulating means(13) for demodulating received
+communication data to device data synchronized with the
+
+device reference clock set in a destination device connected
+to the repeater, when the repeater receives communication
+
+data modulated to synchronize with the transmission reference
+clock and addressed to the destination device;
+phase information extracting means(13) for extracting
+the phase information added at the time of modulation by using
+
+the empty area which is equivalent to the difference between
+the number of bits of each unit block of the device data and
+
+the number of bits of each unit block of the communication
+data synchronized with the transmission reference clock, at
+
+the time of demodulation by the demodulating means (13); and
+second transmitting means for transmitting the
+communication data demodulated by demodulating means to the
+
+destination device.
+The transmission system of claim 11, wherein the
+phase information comprises a phase difference between a
+
+block synchronous signal of communication data synchronized
+with the transmission reference clock and a synchronous
+
+signal of a device reference clock set in the source device.
+</CLAIMS>
+</TEXT>
+</DOC>

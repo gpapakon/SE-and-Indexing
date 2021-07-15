@@ -1,0 +1,318 @@
+<DOC>
+<DOCNO>EP-0618533</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Apparatus and method for classifying and acquiring log data
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1114	G06F1114	G06F1134	G06F1134	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F11	G06F11	G06F11	G06F11	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Historical log data for a plurality of databases 
+(419a, 419b) are classified for the individual databases. 
+
+Alternatively, the historical log data associated with 
+the database and user log data are classified. The 
+
+classified log data are stored in a plurality of 
+nonvolatile buffers (414a, 414b). When the nonvolatile 
+
+buffers are full in storing, the contents of the 
+nonvolatile buffers are temporarily written into 
+
+historical log files (418a, 418b), following which the 
+classified log data are stored in the nonvolatile 
+
+buffers. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+FUJITSU LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+FUJITSU LIMITED
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+SUZUKI HITOSHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TADA MASAYUKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SUZUKI, HITOSHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TADA, MASAYUKI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to a management system for
+log data for use in recovery from crashes in a database.In a database system, a following recovery process
+is applied to prevent data loss when a system goes down.
+Backup files are maintained to store the most recent
+version of the data, and used commands are
+chronologically recorded as a log file. If the system
+goes down, it is brought back to its status at the time
+when a failure stopped the operation. In this event,
+the recovery process reruns the commands stored in the
+log file to the backup file. The present invention is
+directed to establish a management system for the log
+file used in this way.To facilitate understanding of the log file,
+updating of the database is first described. In a
+database system (hereinafter, also referred to as DB
+system), the management system performs transactions
+that update the database (hereinafter, also referred to
+as DB). The transaction is a collection of operations
+for performing a complete data operation. The
+transaction has features of completeness and continuity. 
+The completeness means "a status of the transaction is
+either successful or failure." The continuity means "a
+processing of a successful transaction will be ensured
+permanently."In the DB system, a history of all the updating
+operations made to the database (hereinafter, also
+referred to as a log data DB system) are recorded in a
+historical log file (HLF) to realize the transactions
+having the above mentioned features. The transaction is
+ended at the time when the log data are ensured in the
+historical log file (HLF), i.e., when the log data are
+recorded positively in the historical log file (HLF).Fig. 10 is a system structural diagram for use in
+illustrating update processing made to the DB. The
+database system comprises a plurality of terminals,
+allowing common use of the data stored in the database
+accessed by two or more persons. In Fig. 10, a terminal
+A (200a) and a terminal B (200b) are shown as the
+terminals. The database (hereinafter, represented by
+two databases DB-1 (201a) and DB-2 (201b)) is typically
+stored in an external storage (a first external storage
+(202)). The external storage (202) is connected to a
+central processing unit (203). Application programs A
+and B for use in accessing to the databases are operated
+on a main memory (204) of the central processing unit
+(203). The central processing unit (203) is also
+connected to a second external storage (205) that is 
+used for recording the historical log file (206). The
+historical log
+</DESCRIPTION>
+<CLAIMS>
+Apparatus for acquiring and classifying log
+data, for use in recovering from database crashes in a
+
+data processing system which has a plurality of
+databases (319a/b; 419a/b; 119a/b) and which executes
+
+transactions that involve updating data held by the
+databases, which apparatus comprises:
+
+
+log data acquiring means (311, 332; 411, 432; 111,
+132) for acquiring log data of the updated data for
+
+each individual such transaction;
+log data classifying means (310; 410; 110) for
+classifying the log data acquired by said log data
+
+acquiring means for each individual transaction into a
+plurality of groups of log data, each group
+
+corresponding to one of said databases;
+a plurality of buffers (314a/b; 414a/b; 114a/b,
+112a/b) corresponding respectively to the said groups
+
+of log data, each buffer serving to store log data of
+its corresponding group of log data;
+log data writing means (313; 413; 113) having
+access when the apparatus is in use to a storage
+
+storing a plurality of historical log files (318a/b;
+418a/b; 120a/b) corresponding respectively to the
+
+groups of log data, and operable to transfer the log
+data of each group from the said buffer corresponding
+
+to that group to the said historical log file
+corresponding to that group, such that the log data for
+
+a single transaction that updates data held by two or
+more databases is distributed and
+
+recorded in different ones of said historical log
+files;
+a transaction file (415; 115) for use in recording
+an audit trail of the transactions; and
+transaction end managing means (416; 118) for
+managing a transaction end in said transaction file, 
+
+said transaction end managing means recording the
+transaction end in said transaction file at the time
+
+when the log data is ensured in the historical log
+files of the storage in the case of end of the
+
+transaction.
+Apparatus as claimed in claim 1, wherein the
+said historical log files are held in an external
+
+storage (305; 405; 105a/b/c) of the data processing
+system.
+Apparatus as claimed in claim 1 or 2, wherein
+the said log data writing means operates asynchronously
+
+with the execution of the said transactions.
+Apparatus as claimed in any preceding claim,
+wherein said log data writing means transfers the log
+
+data of said groups of log data from said buffers into
+said historical log files in a parallel manner.
+Apparatus as claimed in any preceding claim
+further comprising a nonvolatile memory (401; 103),
+
+wherein said plurality of buffers are nonvolatile
+buffers (414a/b; 112a/b/c) provided on the nonvolatile
+
+memory.
+Apparatus as claimed in claim 5, further
+comprising a plurality of volatile buffers (114a/b/c)
+
+corresponding respectively to the said groups of log
+
+data, wherein the log data of each group are
+temporarily stored in the corresponding one of the
+
+volatile buffers and then transferred to the
+nonvolatile buffers.
+Apparatus as claimed in any preceding claim,
+wherein:
+
+
+the log data acquiring means (111, 132) acquires
+also user log data for user information for every one
+
+of said transactions of the data processing system;
+said log data classifying means (110) are further
+operable to classify the log data acquired by said log
+
+data acquiring means into a further group of log data 
+for the user log data; and
+the apparatus having a further buffer (114c,
+112c), corresponding to the said further group for the
+
+user log data, for storing user log data that has been
+classified by the log data classifying means as
+
+belonging to the further group; and
+the said log data writing means (113) having
+access when the apparatus is in use to a further
+
+historical log file (120c) corresponding to the further
+group, and being operable to transfer the user log data
+
+of that further group from the said buffer
+corresponding to that group to the said historical log
+
+file corresponding to that group.
+Apparatus as claimed in claim 7, wherein the
+said user log data includes statistic information for
+
+system tuning and/or accounting information for a user.
+A method for acquiring and classifying log
+data, for use in recovering from database crashes in a
+
+data processing system which has a plurality of
+databases (319a/b; 419a/b; 119a/b) and which executes
+
+transactions that involve updating data held by the
+databases, which method comprises the steps of:
+
+
+acquiring (figure 4: 6, 6') log data of the
+updated data for each individual such transaction;
+classifying the acquired log data for each
+individual transaction into a plurality of groups of
+
+log data, each group corresponding to one of said.
+databases;
+storing (figure 4: 8, 8') the log data classified
+as belonging to a particular group of log data in that
+
+one of a plurality of buffers (314a/b; 414a/b; 114a/b,
+112a/b) which corresponds to that particular group of
+
+log data;
+transferring (figure 4: 9, 9') the log data of
+each group of log data from the buffer corresponding to
+
+that group into a corresponding historical log file 
+from a plurality of such historical log files (318a/b;
+
+418a/b; 120a/b) corresponding respectively to the
+groups of log data, such that the log data for a single
+
+transaction that updates data held by two or more
+databases is distributed and
+
+recorded in different ones of said historical log
+files; and
+managing (Figure 4: 11, 13) a transaction end in a
+transaction file (415; 115) used for recording an audit
+
+trail of the transactions, the transaction end being
+recorded in said transaction file at the time when the
+
+log data is ensured in the historical log files in the
+case of end of the transaction.
+A method as claimed in claim 9, wherein the
+said buffers are nonvolatile buffers.
+A method as claimed in claim 10, wherein the
+log data of said groups of log data stored in the
+
+nonvolatile buffers are transferred into the historical
+log files if the nonvolatile buffers are full before
+
+the classified log data are stored in the nonvolatile
+buffers, following which the classified log data are
+
+stored in the nonvolatile buffers.
+A method as claimed in claim 10 or 11,
+wherein the log data of said classified groups of log
+
+data are temporarily stored in a plurality of volatile
+buffers before being written into the nonvolatile
+
+buffers.
+A method as claimed in any one of claims 9 to
+12, wherein:
+
+
+in the step (Fig. 4: 6, 6') of acquiring log data
+the acquired log data also includes user log data for
+
+user information for every one of said transactions of
+the data processing system;
+in the step of classifying the acquired log data,
+the acquired log data is classified also into a further
+
+group of log data for the user log data; 
+in the step (Fig. 4: 8, 8') of storing the
+classified log data, log data classified as belonging
+
+to the further group is stored in a further buffer
+(114a/c, 112a/c) which corresponds to the further
+
+group; and
+in the step (Fig. 4: 9, 9') of transferring the
+log data, the user log data stored in the further
+
+buffer corresponding to the further group is
+transferred into a further historical log file (120c)
+
+corresponding to that further group.
+A method as claimed in claim 13, wherein the
+said user log data includes statistic information for
+
+system tuning and/or accounting information for a user.
+</CLAIMS>
+</TEXT>
+</DOC>

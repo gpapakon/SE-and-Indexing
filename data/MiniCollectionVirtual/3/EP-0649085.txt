@@ -1,0 +1,211 @@
+<DOC>
+<DOCNO>EP-0649085</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Microprocessor pipe control and register translation
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F922	G06F938	G06F938	G06F922	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A pipelined processor uses pipe control and register translation to maximize 
+instruction flow through, in an exemplary embodiment, the execution pipelines of a 
+
+superscalar, superpipelined microprocessor compatible with the x86 instruction set 
+architecture. The pipe control logic simultaneously issues instructions into X and Y 
+
+pipelines without regard to data dependencies between those instructions issued 
+instructions, and in particular without regard to read-after-write dependencies. Pipe 
+
+switching allows instructions to be issued into either execution pipeline so as to minimize 
+stalls due to data dependencies between instructions. Instruction flow is controlled 
+
+independently for each pipeline, with data dependencies between instructions being 
+monitored at each stage of a pipeline. A register translation unit implements register 
+
+renaming to eliminate write-after-read and write-after-read dependencies, and data 
+forwarding (both operand forwarding and result forwarding) to eliminate read-after-write 
+
+dependencies through the pipelines is controlled independently. The register translation 
+unit controls the mapping of the eight x86 logical registers into 32 physical registers, 
+
+including maintaining for each physical register status as to availability, logical register 
+allocation, and write pending -- allocations of physical registers are based on operand size. 
+
+Instructions are allowed to proceed to execution once it has been determined that the 
+instruction can no longer cause an exception, permitting out-of-order completion. 
+
+Checkpoint and Exception registers in the register translation unit support speculative 
+execution, permitting pipeline recovery and repair after an instruction exception, branch 
+
+misprediction , or floating point error. A microcontrol unit provides independent 
+microinstruction flows for both pipelines, enabling, for selected instruction: (a) both 
+
+execution stages to be used to execute the same instruction, and (b) control of the register 
+translation unit. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+</APPLICANTS>
+<INVENTORS>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates in general to microprocessors and to methods of
+allocating registers in microprocessors.In the design of a microprocessor, instruction throughput i.e. the number of
+instructions executed per second, is of primary importance. The number of
+instructions executed per second may be increased by various means. The most
+straightforward technique for increasing instruction throughput is by increasing
+frequency at which the microprocessor operates. Increased operating frequency,
+however, is limited by fabrication techniques and also results in the generation of
+excess heat.Thus, modern day microprocessor designs are focusing on increasing the
+instruction throughput by using design techniques which increase the average number
+of instructions executed per clock cycle period. One such technique for increasing
+instruction throughput is "pipelining". Pipelining techniques segment each instruction
+flowing through the microprocessor into several portions, each of which can be
+handled by a separate stage in the pipeline. Pipelining increases the speed of a
+microprocessor by overlapping multiple instructions in execution. For example, if
+each instruction could be executed in six stages, and each stage required one clock
+cycle to perform its function, six separate instructions could be simultaneously
+executed (each executing in a separate stage 
+of the pipeline) such that one instruction was completed on each clock cycle. In this ideal
+scenario, the pipelined architecture would have an instruction throughput which was six
+times greater than the non-pipelined architecture, which could complete one instruction
+every six clock cycles.A second technique for increasing the speed of a microprocessor is by designing it
+to be a "superscalar." In a superscalar architecture, more than one instruction is issued per
+clock cycle. If no instructions were dependent upon other instructions in the flow, the
+increase in instruction throughput would be proportional to the degree of scaleability.
+Thus, if an architecture were superscalar to degree 2 (meaning that two instructions issued
+upon each clock cycle), then the instruction throughput in the machine would double.A microprocessor may be both superpipelined (an instruction pipeline with many
+stages is referred to as "superpipelined") and superscalar to achieve a high instruction
+throughput. However, the operation of such a system in practice is far from the ideal
+situation where each instruction can be neatly executed in a given number of pipe stages
+and where
+</DESCRIPTION>
+<CLAIMS>
+A microprocessor (10) including a register renaming apparatus (25), the
+microprocessor having at least one instruction pipeline (102, 104) with a plurality of
+
+stages for processing a stream of instructions, and having a plurality of logical
+registers (EAX, etc.), the stream of instructions including write instructions that when
+
+processed addressably write to a logical register, the microprocessor comprising:
+
+a plurality of physical registers (24) exceeding in number the plurality of
+logical registers (EAX, etc); and
+register translation circuitry (25a) coupled to said at least one instruction
+pipeline (102, 104) and to said physical registers (24), said register translation
+
+circuitry (25a) being operable to allocate, for each write instruction processed, a
+physical register to said logical register;
+
+   characterised in that:
+
+said write instructions include write instructions that when processed
+addressably write to a logical register which has multiple addressable portions; and
+when a current write instruction and a previous write instruction addressably
+write to the same multiple addressable portions logical register, said register
+
+translation circuitry (25a) performs a comparison of which portion of said logical
+register for said current write instruction is addressed with an indication identifying
+
+which portion of said same logical register for said previous write instruction was
+addressed, and selectively allocates a new physical register or stalls the current write
+
+instruction based on the result of said comparison.
+A microprocessor according to Claim 1, wherein the addressable portions of
+said logical register having multiple addressable portions are selected from the group
+
+consisting of: byte; word; and doubleword.
+A microprocessor according to Claim 1 or Claim 2, wherein the
+microprocessor is an x86-based microprocessor, and wherein said logical register
+
+having multiple addressable portions is selected from the group consisting of: EAX;
+EBX; ECX; EDX; EDI; ESI; EBP; and ESP. 
+A microprocessor according to any of Claims 1-3, wherein said register
+translation circuitry (25a) determines whether the portion of said logical register
+
+having multiple addressable portions addressed by said current write instruction
+encompasses the portion of said logical register addressed by said previous write
+
+instruction.
+A microprocessor according to Claim 4, wherein said register translation
+circuitry (25a) allocates said new physical register to said logical register if the
+
+portion of said logical register addressed by said current instruction encompasses the
+portion of said logical register addressed by said previous instruction.
+A microprocessor according to Claim 4 or Claim 5, wherein said register
+translation circuitry (25a) does not allocate said new physical register to said logical
+
+register having multiple addressable portions if the portion of said logical register
+addressed by said current instruction does not encompass the portion of said logical
+
+register addressed by said previous instruction.
+A microprocessor according to any one of Claims 1-6, wherein all of said
+plurality of logical registers (EAX, etc) have multiple addressable portions.
+A microprocessor according to any one of Claims 1-7, wherein said indication
+comprises a stored code corresponding to an addressed portion of said logical register
+
+for said previous write instruction and of said physical register assigned thereto.
+A microprocessor according to any one of Claims 1-8, wherein said previous
+write instruction is a pending write instruction.
+A method of allocating registers in a microprocessor (10) having at least one
+instruction pipeline (102, 104) with a plurality of stages for processing a stream of
+
+instructions, and having a plurality of logical registers (EAX, etc), the stream of
+instructions including write instructions that when processed addressably write to a
+
+logical register, the method comprising: 
+
+allocating, for each of said write instructions processed, one of plurality of
+physical registers (24) to said logical register wherein said plurality of physical
+
+registers exceed in number the plurality of logical registers; and
+the method being characterised in that:
+said write instructions include write instructions that when processed
+addressably write to a logical register which has multiple addressable portions; and
+when a current write instruction and previous write instruction addressably
+write to the same multiple addressable portions logical register, a comparison is
+
+performed of which portion of said logical register for said current write instruction
+is addressed with an indication identifying which portion of said logical register for
+
+said previous write instruction was addressed, and a new physical register is
+selectively allocated or the current write instruction is stalled based on the result of
+
+said comparison.
+A method according to Claim 10, wherein the addressable portions of said
+logical register having multiple addressable portions are selected from the group
+
+consisting of: byte; word; and doubleword.
+A method according to Claim 10 or Claim 11, wherein the microprocessor is
+an x86-based microprocessor, and wherein said logical register having multiple
+
+addressable portions is selected from the group consisting of: EAX; EBX; ECX;
+EDX; EDI; ESI; EBP; and ESP.
+A method according to any of Claims 10-12, wherein said step of selectively
+allocating includes determining whether the portion of said logical register having
+
+multiple addressable portions addressed by said current write instruction encompasses
+the portion of said logical register addressed by said previous write instruction.
+A method according to Claim 13, wherein said step of selectively allocating
+includes allocating said new physical register to said logical register if the portion of
+
+said logical register addressed by said current instruction encompasses the portion of
+said logical register addressed by said previous instruction. 
+A method according to Claim 13 or Claim 14, wherein said step of selectively
+allocating includes not allocating said new physical register to said logical register if
+
+the portion of said logical register addressed by said current instruction does not
+encompass the portion of said logical register addressed by said previous instruction.
+A method according to any one of Claims 10-15, wherein all of said plurality
+of logical registers (EAX, etc) have multiple addressable portions.
+A method according to any one of Claims 10-16, wherein said indication
+comprises a stored code corresponding to an addressed portion of said logical register
+
+for said previous write instruction and of said physical register assigned thereto.
+A method according to any one of Claims 10-17, wherein said previous write
+instruction is a pending write instruction.
+</CLAIMS>
+</TEXT>
+</DOC>

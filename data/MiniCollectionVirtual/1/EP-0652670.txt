@@ -1,0 +1,183 @@
+<DOC>
+<DOCNO>EP-0652670</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Image encoding apparatus and method.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T900	G06T900	H04N1413	H04N1413	H04N1419	H04N1419	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	H04N	H04N	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T9	G06T9	H04N1	H04N1	H04N1	H04N1	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An image encoding apparatus comprises a counter 
+for counting a run length of an input pixel signal, an 
+
+encoder for outputting a code corresponding to the 
+count of the counter, and a decompressor for 
+
+decompressing the compressed code outputted from the 
+encoder. The encoder outputs a compressed code having 
+
+a data width of N bits (N = M + L) with M high order 
+bits representing a code length of an original code 
+
+and L low order bits representing a compressed code 
+representing L low order bits of the original code. 
+
+When the code length of the original code is less than L 
+bits, the encoder outputs the compressed code with the 
+
+original code being placed in the high order bits 
+starting from the high order end and 0 bits being filled 
+
+in the remaining low order bits. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+CANON KK
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+CANON KABUSHIKI KAISHA
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+KAIZU SHUNICHI C O CANON KABUS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MINAMI YUJI C O CANON KABUSHIK
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KAIZU, SHUNICHI, C/O CANON KABUSHIKI KAISHA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MINAMI, YUJI, C/O CANON KABUSHIKI KAISHA
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to image encoding 
+apparatus and method by the modified Huffman (MH), the 
+modified READ (MR) and the modified READ (MMR) 
+encoding systems, and more particularly to image 
+encoding apparatus and method which perform real time 
+processing. Fig. 5 shows a block diagram of a prior art image 
+encoding apparatus by the MH, MR and MMR systems. For one-dimension encoding, a pixel signal passed 
+through an input circuit 101 is supplied to a run length 
+counter 102. The number of continuous white or black 
+pixels (run length) is counted by the run length counter 
+102. A ROM address generation circuit 503 generates an 
+address for accessing a reference table ROM 504 based 
+on the count (run length) of the run length counter 102. 
+MH codes for the run lengths are written in the reference 
+table ROM 504 and an output therefrom is outputted as an 
+encoded code through an output circuit 107. On the other hand, for two-dimension encoding, 
+the pixel signal passed through the input circuit 101 is 
+supplied to a line FIFO 108 and a relative pixel 
+position extract circuit 109. The line FIFO is provided  
+ 
+to refer data of previous line to the currently 
+scanned line in the two-dimension encoding, and the 
+relative pixel position extract circuit 109 refers the 
+data stored in the line FIFO 108 to extract a relative 
+position of a pixel color change point of the currently 
+scanned line and that of the previous line. In 
+accordance with the result of the relative pixel position 
+extract circuit 109, a two-dimension code generation 
+circuit 511 generates a code so that the encoded code 
+is outputted through the output circuit 107. The above MH code is a variable length code. 
+For example, a shortest length code is a 2-bit code 
+such as "11" corresponding to a black pixel having a run 
+length of 2 while a longest length code is 13-bit code 
+such as "0000001101100" corresponding to a black pixel 
+having a run length of 512. In addition to those codes, when the MH code is 
+applied to the MR code or the MMR code, a color 
+identification code and an encoding mode identification 
+bit are required. Further, in a packing process in the 
+output unit, it may be necessary to conduct a code 
+shift process by using the code length of the MH code 
+resulting from the encoding. Considering these 
+situations, 19 or 20 bits are required for the data 
+length of the data outputted by encoding the run length. Thus, the ROM for processing such variable 
+length code is of large scale.  On the other hand, in the
+</DESCRIPTION>
+<CLAIMS>
+An image encoding apparatus comprising: 
+   counter means for counting a run length of an 
+
+input pixel signal; 
+   encoding means for outputting a code corresponding 
+
+to the count of said counter means; 
+   said encoding means outputting a compressed code 
+
+having a data width of N bits (N = M + L) with M high 
+order bits representing a code length of an original 
+
+code and L low order bits representing a compressed code 
+representing L low order bits of the original code; and 
+
+   decompression means for decompressing the 
+compressed code outputted from said encoding means. 
+An image encoding apparatus according to 
+Claim 1, wherein when the code length of the original 
+
+code is less than L bits, said encoding means outputs the 
+compressed code with the original code being placed in 
+
+the high order bits starting from the high order end and 
+0 bits being filled in the remaining low order bits. 
+An image encoding apparatus according to 
+Claim 1, wherein said decompression means decompresses 
+
+the compressed code to the original code by shifting the 
+L low order bits data in accordance with the code length 
+
+represented by the M high order bits of the compressed 
+code. 
+An image encoding apparatus according to 
+Claim 1, wherein said encoding means includes a table 
+
+for outputting the N-bit compressed code in accordance 
+with the address based on the count of said counter 
+
+means. 
+An image encoding apparatus according to 
+Claim 1, further comprising determination means for 
+
+determining a relative pixel position in a current line 
+and a previous line, wherein said encoding means outputs 
+
+a compressed two-dimension code in accordance with a 
+determination result of said determination me
+ans. 
+An encoding method comprising the steps of: 
+   counting a run length of an input pixel signal; 
+
+   encoding a code corresponding to the counted run 
+length to output a compressed code having a data width 
+
+of N bits (N = M + L) with M high order bits representing 
+a code length of an original code and L low order bits 
+
+representing L low order bits of the original code; and 
+   decompressing the outputted compressed code to 
+
+the original code. 
+An encoding method according to Claim 6, 
+wherein when the code length of the original code is less 
+
+than L bits, said encoding step outputting the compressed 
+code with the original code being placed in the L low 
+
+ 
+order bits starting from the high order end and 0 bits 
+
+being filled in the remaining low order bits. 
+Apparatus for encoding image data comprising 
+means for encoding an input pixel signal in accordance 
+
+with its run length, and means for generating compressed 
+code from the lower order bits of the encoded signal. 
+</CLAIMS>
+</TEXT>
+</DOC>

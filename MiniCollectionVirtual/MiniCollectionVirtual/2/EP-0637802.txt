@@ -1,0 +1,317 @@
+<DOC>
+<DOCNO>EP-0637802</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Interrupt vector method and apparatus.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F932	G06F932	G06F946	G06F948	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An interrupt vector approach for a processor system 
+loads an interrupt vector directly into an address 
+
+register to minimize overhead of processing interrupts. 
+A plurality of interrupt triggers correspond to a 
+
+plurality of interrupt vector registers, each containing 
+a programmable interrupt vector. Upon activation of one 
+
+of the interrupt triggers, the contents of the 
+corresponding interrupt vector is loaded into a slot 
+
+memory address counter. The address counter addresses a 
+sequencer slot memory which contains the starting 
+
+addresses of sequences of instructions stored in -an 
+instruction memory. An instruction address counter 
+
+receives addresses from the sequencer slot memory and 
+provides addresses to the instruction memory. Upon 
+
+activation of said one of the interrupt triggers, 
+execution of one of the sequences beginning at the 
+
+address contained in the interrupt register corresponding 
+to the active interrupt trigger is begun, and addresses 
+
+of the sequences in sequencer slot memory are 
+sequentially loaded into the instruction address counter 
+
+until a stop bit is indicated in a word in the sequencer 
+slot memory. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+ADVANCED MICRO DEVICES INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+ADVANCED MICRO DEVICES INC
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+FREEMSTER RYAN E
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+STEWART BRETT
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FREEMSTER RYAN E
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+STEWART BRETT
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates generally to a method 
+and apparatus for responding to interrupts. For example, 
+it may relate to a vectoring scheme in which 
+vectors previously loaded into interrupt registers can be 
+immediately loaded into address counters upon activation 
+of an interrupt and utilized efficiently by a plurality 
+of processors. A number of interrupt schemes are well known in the 
+art. Typical interrupt schemes involve fetching an 
+address vector from a specified location in memory upon 
+activation of interrupt. Interrupt schemes also 
+typically push information onto a stack in memory to save 
+key registers. This way program execution can be 
+restarted at the same memory location at which the 
+program was executing when the interrupt occurred. In a typical sequence, a processor pushes all current 
+registers onto the stack upon receipt of an interrupt, 
+fetches the interrupt vector from a specified place in 
+memory and executes the interrupt routine. Following 
+execution of the interrupt routine, the information is 
+pulled off the stack and normal execution is resumed. However, in a system in which interrupts are 
+routinely used to signal the start of a processing 
+function, and in which the response time of the system is 
+limited, the overhead involved in traditional interrupt 
+schemes is excessive. This overhead manifests itself in 
+the number of clock cycles required to go to memory, 
+fetch the correct vector, and load it into the program 
+counter. Accordingly, a more efficient interrupt  
+ 
+approach is required to meet the needs of an interrupt 
+driven system with limited time resources. Additionally, in an environment requiring 
+synchronization of both synchronous and asynchronous 
+routines in a plurality of signal processors, more 
+efficient use of processors is desirable where the 
+processing is intensive and synchronous trigger rates are 
+high. Typical approaches have involved some sort of load 
+and lock to assure correct communication among sequential 
+tasks in a plurality of processors. We will describe 
+an interrupt approach that minimizes the time to 
+respond to activation of an interrupt. This is 
+accomplished by beginning execution of the interrupt 
+routine in a minimum number of clock cycles. We will 
+also describe an 
+architecture and method which can advantageously utilize 
+this interrupt vector scheme in a variety of applications 
+requiring fast response to certain predetermined events. We will describe 
+an apparatus and a method to efficiently synchronize 
+routines in a
+</DESCRIPTION>
+<CLAIMS>
+An apparatus for processing a plurality of 
+interrupts in a processor system, comprising: 
+
+   a plurality of interrupt vector registers containing 
+a programmable interrupt vector; 
+
+   a plurality of interrupt trigger inputs corresponding 
+to each of said interrupt vector registers ; 
+
+   a multiplexer directly connected to said interrupt 
+vector registers; 
+
+   control logic for controlling said multiplexer to 
+select one of said interrupt vectors as said selected 
+
+interrupt vector upon activation of a corresponding one 
+of said interrupt triggers; and 
+
+   a slot memory address counter receiving a selected 
+interrupt vector through said multiplexer, said slot 
+
+memory address being controlled by said control logic to 
+load said selected interrupt vector. 
+An apparatus as recited in claim 1 further 
+comprising: 
+
+   a sequencer slot memory addressed by said slot memory 
+address counter, said sequencer slot memory containing 
+
+addresses of a plurality of sequences of instructions 
+stored in an instruction memory; 
+
+   an instruction address counter receiving addresses 
+from said sequencer slot memory and providing addresses 
+
+to said instruction memory; and 
+   sequencer control logic to load said instruction 
+
+address counter from said sequencer slot memory according 
+to said slot memory address counter, and to control 
+
+execution of said sequences. 
+An apparatus as recited in claim 2, wherein one 
+of said sequences is executed upon activation of said one 
+
+of said interrupt triggers, execution of said one of said 
+sequences beginning at the address contained in one of 
+
+said interrupt registers corresponding to said interrupt 
+
+ 
+trigger, and addresses of said sequences in said 
+
+sequencer slot memory are sequentially loaded into said 
+instruction address counter until a stop bit is indicated 
+
+in a word in said sequencer slot memory. 
+An apparatus as recited in claim 3, wherein said 
+vector registers are writable from a bus so that devices 
+
+with access to said bus can write said vector registers. 
+An apparatus as recited in claim 1, wherein said 
+interrupts include a first interrupt of a first type and 
+
+a second interrupt of a second type, said first type 
+being assigned a higher priority than said second type. 
+An apparatus as recited in claim 5, wherein said 
+control logic further comprises means for enabling and 
+
+disabling said first and second interrupts separately. 
+An apparatus as recited in claim 5, wherein said 
+control logic further comprises means for loading said 
+
+slot memory address counter with said selected interrupt 
+vector and for beginning execution of one of said 
+
+sequences upon activation of said first interrupt. 
+An apparatus as recited in claim 7, wherein said 
+control logic further comprises means for loading said 
+
+slot memory address counter with said selected interrupt 
+vector and beginning execution of one of said sequences 
+
+upon activation of said second interrupt. 
+An apparatus as recited in claim 8, wherein said 
+control logic further comprises means for delaying 
+
+execution of one of said sequences pointed to by said 
+selected interrupt vector, on activation of said second 
+
+interrupt vector, until activation of said first 
+interrupt vector. 
+An apparatus as recited in claim 9, wherein said 
+control logic further comprises means for delaying 
+
+execution of one of said sequences pointed to by an 
+interrupt vector corresponding to said second interrupt, 
+
+after activation of said second interrupt, until 
+activation of said first interrupt and completion of 
+
+execution of a sequence pointed to by an interrupt vector 
+corresponding to said first interrupt. 
+An apparatus as recited in claim 10, wherein 
+said first interrupt is synchronous and said second 
+
+interrupt is asynchronous. 
+An apparatus as recited in claim 4, wherein a 
+first group of said interrupt triggers are latches 
+
+writable from said bus and a second group of interrupt 
+triggers are activated by an active signal on an input 
+
+pin. 
+A method of responding to interrupts from a 
+plurality of interrupt triggers in a processor system, 
+
+the method comprising the steps of: 
+   loading a plurality of interrupt vector registers 
+
+corresponding to said interrupt triggers, each of said 
+interrupt vector registers containing a programmable 
+
+interrupt vector; 
+   activating at least one of a plurality of interrupt 
+
+triggers; 
+   selecting one of said interrupt vectors as a selected 
+
+interrupt vector upon activation of a corresponding one 
+of said interrupt triggers with a multiplexer; 
+
+   loading a slot memory address counter with the 
+contents of said selected interrupt vector. 
+A method for co-tasking among a plurality of 
+processors, including a first and second processor, 
+
+comprising the steps of:
+ 
+
+   said first processor responding to a first trigger 
+and executing a first set of routines related to a first 
+
+task in response to said first trigger; 
+   said second processor responding to a second trigger 
+
+and executing a second set of routines related to a 
+second task, in response to said second trigger; 
+
+   said second processor placing the results of 
+execution of said second set of routines in a mailbox 
+
+providing uni-direction communication between said 
+processors; 
+
+   said second processor triggering said first processor 
+after placing said result in said mailbox; and 
+
+   said first processor executing a third set of 
+routines related to said second task in response to 
+
+triggering by said second processor, after completing a 
+first set of routines, thereby providing assistance to 
+
+said second processor in executing said second task. 
+An apparatus for co-tasking among a plurality 
+of processors, comprising: 
+
+      a first processor having means for responding 
+to a first trigger and for executing a first set of 
+
+routines related to a first task in response to said 
+first trigger; 
+
+   a mailbox accessible by each of said processors 
+providing unidirectional communication between each of 
+
+said processors; 
+   a second processor having means for responding to a 
+
+second trigger and for executing a second set of routines 
+related to a second task in response to said second 
+
+trigger, said second processor having means to trigger 
+said first processor upon placing results from said 
+
+second set of routines in said mailbox; 
+   said first processor having means for reading said 
+
+results from said mailbox and executing a third set of 
+routines related to said second task using said results 
+
+after completing said first set of routines related to 
+said first task. 
+An apparatus as recited in claim 15 wherein said 
+first trigger is synchronous and said second trigger is 
+
+asynchronous. 
+</CLAIMS>
+</TEXT>
+</DOC>

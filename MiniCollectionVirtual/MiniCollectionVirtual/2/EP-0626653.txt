@@ -1,0 +1,281 @@
+<DOC>
+<DOCNO>EP-0626653</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Image processing system
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T900	H04N726	G06F938	G06F938	G06F932	G06F946	G06F946	G06T120	H04N726	G06T900	G06F932	G06T120	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	H04N	G06F	G06F	G06F	G06F	G06F	G06T	H04N	G06T	G06F	G06T	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T9	H04N7	G06F9	G06F9	G06F9	G06F9	G06F9	G06T1	H04N7	G06T9	G06F9	G06T1	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The present invention relates to a system for processing compressed image data arriving in packets, these packets being separated by headers comprising parameters. A memory bus (MBUS) is managed by a memory controller (24) in order to exchange data between processing elements and an image memory (15). A pipeline circuit (11, 12, 13) comprises several processing elements and a parameter bus (VLDBUS) serves to supply packets to be processed to the pipeline circuit as well as parameters to elements of the pipeline circuit. This parameter bus is managed by a circuit VLD which receives compressed data from the memory bus and which comprises a header detector in order to supply the parameters to the elements of the pipeline circuit and to other elements of the system which require them. 
+<
+IMAGE
+>
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+ST MICROELECTRONICS SA
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+STMICROELECTRONICS S.A.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+ARTIERI ALAIN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ARTIERI, ALAIN
+</INVENTOR-NAME>
+</INVENTORS>
+<CLAIMS>
+A system for processing compressed image data
+arriving by packets corresponding to picture blocks, said
+
+data packets being separated by headers containing
+decoding parameters of said packets, said system
+
+including several processing elements using said decoding
+parameters, and a memory bus (MBUS) controlled by a
+
+memory controller (24) to exchange said data between the
+processing elements at rates adapted to the processing
+
+rates of said elements, and to store in said picture
+memory (15) waiting to be processed or for being re-used;
+
+   
+characterized in that
+ said system for processing
+compressed image data comprises a pipeline circuit (11,
+
+12, 13) containing a plurality of said processing
+elements connected to serially process said data packets;
+
+and a parameter bus (VLDBUS) to provide said packets to
+be processed to the pipeline circuit, as well as the
+
+decoding parameters to elements of the system, said
+parameter bus being controlled by a master processing
+
+element (VLD, 10) that receives the compressed data from
+the memory bus, that extracts the packets and the
+
+decoding parameters therefrom through a header detector.
+The system of claim 1, 
+characterized in that
+ each
+packet of compressed image data is preceded by a block
+
+header, and the packets come in successive groups, each
+group of packets being preceded by a group header
+
+containing group decoding parameters as well as,
+possibly, private and on-screen display information, the
+
+system further including:
+
+a processor bus (PBUS) controlled by a microprocessor
+(60) to supply the group decoding parameters and the 
+
+private and on-screen display information to the system
+elements requiring them;
+a buffer memory (64) accessible by the processor
+bus, receiving the compressed image data through the
+
+memory bus; and
+a group header detector (66) cooperating with said
+buffer memory to generate interruptions of the microprocessor.
+The system of claim 1 or 2, 
+characterized in that
+
+a transfer of data between two elements connected to the
+memory bus (MBUS) corresponds to a specific task that is
+
+initiated or continued when one of the two elements
+issues a reque
+st to provide or to receive data, all the
+possible tasks being concurrent tasks that are carried
+
+out by the memory controller (24) according to a task
+priority management.
+The system of claim 3, 
+characterized in that
+ the
+elements which exchange data with the picture memory (15)
+
+are connected to the memory bus (MBUS) through respective
+write- or read-only buffer memories,
+
+
+a write-only buffer memory being emptied by the associated
+element and issuing a request to receive data
+
+through the memory bus when its content reaches a lower
+limit, and
+a read-only buffer memory being filled by the associated
+element and issuing a request to provide data on the
+
+memory bus when its content reaches an upper limit.
+The system of claim 4, 
+characterized in that
+ it
+includes:
+
+
+a variable length decoder (VLD) forming said master
+processing element;
+a run-level decoder (RLD) forming a first element
+of the pipeline circuit and receiving through the parameter 
+
+bus (VLDBUS) the packets processed by the variable
+length decoder;
+an inverse quantizer circuit (Q
+-1
+) forming a second
+element of the pipeline circuit and receiving quantizer
+
+scale coefficients through the parameter bus;
+an inverse cosine transform circuit (DCT
+-1
+) forming
+a third element of the pipeline circuit;
+the memory controller (24) receiving movement compensation
+vectors through the parameter bus;
+a filter (14) receiving block types through the
+parameter bus, said filter issuing distinct requests,
+
+according to the block types, to receive corresponding
+data provided on the memory bus as a function of the vectors
+
+received by the memory controller; and
+an adder (16) to provide on the memory bus the sum
+of the outputs of the filter and of the cosine transform
+
+circuit.
+The system of claim 5, 
+characterized in that
+ the
+group header detector (66) generates interruptions of the
+
+microprocessor (60) when the associated buffer memory
+(64) contains a picture sequence header or a picture
+
+header, the microprocessor being programmed to respond to
+these interruptions by reading, in the buffer memory
+
+associated with the group header detector, quantizer
+tables that the microprocessor provides to the inverse
+
+quantizer circuit (Q
+-1
+), information on the picture type
+and on the amplitude of the movement compensation vectors
+
+that the microprocessor provides to the variable length
+decoder (VLD), and information on the display
+
+configuration that the microprocessor provides to a
+display controller (18) which receives the decoded data
+
+through the memory bus. 
+The system of claim 3, 
+characterized in that
+ the
+memory controller includes:
+
+
+an instruction memory (54), independent of said
+memory bus (MBUS), in which are stored the program
+
+instructions corresponding respectively to transfer tasks
+on the memory bus;
+a command processing unit (IPROC) that is connected
+to the instruction memory in order to receive therefrom
+
+successive instructions to be executed, and that is connected
+to act on said memory bus (MBUS) in response to
+
+these instructions;
+a plurality of instruction pointers (IP) associated
+respectively to possible tasks and each including the
+
+current instruction address to be executed of the associated
+task, one only of said pointers being enabled at a
+
+time to provide its content as an instruction address to
+the instruction memory;
+a priority decoder (52) assigning a predetermined
+priority level to each request (RQ) and enabling the
+
+instruction pointer associated with the active request
+having the highest priority level; and
+means (56) for incrementing the content of the
+enabled instruction pointer and for reinitializing it at
+
+the address of the associated program start when its content
+reaches the end address of the associated program.
+The system of claim 7, 
+characterized in that
+ each
+instruction (I) includes a command field (I2) that is
+
+provided to the processing unit and a feature field (I1)
+provided to a prefix decoder (58) including:
+
+
+means (NEXTEN) for authorizing the enabling of a
+new instruction pointer by the priority decoder if the
+
+feature field of the current instruction is at a first
+predetermined value; and 
+means (INIT) for initializing the content of the
+enabled instruction pointer to the start address of the
+
+current program if the feature field of the current
+instruction is at a second predetermined value.
+The system of claim 8, 
+characterized in that
+ the
+prefix decoder (58) includes means (INH) for inhibiting
+
+the incrementation of the enabled instruction pointer if
+the feature field is at a third predetermined value, so
+
+that the current instruction is executed consecutively
+several times, the number of executions being determined
+
+by this third value.
+The system of claim 7, 
+characterized in that
+ each
+instruction (I) includes a command field (I2) provided to
+
+the processing unit and an acknowledge field (I3)
+provided to means (59) for, when the instruction is being
+
+executed, enabling at least one buffer memory connected
+to the memory bus.
+The system of claim 7, 
+characterized in that
+ the
+processing unit includes a plurality of hard wired
+
+functions (50-1) for the calculation of addresses, each
+function being selected by a field (I4) of a read or
+
+write instruction that is being executed.
+The system of claim 11, 
+characterized in that
+
+with each hard wired function is associated an address
+register (AR) connected to the memory bus, wherein the
+
+hard wired function suitably modifies the content of its
+address register each time an instruction is executed in
+
+the processing unit (ALU).
+</CLAIMS>
+</TEXT>
+</DOC>

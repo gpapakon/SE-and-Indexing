@@ -1,0 +1,290 @@
+<DOC>
+<DOCNO>EP-0635790</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Client/server based secure timekeeping system
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04L932	G06F1214	G06F100	G06F2120	H04L932	G06F2100	G06F2122	G06F114	G06F1214	G06F2122	G06F114	G06F100	G06F2120	G06F2100	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04L	G06F	G06F	G06F	H04L	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04L9	G06F12	G06F1	G06F21	H04L9	G06F21	G06F21	G06F1	G06F12	G06F21	G06F1	G06F1	G06F21	G06F21	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A client/server-based secure timekeeping computer system is 
+provided. A secure-time server which is located in a physically trusted 
+
+environment, includes a highly accurate time-of-day (TOD) clock, along 
+with a key storage area containing a table of public/private key pairs 
+
+corresponding to clients in the client/server network. The server 
+encrypts a current time value from its TOD clock using a private key 
+
+corresponding to a selected client. The encrypted time value is then 
+sent to the client over an open communications channel. Each client in 
+
+the network is equipped with its own secure timekeeping facility housed 
+within the secure boundaries of a single, tamper-proof VLSI chip. Upon 
+
+receipt of a secure-time transmission, a client uses its own copy of its 
+private key to decrypt the time value, then loads the decrypted time 
+
+value into its TOD clock. The tamper-proof VLSI chip in each client also 
+includes an authenticated-time indicator, which is set to TRUE to 
+
+indicate that the TOD clock contains a trusted time. Programs that 
+require secure time may check the authenticated time indicator before 
+
+executing and may cancel execution if a secure time is not available. 
+Programs that do not require secure time are able to execute regardless. 
+
+To maintain the ongoing accuracy of the client TOD clock once it is set 
+with a trusted time value, the secure timekeeping facility in a client 
+
+may further include calibration and clock stability adjustment mechanisms 
+which receive client clock calibration adjustment values and accuracy 
+
+duration values, and which apply these values at intervals to maintain 
+the accuracy of the client TOD clock within acceptable limits and mark 
+
+the clock as untrusted when it can no longer be maintained within 
+acceptable limits. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+HARTMAN ROBERT CHARLES JR
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HARTMAN, ROBERT CHARLES, JR.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates generally to computer data security,
+and in particular to a secure timekeeping facility for use in a client-server
+computer network.Media (i.e. data) security in computer systems is traditionally
+implemented at multiple levels. One level of security involves the
+complete denial of access to data. Many schemes exist for the
+implementation of access-level security, including password protection,
+logical partitioning, and data encryption. Among tie encryption schemes,
+numerous lock-and-key architectures have been developed. One such
+architecture is described in European patent application number
+EP-A-0583140.
+Hartman's access-level security
+architecture is directed to limiting the usage of digital media to client
+users having proper licensing authority granted by a Media Clearinghouse
+(server). The original digital media, which can be program object code,
+program source code, image, audio, video, text, or any other form of
+information contained in a file or data object, is encrypted with a Media
+Master Key by a Media Clearinghouse on behalf of the content creator or
+owner. The Media Master Key is then further encrypted with a unique
+private key for each authorized client system. The encrypted media and
+the encrypted Media Master Keys may then be widely distributed over open,
+non-secure channels.Another level of media security, applicable once access is granted,
+involves restricting access based on time. In a client/server network,
+time based restrictions themselves involve comparing a time interval for
+which the server has granted access with a current time, typically the
+time stored in the client computer system's time-of-day (TOD) clock.
+However, this comparison and the underlying time-based restriction can
+easily be rendered meaningless by an intruder, unethical administrator,
+or knowledgeable user who simply sets the system clock backward or
+forward to mislead the access mechanism into believing the access
+interval is still active. Moreover, even if the client TOD clock is not
+subjected to tampering, it will always be subject to inherent
+inaccuracies such as drift and instability which over time will cause its
+value to diverge from the actual current time. Clock drift is the 
+predictable, stable inaccuracy of a clock that causes it to lose or gain
+time at a constant rate. Clock instability is the unpredictable
+inaccuracy that causes the clock drift component to change. Factors
+which cause instability may include environmental temperature, humidity,
+supply voltage, etc.
+</DESCRIPTION>
+<CLAIMS>
+Secure timekeeping apparatus for use in a computer system that
+includes a central processing unit and electronic storage located in a
+
+physically secure package, comprising:
+
+a public key register (112) for holding a public key for use in
+identifying a private key for encrypting and decrypting time and date
+
+transmissions;
+a private key register (110) for holding the private key;
+an input (114) for receiving time and date information encrypted
+using the private key;
+data decryption means (106) for decrypting the received time and
+date information using the private key; and
+a time-of-day (TOD) clock (108) including a time clock and a date
+calendar, having an input for receiving the decrypted time and date
+
+information and an output for providing unencrypted time and date
+information; characterized in that:
+said input is further adapted for receiving clock accuracy-maintaining
+data also encrypted using the private key; and
+said data decryption means is further adapted for decrypting the
+clock accuracy-maintaining data also using the private key; and
+said output time and date information is subject to modification in
+accordance with the clock accuracy-maintaining data.
+Secure timekeeping apparatus as claimed in claim 1, wherein the TOD
+clock (108) is located in the same physically secure package as the
+
+central processing unit.
+Secure timekeeping apparatus as claimed in claim 1 or claim 2,
+wherein the public key is unique to the computer system and is accessible
+
+outside the physically secure package.
+Secure timekeeping apparatus as claimed in any preceding claim,
+wherein the private key is unique to the computer system and is
+
+inaccessible outside the physically secure package.
+Secure timekeeping apparatus as claimed in any preceding claim,
+further comprising secure-time request means for requesting from a time 
+
+server current time and date information encrypted using the private key.
+Secure timekeeping apparatus as claimed in any preceding claim,
+wherein said clock accuracy-maintaining data comprises a value indicating
+
+a time duration for which the TOD clock is considered accurate, said
+timekeeping apparatus further comprising:
+
+
+an authenticated-time indicator (218) for storing a value
+indicating whether the TOD clock contains an authenticated time and date;
+an accuracy-duration register (220) for storing the clock accuracy-maintaining
+data;
+an input for receiving any of time, date, and accuracy duration
+values; and
+an output for providing a value from the authenticated-time
+indicator.
+Secure timekeeping apparatus as claimed in claim 6, wherein the
+accuracy duration register (220) contains a time value, and the
+
+authenticated-time indicator is set to TRUE in response to the
+combination of
+
+
+setting the TOD clock using encrypted values,
+setting the accuracy duration register (220) using an encrypted
+value, and
+the accuracy duration register (220) containing a value which is
+chronologically greater than the value of the TOD clock.
+Secure timekeeping apparatus as claimed in claim 6 or claim 7,
+wherein the authenticated time indicator is set to FALSE for any of
+
+system initialization, low operating voltage condition, setting of the
+TOD clock using unencrypted values, and the accuracy duration register
+
+(220) containing a value which is chronologically less than the value of
+the TOD clock.
+Secure timekeeping apparatus as claimed in any of claims 6 to 8,
+further comprising:
+
+
+a time facility setting means for setting the values of the TOD
+clock and the accuracy-duration register (220) based on the received
+
+time, date, and accuracy duration values, and for setting the
+authenticated time indicator to 
+
+
+FALSE if the received time, date, and accuracy duration
+values are unencrypted,
+TRUE if the received time, date, and accuracy duration values
+are encrypted and the value set in the accuracy duration
+
+register (220) is chronologically greater than the value set
+in the TOD clock.
+Secure timekeeping apparatus as claimed in claim 9, wherein said
+clock accuracy-maintaining data further comprises a calibration
+
+adjustment value, and wherein the secure timekeeping facility further
+comprises a calibration adjustment register (222) for storing a value
+
+indicating a time interval at which the TOD clock is to receive a
+calibration adjustment, wherein the input further comprises means for
+
+receiving additional clock accuracy-maintaining data, and wherein the
+time facility setting means further comprises means for setting the
+
+calibration adjustment register (222) based on the received calibration
+adjustment value.
+A secure time server for use in a computer network, comprising:
+
+a server time-of-day (TOD) clock (126) including a time clock and a
+date calendar;
+an input (128) for receiving a secure time request including a
+public key;
+processor means (122) for identifying a private key corresponding
+to the public key;
+data encryption means (124) for encrypting time and date
+information from the TOD clock (126) using the private key;
+an output for sending the encrypted time and date information to
+the secure time requestor; characterized in that said 
+
+data encryption means (124) also functions to encrypt
+clock accuracy-maintaining data to be sent to said
+
+secure time requestor for use by said secure time
+requestor for modifying said encrypted time and
+
+date information sent to said secure time requestor;
+and in that said 
+
+secure time server
+further comprises:
+means for passing said encrypted clock accuracy-maintaining data between said
+secure time server and said secure time requestor.
+A secure time server as claimed in claim 11, wherein said clock
+accuracy-maintaining data further comprises a calibration adjustment
+
+value, and wherein said means for passing includes:
+
+calibration adjustment means for computing a client clock
+calibration value based on any of the value of the server TOD clock, 
+
+time, date, and calibration history information received from the client,
+and a calibration history accumulated from prior client clock calibration
+
+computations.
+A secure time server as claimed in claim 12, wherein the client
+clock calibration value is further computed from the amount of drift
+
+accumulated in the client TOD clock since the last setting of the client
+TOD clock.
+A secure time server for use in a computer network, comprising:
+
+a server time-of-day (TOD) clock (126) including a time clock and a date
+calendar;
+processor means (122) for identifying a public key and a private key for
+
+which to generate a secure time transmission;
+data encryption means (124) for encrypting time and date information from
+said server time-of-day
+
+(TOD) clock (126) using the private key; and
+an output for broadcasting the public key and the encrypted time and
+date information characterized in that said 
+
+data encryption means (124) also functions to encrypt
+clock accuracy-maintaining data to be broadcast
+
+over said computer network for use by a receiving
+unit for modifying said broadcast encrypted time
+
+and date information; and in that said 
+output is also for
+
+broadcasting said encrypted clock accuracy-maintaining data.
+A client/server computing system comprising at least one client
+computer comprising a secure timekeeping apparatus as claimed in any of
+
+claims 1 to 10 and a server as claimed in any of claims 11 to 14.
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,270 @@
+<DOC>
+<DOCNO>EP-0626641</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Processor improved in address management
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F934	G06F934	G06F945	G06F9355	G06F930	G06F945	G06F9318	G06F930	G06F9302	G06F9318	G06F9302	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	G06F9	G06F9	G06F9	G06F9	G06F9	G06F9	G06F9	G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The present invention discloses a program converting 
+unit for generating a machine language instruction from a 
+
+source program for a processor that manages an N-bit address 
+while processing M-bit data, N being greater than M, and such 
+
+a processor that runs the converted program. The program 
+converting unit comprising: a parameter holding unit for 
+
+holding a data width and a pointer width designated by a user, 
+the data width representing the number of bits of data used in 
+
+the source program while the pointer width representing the 
+number of bits of an address; and a generating unit for 
+
+generating an instruction to manage the data width when a 
+variable operated by the instruction represents the data, and 
+
+for generating an instruction to manage the pointer width when 
+a variable operated by the instruction represents the address. 
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC IND CO LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC INDUSTRIAL CO., LTD.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+KAMIYAMA HIROSHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MIYAJI SHINYA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SUZUKI MASATO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KAMIYAMA, HIROSHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MIYAJI, SHINYA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SUZUKI, MASATO
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a
+processor
+improved in address management with various types of register
+groups including address and data registers.With the recent advancement in the field of electronic
+technology, data processors such as a microprocessor and a
+microcomputer have been used widely. Today's typical data
+processor can process data of various widths, and a data
+processor furnished with a 16-bit or 32-bit CPU has been
+developed to meet the needs for more efficient data processing
+and advanced functions. Such a processor may be additionally
+furnished with various types of register groups including an
+address register and a data register to further upgrade the
+performance. Also, there is a need for a processor with a more
+efficient address management function as the data and programs
+have increased in size in response to the sophistication and
+enlargement of applications. In the following, five 
+conventional processors will be explained while considering
+both of their improvements and shortfalls in address
+management.Firstly, a 16-bit segment-address processor will be
+explained. This type of processor is described in, for
+example, "Hardware for Microprocessor", Iwao Morishita,
+Iwanami-shoten, November 9, 1984. The processor includes a
+segment register which stores a high order address including
+bits beyond 16 bits to secure an address space over 64 (216)
+Kbyte while processing 16-bit data. More precisely, the
+address space over 64 Kbyte is divided into a set of 64 Kbyte
+segments to be serially numbered, and the addresses are managed
+by the segment numbers thus stored in the segment register and
+an offset, i.e., a distance from the head of each 16-bit
+segment.Also, a 32-bit segment-address processor is disclosed
+in the aforementioned "Hardware for Microprocessor". This
+processor can secure an address space of 4 Gbyte (232) by
+managing 32-bit addresses while processing 32-bit data.These segment-address processors run a machine language
+program translated by a program converting unit such as a
+compiler.An address management of a compiler for a 16-bit
+processor includes two models: one is a large model and the
+other is a near-far model. A large model compiler always sets a pointer variable
+with a segment number and a 16-bit offset in pairs. Thus, the
+16-bit processor that runs an object code from the compiler
+calculates the content of the segment register to update the
+same each time an address is calculated. Consequently, the
+performance efficiency is significantly degraded compared with
+a
+</DESCRIPTION>
+<CLAIMS>
+A processor (3) for processing data in accordance with instructions in a program, the
+processor (3) comprising:
+
+
+register means (137) including a plurality of register groups (137a, 137d), each
+group being identical in bit-width while being different in types;
+instruction decoding means (140) for decoding an instruction to output register
+information indicating a register designated by an operand contained in a data-transfer
+
+instruction;
+external-access-width control means (136j) for outputting the number of effective
+bits as bit-width information indicating a bit-width of transmission data in accordance with a
+
+kind of a register group (137a, 137d) to which said designated register belongs; and
+extemal-access executing means (136) for executing data transfer between said
+designated register and an external memory (130) in accordance with said register information
+
+and said bit-width information.
+The processor (3) of Claim 1, wherein said register means (137) includes:
+
+an address register group (137a) including a plurality of address registers holding
+addresses; and
+a data register group (137d) including a plurality of data registers holding data.
+The processor (3) of Claim 2, wherein:
+
+said external-access-width control means (136j), as the bit-width information,
+outputs a bit-width determined in accordance with the effective bit-width of the data used in
+
+the program when said register information represents the data registers (137d), and outputs a
+bit-width determined in accordance with a sufficiently large address space for a program size
+
+and data area size of the program when said register information represents the address
+registers (137a).
+The processor (3) of Claim 2, wherein:
+
+the address registers (137a) and data registers (137d) in said register means (137)
+are all 24-bit wide;
+said instruction decoding means (140) outputs information that represents one of
+the address register (137a) and the data register (137d) as the register information;
+said external-access-width control means (136j) outputs the bit-width information
+exhibiting 24 bits when the register information representing the address register (137a), and
+
+outputs the bit-width information exhibiting 16 bits when the register information
+representing the data register (137d); and
+the external-access executing means (136) executes the data transfer three times
+and twice for the 24- and 16-bit-width information respectively for an 8-bit-width external
+
+memory, and for twice and once for the 24- and 16-bit-width information respectively for a
+16-bit-width external memory.
+The processor (3) of Claim 4, wherein said external-access executing means (136) includes:
+
+an address generating circuit (136e, 136g) for holding an address designated by the
+data-transfer instruction to output one of a byte address and a word address to the external
+
+memory (130);
+an output data buffer (136c) for holding write data designated by the data-transfer
+instruction to output the same one of per byte and per word to the external memory;
+an input data buffer (136a) for holding data read out from the external
+memory; and
+a sequence circuit (136i) for outputting a byte address to said address generating
+circuit for an 8-bit-width external memory while controlling the number of times for the data-transfer
+
+in accordance with the bit-width information via the input/output data buffers with
+respect to the read/write data, for outputting a word address to said address generating circuit
+
+(136e, 136g) for a 16-bit-width external memory while controlling the number of times for 
+
+the data-transfer in accordance with the bit-width information via the input/output data buffers
+(136a, 136c) with respect to the read/write data.
+The processor (3) of Claim 2, wherein:
+
+the address registers (137a) and data registers (137d) in said register means (137)
+are all 32-bit wide;
+said instruction decoding means (140) outputs register information indicating
+whether the instruction uses the address register (137a) or data register (137d);
+said external-access-width control means (136j) outputs the bit-width information
+exhibiting 24 bits when the register information representing the address register (137a), and
+
+outputs the bit-width information exhibiting 16 bits when the register information
+representing the data register (137d); and
+the external-access executing means (136) executes the data transfer three times
+and twice for the 24- and 16-bit-width information respectively for an 8-bit-width external
+
+memory, and for twice and once for the 24- and 16-bit-width information respectively for a
+16-bit-width external memory.
+The processor (3) of Claim 6, wherein said external-access executing means (136) includes:
+
+an address generating circuit (136e, 136g) for holding an address designated by the
+data-transfer instruction to output one of a byte address and a word address to the external
+
+memory (130);
+an output data buffer (136c) for holding write data designated by the data-transfer
+instruction to output the data one of per byte and per word to the external memory (130);
+an input data buffer (136a) for holding data read out from the external memory
+(130); and
+a sequence circuit (136i) for controlling said address generating circuit (136e,
+136g) to output the byte address for an 8-bit-width external memory while controlling the
+
+input and output data buffers (136a, 136c) to input and output the byte data to transfer the 
+read/write data to the external memory (130) in a matching number of times to the bit-width
+
+of the external memory (130), and for controlling said address generating circuit (136e, 136g)
+to output the word address for a 16-bit-width external memory while controlling the input and
+
+output data buffers (136a, 136c) to input and output the word data to transfer the read/write
+data to the external memory (130) in a matching number of times for the bit-width of the
+
+external memory (130).
+The processor (3) of Claim 1, wherein the program includes an N-bit data arithmetic
+operation instruction, M-bit and N-bit load/store instruction, M being less than N, a
+
+conditional branch instruction, a data-transfer instruction with an external memory, and an
+instruction having immediate data, wherein the register means (137) comprises:
+
+
+a first register means (137a) including a plurality of registers for holding N-bit
+data; and
+a second register means (137b) including a plurality of registers for holding N-bit
+data,
+
+said processor (3) further comprising:
+
+a program counter for holding an N-bit instruction address to output the same to
+said memory means (130);
+fetching means (139) for fetching an instruction from an external memory (130)
+using the instruction address from said program counter,
+executing means for executing all N-bit arithmetic operation instructions and for
+executing N-bit and M-bit instructions excluding the arithmetic operation instructions;
+a plurality of flag storing means (151, 152), each for storing a corresponding flag
+group changed in response to different bit-widths data in accordance with an execution result
+
+of said executing means;
+flag selecting means (153, 154, 155, 156) for selecting a certain flag group from
+said plurality of flag storing means in accordance with a conditional branch instruction
+
+decoded by said instruction decoding means (140); and 
+branch judging means (143) for judging whether a branching is taken or not with a
+reference to a flag group selected by said flag selecting means(153, 154, 155, 156);
+sign-extending means (144, 145) for extending M-bit data to N bits by copying an
+MSB of said M-bit data in a higher order;
+zero extending means (144, 145) for extending M-bit data to N bits by filling a
+value "0" in a higher order;
+compensation instruction control means for compensating contents of said first
+register means (137a) and said second register means (137d) using said sign-extending means
+
+(144, 145) and said zero-extending means (144, 145) in accordance with a compensation
+instruction inserted immediately after a machine language instruction for an arithmetic
+
+operation that will possibly cause an overflow, said machine language instruction being
+decoded by said instruction decoding means (140);
+immediate control means (140) for outputting M-bit immediate data to said zero-extending
+means (144, 145) when a decoded instruction includes an instruction to store said
+
+M-bit immediate data in said first register means (137a), and for outputting said M-bit
+immediate data to said sign-extending means (144, 145) when a decoded instruction includes
+
+an instruction to store said M-bit in said second register means (137d), said zero-extended and
+sign-extended immediate data being sent to said first and second register means (137a, 137d)
+
+respectively in two methods, one being to send the same directly to their respective register
+means (137a, 137d) and the other being to send the same via said executing means (138).
+The processor (3) of Claim 8, wherein said N is 24 and said M is 16.
+</CLAIMS>
+</TEXT>
+</DOC>

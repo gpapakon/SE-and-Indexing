@@ -1,0 +1,173 @@
+<DOC>
+<DOCNO>EP-0638183</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+A SYSTEM AND METHOD FOR RETIRING INSTRUCTIONS IN A SUPERSCALAR MICROPROCESSOR
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F938	G06F938	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A system and method for retiring instructions in a superscalar microprocessor which executes a program comprising a set of instructions having a predetermined program order, the retirement system for simultaneously retiring groups of instructions executed in or out of order by the microprocessor. The retirement system comprises a done block for monitoring the status of the instructions to determine which instruction or group of instructions have been executed, a retirement control block for determining whether each executed instruction is retirable, a temporary buffer for storing results of instructions executed out of program order, and a register array for storing retirable instruction results. In addition, the retirement control block further controls the retiring of a group of instructions determined to be retirable, by simultaneously transferring their results from the temporary buffer to the register array, and retires instructions executed in order by storing their results directly in the register array. The method comprises the steps of monitoring the status of the instructions to determine which group of instructions have been executed, determining whether each executed instruction is retirable, storing results of instructions executed out of program order in a temporary buffer, storing retirable instruction results in a register array and retiring a group of retirable instructions by simultaneously transferring their results from the temporary buffer to the register array, and retiring instructions executed in order by storing their results directly in the register array.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SEIKO EPSON CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SEIKO EPSON CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+DEOSARAN TREVOR
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GARG SANJIV
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WANG JOHANNES
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DEOSARAN, TREVOR
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GARG, SANJIV
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WANG, JOHANNES
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The following are commonly owned, co-pending applications: 
+"Superscala RISC Instruction Scheduling", WO-A-93 20505; 
+and 
+"High Performance RISC Microprocessor Architecture", WO-A-93 01545. The present invention relates generally to the field of superscalar processors, 
+and more particularly, to a system and method for retiring multiple instructions 
+executed out-of-order in a superscalar processor. One method of increasing performance of microprocessor-based systems is 
+overlapping the steps of different instructions using a technique called pipelining. In 
+pipelining operations, various steps of instruction execution (e.g. fetch, decode and 
+execute) are performed by independent units called pipeline stages. The steps are 
+performed in parallel in the various pipeline stages so that the processor can handle 
+more than one instruction at a time. As a result of pipelining, processor-based systems are typically able to execute 
+more than one instruction per clock cycle. This practice allows the rate of instruction 
+execution to exceed the clock rate. Processors that issue, or initiate execution of, 
+multiple independent instructions per clock cycle are known as superscalar 
+processors. A superscalar processor reduces the average number of cycles per 
+instruction beyond what is possible in ordinary pipelining systems. In a superscalar system, the hardware can execute a small number of 
+independent instructions in a single clock cycle. Multiple instructions can be 
+executed in a single cycle as long as there are no data dependencies, procedural 
+dependencies, or resource conflicts. When such dependencies or conflicts exist, only 
+the first instruction in a sequence can be executed. As a result, a plurality of 
+functional units in a superscalar architecture can not be fully utilized.  
+ To better utilize a superscalar architecture, processor designers have 
+enhanced processor look-ahead capabilities; that is the ability of the processor to 
+examine instructions beyond the current point of execution in an attempt to find 
+independent instructions for immediate execution. For example, if an instruction 
+dependency or resource conflict inhibits instruction execution, a processor with look-ahead 
+capabilities can look beyond the present instruction, locate an independent 
+instruction, and execute it. As a result, more efficient processors, when executing instructions, put less 
+emphasis on the order in which instructions are fetched and more emphasis on the 
+order in which they are executed. As a further
+</DESCRIPTION>
+<CLAIMS>
+An instruction retirement system of a superscalar 
+microprocessor which executes a program comprising a 
+
+set of instructions having a predetermined program 
+order, said retirement system for simultaneously 
+
+retiring groups of instructions executed in or out of 
+order by the microprocessor, said retirement system 
+
+comprising: 
+
+a first means (420) for monitoring the status of the 
+instructions to determine which instruction or group 
+
+of instructions have been executed; 
+a second means (409), connected to said first means, 
+for determining whether each executed instruction is 
+
+retirable; 
+a register file (102) for storing the results of the 
+instructions determined to be retirable, 
+characterized by
+means (409) for directly storing the results of the 
+instructions executed in order in a register array 
+
+(404) comprised in said register file, 
+a temporary buffer (403) for storing the results of 
+instructions executed out of order, and  
+
+ 
+means (408,409) for transferring the results of the 
+instructions determined to be retirable from said 
+
+temporary buffer (403) to said register array (404) 
+whereby said instructions get retired. 
+The system of claim 1, further comprising transfer 
+logic (408) for selecting and latching results to be 
+
+transferred from said temporary buffer (403) to said 
+register array (404). 
+The system of claims 1 or 2, wherein said temporary 
+buffer (403) comprises: 
+
+
+a plurality of storage locations for storing the 
+results of a
+ group of instructions; 
+a plurality of address ports coupled to said storage 
+locations for addressing said storage locations; 
+a plurality of input ports (110) coupled to said 
+storage locations for inputting results to be stored 
+
+in the temporary buffer (403); 
+a first plurality of output ports (F,G,H,I) coupled to 
+said storage locations for outputting stored results 
+
+to the register array (404); and 
+a second plurality of output ports (A,B,C,D,E) coupled 
+to said storage locations for outputting stored 
+
+results to a plurality of functional units (104). 
+The system of one of claims 1-3, wherein the results 
+of up to four instructions can be retired in a single 
+
+clock cycle. 
+A method for retiring instructions in a superscalar 
+microprocessor which executes a program comprising a  
+
+ 
+set of instructions having a predetermined program 
+
+order, said retirement system for simultaneously 
+retiring groups of instructions executed in or out of 
+
+order by the microprocessor, said method comprising 
+the steps of: 
+
+
+monitoring the status of the instructions to determine 
+which instruction or group of instructions have been executed; 
+determining whether each executed instruction is 
+retirable; 
+Storing the results of the instructions determined to 
+be retirable in a register file, 
+ 
+characterized by 
+
+
+storing the results of the instructions executed out 
+of program order in a temporary buffer; 
+directly storing the results of the instruction 
+executed in order in a register array comprised in 
+
+said register file, simultaneously transferring the 
+results of instructions determined to be retirable 
+
+from said temporary buffer to said register array. 
+</CLAIMS>
+</TEXT>
+</DOC>

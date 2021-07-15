@@ -1,0 +1,407 @@
+<DOC>
+<DOCNO>EP-0649557</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+TRANSMISSION SYSTEM COMPRISING AT LEAST A CODER
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H03H2100	G01L914	H04B1402	H03H2100	G06F748	G10L1104	G10L1906	H04B1406	H03M730	G01L914	G06F748	G10L1100	G10L1900	G10L1912	H03M730	G10L1900	G10L1904	G10L1100	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H03H	G01L	H04B	H03H	G06F	G10L	G10L	H04B	H03M	G01L	G06F	G10L	G10L	G10L	H03M	G10L	G10L	G10L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H03H21	G01L9	H04B14	H03H21	G06F7	G10L11	G10L19	H04B14	H03M7	G01L9	G06F7	G10L11	G10L19	G10L19	H03M7	G10L19	G10L19	G10L11	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A transmission system is described comprising at least a coder (101) for coding a signal (10a). The system furthermore comprises at least a transmitter (102), at least a receiver (103) and at least a decoder (104). At least for a coder (101) is at least provided an adaptive prediction filter (10A, 10B) by means of which speech or audio signals are coded while their bit rates are reduced. The filter coefficients for an adaptive prediction filter (10A, 10B) are recursively determined according to the Levinson-Durbin Recursion in fixed point arithmetic.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+KONINKL PHILIPS ELECTRONICS NV
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+PHILIPS NORDEN AB
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+PHILIPS PATENTVERWALTUNG
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+KONINKLIJKE PHILIPS ELECTRONICS N.V.
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+PHILIPS CORPORATE INTELLECTUAL PROPERTY GMBH
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+PHILIPS NORDEN AB
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+HOFMANN RUDOLF
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HOFMANN, RUDOLF
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The invention relates to a transmission system comprising at least a coder
+for coding a signal, at least a transmitter for transmitting the coded signal to at least a
+receiver, at least a decoder for decoding the coded signal and at least an adaptive
+prediction filter.The invention likewise relates to a terminal unit, a coder, a decoder and
+an adaptive prediction filter.Such a transmission system can be obtained, for example, without
+difficulty from the document "Draft of G.728 Fixed Point Specification" Doc. AH. 93-D.3,
+CCITT Study Group XV, London, March 29-30-1993, and from CCITT
+Recommendation G.728, "Coding of speech signals at 16 kbit/s using low-delay code
+excited linear prediction". The two documents will henceforth be referenced [I] and [II].
+Such transmission systems can always be used when multiple use is to be made of a
+given transmission capacity. The reduction of the bit rate of a signal during coding
+makes it possible, for example, to hold four telephone conversations simultaneously
+over one 64 kbit/s transmission channel.The multiple use of a given transmission capacity has very much
+importance in radio channels, as will be readily understood if one thinks of the rising
+number of subscribers of mobile radio systems. Also the storage capacity of a memory
+with an arbitrary storage medium can be used to considerably more advantage when bit
+rate reducing coders and appropriate decoders are used, because less storage space is
+necessary for storing an information signal.It is known to utilize linear prediction for bit rate reduction. In [I] and [II]
+prediction coefficients are computed by an adaptive prediction filter. The computation is
+performed segment by segment with the sample values of an auxiliary signal. The
+auxiliary signal may be an (electric) audio signal or a speech signal, for example,
+coming from a person. Alternatively, it is possible for the auxiliary signal to be a
+synthetic audio or speech signal as produced in a coder which operates according to the 
+principle of "analysis by synthesis". A linear correlation between a predicted sampling
+value (prediction value) of the auxiliary signal and previous sampling values of this
+signal is realised with the prediction coefficients. The prediction coefficients are
+determined so that the sum of the squares of all the errors computed for a segment of
+sampling values assumes a minimum value. An error is here meant to be understood as
+the difference between a sampling value and its predicted value. More accurate
+descriptions will be given
+</DESCRIPTION>
+<CLAIMS>
+Transmission system comprising:
+
+at least a coder (101) for coding a signal (10a),
+at least a transmitter (102) for transmitting the coded signal (10b) to at least a
+receiver (103) also comprised in the transmission system,
+at least a decoder (104) for decoding the coded signal, and
+at least an adaptive prediction filter (10A, 10B) provided at least for a coder,
+the adaptive prediction filter including:
+
+
+means for computing correlation coefficients from segments of sampling
+values of an auxiliary signal that depends on the signal or on the decoded
+
+signal, as well as
+means for determining reflection and prediction coefficients from the
+correlation coefficients in N-bit fixed point arithmetic,
+
+and in that the following means are provided for recursively determining the
+prediction coefficients to be represented in the block floating point format:
+a) means (X31) for computing the k
+th
+ reflection coefficient
+b) means (X74, X75) for recomputing the k-1 previously computed prediction
+coefficients while utilizing the k
+th
+ reflection coefficient obtained under a),
+c) means (X51-X58; X62-X72) for adapting the block floating point format of the k-1
+prediction coefficients already recomputed and not yet recomputed if during the
+
+recomputation of the k-1 previously computed prediction coefficients overflow
+occurs, so that N bits are no longer sufficient to represent a recomputed prediction
+
+coefficient,
+d) means (X62-X72) for continuing the recomputation of the k-1 prediction
+coefficients for the prediction coefficient at which the overflow as under c) has
+
+occurred,
+e) means (X76) for converting the k
+th
+ reflection coefficient to a floating point format
+number whose exponent is represented by the exponent determined under c) of the 
+
+block floating point format, and
+f) means (X79) for storing the number obtained under e) as the k
+th
+ prediction
+coefficient.
+Transmission system as claimed in Claim 1, characterized by:
+
+2a) means (X31) for computing the k
+th
+ reflection coefficient with a minimum
+resolution of N+1 bits,
+2b) means (a2) for buffering the k
+th
+ reflection coefficient with a minimum
+resolution of N+1 bits,
+2c) means (X76) for converting the k
+th
+ reflection coefficient buffered under
+2b) to a floating point format according to e) (Claim 1) whose mantissa
+
+has a resolution of at least N+1 bits,
+2d) means (X77) for rounding to N bits the mantissa obtained under 2c) and
+2e) means (X79) for storing the mantissa rounded under 2d) as the mantissa
+of the k
+th
+ prediction coefficient.
+Terminal unit (LE) comprising:
+
+at least a coder (101) and
+a transmitter (102) or at least a receiver (103) and a decoder (104), and
+at least an adaptive prediction filter (10A, 10B), the adaptive prediction filter
+including:
+
+
+means for computing correlation coefficients from segments of sampling
+values of a signal, as well as
+means for determining reflection and prediction coefficients from the
+correlation coefficients in N-bit fixed point arithmetic,
+
+and in that the following means are provided for recursively determining the
+prediction coefficients to be represented in the block floating point format:
+
+
+a) means (X31) for computing the k
+th
+ reflection coefficient
+b) means (X74, X75) for recomputing the k-1 previously computed prediction
+coefficients while utilizing the k
+th
+ reflection coefficient obtained under a),
+c) means (X51-X58; X62-X72) for adapting the block floating point format of the k-1
+prediction coefficients already recomputed and not yet recomputed if during the
+
+recomputation of the k-1 previously computed prediction coefficients overflow
+occurs, so that N bits are no longer sufficient to represent a recomputed prediction 
+
+coefficient,
+d) means (X62-X72) for continuing the recomputation of the k-1 prediction
+coefficients for the prediction coefficient at which overflow as under c) has
+
+occurred,
+e) means (X76) for converting the k
+th
+ reflection coefficient to a floating point format
+number whose exponent is represented by the exponent determined under c) of the
+
+block floating point format, and
+f) means (X79) for storing the number obtained under e) as the k
+th
+ prediction
+coefficient.
+Terminal unit as claimed in Claim 3, characterized by:
+
+2a) means (X31) for computing the k
+th
+ reflection coefficient with a minimum
+resolution of N+1 bits,
+2b) means (a2) for buffering the k
+th
+ reflection coefficient with a minimum
+resolution of N+1 bits,
+2c) means (X76) for converting the k
+th
+ reflection coefficient buffered under
+2b) to a floating point format according to e) (Claim 3) whose mantissa
+
+has a resolution of at least N+1 bits,
+2d) means (X77) for rounding to N bits the mantissa obtained under 2c) and
+2e) means (X79) for storing the mantissa rounded under 2d) as the mantissa
+of the k
+th
+ prediction coefficient.
+Coder (101) for coding a signal (10a),
+
+comprising at least an adaptive prediction filter (10A, 10B), the adaptive
+prediction filter including:
+
+
+means for computing correlation coefficients from segments of
+sampling values of an auxiliary signal that depends on the
+
+signal or on the decoded signal, as well as
+means for determining reflection and prediction coefficients
+from the correlation coefficients in N-bit fixed point
+
+arithmetic,
+
+and in that the following means are provided for recursively determining the
+prediction coefficients to be represented in the block floating point format:
+
+
+a) means (X31) for computing the k
+th
+ reflection coefficient, 
+b) means (X74, X75) for recomputing the k-1 previously computed prediction
+coefficients while utilizing the k
+th
+ reflection coefficient obtained under a),
+c) means (X51-X58; X62-X72) for adapting the block floating point format of the k-1
+prediction coefficients already recomputed and not yet recomputed if during the
+
+recomputation of the k-1 previously computed prediction coefficients overflow
+occurs, so that N bits are no longer sufficient to represent a recomputed prediction
+
+coefficient,
+d) means (X62-X72) for continuing the recomputation of the k-1 prediction
+coefficients for the prediction coefficient at which overflow as under c) has
+
+occurred,
+e) means (X76) for converting the k
+th
+ reflection coefficient to a floating point format
+number whose exponent is represented by the exponent determined under c) of the
+
+block floating point format, and
+f) means (X79) for storing the number obtained under e) as the k
+th
+ prediction
+coefficient.
+Coder (101) as claimed in Claim 5, characterized by
+
+2a) means (X31) for computing the k
+th
+ reflection coefficient with a minimum
+resolution of N+1 bits,
+2b) means (a2) for buffering the k
+th
+ reflection coefficient with a minimum
+resolution of N+1 bits,
+2c) means (X76) for converting the k
+th
+ reflection coefficient buffered under
+2b) to a floating point format according to e) (Claim 5) whose mantissa
+
+has a resolution of at least N+1 bits,
+2d) means (X77) for rounding to N bits the mantissa obtained under 2c) and
+2e) means (X79) for storing the mantissa rounded under 2d) as the mantissa
+of the k
+th
+ prediction coefficient.
+Decoder (104) for decoding a signal (10c),
+
+comprising at least an adaptive prediction filter (10B), the adaptive
+prediction filter including:
+means for computing correlation coefficients from segments of sampling
+values of an auxiliary signal that depends on the signal or on the decoded
+
+signal, as well as 
+means for determining reflection and prediction coefficients from the
+correlation coefficients in N-bit fixed point arithmetic,
+
+and in that the following means are provided for recursively determining the
+prediction coefficients to be represented in the block floating point format:
+
+
+a) means (X31) for computing the k
+th
+ reflection coefficient
+b) means (X74, X75) for recomputing the k-1 previously computed prediction
+coefficients while utilizing the k
+th
+ reflection coefficient obtained under a),
+c) means (X51-X58; X62-X72) for adapting the block floating point format of the k-1
+prediction coefficients already recomputed and not yet recomputed if during the
+
+recomputation of the k-1 previously computed prediction coefficients overflow
+occurs, so that N bits are no longer sufficient to represent a recomputed prediction
+
+coefficient,
+d) means (X62-X72) for continuing the recomputation of the k-1 prediction
+coefficients for the prediction coefficient at which overflow as under c) has
+
+occurred,
+e) means (X76) for converting the k
+th
+ reflection coefficient to a floating point format
+number whose exponent is represented by the exponent determined under c) of the
+
+block floating point format, and
+f) means (X79) for storing the number obtained under e) as the k
+th
+ prediction
+coefficient.
+Decoder (104) as claimed in Claim 7, characterized by:
+
+2a) means (X31) for computing the k
+th
+ reflection coefficient with a minimum
+resolution of N+1 bits,
+2b) means (a2) for buffering the k
+th
+ reflection coefficient with a minimum
+resolution of N+1 bits,
+2c) means (X76) for converting the k
+th
+ reflection coefficient buffered under
+2b) to a floating point format according to e) (Claim 7) whose mantissa
+
+has a resolution of at least N+1 bits,
+2d) means (X77) for rounding to N bits the mantissa obtained under 2c) and
+2e) means (X79) for storing the mantissa rounded under 2d) as the mantissa
+of the k
+th
+ prediction coefficient.
+Adaptive prediction filter (Fig. 2), comprising 
+
+means for computing correlation coefficients from segments of
+sampling values of a signal as well as
+means for determining reflection and prediction coefficients
+from the correlation coefficients in N-bit fixed point
+
+arithmetic,
+
+and in that the following means are provided for recursively determining the
+prediction coefficients to be represented in the block floating point format:
+
+
+a) means (X31) for computing the k
+th
+ reflection coefficient,
+b) means (X74, X75) for recomputing the k-1 previously computed
+prediction coefficients while utilizing the k
+th
+ reflection coefficient obtained
+under a),
+c) means (X51-X58; X62-X72) for adapting the block floating point format
+of the k-1 prediction coefficients already recomputed and not yet
+
+recomputed if during the recomputation of the k-1 previously computed
+prediction coefficients overflow occurs, so that N bits are no longer
+
+sufficient to represent a recomputed prediction coefficient,
+d) means (X62-X72) for continuing the recomputation of the k-1 prediction
+coefficients for the prediction coefficient at which overflow as under c)
+
+has occurred,
+e) means (X76) for converting the k
+th
+ reflection coefficient to a floating point
+format number whose exponent is represented by the exponent determined
+
+under c) of the block floating point format, and
+f) means (X79) for storing the number obtained under e) as the k
+th
+ prediction
+coefficient.
+Adaptive prediction filter (Fig. 2) as claimed in Claim 9, characterized
+by:
+
+
+2a) means (X31) for computing the k
+th
+ reflection coefficient with a minimum
+resolution of N+1 bits,
+2b) means (a2) for buffering the k
+th
+ reflection coefficient with a minimum
+resolution of N+1 bits,
+2c) means (X76) for converting the k
+th
+ reflection coefficient buffered under
+2b) to a floating point format according to e) (Claim 7) whose mantissa 
+
+has a resolution of at least N+1 bits,
+2d) means (X77) for rounding to N bits the mantissa obtained under 2c) and
+2e) means (X79) for storing the mantissa rounded under 2d) as the mantissa
+of the k
+th
+ prediction coefficient.
+</CLAIMS>
+</TEXT>
+</DOC>

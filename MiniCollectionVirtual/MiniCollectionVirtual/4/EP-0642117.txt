@@ -1,0 +1,210 @@
+<DOC>
+<DOCNO>EP-0642117</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Data compression for speech recognition
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G10L1900	G10L1518	G10L1514	G10L1500	G10L1900	H03M740	G10L1100	H03M740	G10L1100	G10L1528	G10L1502	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G10L	G10L	G10L	G10L	G10L	H03M	G10L	H03M	G10L	G10L	G10L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G10L19	G10L15	G10L15	G10L15	G10L19	H03M7	G10L11	H03M7	G10L11	G10L15	G10L15	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A data compression system greatly compresses the stored data used by a 
+speech recognition system employing hidden Markov models (HMM). The speech 
+
+recognition system vector quantizes the acoustic space spoken by humans by dividing it 
+into a predetermined number of acoustic features that are stored as codewords in a vector 
+
+quantization (output probability) table or codebook. For each spoken word, the speech 
+recognition system calculates an output probability value for each codeword, the output 
+
+probability value representing an estimated probability that the word will be spoken using 
+the acoustic feature associated with the codeword. The probability values are stored in an 
+
+output probability table indexed by each codeword and by each word in a vocabulary. The 
+output probability table is arranged to allow compression of the probability of values 
+
+associated with each codeword based on other probability values associated with the same 
+codeword, thereby compressing the stored output probability. By compressing the 
+
+probability values associated with each codeword separate from the probability values 
+associated with other codewords, the speech recognition system can recognize spoken 
+
+words without having to decompress the entire output probability table. In a preferred 
+embodiment, additional compression is achieved by quantizing the probability values into 
+
+16 buckets with an equal number of probability values in each bucket. By quantizing the 
+probability values into buckets, additional redundancy is added to the output probability 
+
+table, which allows the output probability table to be additionally compressed. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MICROSOFT CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MICROSOFT CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+HUANG XUEDONG
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ZHANG SHENZHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HUANG, XUEDONG
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ZHANG, SHENZHI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The invention relates to speech recognition using hidden Markov
+models, and more particularly, to a data compression system for compressing the
+hidden Markov models.Under present technology, human input into computers usually involves
+typing in instructions or data with a keyboard or pointing to meaningful areas of the
+computer display unit with a pointing device such as a mouse. However, most people
+are much more comfortable communicating using speech. Speech communications are
+particularly important in places where the written language is very difficult to input into
+a computer. such as Chinese or Kanji. Consequently, the development of a speech
+recognizer for a computer would greatly expand the useability and the usefulness of
+computers.Many computer speech recognizers have been developed with varying
+success. Difficulties in recognizing speech arise from acoustic differences occurring
+each time a word is spoken. These acoustic differences can be caused by differences in
+each speaker's accent. speaking speed, loudness and vocal quality. Even a single word
+spoken by a single speaker varies acoustically due to changes in the speaker, such as
+health or stress levels, or changes in the speaker's environment, such as background
+noise and room acoustics.One prior art speech recognition system that has achieved some success
+is the hidden Markov model (HMM) system. In general, HMM systems are based on
+modeling each speech signal by some well-defined statistical algorithms that can
+automatically extract knowledge from speech data. The data needed for the HMM
+statistical models are obtained by numerous training words being spoken together with
+a typed indication of the words being spoken. Like all statistical methods, the accuracy
+of the HMM speech recognition systems improves greatly as the number of spoken
+training words increases. Given the large number of acoustic variables, the number of
+spoken training words needed to model accurately the spoken words can be quite large.
+Consequently. the memory needed to store the models necessary to recognize a large
+vocabulary of words is extensive, e.g., approximately 28 megabytes. In general, HMM speech recognition systems model each word
+according to output and transitional probability distributions. The output probability
+distribution refers to the probabilities of the word having each acoustic feature in a set
+of predefined acoustic features. The transitional probability distribution for the word
+refers to the probabilities of a predefined portion, known as a
+</DESCRIPTION>
+<CLAIMS>
+A data compression method for a computerized speech recognizer (10) having
+a plurality of hidden Markov models (A,..., Z; n), comprising the steps of:
+
+
+storing (50) an output probability table (34) having a predetermined
+number of codewords, each codeword representing an acoustic feature;
+associating each codeword with a probability value for each hidden
+Markov model (A,..., Z: n); and characterized by
+compressing (52) at least some of the probability values associated with
+each codeword based on other probability values associated with the
+
+same codeword, thereby compressing the stored table (34), such that the
+compressed probability values associated with a selected codeword can
+
+be decompressed independently of probability values associated with a
+different, non-selected codeword.
+The data compression method as claimed in claim 1, wherein the compressing
+step (52) is characterized by:
+
+
+counting (54, 56, 58, 60, 70, 66, 68) the number of probability values in a
+run of consecutive identical probability values associated with a
+
+codeword; and
+encoding (72, 76) the run of consecutive identical probability values with a
+code that includes an identification (X) of the identical probability value
+
+and the number (Count) of consecutive probability values in the run.
+The data compression method as claimed in claim 1 or 2, further comprising
+the step of: 
+
+
+quantizing the probability values into buckets before compressing (52) the
+probability values associated with each codeword, each bucket
+
+representing a range of probability values.
+The data compression method as claimed in claim 3, wherein the quantizing
+
+step is characterized by quantizing the probability values into 16 buckets.
+The data compression method as claimed in claim 3 or 4, further characterized
+by dynamically adjusting the ranges of the buckets according to the number of
+
+probability values coming within each range.
+The data compression method as claimed in one of claims 1 to 5, further
+comprising the step of recognizing (78) an input frame produced by the speech
+
+recognizer (10) based on a sound spoken by a user, the input frame identifying
+a codeword produced from the spoken sound, wherein the recognizing step
+
+(78) is characterized by:
+
+decompressing (84) only those probability values associated with
+codewords of the output probability table that are identical to the
+
+codeword of the input frame; and
+identifying (92) the phonetic models having the highest probability values
+associated with the codeword of the input frame.
+A data compression system for a computerized speech recognizer (10) having
+a plurality of hidden Markov models (A,..., Z: n), comprising:
+
+
+a stored output probability table (34) having a predetermined number of
+codewords, each codeword representing an acoustic feature, and each
+
+codeword being associated with a probability value for each hidden
+Markov model (A,..., Z: n); and characterized by
+a data processor (20) adapted to compress (52) at least some of the
+probability values associated with each codeword based on the other
+
+probability values associated with the same codeword, thereby
+compressing the stored table (34), such that the compressed probability
+
+values associated with a selected codeword can be decompressed 
+independently of probability values associated with a different, non-selected
+
+codeword.
+The data compression system as claimed in claim 7, wherein the data
+processor (20) is characterized by means for compressing (52) the probability
+
+values using run-length encoding in which a run of consecutive identical
+probability values is stored as a code that includes an identification (X) of the
+
+identical probability value and the number (Count) of consecutive probability
+values in the run.
+The data compression system as claimed in claim 7 or 8, further comprising:
+
+means for quantizing the probability values into buckets before
+compressing (52) the probability values associated with each codeword,
+
+each bucket representing a range of probability values.
+The data compression system as claimed in claim 9, wherein the quantizing
+means is characterized by means for quantizing the probability values into 16
+
+buckets.
+The data compression system as claimed in claim 9 or 10, further characterized
+by means for dynamically adjusting the ranges of the buckets according to the
+
+number of probability values coming within each range.
+The data compression system as claimed in one of claims 7 to 11, further
+comprising means for recognizing (78) an input frame produced by the speech
+
+recognizer (10) based on a sound spoken by a user, the input frame identifying
+a codeword produced from the spoken sound, wherein the recognizing means
+
+is characterized by:
+
+means for decompressing (84) only those probability values associated
+with codewords of the output probability table that are identical to the
+
+codeword of the input frame; and
+means for identifying (92) the phonetic models having the highest
+probability values associated with the codeword of the input frame.
+</CLAIMS>
+</TEXT>
+</DOC>

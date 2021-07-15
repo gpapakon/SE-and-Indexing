@@ -1,0 +1,202 @@
+<DOC>
+<DOCNO>EP-0627700</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Architecture for a high performance three dimensional graphics accelerator
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T1500	G06T1100	G06T1100	G06T1500	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	G06T	G06T	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T15	G06T11	G06T11	G06T15	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A graphics accelerator is disclosed that achieves high performance at a 
+relatively low cost by overcoming the variety of system constraints. The graphics 
+
+accelerator comprises a command preprocessor for translating differing 
+geometry input data formats into a standard format, a set of floating-point 
+
+processors optimized for three dimensional graphics functions, and a set of draw 
+processors that concurrently perform edgewalking and scan interpolation 
+
+rendering functions for separate portions of a triangle. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SUN MICROSYSTEMS INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SUN MICROSYSTEMS, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+DEERING MICHAEL F
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DEERING, MICHAEL F.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to the field of computer graphics systems. More
+particularly, this invention relates to an architecture for a high performance three
+dimensional graphics accelerator in a computer system.A three dimensional graphics accelerator is a specialized graphics
+rendering subsystem for a computer system. Typically, an application program
+executing on a host processor of the computer system generates three
+dimensional geometry input data that defines three dimensional graphics
+elements for display on a display device. The application program typically
+transfers the geometry input data from the host processor to the graphics
+accelerator. Thereafter, the graphics accelerator renders the corresponding
+graphics elements on the display device.The design architecture of a high performance three dimensional graphics
+system historically embodies a balance between system performance and system
+cost. The typical design goal is to increase system performance while minimizing
+increases in system cost. However, prior graphics systems usually suffer from
+either limited performance or high cost due to a variety of system constraints.For example, a high performance graphics system typically implements an
+interleaved frame buffer comprised of multiple VRAM banks because the 
+minimum read-modify-write cycle time for commercially available video
+random access memory (VRAM) chips is a fundamental constraint on rendering
+performance. The implementation of multiple interleaved VRAM banks enables
+parallel pixel rendering into the frame buffer to increase overall rendering
+performance. Unfortunately, the separate addressing logic required for each
+interleave VRAM bank increases the cost and power consumption of such high
+performance systems.On the other hand, a graphics system may implement a rendering
+processor on a single integrated circuit chip to minimize cost and power
+consumption. Unfortunately, such systems suffer from poor rendering
+performance due to the limited number of interface pins available with the single
+integrated circuit chip. The limited number of interface pins reduces the
+interleave factor for the frame buffer, thereby precluding the rendering
+performance benefits of parallel processing.Another graphics system constraint is the proliferation of differing three
+dimensional geometry input data formats that define similar drawing functions.
+A graphics systems is typically required to support many of the differing
+geometry input data formats. Some prior graphics systems support the differing
+geome
+</DESCRIPTION>
+<CLAIMS>
+A graphics accelerator, comprising:
+
+a command preprocessor (30) having a 3D geometry pipeline and a direct port
+pipeline, the command preprocessor accessing input vertex packets and direct
+
+port data over a host bus (28), the 3D geometry pipeline reformatting the input
+vertex packets into reformatted vertex packets according to a predefined vertex
+
+format, the 3D geometry pipeline assembling the reformatted vertex packets into
+an output geometry packet and transferring the output geometry packet over a
+
+floating-point bus (82), the direct port pipeline transferring the direct port data over a
+draw bus (80);
+at least one floating-point processor (40-43) coupled to communicate over the
+floating-point bus, the floating-point processor receiving the output geometry
+
+packet over the floating-point bus, generating a draw packet, and transferring the
+draw packet over the draw bus, the draw packet containing parameters that
+
+define a geometry object;
+a plurality of draw processors (50-54) concurrently receiving the draw packet and for receiving the direct port data
+over the draw bus, each draw processor performing edgewalking and scan
+
+interpolation functions corresponding to the geometry object, such that each
+draw processor renders a subset of pixels corresponding to the geometry object;
+a frame buffer (61-65) comprising a plurality of interleave banks, each interleave
+bank receiving the subset of pixels from one of the draw processors.
+The graphics accelerator of claim 1, wherein the command preprocessor
+accesses the input vertex packets over the host bus according to a direct memory
+
+access protocol over the host bus. 
+The graphics accelerator of claim 2, wherein the command preprocessor
+receives virtual memory pointers over the host bus, the virtual memory pointers
+
+pointing to a geometry data array in a memory subsystem, the geometry data
+array containing the input vertex packets, the command preprocessor translating
+
+the virtual memory pointers into physical memory pointers for reading the
+geometry data array over the host bus.
+The graphics accelerator of claim 1, wherein the command preprocessor
+accesses the input vertex packets according to a programmed input/output
+
+communication protocol over the host bus.
+The graphics accelerator of claim 1, wherein the floating-point processor
+comprises a multiple entry input buffer that receives the output geometry packet
+
+over the floating-point bus, the floating-point processor transferring a buffer
+status signal to the command preprocessor over the floating-point bus indicating
+
+whether an entry of the input buffer is available.
+The graphics accelerator of claim 1, wherein the floating-point processor
+comprises an output buffer that holds the draw packet, the floating-point
+
+processor receiving a control signal from the command preprocessor over the
+draw bus, the control signal causing the output buffer to transfer the draw packet
+
+over the draw bus.
+The graphics accelerator of claim 1, wherein the draw processors comprise
+a set of five draw processors, such that each draw processor renders every fifth
+
+pixel per scan line corresponding to the geometry object. 
+The graphics accelerator of claim 7, wherein the frame buffer comprises a
+set of five interleaved video random access memory (VRAM) banks.
+The graphics accelerator of claim 8, wherein each draw processor
+comprises a memory circuit for accessing a separate interleave VRAM bank of
+
+the frame buffer.
+A method for rendering geometry objects, comprising the steps of:
+
+accessing input vertex packets over a host bus, and reformatting the input
+vertex packets into reformatted vertex packets according to a predefined vertex
+
+format;
+assembling the reformatted vertex packets into an output geometry packet
+and transferring the output geometry packet over a floating-point bus;
+receiving the reformatted vertex packet over the floating-point bus, and
+generating a draw packet, such that the draw packet contains parameters that
+
+define a geometry object;
+transferring the draw packet over a draw bus;
+receiving the draw packet over the draw bus, and performing
+edgewalking and scan interpolation functions corresponding to the geometry
+
+object, such that a subset of pixels corresponding to the geometry object are
+rendered;
+transferring the subset of pixels to an interleave bank of an interleaved
+frame buffer.
+The method of claim 10, wherein the step of accessing input vertex packets
+over a host bus comprises the step of accessing the input vertex packets over the 
+
+host bus according to a direct memory access protocol over the host bus.
+The method of claim 11, wherein the step of accessing input vertex packets
+over a host bus comprises the steps of:
+
+
+receiving virtual memory pointers over the host bus, the virtual memory
+pointers pointing to a geometry data array in a memory subsystem, the geometry
+
+data array containing the input vertex packets;
+translating the virtual memory pointers into physical memory pointers;
+reading the geometry data array over the host bus according to the
+physical memory pointers.
+The method of claim 10, wherein the step of accessing input vertex packets
+over a host bus comprises the step of accessing the input vertex packets
+
+according to a programmed input/output communication protocol over the host
+bus.
+The method of claim 10, wherein the step of transferring the output
+
+geometry packet over a floating-point bus comprises the steps of:
+
+sensing a buffer status signal over the floating-point bus indicating
+whether an entry in an input buffer is available;
+transferring the output geometry packet to the input buffer over the
+floating-point bus if the input buffer is available.
+The method of claim 10, wherein the step of transferring the draw packet
+over a draw bus comprises the steps of:
+
+
+sensing a control signal over the draw bus;
+transferring the draw packet over a draw bus if the control signal is 
+sensed.
+The method of claim 10, wherein the subset of pixels comprises every fifth
+pixel per scan line corresponding to the three dimensional triangle.
+The method of claim 16, wherein the frame buffer comprises a set of five
+interleaved video random access memory (VRAM) banks.
+</CLAIMS>
+</TEXT>
+</DOC>

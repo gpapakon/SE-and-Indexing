@@ -1,0 +1,497 @@
+<DOC>
+<DOCNO>EP-0650298</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+METHOD FOR CODING OR DECODING TIME-VARYING IMAGE, AND APPARATUSES FOR CODING/DECODING
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04N754	H04N750	H04N750	H04N726	H04N726	H04N752	H04N736	H04N736	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The apparatus for coding a time-varying image divides the image signals whose image frame is N pixels x M 
+lines (N pixels horizontally and M lines vertically) into a first image part which is an inner image portion having an 
+
+image frame of N₁ pixels x M₁ lines (N₁ ≦ N and M₁ ≦ M), and a second image part which is the image portion outside 
+the first image part. The first image part and the second image part are further divided into given independent division 
+
+units each formed by a plurality of pixels. When the coded information is about given division units belonging to 
+the second image part, an identification code is added to the header of each division unit. If the apparatus is only 
+
+capable of decoding the image frame of N₁ pixels x M₁ lines, the apparatus reproduces only the first image part. The 
+apparatus recognizes the identification code added to the header of a division unit belonging to the second image part, 
+
+and skips over the coded information of the second image part. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SONY CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SONY CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+KATO MOTOKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YAGASAKI YOICHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YONEMITSU JUN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KATO, MOTOKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YAGASAKI, YOICHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YONEMITSU, JUN
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to a moving picture coding method for
+coding a moving picture, a moving picture decoding method for
+decoding a coded moving picture, and apparatuses therefor.In the case of digitizing a signal of a moving picture to
+record and transmit digital data thus obtained, its data quantity
+becomes extremely large. For this reason, coding (compression)
+is implemented to that data. As a representative coding system,
+there is so called MPEG (Moving Picture Expert Group) system.
+This MPEG is general name of the moving picture coding system
+which has progressed in WG (Working Group) 11 of SC (Sub
+Committee) 29 of JTC (Joint Technical Committee) 1 of ISO
+(International Standardization Organization) and IEC
+(International Electrotechnical Commission).Moreover, as a widely known format in the case of handling
+a picture signal by a digital signal, there is Recommendation 601
+(Rec. 601) of so called CCIR (Comite Consultatif Internationale
+des Radio-communications (International Radio Consultative
+Committee)). This Rec. 601 is the worldwide standardized format
+of digital picture based on the component (so called 4:2:2
+component) coding system. In the MPEG, the above-mentioned Rec. 601 format is used as
+input/output picture format. In the NTSC zone of the scanning
+line 525 lines/30 Hz, an input/output picture format as shown in
+FIG. 11, for example, has been most popularly used. For example,
+in MPEG2 (MPEG phase-2), picture of picture frame of frame of 720
+pixels x 480 lines of Rec. 601 format is handled. On the other
+hand, in MPEG1 (MPEG phase-1), picture of picture frame of frame
+(SIF) of 360 pixels x 240 lines obtained by thinning pixels so
+that resolutions in the longitudinal and lateral directions are
+respectively equal to one half thereof is handled.A technique to allow the transmission format of picture to
+have a relationship such that the ratio between length and
+breadth of picture frame is expressed as 1:2 in dependency upon
+difference of resolution is convenient in a hierarchical manner.
+This is related to the following two reasons.First reason is that hardware configuration of thinning
+filter and/or interpolating filter having ratio of 1:2 are
+simpler than those of filters having other ratios.Second reason is that, in the case of constituting picture
+coding/decoding apparatuses, it is possible to process picture
+data by four image LSIs disposed in parallel for picture having
+resolution which is one half of picture to be processed.An example of filter coefficients of the thinning filter is
+sh
+</DESCRIPTION>
+<CLAIMS>
+A moving picture coding method using motion compensating prediction,
+comprising the steps of:
+
+
+dividing a picture signal of a picture frame of N pixels x M lines (horizontal
+N pixels, vertical M lines) to be coded using said motion compensating prediction
+
+between a first picture portion (G
+1
+) serving as an internal picture portion having a
+picture frame of N
+1
+ pixels x M
+1
+ lines (N
+1
+ ≤ N, M
+1
+ ≤ M) and a second picture
+portion (G
+2
+) serving as a picture portion outside of the first picture portion (G
+1
+), said
+first picture portion being at a fixed position from frame to frame with respect to said
+
+picture frame of N pixels x M lines;
+
+   wherein the first picture portion (G
+1
+) and the second picture portion (G
+2
+)
+comprise independent predetermined divisional units comprising a plurality of pixels,
+
+said divisional units being grouped into blocks for coding;
+coding said first and second picture portions (G
+1
+, G
+2
+), said first picture portion
+(G
+1
+) being coded by using motion compensating prediction only with reference to a
+reference picture of said first picture portion, thereby inhibiting any reference to said
+
+second picture portion, and said second picture portion (G
+2
+) being coded using blocks
+of both intra- and inter-coding modes, both said first picture portion and said second
+
+picture portion including a block of the inter-coding mode; and
+transmitting coded information of the predetermined divisional units belonging
+to the second picture portion (G
+2
+) with discrimination codes added to headers of the
+divisional units to discriminate between said first and second picture portions.
+A moving picture coding method as set forth in claim 1, wherein motion
+compensating prediction implemented to the second picture portion (G
+2
+) of a picture
+to be currently coded does not place restrictions on the reference picture.
+A moving picture coding method as set forth in claim 1 or claim 2, wherein
+the size of a unit block for carrying out motion compensating prediction is N
+2
+ pixels
+x M
+2
+ lines, where N
+1
+ is a multiple of N
+2
+ and M
+1
+ is a multiple of M
+2
+. 
+A moving picture coding method as set forth in claim 1, claim 2 or claim 3,
+wherein each of N
+1
+ and M
+1
+ is a multiple of 16.
+A moving picture coding method as set forth in any one of claims 1 to 4,
+wherein a frame picture signal to be transmitted is a picture signal having 483 lines
+
+or more required for the television broadcasting of the NTSC system, and the number
+M, of lines of the first picture portion is 480.
+A moving picture decoding method for decoding a coded signal of a moving
+picture using motion compensating prediction,
+
+   wherein a picture signal of N pixels x M lines (horizontal N pixels, vertical
+M lines) is divided between a first picture portion (G,) serving as an internal picture
+
+portion having a picture frame of N
+1
+ pixels x M
+1
+ lines (N
+1
+ ≤ N, M
+1
+ ≤ M) and a
+second picture portion (G
+2
+) serving as a picture portion outside the first picture
+portion, said first picture portion (G
+1
+) being at a fixed position from frame to frame
+with respect to said picture frame of N pixels x M lines, said method comprising the
+
+steps of:
+
+reproducing only the first picture portion (G
+1
+);
+detecting discrimination codes included in headers of the first picture portion
+(G
+1
+) which indicate the second picture portion (G
+2
+) to thereby discriminate, thus to
+read in a skipped manner, coded information of the second picture portion; and
+decoding at least said first picture portion (G
+1
+), said first picture portion (G
+1
+)
+being decoded by using motion compensating prediction (56) only with reference to
+
+a reference picture of said first picture portion, thereby inhibiting any reference to
+said second picture portion, said first picture portion including a block of the inter-coding
+
+mode.
+A moving picture decoding method as set forth in claim 6, wherein only said
+first picture portion (G
+1
+) is decoded.
+A moving picture decoding method as set forth in claim 6, wherein both said
+first and second picture portions (G
+1
+, G
+2
+) are decoded, said second picture portion 
+(G
+2
+) being decoded using blocks of both intra- and inter-coding modes.
+A moving picture decoding method as set forth in claim 6, claim 7 or claim
+8 wherein the size of a unit block for carrying out motion compensation is N
+2
+ pixels
+x M
+2
+ lines, where N
+1
+ is a multiple of N
+2
+ and M
+1
+ is a multiple of M
+2
+.
+A moving picture decoding method as set forth in any one of claims 6 to 9,
+wherein each of N
+1
+ and M, is a multiple of 16.
+A moving picture decoding method for decoding a coded signal of a moving
+picture using motion compensating prediction,
+
+   wherein a frame picture signal having 483 lines or more for NTSC television
+broadcasting is divided between a first picture portion of 480 lines and a second
+
+picture portion (EXTRA_SLICE) serving as a picture portion of the highest portion
+or the lowest portion of a portion except for the first picture portion, said first picture
+
+portion being at a fixed position from frame to frame with respect to said picture
+
+frame having 483 lines or more, said method comprising the steps of:
+
+reproducing only the first picture portion to detect any one of particular
+discrimination codes in headers of the first picture portion which indicate the second
+
+picture portion to thereby discriminate, thus to read in a skipped manner, coded
+information of the second picture portion; and
+decoding at least said first picture portion, said first picture portion being
+decoded by using motion compensating prediction only with reference to a reference
+
+picture of said first picture portion, thereby inhibiting any reference to said second
+picture portion, said first picture portion including a block of the inter-coding mode.
+A moving picture decoding method as set forth in claim 11, wherein only said
+first picture portion is decoded.
+A moving picture decoding method as set forth in claim 11, wherein both said
+first and second picture portions are decoded, said second picture portion being
+
+decoded using blocks of both intra- and inter-coding modes. 
+A moving picture coding apparatus using motion compensating prediction,
+comprising:
+
+
+means for dividing a picture signal of a picture frame of N pixels x M lines
+(horizontal N pixels, vertical M lines) to be coded using said motion compensating
+
+prediction between a first picture portion (G
+1
+) serving as an internal picture portion
+having a picture frame of N
+1
+ pixels x M
+1
+ lines (N
+1
+ ≤ N, M
+1
+ ≤ M) and a second
+picture portion (G
+2
+) serving as a picture portion outside of the first picture portion
+(G
+1
+), said first picture portion being at a fixed position from frame to frame with
+respect to said picture frame of N pixels x M lines;
+
+   wherein the first picture portion (G
+1
+) and the second picture portion (G
+2
+)
+comprise independent predetermined divisional units comprising a plurality of pixels,
+
+said divisional units being grouped into blocks for coding;
+means for coding said first and second picture portions (G
+1
+, G
+2
+), said first
+picture portion (G
+1
+) being coded by using motion compensating prediction only with
+reference to a reference picture of said first picture portion, thereby inhibiting any
+
+reference to said second picture portion, and said second picture portion (G
+2
+) being
+coded using blocks of both intra- and inter-coding modes, both said first picture
+
+portion and said second picture portion including a block of the inter-coding mode;
+and
+means for transmitting coded information of the predetermined divisional units
+belonging to the second picture portion (G
+2
+) with discrimination codes added to
+headers of the divisional units to discriminate between said first and second picture
+
+portions.
+A moving picture coding apparatus as set forth in claim 14, wherein motion
+compensating prediction implemented to the second picture portion (G
+2
+) of a picture
+to be currently coded does not place restrictions on the reference picture.
+A moving picture coding apparatus as set forth in claim 14 or claim 15,
+wherein the size of a unit block for carrying out motion compensating prediction is
+
+N
+2
+ pixels x M
+2
+ lines, where N
+1
+ is a multiple of N
+2
+ and M
+1
+ is a multiple of M
+2
+. 
+A moving picture coding apparatus as set forth in claim 14, claim 15 or claim
+16, wherein each of N
+1
+ and M
+1
+ is a multiple of 16.
+A moving picture coding apparatus as set forth in any one of claims 14 to 17,
+wherein a frame picture signal to be transmitted is a picture signal having 483 lines
+
+or more required for the television broadcasting of the NTSC system, and the number
+of M
+1
+ lines of the first picture portion is 480.
+A moving picture decoding apparatus for decoding a coded signal of a moving
+picture using motion compensating prediction,
+
+   wherein a picture signal of N pixels x M lines (horizontal N pixels, vertical
+M lines) is divided between a first picture portion (G
+1
+) serving as an internal picture
+portion having a picture frame of N
+1
+ pixels x M
+1
+ lines (N
+1
+ ≤ N, M
+1
+ ≤ M) and a
+second picture portion (G
+2
+) serving as a picture portion outside the first picture
+portion, said first picture portion (G
+1
+) being at a fixed position from frame to frame
+with respect to said picture frame of N pixels x M lines, said apparatus comprising:
+
+
+means for reproducing only the first picture portion (G
+1
+);
+means for detecting discrimination codes included in headers of the first
+picture portion (G
+1
+) which indicate the second picture portion (G
+2
+) to thereby
+discriminate, thus to read in a skipped manner, coded information of the second
+
+picture portion; and
+means for decoding at least said first picture portion (G
+1
+), said first picture
+portion (G
+1
+) being decoded by using motion compensating prediction (56) only with
+reference to a reference picture of said first picture portion, thereby inhibiting any
+
+reference to said second picture portion, said first picture portion including a block
+of the inter-coding mode.
+A moving picture decoding apparatus as set forth in claim 19, wherein only
+said first picture portion (G
+1
+) is decoded.
+A moving picture decoding apparatus as set forth in claim 19, wherein both
+said first and second picture portions (G
+1
+, G
+2
+) are decoded, said second picture 
+portion (G
+2
+) being decoded using blocks of both intra- and inter-coding modes.
+A moving picture decoding apparatus as set forth in claim 19, claim 20 or
+claim 21, wherein the size of a unit block for carrying out motion compensation is
+
+N
+2
+ pixels x M
+2
+ lines, where N
+1
+ is a multiple of N
+2
+ and M
+1
+ is a multiple of M
+2
+.
+A moving picture decoding apparatus as set forth in any one of claims 20 to 22,
+wherein each of N
+1
+ and M
+1
+ is a multiple of 16.
+A moving picture decoding apparatus for decoding a coded signal of a moving
+picture using motion compensating prediction,
+
+   wherein a frame picture signal having 483 lines or more for NTSC television
+broadcasting is divided between a first picture portion of 480 lines and a second
+
+picture portion (EXTRA_SLICE) serving as a picture portion of the highest portion
+or the lowest portion of a portion except for the first picture portion, said first picture
+
+portion being at a fixed position from frame to frame with respect to said picture
+frame having 483 lines or more, said apparatus comprising:
+
+
+means for reproducing only the first picture portion to detect any one of
+particular discrimination codes in headers of the first picture portion which indicate
+
+the second picture portion to thereby discriminate, thus to read in a skipped manner,
+coded information of the second picture portion; and
+means for decoding at least said first and second picture portions, said first
+picture portion being decoded by using motion compensating prediction only with
+
+reference to a reference picture of said first picture portion, thereby inhibiting any
+
+reference to said second picture portion, said first picture portion including a block
+of the inter-coding mode.
+A moving picture decoding apparatus as set forth in claim 24, wherein only
+said first picture portion is decoded.
+A moving picture decoding apparatus as set forth in claim 24, wherein both
+said first and second picture portions are decoded, said second picture portion being
+
+decoded using blocks of both intra- and inter-coding modes.
+</CLAIMS>
+</TEXT>
+</DOC>

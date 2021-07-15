@@ -1,0 +1,508 @@
+<DOC>
+<DOCNO>EP-0654199</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+RATIONAL INPUT BUFFER ARRANGEMENTS FOR AUXILIARY INFORMATION IN VIDEO AND AUDIO SIGNAL PROCESSING SYSTEMS
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04N752	H04N724	H04N752	H04N732	H04N732	H04N724	H04N750	H04N592	H04N750	H04N592	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	H04N5	H04N7	H04N5	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method of generating a bit stream by multiplexing non-compressed auxiliary information with an information stream. The information stream is obtained by compressing fixed-size units of an information signal with a varying compression ratio to provide varying-sized units of the information stream. The auxiliary information is for use in subsequently decoding the information stream. Units of the auxiliary information correspond to the units of the information signal. In the method, the information stream is divided in time into information stream portions. The non-compressed auxiliary information is also divided in time into auxiliary information portions. The information stream portions and the auxiliary information portions are interleaved to provide the bit stream. Finally, the information stream dividing, auxiliary information dividing, and interleaving steps are controlled by emulating decoding of the bit stream by hypothetical system target decoder. The hypothetical system target decoder includes a demultiplexer that demultiplexes the bit stream, a serial arrangement of an information stream buffer and an information stream decoder, and a serial arrangement of an auxiliary information buffer and an auxiliary information processor. Each serial arrangement is connected to the demultiplexer. The information stream dividing, auxiliary information dividing, and interleaving steps are controlled such that the information stream buffer and the auxiliary information buffer neither overflow nor underflow.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SONY CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SONY CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+VELTMAN MARKUS HENDRIKUS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+VELTMAN, MARKUS, HENDRIKUS
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to apparatus for
+compressing and expanding digital information signals,
+and, in particular, to the buffering of auxiliary
+information included with information signals compressed
+with a dynamically varying compression ratio.For storage on or distribution via such media as
+CD-ROMs, laser disks (LDs), video tapes, magneto-optical
+(MO) storage media, digital compact cassette (DCC),
+terrestrial or satellite broadcasting, cable systems,
+fibre-optic distribution systems, telephone systems, ISDN
+systems etc., video and audio signals are compressed and
+coded, and the resulting video stream and audio stream are
+then multiplexed to provide a bit stream for feeding to
+the medium. The bit stream is later reproduced from the
+medium, is demultiplexed, and the resulting video stream
+and audio stream are decoded and expanded to recover the
+original audio and video signals. Two of the main international standards related to
+compressing audio and video signals for storage on or
+distribution via a medium are those known as MPEG-1 and
+MPEG-2. These standards have been established by the
+Motion Picture Experts Group (MPEG) operating under the
+auspices of the International Standards Organization (ISO)
+and the International Electrotechnical Committee (IEC).The MPEG standards are established under the
+assumption that they will be used in a wide range of
+applications. As a result, the standards allow for such
+possibilities a phase-locked system, in Which the sampling
+rate clock of the audio signal is phase-locked to the same
+clock reference (SCR) as the frame rate clock of the video
+signal, and a non phase-locked system in which the
+sampling rate clock of the audio system and the frame rate
+clock of the video system operate independently.
+Irrespective of whether the system is phase-locked, the
+MPEG standards require the addition of a time stamp to the
+multiplexed bit stream at least once every 0.7 seconds,
+and that the encoder provide separate time stamps for use
+by the audio decoder and by the video decoder.One of the aims of the MPEG standards is to provide
+maximum flexibility for encoder and decoder design while
+ensuring that the bit stream provided by any encoder can
+be successfully decoded by any decoder. One of the ways 
+in which this compatibility is established is by the
+concept of the System Target Decoder.A typical audio and video signal processing system 110
+according to the MPEG-1 and MPEG-2 standards is shown in
+Figure 1. In this, the encoder 100 receives the video
+signal S2 from the
+</DESCRIPTION>
+<CLAIMS>
+A method of generating a bit stream by multiplexing non-compressed auxiliary
+information with an information stream, the information stream being obtained by
+
+compressing fixed-size units of an information signal with a varying compression ratio
+to provide varying-sized units of the information stream, the auxiliary information
+
+being for use in subsequently decoding the information stream, units of the auxiliary
+information corresponding to the units of the information signal, the multiplexing being
+
+controlled by emulating decoding of the bit stream by a hypothetical system target
+decoder (4) including a demultiplexing means (41) for demultiplexing the bit stream and
+
+including buffer means (42, 43), a decoder means (45, 46) and an auxiliary information
+processor (44) connected to said demultiplexing means (41), the controlling being such
+
+that the buffer means neither overflows nor underflows,
+the method being characterised by the steps of
+dividing the information stream in time into information stream portions;
+dividing the non-compressed auxiliary information in time into auxiliary
+information portions;
+interleaving the information stream portions and the auxiliary information
+portions to provide the bit stream; and
+controlling the information stream dividing, auxiliary information dividing, and
+interleaving steps by said emulating decoding of the bit stream by said hypothetical
+
+system target decoder (4), said hypothetical system target decoder (4) including said
+demultiplexing means (41) for demultiplexing the bit stream, a serial arrangement of an
+
+information stream buffer (42, 43) and an information stream decoder (45, 46), and a
+serial arrangement of an auxiliary information buffer (44) and an auxiliary information
+
+processor (47), each serial arrangement being connected to said demultiplexing means
+(41),
+the information stream dividing, auxiliary information dividing, and interleaving
+steps being controlled such that both the information stream buffer (42, 43) and the
+
+auxiliary information buffer (44) neither overflow nor underflow.
+The method of claim 1, wherein, in the step of controlling the information stream
+dividing, auxiliary information dividing , and interleaving steps:
+
+
+the demultiplexing means (41) receives the bit stream and extracts therefrom the
+information stream and the auxiliary information for feeding to the information stream
+
+buffer (42, 43) and the auxiliary information buffer (44), respectively;
+the information stream buffer (42, 43) has first target size;
+the auxiliary information buffer (44) has a second target size;
+the information stream decoder (45, 46) removes the varying-sized units of the
+information stream from the information stream buffer (42, 43) at a first target timing;
+
+and
+the auxiliary information processor (47) removes the corresponding fixed-sized
+units of the auxiliary information from the auxiliary information buffer (44) at a second
+
+target timing.
+The method of claim 2, wherein, in the interleaving step:
+
+the bit stream comprises plural layers; and
+the information stream portions and the auxiliary information portions are
+interleaved in the same one of the plural layers of the bit stream.
+The method of claim 3, wherein the auxiliary information is directory information
+for the information stream.
+The method of claim 4, wherein the information stream includes plural access points,
+
+and each unit of the directory information relates to one of the access points.
+The method of claim 5, wherein:
+
+in the step of dividing the auxiliary information into auxiliary information
+portions, the directory information is divided into a directory packet including a number
+
+of units of directory information determined by the second target size,
+in the step of dividing the information stream into information stream portions,
+the information stream is divided a set of plural information packets, the set of plural 
+
+information packets including a number of access points equal to the number of units of
+directory information in the directory packet; and
+in the interleaving step, the directory packet is interleaved adjacent the set of
+information packets.
+The method of claim 2, wherein, in the interleaving step:
+
+the bit stream comprises plural layers; and
+the information stream portions are interleaved in a first layer of the bit stream,
+and the auxiliary information portions are interleaved in a second layer of the bit
+
+stream, different from the first layer.
+The method of claim 7, wherein the information stream comprises plural access units
+and the auxiliary information is a set of time stamps for decoding the access units of the
+
+information stream.
+The method of claim 8, wherein:
+
+in the controlling step the auxiliary information buffer (52, 53) has an occupancy
+determined by the second target size, the auxiliary information fed from the
+
+demultiplexing means (41A), and the auxiliary information removed by the auxiliary
+information processor (55, 56);
+the step of dividing the information stream into information stream portions
+divides the information stream into plural information packets;
+the step of dividing the auxiliary information into auxiliary information portions
+divides the set of time stamps into time stamps;
+the step of interleaving the information stream additionally includes the step of
+providing an information packet header for each information packet; and
+in the step of interleaving the information stream portions and the auxiliary
+information portions, a time stamp is included in the information packet header of ones
+
+of the information packets selected according to the occupancy of the auxiliary
+information buffer (52, 53).
+The method of claim 8, wherein: 
+
+in the controlling step the information stream buffer (42, 43) has a first target
+size, and the auxiliary information buffer (52, 53) has a second target size, and the
+
+auxiliary information buffer (52, 53) has an occupancy determined by the second target
+size,
+the auxilliary information fed from the demultiplexer (41A) and the auxiliary
+information removed by the auxiliary information processor (55, 56);
+the step of dividing the information stream into information stream portions
+divides the information stream into plural information packets;
+the step of dividing the auxiliary information into auxiliary information portions
+divides the set of time stamps into time stamps;
+the step of interleaving the information stream additionally includes the step of
+providing an information packet header for each information packet; and
+in the step of interleaving the information stream portions and the auxiliary
+information portions, time stamps are periodically included in the information packet
+
+header of the information packets at a time stamp buffer frequency; and
+in the controlling step, at least one of the time stamp coding frequency and the
+second target size is controlled in such a manner that maximizes the occupancy of the
+
+information stream buffer without causing the information stream buffer to overflow.
+The method of claim 7, wherein:
+
+the information stream decoder is one of plural information stream decoders, the
+information stream decoders being phase locked; and
+the auxiliary information buffer (44) has a size set to accommodate one and no
+more than one unit of the auxiliary information.
+An encoder (1) for generating a bit stream, the encoder (1) comprising:
+
+means (201, 202) for compressing fixed-size units of an information signal with
+a varying compression ratio to provide varying-sized units of an information stream;
+multiplexing means (203) for sequentially arranging the information stream and
+auxiliary information to provide the bit stream, the multiplexing means including a
+
+control means for controlling by emulating decoding of the bit stream by a system
+target decoder (4) including a demultiplexing means (41) for demultiplexing the bit
+
+stream, buffer means (42, 43), a decoder (45, 46), an auxiliary information processor 
+(47) connected to said demultiplexing means (41), the controlling being such that the
+
+buffer means neither overflows nor underflows,
+the encoder being characterised in that
+
+it further comprises information stream dividing means for dividing the information
+stream in time into information stream portions and
+
+
+auxiliary information dividing means (231) for dividing non-compressed
+auxiliary information in time into auxiliary information portions, the auxiliary
+
+information being for use in subsequently decoding the information stream, units of the
+auxiliary information corresponding to the units of the information signal; and
+the multiplexing means (203) is adapted for sequentially arranging said
+information stream portions and said auxiliary information portions to provide said bit
+
+stream,
+the control means are for controlling the information stream dividing means and
+the auxiliary information dividing means by emulating decoding of the bit stream by
+
+said system target decoder (4) further including a serial arrangement of an information
+stream buffer (42, 43) and an information stream decoder (45, 46), and a serial
+
+arrangement of an auxiliary information buffer (44) and an auxiliary information
+processor (47), each of the serial arrangements being connected to said demultiplexing
+
+means (41), said control means controlling the information stream dividing means and
+the auxiliary information dividing means such that both the information stream buffer
+
+and the auxiliary information buffer neither underflow nor overflow.
+The encoder of claim 12, wherein:
+
+the demultiplexing means (41) receives the bit stream and extracts therefrom the
+information stream and the auxiliary information for feeding to the information stream
+
+buffer (42, 43) and the auxiliary information buffer (44), respectively;
+the information stream buffer (42, 43) has first target size;
+the auxiliary information buffer (44) has a second target size;
+the information stream decoder (45, 46) removes the varying-sized units of the
+information stream from the information stream buffer (42, 43) at a first timing; and
+the auxiliary information processor (47) removes the corresponding fixed-sized
+units of the auxiliary information from the auxiliary information buffer (44) at a second
+
+target timing.
+The encoder of claim 12, wherein:
+
+the bit stream provided by the multiplexing means (203) comprises plural layers;
+and
+the multiplexing means (203) arranges the information stream portions and the
+auxiliary information portions in the same one of the plural layers of the bit stream.
+The encoder of claim 12, wherein:
+
+the bit stream provided by the multiplexing means (203) comprises plural layers;
+and
+the multiplexing means (203) arranges the time-divided portions of the
+information stream in a first layer of the bit stream and arranges the non-compressed
+
+auxiliary information in a second layer of the bit stream, different from the first layer.
+A system wherein an information signal is compressed for transfer, together with
+non-compressed auxiliary information, to a medium (5) as a bit stream, and wherein the
+
+bit stream is transferred from the medium (5) and is processed to recover the
+information signal by expansion, and to recover the auxiliary information, the auxiliary
+
+information being for use in recovering the information signal, the system comprising:
+
+an encoder (1) comprising:
+means for compressing the information signal to provide an information stream,
+fixed-sized units of the information signal being compressed using a varying
+
+compression ratio to provide varying-sized units of the information stream,
+and
+multiplexing means (203) for sequentially arranging time-divided portions of the
+information stream and time-divided portions of the non-compressed auxiliary
+
+information to provide the bit stream for transfer to the medium (5), the multiplexing
+means (203) including a control means for determining a division of the information
+
+stream and of the auxiliary information into the respective time-divided portions by
+emulating decoding of the bit stream by a system target decoder (4) including a
+
+demultiplexer means (41) for demultiplexing the bit stream and including a buffer
+means of a certain size, a decoder means and an auxiliary information processor
+
+connected to said demultiplexer means (41), a decoder (6) comprising:
+ 
+   demultiplexing means (61) for extracting the information stream and the
+
+auxiliary information from the bit stream transferred from the medium (5), buffer
+means for receiving the auxiliary information and the information stream from the
+
+demultiplexing means and decoder means for removing one of the varying-sized units
+of the information stream from the buffer means and for expanding the removed unit of
+
+the information stream to recover the information signal,
+characterised by
+the system target decoder (4) of the encoder (1) comprising a serial arrangement
+of an information stream buffer (42, 43) and an information stream decoder (45, 46),
+
+and a serial arrangement of an auxiliary information buffer (44) and an auxiliary
+information processor (47), each of the serial arrangements being connected to the
+
+demultiplexing means (41), each of the information stream buffers (42, 43) and the
+auxiliary information buffers (44) having a certain size; and
+the demultiplexing means (61) of the decoder (6) comprising
+
+first input buffer means (64) for receiving the auxiliary information from the
+demultiplexing means (61),
+the first input buffer means (61) having a size of at least the size of the auxiliary
+information buffer (44),
+means for removing a unit of the auxiliary information from the first input
+buffer means (64),
+second input buffer means (62, 63) for receiving the information stream from
+the demultiplexing means (61),
+the second input buffer means (62, 63) having a size of at least the size of the
+information stream buffer (42, 43), and
+the decoder means being further arranged for removing one of the varying-sized
+units of the information stream from said second input buffer means (62, 63).
+The system of claim 16, wherein the control means determines the division of the
+information stream and of the auxiliary information into the respective time-divided
+
+portions such that the bit stream, when subject to the emulated decoding by the system
+target decoder (4) causes the information stream buffer (42, 43) and the auxiliary
+
+information buffer (44) neither to underflow nor overflow. 
+The system of claim 16, wherein:
+
+the bit stream provided by the multiplexing means (203) has plural layers; and
+the multiplexing means (203) arranges the time-divided portions of the
+information stream and of the non-compressed auxiliary information in the same one of
+
+the plural layers of the bit stream.
+The system of claim 18, wherein the auxiliary information is directory information
+relating to the information stream.
+The system of claim 19, wherein the information stream includes plural access
+points, and each unit of the directory information relates to one of the access points.
+The system of claim 19, wherein the control means determines a division of the
+directory information into directory packets each including plural units of directory
+
+information, and determines a division of the information stream into sets of plural
+information stream packets, each set of plural information stream packets including a
+
+number of access points equal to the units of directory information; and
+
+   the multiplexing means (203) multiplexes each directory packet adjacent the set
+of information stream packets including the access points whereto the directory
+
+information in the directory packet relates.
+The system of claim 16, wherein:
+
+the bit stream provided by the multiplexing means (203) has plural layers; and
+the multiplexing means (203) arranges the time-divided portions of the
+information stream in a first layer of the bit stream and arranges the non-compressed
+
+auxiliary information in a second layer of the bit stream, different from the first layer.
+The system of claim 22, wherein the information stream comprises plural access
+units and the auxiliary information is a set of time stamps for decoding the access units
+
+of the information stream. 
+The system of claim 23, wherein:
+
+   the auxiliary information buffer (52, 53) has an occupancy determined by the
+size of the auxiliary information buffer, the auxiliary information fed from the
+
+demultiplexer (41A), and the auxiliary information removed by the auxiliary
+information processor (55, 56);
+
+the control means is for:
+
+determining a division of the information stream into plural information packets
+and providing an information packet header for each information packet,
+determining a division of the set of time stamps into time stamps;
+sequentially arranging the information stream packets and the auxiliary
+information portions, time stamps are periodically included in the information packet
+
+header of the information packets at a time stamp buffer frequency; and
+controlling at least one of the time stamp coding frequency and the size of the
+auxiliary information buffer (52, 53) in such a manner that maximizes 
+the occupancy of
+the information stream buffer (42, 43) without causing the information stream buffer to
+
+overflow.
+A method of deriving a bit stream from an information signal, the method
+comprising the steps of:
+
+
+providing an encoder (1A) including: means (201A, 204A) for compressing
+units of the information signal to provide units of an information stream, means (309,
+
+311) for providing a time stamp, buffer means (300-303) and multiplexing means
+(203A) for multiplexing the information stream and the time stamps to provide the bit
+
+stream;
+defining a hypothetical system target decoder (4A), the hypothetical system
+target decoder (4A) including a demultiplexer means (41A) for demultiplexing the bit
+
+stream, and including buffer means, decoder means and time stamp processor means
+connected to the demultiplexer (41A), emulating decoding of the bit stream using the
+
+hypothetical system target decoder; and
+encoding the information signal using the encoder (1A) with the size of the buffer
+means set to certain size
+characterised in that
+the buffer means of the encoder includes first buffer means (300, 302) having a
+size for buffering the units of the information stream and second buffer means (301,
+
+303) having a size for buffering the time stamps, the means for providing a time stamp
+doing so when the first buffer means (300, 302) receives each access unit of the
+
+information stream, said multiplexing means (203A) are multiplexing the information
+stream from the first buffer means (300, 302) and the time stamp from the second
+
+buffer means (301, 303) to provide said bit stream;
+the buffer means, decoder means and time stamp processor means of the
+hypothetical system target decoder (41A) being arranged to comprise a serial
+
+arrangement of an information stream buffer (42, 43) and an information stream
+decoder (45, 46), and a serial arrangement of a time stamp buffer (52, 53) and the time
+
+stamp processor (55, 56), each serial arrangement being connected to the demultiplexer
+(41A);
+the emulating step is used for determining the size of the first buffer means (42,
+43) and the size of the second buffer means (52, 53) and
+the encoding step uses the encoder (1A) with the size of the first buffer means
+(300, 302) and the size of the second buffer means (301, 303) set to the respective sizes
+
+determined by the determining step.
+The method of claim 25, wherein:
+
+   in the step of defining the system target decoder:
+
+the information stream buffer (42, 43) and the time stamp buffer (52, 53) each
+have a size, and the information stream decoder (45, 46) decodes the information
+
+stream in response to time stamps removed from the time buffer by the time stamp
+processor (55, 56); and
+in the determining step, the size of the first buffer means (300, 302) and the size
+of the second buffer means (301, 303) are determined by the size of the information
+
+stream buffer and the time stamp buffer.
+The method of claim 26, wherein:
+
+in the encoder, the multiplexing means (203A), periodically includes time
+stamps in the bit stream at a time stamp coding frequency; 
+the information stream has a bit rate; and
+in the determining step, a buffering delay is derived from the time stamp coding
+frequency and the bit rate, and the size of the information stream buffer and the size of
+
+the time stamp buffer are derived from the buffering delay.
+A decoder (6) for a bit stream obtained by multiplexing non-compressed auxiliary
+information with an information stream the information stream being obtained by
+
+compressing fixed-size units of an information signal with a varying compression ratio
+to provide varying-sized units of the information stream, the auxiliary information bing
+
+for use in subsequently decoding the information streams, units of the auxiliary
+information corresponding to the units of the information signal, the decoder (6)
+
+comprising:
+
+demultiplexing means (61) for extracing the information stream and the auxiliary
+information from the bit stream and including buffer means (62-64) for receiving the
+
+auxiliary information and the information stream from the demultiplexing means (61)
+and
+decoder means (65-67) for removing one of the varying-sized units of the
+information stream and expanding the removed unit of the information stream in
+
+response to a unit of the auxiliary information to recover a fixed-size unit of the
+information signal,
+characterised by
+first input buffer means (64) for receiving the auxiliary information from the
+demultiplexing means (61);
+means (67) for removing a unit of the auxiliary information from the first input
+buffer means;
+second input buffer means (62, 63) for receiving the information stream from
+the demultiplexing means (61);
+the decoder means (65, 66) receiving the varying-sized units of the information
+stream from said second buffer means (62, 63).
+The decoder of claim 28, wherein the decoder means (62) removes the one of the
+varying sized units of the information stream from the second input buffer means at a
+
+time indicated by the unit of the auxiliary information.
+</CLAIMS>
+</TEXT>
+</DOC>

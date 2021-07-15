@@ -1,0 +1,195 @@
+<DOC>
+<DOCNO>EP-0618546</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Automatic determination of boundaries between polygonal structure elements of different colour in a planar graphic image
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T500	G03G1501	G03F300	G06K1500	G03F308	H04N152	H04N152	G06K1500	G03G1501	G06T500	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G03G	G03F	G06K	G03F	H04N	H04N	G06K	G03G	G06T	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T5	G03G15	G03F3	G06K15	G03F3	H04N1	H04N1	G06K15	G03G15	G06T5	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method for determining the boundaries between regions of color making up 
+polychromatic document pages or images, in order to compensate for misregistration of 
+
+printing plates in printing, and thereby to prevent light leaks and other errors at the boundaries 
+so determined. A map of the boundaries is generated, to which trapping operations are 
+
+applied to form a structured graphic object that is included as the last object imaged in the 
+data representing the original image. The geometrical description of the boundary map 
+
+determined according to the method of the invention is independent of specific trapping 
+decisions applicable to the associated image. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+</APPLICANTS>
+<INVENTORS>
+</INVENTORS>
+<DESCRIPTION>
+The present application is related to the applications of Richard A. Dermer for "Method
+and Apparatus for Correcting for Plate Misgregistration in Color Printing" (cf. EP-A-0 620 534) and "Method for
+Automatic Trap Selection for Correcting for Plate Misregistration in Color Printing" (cf. US-A-5 313 570) filed
+simultaneously herewith, assigned to the same assignee, and having the same priority dates.The field to which the invention applies is the electronic processing of graphic images to
+produce multi-color output using offset or other printing methods. Images are obtained electronically
+by digital scanning of photographic material and combined with "structured graphics"
+to provide composed images or pages which are then separated into monochromatic images
+each corresponding to an ink to be used in the printing process. Typically, four process
+color inks, cyan, magenta, yellow and black are used, although special "spot" colors can be
+used instead of or in addition to the process color inks. The separated images can then be
+output to photographic films from which printing plates are made. Alternatively, the separated
+images can be used to produce engraved cylinders from which gravure prints can be
+made.The layout of a page or graphic image to be printed as described above depends upon
+combination of "structured graphics" according to a pre-established graphic design. The
+structured graphics are contiguous regions of color which represent a succession of graphic
+objects imaged on the printing medium (e.g. the "paper"). The objects so imaged are polygon
+shapes which can be isolated from each other, can abut one another at one or more points,
+can partially overlap one another, or can completely overlap one another. The resulting
+printed page or graphic image is therefore made up of a patchwork of polygon shapes representing
+the graphic objects, some of which are "clipped" by objects imaged later in the succession. The result of abutting or overlapping polygon shapes is a boundary between adjacent regions
+of color which under ideal printing conditions should have zero width. The "colors"
+which fill the polygon shapes can be solid colors, tints, degradés, contone images, or "no fill"
+(i.e., the paper with no ink applied). In general, the "colors" represented in these adjacent
+regions are printed using more than one ink. In practice therefore, the realization of a zero
+width boundary between regions of different color is impossible as a result of small but visible
+misregistration problems from one printing
+</DESCRIPTION>
+<CLAIMS>
+A method for generating boundaries of a boundary map between
+regions of different color in a structured graphic
+
+image that contains at least one graphic object defined
+by a plurality of line segments that form a closed
+
+polygon, said method comprising the steps of:
+
+(A) generating a display list of all graphic objects in
+said structured graphic image, said display list
+
+containing the polygon line segments and their
+spatial coordinates given in a first direction and a
+
+second direction perpendicular to said first direction
+thereof for each graphic object;
+(B) creating a scan beam table of scan beams each
+defined by the area between two separate successive
+
+lines along said first direction from a set of lines (A-H)
+along the first direction drawn through all the vertices
+
+(a-h) of all graphic objects, said scan beam table
+containing all of the coordinates in the second
+
+direction of the line segments in said display list,
+said second direction coordinates being sorted in
+
+increasing order;
+(C) creating a local minimum table as a linked list of
+polygon line segments extending from local minimum
+
+second direction coordinate values upwards to
+elements representing local maximum second direction
+
+coordinate values, a local minimum being defined as a
+vertex in which two line segments are linked
+
+together, from where both line segments extend to
+greater second coordinate values, a local maximum
+
+being formed as a vertex in which two line segments
+are linked together, from where both line segments extend
+
+to smaller second coordinate values
+a line segment extending to greater second coordinate values
+
+from a local minimum or an end of another line segment
+being designated as a successor edge thereof;
+(D) establishing an active edge table and maintaining it 
+for each scan beam a line segment forming an active
+
+edge if it extends from the bottom line to the top
+
+line of the two lines defining a scan beam
+the active edges in an active edge table being sorted in the order of their first direction coordinate value at the line defining the respective scan beam having the smaller second direction coordinate value;
+(E) processing the first scan beam of said scan beam
+table and adding new active edges to said active
+
+edge table;
+(F) establishing a polygon stack for each new edge added
+to said active edge table, said polygon stack indicating a respective polygon index and incrementing a cumulative winding number for the polygon
+
+when the edge delimits the polygon to a predetermined side thereof with respect to said first direction;
+(G) processing each intersection of active edges in said
+active edge table by reversing the order of the
+
+intersecting active edges in said active edge table
+and updating the polygon stack for said intersecting
+
+active edges);
+(H) processing active edges in said active edge table
+that terminate at the line defining the scan beam having
+
+the greater second direction coordinate value, by
+replacing said terminating edges with successor
+
+edges thereof, if any, and deleting edges corresponding to
+local maxima otherwise;
+(I) updating the polygon stack for any active edge that
+becomes an intervening edge through the operation of
+
+steps (F) to (H) ;
+(J) opening boundaries for new visible edges of closed
+polygons resulting from steps (F), (G) and (H);
+(K) closing boundaries for edges of closed polygons
+which are no longer visible as a result of steps
+
+(F), (G) and (H); and,
+(L) repeating steps (E) through (K) for the second and
+each subsequent scan beam of said scan beam table,
+
+in succession.
+The method of claim 1, comprising the further steps of:
+
+(M) rotating the spatial coordinates by any non-zero
+angle with respect to initial ones of said first and second coordinate directions;
+
+and,
+(N) thereafter, repeating steps (A) through (L) to 
+generate a complete boundary map.
+The method of claim 2, wherein the spatial coordinates
+are rotated in step (M) by 90 degrees with respect to the
+
+initial first and second directions.
+The method of claim 1 wherein said spatial coordinates
+are rotated in step (A) with respect to initial first
+
+and second directions so that there remain no line segments
+of any closed polygon of said display list which
+
+are parallel to the first direction coordinate resulting
+from said spatial coordinate rotation, thereafter performing
+
+steps (B) through (L) to generate a complete boundary
+map.
+The method of claim 1, wherein the first direction is
+horizontal and the corresponding coordinates are X-coordinates,
+
+and wherein the second direction is vertical and
+the corresponding coordinates are Y-coordinates,
+
+wherein in step (L) all remaining non-horizontal boundaries
+are generated;
+
+further comprising the step of:
+
+(M) processing horizontal edges of the closed polygons
+by constructing a perpendicular set of scan beams
+
+using X-coordinates instead of Y-coordinates and
+repeating steps (C) through (L) for each boundary
+
+not previously generated, to generate a complete
+boundary map.
+</CLAIMS>
+</TEXT>
+</DOC>

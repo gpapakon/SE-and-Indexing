@@ -1,0 +1,290 @@
+<DOC>
+<DOCNO>EP-0628228</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+DATA COMPRESSION USING HASHING.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T900	G06T900	H03M730	H03M730	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	H03M	H03M	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T9	G06T9	H03M7	H03M7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Compressing a sequence of characters drawn from an alphabet uses string substitution with no a priori information. An input data block is processed into an output data block comprised of variable length incompressible data sections and variable length compressed token sections. Multiple hash tables are used based on different subblock sizes for string matching, and this improves the compression ratio and rate of compression. The plurality of uses of the multiple hash tables allows for selection of an appropriate compression data rate and/or compression factor in relation to the input data. Using multiple hashing tables with a recoverable hashing method further improves compression ratio and compression rate. Each incompressible data section contains means to distinguish it from compressed token sections.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+INTERSECTING CONCEPTS INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERSECTING CONCEPTS, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+GIBSON DEAN K
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GRAYBILL MARK D
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HARRIS DONALD H
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GIBSON, DEAN, K.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GRAYBILL, MARK, D.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HARRIS, DONALD, H.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+ DATA COMPRESSION USING HASHINGBACKGROUNDCompressing digital input data into output data at a high compression ratio and high compression rate is increasingly valuable for efficiently operating computers, transmitting and transferring data over communication channels, and for storing data.This invention relates to compressing a stream of input data into a compressed stream of output data.In particular, the system is for use, for instance, with computers, modems, data storage techniques, and data transmission and display.Lossless data compression involves the process of transforming a body of data to a typically smaller representation from which the original can be reconstructed at a later time. Thus data that is compressed and then subsequently decompressed must always be identical to the original.Ideally, data compression should be at a high compression ratio and/or a high compression rate. The use of a minimum amount of storage and steps to effect compression usually is required to achieve these objectives.The input data for compression is represented as a sequence of characters drawn from some alphabet. An alphabet is a finite set containing at least one element. The elements of an alphabet are characters. A string over an alphabet is a sequence of characters, each of which is an element of that alphabet. 
+
+ A common approach to compressing a string of characters is textual substitution. A textual substitution data compression method compresses text by identifying repeated substrings and replacing some substrings by references to other copies. Such a reference is commonly known as a pointer and the string to which the pointer refers is called a target. Therefore, in general, the input to a data compression method employing textual substitution is a sequence of characters over some alphabet and the output is a sequence of characters from the alphabet interspersed with pointers.Various data compression systems are known which utilize special purpose compression methods designed for compressing special classes of data. The major drawback to such systems is that they only work well with the special class of data for which they were designed and are inefficient when used with other types of data.Processing the input data is effected by viewing the input data in minimum subblock sizes. Thus, the input data can be considered in subblock sizes of three, four or other suitable number of bytes of input data at any one time. The determination of the correct input data subblock size impacts the rate and ratio of
+</DESCRIPTION>
+<CLAIMS>
+CLAIMS
+1. A method of compressing a stream of input data into a compressed stream of output data comprising: (a) maintaining multiple hash tables, each respectively for a different data subblock size, and each hash table having entries having respective hash keys,
+(b) hashing a string of input characters of the input data for each of the different data subblock sizes to obtain the hash keys, and using these hash keys to address hash table entries containing hash information to facilitate location of string matches,
+(c) -hashing, for each of the subblock sizes, subsequent strings of data and searching for a match of prior strings related to the information addressed by hash keys in at least one of the hashing tables, and
+(d) if a hash match occurs in at least one hash table, outputting the subsequent occurrence of the string as compressed data, and if a hash match for each of the subblocks does not occur in any hash table, outputting at least the first character of an input subblock as uncompressed data.
+2. A method as claimed in claim 1 wherein the hashed information in relation to the input data is stored in at least one of the hash tables and is selectively only a source pointer to prior hashed subblocks or the source pointer representative of the hashed subblocks and additional data.
+3. A method as claimed in claim 1 wherein selectively either one or multiple of the hash table entries contain selectively only a source pointer to prior hashed subblocks, or a source pointer to prior hashed subblocks and additional data. 
+
+
+ 4. A method as claimed in claim 1 wherein the hashed information in the hash entries in at least one of the hash tables is selectively unconditionally replaced, or conditionally replaced or removed on the occurrence of subsequent hashed information being directed by a hash key to the hash table entry containing information representative of prior hashed subblocks.
+5. A method as claimed in claim 1 wherein hashing is effected on a data subblock size of three for a first hash table and a data subblock size of four for a second hash table.
+6. A method of compressing a stream of input data into a compressed stream of output data comprising:
+(a) maintaining multiple hash tables, each respectively for a different data subblock size, and each hash table having entries having respective hash keys,
+(b) hashing a string of input characters of the input data for each of the different data subblock sizes to obtain the hash keys, and using these hash keys to address hash table entries containing hash information to facilitate location of string matches,
+(c) hashing, for each of the subblock sizes, subsequent strings of data and searching for a match of prior strings related to the information addressed by hash keys in at least one of the hashing tables,
+(d) if a hash match occurs in at least one hash table, outputting the subsequent occurrence of the string as compressed data, and if a hash match for each of the subblocks does not occur in any hash table, outputting at least the first character of an input subblock as uncompressed data, and
+(e) determining at least part of a hash key for one of the hash tables from the hash key of another of the hash tables. 
+
+
+ 7. A method as claimed in claim 6 wherein the hashed keys for a first hash table are determined on a first data subblock size and wherein a second hash table contains keys obtained from the second subblock size, and wherein the hash keys for the first subblock size are obtained at least in part from the second hash table keys.
+8. A method as claimed in claim 6 wherein the hashed information in relation to the input data is stored in at least one of the hash tables and is selectively only a source pointer to prior hashed subblocks or the source pointer representative of the hashed subblocks and additional data.
+9. A method as claimed in claim 6 wherein selectively either one or multiple of the hash table entries contain selectively only a source pointer to prior hashed subblocks, or a source pointer to prior hashed subblocks and additional data.
+10. A method -as claimed in claim 6 wherein the hashed information in the hash entries in at least one of the hash tables is selectively unconditionally replaced, or conditionally replaced or removed on the occurrence of subsequent hashed information being directed by a hash key to the hash table entry containing information representative of prior hashed subblocks.
+11. A method as claimed in claim 6 wherein hashing is effected on a data subblock size of three for a first hash table and a data subblock size of four for a second hash table.
+12. A method of compressing a stream of input data into a compressed string of output data comprising: 
+
+
+ (a) maintaining multiple hash tables, each respectively for a different data subblock size, and each hash table having entries having respective hash keys,
+(b) hashing a string of input characters of the input data for each of the different data subblock sizes to obtain the hash keys, and using these hash keys to address hash table entries containing hash information to facilitate location of string matches,
+(c) hashing, for each of the subblock sizes, subsequent strings of data and searching for a match of prior strings related to the information addressed by hash keys in at least one of the hashing tables,
+(d) if a hash match for each of the subblocks does not occur in any hash table, outputting at least the first character of an input subblock as uncompressed data, and
+(e) if a hash match occurs in at least one hash table, outputting the subsequent occurrence of the string as compressed data, such that when a hash match occurs in a table related to a larger subblock size and a hash match occurs in a table related to a smaller subblock size, the hash match in the hash table of the larger subblock size is selected for the compressed data output.
+13. A method as claimed in claim 12 wherein the hashed information in relation to the input data is stored in at least one of the hash tables and is selectively only a source pointer to prior hashed subblocks or the source pointer representative of the hashed subblocks and additional data.
+14. A method as claimed in claim 12 wherein selectively either one or multiple of the hash table entries contain selectively only a source pointer to prior hashed subblocks, or a source pointer to prior hashed subblocks and additional data. 
+
+
+ 15. A method as claimed in claim 12 wherein the hashed information in the hash entries in at least one of the hash tables is selectively unconditionally replaced, or conditionally replaced or removed on the occurrence of subsequent hashed information being directed by a hash key to the hash table entry containing information representative of prior hashed subblocks.
+16. A method as claimed in claim 12 wherein hashing is effected on a data subblock size of three for a first hash table and a data subblock size of four for a second hash table.
+17. A method of compressing a stream of input data into a compressed string of output data comprising:
+(a) maintaining multiple hash tables, each respectively for a different data subblock size, and each hash table having entries having respective hash keys,
+(b) hashing a string of input characters of the input data for each of the different data subblock sizes to obtain the hash keys, and using these hash keys to address hash table entries containing hash information to facilitate location of string matches,
+(c) hashing, for each of the subblock sizes, subsequent strings of data and searching for a match of prior strings related to the information addressed by hash keys in at least one of the hashing tables,
+(d) if a hash match for each of the subblocks does not occur in any hash table, outputting at least the first character of an input subblock as uncompressed data, and
+(e) if a hash match occurs in a hash table, outputting the subsequent occurrence of the string as compressed data, such that where a hash match occurs for more than one hash table, determining the longer match length of the string of input data for each respective 
+
+
+hash table, and outputting the longer match length as the compressed data output.
+18. A method of compressing a stream of input data into a compressed string of output data comprising:
+(a) maintaining multiple hash tables, each respectively for a different data subblock size, and each hash table having entries having respective hash keys,
+(b) hashing a string of input characters of the input data for each of the different data subblock sizes to obtain the hash keys, and using these hash keys to address hash table entries containing hash information to facilitate location of string matches,
+(c) hashing, for each of the subblock sizes, subsequent strings of data and searching for a match of prior strings related to the information addressed by hash keys in at least one of the hashing tables,
+(d) if a hash match for each of the subblocks does not occur in any hash table, outputting at least the first character of an input subblock as uncompressed data,
+(e) if a hash match occurs in a hash table, outputting the subsequent occurrence of the string as compressed data, such that where a hash match occurs in a table related to a larger subblock size relative to a hash match in a table related to a smaller subblock size, the hash match of the larger subblock size is selected as the compressed data output, and
+(f) wherein the hash keys for the larger subblock size are computed using at least part of the value of hash keys from the smaller subblock size.
+19. A method of compressing a stream of input data into a compressed string of output data comprising: (a) maintaining multiple hash tables, each respectively for a different data subblock size, and each hash table having entries having respective hash keys, 
+
+
+ (b) hashing a string o input characters of the input data for each of the different data subblock sizes to obtain the hash keys, and using these hash keys to address hash table entries containing hash information to facilitate location of string matches,
+(c) hashing, for each of the subblock sizes, subsequent strings of data and searching for a match of prior strings related to the information addressed by hash keys in at least one of the hashing tables, (d) if a hash match for each of the subblocks does not occur in any hash table, outputting at least the first character of an input subblock as uncompressed data,
+(e) wherein when a hash match occurs in a table related to a larger subblock size relative to a hash match in a table related to a- smaller subblock size, selecting the hash match of the larger subblock size as the compressed data output, and
+(f) if a hash match occurs in a hash table, outputting the subsequent occurrence of the string as compressed data, such that when a larger subblock size does not match on a minimum match length, selecting the smaller subblock size hash value if such smaller subblock value matches for its respective minimum length.
+20. A method as claimed in claim 17 wherein the hashed information in relation to the input data is stored in at least one of the hash tables and is selectively only a source pointer to prior hashed subblocks or the source pointer representative of the hashed subblocks and additional data.
+21. A method as claimed in claim 17 wherein selectively either one or multiple of the hash table entries contain selectively only a source pointer to prior hashed subblocks, or a source pointer to prior hashed subblocks and additional data. 
+
+
+ 22. A method as claimed in claim 17 wherein the hashed information in the hash entries in at least one of the hash tables is selectively unconditionally replaced, or conditionally replaced or removed on the occurrence of subsequent hashed information being directed by a hash key to the hash table entry containing information representative of prior hashed subblocks.
+23. A method as claimed in claim 17 wherein hashing is effected on a data subblock size of three for a first hash table and a data subblock size of four for a second hash table.
+24. A method as claimed in claim 18 wherein the hashed information in relation to the input data is stored in at least one of the hash tables and is selectively only a source pointer to prior hashed subblocks or the source pointer representative of the hashed subblocks and additional data.
+25. A method as claimed in claim 18 wherein selectively either one or multiple of the hash table entries contain selectively only a source pointer to prior hashed subblocks, or a source pointer to prior hashed subblocks and additional data.
+26. A method as claimed in claim 18 wherein the hashed information in the hash entries in at least one of the hash tables is selectively unconditionally replaced, or conditionally replaced or removed on the occurrence of subsequent hashed information being directed by a hash key to the hash table entry containing information representative of prior hashed subblocks.
+27. A method as claimed in claim 18 wherein hashing is effected on a data subblock size of three for 
+
+
+a first hash table and a data subblock size of four for a second hash table.
+28. A method as claimed in claim 19 wherein the hashed information in relation to the input data is stored in at least one of the hash tables and is selectively only a source pointer to prior hashed subblocks or the source pointer representative of the hashed subblocks and additional data.
+29. A method as claimed in claim 19 wherein selectively either one or multiple of the hash table entries contain selectively only a source pointer to prior hashed subblocks, or a source pointer to prior hashed subblocks and additional data.
+30. A method as claimed in claim 19 wherein the hashed information in the hash entries in at least one of the hash tables is selectively unconditionally replaced, or conditionally replaced or removed on the occurrence of subsequent hashed information being directed by a hash key to the hash table entry containing information representative of prior hashed subblocks.
+31. A method as claimed in claim 19 wherein hashing is effected on a data subblock size of three for a first hash table and a data subblock size of four for a second hash table.
+32. A method of compressing a stream of input data into a compressed string of output data comprising:
+(a) maintaining multiple hash tables, each respectively for a different data subblock size, and each hash table having entries having respective hash keys, (b) hashing a string of input characters of the input data for each of the different data subblock sizes to obtain the hash keys, and using these hash keys 
+
+
+to address hash table entries containing hash information to facilitate location of string matches,
+(c) hashing, for each of the subblock sizes, subsequent strings of data and searching for a match of prior strings related to the information addressed by hash keys in at least one of the hashing tables,
+(d) if a hash match occurs in at least one hash table, compressing and outputting the subsequent occurrence of the string in accordance with the hash match, and if a hash miss occurs, outputting such data as uncompressed data, and
+(e) when a hash miss occurs in the hash tables, hashing is effected for at least one of the hash tables by employing a hash key from the hash miss whereby a reduced number of operations is required for hashing.
+33. A method as claimed in claim 32 wherein a value of the hash key from the hashing for one hash table is transferred at least in part into a value of the hash key for the second hash table.
+34. A method as claimed in claim 32 wherein a value of hash key from the hash miss is used for obtaining a value of the hashing key from the same hash table.
+35. A method as claimed in claim 32 wherein the hashed information in relation to the input data is stored in at least one of the hash tables and is selectively only a source pointer to prior hashed subblocks or the source pointer representative of the hashed subblocks and additional data.
+36. A method as claimed in claim 32 wherein selectively either one or multiple of the hash table entries contain selectively only a source pointer to 
+
+
+prior hashed subblocks, or a source pointer to prior hashed subblocks and additional data.
+37. A method as claimed in claim 32 wherein the hashed information in the hash entries in at least one of the hash tables is selectively unconditionally replaced, or conditionally replaced or removed on the occurrence of subsequent hashed information being directed by a hash key to the hash table entry containing information representative of prior hashed subblocks.
+38. A method as claimed in claim 32 wherein hashing is effected on a data subblock size of three for a first hash table and a data subblock size of four for a second hash table.
+39. A method as claimed in claim 32 wherein the hashed information in relation to the input data is stored in at least one of the hash tables and is selectively only a source pointer to prior hashed subblocks or the source pointer representative of the hashed subblocks and additional data.
+40. A method as claimed in claim 32 wherein selectively either one or multiple of the hash table entries contain selectively only a source pointer to prior hashed subblocks, or a source pointer to prior hashed subblocks and additional data.
+41. A method as claimed in claim 32 wherein the hashed information in the hash entries in at least one of the hash tables is selectively unconditionally replaced, or conditionally replaced or removed on the occurrence of subsequent hashed information being directed by a hash key to the hash table entry containing information representative of prior hashed subblocks. 
+
+
+ 42. A method as claimed in claim 32 wherein hashing is effected on a data subblock size of three for a first hash table and a data subblock size of four for a second hash table.
+43. A method as claimed in claim 32 wherein when a hash miss occurs, the hash key of the hash miss is used in the subsequent hashing by the step of at least one computation being a simple shift, or a computation being an exclusive OR.
+44. A method of compressing a stream of input data into a compressed string of output data comprising:
+(a) maintaining multiple hash tables, each respectively for a different data subblock size, and each hash table having entries having respective hash keys,
+(b) hashing a string of input characters of the input data for each of the different data subblock sizes to obtain the hash keys, and using these hash keys to address hash table entries containing hash information to facilitate location of string matches,
+(c) hashing, for each of the subblock sizes, subsequent strings of data and searching for a match of prior strings related to the information addressed by hash keys in at least one of the hashing tables,
+(d) if a hash match for each of the subblocks does not occur in any hash table, outputting at least the first character of an input subblock as uncompressed data, and (e) if a hash match occurs outputting the subsequent occurrence of the string as compressed data, such that when a hash match occurs in a table related to a larger subblock size relative to a hash match in a table related to a smaller subblock size, selectively applying the hash match from either the larger subblock size, thereby to obtain a higher compression rate or 
+
+
+applying the longest match of both the hash matches thereby to obtain a high compression ratio.
+45. A method as claimed in claim 44 wherein the hashed information in relation to the input data is stored in at least one of the hash tables and is selectively only a source pointer to prior hashed subblocks or the source pointer representative of the hashed subblocks and additional data.
+46. A method as claimed in claim 44 wherein selectively either one or multiple of the hash table entries contain selectively only a source pointer to prior hashed subblocks, or a source pointer to prior hashed subblocks and additional data.
+47. A method as claimed in claim 44 wherein the hashed information in the hash entries in at least one of the hash tables is selectively unconditionally replaced, or conditionally replaced or removed on the occurrence of subsequent hashed information being directed by a hash key to the hash table entry containing information representative of prior hashed subblocks.
+48. A method as claimed in claim 44 wherein hashing is effected on a data subblock size of three for a first hash table and a data subblock size of four for a second hash table.
+49. A method of compressing a stream of input data into a compressed string of output data comprising:
+(a) maintaining a hash table for a data subblock size, the hash table having hash keys,
+(b) hashing a string of input characters of the input data for the data subblock size and entering the hash information into hash table entries addressed by hash keys, 
+
+
+ (c) hashing, for the subblock size, subsequent strings of data and searching for a match of prior strings related to the hashed information addressed by the hash keys in the hash table, (d) if a hash match occurs, compressing and outputting the subsequent occurrence of the string as compressed data, and if a hash miss occurs, outputting at least the first character of the subblock as uncompressed data, and (e) when a hash miss occurs in the hash table, hashing is effected for a next key for the hash table by employing the key from the hash miss whereby a reduced number of operations is required for hashing.
+50. A method as claimed in claim 49 including maintaining multiple hash tables, each for a different subblock size and applying the key from a hash miss of each respective table to the next key of a hash table.
+51. Apparatus for compressing a stream of input data into a compressed stream of output data comprising:
+(a) maintaining multiple hash tables, each respectively for a different data subblock size, and each hash table having entries having respective hash keys,
+(b) means for hashing a string of input characters of the input data for each of the different data subblock sizes to obtain the hash keys, and means for using these hash keys to address hash table entries containing hash information to facilitate location of string matches,
+(c) means for hashing, for each of the subblock sizes, subsequent strings of data and searching for a match of prior strings related to the information addressed by hash keys in at least one of the hashing tables, and 
+
+
+ (d) if a hash match occurs in at least one hash table, means for outputting the subsequent occurrence of the string as compressed data, and if a hash match for each of the subblocks does not occur in any hash table, means for outputting at least the first character of an input subblock as uncompressed data.
+52. Apparatus as claimed in claim 51 including means in the hash table for storing selectively
+*
+ only a source pointer to prior hashed subblocks or the source pointer representative of the prior hashed subblocks and additional information.
+53. Apparatus as claimed in claim 51 including means whereby selectively one or multiple of the hash table entries contain selectively only a source pointer to prior hashed subblocks or a source pointer to prior hashed subblocks and additional data.
+54. Apparatus as claimed in claim 51 including means whereby hashed information in the hash entries in the hash tables are selectively unconditionally replaced, or conditionally replaced or removed on the occurrence of subsequent hashed data being directed by a key to the hash table entry containing information representative of prior hashed subblocks.
+55. Apparatus as claimed in claim 51 including means for effecting hashing on a data subblock size of three for a first hash table and a data subblock size of four for a second hash table.
+56. Apparatus for compressing a stream of input data into a compressed stream of output data comprising: 
+
+
+ (a) maintaining multiple hash tables, each respectively for a different data subblock size, and each hash table having entries having respective hash keys,
+(b) means for hashing a string of input characters of the input data for each of the different data subblock sizes to obtain the hash keys, and means for using these hash keys to address hash table entries containing hash information to facilitate location of string matches, (c) means for hashing, for each of the subblock sizes, subsequent strings of data and searching for a match of prior strings related to the information addressed by hash keys in at least one of the hashing tables, (d) if a hash match occurs in at least one hash table, means for outputting the subsequent occurrence of the string as compressed data, and if a hash match for each of the subblocks does not occur in any hash table, means for outputting at least the first character of an input subblock as uncompressed data, and
+(e) means for determining at least part of hash key for one of the hash tables from the hash key of the second of the hash tables.
+57. Apparatus as claimed in claim 56 including means wherein the hash key for a first hash table is determined on a first data subblock size relative to hash keys for a second hash table, and means for obtaining the hashed keys for the first subblock size at least in part from data from the second hash table keys.
+58. Apparatus for compressing a steam of input data into a compressed stream of output data comprising: (a) maintaining multiple hash tables, each respectively for a different data subblock size, and each hash table having entries having respective hash keys, 
+
+
+ (b) means for hashing a string of input characters of the input data for each of the different data subblock sizes to obtain the hash keys, and means for using these hash keys to address hash table entries containing hash information to facilitate location of string matches,
+(c) means for hashing, for each of the subblock sizes, subsequent strings of data and searching for a match of prior strings related to the information addressed by hash keys in at least one of the hashing tables,
+(d) if a hash match occurs in at least one hash table, means for outputting the subsequent occurrence of the string as compressed data, and if a hash match for each of the subblocks does not occur in any hash table, means for outputting at least the first character of an input subblock as uncompressed data, and
+(e) means, when a hatch match occurs for different tables, for selecting a larger subblock size for the compressed data output of step (d) .
+59. Apparatus as claimed in claim 58 including means in the hash table for storing selectively only a source pointer to prior hashed subblocks or the source pointer representative of the prior hashed subblocks and additional information.
+60. Apparatus as claimed in claim 58 including means whereby selectively one or multiple of the hash table entries contain selectively only a source pointer to prior hashed subblocks or a source pointer to prior hashed subblocks and additional data.
+61. Apparatus as claimed in claim 58 including means for effecting hashing on a data subblock size of 
+
+
+three for a first hash table and a data subblock size of four for a second hash table.
+62. Apparatus for compressing a stream of input data into a compressed string of output data comprising:
+(a) maintaining multiple hash tables, each respectively for a different data subblock size, and each hash table having entries having respective hash keys, (b) means for hashing a string of input characters of the input data for each of the different data subblock sizes to obtain the hash keys, and using these hash keys to address hash table entries containing hash information to facilitate location of string matches,
+(c) means for hashing, for each of the subblock sizes, subsequent strings of data and searching for a match of prior strings related to the information addressed by hash keys in at least one of the hashing tables,
+(d) if a hash match occurs in at least one hash table, means for outputting the subsequent occurrence of the string as compressed data, and if a hash match for each of the subblocks does not occur in any hash table, means for outputting at least the first character of an input subblock as uncompressed data, and
+(e) wherein where a hash match occurs for more than one of the hash tables, means for determining the longer match length of the string of input data for each respective hash table, and means for outputting the longer match length as the compressed data output of step (d).
+63. Apparatus for compressing a stream of input data into a compressed string of output data comprising: 
+
+
+ (a) maintaining multiple hash tables, each respectively for a different data subblock size, and each hash table having entries having respective hash keys,
+(b) means for hashing a string of input characters of the input data for each of the different data subblock sizes to obtain the hash keys, and using these hash keys to address hash table entries containing hash information to facilitate location of string matches, (c) means for hashing, for each of the subblock sizes, subsequent strings of data and searching for a match of prior strings related to the information addressed by hash keys in at least one of the hashing tables, (d) if a hash match occurs in at least one hash table, means for outputting the subsequent occurrence of the string as compressed data, and if a hash match for each of the subblocks does not occur in any hash table, means for outputting at least the first character of an input subblock as uncompressed data,
+(e) wherein where a hash match occurs in a table related to a larger subblock size relative to a hash match in a table related to a smaller subblock size, means for selecting the hash match of the larger subblock size for the compressed data output of step (d) , and
+(f) wherein when the one subblock size is larger than the second subblock size, means for computing hash keys for the larger subblock size, using at least part of the value of hash keys from the smaller subblock size.
+64. Apparatus for compressing a stream of input data into a compressed string of output data comprising: (a) maintaining multiple hash tables, each respectively for a different data subblock size, and each hash table having entries having respective hash keys. 
+
+
+ (b) means for hashing a string of input characters of the input data for each of the different data subblock sizes to obtain the hash keys, and using these hash keys to address hash table entries containing hash information to facilitate location of string matches,
+(c) means for hashing, for each of the subblock sizes, subsequent strings of data and searching for a match of prior strings related to the information addressed by hash keys in at least one of the hashing tables,
+(d) if a hash match occurs in at least one hash table, means for outputting the subsequent occurrence of the string as compressed data, and if a hash match for each of the subblocks does not occur in any hash table, means for outputting at least the first character of an input subblock as uncompressed data, and
+(e) wherein when a larger subblock size does not match on a minimum match length, means for selecting the smaller subblock size hash match if such smaller subblock value matches.
+65. Apparatus as claimed in claim 62 including means in the hash table for storing selectively only a source pointer to prior hashed subblocks or the source pointer representative of the prior hashed subblocks and additional information.
+66. Apparatus as claimed in claim 62 including means whereby selectively one or multiple of the hash table entries contain selectively only a source pointer to prior hashed subblocks or a source pointer to prior hashed subblocks and additional data.
+67. Apparatus as claimed in claim 62 including means whereby hashed information in the hash entries in the hash tables are selectively unconditionally replaced, 
+
+
+or conditionally replaced or removed on the occurrence of subsequent hashed data being directed by a key to the hash table entry containing information representative of prior hashed subblocks.
+68. Apparatus as claimed in claim 62 including means for effecting hashing on a data subblock size of three for a first hash table and a data subblock size of four for a second hash table.
+69. Apparatus as claimed in claim 63 including means in the hash table for storing selectively only a source pointer to prior hashed subblocks or the source pointer representative of the prior hashed subblocks and additional information.
+70. Apparatus as claimed in claim 63 including means whereby selectively one or multiple of the hash table entries contain selectively only a source pointer to prior hashed subblocks or a source pointer to prior hashed subblocks and additional data.
+71. Apparatus as claimed in claim 63 including means whereby hashed information in the hash entries in the hash tables are selectively unconditionally replaced, or conditionally replaced or removed on the occurrence of subsequent hashed data being directed by a key to the hash table entry containing information representative of prior hashed subblocks.
+72. Apparatus as claimed in claim 63 including means for effecting hashing on a data subblock size of three for a first hash table and a data subblock size of four for a second hash table. 
+
+
+ 73. Apparatus for compressing a stream of input data into a compressed string of output data comprising:
+(a) maintaining multiple hash tables, each respectively for a different data subblock size, and each hash table having entries having respective hash keys,
+(b) means for hashing a string of input characters of the input data for each of the different data subblock sizes to obtain the hash keys, and 
+"
+using these hash keys to address hash table entries containing hash information to facilitate location of string matches,
+(c) means for hashing, for each of the subblock sizes, subsequent strings of data and searching for a match of prior strings related to the information addressed by hash keys in at least one of the hashing tables,
+(d) if a hash match occurs in at least one hash table, means for outputting the subsequent occurrence of the string as compressed data, and if a hash match for each of the subblocks does not occur in any hash table, means for outputting at least the first character of an input subblock as uncompressed data, and
+(e) when a hash miss occurs in at least one of the hash tables, means for effecting hashing for an increased subblock size for the hash table, by employing hash keys from the hash miss whereby a reduced number of operations is required for hashing.
+74. Apparatus as claimed in claim 73 including means for transferring a value of hash key from the hashing for one hash table at least in part into the value of a hash key for the second hash table.
+75. Apparatus as claimed in claim 73 including means for obtaining a value of a hashing key from the 
+
+
+hash miss for use for obtaining the value of the hash key from the same hash table.
+76. Apparatus as claimed in claim 73 including means in the hash table for storing selectively only a source pointer to prior hashed data, or the source pointer representative of the prior hashed data and additional information.
+77. Apparatus as claimed in claim 73 including means whereby selectively one or both of the hash tables contain selectively only a source pointer to prior hashed data, or a source pointer to prior hashed data and additional information.
+78. Apparatus as claimed in claim 73 wherein in ormation stored in entries in the hash tables and wherein the information in the entries in at least one of the hash tables is selectively unconditionally replaced, or conditionally replaced or removed on the occurrence of subsequent hash keys being directed to an entry in the hash table containing information representative of prior hashed data.
+79. Apparatus for compressing a stream of input data into a compressed stream of output data comprising:
+(a) maintaining multiple hash tables, each respectively for a different data subblock size, and each hash table having entries having respective hash keys,
+(b) means for hashing a string of input characters of the input data for each of the different data subblock sizes to obtain the hash keys, and using these hash keys to address hash table entries containing hash information to facilitate location of string matches, 
+
+
+ (c) means for hashing, for each of the subblock sizes, subsequent strings of data and searching for a match of prior strings related to the information addressed by hash keys in at least one of the hashing tables,
+(d) if a hash match occurs in at least one hash table, means for outputting the subsequent occurrence of the string as compressed data, and if a hash match for each of the subblocks does not occur in any hash table, means for outputting at least the first character of an input subblock as uncompressed data, and
+(e) wherein, when a hash match occurs in a table related to a larger subblock size relative to a hash match and a table related to a smaller subblock size, means for selectively applying the hash match from either the larger subblock size or the smaller subblock size.
+80. Apparatus as claimed in claim 79 including means in the hash table for storing selectively only a source pointer to prior hashed subblocks or the source pointer representative of the prior hashed subblocks and additional information.
+81. Apparatus as claimed in claim 79 including means whereby selectively one or multiple of the hash table entries contain selectively only a source pointer to prior hashed subblocks or a source pointer to prior hashed subblocks and additional data.
+82. Apparatus as claimed in claim 79 including means for effecting hashing on a data subblock size of three for a first hash table and a data subblock size of four for a second hash table.
+83. Apparatus as claimed in claim 79 wherein when a hash miss occurs, the key of the hash miss is used 
+
+
+in the subsequent hashing by the step of at least one computation being a simple shift, or a computation being an exclusive OR.
+84. Apparatus for compressing a stream of input data into a compressed string of output data comprising:
+(a) maintaining multiple hash tables, each respectively for a different data subblock size, and each hash table having entries having respective hash keys,
+(b) means for hashing a string of input characters of the input data for each of the different data subblock sizes to obtain the hash keys, and using these hash keys to address hash table entries containing hash information to facilitate location of string matches,
+(c) means for hashing, for each of the subblock sizes, subsequent strings of data and searching for a match of prior strings related to the information addressed by hash keys in at least one of the hashing tables,
+(d) if a hash match occurs, means for compressing and outputting the subsequent occurrence of the string as compressed data, and if a hash miss occurs, means for outputting such data as uncompressed data, and
+(e) when a hash miss occurs in the hash table, means for effecting hashing for a next key for the hash table, by employing hash keys from the hash miss whereby a reduced number of operations is required for hashing.
+85. Apparatus as claimed in claim 84 including means for maintaining multiple hash tables, each for a different subblock size and means for applying the key from a hash miss of each respective table to the next key of a hash table. 
+
+
+ 86. A generator for hashing a stream of input data comprising:
+(a) interfaces to multiple hash tables designating a different data subblock size for each hash table,
+(b) means for hashing strings of input characters of the input data for each of the different data subblock sizes to produce hash keys, and means for entering the hash information into hash entries of the hash table addressed by hash keys, and
+(c) means for producing multiple hash keys for each of the subblock sizes.
+87. A hash generator as claimed in claim 86 wherein there are two hash tables, and wherein a smaller subblock size is designated for a first hash table and a larger subblock size designated for a second hash table.
+88. A generator as claimed in claim 86 comprising means for producing hash keys for a larger subblock size from hash keys of smaller subblock size.
+89. A generator for hashing a stream of data comprising: (a) interface means to a hash table with a designated input data subblock size for the hash table, and the hash table having hash keys,
+(b) means for hashing strings of input characters of the input data for each input data subblocks, and means for entering the hashed information into hash entries of the hash table addressed by the hash keys, and
+(c) means for producing a next hash key from a prior hash key on occurrence of a hash miss.
+90. A generator as claimed in claim 89 wherein there are interface means respectively to multiple hash 
+
+
+tables, and wherein a first subblock size is designated for a first hash table and a different subblock size is designated for a second hash table.
+91. A generator as claimed in claim 89 wherein there are at least two different data subblock sizes and including means for providing a hash key for a first subblock size from a prior hash key of a second subblock size. 
+
+</CLAIMS>
+</TEXT>
+</DOC>

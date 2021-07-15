@@ -1,0 +1,384 @@
+<DOC>
+<DOCNO>EP-0657042</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+STRUCTURED MULTIPLE-INPUT MULTIPLE-OUTPUT RATE-OPTIMAL CONTROLLER
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G05B1132	G05B1304	G05B1132	G05B501	G05B1304	G05B500	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G05B	G05B	G05B	G05B	G05B	G05B	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G05B11	G05B13	G05B11	G05B5	G05B13	G05B5	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+This invention describes a way of controlling a plant with multiple inputs and multiple outputs but allowing an operator to direct the control as if each controlled variable had a direct connection to operator controlled variables. An interference network cross fertilizes information from multiple subcontrollers amongst themselves, to allow for enhanced control based on user defined criterion.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+HONEYWELL INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+HONEYWELL INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+JELINEK JAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+JELINEK, JAN
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to system or process controllers and more specifically to 
+nonlinear, time-variable predictive controllers in general, and particularly those based 
+on Rate Optimal Control (hereinafter ROC). This will enhance operator control 
+because each plant output will appear to be effectively controlled by an individual 
+setpoint. Moreover, this invention teaches a unified and systematic approach to 
+building robust high-performance control systems that can involve hundreds of control 
+loops exhibiting mutual coupling. Previously, there have been two approaches to designing control systems. The 
+first approach, called the conventional approach, designs a control system 
+incrementally from the bottom up. Starting with individual loops, each process 
+variable is assigned a closed loop driven by a single input single output (SISO) 
+controller, whose set point represented the desired value of the variable. Due 
+to physical interactions between process variables, these loops are not independent of 
+each other. Failure to account for this mutual coupling degrades overall controller 
+performance, and thus, system performance. To reduce these coupling effects, 
+feedforward links and cascade loops are added on an ad hoc basis after the first design 
+pass. This procedure often needs to be repeated several times to achieve satisfactory 
+system behavior. Moreover, considerable control expertise and in-depth knowledge 
+of the controlled process are required to use this approach. The second approach to control system design is based on modern control 
+theory which suggests there is, and supplies an exact theoretical solution to the design 
+problem. Using this approach, the plant that the controller is being designed for, can 
+be treated as a multiple input multiple output (MIMO) system which allows all of the 
+characteristics of the process variables to be determined. This "text-book" approach 
+however, has not yet been commercially viable because it does not meet several 
+important engineering criteria. First, for plants with hundreds of process variables, 
+the design algorithms are computationally intractable on current hardware. Secondly 
+a controller based on this approach cannot be developed incrementally, nor does it 
+support modular design or distributed architectures. Some relevant prior art to help the reader understand the present invention are 
+two European Patent Applications, the first "Time-Discrete Adaptive Switching On-Off 
+Controller" (EP-A-0 128 491) to Omron Tateisi Electronics Co.,
+</DESCRIPTION>
+<CLAIMS>
+A controller unit (50) operable as a predictive controller for controlling a plant (105/205) and 
+connected to said plant either through direct electronic or optical link or via 
+
+human machine interface characterized by: 
+
+at least two subcontrollers (202) for generating and 
+outputting control signals (U
+1
+,U
+2
+,...U
+n
+), each said subcontroller having at least three 
+inputs, namely, a reference input for receiving a reference signal (r
+1
+,r
+2
+,...r
+n
+), a 
+disturbance signal input for receiving disturbance signals from the controlled plant, 
+
+and an interference input for receiving interference signals (I
+1
+,I
+2
+,...I
+n
+); 
+an interconnection means (201) for receiving said control 
+signals from said at least two subcontrollers (202) having an input for 
+
+receiving a control signal output from said subcontrollers and having 
+an interference output for sending said subcontroller output signals to 
+
+said subcontrollers as the interference signals, and having a control 
+output for sending the control signals to the plant under control; and 
+wherein said control signals are inherently stable 
+irrespective of the stability condition of the plant. 
+A controller unit according to claim 1 further 
+characterized in that the subcontroller generated control signals consist of a 
+
+sequence of control signals. 
+A controller unit according to claim 1 further 
+characterized in that the said interference input consists of a sequence of 
+
+interference input signals. 
+A controller unit according to claim 1 further 
+characterized in that the subcontrollers (202) have an additional output for 
+
+sending scaling factor information to the network. 
+A controller unit according to claim 1 further 
+characterized in that the subcontrollers (202) have an additional
+ input for 
+receiving scaling factor information from the network. 
+A controller unit according to claim 1 further 
+characterized in that the subcontrollers (202) are able to reduce the outputted 
+
+control signal by a value representative of a scaling factor received from the 
+interconnection network.  
+
+ 
+A controller unit according to claim 1 further 
+characterized in that the interconnection means (201) has inputs for receiving 
+
+scaling factor information from each subcontroller (202). 
+A controller unit according to claim 1 further 
+characterized in that the interconnection means (201) has outputs for sending 
+
+scaling factor information to each subcontroller (202). 
+A controller unit according to claim 1 further 
+characterized in that the interconnection means (201) has inputs for receiving 
+
+scaling factor information from each subcontroller (202) and outputs for 
+sending said scaling factor information to each subcontroller (202). 
+A controller unit according to claim 9 further 
+characterized in that a user (115) determines which said interconnection means 
+
+(201) inputs are outputted. 
+A controller unit according to claim 9 further 
+characterized in that the interconnection means (201) further comprises a 
+
+sorting device which determines the right scaling factor to send to all 
+subcontrollers based on predetermined criteria.  
+
+  
+ 
+A controller unit as described in claim 1 further 
+characterized in that the subcontroller (202) comprises: 
+
+
+a reference processor (101) having a reference 
+input for receiving a reference signal, indicative of a user controlled 
+
+setpoint, said reference processor (101) generating a sequence of 
+baseline control signals which can bring said plant (105) into a desired 
+
+state as indicated by an output signal (Y) from said plant, along a 
+definite user defined path,  
+
+ 
+a feedforward path model (106) having an input 
+which also receives said reference signal to generate and output a 
+
+sequence of signals representing the expected output of said plant at 
+any instant along said user defined path, 
+a disturbance processor (111) having an input for 
+receiving a sequence of error signals which represent the difference 
+
+between the actual and the predicted plant output and for generating 
+and outputting a sequence of corrective control signals based on a 
+
+control law, 
+a feedback loop model (107/108) having an input 
+for receiving a sequence of error signals representing the difference 
+
+between the actual and predicted plant output, said model generating as 
+an output a sequence of signals representing disturbances that the 
+
+disturbance processor has already processed, 
+a reference model summation unit (110) having 
+inputs to receive the output sequences from the feedback loop model 
+
+(107/108) and the feedforward path model (106) as well as a sequence 
+representing the difference between the expected interference and the 
+
+interference that is present in the plant, and an output means for 
+producing an output sequence consisting of the element wise 
+
+summation of the three input sequences, 
+a disturbance processor summation unit (114) 
+having an input to receive a sequence of signals from the reference 
+
+model summation unit and an input to receive the output (Y) from the 
+plant (105/205), and an output means to produce an output sequence 
+
+consisting of the difference between the first term of the sequence and 
+the plant output (Y), 
+a reference processor summation unit (102) 
+having an input to receive the output sequence from the reference 
+
+processor (101) and the disturbance processor (111) and an output for 
+producing an output sequence consisting of the element wise 
+
+summation of the two input sequences, 
+one or more interference models (304) containing 
+a model of the plant under control, each said model having inputs to 
+
+receive a sequence of control signals from other subcontroller (202) 
+and each said model generating a sequence of output signals 
+
+representing the effect each input sequence has on the plant under 
+control,  
+
+ 
+an interference model summation unit (302) 
+having input means to receive the plant control sequence from the one 
+
+or more interference models (304) and output means for outputting a 
+sequence consisting of the element wise summation of the two input 
+
+sequences, 
+an interference processor (306) having an inputs 
+for receiving a sequence of signals representing the difference between 
+
+the expected interference and the interference that is present in the 
+plant (105/205) said interference processor (306) generating as an 
+
+output a sequence of corrective control signals, 
+an interference predictor (305) having input 
+means to receive a sequence of signals from the interference processor 
+
+(306) and generating a sequence of signals representing the interference 
+signals the interference processor (306) has already generated 
+
+corrective signals for, 
+an interference predictor summation unit (303) 
+having input means to receive the output sequence from the 
+
+interference model summation means (302) and the output sequence 
+from the interference predictor (305) and output means for outputting a 
+
+sequence consisting of the element wise summation of the two input 
+sequence, 
+an interference processor summation unit (301) 
+having inputs to receive the output sequence from the reference 
+
+processor summation unit (102) and the interference processor (306) 
+and output means for outputting a plant control sequence in which the 
+
+output is the element wise summation of the two input sequences, and 
+wherein said feedback loop model (107/108) and 
+said disturbance processor (111) obtain their inputs from the 
+
+disturbance processor summation unit (114) and where said reference 
+model summation unit (102) and said interference processor (306) 
+
+obtain input from said interference predictor (305). 
+A controller unit according to claim 12 further 
+characterized in that the interference processor summation means reduces each 
+
+term of the output sequence by the same proportion when one or more of the 
+elements exceeds a user defined limit.  
+
+ 
+A controller unit according to claim 12 further 
+characterized in that the reference processor summation means reduces each 
+
+term of the disturbance processor output sequence by the same proportion 
+when one or more of the elements added with the reference processor 
+
+sequence would exceed a user defined limit. 
+A controller unit according to claim 12 further 
+characterized in that the interference processor summation means reduces each 
+
+term of the interference processor output sequence by the same proportion 
+when one or more of the elements added with the reference processor 
+
+summation means output sequence would exceed a user defined limit. 
+A method for controlling a plant (105/205) using a 
+controller unit (50) having at least two subcontrollers (202) characterized in that it comprises the steps of: 
+
+
+(A) first: 
+
+(i) defining a reference model for each said 
+subcontroller, which identifies the variable being 
+
+controlled, and 
+(ii) selecting either a user defined control law 
+for a reference processor (101), disturbance processor (111) 
+
+and interference processor (306) or a global law for all three 
+processors. 
+(B) then in any order: 
+
+(i) allowing the user (115) to adjust the setpoint for 
+each subcontroller, 
+(ii) generating a baseline reference control signal 
+through the reference processor means obeying said 
+
+control law, 
+(iii) generating a disturbance corrective signal 
+through the disturbance processor means based on the deviation between the output 
+
+(Y) from the plant (105/205) and the expected output as generated 
+by the reference model, but not including disturbances which have 
+
+already had a corrective signal generated for them, 
+(iv) generating an interference corrective signal 
+through the interference processor means (306) based on the effect the other 
+
+subcontrollers (202) have on the plant under control, but not 
+including outputs that have already had a corrective signal generated 
+
+for them, 
+(C) then combining the reference signal, the disturbance signal and the inteference signal in each subcontroller to produce an inherently stable 
+control signal for the controlled variable so that the control law(s) are 
+
+not
+ 
+violated, 
+(D) then, 
+
+(i) transmitting the control signal to the variable 
+under control, and 
+(ii) transmitting the control signal to those said 
+subcontrollers (202) with which the control signal interferes. 
+A method for controlling a plant (105/205) using a 
+controller unit (50) having at least two subcontroller (202) characterized in that it comprises the steps of: 
+
+
+(A) first: 
+
+(i) defining a reference model for 
+each said subcontroller, which identifies the variable 
+
+being controlled, and 
+(ii) selecting a user defined control 
+law for a reference processor, disturbance processor and 
+
+interference processor or a global law for all subcontrollers. 
+(B) then in any order: 
+
+(i) allowing the user to adjust the setpoint for 
+each subcontroller, 
+(ii) generating a baseline reference 
+control signal in each subcontroller through the 
+
+reference processor obeying said control law, 
+(iii) generating a disturbance corrective 
+signal in each subcontroller through the disturbance processor 
+
+based on the deviation between the output (Y) from 
+the plant and the expected output as generated by the 
+
+reference model, but not including disturbances which have 
+already had a corrective signal generated for them, 
+(iv) generating an interference 
+corrective signal in each subcontroller through the 
+
+inteference processor based on the effect the other subcontrollers 
+have on the plant under control, but not including outputs 
+
+that have already had a corrective signal generated for them, 
+(C) sealing the reference signal, the disturbance signal and the inference signal in each subcontroller to 
+produce an inherently stable control signal for the controlled variable so that 
+
+the control law(s) are not violated, 
+(D) transmitting the scaled factor in each subcontroller 
+to all other subcontrollers, 
+(E) Reducing the combined signals of the reference signal, the disturbance signal and the inference signal by 
+the smallest scaled factor, 
+(F) then, 
+
+(i) transmitting the control signal to 
+the variable under control, and 
+(ii) transmitting the control signal to 
+those said subcontrollers that the control signal 
+
+interferes with. 
+</CLAIMS>
+</TEXT>
+</DOC>

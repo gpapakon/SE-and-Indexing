@@ -1,0 +1,244 @@
+<DOC>
+<DOCNO>EP-0643851</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+DEBUGGER PROGRAM WHICH INCLUDES CORRELATION OF COMPUTER PROGRAM SOURCE CODE WITH OPTIMIZED OBJET CODE
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1136	G06F1136	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F11	G06F11	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Debugging of computer programs is necessary for the development of the programs as well as for maintaining the operation of the programs. Symbolic debugging requires the ability to relate the current position in the object code program to the corresponding position in the source code. In the absence of compiler optimization, correlating the source and object code elements is a straightforward procedure. However, when the object code has been optimized, the relation between the source code constructs and object code instructions can become convoluted and complex. A correlation technique for optimized code is disclosed which maps the source constructs (source units) through each of the optimization operations by use of compilation nodes and associated source units to build a table which relates ranges of object instructions to the source units which produced the object instructions.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+HEWLETT PACKARD CO
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+HEWLETT-PACKARD COMPANY
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BROOKS GARY S
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SIMMONS STEVEN M
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BROOKS, GARY, S.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SIMMONS, STEVEN, M.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The invention relates in general to the compilation of
+computer program source code to produce object code and in
+particular to a debugger program for use when such
+compilation involves optimization of the object code. In the development of computer software, it is
+necessary to perform a function termed "debugging" which
+involves testing and evaluating the software to find and
+correct errors and improper operation. An effective
+debugger program is necessary for rapid and efficient
+development of software.The original coding for a computer program is termed
+the source code. This is the code that is written and
+understood by a programmer. The source code is processed by
+a program termed a compiler to produce an assembly code.
+The assembly code is then further processed by a program
+termed an assembler to produce an object file. Multiple
+object files are linked by a loader program to produce an
+executable program which is termed the object code, which
+comprises binary machine language instructions that can be
+executed directly by a computer.In testing software, the object code must be executed
+by a computer in a testing phase so that proper operation of
+the code can be determined and any errors or spurious
+operations can be detected. When a problem is detected at
+a particular location in the object code, a correction of
+that error must generally be made in the original source
+code. However, in most cases, it is not readily apparent
+which portion of the object code relates directly back to a
+particular line or construct of the source code. It is
+therefore an important function of the debugger program to
+provide such a relationship. This is termed debugging of
+the source code at a symbolic, source code, level.A debugger program crucially relies on its ability to
+map from a symbolic construct in the source code to a
+point(s) in the object code and to map back from a point in
+the object code to a construct(s) in the source code. With
+this capability, the debugger program allows a user to:
+1. set breakpoints and tracepoints in source
+code terms. 2. allow the debugger to incrementally step
+(execute) constructs in the source or object
+code.3. allow the debugger program to communicate
+the current point of execution in the object
+code to terms of the source code.4. given a point in the program (object code),
+allows the debugger program to determine the
+correct lexical context in which to
+interpret user defined program symbols.A major factor of complexity arises in the operation of
+a debugger program when the object
+</DESCRIPTION>
+<CLAIMS>
+A method for correlating machine language instructions
+(350) in object code (40) with corresponding elements of
+
+source code (22) from which said object code (40) is
+compiled, and wherein the compiling of a segment of source
+
+code (22) into object code (40) involves the creation of a
+plurality of compiler nodes (160) from said source code (22)
+
+and the creation, as a result of compiling said compiler
+nodes (160) into object code (40), of a plurality of machine
+
+language instructions (350), the method comprising the steps
+of:
+
+
+creating a plurality of source units (100) according
+to the syntax of a said segment of source code (22), each
+
+source unit (100) corresponding to selected elements of
+source code (22) within said segment thereof;
+annotating each of said compiler nodes (160) to
+identify its corresponding related source units (100); and
+defining ranges of said machine language instructions
+(350) to establish, through said annotations, a
+
+correspondence between said ranges of machine language
+instructions (350) and said source units (100).
+A method as claimed in Claim 1, wherein said source
+units (100) comprise a unique index, a position
+
+identification of said source unit (100) in said source code
+(22), a lexical context identification representing the
+
+scope of said source units (100), a linkage to other source
+units (100) and a class identification of the source units
+
+(100).
+A method as claimed in Claim 1 or Claim 2, wherein
+said compiler nodes (160) include computation nodes (160)
+
+which reflect computations in said source code (22) and
+entry nodes (150) which reflect the flow of said source code
+
+(22).
+A method as claimed in any preceding claim, further
+comprising said creation of said compiler nodes (100), and 
+
+wherein the combined steps of creating and annotating said
+compiler nodes (160) include the substeps of:
+
+
+logically stacking, in nesting order, ones of said
+source units (100) into a stack (180);
+generating compiler nodes (160) to compile each source
+unit (100) in said stack (180); and
+indexing each of said generated compiler nodes (160)
+to its corresponding source unit (100) and to each of the
+
+source units (100) below said corresponding source unit
+(100) in the stack (180) for which the compiler node (160)
+
+is generated.
+A method as claimed in Claim 4, wherein the creation
+of said compiler nodes (160) includes the substep of
+
+processing said source code (22) with an optimizing process
+(70).
+A method as claimed in any preceding claim, further
+including the steps of:
+
+
+selecting one of said machine language instructions
+(380) in said object code (40);
+displaying a sequence of said source units (388); and
+highlighting ones of said displayed source units (388)
+which correspond to said selected machine language
+
+instruction (380).
+Apparatus for correlating machine language
+instructions (350) in object code (40) with corresponding
+
+elements of source code (22) from which said object code
+(40) is compiled, and wherein the compiling of a segment of
+
+source code (22) into object code (40) involves the creation
+of a plurality of compiler nodes (160) from said source code
+
+(22) and the creation, as a result of compiling said
+compiler nodes (160) into object code (40), of a plurality
+
+of machine language instructions (350), the apparatus
+comprising:
+
+
+means for creating a plurality of source units (100)
+according to the syntax of a segment of source code (22), 
+
+each source unit (100) corresponding to selected elements of
+source code (22) within said segment thereof;
+means for annotating each of said compiler nodes (160)
+to identify its corresponding related source units (100);
+
+and
+means for defining ranges of said machine language
+instructions (350) to establish, through said annotations,
+
+a correspondence between said ranges of machine language
+instructions (350) and said source units (100).
+Apparatus as claimed in Claim 7, wherein said source
+units (100) comprise a unique index, a position
+
+identification of said source unit (100) in said source code
+(22), a lexical context identification representing the
+
+scope of said source units (100), a linkage to other source
+units (100) and a class identification of the source unit
+
+(100).
+Apparatus as claimed in Claim 7 or Claim 8, wherein
+said compiler nodes (160) include computation nodes (160)
+
+which reflect computations in said source code (22) and
+
+entry nodes (150) which reflect the flow of said source code
+(22).
+Apparatus as claimed in any one of Claims 7 to 9,
+further comprising means for effecting said creation of said
+
+plurality of compiler nodes (160), and wherein the combined
+means for creating and means for annotating said compiler
+
+nodes (160) include:
+
+means for logically stacking, in nesting order, ones
+of said source units (100) into a stack (180);
+means for generating compiler nodes (160) to compile
+each source unit (100) in said stack (180); and
+means for indexing each of said generated compiler
+nodes (160) to its corresponding source unit (100) and to
+
+each of the source units (100) below said corresopnding
+source unit (100) in the stack (180) for which the compiler
+
+node (160) is generated.
+Apparatus as claimed in Claim 10, wherein said means
+for creating compiler nodes (160) comprises means for
+
+processing said source code (22) with an optimizing process
+(70).
+Apparatus as claimed in any preceding claim, further
+comprising:
+
+
+means for selecting one of said machine language
+instructions (380) in said object code (40); and
+means for displaying a sequence of said source units
+(388) and highlighting ones of said displayed source units
+
+(388) which correspond to said selected machine language
+instruction (380).
+</CLAIMS>
+</TEXT>
+</DOC>

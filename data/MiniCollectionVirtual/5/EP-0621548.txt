@@ -1,0 +1,216 @@
+<DOC>
+<DOCNO>EP-0621548</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Image generator
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T1500	G06T1500	G09B930	G09B902	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	G09B	G09B	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T15	G06T15	G09B9	G09B9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An apparatus for generating an image to be displayed on a display 
+screen from data defining a model including a plurality of opaque and 
+
+translucent features. The image is intended to represent a view of the model 
+from a predetermined eyepoint and is made up from an array of screen space 
+
+pixels to be displayed by a raster scanning process. Each pixel is of uniform 
+colour and intensity, and the pixels together define an image area. The image 
+
+area is divided into an array of sub-areas each of which covers at least one 
+pixel. For each feature in the model that is potentially visible from the 
+
+eyepoint, a test is conducted to determine which of the sub-areas is at least 
+partially covered by that feature. A list of feature identifiers is produced in 
+
+respect of each sub-area, the list for any one sub-area identifying features 
+which at least partially cover that sub-area. The position in screen space of 
+
+at least one sampling point within each sub-area is determined. For each 
+sub-area in turn, and for each sampling point a test is conducted to determine 
+
+which of the features in that sub-area's list cover that sampling point. For 
+each feature which covers a sampling point, a function of the distance 
+from 
+the eyepoint to that feature at the sampling point is determined. Feature 
+
+describing data is stored for each sampling point within a sub-area, the stored 
+data being indicative of at least the distance of the opaque feature which 
+
+covers the sampling point and is nearest to the eyepoint and the distance and 
+translucency of at least one nearer translucent feature which covers the 
+
+sampling point. An output is produced for each sampling point within a 
+sub-area, the sampling point output corresponding to the combined effects of 
+
+the features identified by the stored data. An output for each pixel within a 
+sub-area is produced, the pixel output corresponding to the combined effects 
+
+of the sampling point outputs for all sampling points which contribute to that 
+pixel, and the pixel outputs are displayed. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+THOMSON TRAINING 
+&
+ SIMULATION
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+THOMSON TRAINING 
+&
+ SIMULATION LIMITED
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BAKER STEPHEN JOHN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+COWDREY DENNIS ALAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+OLIVE GRAHAM JOHN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WOOD KARL JOSEPH
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BAKER, STEPHEN JOHN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+COWDREY, DENNIS ALAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+OLIVE, GRAHAM JOHN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WOOD, KARL JOSEPH
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to an image generator, and in particular 
+to a computer image generator suitable for generating information in real 
+time from which an image can be derived for display in for example a flight 
+simulator. Real time image generators for flight simulators are used to generate 
+images which are presented to pilots who are positioned in a mock aircraft 
+cockpit. In early systems, a visual environment was created using film or 
+video images obtained from a servo-driven camera that was manoeuvred 
+above a model of the terrain over which movement was to be simulated. 
+These approaches were widely used but were found to be incapable of 
+producing realistic scenes with true perspective from a wide range of 
+eyepoints. In order to overcome these limitations, image generators 
+producing computer generated imagery were introduced, the first 
+commercially successful systems appearing in the early 1970s. Such systems 
+are now used almost exclusively in flight simulator application, and are 
+usually referred to as CIG (Computer Image Generation) systems. In a CIG system, the intended viewer of the image produced by the 
+system, i.e. the simulator pilot, looks out through an imaginary window into 
+a three dimensional (3-D) world defined by information stored as geometrical 
+and other characteristic attribute data. A line drawn from the eyepoint 
+through the window intersects a point in the 3-D world. The colour and 
+intensity of that point must be "painted" on the window at the point of 
+intersection of that line with the window. The displayed image is made up 
+from a series of picture elements (pixels) each of which is of uniform colour 
+and intensity, the colour and intensity of each pixel being a function of the 
+position of the eyepoint relative to the 3-D world which the stored data  
+ 
+represents. In a real time display where hundreds of thousands of pixels must 
+be updated sufficiently quickly to avoid jumping of the image, it is necessary 
+to perform many millions of calculations per second to maintain image 
+fidelity. In most simulator systems producing a wide angle display the image 
+is made up from three juxtaposed images each derived from a common 
+database but generated by a respective processing channel. The computational 
+load is thus shared between the three channels. We are concerned herein 
+with the processes within a single channel only and therefore the 
+interrelationship between associated channels will not be discussed. A review of the problems confronted in real time
+</DESCRIPTION>
+<CLAIMS>
+An apparatus for processing data describing a model an image of which is to 
+be displayed on a screen, the model comprising a plurality of features each described 
+
+in terms of geometrical attributes defining the position and orientation of the feature 
+and non-geometrical attributes defining characteristics of the feature, and the image 
+
+being intended to represent a view of the model from an eyepoint in world space, 
+comprising 
+
+
+a. a database in which model data is stored in a hierarchical tree structure 
+having a root node corresponding to the base of the tree, branch nodes 
+
+corresponding to branching points of the tree, and leaf nodes 
+corresponding to the ends of individual branches of the tree, each node 
+
+of the tree storing data describing a respective object, leaf nodes 
+storing at least one feature which contributes to the respective object, 
+
+and root and branch nodes storing at least one pointer to another object 
+and transformation data defining the relative position and orientation 
+
+of the pointed to object relative to the pointed from object, whereby 
+successive locations in the tree structure store data related to 
+
+successively more detailed portions of the model, 
+b. a transformation processor having a parallel array of object processors, 
+and 
+c. a controller for reading out data from the database to the object 
+processors such that data read out from one node is read out to one 
+
+data processor, 
+ 
+wherein each data processor is adapted to receive data read out from any node of the 
+
+tree, the object processor responding to read out of pointer data by transforming the 
+respective transformation data into a common coordinate space and returning the 
+
+pointer and the transformed data to the controller, and the object processor 
+responding to read out of a feature by transforming the geometrical attributes of the  
+
+ 
+feature and outputting the transformed attributes for further processing, the controller 
+
+being adapted to read out data stored at the node corresponding to the base of the 
+tree and subsequently to read out data stored at nodes of the tree identified by the 
+
+pointers returned to it from the object processors. 
+An apparatus according to claim 1, wherein the controller reads out object 
+data to a bus to which each object processor is linked, means are provided to indicate 
+
+whether or not an object processor is idle and available to receive object data for 
+processing, and means are provided for enabling one idle object processor to receive 
+
+object data made available on the bus, the object processor receiving the object data 
+indicating that the object data has been received for processing to prevent the same 
+
+object data being received by other object processors. 
+An apparatus according to claim 2, wherein the object processors are arranged 
+in groups, each group communicating with the bus through a local controller, the 
+
+local controller accepting object data from the bus only if at least one object processor of the 
+respective group is idle, and the local controller indicating by a 
+
+signal applied to the bus when it has accepted object data for processing by one of the object processors of 
+its respective group. 
+An apparatus according to claim 2 or 3, wherein object data is distributed 
+to object processors on a pseudo-random basis. 
+An apparatus according to claim 2, 3 or 4, wherein each object processor 
+comprises means for indicating completion of processing of object data read out to 
+
+that object processor. 
+An apparatus according to any one of Claims 1 to 4, wherein each object 
+processor is adapted to respond to receipt of pointer and feature data describing an 
+
+object firstly by processing the pointer data and returning the pointers to the 
+controller and secondly by processing the feature data. 
+An apparatus according to any one of claims 1 to 5, comprising means for 
+defining a bounding sphere in object space for each object, means for perspecting  
+
+ 
+boundaries of the display screen into object space, and means for discarding data 
+
+describing an object if the bounding sphere of that object is outside the boundaries 
+of the display screen in object space. 
+</CLAIMS>
+</TEXT>
+</DOC>

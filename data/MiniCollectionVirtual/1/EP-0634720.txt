@@ -1,0 +1,393 @@
+<DOC>
+<DOCNO>EP-0634720</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method and circuit for accelerating execution of array processing instructions in data processing system
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1204	G06F9315	G06F1202	G06F9315	G06F1202	G06F1204	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F12	G06F9	G06F12	G06F9	G06F12	G06F12	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Before the actual instruction execution, the virtual addresses (VPAD) of all the necessary memory pages are translated and the absolute page addresses (APAD) are temporarily stored in additional registers (AR-Pxy) and declared as valid. The respective register stage for the most significant address bit is used for the validity control in that said stage is set to logic "1" before each instruction execution and is set to logic "0" again by means of the valid page address. If an invalid page address (APAD) is used for the memory access, the respective memory instruction is modified into a NOOP instruction and the memory access is denied. The system can thus transfer to a loop control, consisting of only two machine cycles, when processing successive partial operands which have overlapping prefetch and execute, without any tests for page overrun. 
+<
+IMAGE
+>
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SIEMENS NIXDORF INF SYST
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SIEMENS NIXDORF INFORMATIONSSYSTEME AKTIENGESELLSCHAFT
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+SALZMANN HORST DIPL-PHYS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SALZMANN, HORST, DIPL.-PHYS.
+</INVENTOR-NAME>
+</INVENTORS>
+<CLAIMS>
+Method for accelerating the execution of array-processing
+commands, e.g. memory-memory commands, in data
+
+processing systems that operate on the pipeline
+principle, having a command preparation processor (PLU)
+
+for reading commands, calculating addresses and providing
+operands, and having a command execution processor (EXU)
+
+for the actual execution of the command in conjunction
+with a memory system (MM-SYST) which is subdivided into
+
+pages of equal size and has a double-word spacing for
+reading and writing independently of the beginning of an
+
+operand within a double word, a check being made in each
+case, within the context of preparing a command using the
+
+length statements for the operands, as to whether it is
+necessary to go beyond a page in providing the operand,
+
+and the respective result (PCAR...) being communicated to
+the command execution processor (EXU) when the prepared
+
+command is transferred, so that, in the event of going
+beyond a page being signalled (PCAR...), the said command
+
+execution processor can perform an address conversion for
+any following pages that may be needed before actually
+
+executing the command and can subsequently load any
+following pages that are not present, characterized
+
+
+in that the absolute page addresses (APAD) that are
+derived from the virtual page addresses (VPAD) for the
+
+provision of the operands are stored in a first
+register (AR-Px1, AR-Px2) and declared as valid,
+in that, in the event of going beyond pages being
+indicated, the virtual addresses (VPAD) for the 
+
+following pages needed in each case are also
+translated, and the corresponding absolute page
+
+addresses (APAD) are stored in further registers (AR-PE1
+or AR-PO1, or AR-PE2 or AR-PO2) and declared as
+
+valid,
+in that, in the case of each subsequent provision of a
+new part operand that is to be introduced in the
+
+context of executing the command, the stored absolute
+page address (APAD) that is relevant and declared as
+
+valid is used directly, together with the byte address
+(VAD20-31) of the extrapolated virtual memory address
+
+(VAD...), for forming the necessary absolute address
+(AAD) and the latter is used to access the memory
+
+system (MM-SYST), whereas, in the case of an invalid
+absolute page address (APAD), the memory access is
+
+prevented.
+Method according to Claim 1, characterized in
+that
+
+
+the most significant address bit (VADO) of a virtual
+address (VAD) which is not decisive for the address is
+
+used as a validity bit (V) for declaring the validity
+of the page address (APAD) that is respectively translated
+
+and temporarily stored in the registers (AR-Px1,
+AR-Px2) with the address bits (AAD1-19).
+Method according to Claim 2, characterized in
+that
+
+
+the validity bits (V) in the registers (AR-Px1, AR-Px2)
+are in each case set to logic "1" before starting the
+
+command execution processor (EXU) for executing a
+command provided by the command preparation processor
+
+(PLU), in order to declare the respective register
+content as invalid, and are reset again, with reference
+
+to a register, at the time of each transfer of a valid
+absolute page address (APAD) into one of the registers
+
+(AR-Pxy).
+Method according to Claim 2 or 3, characterized
+in that
+
+
+at the time of each memory access, the validity bit (V) 
+that is forwarded together with the absolute page
+
+address (APAD) as an address bit (AADO) modifies the
+respective access command into a NOOP command if the
+
+said validity bit is set to logic "1".
+Method according to one of Claims 1 to 4, characterized
+
+in that after each start-up phase for the execution of
+the command by the command execution processor (EXU),
+
+with reading in advance of the double word (NEXT DW-OP2)
+that is needed for the execution of the (n=2)th
+
+part operand from the second operand in the last-but-one
+machine cycle, and with reading in advance of the
+
+(n=2)th double word (NEXT DW-OP1) from the first
+operand, with simultaneous alignment of the first part
+
+operand already provided from the second operand and
+subsequent transfer of the double word previously read
+
+in advance from the second operand into the provision
+register (RD2...), in the last machine cycle of the
+
+start-up phase a transition is made into a loop control
+(LOOP) consisting of two machine cycles, and
+in that in the first machine cycle (EOL1) of the loop
+control, beginning with the (n=1) th part operand, in
+
+each case the execution of the command takes place for
+the part operands provided and aligned, the next double
+
+word read in advance is transferred from the first
+operand into the provision register (RDI) and the next
+
+double word is already read in advance from the second
+operand, while in the subsequent, second machine cycle
+
+(ELO2), in each case the next part operand, provided
+two machine cycles previously in the provision
+
+registers (RD2-A or RD2-B), of the second operand is
+aligned, the next double word (NEXT DW-OP1) is read in
+
+advance from the first operand, and the double word
+read in advance from the second operand in the first
+
+machine cycle is taken over into the provision
+register.
+Method according to Claim 5, characterized
+
+in that in the first machine cycle (EOL1) in each case 
+of the loop control (LOOP), monitoring is additionally
+
+carried out to see whether the end of the operand to be
+processed has been reached,
+in that, in the second machine cycle (EOL2) in each
+case, in the event of executing linking commands having
+
+result-dependent further processing, monitoring is
+carried out to see whether the abort condition is given
+
+in the linking result previously obtained in the
+machine cycle, and
+in that, following the processing of the operands or in
+the event of the abort condition being present, the
+
+associated indicator (CC) is set and the execution of
+the command is thus completed.
+Method according to Claim 5 or 6, characterized
+in that
+
+
+the start-up phase for executing the command begins
+with a start phase consisting of three machine cycles,
+in the 1st cycle, the command parameters (PAR) consisting
+of operation code (OP), operand length (L) and
+
+further parameters (e.g. PCAR...), being transferred by
+the command preparation processor (PLU) to the command
+
+execution processor (EXU),
+in the 2nd cycle, the start address being provided for
+the microprogram that controls the execution of the
+
+command, and the absolute page address (APAD) for
+reading the first double word of the first operand,
+
+which address is present on the memory address bus (AD-BUS),
+and the virtual address (VAD-OP2) for the second
+
+operand, which address is supplied by the command
+preparation processor (PLU), being taken over by the
+
+command execution processor (EXU), and
+in the third machine cycle, the selected microprogram
+for executing the command being started and the virtual
+
+address (VAD-OP1) for the first operand being taken
+over by the command preparation processor.
+Method according to Claim 7, characterized in
+that
+
+
+in the further course of the start-up phase, firstly 
+the virtual address (VAD-OP2) for the 2nd operand is
+
+translated and then, depending on the respective
+parameters (PCAR 12=1, OPCOMPL, NREADOP2), the respectively
+
+corresponding µ-program branch is called.
+Method according to Claim 8, characterized in
+that
+
+
+in the event of going beyond a page being indicated
+(PCAR 12=1), for the operands that are affected by
+
+this, firstly the respective operand end is calculated
+and the associated virtual address is translated,
+
+before the 1st double word for the 2nd operand is read,
+and, in the event of going beyond the double word
+
+boundary for the necessary 1st part operand of the 2nd
+operand, a further double word is read.
+Circuit arrangement for accelerating the
+execution of array-processing commands, e.g. memory-memory
+
+commands, in data processing systems that operate
+on the pipeline principle, having a command preparation
+
+processor (PLU) for reading commands, calculating
+addresses and providing operands, and having a command
+
+execution processor (EXU) for the actual execution of the
+command in conjunction with a memory system (MM-SYST)
+
+which is subdivided into pages of equal size and has a
+double-word spacing for reading and writing independently
+
+of the beginning of an operand within a double word, a
+check being made in each case, within the context of
+
+preparing a command using the length statements for the
+operands, as to whether it is necessary to go beyond a
+
+page in providing the operand, and the respective result
+(PCAR. . .) being communicated to the command execution
+
+processor (EXU) when the prepared command is transferred,
+so that, in the event of going beyond a page being
+
+signalled (PCAR...), the said command execution processor
+can perform an address conversion for any following pages
+
+that may be needed before actually executing the command
+and can subsequently load any following pages that are
+
+not present, characterized
+
+in that in addition to the two address registers 
+(AR-OP1, AR-OP2) for taking over the virtual operand
+
+addresses (VA-OP1, VA-OP2) from the preparation processor
+(PLU) and an adder/subtracter mechanism (ADD)
+
+for calculating the respective operand ends and for
+writing the virtual address in the address registers in
+
+double-word steps corresponding to the preceding
+execution of a command, the address translation unit
+
+(DAT) of the command execution processor (EXU) has, for
+each operand, at least two registers (AR-PE1, AR-PO1 or
+
+AR-PE2, AR-PO2) for the temporary storage of the
+absolute page addresses (APAD) necessary for executing
+
+the command, and devices for controlling the validity
+indicator (V) for the individual absolute page
+
+addresses in the registers, and
+in that coupled to the outputs of the registers (AR-PE...,
+AR-PO...) for the absolute page address (APAD)
+
+are selection switches (MUX4 to MUX6) which can be set
+as a function of the least significant address bit (VAD
+
+19) of the virtual page address (VPAD) and of the
+operand select signal (OP-AW2) of the microprogram
+
+controller (µ-ST) of the command execution processor
+
+(EXU), and which enable the respectively necessary
+absolute page address (APAD) for the direct driving of
+
+the memory system (MM-SYST) in conjunction with the
+respective byte address (VAD20-31) from the associated
+
+address register (AR-OP1 or AR-OP2), and
+in that switching devices are connected to the outputs
+for the validity indicators of the registers (AR-PE...,
+
+AR-PO...) for the absolute page address, in order to
+prevent the memory access in the event of an invalid
+
+absolute page address.
+Circuit arrangement according to Claim 10,
+characterized
+
+
+in that in each case the most significant address bit
+(VADO) of the virtual address (VAD) is provided as the
+
+validity indicator (V) for the individual absolute page
+addresses (APAD) and is loaded into the appropriate
+
+register stage in the individual registers (AR-Pxy) for 
+the temporary storage of the absolute page addresses
+
+(APAD) and
+in that, when the command execution processor (EXU) is
+started by the microprogram controller (µ-ST), the
+
+register stages in each case serving as a validity
+indicator (V) can be set to logic "1", irrespective of
+
+taking over a valid absolute page address (APAD) with a
+logic "0" as the most significant address bit (AADO), in
+
+order to declare the respective register content as
+invalid.
+Circuit arrangement according to Claim 11,
+characterized in that the circuit devices are provided in
+
+such a way that, in the event of a most significant
+address bit (AADO) of an absolute page address (APAD)
+
+that is to be provided for the memory access being set to
+logic "1", the said devices modify the respective memory
+
+command (read, write) into an NOOP command and hence
+prevent the memory access.
+Circuit arrangement according to one of Claims 10
+to 12, characterized in that a further select switch
+
+(MUX3) is connected upstream of the registers (AR-Px1)
+for the temporary storage of the absolute page addresses
+
+(APAD) for the first operand and is connected by one of
+its two inputs to the address bus (AD-BUS) for the memory
+
+system (MM-SYST) and by its other input to the output of
+the address translation part (TRANS) of the address
+
+translation unit (DAT).
+</CLAIMS>
+</TEXT>
+</DOC>

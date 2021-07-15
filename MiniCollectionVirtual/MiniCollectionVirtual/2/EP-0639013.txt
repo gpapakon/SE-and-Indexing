@@ -1,0 +1,186 @@
+<DOC>
+<DOCNO>EP-0639013</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method and device for the analysis of data structure information
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04L1256	H04L1214	H04L2906	H04L1214	H04L1256	H04L2906	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04L	H04L	H04L	H04L	H04L	H04L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04L12	H04L12	H04L29	H04L12	H04L12	H04L29	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The invention relates to a method for analysis, in whole or in part, of information contained in data structures in order to supply an external system with the information necessary for routing the said data structures or for processing them by an intelligent external system, in which meaningful fields of the said data structures are analysed, particularly the source or destination addresses, by using the principle of translation tables by successive indirect addressing in a two-dimensional table TRIE (i, j), each row of the table constituting a register with 2
+<
+k
+>
+ cells where k is the length of the slice addressed. In this method, the search in the translation tables is performed at the rate of the incoming information, per slice of data structure. 
+<
+IMAGE
+>
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+FRANCE TELECOM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+FRANCE TELECOM
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+DURET CHRISTIAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+PELAMOURGUES LIONEL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DURET, CHRISTIAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+PELAMOURGUES, LIONEL
+</INVENTOR-NAME>
+</INVENTORS>
+<CLAIMS>
+Process for the analysis of all or part of the informations contained
+in data structures in order to supply to an external system the informations necessary
+
+for the dispatching of said data structures or for their processing by an intelligent
+external system in which analysis takes place of the significant fields of said data
+
+structures, particularly the source or destination addresses, using the principle of
+translation tables by successive indirections in a two-dimensional array TRIE (i, j),
+
+each line of the table constituting a register with 2
+k
+ cells, in which k is the length of
+the addressed segment, wherein the search in the translation tables takes place at the
+
+clock cycle of the entering information by data structure segments, in such a way as to
+start the search before having completely received the data structure, the content of a
+
+cell making it possible, after a time equal to a few data segments, to address the
+following segment, or to indicate if the search has failed, or supply an operating
+
+information for an intelligent external system, or a value, particularly for dispatching,
+associated with the content of the active data structure, wherein the informations are
+
+supplied to an associated automaton and wherein the check informations of the
+protocol and the addressing informations of the protocol are both processed.
+Process according to claim 1, wherein several successive analyses
+can be carried out and the same table can be used for several search types using
+
+different paths, e.g. by commencing the searches with different gate registers.
+Process according to claim 1, wherein it is possible to exclude from
+the search any ancillary or non-ancillary part of the data structure, without alignment
+
+constraint of the field or a subpart of that part which is tested on the segment frontier
+and without interrupting the search process.
+Process according to any one of the preceding claims, wherein the
+data structures are dispatched by source routing.
+Process according to claim 4, wherein the source routed frame
+comprises a routing information field constituted by several fields, including a RT
+
+field indicating the routing type and a LTH field indicating the length in bytes of the
+routing information field, and a sequence of route designators and wherein the
+
+analysis of the RT and LTH fields is obtained by consulting the TRIE memory which
+supplies a function for the frames of the ARE or STE type used by the end systems
+
+for producing their own routing tables, an error if the LTH field has an incorrect
+value and the duration precalculated in segments if the frame is of the SRF type. 
+Process according to claim 5, wherein the dispatching information
+is obtained by the analysis of the route designator zone, which describes the path
+
+which must be followed by a frame, the path being described by the succession of
+links taken (LAN identifiers LANid) and the traversed nodes (bridge identifiers BN).
+Process according to claim 6, wherein dispatching is established by
+the recognition of a particular sequence (LANID., BN, LANid) in a RD field,
+
+recognition taking place in such a way that until a first LAN identifier has been
+recognized, the bridge identifier is ignored and the search is recommenced, as soon as
+
+a LAN identifier has been recognized, dispatching is obtained after analysis of the
+bridge identifier and the LAN identifier which follow, the "until" condition being
+
+obtained by an adapted programming of the TRIE memory: a failure during the
+analysis of one of the segments of a LANid pointing towards the dummy registers
+
+pointing either towards the following dummy register, or for the last towards the gate
+register in order to recommence the search.
+Process according to claim 7, wherein the dispatching, which is
+dependent on the frame direction, is obtained at the end of analysis by indirection on
+
+the stored intermediate result when the sequence has been recognized and by indexing
+by a direction bit recorded beforehand.
+Process according to claim 7, wherein the same LAN identifier in a
+LANid, BN, LANid sequence traversing the latter appearing more than once in the
+
+route designator sequence is detected.
+Apparatus for the analysis of informations contained in the data
+structures in order to supply an external system with informations necessary for the
+
+dispatching of said data structures or for their processing by an intelligent external
+system comprising:
+
+
+an automaton,
+a RAM memory
+a read - write control module making it possible to read and write into
+the RAM, participate in RAM - automaton arbitration and optionally to parametrize
+
+the automaton, the different outputs of the automaton, corresponding to the intermediate
+results, to the gate register, to the direction and to the segment, as well as the
+
+address outputs of the read - write control module being connected to the RAM across
+a data path, the other outputs of the automaton being connected to a result module
+
+which is partly read in the memory and partly in the automaton and which supplies
+signals corresponding to the value, the analysis type, a possible error, the presence
+
+value, the presence function and the presence result and the data accesses of the read -
+write control module and the automaton are connected to the RAM.
+Apparatus according to claim 10, characterized in that it comprises a
+module for the verification of the different check sum types.
+Apparatus according to claim 11, characterized in that said check sum
+verification module comprises an adder receiving on eight first inputs the
+
+byte to be analyzed, its eight outputs being connected to a first register
+(A) and to a second register (B), whose respective outputs are connected to
+
+the two inputs 0 and 1 of a multiplexer, whose outputs are connected to the
+second inputs of the adder, that the carry output of the adder is connected
+
+to the third carry input of the latter across a third register receiving a
+clock  and that the first register (A) receives a clock A, the second
+
+register (B) and the multiplexer a clock B.
+Apparatus according to claim 11, characterized in that the check sum
+verification module comprises a first adder receiving on its first inputs
+
+the byte to be analyzed, the outputs of said adder being inputted on a first
+register (Co), whose outputs are delivered to the second inputs of the first
+
+adder and to the first inputs of a second adder, that the outputs of the
+second adder are inputted on a second register (C1), whose outputs are
+
+connected to the second inputs of the second adder and that the carry output
+of the first adder is connected to the first carry input of the first and
+
+second adders across a third register, and the carry output of the second
+adder is connected to the second carry input of said second adder across a
+
+fourth register, the four registers receiving the same clock .
+Apparatus according to any one of the claims 10 to 13, characterized in
+that it is used in an application to a data structure switch or to a routing
+
+bridge having a FDDI interface.
+Apparatus according to any one of the claims 10 to 13, characterized in
+
+that it is used in an application to security devices performing address
+filtering.
+Apparatus according to any one of the claims 10 to 13, characterized in
+that it is used in an application to traffic measurement, counting and
+
+observation devices based on informations analyzed in movement.
+</CLAIMS>
+</TEXT>
+</DOC>

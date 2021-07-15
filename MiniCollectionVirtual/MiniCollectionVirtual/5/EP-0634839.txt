@@ -1,0 +1,211 @@
+<DOC>
+<DOCNO>EP-0634839</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Data search device.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1730	G06F1730	G06T900	G06T900	H03M730	H03M730	H03M746	H03M746	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06T	G06T	H03M	H03M	H03M	H03M	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F17	G06F17	G06T9	G06T9	H03M7	H03M7	H03M7	H03M7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A character string to be searched (BABCABB..) is stored in order in 
+an associative memory cell row of an associative memory 26. A first 
+
+character (A) of a search character string is inputted to a buffer 56, and 
+comparison operations are effected at all of the cell rows. Comparison 
+
+operations with the next character (B) are effected only at the cell rows 
+of addresses (2), (5) which are adjacent to the cell rows which matched the 
+
+previous time. Similarly, comparison operations for the next character (C) 
+are effected only at cell rows of addresses (3), (6) and so on. Thus even 
+
+if the length of the search character string is a variable length, only the 
+number of times the comparison operation is repeated varies. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+NIIJIMA HIDETO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SATOH AKASHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NIIJIMA, HIDETO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SATOH, AKASHI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a data search device which searches 
+for search data such as a character string or the like in data to be 
+searched, for use for example in data compression, and in particular, data 
+compression in which repeat data is searched for from among original data. In fields such as computers, searches for predetermined search data 
+such as a character string or the like are effected frequently (for 
+example, during data compression, which will be described later). Such a 
+search is often executed by software, but in order to shorten the 
+processing time, it is effective to carry out searching by hardware. 
+Various conventional structures for search circuits which search for search 
+data from among data to be searched have been proposed. An example of a 
+search circuit is illustrated in Fig. 17A. A search circuit 500 illustrated in Fig. 17A is formed by a plurality 
+of registers 502, a shift register 504, a plurality of comparators 506, and 
+an AND circuit 508. Retrieval data S₀ through Sn are stored in the 
+plurality of registers 502. The shift register 504 holds a portion of data 
+to be searched D₀... . The comparators 506 compare the data held in the 
+registers 502 and the data held in the shift register 504 and output a 
+high-level comparing signal when the data match. The comparing signals 
+outputted from the respective comparators 506 are inputted to the AND 
+circuit 508. The data to be searched are successively inputted to the 
+search circuit 500 by the data held in the shift register 504 being 
+shifted. When search data is found in the data to be searched, the 
+comparing signals outputted from all of the comparators 506 become high 
+level, and the signal outputted from the AND circuit 508 becomes high level 
+so that discovery of the search data is detected. A conventional associative memory (content addressable memory: CAM) 
+is known as an example of hardware used in searches and the like. In a 
+general memory, when an address of a stored position is designated, data 
+stored in the storage region corresponding to the address is output. 
+However, in an associative memory, when data is designated, the address of 
+the storage region in which the data is stored is outputted. In a data  
+ 
+search device using a conventionally-proposed associative memory (e.g., 
+Japanese Patent Application Laid-Open No. 2-66671), in a search circuit 510 
+illustrated conceptually in Fig. 17B, the registers 502 and comparators 506 
+of Fig. 17A are replaced by associative memory portions 514
+</DESCRIPTION>
+<CLAIMS>
+A data search device (20) comprising: 
+   storage apparatus (26) for storing data to be searched, the data 
+
+comprising a sequence of data segments of predetermined bit length, said 
+apparatus comprising a plurality of ordered storage units (28), each 
+
+capable of storing a data segment; 
+   a plurality of comparing means (58), each associated with a 
+
+respective storage unit, for outputting a matching signal when a data 
+segment stored in a storage unit matches an inputted data segment; 
+
+   and control means (20) for fetching in turn a succession of data 
+segments from search data comprising a plurality of data segments, and for 
+
+inputting a fetched search data segment to each of said plurality of 
+comparing means adjacent to a comparing means which outputted said matching 
+
+signal for the preceding data segment. 
+A data compression device including the data search device of claim 
+1, wherein the control means (20) fetches in turn data segments from the 
+
+data string to be compressed; inputs the fetched data segment to the 
+comparing means, whereby: if a matching signal is produced by at least one 
+
+of the comparing means, the next data segment is inputted only to the 
+comparing means adjacent to the comparing means which outputted a matching 
+
+signal; or if a matching signal is not produced by at least one of the 
+comparing means, then dependent on the number of preceding data segments 
+
+that were matching, outputting as the compressed data either the inputted 
+data segment(s), or a predetermined code representative of the data 
+
+segments; and stores the fetched data segment in the next storage unit. 
+The data compression device of claim 2, wherein if the preceding data 
+segment outputted a matching signal, so that the current data segment was 
+
+only inputted to some of the comparing means, and none of these produced a 
+matching signal, retaining the same data segment as the next data segment, 
+
+so that this time the data segment is inputted to all of the comparing 
+means. 
+The data compression device of claim 2 or 3, wherein the storage 
+units are logically ordered as a circular buffer. 
+The data compression device of any of claims 2 to 4, wherein said 
+control means is provided with a counting means (144) for counting the 
+
+number of successive data segments for which a matching signal is outputted 
+from a comparing means, said predetermined code being formed by using the 
+
+count of the counting means and the identity of the storage unit 
+corresponding to comparing means which outputted the last matching signal. 
+The data compression device of claim 5, wherein said control means 
+varies the number of bits of said predetermined code in accordance with the 
+
+number of storage units currently storing data segments. 
+The data compression device of claim 5 or 6, wherein said 
+predetermined code includes a distance code representative of the distance 
+
+between the storage unit which stores the fetched data segment when the 
+last matching signal was outputted, and the storage unit corresponding to 
+
+the comparing means which outputted the last matching signal, and said 
+control means varies the number of bits of said distance code in accordance 
+
+with the magnitude of said distance. 
+The data compression device of claim 7, wherein if a plurality of 
+matching signals were obtained for the previous data segment but none for 
+
+the current data segment, the control means selects from the storage units 
+corresponding to the comparing means which outputted matching signals the 
+
+one which produces the smallest distance. 
+The data compression device of any of claims 2 to 8, further 
+comprising invalidation control means (148) for invalidating a matching 
+
+signal outputted from a comparing means if the storage unit corresponding 
+to said comparing means is included in a region of the storage apparatus in 
+
+which data segments have not yet been stored. 
+The data compression device of claim 9, further comprising holding 
+means (142) for identifying which parts of the storage apparatus have been 
+
+used for storing data segments. 
+The data compression device of any of claims 2 to 10, wherein said 
+control means causes said plurality of storage units to temporarily store 
+
+data which has already been restored from said compressed data, and by 
+ 
+
+using said stored data, said control means restores compressed data 
+following on from the compressed data which has already been restored. 
+A data compression method for compressing an input data string 
+comprising a sequence of data segments, using storage apparatus having a 
+
+plurality of ordered storage units each capable of storing one data 
+segment, and a plurality of comparing means each associated with a storage 
+
+unit, the comparing means outputting a matching signal when the data 
+inputted thereto matches the data segment in the associated storage unit, 
+
+said data compression method comprising the steps of: 
+
+(a) fetching data segments in turn from the input data string, 
+(b) inputting the fetched data segment to the comparing means adjacent to 
+the comparing means which outputted a matching signal for the previous data 
+
+segment, or to all the comparing means if no matching signal was produced 
+for the previous data segment, and if a matching signal is not produced by 
+
+at least one of the comparing means, then dependent on the number of 
+preceding data segments that were matching, outputting as the compressed 
+
+data either the inputted data segment(s), or a predetermined code 
+representative of the data segments, 
+(c) and storing the fetched data segment in the next storage unit. 
+The data compression method of claim 12, wherein if no matching 
+signal was outputted for the current data segment, but a matching signal 
+
+was outputted by the preceding data segment, repeating step (b) before 
+progressing to step (c). 
+</CLAIMS>
+</TEXT>
+</DOC>

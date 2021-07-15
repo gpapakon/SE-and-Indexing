@@ -1,0 +1,317 @@
+<DOC>
+<DOCNO>EP-0645697</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Minimum shift data arranging method and apparatus
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G10L1900	G06F1716	G10L1900	G06F722	G06F724	G10L1908	G06F1716	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G10L	G06F	G10L	G06F	G06F	G10L	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G10L19	G06F17	G10L19	G06F7	G06F7	G10L19	G06F17	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A series of N data items are sequentially received and stored in 
+respective N storage locations of a first memory according to the order of 
+
+arrival. The ranks of the N data items are determined according to their 
+relative values to each other. Corresponding to the stored data items, the 
+
+address number of the first memory storage locations of the 
+corresponding data items are stored in respective storage locations of a 
+
+second memory according to their ranks. The storage locations of the 
+second memory are arranged in sequential order of ranks so that the first 
+
+memory address numbers are sequentially arranged in the second 
+memory in the order of the ranks of the corresponding data items. A 
+
+sequence of additional data items is received and their ranks are 
+determined relative to the values of data items stored in the first memory. 
+
+If the rank of each additional data item is determined to be higher than 
+the lowest rank of the stored data items, the additional data item is used to 
+
+overwrite the lowest rank data item. The first memory address number of 
+the additional data item is stored in the second memory according to the 
+
+rank of the additional item by moving existing address numbers and 
+discarding the address number of the overwritten data item. The address 
+
+numbers stored in the second memory are sequentially read and the 
+contents of the first memory are read. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+NIPPON ELECTRIC CO
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+NEC CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+HAYATA TOSHIHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MIYANO TOSHIKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SERIZAWA MASAHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HAYATA, TOSHIHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MIYANO, TOSHIKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SERIZAWA, MASAHIRO
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates generally to code-excited speech
+coders, and more specifically to a technique for selecting data of
+significant values and arranging the data with a minimum of shifts. The
+present invention is particularly useful for the codebook searching process
+of the speech coders.As disclosed in international application WO 89/06419, a VSELP
+(vector sum excited linear predictive) speech coder includes a codebook
+search controller and a pair of identical subsystems each comprising a
+basis vector memory and a codebook generator. The codebook
+searching technique employed in the VSELP speech coder derives cross
+correlation vectors between speech samples and codewords and auto
+correlation vectors between successive pairs of the codewords from one
+of the subsystems of the VSELP. The computed vectors are compared
+with each other using the cross multiplication technique and those having
+significant values are selected as a first set of candidate vectors. A second
+set of computed vectors is derived from the second subsystem and those
+having significant values are selected as a second set of candidate vectors.
+The codebook search controller uses a technique called combination
+search to select a pair of optimum vectors from the first and second sets of
+candidate vectors and applies the vectors to the codebook generators. In
+the selection process, the computed vectors are stored in a buffer and
+arranged in a sequential order according to their values. This is done by
+repeatedly shifting the stored vectors to vacate a position for a subsequent
+vector having a higher value.However, the amount of data stored in the buffer is substantial and
+the shifting of data to lower ranking positions increases computational 
+complexity, particularly when a position is to be vacated for a highest
+value. Thus, the time taken to select a set of vectors is long, and a need
+exists to reduce the amount of time involved with the selecting process.United States Patent 3,611,316 (Woodrum), granted to
+International Business Machines in 1971, describes in lines
+6 to 26 of column 1 a sorting method in which a table of
+sequenced addresses is generated. The insertion sorting
+operation sorts each newly-received data key by comparing
+the new key with the keys currently represented by the
+addresses in the table; a binary search is made of the keys
+using their order in the address table. When the binary
+search is ended, the position for inserting a new key into
+the address table is found. Then all addresses in the
+table before the
+</DESCRIPTION>
+<CLAIMS>
+A sorting method, comprising the steps of:
+
+(a) sequentially storing data items in respective
+locations of a first memory according to order of arrival
+
+and respectively representing the stored data items by
+first memory indices;
+(b) storing the first memory indices in respective
+locations of a second memory according to the ranks of the
+
+data items relative to each other;
+(c) overwriting a stored data item of lowest rank
+with an additional data item if the rank of the additional
+
+data item is higher than the lowest rank of the stored data
+items;
+(d) storing the first memory index of the additional
+data item in one of the locations of the second memory
+
+according to the rank of the additional data item relative
+to the ranks of existing data items in said first memory by
+
+moving first memory indices in the second memory and
+discarding the first memory index of the overwritten data
+
+item;
+(e) repeating the steps (c) and (d) a predetermined
+number of times; and,
+(f) reading stored data items from said first memory
+according to the arrangement of the first memory indices in
+
+said second memory;
+characterized in that
+, in step (b), the locations of said
+second memory are connected to form a ring, and 
+in that
+
+step (b) comprises the substeps of:
+
+(b1) comparing the rank of each of said data
+items with a threshold value equal to the number of 
+
+data items stored in the first memory, divided by two;
+(b2) if the rank of the data item is higher than
+the threshold value, rotating by one position in a
+
+first direction on the ring those first memory indices
+that are stored in said second memory either in a
+
+position corresponding to the rank of the data item or
+to higher ranks, a location corresponding to the
+
+rank of the data item being thereby vacated, and
+storing the first memory index of the data item 
+in
+that
+ vacated location; and,
+(b3) if the rank of the data item is lower than
+the threshold value, rotating by one position in a
+
+second direction on the ring those first memory
+indices that are stored in the second memory either in
+
+a next-lower ranking position to the rank of the data
+item or in positions ranking lower than the next-lower
+
+ranking position, a location corresponding to the
+next-lower ranking position being thereby vacated, and
+
+storing the first memory index of the data item 
+in
+that
+ vacated location.
+A sorting method as claimed in claim 1, wherein
+the locations of the second memory are respectively
+
+indicated by ranking indicators corresponding to the ranks
+of the data items in said first memory, wherein the step
+
+(b2) comprises moving said ranking indicators in said first
+direction.
+A sorting method as claimed in claim 1, wherein
+the step (d) comprises the steps of:
+
+
+(d1) comparing the rank of said additional data 
+item with said threshold value;
+(d2) if the rank of the additional data item is
+higher than the
+ threshold value, rotating by one
+position in a first direction on the ring those first
+
+memory indices that are stored in said second memory
+either in a position corresponding to the rank of the
+
+data item or to higher ranks, a location corresponding
+to the rank of the additional data item being
+
+thereby vacated, and storing the first memory index of
+the additional data item in that vacated location;
+
+and,
+(d3) if the rank of the additional data item is
+lower than the threshold value, rotating by one position
+
+in a second direction on the ring those first
+memory indices that are stored in the second memory
+
+either in a next-lower ranking position to the rank of
+the additional data item or in positions ranking lower than
+
+the next-lower ranking position, a location corresponding
+to the next-lower ranking position being
+
+thereby vacated, and storing the first memory index of
+the additional data item in that vacated location.
+A sorting method as claimed in claim 3, wherein
+the locations of the second memory are respectively indicated
+
+by ranking indicators corresponding to the ranks of
+the data items in said first memory, wherein the step (d2)
+
+comprises moving said ranking indicators in said first
+direction.
+An apparatus for generating a data sequence,
+comprising: 
+
+
+a first memory (102) having a plurality of locations
+respectively indicated by first memory indices;
+a second memory (302) having a plurality of locations;
+and,
+control means (300) for sequentially storing data
+items in the first memory (102) according to order of
+
+arrival, storing the first memory indices of the stored
+data items in the second memory (302) according to the
+
+ranks of the data items relative to each other, overwriting
+a stored data item of lowest rank with an additional data
+
+item if the rank of the additional data item is higher than
+the lowest rank of the stored data items, storing the first
+
+memory index of the additional data item in one of the
+locations of the second memory according to the rank of the
+
+additional data item relative to the ranks of existing data
+items in said first memory by moving first memory indices
+
+in the second memory and discarding the first memory index
+of the overwritten data item, and reading stored data items
+
+from said first memory according to the arrangement of the
+first memory indices in said second memory;
+characterized in that
+ the plurality of locations of the
+second memory (302) are connected to form a ring, and 
+in
+that
+ the control means (300) is arranged to:
+
+compare the rank of each of said data items with
+a threshold value equal to the number of data items
+
+stored in said first memory (102), divided by two;
+if the rank of the data item is higher than the
+threshold value, rotate by one position in a first
+
+direction on the ring those first memory indices that
+are stored either in a position corresponding to the
+
+rank of the data item or to higher ranks in said 
+second memory (302), a location corresponding to the
+
+rank of the data item being thereby vacated, and store
+the first memory index of the data item 
+in that
+
+vacated location; and,
+if the rank of the data item is lower than the
+threshold value, rotate by one position in a second
+
+direction on the ring those first memory indices that
+are stored either in a next-lower ranking position in
+
+the second memory (302) to the rank of the data item
+or in positions ranking lower than the next-lower ranking
+
+position, a location corresponding to the next-lower
+ranking position being thereby vacated, and store the
+
+first memory index of the data item 
+in that
+ vacated
+location.
+An apparatus as claimed in claim 5, wherein the
+locations of the second memory (302) are respectively
+
+indicated by ranking indicators corresponding to the ranks
+of the data items in said first memory (102), wherein the
+
+control means (300) is arranged to move said ranking
+indicators in said first direction.
+</CLAIMS>
+</TEXT>
+</DOC>

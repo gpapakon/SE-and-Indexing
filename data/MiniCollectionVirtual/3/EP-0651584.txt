@@ -1,0 +1,553 @@
+<DOC>
+<DOCNO>EP-0651584</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Data receiving apparatus and method
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04N726	H04L2906	H04N752	H04N752	H04L2906	H04N764	H04N726	H04N724	H04L708	H04N756	H04N768	H04N724	H04L708	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04N	H04L	H04N	H04N	H04L	H04N	H04N	H04N	H04L	H04N	H04N	H04N	H04L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04N7	H04L29	H04N7	H04N7	H04L29	H04N7	H04N7	H04N7	H04L7	H04N7	H04N7	H04N7	H04L7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The present invention is to provide a decoder which 
+detects a start code in a layered coded data stream on a 
+
+layer basis. 
+The decoder includes a unique pattern detector which 
+detects a start code pattern in the layered coded data 
+
+stream, a start code identifier which identifies the 
+detected start code pattern based on a given condition, a 
+
+similarity calculator which calculates similarity as an 
+evaluation between an erroneously detected start code pattern 
+
+and an expected start code based on layer, and a 
+similarity based replacement identifier which replaces 
+
+the erroneous start code pattern by the most 
+appropriate replacement selected based on the similarity 
+
+based evaluation, and otherwise the priority based 
+replacement identifier which selects a replacement by the 
+
+priority order. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MITSUBISHI ELECTRIC CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MITSUBISHI DENKI KABUSHIKI KAISHA
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+KATO YOSHIAKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MURAKAMI TOKUMICHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SEKIGUCHI SHUN-ICHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KATO, YOSHIAKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MURAKAMI, TOKUMICHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SEKIGUCHI, SHUN-ICHI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a data receiving
+method and apparatus, and more specifically to a decoder
+which deals with a coded data stream in a regularly
+organized layered structure of user information including
+video, audio, data and so forth.It has been a common practice to use a start code as
+a signal for synchronization or for execution startup of
+a process. Successful detection of a start code in a
+data stream has long been a challenge. It is also
+important to deal successfully with a situation where a
+start code pattern is detected by error and,
+particularly, to maintain a decoding operation without
+interruption by an error detection. However, no
+effective and satisfactory research has been conducted in
+this field.Japanese Unexamined Patent Publication
+No.288129/1989 discloses a conventional system which
+tries to detect a start code of a fixed bit pattern
+within a maximum detection tolerable error of one-bit.
+The conventional art is designed to avoid an error-related 
+suspension of decoding operations when a one-bit
+error pattern of a start code is detected.Fig. 37 is a block diagram of a start code detector
+according to the conventional art. The start code
+detector comprises a bit pattern comparator 51 and a
+start code pattern generator 53. The bit pattern
+comparator 51 receives an incoming bit stream 50 and
+outputs a data effective signal 52. The start code
+pattern generator 53 issues a start code pattern 54.The conventional start code detector of Fig. 37
+tries to detect a start code successfully by using an
+error detection evading method with an error detection
+tolerable capacity of one bit in the following manner.
+The bit pattern comparator 51 constantly watches incoming
+bits on an incoming bit stream 50 to detect a start code.
+Fig. 38 shows a list of five-bit patterns including a
+start code "11010", for example, to be detected and its
+one-bit error patterns within the detection tolerable
+maximum capacity of one bit error. These one-bit error
+patterns differ from the start code pattern by one bit in
+different bit positions of the five-bit pattern.The start code pattern generator 53 presents all the
+patterns in Fig. 38, for example, to the bit pattern
+comparator 51 for comparison. When a bit pattern on
+incoming data stream 50 is recognized as one of the 
+patterns in Fig. 38, the bit pattern comparator 52 issues
+the data effective signal 52 for an effective period of
+the corresponding data.Thus, the error detection evading method implemented
+in the conventional start code detector works
+</DESCRIPTION>
+<CLAIMS>
+An apparatus for receiving and decoding a
+bit stream of data blocks which are organized in a
+
+hierarchical order of layers, each of the data blocks
+corresponding to one of the layers and including a
+
+start code which identifies the layer of the data
+block, the apparatus being characterized by
+
+
+a layer memory (17) for storing data indicating
+the layer corresponding to the last start code
+
+received in the data stream, the layer memory having
+a last layer output,
+a start code detector (15), coupled to receive
+the bit stream and the last layer output, for detecting
+
+start codes by comparing data in the bit stream
+with a set of expected start codes, the set of expected
+
+start codes being selected responsive to the
+last layer output, the start code detector selecting
+
+one of the expected start codes as a detected start
+code, if one of the expected start codes is acceptably
+
+similar to data in the bit stream, the start
+code detector (15) having a start code detector output
+
+which identifies the detected start code and its
+corresponding layer,
+means (10) responsive to the start code detector
+output for updating the layer memory with data indicating
+
+the layer corresponding to the detected
+start code, and
+a block data decoder (7), responsive to the
+detected start code output from the start code detector,
+
+for decoding the data block corresponding to the
+detected start code.
+An apparatus as set forth in Claim 1 wherein the
+start code detector comprises:
+
+
+a unique pattern detector (22) coupled to
+receive the bit stream and detect start code
+
+prefixes, the unique pattern detector having an output
+on which possible start codes corresponding to
+
+detected start code prefixes are placed, and
+a start code identifier (24), coupled to receive
+the output of the unique pattern detector (22) and
+
+the last layer output from the layer memory (17), for
+comparing the possible start codes from the unique
+
+pattern detector (22) with one or more expected start
+codes based on the last layer output, the start code
+
+identifier (26) having a start code identifier (24)
+output in a first state which indicates that an error
+
+has occurred, if no expected start code is acceptably
+similar to the possible start code, and in a second
+
+state which identifies the detected start code and
+the corresponding layer, if an expected start code is
+
+acceptably similar to the possible start code.
+An apparatus as set forth in claim 2
+wherein the block data decoder (7) is responsive to
+
+the start code identifier (24) output being in the
+first state for suspending block data decoding, and
+
+wherein the apparatus further comprises a
+resynchronization means which is responsive to the
+
+start code identifier output in the first state for
+searching a next start code in a bit stream to be
+
+decoded when the error occurred and a display
+contro
+ller, which is responsive to the start code
+identifier output being in the first state to perform
+
+error masking corresponding to the error. 
+An apparatus as set forth in Claim 3
+further comprising means for instructing the display
+
+controller (11) to cease the error masking and
+instructing the block data decoder (7) to resume
+
+block data decoding when the start code identifier
+(24) next detects a start code corresponding to a
+
+layer which is the same as or higher in the layer
+hierarchy.
+An apparatus as set forth in Claim 1
+wherein the start code detector (15) comprises:
+
+
+a unique pattern detector (22) coupled to
+receive the bit stream and detect start code
+
+prefixes, the unique pattern detector (22) having a
+unique pattern detector output on which possible
+
+start codes corresponding to detected start code
+prefixes are placed,
+a first expected start code selector (27)
+coupled to receive the last layer output from the
+
+layer memory (17), the first expected start code
+selector (27) selecting and generating a first expected
+
+start code selector output identifying one or
+more expected start codes based on the last layer,
+a start code matching identifier (29), coupled
+to receive the unique pattern detector output and the
+
+first expected start code selector output, for comparing
+the possible start code from the unique pattern
+
+detector with the one or more expected start
+codes based on the last layer output, the start code
+
+matching identifier (29) generating a replacement
+start signal output if the possible start code does
+
+not match any of the expected start codes, and 
+a start code replacement unit (31), responsive
+to the replacement start signal output, the start
+
+code replacement unit comprising,
+
+a second expected start code selector
+(27a) for selecting one or more expected
+
+start codes based on the last layer, and
+generating an output indicating the expected
+
+start codes,
+a similarity calculator (32), coupled
+to receive expected start codes from the
+
+second expected start code selector (27a)
+and the possible start code, for calculating
+
+and generating an output indicating
+a Hamming distance of the possible
+
+start code to each of the expected start
+codes from the second expected start code
+
+selector (27a), and
+a similarity based replacement identifier
+(34), coupled to receive the output
+
+of the similarity calculator (32), for
+selecting and generating a start code identifier
+
+output indicating the one of the
+expected start codes with the smallest Hamming
+
+distance to the possible start code.
+An apparatus as set forth in Claim 5
+wherein the Hamming distances are calculated by
+
+determining the number of bits of each of the expected
+start codes which do not match the corresponding
+
+bit of the possible start code.
+An apparatus as set forth in Claim 5
+wherein the Hamming distances are calculated for each
+
+expected start code by determining each bit of the 
+expected start code which does not match the corresponding
+
+bit of the detected start code, weighting
+each of the bits based on its bit position to
+
+generate a weighted bit value and summing all of the
+weighted bit values.
+An apparatus as set forth in Claim 1
+wherein the start code detector comprises:
+
+
+a unique pattern detector (22) coupled to
+receive the bit stream and detect start code
+
+prefixes, the unique pattern detector having a unique
+pattern detector output on which possible start codes
+
+corresponding to detected start code prefixes are
+placed,
+a first expected start code selector (27)
+coupled to receive the last layer output from the
+
+layer memory (17), the expected start code selector
+(27) selecting and generating a first expected start
+
+code selector output identifying one or more expected
+start codes based on the last layer output,
+a start code matching identifier, coupled to
+receive the unique pattern detector output and the
+
+first expected start code selector output, for comparing
+the possible start code from the unique pattern
+
+detector with the one or more expected start
+codes based on the last layer output, the start code
+
+matching identifier generating a replacement start
+signal output if the possible start code does not
+
+match any of the expected start codes, and
+a start code replacement unit (31), responsive
+to the replacement start signal output, the start
+
+code replacement unit (31) comprising, 
+
+a second expected start code selector
+(27a) for selecting one or more expected
+
+start codes based on the last layer and
+generating an output indicating the expected
+
+start codes,
+a priority assigning numerator (37),
+coupled to receive expected start codes
+
+from the second expected start code selector
+and to receive the last layer output,
+
+for calculating and generating an output
+indicating a probability of occurrence for
+
+each expected start code received from the
+second expected start code selector, and
+a priority based replacement identifier
+(39), coupled to receive the output
+
+of the priority assigning numerator, for
+selecting and generating a start code identifier
+
+output indicating the one of the
+expected start codes with the highest
+
+probability of occurrence.
+An apparatus as set forth in Claim 8
+wherein the priority assigning numerator output indicates
+
+priority of each expected start code by a
+numerical value based on probability of occurrence
+
+relative to other expected start codes.
+An apparatus as set forth in Claim 8
+wherein the priority assigning numerator output indicates
+
+priority of each expected start code by its
+order of probability from most likely to least likely
+
+relative to other expected start codes without indicating
+actual probability of occurrence. 
+An apparatus as set forth in Claim 1
+wherein the start code detector (15) comprises a
+
+replacement determiner for selecting a detected start
+code from the expected start codes, the replacement
+
+determiner (46) locally decoding the block data for a
+predetermined time period in accordance with a
+
+plurality of the expected start codes and detecting a
+number of decoding errors for the block data for each
+
+of the plurality of expected start codes and selecting
+as the detected start code a one of the
+
+plurality of expected start codes in which the fewest
+decoding errors were detected. 
+A method for receiving and decoding a bit
+stream of data blocks which are organized in a
+
+hierarchical order of layers, each of the data blocks
+corresponding to one of the layers and including a start
+
+code which identifies the layer of the data block, the
+method comprising the steps of:
+
+
+storing data indicating the layer corresponding to
+the last start code received in the data stream,
+continuously comparing data in the bit stream with a
+set of expected start codes, the set of expected start
+
+codes being selected responsive to the last layer,
+selecting one of the expected start codes as a
+detected start code based on the comparison, if one of
+
+the expected start codes is acceptably similar to data in
+the bit stream,
+updating the last layer data with data indicating
+the layer corresponding to the detected start code, and
+decoding the block data corresponding to the
+detected start code in accordance with the detected start
+
+code.
+A method as set forth in Claim 12 wherein the
+
+comparing step comprises:
+
+detecting start code prefixes in the bit stream, and
+comparing start codes corresponding to the prefixes
+with one or more of the expected start codes.
+A method as set forth in Claim 13 further
+comprising the steps of:
+
+
+suspending block data decoding if a detected start
+code is not selected, and
+performing error masking if a detected start code is
+not selected.
+A method as set forth in Claim 14 further
+comprising the step of ceasing the error masking and
+
+resuming block data decoding when a start code is
+detected corresponding to a layer which is the same as or
+
+higher in the layer hierarchy than the layer in which no
+selection was made.
+A method as set forth in Claim 13 wherein the
+selecting step comprises:
+
+
+generating a replacement start signal if one of the
+expected start codes does not match the start code
+
+corresponding to the detected start code prefix,
+selecting one or more expected start codes based on
+the last layer,
+calculating a Hamming distance of the start code 
+corresponding to the detected start code prefix to each
+
+of the expected start codes, and
+selecting as the detected start code a one of the
+expected start codes with the smallest Hamming distance
+
+to the start code corresponding to the detected start
+code prefix.
+A method as set forth in Claim 16 wherein the
+Hamming distance calculating step includes the step of
+
+determining the number of bits of each of the expected
+start codes which do not match the corresponding bit of
+
+the start code corresponding to the detected start code
+prefix.
+A method as set forth in Claim 16 wherein the
+Hamming distance calculating step for each expected start
+
+code comprises the steps of:
+
+determining for each expected start code, each bit
+of the expected start code which does not match the
+
+corresponding bit of the start code corresponding to the
+detected start code prefix,
+weighting each of the bits based on its bit position
+to generate a weighted bit value, and
+summing all of the weighted bit values.
+A method as set forth in Claim 13 further
+comprising the step of:
+
+
+calculating a probability of occurrence for each 
+expected start code if no expected start code identically
+
+matches the start code corresponding to the detected
+start code prefix, and
+selecting a one of sid expected start codes with the
+highest probability of occurrence as the detected start
+
+code.
+A method as set forth in Claim 12 wherein the
+selecting step comprises the steps of:
+
+
+generating a replacement start signal if one of the
+expected start codes does not match the start code
+
+corresponding to the detected start code prefix,
+selecting one or more expected start codes based on
+the last layer output,
+calculating a Hamming distance of the start code
+corresponding to the detected start code prefix to each
+
+of the expected start codes,
+calculating a probability of occurence for each
+expected start code if no expected start code identically
+
+matches the start code corresponding to the detected
+start code prefix, and
+selecting as the detected start code a one of the
+expected start codes with the smallest value of W, where,
+
+
+W = D[Pi(L)] - E[Pi(L)]
+
+where
+
+Pi(L) is all expected start code
+D[Pi(L)] is the Hamming distance of the start 
+
+code, and
+E[Pi(L)] is the probability of occurrence of the
+
+expected start code.
+A method as set forth in Claim 13 wherein the
+selecting step comprises the steps of:
+
+
+locally decoding block data corresponding to a
+detected start code prefix for a predetermined time
+
+period in accordance with a plurality of the expected
+start codes,
+detecting a number of decoding errors for the block
+data for each of the plurality of expected start codes,
+
+and
+selecting as the detected start code a one of the
+plurality of expected start codes in which the fewest
+
+decoding errors were detected.
+</CLAIMS>
+</TEXT>
+</DOC>

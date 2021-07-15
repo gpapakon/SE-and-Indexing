@@ -1,0 +1,465 @@
+<DOC>
+<DOCNO>EP-0613305</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Differential coding method and apparatus.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T900	G06T900	H03M742	H03M742	H04N726	H04N726	H04N730	H04N730	H04N732	H04N732	H04N734	H04N734	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	H03M	H03M	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T9	G06T9	H03M7	H03M7	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A differential coding apparatus comprises a delay unit 
+(31) for storing an adjacent value (P) to the value (X) to 
+
+be coded, a transmission value conversion unit (34) for 
+assigning a transmission value (Y) to the value of a 
+
+difference (D) between the value to be coded (X) and the 
+adjacent value (P) in the ascending order of the absolute 
+
+value of the difference value (D), and a variable length 
+coding device (35) for assigning a code in the order that 
+
+the code is increasing in code length as the transmission 
+value (Y) increased in number. In the range in which 
+
+positive and negative difference values exist, positive 
+and negative numbers are alternately given to difference 
+
+values in the order in which the difference value is 
+increasing in distance from a centre difference value of 0. 
+
+In the range in which either positive or negative 
+difference value exists, serial numbers are successively 
+
+given to difference values in the order in which the 
+difference value is increasing in distance from the 
+
+difference value of 0. Then codes are assigned in the 
+order of their increasing in code length to the difference 
+
+values (D) in the order of the given numbers of 
+transmission values (Y). The corresponding coding method 
+
+is also described. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC IND CO LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC INDUSTRIAL CO., LTD.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+HASEBE TAKUMI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HASHIMOTO KINJI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+JURI TATSURO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NISHINO MASAKAZU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HASEBE, TAKUMI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HASHIMOTO, KINJI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+JURI, TATSURO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NISHINO, MASAKAZU
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a method and 
+apparatus for differential coding for use in reducing an 
+amount of data of a time series signal such as a video 
+signal when recording and transmitting the signal. Among coding apparatuses for coding a time series 
+signal such as a video signal, there is an apparatus for 
+reducing a redundancy on a time base. A representative 
+example is Moving Picture Coding Experts Group (referred to 
+as "MPEG" hereinafter) which is currently under energetic 
+discussion for standardization. In MPEG, DCT (Discrete 
+Cosine Transform) is utilized for compression of data in 
+spatial directions, while inter-frame prediction and motion 
+compensation are utilized for compression of data on the 
+time base. In the motion compensation, input image data is 
+divided into a plurality of blocks each composed of 16 × 16 
+pixels and the reproduced image of the previous frame is 
+shifted by a motion vector to achieve an inter-frame 
+prediction. The motion vector is expressed by vector 
+components in the horizontal and vertical directions and  
+ 
+each component is individually coded. The range of 
+existence of the motion vector value depends on the range 
+of the motion compensation. As a method of coding a motion vector, there is 
+employed a variable-length coding technique in MPEG for 
+converting a difference value between an object value to be 
+currently coded and its adjacent motion vector value into 
+a variable-length code. The variable-length coding method 
+is adopted because it is considered that a difference value 
+between an object value to be coded and its adjacent value 
+is zero when in panning or in an area except for edges of 
+a moving object. It is also considered that the difference 
+value is small in zooming operation. By converting the 
+difference value into a variable-length code, the amount of 
+codes is reduced. In this method, by taking a difference 
+value between an object value to be coded and its adjacent 
+value, the range of existence of the difference value is 
+expanded to a range two times as great as that of the 
+motion vector value. However, the amount of code words can 
+be reduced to about half by adopting an aliasing (or 
+folding) coding method. The aliasing coding method is 
+disclosed in CCITT Recommendation H. 261 'VIDEO CODEC FOR 
+AUDIOVISUAL SERVICES AT p x 64 Kbit/s (1990)'. The following describes methods of composing code 
+words according to the conventional differential coding  
+ 
+method and aliasing coding method with reference to Figs. 
+11 to 14
+</DESCRIPTION>
+<CLAIMS>
+A differential coding method for coding values in 
+a predetermined range, comprising the steps of: 
+
+   giving different numbers individually to 
+difference values each obtained by calculating a difference 
+
+between each value to be coded and a value adjacent 
+thereto, wherein said different numbers are successively 
+
+assigned to said difference values in the order of 
+ascending the absolute values of said difference values; 
+
+and 
+   assigning a code word to each difference value in 
+
+the order that the code word is increasing in code length 
+in accordance with the increase of the different numbers 
+
+given to said difference values. 
+The differential coding method as claimed in 
+Claim 1, wherein assuming that the difference value D 
+
+between the value X to be coded and the adjacent value P is 
+calculated according to the equation D = X - P and that the 
+
+value X to be coded exists in the range of A ≦ X ≦ B, and 
+a conversion reference value M is defined by the equations 
+
+ 
+as following: 
+
+   M = B - P   when P ≧ 0, and 
+   M = P - A   when P 
+<
+ 0 
+where A and B are integers and A 
+<
+ B, each difference value 
+D is converted into a transmission value Y with reference 
+
+to the conversion reference value M according to the 
+equations as following: 
+
+   in the case where P ≧ 0 
+ 
+
+   in the other case where P 
+<
+ 0 
+
+The differential coding method as claimed in 
+Claim 2, wherein the transmission values of serial integers 
+
+are assigned to the difference values in accordance with 
+the ascending order of the absolute values of the 
+
+difference values, and each transmission value is converted 
+into a variable-length code by giving a code to the 
+
+transmission value in such a manner that the code words 
+have their code length being longer as the transmission 
+
+value increases in number within a predetermined number of 
+ 
+
+code words. 
+The differential coding method as claimed in 
+claim 2 or 3, wherein the integer A is - N and integer B is N-1, 
+
+where N is an integer equal to or greater than 1. 
+The differential coding method as claimed in 
+claim 2, 3 or 4, wherein bit manipulation for manipulating binary 
+
+coded bits of data of the adjacent value, the conversion 
+reference value, the difference value, and the value to be 
+
+coded is employed in the steps of generating the conversion 
+reference value and converting the difference value into 
+
+the transmission value to perform product-sum operations 
+thereof. 
+The differential coding method as claimed in 
+claims 2 to 5, comprising the steps of: 
+
+   calculating the conversion reference value M 
+according to the equations for conversion as follows: 
+
+   M = (!P3, !P2, !P1, !P0) when P4 = 0, and 
+   M = ( P3, P2, P1, P0) when P4 = 1 
+
+where P4 is a code bit of P; 
+   calculating the transmission value Y by 
+
+converting the difference value D according to the 
+equations:
+
+ 
+   in the case where P4 = 0, 
+
+ 
+   in the other case where P4 = 1, 
+
+ 
+   converting the transmission value Y into a 
+
+variable-length code by giving a code having the shorter 
+code length to the smaller transmission value in number, 
+
+assuming that the following values represented by their bit 
+data obtained through binary coding: 
+
+P: Adjacent value 
+   where P is 5 bits of (P4, P3, P2, P1, P0) 
+
+X: Value to be coded 
+   where X is 5 bits of (X4, X3, X2, X1, X0) 
+
+D: Difference value 
+   where D is 6 bits of (D5, D4, D3, D2, D1, D0) 
+
+M: Conversion reference value 
+   where M is 4 bits of (M3, M2, M1, M0)
+
+ 
+Y: Transmission value 
+
+   where Y is 5 bits of (Y4, Y3, Y2, Y1, Y0). 
+The differential coding method as claimed in 
+Claim 1, wherein assuming that the difference value D 
+
+between the value X to be coded and the adjacent value P is 
+calculated according to the equation D = X - P, and that 
+
+the transmission value Y is in the range of - N ≦ Y 
+<
+ N 
+where N is a positive integer, each difference value is 
+
+assigned to the transmission value Y through the conversion 
+according to the following equations: 
+
+   in the case where P ≧ 0, 
+Y = (N - 1 - X)/2 
+
+   when (X ≦ 2P - N) and (X is an odd number); 
+Y = - (N - X)/2 
+
+   when (X ≦ 2P - N) and (X is an even number); and 
+Y = X - P in any other case, and 
+
+   in the other case where P 
+<
+ 0 
+Y = (N + X)/2 
+
+   when (X 
+>
+ 2P + N) and (X is an even number), 
+Y = - (N + 1 + X)/2
+
+ 
+   when (X 
+>
+ 2P + N) and (X is an odd number), and 
+Y = X - P in any other case 
+
+   characterized in that a code having the shorter 
+code length is assigned to a transmission value having the 
+
+smaller absolute value in the order of ascending the 
+absolute value of the transmission value Y so that each 
+
+transmission value is converted into a variable-length code 
+by giving a code to the transmission value in such a manner 
+
+that the code words have their code length being longer as 
+the transmission value increases in absolute value. 
+The differential coding method as claimed in 
+Claim 4, wherein among the entire difference values which 
+
+can exist in coding, a part of the difference values within 
+the range having both the positive and negative values is 
+
+directly assigned to the transmission value Y, whereas, 
+when the difference value is in the range having any one 
+
+part of positive or negative values, the transmission value 
+Y is assigned alternately to each negative and positive 
+
+difference value successively in the order of ascending the 
+absolute values of the difference values. 
+The differential coding method as claimed in 
+claim 7 or 8, wherein bit manipulation for manipulating binary 
+
+coded bits of data of the adjacent value, the difference 
+ 
+
+value, and the value to be coded is employed in the step of 
+converting the difference value into the transmission value 
+
+to perform product-sum operation thereof. 
+The differential coding method as claimed in 
+Claim 9, comprising the steps of: 
+
+   obtaining the bit data of the following values 
+through binary coding: 
+
+   P: Adjacent value, where P is 5 bits of (P4, P3, P2, 
+P1, P0), 
+
+   X: Value to be coded, where X is 5 bits of (X4, X3, 
+X2, X1, X0), 
+
+D: Difference value, where D is 6 bits of (D5, D4, D3, D2, 
+D1, D0), and 
+
+   Y: Transmission value, where Y is 5 bits of (Y4, Y3, 
+Y2, Y1, Y0); 
+
+   calculating a difference value D between the 
+value X to be coded and the adjacent value P according to 
+
+the following equation: 
+D = X - P = (D5, D4, D3, D2, D1, D0);  
+
+   calculating the transmission value Y by 
+converting the difference value D with reference to values 
+
+X and P according to the following equations: 
+   in the case where P4 = 0, 
+
+Y = ( 0, X4, !X3, !X2, !X1)
+ 
+
+   when X ≦ (!P3,P2,P1,P0,0)) and X0 = 1; 
+Y = ( 1, !X4, X3, X2, X1) 
+
+   when X ≦ (2P - 16 = (!P3,P2,P1,P0,0)) and X0 = 0; and 
+Y = D = ( D5, D4, D3, D2, D1, D0) 
+
+in any other case, and 
+   in the other case where P4 = 1, 
+
+Y = ( 0, !X4, X3, X2, X1) 
+   when X 
+>
+ (!P3,P2,P1,P0,0)) and X0 = 0; 
+Y = ( 1, X4, !X3, !X2, !X1) 
+
+   when X 
+>
+ (!P3,P2,P1,P0,0)) and X0 = 1; and 
+Y = D = ( D5, D4, D3, D2, D1, D0) 
+
+in any other case; and 
+   converting each transmission value Y into a 
+
+variable-length code by giving a code having the shorter 
+code length to the transmission value having the smaller 
+
+absolute value. 
+A differential coding apparatus for coding a 
+value of data comprising: 
+
+   delay means (31) for storing an adjacent value 
+(P) adjoining the value (X) to be coded;
+
+ 
+   differentiation means (32) for producing a 
+
+difference value (D) between the value (X) to be coded and 
+the adjacent value (P) stored in said delay means; 
+
+   conversion reference value generating means (33) 
+for generating as a conversion reference value (M) the 
+
+maximum in absolute value of a difference value range 
+having a pair of positive and negative values among the 
+
+entire range of the difference values between each value to 
+be coded and the adjacent value stored in said delay means; 
+
+   transmission value conversion means (34) for 
+assigning a transmission value (Y) to each difference value 
+
+in the order of ascending the absolute value of the 
+difference value; and 
+
+   variable-length coding means (35) for assigning 
+a code to each transmission value in the order that the 
+
+code is increasing in code length as the transmission value 
+increases in number. 
+The differential coding apparatus as claimed in 
+Claim 11, wherein said conversion reference value 
+
+generating means (33) and said transmission value 
+ 
+
+conversion means (34) are composed of bit manipulation 
+means for manipulating binary coded bits of data of the 
+
+adjacent value, the conversion reference value, the 
+difference value, and the value to be coded. 
+A differential coding apparatus for coding a 
+value of data comprising: 
+
+   delay means (71) for storing an adjacent value 
+(P) adjoining each value (X) to be coded; 
+
+   transmission value conversion means (72) for 
+assigning a transmission value to a value of difference 
+
+between each value to be coded and the adjacent value 
+stored in said delay means in the order of ascending the 
+
+absolute value of the difference value; and 
+   variable-length coding means (73) for assigning 
+
+a code to each transmission value in the order that the 
+code is increasing in code length as the transmission value 
+
+increases in number. 
+The differential coding apparatus as claimed in claim 
+13, wherein said transmission value conversion means is 
+
+composed of bit manipulation means for manipulating binary 
+coded bits of data of the adjacent value, the difference 
+
+value, and the value to be coded. 
+The differential coding method or apparatus as claimed 
+in any preceding claim, wherein said value to be coded is 
+
+a motion vector value. 
+</CLAIMS>
+</TEXT>
+</DOC>

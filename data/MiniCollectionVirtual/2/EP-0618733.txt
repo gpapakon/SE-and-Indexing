@@ -1,0 +1,254 @@
+<DOC>
+<DOCNO>EP-0618733</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Code amount control method and encoding apparatus for carrying it out.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04N726	H04N730	H04N726	H04N730	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04N	H04N	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04N7	H04N7	H04N7	H04N7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+There is provided a code amount control device for controlling a code 
+amount in units of second blocks each consisting of a plurality of first 
+
+blocks including a quantization unit for quantizing the second block 
+data with predetermined quantization parameters, a detection unit for 
+
+detecting the code amount of the second block data quantized by the 
+quantization unit, and a control unit for controlling the quantization 
+
+parameters in units of first blocks in accordance with an output from 
+the detection unit. 
+There is also provided an encoding apparatus 
+including a block forming unit, an orthogonal conversion unit for 
+
+orthogonally converting the input signal blocks, a detection unit for 
+detecting the characteristic of each block in accordance with orthogonal 
+
+concersion coefficients, a selection unit for selecting quantization 
+parameters which can realize a constant code amount in a unit consisting 
+
+of a plurality of blocks and a changing unit for changing the 
+quantization parameters selected by the selection unit in accordance 
+
+with an output from 
+the detection unit. In another encoding apparatus, instead of detection 
+
+of coefficient characteristics, the selection is effected on motion. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+CANON KK
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+CANON KABUSHIKI KAISHA
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+HOSHI NOBUHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SHIMIZU TETSUYA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SUZUKI TOSHIHIKO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YAMAMOTO YUKINORI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HOSHI, NOBUHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SHIMIZU, TETSUYA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SUZUKI, TOSHIHIKO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YAMAMOTO, YUKINORI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to an encoding
+apparatus using variable length encoding and, more
+particularly, to code amount control.In recent years, commercial VTRs for encoding an
+image signal with high efficiency, and
+recording/reproducing the encoded image signal on/from
+a recording medium such as a magnetic tape have been
+proposed.As a technique for compressing and encoding an
+image signal with high efficiency, an encoding
+apparatus using orthogonal conversion is known. In
+this apparatus, after an image is divided into blocks
+(to be referred to as discrete cosine transform (DCT)
+blocks hereinafter) each consisting of a predetermined
+number of pixels, the DCT blocks are subjected to
+orthogonal conversion such as DCT conversion, and
+converted DCT coefficients are quantized to perform,
+e.g., entropy encoding.As a method of high-efficiency encoding, a
+variable length encoding method with a high compression
+ratio tends to be used. When data is recorded on a recording medium using
+variable length codes, it is desirable that a
+predetermined number of DCT blocks have a constant
+information amount in consideration of a special
+reproduction mode, error propagation, and the like.A conventional encoding apparatus will be
+described below.Fig. 1 is a block diagram of a conventional
+encoding apparatus. Note that two-dimensional DCT
+conversion is performed in units of small-size blocks
+each consisting of 8 pixels (horizontal) × 8 pixels
+(vertical) of an image signal, and the information
+amount is controlled to be constant in units of
+large-size blocks each consisting of 30 DCT blocks.Referring to Fig. 1, a sample value of an image
+signal is input from an input terminal 1, and a
+large-size block forming circuit 2 selects 30 DCT
+blocks as a large-size block from 1-frame data
+according to an arbitrary rule.This image signal is then supplied to a small-size
+block forming circuit 3, and is divided into small-size
+blocks each consisting of 8 × 8 pixels.A sample value of the image signal divided into
+the small-size blocks is input to an orthogonal
+conversion circuit 4, and the small-size blocks are
+DCT-converted, thus outputting 64 conversion
+coefficients in units of small-size blocks. The conversion coefficients are stored in a buffer
+circuit 5 in units of large-size blocks, and are also
+supplied to a code amount calculation circuit 7. The
+code amount calculation circuit 7 calculates the code
+amount of each large-size block upon encoding, and
+outputs the calculation result to a quantizer selection
+circuit 8.The
+</DESCRIPTION>
+<CLAIMS>
+A coding apparatus for encoding information data by
+quantizing the information data using a quantization
+
+parameter, the apparatus comprising:
+
+a) input means (1) for inputting the information
+data;
+b) block forming means (2, 3) for dividing the
+input information data into first blocks with each block
+
+comprising a plurality of sample value data and for
+dividing each block into k smaller blocks, where k is an
+
+integer greater than 1;
+c) code amount calculation means (110...110', 113)
+for calculating the code amount of a first block when the
+
+block is encoded by quantizing the block by using a
+predetermined quantization parameter; and
+
+characterised in that the code amount calculation
+means include;
+d) means (109, 307) for generating a value
+representing a target amount of code,
+means (110', 308) for determining if the code amount
+calculated by said code calculating means is greater or
+
+lesser than said target amount of code so as to generate
+a difference value,
+adjustment means (113, 322) for changing, on the
+basis of the difference value, the predetermined
+
+quantization parameter to another quantization parameter
+(114, 323) so as to reduce the difference value, the 
+
+quantization parameter being changed on a unit basis of
+n of the smaller blocks of the first block, where n is
+
+smaller than k.
+Apparatus according to claim 1, wherein if the
+difference value lies within predetermined threshold
+
+values the quantizing parameter with which the difference
+value was generated is used for encoding the input data.
+An apparatus according to claim 1 or claim 2,
+further comprising:
+
+
+encoding means for encoding a block of the
+information data divided by said block forming means, by
+
+using the quantization parameter adjusted by said
+adjustment means.
+Apparatus according to any preceding claim, further
+comprising:
+
+
+recording means for recording encoded data encoded
+by said encoding means on a recording medium.
+Apparatus according to any preceding claim, where
+the information data is image data.
+Apparatus according to claim 3 or either of claims
+4 or 5, wherein said encoding means includes orthogonal
+
+conversion means for orthogonally converting the 
+information data divided by said block forming means.
+Apparatus according to any preceding claim, wherein
+said input means includes image pickup means for
+
+electrically converting an optical image.
+A method of encoding information data by quantizing
+the information data using a quantization parameter, the
+
+method comprising:
+
+a) inputting the information data;
+b) dividing the input information data into first
+blocks with each block comprising a plurality of sample
+
+value data,
+c) dividing each block into k smaller blocks,
+where k is an integer greater than 1;
+d) calculating the code amount of a first block
+
+when the block is encoded by quantizing the block by
+using a predetermined quantization parameter;
+e) generating a value representing a target amount
+of code,
+f) determining if the calculated code amount is
+greater or lesser than said target amount of code so as
+
+to generate a difference value, and
+changing, on the basis of the difference value, the
+predetermined quantization parameter to another
+
+quantization parameter (114, 323) so as to reduce the
+difference value, the quantization parameter being 
+
+changed on a unit basis of n of the smaller blocks of the
+first block, where n is smaller than k.
+A method according to claim 8, wherein if the
+difference value lies within predetermined threshold
+
+values the quantizing parameter with which the difference
+value was generated is used for encoding the input data.
+A method according to claim 8 or claim 9, further
+comprising:
+
+
+encoding a block of information data divided by said
+block forming means, by using the final quantization
+
+parameter.
+A method according to any one of claims 8 to 10,
+further comprising:
+
+
+recording encoded data on a recording medium.
+A method according to any one of claims 8 to 11,
+where the information data is image data.
+A method according to claim 10 or either of claims
+4 or 5, wherein said encoding means includes
+
+orthogonally converting the information data divided by
+said block forming means.
+A method according to any one of claims 8 to 13, 
+wherein said input data is generated by image pickup
+
+means which electrically convert an optical image into
+the image data.
+</CLAIMS>
+</TEXT>
+</DOC>

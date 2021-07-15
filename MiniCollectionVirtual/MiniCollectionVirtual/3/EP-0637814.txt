@@ -1,0 +1,461 @@
+<DOC>
+<DOCNO>EP-0637814</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method and apparatus for performing dynamic texture mapping for complex surfaces
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T1510	G06T1500	G06T1500	G06T1520	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	G06T	G06T	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T15	G06T15	G06T15	G06T15	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A system and process is provided which enables the dynamic mapping 
+of texture to a variety of primitives, including complex primitives such as NURBS. 
+
+The object, located in modeling coordinate (MC) space is parameterized to 
+determine the parameter coordinate (PC) space associated with the object. This step 
+
+is performed for an object and is readily applied to a variety of textures and views 
+subsequently readied. Once the parameterization process has been performed, a 
+
+mapping between the PC space and texture coordinate (TC) space is generated. This 
+mapping, referred to herein as the τ mapping correlates the (s,t) coordinates of the 
+
+PC space to the (u,v) coordinates of the TC space. The object is mapped from the 
+MC space to the display coordinate (DC) and the τ mapping is then used to map the 
+
+texture map onto the selected points of the object, such as the vertices of the object. 
+Parameter interpolation is then performed to render the pixels of the object in the 
+
+display space. A color composition process is executed to combine the colors of the 
+texture map with the pixels of the object. Furthermore, in the preferred 
+
+embodiment, the granularity of the texture applied to the object can be controlled 
+using such techniques as mip-map criteria, texture quality or, in the case of NURBS, 
+
+NURBS approximation criteria. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SUN MICROSYSTEMS INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SUN MICROSYSTEMS, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+KAMEN YAKOV
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SHIRMAN LEON A
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KAMEN, YAKOV
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SHIRMAN, LEON A.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a system and method for rendering textured
+objects. Particularly, the present invention relates to a system and method for
+rendering textured NURBS surfaces.The ability to provide texturing to a surface enhances rendering capabilities in
+computer graphics. In one technique, referred to as texture mapping, a map of the
+texture is generated in a texture coordinate (TC) space. The object to which the
+texture is to be applied is realized in modeling coordinate (MC) space. A binding
+processes is then performed to define the correspondence of the texture coordinates
+to the object coordinates. Typically, the binding process binds the coordinates of the
+texture map in TC space (e.g., u,v coordinates) to predetermined coordinates of the
+object in MC space (e.g., x,y,z,w coordinates). A subset of all possible points of the
+object is typically used, such as the vertices of the object.Once the binding process is complete, the object is mapped to device
+coordinate space (DC). In order to determine the texture coordinate associated with
+each pixel of the object in DC space, an interpolation process, using the subset of all
+possible points binded, is performed to determine the elements of the texture map to
+be applied to each coordinate of the object in DC space. A color composition process
+is subsequently performed to incorporate the colors of the texture map onto the
+object in the display coordinate space. This object with the colors of the texture is
+then displayed on the display device. For further information regarding texture and
+the texturing process see, Kamen, "Texture Mapping", Sun Interactive Media, November 1992, and Kamen, "Texture Mapping, Part II: Parameterization", Sun
+Interactive Media, February 1993; or Rogers, Earnshaw, Editors, Computer Graphics
+Techniques,Theory and Practice, pp. 159-187 (1990, Springer-Verlag).However, the binding process is performed for each object and texture
+combination and the application of different texture maps to the same object
+requires separate binding processes. Furthermore, for objects defined in parameter
+coordinate (PC) space, such as non-uniform rational B-spline surfaces (NURBS), the
+process works only if the PC space is set to equal the TC space or by first tessellating
+NURBS into triangles and applying known texture mapping processes for each
+triangle.Further examples of texture mapping can be found in an
+article entitled "A high-quality filtering using forward
+texture mapping" by D. Ghazanfarpour and B. Peroche,
+Computers &
+</DESCRIPTION>
+<CLAIMS>
+A method of rendering of textured objects on a graphic display device (50)
+of a computer system comprising a central processing unit (CPU)
+
+(10), memory and input/output devices (20) including a graphic display
+controller (45) coupled to the graphic display device (50) each of said
+
+textured objects comprising an object (110) and a texture applied to the object
+(110), said objects defined by a plurality of vertices in Modeling Coordinate
+
+(MC) space (105), transformed to World Coordinate (WC) space and rendered
+as images in Device Coordinate (DC) (130) space, each vertex having an
+
+associated color value, said graphic display device defined according to DC
+space, said texture defined by a texture map in Texture Coordinate (TC) space
+
+(120) , said texture map identifying colors of the texture, said method comprising
+the steps of:
+
+
+constructing a Parameter Coordinate (PC) (115) space associated with
+the object (110;
+generating a τ mapping of the PC space to (115) to the TC space (120), said τ mapping
+correlating the coordinates of the PC space to the coordinates of the TC space;
+transforming the vertices of the object in MC space (105) to the DC space
+(130);
+mapping the texture map to the object in DC space (130) using the τ
+mapping;
+composing the color values of the object with the mapped texture values
+to generate textured object pixel data;
+storing each pixel data in a frame buffer (40), each pixel data being
+stored at a location in the frame buffer corresponding to the location of the
+
+pixel in the DC space (130); and
+said graphic display controller (45) reading the pixel data stored in the
+frame buffer (40) and generating control signals to actuate the pixels at the
+
+location and color indicated by the pixel data;
+
+wherein textured objects are generated for display.
+The method as set forth in claim 1, wherein the step of
+constructing a Parameter Coordinate (PC) space (115) associated with the 
+
+object (110) comprises the step of assigning the vertices of the object (110) in
+MC space to (105) values in PC space (115).
+The method as set forth in claim 1, wherein the step of generating
+a τ mapping comprises the step of defining by direct specification wherein the
+
+(u, v) coordinates of the TC space (120) are specified with a corresponding (s,t)
+coordinate of the PC space (115), such that 
+u = U(s,t)
+ and 
+v = V(s,t)
+, where
+U(s,t) and V(s,t) represent functions of the (s,t) coordinates.
+The method as set forth in claim 1, wherein the step of generating
+a τ mapping comprises the steps of:
+
+
+selecting a set of points in PC space (115) , 
+P = [(s
+i
+, t
+j
+)]
+, where (s
+i
+, t
+j
+)
+represent the (s,t) coordinates in PC space (115) for a set of points;
+determining a set of interpolation values TC space (120) , 
+T = [(U(s
+i
+,t
+j
+),
+V(s
+i
+,t
+j
+))]
+, where (U(s
+i
+,t
+j
+), V(s
+i
+,t
+j
+)) represents the (u,v) coordinates of the TC
+space (120) to be interpolated;
+interpolating the (u,v) coordinates to be interpolated to generate the τ
+mapping.
+The method as set forth in claim 4, wherein the step of
+interpolating comprises linear interpolation.
+The method as set forth in claim 4, wherein the step of
+interpolating comprises spline interpolation.
+The method as set forth in claim 1, further comprising the step of
+determining the tessellation granularity of the texture applied to the object.
+The method as set forth in claim 7, wherein the object comprises a
+NURBS, the tessellation criteria for the texture and the NURBS specified in MC
+
+space (105) and the number of steps in PC space (115) to tessellate the texture
+and the object to obtain the vertices associated with the tessellated object is
+
+determined according to the following:
+
+n
+s
+ = 
+∥S's∥
+d
+s,mc
+     n
+t
+ = 
+∥S't∥
+d
+t,mc
+
+where n
+s
+ and n
+t
+ represent the required number of steps or segments in s and t
+directions, respectively, d
+s,mc
+ and d
+t,mc
+, represent thresholds of the NURBS in
+MC space, and ∥S's∥ and ∥S't∥ are the maximum derivative bounds of the
+
+surface patch in the s and t directions in MC space (105). 
+The method as set forth in claim 7, wherein the object comprises a
+NURBS, the tessellation threshold criteria is specified in TC space (120) and the
+
+number of steps in PC space (115) to tessellate the texture and the object to
+obtain the vertices associated with the tessellated object is determined
+
+according to the following:
+
+
+where d
+s,tc
+ and d
+t,tc
+ represent thresholds in TC space (120) and ∥τ ' / s
+∥ and ∥τ ' / t
+
+∥
+are the maximum derivative bounds of the _ mapping in s,t.
+The method as set forth in claim 7, wherein the object comprises a
+NURBS, the tessellation threshold criteria is specified in DC space (130) and the
+
+number of steps in PC space (120) to tessellate the object and the step of
+determining the tessellation granularity comprises the steps of:
+
+
+mapping the threshold criteria d
+s,dc
+ and d
+t,dc
+ to the MC space (105) to
+provide d
+s,mc
+ and d
+t,mc
+ using the scaling behavior of a viewing transform for
+the object and the norm of a modeling transformation; and
+determining the number of steps n
+s
+, n
+t
+ according to the following;
+
+n
+s
+ = 
+∥S's∥
+d
+s,mc
+   n
+t
+ = 
+∥S't∥
+d
+t,mc
+
+where ∥S's∥ and ∥S't∥ are the maximum derivative bounds of the surface patch
+in the s and t directions in MC space.
+The method as set forth in claim 7, wherein the object comprises a
+NURBS, the tessellation threshold criteria is specified in MC (1050) or DC (120)
+
+space and TC space (120) and the number of steps in PC space (115) to
+tessellate the object and the step of determining the tessellation granularity
+
+comprises the steps of:
+
+determining the number of steps from the threshold criteria specified in
+MC/DC space;
+determining the number of steps from the threshold criteria specified in
+TC space; 
+generating a single size from both threshold criteria according to the
+following:
+
+
+n
+s
+ =g(n
+N
+s
+,n
+T
+s
+,thresh)
+n
+t
+ =g(n
+N
+t
+,n
+T
+t
+,thresh)
+
+where thresh represents a predefined maximum value, g represents an
+averaging function, and where n N / s
+
+ and n N / t
+ are the number of steps computed
+
+from thresholds in DC or MC space, n T / s
+ and n T / t
+
+ are the number of steps
+computed in TC space.
+The method as set forth in claim 7, said method further
+comprising the step of, once the tessellation granularity n
+s
+, n
+t
+ is determined,
+determining a mip-map level of texture from the corresponding threshold
+
+criteria in TC space (120), according to the following:
+
+
+where ∥τ ' / s
+∥ and ∥τ ' / t
+
+∥ are the maximum derivative bounds of the τ mapping in
+s,t.
+The method as set forth in claim 12, wherein the step of
+determining the mip-map level is performed according to:
+
+
+
+where ℓ represents the mip-map level, f(d
+s,tc
+, d
+t,tc
+) represents a function of
+the threshold values. 
+The method as set forth in claim 1, wherein the step of
+transforming the vertices of the object in MC space (105) to the DC space (130)
+
+comprises the step of transforming the object via a modeling transformation.
+The method as set forth in claim 1, wherein the steps of mapping
+the texture map to the object in DC space (105) using the τ mapping and
+
+composing the color values of the object with the mapped texture values to
+generate textured object pixel data comprises the steps of:
+
+
+determining the PC values of the vertices;
+interpolating PC values of the vertices to generate PC values of the
+pixels comprising the object;
+for each pixel, computing the corresponding TC values of the texture
+map using the _ mapping;
+for each pixel, determining the texture color for the corresponding TC
+values;
+interpolating the object colors at the vertices to determine the object
+colors at each pixel; and
+composing the object color and texture color at each pixel to generate the
+object pixel data.
+The method as set forth in claim 1, wherein the steps of mapping
+the texture map to the object in DC space (130) using the τ mapping and
+
+composing the color values of the object with the mapped texture values to
+generate textured object pixel data comprises the steps of:
+
+
+determining the PC values of the vertices;
+using the τ mapping, computing TC values at the vertices;
+interpolating the TC values at the vertices to determine a TC value for
+each pixel of the object;
+for each pixel, determining the texture color for the corresponding TC
+values;
+interpolating the object colors at the vertices to determine the object
+colors at each pixel; and
+composing the object color and texture color at each pixel to generate the
+object pixel data.
+The method as set forth in claim 1, wherein the steps of mapping
+the 
+texture map to the object in DC space (130) using the τ mapping and 
+composing the color values of the object with the mapped texture values to
+
+generate textured object pixel data comprises the steps of:
+
+determining the PC values of the vertices;
+using the τ mapping, computing TC values at the vertices;
+determining the texture color from the TC values at the vertices;
+interpolating the texture colors at the vertices to determine a texture
+color for each pixel of the object;
+interpolating the object colors at the vertices to determine the object
+colors at each pixel; and
+composing the object color and texture color at each pixel to generate the
+object pixel data.
+The method as set forth in claim 1, wherein the steps of mapping
+the texture map to the object in DC space (130) using the τ mapping and
+
+composing the color values of the object with the mapped texture values to
+generate textured object pixel data comprises the steps of:
+
+
+determining the PC values of the vertices;
+using the τ mapping, computing TC values at the vertices;
+determining the texture color from the TC values at the vertices;
+composing the object color and texture color at each vertex;
+interpolating the composed colors at the vertices to determine a color for
+each pixel of the object to generate the object pixel data.
+An apparatus for the rendering of textured objects on a graphic
+display device (50), for use in a computer system comprising a central processing unit (CPU)
+
+(10) , memory and input/output devices (20) including said graphic display
+device (50), each of said textured objects comprising an object (110)
+
+and a texture applied to the object (110) , said objects defined by a plurality of
+vertices in Modeling Coordinate (MC) space (105), transformed to World
+
+Coordinate (WC) space and rendered as images in Device Coordinate (DC)
+space (130) , each vertex having an associated color value, said graphic display
+
+device (50) defined according to DC space (130) , said texture defined by a
+texture map in Texture Coordinate (TC) space (120), said texture map
+
+identifying colors of the texture, said apparatus comprising:
+
+a Parameter Coordinate (PC) space (115) associated with the object (110);
+a τ mapping of the PC space(115) to the TC space (120), said τ mapping correlating
+the coordinates of the PC space to the coordinates of the TC space; 
+a first transformation means for transforming the vertices of the object
+(110) in MC space(105) to the DC space (130);
+a mapping means for mapping the texture map to the object in DC space
+(130) using the τ mapping;
+a color composition means for composing the color values of the object
+with the mapped texture values to generate textured object pixel data;
+a frame buffer(40) for the storage of each pixel data wherein memory
+locations of the frame buffer correspond to locations in DC space (130);
+a graphic display controller (45) coupled to the graphic display device
+(50) and the frame buffer (40) for reading the pixel data stored in the frame
+
+buffer (40) and generating control signals to actuate the pixels at the location
+and color indicated by the pixel data;
+
+wherein textured objects are generated for display.
+</CLAIMS>
+</TEXT>
+</DOC>

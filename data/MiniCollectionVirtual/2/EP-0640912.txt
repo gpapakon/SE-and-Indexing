@@ -1,0 +1,484 @@
+<DOC>
+<DOCNO>EP-0640912</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Memory addressing scheme for increasing the number of memory locations available in a computer for storing higher precision numbers
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F776	G06F934	G06F500	G11C800	G06F930	G11C800	G06F9302	G06F934	G06F776	G06F9302	G06F700	G06F700	G06F500	G06F9355	G06F930	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G11C	G06F	G11C	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F7	G06F9	G06F5	G11C8	G06F9	G11C8	G06F9	G06F9	G06F7	G06F9	G06F7	G06F7	G06F5	G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A backward compatible addressing scheme for increasing the number 
+of memory locations available in a computer for storing higher precision 
+
+numbers. The computer system of the present invention has a processor 
+capable of manipulating numbers having precision S, where S is a power of 2. 
+
+The memory locations are specified in an instruction address field by an n-bit 
+logical address 
+
+
+Each S-precision number is stored in a group of S memory locations accessed 
+
+by an m-bit physical address 
+
+Each memory location is capable of storing a single precision number. 
+Addressing logic for addressing the memory locations with the logical 
+
+addresses includes alignment logic for setting:
+
+
+d
+i
+ = 0 for 0 ≦ i ≦ (log₂ S) - 1, 
+
+
+
+ 
+and setting
+
+
+
+d
+i
+ = e
+i
+ for log₂ S ≦ i ≦ n-1; 
+
+
+
+ 
+and extension logic for setting
+
+
+
+d
+i
+ = e
+i-n
+
+
+
+ 
+for n ≦ i ≦ m-1. The alignment logic may be implemented according to the 
+
+logic equations  
+0≦i
+<
+k, 
+d
+i
+ = e
+i
+   k ≦ i
+<
+n 
+
+
+
+ 
+where k is the number of precision sizes capable of being manipulated by the 
+
+processor and 
+
+The extension logic may be implemented according 
+to the logic equation 
+
+
+n≦i≦n+k-2, i
+<
+m. 
+
+
+
+ 
+The memory locations may typically be microprocessor registers. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SUN MICROSYSTEMS INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SUN MICROSYSTEMS, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+CMELIK ROBERT
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KELLY EDMUND
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KONG SHING
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+CMELIK, ROBERT
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KELLY, EDMUND
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KONG, SHING
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to the field of data processing and, more
+particularly, to addressing memory locations in a computer system to use the
+address space more effectively when storing higher precision numbers.Processors execute instructions which perform operations on
+source operands to obtain a result. The registers that contain the source
+operands and the destination register for the result are specified in address
+fields of the instruction word. For example, in a computer based on a scalable
+processor architecture (SPARC) designed by Sun Microsystems, Inc., the
+assignee of the present invention, floating point instructions specify up to
+two floating point source registers and may specify a floating point
+destination register.The number of registers available for addressing and the size of
+the operands used in a particular calculation depend upon the precision
+required in the result. In the SPARC Version 8 architecture, the floating
+point processor includes 32 individual registers, each capable of holding the 
+32 bits of one single precision operand. To obtain more precision in its
+arithmetic manipulations, a floating point processor may use the 32 registers
+in pairs to store 16 double precision numbers or in quadruples to hold 8
+quadruple precision numbers.Figure 1 illustrates the addressing of the SPARC Version 8
+register file in this manner. In this example, a double precision operand has
+64 bit positions and is held in two aligned floating point registers. Thus, one
+double precision number may be stored in register 0 and 1, another in
+registers 2 and 3, and so on in pairs. By aligning the registers, only one of the
+two registers need be addressed to select a particular double precision floating
+point number. In a like manner, a quadruple precision operand has 128 bit
+positions and is held in four aligned floating point registers, e.g., register 0,1,
+2 and 3. By aligning the registers only one of the four registers need be
+addressed to select a particular quadruple precision floating point number,
+and a similar saving in address bits is accomplished.Using this aligned register convention, double precision
+numbers are stored at even numbered register addresses and quadruple
+precision numbers at every fourth register address. Because the processor
+only has five-bit instruction address fields, it can only address 16 double
+precision and 8 quadruple precision numbers using the five bits.
+Consequently, a number of addresses are unused for both double and
+quadruple precision arithmetic. The unused
+</DESCRIPTION>
+<CLAIMS>
+Addressing logic (206) for addressing memory locations in a computer
+system having a processor for manipulating a plurality of numbers having precision
+
+S, where S is a power of 2, wherein memory locations are specified in an instruction
+address field by an n-bit logical address
+
+
+
+where e
+i
+ are logical address binary coefficient signals, each number having precision
+S is stored in a group of S memory locations accessed by an m-bit physical address
+
+
+
+where d
+i
+ are physical address binary coefficient signals, each memory location is
+adapted to store a single precision number, said addressing logic (206) characterised
+
+by:
+
+alignment logic for receiving logical address binary coefficient signals
+and, in response, generating the physical address binary coefficient signals d
+i
+ = 0 for
+
+0 ≤ i ≤ (log
+2
+ S) - 1
+ and 
+d
+i
+ = e
+i
+ for 
+log
+2
+ S ≤ i ≤ n-1
+; and
+extension logic for receiving logical address binary coefficient signals
+and, in response, generating the physical address binary coefficient signals 
+d
+i
+ = e
+i-n
+
+for 
+n ≤ i ≤ m-1
+,
+
+wherein the alignment logic and the extension logic share P logical
+address binary coefficient signals, where P is the number of instances in which 
+i=j
+
+where 
+log
+2
+ S ≤ i ≤ n-1
+ and 
+0 ≤ j ≤ m-n-1
+.
+The addressing logic (206) of claim 1, wherein k is a number of
+precision sizes of the plurality of numbers having precision S,
+
+
+
+where s
+i
+ 
+are precision binary coefficient signals, and said alignment logic generates the
+
+physical address binary coefficient signals d
+i
+ according to the following logic
+equations:
+
+
+d
+i
+ = e
+i
+   k 
+<
+ i 
+<
+ n
+The addressing logic (206) of claim 1, wherein k is a number of
+precision sizes of the plurality of numbers having precision S,
+
+
+
+where s
+i
+
+are precision binary coefficient signals, and said extension logic generates the
+physical address binary coefficient signals di according to the following logic
+
+equation:
+
+The addressing logic (206) of claim 1, wherein said memory locations
+are microprocessor registers.
+A method for addressing memory locations in a computer system
+having a processor for manipulating a plurality of numbers having precision S,
+
+where S is a power of 2, wherein memory locations are specified in an instruction
+address field by an n-bit logical address
+
+
+
+where e
+i
+ are logical address binary coefficient signals, each number having precision 
+S is stored in a group of S memory locations accessed by an m-bit physical address
+
+
+
+where d
+i
+ are physical address binary coefficient signals, each memory location is
+adapted to store a single precision number, said method characterised by the steps of:
+
+
+(a) receiving logical address binary coefficient signals;
+(b) responsive to the received logical address binary coefficient
+signals, generating the physical address binary coefficient signals d
+i
+ = 0 for
+
+0 ≤ i ≤ (log
+2
+ S) - 1
+;
+(c) responsive to the received logical address binary coefficient
+signals, generating the physical address binary coefficient signals
+
+
+d
+i
+ = e
+i
+ for 
+log
+2
+S ≤ i ≤ n-1
+; and
+(d) responsive to the received logical address binary coefficient
+signals, generating the physical address binary coefficient signals
+
+
+d
+i
+ = e
+i-n
+ for 
+n ≤ i ≤ m-1
+.
+The method of claim 5, wherein k is a number of precision sizes of the
+plurality of numbers having precision S,
+
+
+
+where s
+i
+ are precision binary
+coefficient signals,
+
+
+step (b) is implemented according to the logic equation:
+
+and step (c) is implemented according to the logic equation:
+
+d
+i
+ = e
+i
+   k 
+<
+ i 
+<
+ n.
+The method of claim 5, wherein k is a number of precision sizes of the
+plurality of numbers having precision S,
+
+
+
+where s
+i
+ are precision binary 
+coefficient signals, and step (d) is implemented according to the logic equation:
+
+
+The method of claim 5, wherein said memory locations are
+microprocessor registers.
+A processor for manipulating a plurality of numbers having precision
+S, where S is a power of 2, the processor having a first plurality of memory locations
+
+addressable by a first plurality of logical addresses E, each logical address of the first
+plurality of logical addresses having the form cS, where c is from the set {0, 1, ...,
+
+((r/S) - 1)}, r being the number of memory locations in the first plurality of memory
+locations, each memory location in the first plurality of memory locations being
+
+capable of storing a single precision number, the memory locations of the first
+plurality of memory locations being addressable in groups of S, the processor further
+
+characterised by:
+
+a plurality of S-1 additional pluralities of memory locations, each
+memory location in each additional plurality of memory locations being capable of
+
+storing a single precision number, the memory locations in each additional plurality
+of memory locations being addressable in groups of S, r being the number of
+
+memory locations in each additional plurality of memory locations; and
+addressing logic (206) for addressing the plurality of S-1 additional
+pluralities of memory locations using an associated additional plurality of logical
+
+addresses for each additional plurality of memory locations, each address of an i-th
+associated additional plurality of logical addresses having the form cS+i where i is
+
+from the set {1, 2, ..., S-1}, the addressing logic (206) being coupled to the additional
+pluralities of registers.
+The processor of claim 9, wherein memory locations are specified in an
+instruction address field by an n-bit logical address
+
+
+
+where e
+i
+ are logical address binary coefficient signals, each S-precision number is
+accessed by an m-bit physical address
+
+
+
+where d
+i
+ are physical address binary coefficient signals, said addressing logic (206)
+includes
+
+
+alignment logic for receiving logical address binary coefficient signals and, in
+
+response, generating the physical address binary coefficient signals di = 0 for
+
+0 ≤ i ≤ (log
+2
+ S) - 1
+ and 
+d
+i
+ = e
+i
+ for 
+log
+2
+S ≤ i ≤ n-1
+; and
+extension logic for receiving logical address binary coefficient signals and, in
+response, generating the physical address binary coefficient signals 
+d
+i
+ = e
+i-n
+ for
+
+n ≤ i ≤ m-1
+,
+
+wherein the alignment logic and the extension logic share P logical address
+binary coefficient signals, where P is the number of instances in which 
+i=j
+ where
+
+log
+2
+ S ≤ i ≤ n-1
+ and 
+0 ≤ j≤ m-n-1
+.
+The processor of claim 10, wherein k is a number of precision sizes of
+the plurality of numbers having precision S,
+
+
+
+where s
+i
+ are precision
+binary coefficient signals, and said alignment logic generates the precision address
+
+binary coefficient signals d
+i
+ according to the following logic equations:
+
+d
+i
+ = e
+i
+   k 
+<
+ i 
+<
+ n
+The processor of claim 10, wherein k is a number of precision sizes of
+the plurality of numbers having precision S,
+
+
+
+where s
+i
+ are precision
+binary coefficient signals, and said extension logic generates the precision address
+
+binary coefficient signals d
+i
+ according to the following logic equation:
+
+The processor of claim 10, wherein said memory locations are
+microprocessor registers.
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,877 @@
+<DOC>
+<DOCNO>EP-0622741</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Device and method for data compression/decompression.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1710	G06F1710	G06F1714	G06F1714	G06T120	G06T120	G06T900	G06T900	G06T940	G06T940	H03M730	H03M730	H04B166	H04B166	H04L2508	H04L2508	H04N726	H04N726	H04N730	H04N730	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06T	G06T	G06T	G06T	G06T	G06T	H03M	H03M	H04B	H04B	H04L	H04L	H04N	H04N	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F17	G06F17	G06F17	G06F17	G06T1	G06T1	G06T9	G06T9	G06T9	G06T9	H03M7	H03M7	H04B1	H04B1	H04L25	H04L25	H04N7	H04N7	H04N7	H04N7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An apparatus produces an encoded and compressed 
+digital data stream from an original input digital data 
+
+stream using a forward discrete wavelet transform and a 
+
+tree encoding method. The input digital data stream may 
+be a stream of video image data values in digital form. 
+
+The apparatus is also capable of producing a decoded and 
+decompressed digital data stream closely resembling the 
+
+originally input digital data stream from an encoded and 
+compressed digital data stream using a corresponding tree 
+
+decoding method and a corresponding inverse discrete 
+wavelet transform. A dual convolver is disclosed which 
+
+performs both boundary and nonboundary filtering for 
+forward transform discrete wavelet processing and which 
+
+also performs filtering of corresponding inverse transform 
+discrete wavelet processes. A portion of the dual 
+
+convolver is also usable to filter an incoming stream of 
+digital video image data values before forward discrete 
+
+wavelet processing. Methods and structures for generating 
+the addresses to read/write data values from/to memory as 
+
+well as for reducing the total amount of memory necessary 
+to store data values are also disclosed. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+KLICS LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+KLICS, LTD.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+KNOWLES GREGORY P
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KNOWLES, GREGORY P.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+Appendix A, which is a part of the present 
+disclosure, is a paper appendix of 6 pages. Appendix A is 
+a description of a CONTROL_ENABLE block contained in the 
+tree processor/encoder-decoder portion of a video 
+encoder/decoder integrated circuit chip, written in the 
+VHDL hardware description language. Appendix B, which is a part of the present 
+disclosure, is a paper appendix of 10 pages. Appendix B 
+is a description of a MODE_CONTROL block contained in the 
+tree processor/encoder-decoder portion of a video 
+encoder/decoder integrated circuit chip, written in the 
+VHDL hardware description language. Appendix C, which is a part of the present 
+disclosure, is a paper appendix of 11 pages. Appendix C 
+is a description of a CONTROL_COUNTER block contained in 
+the tree processor/encoder-decoder portion of a video 
+encoder/decoder integrated circuit chip, written in the 
+VHDL hardware description language. A portion of the disclosure of this patent document 
+contains material which is subject to copyright 
+protection. The copyright owner has no objection to the 
+facsimile reproduction by anyone of the patent document or 
+the patent disclosure, as it appears in the Patent and 
+Trademark Office patent files or records, but otherwise 
+reserves all copyright rights whatsoever. The VHDL 
+hardware description language of Appendices A, B and C is 
+an international standard, IEEE Standard 1076-1987, and is 
+described in the "IEEE Standard VHDL Language Reference 
+Manual". Appendix D, which is a part of the present 
+disclosure, is a paper appendix of 181 pages.
+ 
+ 
+Appendix D is a description of one embodiment of a video 
+encoder/decoder integrated circuit chip in the VHDL 
+hardware description language. The VHDL hardware 
+description language of Appendix D is an international 
+standard, IEEE Standard 1076-1987, and is described in the 
+"IEEE Standard VHDL Language Reference Manual". The "IEEE 
+Standard VHDL Language Reference Manual" can be obtained 
+from the Institute of Electrical and Electronics 
+Engineers, Inc., 445 Hoese Lane, Piscataway, New Jersey 
+08855, telephone 1-800-678-4333. This invention relates to a method and apparatus for 
+compressing, decompressing, transmitting, and/or storing 
+digitally encoded data. In particular, this invention 
+relates to the compression and decompression of digital 
+video image data. An apparatus produces an encoded/compressed digital 
+data stream from an original input digital data stream 
+using a discrete wavelet transform and a tree encoding 
+method. The apparatus is
+</DESCRIPTION>
+<CLAIMS>
+A method comprising the step of: 
+   using a number of intercoupled accumulators, each 
+
+accumulator comprising at least an adder circuit and a 
+storage circuit, to filter a sequence of input image data 
+
+values with both a first digital filter having X coefficients 
+and a second digital filter having Y coefficients into a 
+
+sequence of transformed image data values, Y being 
+substantially equal to the number of intercoupled 
+
+accumulators, wherein X 
+<
+ T. 
+A method as claimed in claim 1 wherein a first data 
+value of the sequence of transformed image data values is an 
+
+output of the first digital filter and wherein a second data 
+value of the sequence of transformed image data values is an 
+
+output of the second digital filter. 
+A method as claimed in claim 1 or 2 wherein the 
+first digital filter is a boundary filter. 
+A method comprising the steps of: 
+   multiplying a first data value of a sequence of data 
+
+values by a first plurality of predetermined values to 
+generate a first plurality of products; 
+
+   inputting a selected one of the plurality of products 
+into a first input of a first accumulator; 
+
+   multiplying a second data value of the sequence of data 
+values by a second plurality of predetermined values to 
+
+generate a second plurality of products; 
+   inputting a selected one of the second plurality of 
+
+products into a first input of a second accumulators, an 
+output of the first accumulator being supplied to a second 
+
+ 
+input of the second accumulator; 
+
+   multiplying a third data value of the sequence of data 
+values by a third plurality of predetermined values to 
+
+generate a third plurality of products; 
+   inputting a selected one of the third plurality of 
+
+products into a first input of a third accumulator, an output 
+of the second accumulator being supplied to a second input of 
+
+the third accumulator; 
+   multiplying a fourth data value of the sequence of data 
+
+values by at least one predetermined value to generate at 
+least one fourth product; and 
+
+   inputting the at least one fourth product into a first 
+input of a fourth accumulator, an output of the third 
+
+accumulator being supplied to a second input of the fourth 
+accumulator, wherein each of the plurality of predetermined 
+
+values is selected from coefficients of a quasi-perfect 
+reconstruction filter and coefficients of a boundary quasi-perfect 
+
+reconstruction filter. 
+A method as claimed in claim 4 wherein each of the 
+first, second, third and fourth accumulators comprises at 
+
+least an adder circuit and a storage circuit, each of the 
+storage circuits storing a number A of partially transformed 
+
+data values during processing of one octave of a 
+decomposition, and each of the storage circuits storing a 
+
+number B of partially transformed data values during 
+processing of another octave of a decomposition, wherein A is 
+
+not equal to B. 
+A method as claimed in claim 4 or 5 wherein the 
+sequence of data values comprises data values of rows and 
+
+columns of a two-dimensional image, the method transforming 
+ 
+
+both the rows and the columns of data values into a sub-band 
+decomposition. 
+A method comprising the steps of: 
+   multiplying a first data value of a sequence of data 
+
+values by a first plurality of predetermined values to 
+generate a first plurality of products; 
+
+   inputting a selected one of the plurality of products 
+into a first input of a first accumulator; 
+
+   multiplying a second data value of the sequence of data 
+values by a second plurality of predetermined values to 
+
+generate a second plurality of products; 
+   inputting a selected one of the second plurality of 
+
+products into a first input of a second accumulator, an 
+output of the first accumulator being supplied to a second 
+
+input of the second accumulator; 
+   multiplying a third data value of the sequence of data 
+
+values by a third plurality of predetermined values to 
+generate a third plurality of products; 
+
+   inputting a selected one of the third plurality of 
+products into a first input of a third accumulator, an output 
+
+of the second input of the third accumulator; 
+   multiplying a fourth data value of the sequence of data 
+
+values by at least one predetermined value to generate at 
+least one fourth product; and 
+
+   inputting the at least one fourth products into a first 
+
+input of a fourth accumulator, an output of the third 
+accumulator being supplied to a second input of the fourth 
+
+accumulator, wherein at least some of the plurality of 
+predetermined values are selected from coefficients of a 
+
+boundary perfect reconstruction filter and coefficients of a 
+boundary quasi-perfect reconstruction filter. 
+A method as claimed in claim 7 wherein the output of 
+the second accumulator is supplied to a second input of the 
+
+first accumulator, wherein the output of the third 
+accumulator is supplied to a third input of the second 
+
+accumulator, and wherein the output of the fourth accumulator 
+is supplied to a third input of the third accumulator. 
+A method comprising the steps of: 
+   multiplying a first data value of a sequence of data 
+
+values by a first plurality of predetermined values to 
+generate a first plurality of products; 
+
+   inputting a selected one of the plurality of products 
+into a first input of a first accumulator, the first 
+
+accumulator having a first output terminal; 
+   multiplying a second data value of the sequence of data 
+
+values by a second plurality of predetermined values to 
+generate a second plurality of products; 
+
+   inputting a selected one of the second plurality of 
+products into a first input of a second accumulator, an 
+
+output of the first accumulator being supplied to a second 
+input of the second accumulator, the output of the second 
+
+accumulator being supplied to a second input of the first 
+accumulator; 
+
+   multiplying a third data value of the sequence of data 
+values by a third plurality of predetermined values to 
+
+generate a third plurality of products; 
+   inputting a selected one of the third plurality of 
+
+products into a first input of a third accumulator, an output 
+of the second accumulator being supplied to a second input of 
+
+the third accumulator, the output of the third accumulator 
+being supplied to a third input of the second accumulator;
+
+ 
+   multiplying a fourth data value of the sequence of data 
+
+values by at least one predetermine value to generate at 
+least one fourth product; and 
+
+   inputting the at least one fourth product into a first 
+input of a fourth accumulator, an output of the third 
+
+accumulator being supplied to a second input of said fourth 
+accumulator, the output of the fourth accumulator being 
+
+supplied to a third input of the third accumulator, the 
+fourth accumulator having a second output terminal. 
+A method comprising the steps of: 
+   reading a sequence of data values from a plurality of 
+
+memory locations, each of the data values being stored in a 
+separate one of the plurality of memory locations; and 
+
+   overwriting some of the memory locations one at a time 
+into a sequence of transformed data values of a sub-band 
+
+decomposition. 
+A wavelet transform circuit arranged for 
+transforming a sequence of a number C of input image data 
+
+values adjacent an image boundary into a corresponding 
+sequence of the number C of transformed image data values, 
+
+the transformed image data values consisting of alternating 
+low and high pass transformed image data values. 
+A wavelet transform circuit for transforming a 
+sequence of data values adjacent a boundary of the data 
+
+values, the sequence comprising a boundary subsequence 
+adjacent the boundary and a non-boundary subsequence, the 
+
+circuit comprising: 
+   a multiplier circuit having an input for receiving an 
+
+input data value and a plurality outputs;
+ 
+
+   a first multiplexer having a plurality of data inputs 
+each coupled to selected ones of the plurality of outputs of 
+
+the multiplier circuit, at least one control input, and a 
+data output, 
+
+   a first accumulator circuit having a first data input 
+coupled to the data output of the first multiplexer, a second 
+
+data input, a plurality of control inputs, and a data output, 
+   a second multiplexer having a plurality of data inputs 
+
+each coupled to selected ones of the plurality of outputs of 
+the multiplier circuit, at least one control input, and a 
+
+data output, 
+   a second accumulator circuit having a first data input 
+
+coupled to the data output of the second multiplexer, a 
+second data input coupled to the data output of the first 
+
+accumulator circuit, a third data input, a plurality of 
+control inputs, and a data output, 
+
+   a third multiplexer having a plurality of data inputs, 
+at least one control input, and a data output; 
+
+   a third accumulator circuit having a first data input 
+coupled to the data output of the third multiplexer, a second 
+
+data input coupled to the data output of the second 
+accumulator circuit, a third data input, a plurality of 
+
+control inputs, and a data output, 
+   a fourth accumulator circuit having a first data input, 
+
+a second data input coupled to one of the plurality of 
+outputs of the multiplier circuit, a plurality of control 
+
+inputs, and a data output coupled to the third data input of 
+the third accumulator circuit, and 
+
+   a control circuit coupled to the control inputs of the 
+first, second and third multiplexers and the first, second, 
+
+third and fourth accumulator circuits, the control circuit 
+controlling the first, second, third multiplexers and the 
+
+ 
+first, second, third and fourth accumulator circuits to 
+
+transform the boundary subsequence using a first digital 
+filter and to transform the non-boundary subsequence using a 
+
+second digital filter. 
+A method of addressing selected ones of a plurality 
+of memory locations, the plurality of memory locations 
+
+storing a plurality of image data values, the method 
+comprising the steps of: 
+
+   addressing a sequence of a plurality of memory locations 
+in a first period of time; 
+
+   transforming at least some of the sequence into a first 
+octave of sub-band decomposition during the first period of 
+
+time; 
+   addressing a subsequence of the sequence of the 
+
+plurality of memory locations in a second period of time; and 
+   transforming at least some of the subsequence from the 
+
+first octave into a second octave during the second period of 
+time, the first and second octaves comprising at least part 
+
+of a sub-band decomposition. 
+A method as claimed in claim 13 wherein the step of 
+addressing a sequence comprises adding one of a first value 
+
+and a second value to a first address to generate a second 
+address, the first and second addresses of the sequence being 
+
+addresses of successive ones of the sequence of memory 
+locations, and wherein the step of addressing a subsequence 
+
+comprises the step of adding one of a third value and a 
+fourth value to a first address of the subsequence of memory 
+
+locations to generate a second address of the subsequence 
+of memory locations, the first and second addresses of the 
+
+subsequence being addresses of successive ones of the 
+ 
+
+subsequence of memory locations. 
+A method as claimed in claim 13 wherein the step of 
+addressing a sequence comprises subtracting one of a first 
+
+value and a second value from a first address to generate a 
+second address, the first and second addresses of the 
+
+sequence being addresses of successive ones of the sequence 
+of memory locations, and wherein the step of addressing a 
+
+subsequence comprises the step of subtracting one of a third 
+value and a fourth value from a first address of the 
+
+subsequence of memory locations to generate a second address 
+of the subsequence of memory locations, the first and second 
+
+addresses of the subsequence being addresses of successive 
+ones of the subsequence of memory locations. 
+A method of addressing selected ones of a plurality 
+of memory locations storing a plura
+lity of data values of a 
+sub-band decomposition comprising a number of octaves, the 
+
+method comprising the step of: 
+   generating a second address by adding or by subtracting 
+
+one of a first number and a second number to a first address, 
+the first number having a value which is octave-dependent, 
+
+the second number having another value which is octave-dependent, 
+and the first and second addresses being 
+
+successive addresses of respective ones of said plurality of 
+memory locations. 
+A circuit for generating an address of a memory 
+location of a plurality of memory locations storing a 
+
+plurality of data values of a sub-band decomposition, the 
+circuit comprising: 
+
+   a first counter which increments by an octave-dependent 
+ 
+
+first variable number of counts, 
+   a multiplier circuit having a first data input coupled 
+
+to an output of the first counter, a second data input 
+coupled to receive a value indicative of a size of an image, 
+
+and a data output, 
+   a second counter which increments by an octave-dependent 
+
+second variable number of counts, 
+   an adder circuit having a first data input coupled to 
+
+the out-put of the multiplier circuit, a second data input 
+coupled to an output of the second counter, and a data output 
+
+on which the address is generated. 
+A circuit as claimed in claim 17 wherein the first 
+counter receives a clock input signal and increments by the 
+
+first variable number of counts in one clock cycle of the 
+clock input signal, and wherein the second counter receives a 
+
+clock input signal and increments by the second variable 
+number of counts in one clock cycle of the clock input 
+
+signal. 
+A state machine for generating an address of a 
+memory location of a plurality of memory locations storing a 
+
+plurality of data values of a sub-band decomposition, the 
+data values comprising luminance data values, 
+
+   the state machine receiving: 
+   a first signal upon which the state machine changes 
+
+states, 
+   a second signal indicative of an octave of the sub-band 
+
+decomposition, and 
+   a third signal indicative of a whether the address being 
+
+generated is a luminance data value, the state machine 
+changing state based upon the first, second, and third 
+
+ 
+signals. 
+A state machine as claimed in claim 19 wherein the 
+state machine also receives a fourth signal indicative of a 
+
+whether the address being generated is a chrominance data 
+value, the state machine changing state based upon the fourth 
+
+signal. 
+A circuit for generating an address and comprising: 
+   an accumulator circuit having a first data input for 
+
+receiving a first increment value, a second data input for 
+receiving a second increment value, a third data input, and a 
+
+data output, said accumulator circuit, and 
+   a storage element having a data input coupled to the 
+
+data output of the accumulator circuit, and a data output 
+coupled to the third data input of the accumulator circuit, 
+
+the address being output on the data output of the storage 
+element. 
+a circuit as claimed in claim 22 wherein the 
+accumulator circuit has a fourth data input receiving an 
+
+address base-offset chrominance value, and a fifth data input 
+receiving an address base-offset luminance value. 
+A circuit comprising: 
+   a flag generating circuit which receives a plurality of 
+
+data values of a new block and a plurality of data values of 
+an old block and generates a plurality of different flags, 
+
+the new block being a block of a sub-band composition of a 
+new frame, the old block being a block of a sub-band 
+
+decomposition of an old frame, the different flags being 
+selected from flags consisting of ORIGIN, NEW_Z, NO_Z, 
+
+ 
+MOTION, NOFLAG; and 
+
+   a stage machine which assumes a given new state based on 
+a current stage of the state machine and also on the 
+
+different flags, the state machine outputting a token 
+indicating the new state of the stage machine, the new stage 
+
+being selected from VOID, SEND, STILL, SEND-STILL, STOP. 
+A method comprising the steps of: 
+   using a digital circuit to low pass filter a first 
+
+sequence of a first number of image data values into a second 
+sequence of a second number of image values, the second 
+
+number being less than the first number, and 
+   using the digital circuit to low pass filter the second 
+
+sequence of image data values to generate a sub-band 
+decomposition. 
+A method as claimed in claim 24 wherein the digital 
+circuit is a low pass forward transform perfect 
+
+reconstruction digital filter. 
+A method as claimed in claim 26 wherein the digital 
+circuit comprises a convolver. 
+A method comprising the steps of: 
+   reading a number of first data values from a first 
+
+number of rows of memory locations of a memory, the number of 
+first data values comprising a part of a sub-band 
+
+decomposition; 
+   transforming or inverse transforming the number of first 
+
+data values to generate a number of second data values, the 
+number of second data values comprising high pass component 
+
+data values and low pass component data values; and
+ 
+
+   after the transforming step, writing the number of 
+second data values to a second number of rows of memory 
+
+locations of the memory, the first number of rows being equal 
+to the second number of rows. 
+A method as claimed in claim 28 wherein the rows of 
+memory locations read in the reading step are different rows 
+
+from the rows of memory locations written in the writing step 
+or are the same rows of memory locations that are written in 
+
+the writing step. 
+A method as claimed in claim 27 or 28 wherein the 
+number of first data values equal the number of second data 
+
+values. 
+A method as claimed in claim 27, 28 or 28 wherein 
+the memory is a dynamic memory. 
+A method comprising the steps of: 
+   reading a number of first image data values from a first 
+
+number of twos of memory locations of a memory; 
+   transforming the number of first data values to generate 
+
+a number of second data values of a sub-band decomposition, 
+the number of second data values comprising high pass 
+
+component data values and low pass component data values; and 
+   after the transforming step, writing the number of 
+
+second data values to a second number of rows of memory 
+locations of the memory, the first number of rows being equal 
+
+to the second number of rows. 
+A method comprising the steps of: 
+   reading a first block of low pass component data values 
+
+ 
+and associated first high pass component trees of blocks of 
+
+data values from a first plurality of dynamic memory 
+locations, the first plurality of dynamic memory locations 
+
+containing a plurality of blocks of low pass component data 
+values, and each of the blocks of low pass component data 
+
+values having three associated high pass component trees of 
+blocks of data values, 
+
+   writing the first block of low pass component data 
+values and associated first high pass component trees of 
+
+blocks of data values red from the first plurality of dynamic 
+memory locations into a second memory; 
+
+   reading a second block of low pass component data values 
+and associated second high pass component trees of blocks of 
+
+data values from a second plurality of dynamic memory 
+locations, the second plurality of dynamic memory locations 
+
+containing a plurality of blocks of low pass component data 
+values, and ea
+ch of the blocks of low pass component data 
+values having three associated high pass component tress of 
+
+blocks of data values, 
+   writing the second block of low pass component data 
+
+values and associated second high pass component trees of 
+blocks of data values read from the second plurality of 
+
+dynamic memory locations into a fourth memory, and 
+   processing the data values written into the second and 
+
+fourth memories to generate a compressed image data stream. 
+A method as claimed in claim 32 wherein the second 
+memory is a plurality of static random access memory 
+
+locations, and wherein the fourth memory is another plurality 
+of static random access memory locations. 
+A method as claimed in claim 32 or 33 wherein the 
+ 
+
+first block of low pass component data values and associated 
+first high pass component trees of blocks of data values 
+
+consist of 256 memory locations, and wherein the first block 
+of low pass component data values and associated first high 
+
+pass component trees of blocks of data values comprise a part 
+of a three octave sub-band decomposition. 
+A method as claimed in claim 32, 33 or 34 wherein 
+the processing step generates a third block of low pass 
+
+component data values and associated third high pass 
+component trees of blocks of data values, the method 
+
+comprising the steps of: 
+   writing the third block of low pass component data 
+
+values and associated third high pass component trees of 
+blocks of data values into the fourth memory; 
+
+   reading a fourth block of low pass component data values 
+and associated fourth high pass component trees of blocks of 
+
+data values from the second plurality of dynamic memory 
+locations, the dynamic memory locations from which the fourth 
+
+block is read being different dynamic memory locations from 
+the dynamic memory locations from which said second block was 
+
+read; and 
+   after the step of reading the fourth block, writing the 
+
+third block of low pass component data values and associated 
+third high pass component trees of blocks of data values into 
+
+the second plurality of dynamic memory locations. 
+A method as claimed in claim 32, 33 or 34 wherein 
+the processing step generates a third block of low pass 
+
+component data values and associated third high pass 
+component trees of blocks of data values, the method 
+
+comprising the steps of:
+ 
+
+   writing the third block of low pass component data 
+values and associated third high pass component trees of 
+
+blocks of data values into the fourth memory, and 
+   reading the third block of low pass component data 
+
+values and associated third high pass component trees of 
+blocks of data values from the fourth memory and writing the 
+
+third block of low pass component data values and associated 
+third high pass component trees of blocks of data values into 
+
+the second plurality of dynamic memory locations. 
+A method comprising the steps of: 
+   reading a first block of low pass component data values 
+
+and associated first high pass component trees of blocks of 
+data values from a first plurality of dynamic memory 
+
+locations, the first plurality of dynamic memory locations 
+containing a plurality of blocks of low pass component data 
+
+values, each of the blocks of low pass component data values 
+having three associated high pass component trees of blocks 
+
+of data values, 
+   writing the first block of low pass component data 
+
+values and associated first high pass component trees of 
+blocks of data values into a second memory, 
+
+   receiving an encoded data stream and using the encoded 
+data stream to generate a second block of low pass component 
+
+data values and associates second high pass component trees 
+of blocks of data values; 
+
+   writing the second block of low pass component data 
+values and associated second high pass component trees of 
+
+blocks of data values into the second memory; and 
+A method comprising the steps of: 
+   during a first period of time, using a plurality of 
+
+ 
+memory locations of static random access memory as a line 
+
+delay in a convolver, and 
+   during a second period of time, using the plurality of 
+
+memory locations to store a block of low pass component data 
+values and associated high pass component trees of blocks of 
+
+data values. 
+A system comprising: 
+   a first circuit which receives a input data stream and 
+
+which generates quantized data stream and an inverse 
+quantized data stream, the input data stream comprising 
+
+tokens and transformed image data values, and 
+   a second circuit which receives the quantized data 
+
+stream and which generates an inverse quantized data stream 
+and which generates an inverse quantized data stream, the 
+
+inverse quantized data stream generated by the second circuit 
+being identical to the inverse quantized data stream 
+
+generated by the first circuit. 
+A system as claimed in claim 30 wherein the first 
+circuit comprises: 
+
+   means for generating a mode control signal from the 
+input data stream, 
+
+   quantizer means for receiving the transformed image data 
+values of the input data stream and the mode control signal 
+
+and for quantizing said transformed image data values into 
+the quantized data stream using one of a first quantization 
+
+method and a second quantization method depending on the mode 
+control signal, the quantizer means also being for generating 
+
+the inverse quantized data stream from the quantized data 
+stream, and 
+
+   means for generating a compressed data stream from the 
+ 
+
+quantized data stream, 
+wherein the second circuit comprises: 
+
+   means for generating a mode control signal from the 
+compressed data stream, 
+
+   means for generating quantized data values from the 
+compressed data stream, and 
+
+   quantizer means for receiving said quantized data values 
+of the compressed data stream and the mode control signal and 
+
+for inverse quantizing the quantized data values into a data 
+stream. 
+A circuit for generating an address for traversing 
+a sub-band decomposition, the circuit comprising: 
+
+   a first counter receiving a first count enable signal, 
+and generating a first plurality of count output signals and 
+
+a first carry out signal, 
+   a second counter receiving a second count enable signal, 
+
+and generating a second plurality of count output signals and 
+a second carry out signal, 
+
+   a third counter receiving a third count enable signal, 
+and generating a third plurality of count output signals and 
+
+a third carry out signal, 
+   a fourth counter receiving a fourth count enable signal 
+
+and generating a fourth plurality of counter output signals 
+and a fourth carry out signal, and 
+
+   means for receiving the first, second, third, and fourth 
+carry out signals and for generating the first, second, third 
+
+and fourth count enable signals, the first, second, third and 
+fourth plurality of count output signals comprising the 
+
+address. 
+A circuit as claimed in claim 41 wherein the sub-band 
+ 
+
+decomposition comprises three high pass sub-bands, and 
+wherein the first plurality of count output signals is 
+
+indicative of an X address of a root of a tree, the second 
+plurality of count output signals is indicative of a Y 
+
+address of the root of the tree, the tree comprises a 
+plurality of blocks of data values, the third plurality of 
+
+count output signals is indicative of an address of data 
+values in a block of data values of the tree, and the fourth 
+
+plurality of counter output signals is indicative of the sub-band 
+of the tree. 
+</CLAIMS>
+</TEXT>
+</DOC>

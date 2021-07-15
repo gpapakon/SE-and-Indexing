@@ -1,0 +1,356 @@
+<DOC>
+<DOCNO>EP-0650117</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Counterflow pipeline
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F938	G06F938	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A counterflow computing pipeline is described in which data elements, 
+possibly of different kinds, flow in two opposing directions, forming two data streams. 
+
+There may be gaps of any length in the data streams where no data elements appear. 
+Series of similar stages
+The counterflow pipeline described consists of a series of similar stages, each of 
+which can hold at least two data elements, one from each of the two data streams. In 
+
+the basic form of the device, the stages are arranged in a linear string and each stage 
+of the pipeline communicates only with its two adjacent stages. Communication 
+
+between stages goes both ways to regulate the forward and reverse flowing data 
+streams. 
+Countersynchronized comparison: every item up meets every item down
+The counterflow pipeline offers a countersynchronized comparison between data 
+elements flowing in one direction and those flowing in the other direction. Circuits are 
+
+included to ensure that every data element flowing in one direction meets each and 
+every data element that it passes flowing in the other direction once and only once in 
+
+some stage of the pipeline. When data elements meet, circuits particular to a given 
+application may compare them, copy data from one to the other, or otherwise cause 
+
+them to interact. 
+Synchronous or asynchronous
+The counterflow pipeline described can be built either using synchronous circuits, or 
+using self-timed or asynchronous circuits. In either case any data element may move 
+
+forward in its stream when operations requiring its presence in the present stage are 
+complete and there is space for it in the stage to which it will next move. In a system 
+
+with synchronous circuits the transfer must await the next clock event whereas in an 
+
+asynchronous system the condition itself suffices to initiate the data transfer. Circuits 
+are described here for both synchronous and asynchronous counterflow pipelines to 
+
+guarantee complete comparisons, giving the counterflow pipeline a property called 
+"countersynchronized comparison". 
+Applications to associative memory, text searching, convolution and 
+computer architecture
+The complete comparison property of these counterflow pipelines makes them useful 
+for a variety of applications in signal processing, associative memory, and computer 
+
+architecture. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SUN MICROSYSTEMS INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SUN MICROSYSTEMS, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+JONES IAN W
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MOLNAR CHARLES E
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SPROULL ROBERT F
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SUTHERLAND IVAN E
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+JONES, IAN W.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MOLNAR, CHARLES E.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SPROULL, ROBERT F.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SUTHERLAND, IVAN E.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates generally to the field of data processing
+systems, and more particularly to a method and a system for processing data
+elements transported in a bi-directional counterflow computing pipeline having a
+series of cascaded stages.Computing pipelines have long been used in signal processing, general
+purpose computing devices and other digital computing applications. In a computing
+pipeline, information flows from one stage to another, primarily in one direction
+through the pipeline, and is processed in various ways at the various stages of the
+pipeline.One early application of computing pipelines is for rendering computer
+graphic images. In this kind of pipeline, data representing the image is passed from
+the computer memory through a series of processing stages and ultimately appears
+on the computer display. Another kind of computing pipeline is commonly used for
+multiplication. Here the many additions of which the multiplication is composed are
+arranged as the stages of a pipeline. As a multiplicand passes through the pipeline,
+partial products are accumulated in each stage such that at the end of the pipeline a
+complete product has been formed. In these uses of pipelines in computers, data
+elements flow in only a single direction.Reduced Instruction Set Computer (RISC) processors also use an internal
+pipeline to execute instructions. At the first stage of the pipeline, instructions are
+fetched from instruction memory. At subsequent stages they are variously decoded,
+executed, and their answers recorded. In such pipelines it is common to have
+"bypass" connections that connect the outputs of subsequent stages to auxiliary
+inputs of previous stages so that data calculated by earlier instructions may pass as
+soon as possible to later ones. Without bypass paths, all calculated data would have
+to be recorded in a register file before being accessible to subsequent instructions.In such RISC processors, a multiplicity of bypass paths creates a major
+design problem. Because bypass is required from nearly every stage to nearly every
+previous stage, each stage has many inputs. Designing the control system for such a
+RISC computer is rendered difficult by the need to manage data flow on so many data
+paths. Because each stage must choose whether to take its input from its
+predecessor stage or from any of a number of bypass paths, the design of even a
+single stage becomes very complex.Most computing devices in use today are synchronous and use an
+externally provided clock signal to step
+</DESCRIPTION>
+<CLAIMS>
+A counterflowing data processing system capable of carrying distinct
+data elements in two directions, 
+characterized by
+:
+
+a set of stages (20) interconnected to form a pipeline;
+circuitry (52, 68) configured to control the flow of a first group of distinct
+data elements in a first direction through the set of stages forming the
+
+pipeline;
+circuitry (52, 68) configured to control the flow of a second group of
+distinct data elements in a second direction through the set of stages forming
+
+the pipeline;
+one stage among the set of stages further including:
+
+a dynamic selection circuit (62, 64) configured to determine if a first
+data element from the first group of distinct data elements and a second data
+
+element from the second group of distinct data elements are present at the
+one stage; and
+interaction circuitry (72) configured to cause the first data element and
+the second data element to interact in the one stage when the first data
+
+element and the second data element are present in the one stage.
+The system as set forth in claim 1, further comprising circuitry (52, 68)
+for assuring that the first data element interacts with each of the distinct data
+
+elements of the second group encountered in the pipeline no more than once.
+The system as set forth in claim 1, wherein the interaction circuitry (72)
+comprises compare circuitry to compare the first data element in the one
+
+stage with each of the distinct data elements of the second group of data
+elements encountered in the one stage.
+The system as set forth in claim 3, wherein the interaction circuitry (72)
+further comprises prevention circuitry to prevent the flow of the first data
+
+element and the flow of the second data element in the one stage, until the 
+compare circuitry has completed its comparison of the first data element and
+
+the second data element.
+The system as set forth in claim 1, wherein the dynamic selection
+circuit (62, 64) further comprises state determination circuitry to determine the
+
+state of the one stage, the one stage capable of occupying any one of the
+following states: Empty; Full; Up; Down; and Complete.
+The system of claim 5, wherein the state of the one stage is changed
+according to the order of crossing boundaries defining the one stage by the
+
+first data element and the second data element.
+The system as set forth in claim 1, wherein the one stage comprises
+memory elements (60, 66) to retain the first data element and the second data
+
+element.
+The system as set forth in claim 1, wherein the one stage comprises
+modifying circuitry (120, 124, 126) to modify the first and/or second distinct
+
+data elements.
+The system of claim 8, wherein the one stage includes circuitry (124) to
+insert a portion of the fi
+rst data element flowing in the first direction as one of
+the distinct data elements of the second group flowing in the second direction.
+The system as set forth in claim 8, wherein the modifying circuitry
+comprises circuitry (120, 126) to delete the second data element from the
+
+pipeline.
+The system as set forth in claim 8, wherein the modifying circuitry (120,
+124, 126) comprises circuitry to perform computations involving the first data
+
+element in the pipeline. 
+The system as set forth in claim 11, wherein the circuitry (120, 124,
+126) to perform computations permits different computations to be made at
+
+different ones of the set of stages interconnected to form the pipeline.
+The system as set forth in claim 11, wherein the circuitry (120,124,
+126) to perform computations permits the same computations to be made at
+
+different ones of the set of stages interconnected to form the pipeline.
+The system as set forth in claim 8, wherein the modifying circuitry (120,
+124, 126) comprises circuitry to update the second data element.
+The system as set forth in claim 1, wherein the circuitry (52, 68) to
+control the flow of the first group of distinct data elements and the circuitry to
+
+control the flow of the second group of distinct data elements permits elastic
+operation of the pipeline.
+The system as set forth in claim 1, wherein the circuitry (52, 68) to
+control the flow of the first group of distinct data elements and the circuitry to
+
+control the flow of the second group of distinct data elements further
+comprises circuitry for bi-directional communication between the stages.
+The system as set forth in claim 1, wherein the circuitry (52, 68) to
+control the flow of the first group of distinct data elements and the circuitry to
+
+control the flow of the second group of distinct data elements permits
+asynchronous movement of the first group and the second group of distinct
+
+data elements in the pipeline.
+The system as set forth in claim 1, wherein the circuitry (52, 68) to
+control the flow of the first group of distinct data elements and the circuitry to
+
+control the flow of the second group of distinct data elements permits
+synchronous movement of the first group and the second group of distinct
+
+data elements in the pipeline. 
+The system as set forth in claim 1, wherein the circuitry (52, 68) to
+control the flow of the first group of distinct data elements and the circuitry to
+
+control the flow of the second group of distinct data elements is included in
+the set of stages interconnected to form the pipeline.
+The system as set forth in claim 1, wherein the pipeline further
+comprises circuitry (28) configured to provide external signals to at least some
+
+of the stages of the pipeline.
+The system as set forth in claim 1, wherein the pipeline further
+comprises:
+
+
+circuitry (114) configured to form branches in the pipeline; and
+circuitry (112) to control the flow of selected ones of the distinct data
+elements into and out of the branches.
+The system as set forth in claim 1, wherein the pipeline further
+comprises: circuitry configured to form sidings to the pipeline; and
+
+   circuitry (52, 68) to control the flow of selected ones of the data
+elements into and out of the sidings.
+The system as set forth in claim 1 further comprising a set of the
+dynamic selection circuits (62, 64) and a set of the interaction circuits, (72)
+
+each one of the dynamic selection circuits and the interaction circuits
+associated with one of the set of stages in the pipeline respectively.
+The system of claim 1, further comprising circuitry (52, 68) distributed
+among the set of stages to ensure that each of the distinct data elements of
+
+the first group is compared with each of the distinct data elements of the
+second group in the pipeline.
+The system of claim 1, wherein the dynamic selection circuit (62, 64) is
+used to determine at which stage in the pipeline a particular first data element 
+
+from the first group will interact with a particular second data element from the
+second group.
+A method of providing a data processing system capable of carrying
+distinct data elements in two directions, 
+characterized by
+:
+
+providing a set of stages (20) interconnected to form a pipeline;
+providing circuitry configured to control the flow of a first group of
+distinct data elements in a first direction through the set of stages forming the
+
+pipeline; and
+providing circuitry configured to control the flow of a second group of
+distinct data elements in a second direction through the set of stages forming
+
+the pipeline;
+providing one stage among the set of stages further including:
+
+a dynamic selection circuit configured to determine if a first data
+element from the first group of distinct data elements and a second data
+
+element from the second group of distinct data elements are present at the
+one stage; and
+interaction circuitry configured to cause the first data element and the
+second data element to interact in the one stage when both the first data
+
+element and the second data element are present in the one stage.
+The method of claim 26, further comprising:
+
+controlling the flow of a first group of distinct data elements in a first
+direction through a set of stages forming a pipeline;
+controlling the flow of a second group of distinct data elements in a
+second direction through the set of stages forming the pipeline;
+dynamically selecting one stage among the set of stages in the
+pipeline, the one stage selected by determining when a first data element
+
+from the first group of distinct data elements and a second data element from
+the second group of distinct data elements are present at the one stage; and
+causing the first data element and the second data element to interact
+in the one stage when the first data element and the second data element are
+
+present in the one stage.
+The method as set forth in claim 27, further comprising the step of
+assuring that the first data element interacts with each of the distinct data
+
+elements of the second group encountered in the pipeline no more than once.
+The method as set forth in claim 27, wherein the dynamic selecting
+step further comprises the step of determining the state of the one stage, the
+
+one stage capable of occupying any one of the following states: Empty; Full;
+Up; Down; and Complete.
+The method of claim 27, wherein the steps of controlling the flow of the
+first group of distinct data elements and the flow of the second group of
+
+distinct data elements permits elastic operation of the pipeline.
+The method as set forth in claim 27, further comprising the step of
+modifying the first data element and/or the second data element.
+The method as set forth in claim 31, wherein the modifying step further
+
+comprises the step of deleting the second data element from the pipeline.
+The method as set forth in claim 31, wherein the modifying step further
+comprises the step of performing computations involving the first data
+
+element.
+The method as set forth in claim 31, wherein the modifying step further
+comprises the step of updating the second data element.
+The method of claim 31, further comprising the step of inserting a
+portion of the first data element flowing in the first direction as one of the
+
+distinct data elements of the second group flowing in the second direction. 
+The method of claim 27, wherein the interaction step further comprises
+the step of comparing the first data element in the one stage with each of the
+
+distinct data elements of the second group encountered in the one stage.
+The method of claim 36, further comprising the step of preventing the
+movement of the first data element from the selected stage until the
+
+comparing step has been completed.
+The method of claim 27, wherein the step of controlling the flow of the
+first group of distinct data elements and the step of controlling the flow of the
+
+second group of distinct data elements further comprises the step of
+permitting asynchronous movement of the data elements of the first group
+
+and the second group in the pipeline.
+The method of claim 27, wherein the step of controlling the flow of the
+first group of distinct data elements and the step of controlling the flow of the
+
+second group of distinct data elements further comprises the step of
+permitting synchronous movement of the data elements of the first group and
+
+the second group in the pipeline.
+</CLAIMS>
+</TEXT>
+</DOC>

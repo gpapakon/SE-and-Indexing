@@ -1,0 +1,175 @@
+<DOC>
+<DOCNO>EP-0621528</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Multiple level undo/redo mechanism
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F950	G06F1721	G06F1500	G06F1721	G06F944	G06F3048	G06F3033	G06F9445	G06F9445	G06F946	G06F944	G06F3033	G06F1114	G06F3048	G06F1114	G06F1500	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F17	G06F15	G06F17	G06F9	G06F3	G06F3	G06F9	G06F9	G06F9	G06F9	G06F3	G06F11	G06F3	G06F11	G06F15	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A multiple-level undo/redo mechanism is provided in 
+an operating system and is available to application programs 
+
+run on the operating system. The operating system provides a 
+mechanism for keeping a log of user commands and providing a 
+
+cursor to a position within the log. Each command may be 
+encapsulated into an object that supports an interface for 
+
+performing undo/redo operations. Similarly, the log may be 
+encapsulated into an object that supports operations that 
+
+facilitate a multiple-level undo/redo. A user may perform a 
+single undo/redo operation, multiple successive undo/redo 
+
+operations or complete undo/redo operations. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MICROSOFT CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MICROSOFT CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+NAKAJIMA SATOSHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NAKAJIMA, SATOSHI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates generally to data
+processing systems and, more particularly, to a mechanism
+for providing a multiple level undo/redo capability in
+operating systems and application programs.A single-level undo mechanism is provided by
+software packages, such as the Microsoft Word, version
+5.0, word processing package, which is sold by Microsoft
+Corporation of Redmond, Washington. The single level undo
+mechanism allows a user command to be undone (i.e., the
+effects of the command are reversed) after the command has
+already been performed. The undo command is typically
+performed by selecting a menu item that lists the undo
+command as an option. The user is limited to a single
+level of undoing of commands and, thus, can only reverse
+the most recently executed command.IEEE SOFTWARE, vol. 1, no. 4, Oct. 1984, pages 39-52 describes
+UNDO and REDO commands which operate on primitive commands.
+The code undoes or redoes selected actions performed by an
+application such as a graphic layer program. The
+implementation consists of a doubly linked list of primitive
+commands. 
+4th ANNUAL SYMPOSIUM ON USER INTERFACE SOFTWARE AND TECHNOLOGY,
+November 11, 1991, Hilton Head, US, pages 107-115 describes a
+recovery facility that allows the user to reverse the effects
+of his interactions with a system using an object-oriented
+methodology. A recovery framework is composed of a set of
+recovery objects which are nested in the user interface objects
+and organized in a hierarchical structure, each recovery object
+having its own list of recovery information objects and
+accepting recovery commands. Four recovery commands are
+disclosed: undo, redo, skip back and skip forward. The
+recorded recovery information objects are organized in a
+double-linked list local to their recovery object.It is the object of this invention to provide a method for an
+improved multiple level undo/redo mechanism.This objected is achieved by a method according to claim 1.
+Preferred embodiments of this invention are the subject matters
+of the dependent claims.In accordance with an embodiment of the present
+invention, a method is practiced in a data processing
+system having memory means and at least one processor that
+is responsive to user commands. In this method, a log of
+user commands that were executed by the processor is
+stored in the memory means. A first user command stored
+in a log is undone so as to reverse the effect of the
+first user command. Subsequently, a next user command
+stored in the log is undone so as to reverse the effect of
+th
+</DESCRIPTION>
+<CLAIMS>
+A method for use in a computer system (10) having a video display (20), the
+method comprising the computer-implemented steps of:
+
+
+providing a multiple level undo/redo facility (46; 51,53) in an operating system
+(24);
+storing a list of commands executed by an application program (22);
+with the undo/redo facility, displaying an activatable undo/redo user interface
+element (51, 53, 55, 57) in a window on the video display, wherein the window
+
+is provided by the application program (22); and
+in response to a user activating the undo/redo facility element, calling with the
+undo/redo facility a code in the application program to undo or redo one or
+
+more commands associated with the activatable undo/redo user interface
+element.
+The method of claim 1, further comprising the steps of:
+
+creating a command element object (40) by the application program (22) for
+each command that is executed in the application program (22), each
+
+command element object designating code for undoing (50a) or for performing
+(50b) the command associated with the command element object (40),
+linking the command element objects together in the list (30) ordered
+according to when the associated commands were executed; 
+encapsulating the list (30) of linked command element objects in a command
+log object that is provided by the application program;
+when activating the undo/redo facility by the user, calling the code that is
+designated by a selected one of the command element objects in the list to
+
+undo or redo the command associated with the selected command element
+object.
+The method of claim 2 wherein the undo/redo user interface element is an
+undo user interface element (51) and the code (50a) causes the command
+
+that is associated with the selected command element object to be undone.
+The method of claim 2 or 3 wherein the undo/redo user interface element is a
+redo user interface element (53) and the code (50b) causes the command that
+
+is associated with the selected command element object to be redone.
+The method of one of claims 2 to 3 wherein the command element object (40)
+includes a pointer (42) to a V-table (46) that has at least one entry that holds
+
+a pointer (48a, 48b, 48c) to the code for undoing or redoing the command
+associated with the command element object.
+The method of one of claims 1 to 5, in which a user has caused multiple
+commands of the application program to be executed and in response to the
+
+user activating an undo-all user interface element (55), undoing effects of
+executing the commands by the undo/redo facility calling code in the
+
+application program for undoing the commands.
+The method of one of claims 1 to 6 in which a user has undone multiple
+commands and in response to the user activating the redo-all user interface
+
+element (57), executing the undone commands by the undo/redo facility
+calling code for performing the commands in the application program.
+The method of one of claims 2 to 7 wherein each command element object
+includes a pointer (42) to a V-table (46) that has at least one entry that holds
+
+a pointer (48a, 48b, 48c) to code for undoing (50a) or redoing (50b) the 
+command associated with the command element object (40), and further
+
+comprising instructions to cause the computer to perform the following step:
+
+in response to a user activating the undo/redo interface element, calling with
+the undo/redo facility, the code that is pointed to by the entry in the V-table
+
+pointed to by the pointer in a selected one of the command element objects in
+the list (30), to undo or redo the associated command.
+The method of claim 1 and further comprising instructions to cause the
+computer to perform the following step:
+
+displaying activatable undo/redo user interface elements (51,53,55,57) in the
+window on a video display of the computer system, the undo/redo user
+
+interface elements comprising:
+
+a first user interface element which when selected by a user causes a
+single command to be undone or redone; and
+a second user interface element which when selected by a user causes
+all commands to be undone or redone.
+</CLAIMS>
+</TEXT>
+</DOC>

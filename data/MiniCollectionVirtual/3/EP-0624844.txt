@@ -1,0 +1,448 @@
+<DOC>
+<DOCNO>EP-0624844</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Fully integrated cache architecture.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1208	G06F1208	G06F1212	G06F1212	G11C1141	G11C1141	G11C1500	G11C1504	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G11C	G11C	G11C	G11C	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F12	G06F12	G06F12	G06F12	G11C11	G11C11	G11C15	G11C15	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An integrated cache architecture that has low power consumption, 
+high noise immunity, and full support of an integrated 
+
+validity/LRU cache write mode. The cache stores TAG, index and 
+LRU information directly on a master word line, and cache line 
+
+data on local word lines. The access information is made 
+available early in the cycle, allowing the cache to disable 
+
+local word lines that are not needed. By laying out the master 
+and local word lines in a metal layer that substantially renders 
+
+the stored data immune to overlaying noise sources, high 
+frequency interconnections can be made over the cache without 
+
+disturbing the stored data. The cache includes circuitry for 
+efficiently updating the stored LRU information, such that a 
+
+combined data validity/full LRU cache update protocol is 
+supported. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+DAVIS ANDREW
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MILTON DAVID WILLS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DAVIS, ANDREW
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MILTON, DAVID WILLS
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The invention relates generally to the field of memory 
+architectures, and more specifically to low-power cache designs. In microprocessor design, typically the key factor that prevents 
+greater performance is the cycle time of data accesses to main 
+memory. State-of-the-art dynamic random access memory (DRAM) 
+typically has access times on the order of 60-80 nanoseconds, 
+with data rates on the order of 40 nanoseconds in page mode or 
+other pipelined access mode operations. Even at this speed, it 
+takes far longer to access data than it does to process 
+instructions through the CPU. In order to address this problem, cache memory has been used to 
+store data for processor operations. Typically, data is 
+downloaded from the DRAM main memory to the cache. The cache is 
+typically made up of an array of static RAM cells (SRAMs can be 
+accessed at rates far faster than those of DRAMs - current state 
+of the art SRAMs can produce data rates on the order of 5 
+nanoseconds). There are a number of known branch prediction or 
+initial cache loading algorithms that determine how the cache is 
+to be initially loaded with data. The cache is then accessed by determining whether or not it is 
+storing the data that is needed by the processor for a 
+particular operation. This is done by comparing address data 
+(referred to as the "tag") that indicates the location in main 
+memory from which data is to be obtained, with the tag 
+corresponding to the data as stored in the cache. If the  
+ 
+incoming tag matches the stored tag for data in the cache, a 
+cache "hit" signal is generated to indicate that the desired 
+data is stored in the cache. Note that tag protocol can be set 
+up to be "direct mapped" (i.e., each tag corresponds to one line 
+of data stored in the cache) or "set associative" (i.e. a single 
+"index address," or address for a single set, corresponds to a 
+given number of lines of data stored in the cache, each having 
+an associated tag). Thus, for example, in a "4-way set 
+associative" cache, a single index address corresponds to four 
+lines of data in the cache, each having its own tag. Typically, caches also use data indicating the validity of the 
+data stored in the cache. In general, all caches follow some 
+sort of cache coherency protocol, to insure that the data stored 
+in the cache is the same as data stored in main memory. Thus, 
+for example, after the data as stored in the cache is updated, 
+it must be written into main memory. In a "copy back cache" 
+coherency protocol, whenever data is written to
+</DESCRIPTION>
+<CLAIMS>
+1. A cache formed on an integrated circuit chip for storing 
+data fetched from a main storage means, comprising: 
+
+a plurality of index lines, each of said index lines having 
+a first plurality of memory cells in a first storage area 
+
+for storing main memory data and a second plurality of 
+memory cells in a second storage area for storing access 
+
+information corresponding to said main memory data, said 
+first and second storage areas having approximately the 
+
+same cycle time and said second storage area being accessed 
+before said first storage area; 
+
+a first controller receiving said access information for a 
+selected one of said plurality of index lines for 
+
+detecting, for a given one of said plurality of index 
+lines, whether any of said main memory data stored in said 
+
+first storage array is to accessed; and 
+an array controller for selectively deactivating at least a 
+
+portion of said first storage array of said selected one of 
+said plurality of index lines before an access cycle 
+
+thereto has been completed. 
+2. The cache of Claim 1, wherein said second storage array 
+stores at least one tag address on each of said plurality 
+
+of index lines. 
+3. The cache of Claim 2, wherein said second storage array 
+stores bits, on each of said plurality of index lines, 
+
+indicating the validity of said main memory data stored on 
+respective ones of said plurality of index lines in said 
+
+first storage array. 
+4. The cache of Claim 3, wherein each of said plurality of 
+index lines stores a plurality of main memory data words, 
+
+ 
+each of said plurality of main memory data words comprising 
+
+a plurality of addressable data words. 
+5. The cache of Claim 4, wherein said second storage array 
+stores a plurality of bits on each of said plurality of 
+
+index lines providing a relative indication of how recently 
+each of said plurality of main memory data words stored on 
+
+a respective one of said plurality of index lines was 
+accessed. 
+6. A memory for storing data to be accessed by a processor, 
+comprising: 
+
+a plurality of word lines, each of said word lines 
+comprising a master word line and a plurality of local word 
+
+lines coupled to and controlled by said master word line; 
+a first plurality of memory cells coupled to said master 
+
+word line; and 
+a second plurality of memory cells coupled to said 
+
+plurality of local word lines, said second plurality of 
+memory cells storing a plurality of data words to be 
+
+accessed by said processor, and at least some of said first 
+plurality of memory cells storing access information 
+
+corresponding to said plurality of data words stored by 
+said second plurality of data words. 
+7. The memory as recited in Claim 6, wherein said first 
+plurality of memory cells store at least one tag address. 
+8. The memory as recited in Claim 6, wherein said first 
+plurality of memory cells store a plurality of validity 
+
+bits indicating the validity of data stored in said second 
+plurality of memory cells. 
+9. The memory as recited in Claim 8, wherein said second 
+plurality of memory cells store a plurality of data words, 
+
+ 
+and said first plurality of memory cells store a plurality 
+
+of bits indicating which of said plurality of data words 
+was least recently accessed. 
+10. A memory array, comprising: 
+a plurality of memory cells coupled to a plurality of bit 
+
+lines and a plurality of word lines, each of said plurality 
+of word lines comprising a master word line and a plurality 
+
+of local word lines coupled to and controlled by said 
+master word line, at least some of said plurality of memory 
+
+cells being coupled directly to said master word line and 
+remaining ones of said plurality of memory cells being 
+
+coupled to respective ones of said plurality of local word 
+lines; 
+
+master word line drive means for enabling one of said 
+plurality of master word lines in a given access cycle; and 
+
+control means for selecting some of said plurality of local 
+word lines to be accessed, said control means disabling 
+
+remaining ones of said plurality of local word lines. 
+11. The memory array as recited in Claim 10, wherein said 
+memory array is formed on an integrated circuit substrate, 
+
+and wherein both of said master word line and at least one 
+of said plurality of local word lines are disposed above at 
+
+least some of said plurality of memory cells. 
+12. The memory array as recited in Claim 11, wherein both of 
+said master word line and at least a given one of said 
+
+plurality of local word lines are disposed above 
+substantially all of said plurality of memory cells coupled 
+
+to said given one of said plurality of local word lines. 
+13. The memory array as recited in Claim 11, wherein said 
+master word line and said selected one of said plurality of 
+
+local word lines are disposed substantially in parallel. 
+14. The memory array as recited in Claim 13, wherein first 
+portions of said master word line and said selected one of 
+
+said plurality of local word lines disposed above said 
+selected ones of said plurality of memory cells directly 
+
+coupled to said master word line are isolated from 
+remaining portions of said master word line and said 
+
+selected one of said plurality of local word lines, 
+respectively. 
+15. The memory array as recited in Claim 14, wherein said 
+remaining portions of said master word line are 
+
+electrically coupled to said first portions of said 
+selected one of said plurality of local word lines. 
+16. The memory array as recited in Claim 15, wherein said first 
+portions of said master word line are connected to a power 
+
+supply voltage. 
+17. A memory array, comprising: 
+a plurality of memory cells; 
+
+a plurality of supply voltage lines disposed above and 
+coupled to said plurality of memory cells; 
+
+a plurality of master word lines disposed above said 
+plurality of memory cells; 
+
+a plurality of local word lines disposed above said 
+plurality of memory cells, said plurality of supply voltage 
+
+lines, said plurality of master word lines, and said 
+plurality of local word lines being disposed substantially 
+
+in parallel, each of said plurality of master word lines 
+being coupl
+ed to a set of said plurality of local word 
+lines, a set of said plurality of memory cells being 
+
+coupled to one of said set of said plurality of local word 
+lines, each of said plurality of master word lines and at 
+
+least one of said set of local word lines being disposed 
+ 
+
+over said set of said plurality of memory cells coupled to 
+said one of said set of local word lines, portions of said 
+
+master word line being isolated from remaining portions 
+thereof and being coupled to one of said supply voltage 
+
+lines. 
+18. The memory array as recited in Claim 17, wherein at least 
+some of said plurality of memory cells are coupled to said 
+
+plurality of master word lines. 
+19. The memory array as recited in Claim 18, wherein said at 
+least some of said plurality of memory cells are coupled to 
+
+portions of plurality of local word lines that are isolated 
+from remaining portions thereof and are electrically 
+
+coupled to said remaining portions of said plurality of 
+master word lines. 
+20. The memory array as recited in Claim 17, further comprising 
+a plurality of power supply lines, and a layer of 
+
+metallurgy that is disposed over and isolated from said 
+plurality of master word lines, said plurality of local 
+
+word lines, and said plurality of power supply lines, said 
+plurality of master word lines, said plurality of local 
+
+word lines, and said plurality of power supply lines being 
+disposed in parallel and in combination substantially 
+
+covering said plurality of memory cells to provide signal 
+shielding from signals transmitted by said layer of 
+
+metallurgy. 
+20. In a processor system comprising a central processor unit, 
+a main memory for storing data, and a cache unit having a 
+
+plurality of index lines, each of said index lines storing 
+a plurality of data words from selected locations in said 
+
+main memory, a method of writing an update data word from 
+said main memory to said cache, comprising the steps of: 
+
+for a given index line, determining if any of said 
+plurality of data words are invalid, and if so writing said 
+
+ 
+update data word in a portion of said given index line that 
+
+stores said invalid data word; 
+updating first access data for said given index line to 
+
+reflect that said portion of said given index line that 
+formerly stored said invalid data word now stores valid 
+
+data; 
+if all of said plurality of data words are valid for said 
+
+given index line, determining which of said plurality of 
+data words was least recently accessed by said central 
+
+processing unit, and writing said update data word in a 
+portion of said given index line that stores said least 
+
+recently accessed data word; and 
+updating second access data for said given index line to 
+
+reflect that said portion of said given index lines that 
+previously stored said least recently accessed data word 
+
+has been recently accessed, to indicate that a different 
+one of said plurality of data words on said given index 
+
+line was least recently accessed by said central processing 
+unit. 
+21. The method as recited in Claim 20, wherein said given cache 
+index line stores said first access data. 
+22. The method as recited in Claim 21, wherein said given cache 
+index line stores said second access data. 
+23. The method as recited in Claim 20, wherein said second 
+access data indicates relative recent usage of all portions 
+
+of said given index line storing data words, and said step 
+of updating said second access data comprises the steps of: 
+
+updating a first portion of said said second access data to 
+indicate that the portion of said given index line in which 
+
+said update data word is stored is now the most recently 
+used;
+
+ 
+updating a second portion of said second access data to 
+
+indicate that a portion of said given index line which 
+formerly was indicated as the most recently used is now the 
+
+next most recently used; and 
+continuing said update cycle on subsequent portions of said 
+
+second access data until either (a) access data in a given 
+portion of said second access data does not change, or (b) 
+
+a final portion of said second access data has been updated 
+to indicate which portion of said given index line is the 
+
+least recently used. 
+24. A processor system for carrying out a least recently used 
+(LRU) method of updating a portion of a given cache line of 
+
+an n-way set associative cache with a main memory data word 
+in the event of a cache miss, comprising: 
+
+first means for determining if any portion of said given 
+cache line stores invalid data; 
+
+second means responsive to said first means for writing 
+said main memory data word to a portion of said given cache 
+
+line that stores invalid data; 
+if all of said portions of said given cache lines store 
+
+valid data, said first means determining which of said 
+portions of said given cache line store data that was least 
+
+recently accessed, 
+said second means writing said main memory data word to a 
+
+portion of said given cache line that was least recently 
+accessed; 
+
+third means comprising a plurality of storage areas for 
+storing data indicating usage of said portions of said 
+
+given cache line, wherein a first one of said plurality of 
+storage areas indicate which of said portions of said given 
+
+cache index line were most recently accessed, at least a 
+ 
+
+second one of said plurality of storage areas indicate 
+which of said portions of said given cache index lines were 
+
+next most recently accessed, and a final one of said 
+plurality of storage areas indicate which of said portions 
+
+of said given cache line were least recently accessed; and 
+fourth means for updating said data stored by said third 
+
+means, comprising a plurality of multiplexor means having 
+write outputs coupled to respective ones of each of said 
+
+plurality of storage areas, each of said multiplexor means 
+receiving as a first input data stored by a preceding one 
+
+of said plurality of storage areas and as a second input 
+data stored by said respective one of said plurality of 
+
+storage areas to which its write output is coupled, a given 
+one of said plurality of multiplexor means providing at its 
+
+output said second input when said first and second input 
+are the same, and providing at its output said first input 
+
+when said first and second inputs are different. 
+25. The processor system as recited in Claim 24, wherein said 
+fourth means updates said first storage area with data from 
+
+said last storage area when said data word is written from 
+said main memory into said least recently used portion of 
+
+said given index line of said cache. 
+</CLAIMS>
+</TEXT>
+</DOC>

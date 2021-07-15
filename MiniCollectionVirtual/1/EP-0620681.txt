@@ -1,0 +1,205 @@
+<DOC>
+<DOCNO>EP-0620681</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Video signal processing with arithmetic processor and interrupt
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04N964	H04N7015	H04N964	H04N546	H04N7015	H04N546	H04N5907	H04N5907	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04N9	H04N7	H04N9	H04N5	H04N7	H04N5	H04N5	H04N5	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A coprocessor is incorporated in a processor comprising a 
+CPU, an instruction cache, a data memory, a bus controller, an 
+
+interruption control section and a DMA controller. This 
+coprocessor has a parallel sum-of-products arithmetic operation 
+
+section, a comparator, an I/O register section, and a sum-of-products 
+factor register section. A frame memory, provided on 
+
+the input side, stores MUSE or NTSC signals digitized per pixel. 
+The DMA is in control of the transfer of data between the input-side 
+
+frame memory and the data memory as well as the transfer of 
+data between a frame memory provided on the output side and the 
+
+data memory. Pixel data stored in the data memory is processed 
+according to broadcasting systems by the switching of sum-of-products 
+
+factors on the basis of software. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC IND CO LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC INDUSTRIAL CO., LTD.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+HASEGAWA KATSUYA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MIYAKE JIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NINOMIYA KAZUKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NISHIYAMA TAMOTSU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YOSHIOKA SHIROU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HASEGAWA, KATSUYA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MIYAKE, JIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NINOMIYA, KAZUKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NISHIYAMA, TAMOTSU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YOSHIOKA, SHIROU
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to a video signal processor capable
+of performing a process-switch function by software and to its
+video signal processing technique.There have been demands for a television system capable of
+providing a high resolution. To meet such demands, a television
+system called the EDTV (Extended Definition Television) system
+was introduced and has been put to practical use. The MUSE
+(Multiple Sub-nyquist Sampling Encoding) system, which is one of
+the HDTV (High-definition Television) systems, has been proposed,
+and some of the MUSE systems have been put to practical use. It
+is expected that advanced television systems such as an EDTV II
+system (i.e., the second-generation EDTV) and a digital
+television system will come in practice in the near future. In
+view of these developments in the field of TV broadcasting
+system, video signal processors including television receivers
+and video tape recorders must be designed such a way that they
+can receive broadcasting signals of different television systems
+including the existing NTSC (National Television System
+Committee) system. A conventional TV receiver has plural
+different boards each of which corresponds to a respective
+television system. These boards are exchanged depending on the
+received signal. This technique is introduced as a background
+technique of " Scan Line Conversion LSI for Wide Screen TV 
+Receiver", ITEJ Technical Report, vol.16, No.71, pp.19-24,
+BCS'92-41 (Oct., 1992) by Toshichika Satoh et al.How conventional TV receivers having a MUSE signal
+processing board and a NTSC signal processing board operate is
+described. According to the MUSE system standard, the sampling
+rate = 16.2 MHz; the number of pixels (per scanning line) = 480;
+and the number of scanning lines = 1125. On the other hand,
+according to the NTSC system standard, the sampling rate = 14.3
+MHz; the number of pixels (per scanning line) = 910; and the
+number of scanning lines = 525.First, the MUSE signal is considered. The MUSE signal
+processing board separates a received MUSE signal into a Y
+signal, an R-Y signal, and a B-Y signal. In the MUSE system, in
+order to make high vision signals fall within the specified
+transmission bandwidth range, pixel data is band-compressed by
+making use of the fact that pixels of a previous field coincide
+with pixels of a current field in the case of an image without
+movement and the fact that the human eye has poor resolving power
+to an image with movement. Therefore, the MUSE processing board
+performs different processes depending
+</DESCRIPTION>
+<CLAIMS>
+A signal processor comprising:
+
+a plurality of. synchronous means (114, 115) for outputting broadcasting signals to
+be processed in synchronism with video signals or audio signals, and
+a selector (120) for selectively outputting a particular one of said broadcasting
+signals from said plurality of synchronous means (114, 115),
+a first frame memory (116) for storing pixel data of said selectively output
+broadcasting signal,
+a second frame memory (117) for storing a processing result as output data,
+output means (131, 132) for outputting data on the basis of data read out of said a
+second frame memory (117),
+a data register (103) for storing a data vector p = (p
+0
+, p
+1
+, ...p
+n
+) made up of data
+read out of said a first frame memory (116), and a sum-of-products arithmetic
+
+operation result based on said data vector p,
+a sum-of-products factor register (104) for storing a sum-of-products factor vector a
+= (a
+0
+, a
+1
+, ... a
+n
+),
+parallel sum-of-products arithmetic means (PSAM) (101) for performing a sum-of-products
+arithmetic operation to compute an inner product, denoted by p.a = a
+0
+
+*p
+0
+ + a
+1
+ *p
+1
+ + ... + a
+n
+ *p
+n
+, of said data vector p and said sum-of-products factor
+vector a and writing a sum-of-products arithmetic operation result in said data
+
+register (103),
+processing means (105) for controlling the operations of said plural synchronous
+means (114, 115) and said selector (120), setting said data vector p to said data
+
+register (103), setting said sum-of-products factor vector a to said sum-of-products 
+factor register (104), and controlling said sum-of-products arithmetic
+
+operation of said PSAM (101),
+program storage means (122) for storing a program with a description of the
+contents of an operation to be carried out by said processing means (105),
+control signal input means (121) for holding an external control signal, and
+interrupt control means (112) for generating an interrupt signal to control the
+operations of said processing means (105)
+
+in response to an said external control signal
+received and held by said control signal input
+
+means (121),
+
+wherein said signal processor is adapted to perform the steps of:
+
+receiving pixel data for at least one scanning line from said a first frame memory
+(116),
+processing said received pixel data, and
+outputting said pixel data that has undergone said signal processing to said a
+second frame memory (117),
+ 
+whereby each of said steps is repeatedly performed on respective pixel data for
+
+one frame
+A signal processor according to claim 1, wherein said processing step is carried
+out by repeatedly conducting a pixel processing operation on every pixel.
+A signal processor according to claim 1 or claim 2, wherein said processing step
+includes a step of performing an image-with/without-movement identification
+
+process (603) by making a comparison between said pixel data for at least one
+scanning line and pixel data of a scanning line one field ahead thereof.
+A signal processor according to any of claims 1 to 3, wherein said processing step
+includes a step of selecting (604) between an intra-field process and an inter-field
+
+process according to a result of said image-with/without-movement identification
+process.
+</CLAIMS>
+</TEXT>
+</DOC>

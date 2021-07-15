@@ -1,0 +1,356 @@
+<DOC>
+<DOCNO>EP-0652513</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Task scheduler for a multiprocessor system.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F946	G06F946	G06F948	G06F950	G06F1516	G06F1516	G06F15177	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	G06F9	G06F9	G06F15	G06F15	G06F15	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A task scheduler for use in a multiprocessor, multitasking 
+system in which a plurality of processor complexes, each 
+
+containing one or more processors, concurrently execute tasks 
+into which jobs such as database queries are divided. A 
+
+desired level of concurrent task activity, such as the maximum 
+number of tasks that can be executed concurrently without 
+
+queuing of tasks, is defined for each processor complex. Each 
+job is assigned a weight in accordance with the external 
+
+priority accorded to the job. For each job there is defined a 
+desired level of concurrent task activity that is proportional 
+
+to its share of the total weight assigned to all concurrently 
+executing jobs. The jobs are prioritized for execution of 
+
+awaiting tasks in accordance with the discrepancy between the 
+desired level of multitasking activity and the actual level of 
+
+multitasking activity for each job. Awaiting tasks are 
+preferentially scheduled from jobs with the largest 
+
+discrepancy between the desired and actual levels of 
+concurrent task activity and are preferentially assigned to 
+
+the processor complexes with the largest discrepancy between 
+the desired and actual levels of concurrent task activity. The 
+
+scheduler attempts to assign each task to a processor for 
+
+which the task has an affinity or at least neutrality in terms 
+of relative execution speed. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+TUREK JOHN JOSEPH E
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WOLF JOEL LEONARD
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YU PHILIP SHI-LUNG
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TUREK, JOHN JOSEPH E.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WOLF, JOEL LEONARD
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YU, PHILIP SHI-LUNG
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This application is related to the following commonly 
+owned, concurrently filed applications, the specifications 
+of which are incorporated herein by reference: T. Borden, I. S. Narang, D. B. Rathi and D. J. Wisneski, 
+"System and Method for Parallel Processing of Complex 
+Read-Only Database Queries", US-Serial No. 08/148,091; J. L. Wolf, p. S. Yu and J. J. Turek, "Method of Performing a 
+Parallel Relational Database Query in a Multiprocessor 
+Environment", US-Serial No. 08/148,769. This invention relates generally to a task scheduler for use 
+in a multitasking, multiprocessor system, especially one used 
+to perform parallel database queries or other parallel 
+operations. More particularly, the invention relates to the 
+real-time scheduling of jobs composed of multiple independent 
+tasks in a system of tightly-coupled processor complexes in 
+such a way that the tasks within jobs tend to be load 
+balanced, job priorities are respected, and no job is unduly 
+starved for processing time. The response time of a complex query consisting of multiple 
+tasks is determined by the completion time of the last task 
+within that query. The problem is to schedule in real time  
+ 
+multiple such queries consisting of independent tasks, 
+employing a load-balancing algorithm to minimize the 
+response times of individual queries, while at the same time 
+respecting external query priorities and avoiding undue 
+starvation of any of the queries in the system. An environment consisting of a plurality of tightly coupled 
+central processor complexes (CPCs), or central electronic 
+complexes (CECs), is assumed. In such an environment, 
+reassignment of a task is not possible once it is scheduled on 
+a particular complex. It is assumed that tasks have estimated 
+execution times, but that these estimates may be less than 
+perfect. It is also assumed that the individual task 
+execution times may be affected by the selection of the 
+complexes to which they are assigned, and by the time periods 
+in which they are active. However, it is assumed that such 
+effects are known only qualitatively, not quantitatively. For 
+queries in which the completion of an initial task is known to 
+be of value to the user, it is endeavored to complete that 
+task at an early opportunity. (An example might be that task 
+which would return the first tuple to the user, if this can be 
+identified.) In one aspect, the present invention relates to a method for 
+scheduling tasks in a multitasking system in which a plurality 
+of jobs, each of which comprises one
+</DESCRIPTION>
+<CLAIMS>
+In a multitasking system in which a plurality of jobs 
+are concurrently executed, each of said jobs comprising 
+
+one or more tasks, a method for scheduling said tasks 
+comprising the steps of: 
+
+defining a desired level of concurrent task activity 
+for each of said jobs; 
+
+determining the actual level of concurrent task activity 
+for each of said jobs; 
+
+prioritizing said jobs for execution of awaiting tasks in 
+accordance with the discrepancy between the desired level 
+
+of concurrent task activity and the actual level of 
+concurrent task activity for each of said jobs; and 
+
+scheduling said awaiting tasks for execution in 
+accordance with the prioritization of the jobs comprising 
+
+said tasks so that tasks are preferentially scheduled 
+from jobs with the largest discrepancy between said 
+
+desired and actual levels of concurrent task activity. 
+The method of claim 1, wherein said desired and actual 
+levels of concurrent task activity correspond 
+
+respectively to the desired and actual numbers of 
+concurrently executing tasks. 
+The method of claim 1, wherein said desired and actual 
+levels of concurrent task activity correspond 
+
+respectively to the desired and actual ratios of the 
+number of concurrently executing tasks for a given job to 
+
+the number of concurrently executing tasks for all jobs. 
+The method of claim 1, wherein said actual level of 
+concurrent task activity is averaged over a period of 
+
+time. 
+The method of claim 1, wherein said actual level of 
+concurrent task activity is averaged over the period of 
+
+time that a job has existed in said system. 
+The method of claim 1, wherein said jobs are prioritized 
+in accordance with the difference between the desired 
+
+level of concurrent task activity and the actual level of 
+concurrent task activity for each of said jobs. 
+The method of claim 1, wherein said jobs are prioritized 
+in accordance with the ratio of the desired level of 
+
+concurrent task activity to the actual level of 
+concurrent task activity for each of said jobs. 
+The method of claim 1, wherein the desired level of 
+
+concurrent task activity defined for each of said jobs is 
+inversely proportional to the number of jobs concurrently 
+
+being executed. 
+The method of claim 1, wherein the desired level of 
+concurrent task activity defined for each of said jobs is 
+
+a function of an external priority assigned to that job. 
+The method of claim 1, wherein each of said jobs is 
+assigned a weight in accordance with an external priority 
+
+for that job and wherein the desired level of concurrent 
+task activity defined for a job is proportional to the 
+
+ratio of the weight assigned to that job and the total 
+weight assigned to all jobs. 
+The method of claim 1, wherein the tasks of each of said 
+jobs are prioritized relative to one another and are 
+
+scheduled for execution in accordance with such 
+prioritization. 
+The method of claim 11, wherein the tasks of a given job 
+are prioritized in decreasing order of estimated 
+
+completion time. 
+The method of claim 11, wherein at least one task is 
+prioritized over the remaining tasks of the same job, 
+
+independently of its estimated completion time, while the 
+remaining tasks of that job are prioritized in decreasing 
+
+order of estimated completion time. 
+In a multitasking system in which a plurality of jobs are 
+concurrently executed by a plurality of processor 
+
+complexes, each of said jobs comprising one or more 
+tasks, each of said processor complexes comprising one or 
+
+more processors, a method of scheduling said tasks 
+comprising the steps of: 
+
+defining a normal desired level of concurrent task 
+activity for each of said processor complexes; 
+
+determining the actual level of concurrent task activity 
+   for each of said processor complexes; 
+
+selecting for assignment of awaiting tasks those 
+processor complexes whose desired level of concurrent 
+
+task activity exceeds the actual level of concurrent task 
+activity; 
+
+assigning said awaiting tasks only to those selected 
+processor complexes whose desired level of concurrent 
+
+task activity exceeds the actual level of concurrent task 
+activity; and 
+
+defining for a selected one of said processor complexes a 
+reduced desired level of concurrent task activity below 
+
+said normal desired level of concurrent task activity, 
+thereby to speed the completion of tasks executing on 
+
+said selected processor complex by inhibiting the 
+assignment of new tasks to said complex. 
+The method of claim 14, wherein said desired and actual 
+levels of concurrent task activity correspond 
+
+ 
+respectively to the desired and actual numbers of 
+
+concurrently executing tasks. 
+The method of claim 14, wherein said reduced desired 
+level of concurrent task activity is set at or below the 
+
+actual level of concurrent task activity on said selected 
+processor complex. 
+In a multitasking, multiprocessor system in which a 
+plurality of tasks are concurrently executed on a 
+
+plurality of processor complexes, each of said tasks 
+having a defined affinity, neutrality or disaffinity for 
+
+each of said complexes, a method for scheduling said 
+tasks on said complexes comprising the steps of: 
+
+
+(a) determining whether a task currently awaiting 
+execution has an affinity for one of said complexes; 
+
+and 
+(b) if a task currently awaiting execution is determined 
+to have an affinity for one of said complexes, 
+
+assigning said task to said complex, otherwise: 
+
+(1) determining whether a task currently awaiting 
+execution has a neutrality for one of said 
+
+complexes; and 
+(2) if a task currently awaiting execution is 
+determined to have a neutrality for one of said 
+
+complexes, assigning said task to said complex, 
+otherwise, terminating without assigning a task 
+
+to a complex. 
+The method of claim 17 comprising the further step of 
+terminating after assigning a task to a processor 
+
+complex. 
+The method of claim 17, in which said tasks are 
+prioritized relative to one another in accordance with a 
+
+predetermined scheme, said tasks being scanned 
+sequentially in accordance with said prioritization 
+
+scheme to determine their affinity for said complexes. 
+The method of claim 19 in which said processor complexes 
+are prioritized relative to one another in accordance 
+
+with a predetermined scheme, said processor complexes 
+being scanned sequentially for each of said tasks in 
+
+accordance with said prioritization scheme to determine 
+the affinity of said tasks for said complexes. 
+The method of claim 17 in which said processor complexes 
+are prioritized relative to one another in accordance 
+
+with a predetermined scheme, said processor complexes 
+being scanned sequentially in accordance with said 
+
+prioritization scheme to determine the affinity of said 
+tasks for said complexes. 
+The system of claim 17, wherein a plurality of jobs are 
+concurrently executed on said processor complexes, each 
+
+of said jobs comprising one or more of said tasks. 
+In a multitasking, multiprocessor system in which a 
+plurality of tasks are concurrently executed on a 
+
+plurality of processor complexes, said tasks and said 
+complexes forming task-complex combinations in each of 
+
+which the task has a defined affinity, neutrality or 
+disaffinity for the complex of the combination, a method 
+
+for scheduling said tasks on said complexes comprising 
+the steps of: 
+
+sequentially scanning task-complex combinations to 
+determine whether any of said tasks currently awaiting 
+
+execution has an affinity or neutrality for one of said 
+complexes;
+
+ 
+if a task of a scanned task-complex combination has an 
+
+affinity for the complex of the combination, assigning 
+the task to said complex and terminating further 
+
+scanning; 
+if a task of a scanned task-complex combination has a 
+
+neutrality for the complex of the combination, marking 
+the task and complex of the first such combination and 
+
+continuing scanning; 
+if scanning is completed without finding a task having an 
+
+affinity for a processor, assigning the marked task to 
+the marked complex if a task and complex have been 
+
+marked, otherwise, terminating without assigning a task 
+to a complex. 
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,507 @@
+<DOC>
+<DOCNO>EP-0630541</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+A METHOD AND A DEVICE FOR MONITORING CHANNEL SPLIT DATA PACKET TRANSMISSION
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04L1256	H04L1256	H04Q1104	H04Q1104	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04L	H04L	H04Q	H04Q	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04L12	H04L12	H04Q11	H04Q11	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The transfer of data packets are monitored in a line having various logical channels. For each logical channel (i) there is a count value (Li) and at the arrival of a data packet or in each time slot, when the transmission on said line is time multiplexed, i.e. for each time, when a packet could have arrived in a time multiplexed system, only said count value (Lm) for a single channel (m) is decremented. Then it is determined whether said received data paket, if there is one, is to be forwarded or is to be lost, by the comparison of a calculated value (Fn) to a threshold value (Tn) belonging to the channel (n), to which said packet belongs. In the calculation of said discrimination value (Fn) the number of those channels is used, which have not been decremented after decrementing the channel (n), to which the received packet belongs. In this way the calculated value (Fn) can be made to resemble the calculated value or level value, which is used in prior methods for handling loss of packets in a network. For each received packet this methods requires only a decrementing of one count value (Ln), implying a significant saving of time and a simplification of the circuits used for carying out the method.
+ 
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+ERICSSON TELEFON AB L M
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+TELEFONAKTIEBOLAGET LM ERICSSON
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+LARSSON LEIF MIKAEL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SAELLBERG HANS KRISTER MIKAEL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LARSSON, LEIF, MIKAEL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SAELLBERG, HANS, KRISTER, MIKAEL
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention is related to a method and a device for
+monitoring the flow of data packets on a transmission line
+having several channels and in particular for prohibiting
+data packets for each channel from being transmitted with an intensity,
+which is too high and not allowed.
+In otherwords, for time divided data packet traffic having
+several channels on a line the band width for each channel
+should always be preserved and not be exceeded.Leaky Bucket (LB) is a prior art method for monitoring the band
+width for an incoming stream of data packets or cells, which for
+instance are forwarded in a network of the ATM type
+(Asynchronous Transfer Mode), and it is described in U.S.
+patent 5,014, 260 claiming convention priority from the Swedish
+patent application SE 8803875-7 having the publication number 462360.Other prior art relevant to the invention appears from the
+patent documents EP-A1-0 381 275, EP-A1-0 275 678, WO-A1-90/05416,
+US-A-4 896 316, US-A-4 993 024, EP-A1-0 310 173, EP-A1-0
+387 958, EP-A2-0 384 758, EP-A1-0 383 660.In the prior algorithm counters are provided for each channel.
+All these counters are decreased regularly in time with a value,
+which is predetermined for each channel. When a data packet
+arrives, the identity or number of the channel is determined, to
+which the packet belongs, and then the counter value of this
+channel is checked or inspected. If the counter value is larger
+than a threshold value, which is predetermined for said channel,
+the data packet is discarded or lost and is thus not forwarded
+on the transmission line. Otherwise the counter value for this
+channel is incremented with a value particular for said channel
+and the data packet is forwarded on the transmission line.By means of this prior process one parameter for the channel
+rate or band width can be monitored, e.g. the peak rate or the
+mean rate. With a small threshold value the peak rate may be 
+monitored and with a larger threshold value an upper limit of
+the mean rate may be monitored. By combining two processes of
+this kind, providing a so called Dual Leaky Bucket, the peak and
+mean rate for a channel can be monitored. If any one of the
+respective threshold values is exceeded, the present data packet
+is discarded or lost.In this prior method the whole process is performed in real time
+without any buffering of several data packets taking place.
+Instead there is only one register or memory unit containing one
+data packet each time. When the data packet has arrived to this
+register, it is immediately
+</DESCRIPTION>
+<CLAIMS>
+A method of monitoring the flow of data packets on a
+transmission line having a number (M) of channels, each channel
+
+(i) being associated with a first value (L
+i
+) and a second value
+(T
+i
+), 
+characterized in
+that for each regular successive first time period (Δt) the
+first value (L
+m
+) of a next one of the channels is changed in a
+first direction by a first predetermined step (M·D
+m
+), the changes
+being made in a cyclic order for all channels,
+that for each data packet arriving on the transmission line
+the channel (n) is determined, to which the packet belongs,
+that a third value (F
+n
+) is calculated based on the first value
+(L
+n
+) for this determined channel (n) and on one of:
+
+the number of data packets, which have arrived on the
+transmission line after the first value (L
+n
+) for this channel (n)
+was last changed, and
+in the case where the transmission of data packets on the
+transmission line is time divided in regular second time periods
+
+in such a way, that the transmission of a packets is always made
+
+during such a second time period, the number of second time
+periods elapsed since the first value (L
+n
+) for this channel (n)
+was last changed,
+that the calculated third value (F
+n
+) is compared to the second
+value (T
+n
+) for the channel, and depending on the result of said
+comparison, one of the following steps is performed:
+
+
+the data packet is discarded or marked in order to possibly
+be discarded, if further conditions are fulfilled, and
+the data packet is preserved and is forwarded on the
+transmission line,
+
+whereby it is prohibited that on any of the channels data
+packets are sent in an intensity, which is larger than values
+
+predetermined for the channels.
+A method according to claim 1, 
+characterized in
+ that the
+first regular time intervals (Δt) are the time intervals, when
+
+data packets arrive sequentially on the transmission line in
+such a way, that the change by the first step (M·D
+m
+) is performed
+for each arrival of a data packet on the transmission line, or
+
+the first regular time periods are the same as the second 
+regular time intervals.
+A method according to any of claims 1 - 2, 
+characterized in
+
+that in the calculation of the third value (F
+n
+) for a channel
+(n), to which an arrived data packet belongs, the third value is
+
+a change of the first value (L
+n
+) of the channel (n) in a second
+direction opposite to the first direction.
+A method according to any of claims 1 - 3, 
+characterized in
+
+that the first step (M·D
+m
+) for the change of the first value (L
+m
+)
+for a channel (m) is individual for each channel (m).
+A method according to any of claims 1 - 4, 
+characterized in
+
+that as the first step (M·D
+m
+) for the change of the first value
+(L
+m
+) for a channel (m) the product is calculated of the number
+(M) of channels and a fourth predetermined value (D
+m
+), which can
+be individual for each channel.
+A method according to any of claims 1 - 5, 
+characterized in
+
+that when a change of a first value (L
+m
+) by the predetermined
+first step (M·D
+m
+) should have caused, that this first value (L
+m
+)
+would have changed its sign, said first value (L
+m
+) is set equal
+to zero in such a way, that all first values (L
+i
+) always have the
+same sign and/or are equal to zero.
+A method according to any of claims 1 - 6, 
+characterized in
+
+that in the calculation of the third value (F
+n
+) also a fourth
+predetermined value (D
+n
+) is used, which in particular is
+individual for each channel.
+A method according to any of claims 1 - 7, 
+characterized in
+
+that the third value (F
+n
+) for a channel (n) is calculated as the
+difference between or the sum of the first value (L
+n
+) for this
+channel and a predetermined function of the number of data
+
+packets, which have arrived on the transmission line, since the
+first value (L
+n
+) for this channel n was last changed, or of the
+number of second time intervals respectively elapsed since the
+
+first value (L
+n
+) for this channel (n) was last changed. 
+A method according to claim 8, 
+characterized in
+ that the
+predetermined function is the product of a fourth predetermined
+
+value (D
+n
+), which may be individual for each channel.
+A method according to any of claims 1 - 8, 
+characterized in
+
+that in the case where a data packet belonging to a channel (n)
+is preserved and forwarded, the first value (L
+n
+) is changed for
+this channel by a second predetermined step (I
+n
+), which may be
+individual for each channel.
+A method according to claim 10, 
+characterized in
+ that the
+first predetermined step (M·D
+n
+) and the second predetermined step
+(I
+n
+) have different signs.
+A method according to any of claims 1 - 11, 
+characterized in
+
+that when, in the calculation of the third value (F
+n
+) for a
+channel (n) a value is obtained, which is given an opposite sign
+
+compared to the sign of the first value (L
+n
+) for this channel,
+the first value (L
+n
+) for this channel is changed in such a way,
+that in a new calculation of the third value (F
+n
+) by means of
+this modified first value (L
+n
+) the third value (F
+n
+) is given a
+value equal to zero.
+A device for monitoring the flow of data packets on a
+transmission line having a number (M) of channels, each channel
+
+(i) being associated with a first value (L
+i
+) and a second value
+(T
+i
+), 
+characterized by
+means provided for each channel for storing a first value (L
+i
+)
+and for storing a second predetermined value (T
+i
+),
+control circuits comprising changing means for changing, in
+regular successive first time intervals (Δt) and in a first
+
+direction the first value (L
+m
+) by a first predetermined step
+(M·D
+i
+), the control circuits being arranged to perform these
+changes in a cyclic order for all channels,
+the control circuits being arranged to decide for each arrived
+data package the channel (n), to which the packet belongs,
+the control circuits comprising calculating means for
+calculating a third value (F
+n
+) based on the first value (L
+n
+) for
+this channel and also based on one of: 
+
+
+the number of data packets, which have arrived on the
+transmission line, after the first value for this channel (n)
+
+was last changed, and
+in the case where the transmission on the line is time
+divided in regular second time intervals in such a way, that the
+
+transmission of packets is always performed during such a second
+time interval, on the number of second time intervals elapsed
+
+since the first value for this channel was last changed,
+the control circuits further comprising comparison means to
+compare the calculated third value (F
+n
+) to the second
+predetermined value (T
+n
+) for the channel (n),
+the control circuits further comprising means to perform,
+depending on the result of the comparison, one of the following
+
+steps:
+
+that the data packet is discarded or marked in order to be
+possibly discarded, if further conditions are satisfied, and
+that the data packet is preserved and is forwarded,
+
+whereby it is prohibited that on any of the channels on the
+transmission line data packets are sent in intensities larger
+
+than values predetermined for each channel.
+A device according to claim 13, 
+characterized in
+ that the
+changing means are arranged to use as the regular first time
+
+successive intervals (Δt) those times, when data packets arrive
+sequentially on the transmission line in such a way, that the
+
+change by the first predetermined step (M·D
+i
+) is performed for
+each arrival of a data packet on the transmission line, or to
+
+use as the first regular time intervals (Δt) the second regular
+time intervals, respectively.
+A device according to any of claims 13 - 14, 
+characterized
+in
+ that the calculating means are arranged to give, in the
+
+calculation of the third value (F
+n
+), it a value being a change of
+the first value (L
+n
+) in a second direction opposite to the first
+direction.
+A device according to any of claims 13 - 15, 
+characterized
+in
+ that storing means are arranged for storing for each channel
+(i) a predetermined first step (M·D
+i
+) for the change of the first 
+value (L
+i
+).
+A device according to any of claims 13 - 16, 
+characterized
+in
+ that the changing means are arranged in such a way, that the
+predetermined first step for the change of the first value (L
+m
+)
+for a channel (m) is the product of the number (M) of channels
+
+and a fourth predetermined value (D
+m
+), which is stored in storing
+means for each channel.
+A device according to any of claims 13 - 17, 
+characterized
+in
+ that the changing means are arranged in such a way, that in
+the case where a change of a first value (L
+m
+) by the
+predetermined first step (M·D
+m
+) would have caused, that this
+first value (L
+m
+) would have changed its sign, this first value
+(L
+m
+) is set equal to zero in such a way, that the first values
+(L
+m
+) always have the same sign and/or are equal to zero.
+A device according to any of claims 13 - 18, 
+characterized
+in
+ that the calculating means are arranged to use, in the
+calculation of the third value (F
+n
+), also a fourth predetermined
+value (D
+n
+), which for each channel (n) is stored in storing
+means.
+A device according to claim 13, 
+characterized in
+ that the
+calculating means are arranged to calculate the third value (F
+n
+)
+for a channel (n) as the difference between or the sum of the
+
+first value (L
+n
+) for this channel and a predetermined function of
+the number of data packets, which have arrived on the
+
+transmission line since the first value (L
+n
+) for this channel (n)
+was last changed, or the number of second time intervals
+
+respectively elapsed since the first value (L
+n
+) for this channel
+(n) was last changed.
+A device according to claim 20, 
+characterized in
+ that the
+calculating means are arranged to use as the predetermined
+
+function the product of a fourth predetermined value (D
+n
+) stored
+in storing means for this channel (n).
+A device according to any of claims 13 - 21, 
+characterized
+in
+ that the control circuits further contain changing means to
+change, in the case where a data packet belonging to a channel
+
+(n) is preserved and forwarded, the first value (L
+n
+) for this
+channel by a second predetermined step (I
+n
+), which is stored in
+storing means.
+A device according to claim 22, 
+characterized in
+ that the
+first predetermined step (M·D
+n
+) and the second predetermined step
+(I
+n
+) have different signs.
+A device according to any of claims 13 - 23, 
+characterized
+in
+ that in the case where in the calculation of the third value
+(F
+n
+) a value is obtained, which is given an opposite sign
+compared to the sign of the first value, the first value (L
+n
+) is
+changed for this channel in such a way, that in a new
+
+calculation of the third value (F
+n
+) by means of this modified
+first value (L
+n
+) the third value (F
+n
+) is given a value equal to
+zero.
+</CLAIMS>
+</TEXT>
+</DOC>

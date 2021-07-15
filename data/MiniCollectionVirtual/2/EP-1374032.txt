@@ -1,0 +1,90 @@
+<DOC>
+<DOCNO>EP-1374032</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+LOW LATENCY FIFO CIRCUITS FOR MIXED ASYNCHRONOUS AND SYNCHRONOUS SYSTEMS
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04L700	G06F1338	G06F506	G06F508	G06F510	G06F514	H04L700	G06F1338	G06F1342	G06F1342	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04L	G06F	G06F	G06F	G06F	G06F	H04L	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04L7	G06F13	G06F5	G06F5	G06F5	G06F5	H04L7	G06F13	G06F13	G06F13	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A FIFO design interfaces a sender subsystem and a receiver subsystem operating on different time domains. The sender subsystem and the receiver subsystem may be synchronous or asynchronous. The FIFO circuit includes a put interface configured to operate in accordance with the sender time domain and get interface configured to operate in accordance with the receiver time domain. The FIFO circuit includes an array of cells having a register and state controller indicative of the state of the cell. Each cell also has a put component part configured to operate according to the sender time domain including a put token passing circuit and put controller circuit. Each cell has get component part configured to operate according to the receiver time domain including a get token passing circuit and a get controller circuit. A mixed-clock relay station design interfaces a sender subsystem and a receiver subsystem working at different time domains, and where the latency between sender and receiver is large.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+UNIV COLUMBIA
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+THE TRUSTEES OF COLUMBIA UNIVERSITY IN THE CITY OF NEW YORK
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+CHELCEA TIBERIU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NOWICK STEVEN M
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+CHELCEA, TIBERIU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NOWICK, STEVEN, M.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This application claims priority to U.S. Provisional Patent Application entitled "Low-Latency FIFO For Mixed-Clock Systems," Serial No. 60/210,642, which was filed on June 9, 2000, which is incorporated by reference in their entirety herein.This invention relates to FIFO circuits, and more particularly to low latency FIFO designs that interface subsystems working at different speeds and that may be synchronous or asynchronous, and between subsystems with very long interconnection delays.A trend in VLSI is increasingly towards a "system-on-a-chip" involving many clock domains. A challenging problem is to robustly interface these domains. There have been few adequate solutions, especially ones providing reliable low-latency communication.There are two fundamental challenges in designing systems-on-a-chip. A first challenge concerns systems operating under different timing assumptions. These timing assumptions include different clock speeds, as well as both synchronous and asynchronous environments. A second challenge concerns designs having long delays in communication between systems.A number of FIFO circuits and components have been developed to handle timing discrepancies between subsystems. Some designs are limited to handling single-clock systems. These approaches have been proposed to handle clock skew, drift and jitter (R. Kol et al., "Adaptive Synchronization for Multi-Synchronous System." IEEE International Conference on Computer Design (ICCD'98), pp.188- 189, October 1998; and M. Greenstreet, "Implementing a STARI Chip," Proceedings IEEE International Conference on Computer Design (ICCD). pp. 38-43, 1995). To handle long interconnect delays, "latency-insensitive protocols" have been proposed (L. Carloni at al., "A Methodology for Correct-by-Construction Latency Insensitive Design," ICCAD, 1999); however their solution was limited to a single clock domain.Several designs have also been proposed to handle mixed-timing domains. One category of design approaches attempts to synchronize data items and/or control signals with the receiver, without interfering with its clock. In particular. Seizovic robustly interfaces asynchronous with synchronous environments through a "synchronization FIFOn. (J.Seizovic, "Pipeline Synchronization," Proceedings International Symposium on Advanced Research in Asynchronous Circuits and Systems, pp. 87-96, November 1994) . However, the latency of this design is proportional with the number of FIFO stages, whose implementation include expensive synchronizers.
+</DESCRIPTION>
+<CLAIMS>
+A FIFO circuit (100; 200; 300; 500; 600; 700) which interfaces the transmission of data items between a sender subsystem operating under a first time domain and a receiver subsystem operating under a second time domain, wherein the first time domain and the second time domain are different and at least one of the time domains operates according to a clock signal, the FIFO circuit comprising:
+
+a put interface (10; 40) configured to operate according to the first time domain comprising a put data bus (16; 46) to transmit a data item from the sender subsystem and a put data request input (14; 44) to receive a put request from the sender subsystem to enqueue the data item from the put data bus (14; 46);
+a get interface (20; 50) configured to operate according to the second time domain comprising a get data bus (26; 56) to transmit the data item to the receiver subsystem and a get data request input (24; 54) to receive a get request from the sender subsystem to dequeue the data item to the get data bus (26; 56); and
+an array of cells (170; 270; 370; 570; 670; 770), each cell comprising:
+
+a register (191; 291; 391) configured to receive the data item from the put data bus (16; 46) and to transmit the data item to the get data bus (26; 56);
+a state controller configured to provide an indication of the full or empty state of the cell;
+a put component configured to operate according to the first time domain to receive a put token from a first adjacent cell, to latch the data item received from the put data bus (16; 46) to the register (191: 291; 391) based on the put request, the put token, and the state of the cell and to pass the put token to a second adjacent cell; and
+a get component configured to operate according to the second time domain to receive the get token from the first adjacent cell, to dequeue
+ the data item from the register (191; 291; 391) to the get data bus (26; 56) based on the get request, the get token, and the state of the cell, and pass the get token to the second adjacent cell.
+The FIFO circuit (100; 200; 300; 500; 600; 700) of claim 1, wherein the put interface (10) is synchronous and controlled by a first clock signal (12), and the put interface (10) further comprises:
+
+a full detector which produces a global full signal (18) synchronized with the first clock signal (12) which is asserted when fewer than a predetermined number of consecutive cells in the array of cells (170; 270; 370: 570; 670; 770) are in an empty state; and
+a put controller (176; 376; 576; 776) configured to deliver the put request (14) to the put component of each cell in the array of cells (170; 270; 370; 570; 670; 770) when the global full signal (7.8) is not asserted.
+The FIFO circuit (100; 200; 300; 500; 600; 700) of claim 2, wherein the put component of each cell in the array of cells (170; 270; 370; 570; 670; 770) further comprises:
+
+a synchronous latch enabled by the put request to pass the put token to the second adjacent cell;
+a circuit configured to signal the state controller to provide an indication de-asserting an empty state of the cell in response to the put request and the put token.
+The FIFO circuit (100; 200; 300; 500; 600; 700) of claim 2, wherein the register (191: 291; 391) is enabled by the put request (14) to receive the data item.
+The FIFO circuit (100; 200; 300; 500; 600; 700) of claim 2, wherein the get interface (20) is synchronous and controlled by a second clock signal (22), and the get interface (20) further comprises:
+a first empty detector (120) which produces a first global empty signal (122) synchronized with the second clock signal (22) which is asserted when fewer than a predetermined number of consecutive cells in the array of cells (170; 270; 370; 570; 670; 770) are in a full state;
+a second empty detector (130) which produces a second global empty signal (132) and which comprises: a circuit which produces a first intermediate signal that is asserted when none of the cells in the array of cells (170; 270; 370; 570; 670; 770) are in the full state; a first and second latch (134; 136) which synchronize the first intermediate signal with the second clock signal (22): and a combination element which combines a second intermediate signal with the first intermediate signal between first latch (134) and the second latch (136), wherein the second global empty signal (132) is the first intermediate signal when the second intermediate signal is de-asserted and the second global empty signal (132) is the second intermediate signal when the second intermediate signal is asserted; and
+a get controller (178; 278; 578; 678) configured to deliver the get request (24) to the get component of each cell in the array of cells (170; 270; 370; 570; 670; 770) when one the first global empty signal (122) and the second global empty signal (132) is de-asserted.
+The FIFO circuit (100; 200; 300; 500 ; 600; 700) of claim 5, wherein the get component of each cell in the array of cells (170; 270; 370; 570; 670; 770) further comprises:
+
+a synchronous latch enabled by the get request (24) to pass the get token to the second adjacent cell: and
+a circuit configured to signal the state controller to provide an indication de-asserting a full state of the cell in response to the get request and the get taken.
+The FIFO circuit (100; 200; 300; 500; 600; 700) of claim 5,
+ wherein the register (191; 291; 391) is enabled by the get request (24) and the get token to transmit the data item to the get data bus (26).
+The FIFO circuit (100; 200; 300; 500; 600; 700) of claim 2, wherein the get interface (50) is asynchronous, and the get component of each cell in the array of cells (170; 270; 370; 570; 670; 770) comprises a get token passing circuit configured to receive the get token in the respective cell in the array of cells (170; 270; 370; 570; 670; 770) in response to a signal from the first adjacent cell indicative of dequeueing the data item from the register (191; 291; 391) of the first adjacent cell to the get data bus (56).
+The FIFO circuit (100; 200; 300; 500; 600; 700) of claim 8, wherein the register (191; 291; 391) is enabled by the get token to dequeue the data item to the get data bus (56).
+The FIFO circuit (100; 200; 300; 500; 600; 700) of claim 9, wherein the get interface (50) further comprises a get acknowledgement signal (55) and the get component further comprises a get control circuit enabled by the get token, the get request, and the full state of the cell to signal the state controller to reset the state of the cell (170; 270; 370; 570; 670; 770), to assert the get acknowledgement signal.
+The FIFO circuit (100; 200; 300; 500; 600; 700) of claim 10, wherein the get control circuit is disabled by de-assertion of the get request to pass the get token to the second adjacent cell.
+The FIFO circuit (100; 200; 300; 500; 600; 700) of claim 1, wherein the put interface (40) is asynchronous, and the put component of each cell in the array of cells (170; 270; 370; 570; 670; 770) comprises a put token passing circuit configured to receive the put token into the
+ respective cell in the array of cells (170; 270; 370; 570; 670; 770) in response to a signal from the first adjacent cell indicative of latching the data item from the put data bus (46) to the register (191; 291;391) of the first adjacent cell.
+The FIFO circuit (100: 200; 300; 500; 600: 700) of claim 12, wherein the put interface (40) further provides a put acknowledgement signal (45) and the put component further comprises a put control circuit enabled by the put token, the put request, and the empty state of the cell to enable the register (191; 291: 391) to receive the data item from the put data bus (46), to signal the state controller to provide an indication of the resetting of the state of the cell, and to assert the put acknowledgement signal.
+The FIFO circuit (100; 200; 300; 500; 600; 700) of claim 12, wherein the put control circuit is disabled by de-assertion of the put request to pass the put token to the second adjacent cell.
+The FIFO circuit (100; 200; 300; 500; 600; 700) of claim 12, wherein the second time domain is synchronous and controlled by a second clock signal (22), and the get interface (20) further comprises:
+
+a first empty detector (120) which produces a first global empty signal (122) synchronized with the second clock signal (22) which is asserted when fewer than a predetermined number of consecutive cells in the array of cells (170; 270; 370; 570; 670; 770) are in the full state;
+a second empty detector (130) which produces a second global empty signal (132) and which comprises: a circuit which produces a first intermediate signal that is asserted when none of the cells in the array of cells (170; 270; 370; 570; 670; 770) are in the full state; a first and second latch (134; 136) which synchronize the first intermediate signal with the second clock signal (22); and a combination element which
+ combines a second intermediate signal with the first intermediate signal between first latch (134) and the second latch (136), wherein the second global empty signal (132) is the first intermediate signal when the second intermediate signal is de-asserted and the second global empty signal (132) is the second intermediate signal when the second intermediate signal is asserted; and
+a get controller (178; 278; 578; 678) configured to deliver the get request (24) to the get component of each cell in the array of cells (170; 270; 370; 570; 670; 770) when one the first global empty signal (122) and the second global empty signal (132) is de-asserted.
+The FIFO circuit (100; 200; 300; 500; 600; 700) of claim 15, wherein the get component of each cell in the array of cells (170; 270; 370; 570; 670; 770) further comprises:
+
+a synchronous latch enabled by the get request (24) to pass the get token to the second adjacent cell; and
+a circuit configured to signal the state controller to provide an indication of the empty state of the cell in response to the get request and the get token.
+The FIFO circuit (100; 200; 300; 500; 600; 700) of claim 16, wherein the register (191; 291; 391) is enabled by the get request (24) and the get token to transmit the data item to the get data bus (26).
+</CLAIMS>
+</TEXT>
+</DOC>

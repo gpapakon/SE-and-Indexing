@@ -1,0 +1,210 @@
+<DOC>
+<DOCNO>EP-0645643</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Adaptive track loop bandwidth reduction in cluttered scenes
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G01S378	H04N5232	H04N5232	G01S3781	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G01S	H04N	H04N	G01S	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G01S3	H04N5	H04N5	G01S3	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A tracking system and method that achieves track loop bandwidth reduction and 
+analyzes scene information from an expanded area around a tracked 
+
+target. Objects in 
+the scene that may interfere with the target and cause degraded 
+
+tracking performance are 
+tracked (12) to determine the level of likely perturbation of a 
+
+primary tracker (11) due to 
+interference. The present invention predicts the time (37) at which 
+
+interference due to clutter 
+objects will occur and the estimated time duration of the interference. 
+
+The present 
+invention uses this information to determine and variably adjust (13) 
+
+the bandwidth of a 
+track loop to prevent track loss while detecting and tracking maneuvers 
+
+of the target. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+HUGHES AIRCRAFT CO
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+HUGHES AIRCRAFT COMPANY
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+CHODOS STEVEN L
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GROVES GILLIAN K
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+STEPHAN LARISA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+CHODOS, STEVEN L.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GROVES, GILLIAN K.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+STEPHAN, LARISA
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates generally to video tracking systems, and more
+particularly, to an improved video tracking system that employs clutter detection
+wherein target information and scene objects are used to automatically decrease the
+system bandwidth to reduce perturbations from clutter during interference.Conventional video trackers detect clutter on a very local level and enter into a
+"coast" state by setting the system bandwidth (gain) to zero for a period of time during
+expected interference, using a previously computed target rate estimate to predict the
+target position during the time period. Target maneuvers during a coast event may
+cause the target to be lost irreparably.Kalman filters and extended Kalman filtering are used in some video tracking
+systems to automatically change the system bandwidth (gain) according to changes in
+target position measurements. Typical Kalman filters vary the bandwidth depending on
+how well the target position measurements match dynamic model predictions. When
+the match is good, the bandwidth is reduced, thus, measurements are weighted less.
+When the match is poor, the bandwidth is increased and the model parameters are
+updated for the new measurements. Unless the Kalman filter is augmented for predicted
+interference, the filter updates the model parameters during the interference period,
+exactly the opposite of what is desired. Thus, Kalman filters actually increase the
+bandwidth during perturbations. Kalman filtering cannot estimate the length of the
+interference, and must rely on target position measurements alone to drive the
+bandwidth back to normal. In the PATENT ABSTRACTS OF JAPAN, VOL 16, NO 109 (P-1326),
+17 March 1992 & JP-A-03 282 387 (Yamada) there is disclosed
+a tracking processor with the object to prevent mistracking
+and accurately track a real target by tracking a clutter
+with clutter position information obtained by comparing
+target position information with clutter prediction
+position information in a clutter area.In this tracking processor a clutter area decision part
+outputs target position data Ri and thetai, received from a
+target data buffer, to a wake target correlation part when
+the target position data Ri and thetai are outside the
+preset clutter area or to a clutter tracking part when they
+are inside the clutter area. A tracking part compares the
+data Ri and thetai with the clutter prediction positions
+Rcpi-1 and thetacpi-1 from a clutter tracking buffer, and
+outputs target position data Xi and Yi as a clutter to a
+clutter
+</DESCRIPTION>
+<CLAIMS>
+A clutter detection and target tracking system for
+processing video signals indicative of a primary target
+
+(27) and a clutter object (28) located in the vicinity of
+the target (27), said system comprising:
+
+
+a primary target tracker (11) for processing the video
+signals to produce position signals indicative of the
+
+position of the primary target (27) within a track gate
+(29);
+a multi-target tracker (12) for processing the video
+signals to detect clutter objects (28) and for computing
+
+position and velocity data relating thereto relative to the
+primary target (27);
+prediction means (37) for processing the position and
+velocity data to predict interference between the primary
+
+target (27) and the clutter object (28);
+frequency computation means (38) for calculating an
+open-loop crossover frequency, f
+C
+, corresponding to the
+predicted interference;
+adjusting means (39) for adjusting track loop gains
+using the calculated open-loop crossover frequency; and
+a track loop (13) for processing the position signals
+from the primary target tracker (11) and the track loop
+
+gains adjusted by the adjusting means (39) to maintain
+track of the primary target (27) in the presence of the
+
+clutter object (28).
+The system of Claim 1 wherein the multi-target tracker
+(12) comprises:
+
+
+means (32) for detecting the clutter objects (28)
+located outside the track gate (29); 
+means (34) for correlating the detected clutter
+objects (28) with clutter objects (28) stored in a track
+
+file database (35); and
+means (36) for updating the position and velocity data
+of the de
+tected clutter object (28).
+The system of Claim 1
+
+wherein the primary target tracker (11) is an in-raster
+target tracker, and
+wherein the track loop (13) generates a position gate
+(29) for the in-raster target tracker.
+The system of Claim 1
+
+wherein the primary target tracker (11) is a closed
+loop target tracker, and
+wherein the track loop (13) generates a rate command
+for a gimbal in the closed loop target tracker.
+A method for use with a target tracking system that
+
+reduces perturbations from clutter objects (28) during
+interference between the clutter objects (28) and a primary
+
+target (27), said method comprising the steps of:
+processing (step 31) video signals in a primary target
+tracker (11) to generate a position signal indicative of
+
+the position of the target (27) in a track gate (29);
+processing (step 32) the video signals in a multi-target
+tracker wherein objects (28) outside the track gate
+
+are detected;
+predicting (step 37) an amount of interference and a
+time of interference between the target (27) and the
+
+clutter object (28);
+calculating (step 38) an open-loop crossover frequency
+below which tracking of the target (27) will not be lost;
+adjusting (step 39) track loop gains using the
+calculated open-loop crossover frequency; 
+processing the position signal indicative of the
+position of the target (27) and the adjusted track loop
+
+gains in a track loop (13) that maintain track of the
+primary target (27) in the presence of the clutter object
+
+(28).
+The method of Claim 5 wherein the step of processing
+the video signals in the multi-target tracker comprises the
+
+steps of:
+
+correlating (step 34) clutter objects detected outside
+the track gate (29) with clutter objects (28) contained in
+
+a track file database (35); and
+updating (step 36) the position and velocity of the
+clutter objects (28).
+The method of Claim 5 wherein the step of processing
+using the track loop (13) generates a position gate (29)
+
+for an in-raster primary target tracker.
+The method of Claim 5 wherein the step of processing
+using the track loop (13) generates a rate command for a
+
+gimbal in a closed loop primary target tracker.
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,189 @@
+<DOC>
+<DOCNO>EP-0961211</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Database method and apparatus using hierarchical bit vector index structure
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1730	G06F1730	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F17	G06F17	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A database having fixed length records stored together in record number order and an
+index structure for the database. The index structure comprises a separate index for each
+
+searchable field of the records. For purposes of indexing, the records are logically divided into
+fine slices of 8,000 records each, and the fine slices are grouped into coarse slices of 4,000 fine
+
+slices each. The indexes include fine and coarse keys, each of which corresponds to a particular
+data value and a particular fine or coarse slice. Associated with each key is a link that is used to
+
+determine which records contain the data value. For the fine keys, the link includes a pointer to a
+bit vector that has a single bit for each of the records within the fine slice associated with the key.
+
+For the coarse keys, the link includes a pointer to a bit vector that has a single bit for each of the
+fine slices contained in the coarse slice. The coarse bit vector comprises two bit vectors, one that
+
+identifies which of the fine slices within the coarse slice contains any records having the data
+value and one that identifies which fine slices, if any, contain the data value in every one of its
+
+records. The keys are stored in a B-tree in order of a unique key value so that they are processed
+in record number order and the resulting list of records for any query is generated in record
+
+number order.
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+INFORMATION SYSTEMS CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INFORMATION SYSTEMS CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+VAGNOZZI PAUL P
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+VAGNOZZI, PAUL P.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates in general to techniques for storing and retrieving data on
+digital computers, and in particular, to an improved method and apparatus for fast storage
+and retrieval of data from very large databases using multiple retrieval keys and complex
+retrieval criteria.As the processing speed and storage capacity of digital computers continues to
+increase, so does their suitability for management of very large databases. To be useful, a
+database typically needs to be searchable so that a user can perform keyword searching of
+the database and retrieve information associated with the keywords. For large databases,
+linear searching of the data for keywords is typically too time consuming to be useful.
+Consequently, large databases are often indexed to provide fast query processing and
+retrieval of data.As is known, in most databases, data is organized logically and often physically
+into individual fields within a record, with each record representing a collection of data
+about an object such as a patient, a vehicle, or a document, and each field within the
+record containing a different item of data about the object, such as the patient's last name,
+first name, age, gender, etc. To provide flexibility, the database management program
+must not only permit single keyword searches of the data fields, but must support more
+complex queries, including boolean expressions (e.g., AND, OR, NOT) of keywords. Often, a database will include both high and low cardinality data; that is, the
+database will include types of data that can have many different values as well as types of
+data that will have very few different values. Examples of low cardinality data include a
+person's gender (male or female), political party affiliation, or the make of a vehicle.
+Examples of high cardinality data include such things as last names, birth dates, vehicle
+identification numbers (VIN), and social security numbers (SSN), the last two of which
+will likely include a unique value in every record in the database. For optimum
+flexibility, a database index must permit efficient searching for both high and low
+cardinality data. However, typical storage methods are designed and optimized for
+retrieval of high cardinality data only, using single or compound key indexes.One way of indexing a database is through the use of keys that provide a fast way
+to locate specific items of data within the database. These keys are used by a database
+management program to locate and retrieve records from the database that contain the
+data
+</DESCRIPTION>
+<CLAIMS>
+A computer-readable memory for storing a database and indexes used to locate
+data within the database, comprising
+
+   a non-volatile data storage device;
+
+   a database comprising a plurality of records (22) stored on said data storage device in a
+computer-readable format, each of said records having a number of data fields (24, 26) with at
+
+least some of said data fields having a data value stored therein;
+
+   wherein said records are logically separated into groups of records with each
+group containing a preselected maximum number n of records, and wherein said groups
+
+of records are logically organized into one or more sets, with each set containing a
+preselected maximum number m of groups, whereby each set contains a maximum of
+
+n*m records;
+
+   a plurality of indexes (30), each of which is associated with a different one of said data
+fields and each of which comprises a number of keys (44) associated with said one data field,
+
+whereby at least some of said data fields are indexed;
+
+   wherein each of said data values that are stored within an indexed data field has
+one or more fine keys and one or more coarse keys associated therewith, wherein said
+
+fine keys are each associated with one of said groups and at least some of the fine keys are associated with a fine bit vector that
+identifies which of th
+e records contained within that group include the data value
+associated with that key, and wherein said coarse keys are each associated with one of
+
+said sets and at least some of the coarse keys are associated with a coarse bit vector that identifies which of said groups include at least
+one record having stored therein the data value associated
+
+with that key. 
+A computer-readable memory as defined in claim 1, wherein said database
+includes a certain number k of records, wherein k 
+>
+ n and wherein all of said k records
+are physically maintained on said data storage device as a single file, whereby more than
+
+one group of records are stored together as a single file.
+A computer-readable memory as defined in claim 2, wherein all of said records
+of said database are stored in a single file.
+A computer-readable memory as defined in claim 1, wherein said indexes
+include a link for each key in the index, whereby each of said links is associated with a
+
+data value, and wherein at least some of said links each indicate the location of one of
+said bit vectors.
+A computer-readable memory as defined in claim 4, wherein said keys include
+a first portion that identifies whether it is a group key or a set key, a second portion that
+
+identifies the group or set to which it corresponds, and a third portion that indicates the
+data value to which it corresponds.
+A computer-readable memory as defined in claim 5, wherein said keys are
+stored in order based upon the contents of said first, second, and third portions.
+A computer-readable memory as defined in claim 5, wherein said first portion
+comprises the left most portion of each key, said second portion comprises the middle
+
+portion of each key, and said third portion comprises the right-most portion of each key.
+A computer-readable memory as defined in claim 7, wherein said first portion
+comprises a single bit. 
+A computer-readable memory as defined in claim 4, wherein each of said fine
+keys is associated with a fine link and wherein at least some of said fine links each
+
+provide a pointer to a corresponding one of said fine bit vectors.
+A computer-readable memory as defined in claim 9, wherein at least one
+other of said fine links identifies a single record within the group of records associated
+
+with that fine link.
+A computer-readable memory as defined in claim 10, wherein each of said
+fine links includes at least one bit that indicates whether the link includes a pointer to a
+
+bit vector or an identifier of said single record.
+A computer-readable memory as defined in claim 4, wherein each of said
+coarse keys is associated with a coarse link and wherein at least some of said coarse links
+
+each provide a pointer to a corresponding one of said coarse bit vectors.
+A computer-readable memory as defined in claim 12, wherein at least one
+other of said coarse links identifies a single group within the set of groups associated with
+
+that coarse link.
+A computer-readable memory as defined in claim 13, wherein each of said
+coarse links includes at least one bit that indicates whether the link includes a pointer to a
+
+bit vector or an identifier of said single group.
+A computer-readable memory as defined in claim 13, wherein each of the
+ones of said coarse links that identify a single group include at least one bit that identifies
+
+whether or not all of the records within that single group contain the data value associated
+with the coarse link.
+A computer-readable memory as defined in claim 1, wherein each of said
+indexes are stored as a B-tree. 
+A computer-readable memory as defined in claim 16, wherein said B-tree
+includes a root node, a plurality of intermediate nodes, and a plurality of leaves and
+
+wherein some of said keys are stored at said leaves and others of said keys are stored at
+said root and intermediate nodes.
+A computer-readable memory as defined in claim 1, wherein said non-volatile
+data storage device comprises a plurality of fixed magnetic disk drives, wherein said
+
+database is stored as a single file that spans at least two of said fixed magnetic disk
+drives.
+A computer-readable memory as defined in claim 1, wherein said indexes are
+each stored in a separate file on said non-volatile data storage device.
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,162 @@
+<DOC>
+<DOCNO>EP-0625758</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Natural language processing system.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1727	G06F1727	G06F1728	G06F1728	G06F1730	G06F1730	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F17	G06F17	G06F17	G06F17	G06F17	G06F17	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A B-tree 21 is used to store natural language data, for example as 
+part of a speech recognition or speech synthesis system. The B-tree is 
+
+arranged in a hierarchy, with each node pointing to two nodes in the 
+level below. Each node contains a test value (a word), and data relating 
+
+to that test value (or a reference to a storage location where the data 
+is maintained). The data is accessed by starting at the top of the tree 
+
+and comparing the desired word with the test value for that node. 
+Depending on the relative alphabetical ordering of the desired word and 
+
+the test value, the appropriate branch from that node is followed. This 
+process is continued down the tree until a test value corresponding to 
+
+the desired word is located. The B-tree is arranged so that frequency of 
+occurrence of the test values in natural language decreases substantially 
+
+monotonically as the tree is descended. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+SHARMAN RICHARD
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SHARMAN, RICHARD
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a natural language processing 
+system including a B-tree structure. There are many applications in which it is necessary to store some 
+form of dictionary of words for automatic processing. For example, in a 
+voice response system, the entry for each word might be a digital 
+recording of that word. Thus if the system was being used to speak out or 
+articulate a text passage, the dictionary would be referred to as each 
+word in the text was encountered in order to obtain the correct 
+pronunciation. A corresponding situation also occurs in an automated speech 
+recognition system. As a first stage in such a system, incoming sounds 
+are converted into words. However, it is often not possible to identify 
+the word exactly, either because it was not pronounced distinctly enough, 
+or because close or even exact homophones exist (eg "too" and "two"; 
+"guessed" and "guest"). In such circumstances, it is necessary to utilise 
+additional information held in the dictionary - for example, testing the 
+relative frequency of the candidate words, or their context, based on 
+preceding words or some grammatical model. Thus in this example each 
+dictionary entry might hold information about the frequency of that word 
+compared to other words, and possibly about the sort of words that 
+typically precede that entry in normal text. There are many other 
+applications where such a dictionary would also be valuable, for example 
+in a spell-checking facility, or in an automatic translation system, and 
+so on. In natural language (ie language as used in normal communications), 
+the number of words can easily run into hundreds of thousands (words such 
+as "walk", "walks", walked", "walking" all need individual entries). This 
+leads to the technical problem of how to store the dictionary in a 
+machine. Since many of the applications described above need to operate 
+in real-time, there is a particular requirement to minimise access time 
+to individual dictionary entries.  There is a considerable literature on database storage: eg "An 
+Introduction to Database Systems: Vol 1", by C J Date, Addison Wesley, 
+1990 (5th edition), "Database System Concepts", by H F Korth and A 
+Silberschatz, McGraw-Hill, 1991 (2nd edition), and "Algorithms + Data 
+Structures = Programs", by N Wirth, Prentice Hall, 1976. The two most 
+commonly employed access schemes are (i) a hashing technique, and (ii) a 
+B-tree. In hashing, the storage location of a record (in our context, a 
+record corresponds to an entry in the
+</DESCRIPTION>
+<CLAIMS>
+A natural language processing system including a B-tree (21) formed 
+from a hierarchy of nodes (22, 24, 26), each node containing at least one 
+
+test word and storing or referencing data associated with the test 
+word(s), and each node (except at the bottom of the hierarchy) 
+
+referencing a plurality of nodes in the next level down the hierarchy, 
+   and characterised in that the nodes are arranged such that in 
+
+descending down a branch of the B-tree, the frequency of occurrence in 
+natural language of the test word(s) in the nodes decreases substantially 
+
+monotonically. 
+A natural language processing system as claimed in claim 1, wherein 
+the B-tree has a binary structure, each node containing a single test 
+
+value. 
+A natural language processing system as claimed in claim 1 or claim 
+2, wherein for any pair of first and second nodes having a substantially 
+
+equal frequency of occurrence in natural language, in which the first 
+node references the second one in the next lower level of the hierarchy, 
+
+the relative positions of the first and second nodes are arranged to 
+optimise balancing of the tree. 
+A natural language processing system as claimed in any preceding 
+claim, wherein for each test word in a node a secondary B-tree (250) is 
+
+referenced, the secondary B-tree also being frequency ordered and storing 
+information on the frequency of occurrence in natural language of bigrams 
+
+containing said test word. 
+A natural language processing system as claimed in claim 4, in 
+which the secondary B-tree stores each test word in the form of a 
+
+reference back to node in the primary B-tree containing the same test 
+word. 
+A method of creating a B-tree for use in a natural language 
+processing system, the B-tree comprising a hierarchy of nodes, each node 
+
+containing a test word and storing or referencing data associated with 
+that test word, and each node (except at the bottom of that branch of the 
+
+hierarchy) referencing a plurality of nodes in the next level down, said 
+method comprising the steps of:
+
+ 
+   locating a search word within the B-tree, and if a node is found 
+
+whose test word matches the search word, modifying the data for that 
+node, and if the search word is not found, adding a new node having the 
+
+search word for its test word at the bottom of the B-tree; and 
+   returning out of the tree from the matched or newly added node by 
+
+ascending a level at a time, and at each level comparing the current node 
+with the node just ascended from according to predetermined criteria, and 
+
+if said predetermined criteria are met, rearranging the branch of the 
+tree containing said current node, 
+
+   and characterised in that said predetermined criteria comprise 
+whether the frequency of occurrence in natural language of the test word 
+
+of the current node is less than that of the test word in the node just 
+ascended from. 
+A method as claimed in claim 6, wherein if the frequency of 
+occurrence in natural language of the test word of the current node and 
+
+of the test word of the node just ascended from are substantially equal, 
+said predetermined criteria further comprise the disparity between the 
+
+relative depths of the different branches depending from the current 
+node. 
+</CLAIMS>
+</TEXT>
+</DOC>

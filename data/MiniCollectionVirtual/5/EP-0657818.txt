@@ -1,0 +1,214 @@
+<DOC>
+<DOCNO>EP-0657818</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Non-volatile memory chip enable signal encoding method and system
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1200	G06F9445	G06F1206	G06F1206	G11C1700	G06F1200	G06F9445	G11C1700	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G11C	G06F	G06F	G11C	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F12	G06F9	G06F12	G06F12	G11C17	G06F12	G06F9	G11C17	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A non-volatile memory chip enable encoding method allows the 
+storage of both boot code and user application software within a 
+
+common memory array. The chip enable encoding method further 
+allows a variable number of memory banks to be provided within 
+
+the non-volatile memory array and allows the system to power-up 
+and execute the boot code before the array configurations are 
+
+selected by firmware. In one embodiment, a memory controller 
+includes four chip enable output lines for selectively enabling a 
+
+plurality of ROM banks. One of the ROM banks includes boot code 
+that is executed by the system microprocessor during system boot. 
+
+If the user requires a ROM array consisting of four ROM banks, a 
+separate chip enable output line is connected to each ROM bank. 
+
+If the user instead requires a ROM array consisting of, for 
+example, eight ROM banks, an external decoder may be connected to 
+
+the four chip enable output lines. In this configuration, each 
+output line of the decoder is coupled to a respective bank enable 
+
+input line of the ROM banks. In either configuration, the chip 
+enable lines are driven in a mutually exclusive relationship 
+
+during system boot to access the boot code (stored within one of 
+the ROM banks). Subsequently, the encoding of the chip enable 
+
+signals at the chip enable output lines of the memory controller 
+is dependent upon configuration information stored in a 
+
+configuration register. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+ADVANCED MICRO DEVICES INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+ADVANCED MICRO DEVICES INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+GEPHARDT DOUGLAS D
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MACDONALD JAMES R
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GEPHARDT, DOUGLAS D.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MACDONALD, JAMES R.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to computer systems and more
+particularly to chip enable encoding methods employed by memory
+controllers for selecting individual banks of non-volatile
+memory.Most computer systems include software code in ROM or flash
+memory that allows the system to read the operating system
+software from a disk at power-up. This software code is often
+referred to as the boot-strap code or boot code, and the process
+of loading the operating system from the disk is called "booting
+the system". The boot code typically contains only enough
+software to read the operating system, which is generally stored
+on a specific track of the disk. The operating system software
+itself provides the capability of performing more general read
+and write accesses. A typical computer system includes a
+dedicated ROM integrated circuit chip referred to as the BIOS
+(Basic Input/Output System) ROM which contains the boot code and
+a collection of additional subroutines (referred to as BIOS code)
+to provide a standard software interface for the system.Due to the low cost and low power consumption of read only
+memory, ROM integrated circuits are also becoming a popular
+storage medium for user software such as word processing programs
+as well as for the operating system software. This is
+particularly true for applications within portable computer
+systems. The read only memory used to store such user software
+is typically quite large in capacity (compared to that of the
+BIOS ROM) and is often arranged as one or more ROM banks that may
+be selectively accessed through a memory controller. The memory 
+capacity of this user ROM is typically variable to suit the needs of a particular user and
+is specified within the BIOS code.Since the BIOS ROM subsystem must be accessed at power-up and before
+system configuration (that is, before the system has been booted), and since the user
+ROM subsystem has an indeterminate size (at least, as far as the memory controller is
+concerned) prior to system configuration and can be accessed only after the system
+configuration routines have completed execution, the two memory subsystems have
+typically been treated completely separately. As a result, separate integrated circuit
+chips have been used for the two memory subsystems, therefore causing an increase in
+the overall cost, weight and size of the computer system.US-A-5,005,157 discloses a chip enable encoding method for enabling selected
+memory bus within a non-volatile memory array wherein the array is coupled to a
+memory controller having a
+</DESCRIPTION>
+<CLAIMS>
+A non-volatile memory chip enable encoding method for enabling selected
+memory banks within a non-volatile memory array, wherein said non-volatile memory
+
+array is operatively coupled to a memory controller (104) including a plurality of chip
+enable output lines (CEO-CE3), said chip enable encoding method comprising the
+
+steps of:
+
+providing a plurality of memory banks (106-109, 401-408) each having a
+separate bank enable input line (120-123; 420-428); and
+depending upon the number of memory banks coupled to said memory
+controller, either:
+
+
+driving said plurality of chip enable output lines in a mutually exclusive
+relationship such that a chip enable signal is asserted at only one chip
+
+enable output line at a time to thereby enable a selected memory bank
+within said non-volatile memory array in configurations wherein said
+
+number of memory banks is less than or equal to a total number of chip
+enable output lines of said memory controller; or
+driving said plurality of chip enable output lines such that more than
+one chip enable signal is asserted at a time to thereby provide encoded
+
+information regarding a memory bank within said non-volatile memory
+array to be enabled in configurations wherein said number of memory
+
+banks is greater than a total number of chip enable output lines of said
+memory controller,
+
+characterised by: storing in a configuration register (116) configuration data
+indicative of the number of memory banks, the configuration data being derived
+
+from boot code stored in one of the memory banks, and asserting a chip enable 
+signal at only one of the chip enable output lines to thereby enable the said one
+
+of the memory banks and access the boot code.
+A method as recited in claim 1 further comprising providing said encoded
+information to an input line of an external decoder.
+A method as recited in claim 2 further comprising providing a bank enable
+output signal from an output line of said decoder to a selected memory bank of said
+
+non-volatile memory array.
+A memory controller (104) comprising:
+
+a control circuit (112) configured to control accesses of data from a non-volatile
+memory array having a plurality of memory banks (106-109, 401-408),
+a chip enable encoder (114) including a plurality of chip enable
+output lines (CEO-CE3) each dedicated to conveying a respective chip enable signal,
+
+characterized in that it comprises :
+a configuration register (116) coupled to said control circuit, wherein said
+configuration register is configured to store a value indicative of the number of
+
+memory banks (106-109; 401-408) provided within said non-volatile memory
+array; and
+in that said chip enable
+encoder (114) is coupled to said configuration register and responsive to said
+
+value, wherein said chip enable encoder
+is programmable such that:
+
+
+in a first mode of operation when said value stored within said configuration
+register indicates that a first number of memory banks is provided within said
+
+non-volatile memory array, the chip enable output lines are driven in a mutually
+exclusive relationship such that only one chip enable signal is asserted at a
+
+given time to enable any given memory bank within said non-volatile memory 
+array;
+and such that, in a second mode of operation when said value stored within
+said configuration register indicates that a second number of memory banks is
+
+provided within said non-volatile memory array, more than one chip enable
+signal is asserted at a time to thereby provide encoded information which
+
+indicates a memory bank within said non-volatile memory array to be enabled;
+
+wherein said value indicative of the number of memory banks provided
+within said non-volatile memory array is stored within said configuration
+
+register responsive to an execution of boot stored within one of said
+memory banks, and wherein said boot
+ code is accessed when a
+chip enable signal is asserted at only one of the output lines of the memory controller.
+The memory controller as recited in claim 4 wherein the configuration register
+contains a default value upon power-up of the memory controller.
+The memory controller as recited in claim 5 wherein the default value causes
+said chip enable encoder to operate in said first mode of operation.
+A computer system including the memory controller as recited in claim 4 and
+further comprising a microprocessor (102) coupled to the memory controller.
+The computer system as recited in claim 7 further comprising a decoder (410)
+provided separate from an integrated circuit chip upon which said memory controller is
+
+fabricated wherein said decoder is configured to decode said encoder information and
+to generate a decoded output signal to thereby enable said memory bank during said
+
+second mode of operation.
+The computer system as recited in claim 7 or claim 8 wherein the
+microprocessor and the memory controller are fabricated on a common integrated
+
+circuit chip.
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,570 @@
+<DOC>
+<DOCNO>EP-0632643</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Soft copy display of facsimile images.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T340	G06T340	G09G536	G09G536	G09G539	H04N140	H04N140	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	G09G	G09G	G09G	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T3	G06T3	G09G5	G09G5	G09G5	H04N1	H04N1	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Digital data defining images are stored in a multiplane 
+buffer. The buffer may store plural images by 
+
+restricting data corresponding to an image or image 
+portion to less than half the bit planes of the 
+
+buffer. An image is displayed by reading data from 
+the buffer and selectively passing only a portion of 
+
+the data read to a display. The data defining the 
+images may be converted from facsimile (single bit 
+
+per pixel) to grey scale format (multiple bits per 
+pel) before being written to the buffer. The 
+
+conversion relies on a table storing data definitive 
+of the effect, on the image, of a facsimile transition 
+
+(1/0 or 0/1) as a function of the location of 
+the transition. Conversion from facsimile to grey 
+
+scale is effected by examining the facsimile data 
+for data transitions and summing the effect of each 
+
+of the transitions to convert a segment of facsimile 
+data to grey scale data. 
+A system is also disclosed for rapidly converting an image 
+in run-end form to a reduced-resolution gray-tone image. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+MINTZER FREDERICK C
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MITCHELL JOAN L
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+PENNEBAKER WILLIAM B
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MINTZER, FREDERICK C.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MITCHELL, JOAN L.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+PENNEBAKER, WILLIAM B.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The invention relates to improvements in the field of 
+soft copy (video) display of facsimile generated 
+images such as text and/or graphics. The increasing popularity of teleconferencing has led 
+to a desire to provide for soft copy or video display 
+of images of limited or no gray scale. In many cases 
+the images will have originated as facsimile images, 
+but as will become clear hereinafter the invention is 
+applicable to any binary image, no matter how 
+generated. Typically the originals may consist of 
+textual material, either alone or in combination with 
+other symbols or images which will be collectively 
+hereinafter referred to as graphics. For convenience the resulting soft copy or video 
+display desirably complies with NTSC standards and 
+the problems imposed by the use of these standards is 
+the main problem to be overcome. More particularly, 
+an NTSC screen has a 4:3 aspect ratio, and further 
+dictates that the video may be displayed in about 480 
+vertically displaced parallel scanning lines.
+ 
+For example, 512 picture elements (or pixels) are 
+horizontally displaced along each scanning line.  On the other hand, the typical graphics image 
+originates in a document which may be 8½ x 11 or 8½ x 
+13 or 8½ x 14. If we assume that the intelligence 
+contained in the original covers about ten inches 
+vertically, and if we provide a convenient translation 
+between the original, represented by a facsimile 
+signal, to our 480 scan line video, then two results 
+follow. First, the 8½ inch width occupies only about 
+half the screen, and secondly, the typewritten text, 
+if any, is so small that it cannot be read. One solution to the problem is to provide only hard 
+copy, however, this requires that copies be made 
+before a teleconference begins (limiting spontaneity) 
+and other soft copy functions such as annotation and 
+electronically controlled pointers are not available. Another solution is to use two monitors, capture the 
+top and bottom halves as two separate images, and use 
+these two separate images to drive the two different 
+monitors. This solution necessarily admits the 
+possibility that the break (at the bottom of the 
+first image and the top of the next image) may result 
+in some information being split across the two 
+displays, the solution also requires two independent 
+displays and associated refresh buffers. It is therefore an object of the invention to provide 
+for soft copy display of such graphics images thus 
+making available typical soft copy functions such as 
+electronic annotation
+</DESCRIPTION>
+<CLAIMS>
+A computerized method for constructing from a binary 
+image in run length representation, a multi-bit 
+
+representation of said binary image, displayable in 
+multiple shades of gray and reduced in the horizontal 
+
+dimension by a horizontal reduction factor HR and/or the 
+vertical dimension by a vertical reduction factor VR, 
+
+comprising the steps of: 
+providing an accumulation register capable of holding a 
+
+given number N of sums of image pel values, each of said 
+sums having b bits of the accumulation register allocated 
+
+therefor; 
+obtaining a set of input lines forming a portion of said 
+
+image in run length representation, the number of lines 
+in said set being equal to VR; processing the run length 
+
+representations of each input line to accumulate vectors 
+of sums of pel values along said input lines, in said 
+
+accumulation register, said sums corresponding to the 
+number of pels of value 1 in each of successiv
+e groups of 
+pels along said lines, the number of pels in each of said 
+
+groups being equal to HR, and each of said vectors 
+consisting of N sums; and 
+
+totalling vectors of said sums for said set of input 
+lines to produce a displayable output line of multi-bit 
+
+totals, according to the steps of: 
+processing the first input line of said set of input 
+
+lines by, initially testing said first input line to 
+determine if said input line is composed of pels entirely 
+
+of value 0, and writing said output line entirely with 
+sums of value 0, in response to a positive determination, 
+
+and with the number of pels contributing to each sum 
+equalling said horizontal reduction factor;
+
+ 
+processing the run length representations in said first 
+
+input line from beginning to end in response to a 
+negative determination by the steps of: 
+
+further testing the beginning of the unprocessed data run 
+length representations in said first input line for a run 
+
+length and comparing said length to a count C equal to 
+the product of N and HR; determining if said length of 
+
+the run is greater than or equal to said count C, and 
+upon a positive determination, selecting and storing one 
+
+of two precomputed vectors of sums in said accumulation 
+register and writing said selected vector to said output 
+
+line, said precomputed vectors comprising N sums of value 
+0 and N sums of value HR, respectively, and said 
+
+selecting comprising testing the value of the pels 
+represented in the run and selecting the vector of N sum 
+
+of value 0 in response to 0 pel values and the vector of 
+N sums of value HR in response to pel values of 1; and 
+
+repeating said testing, determining, selecting, storing 
+and writing while the lengths of the unprocessed runs in 
+
+said input line exceed or equal said count C; 
+upon determining that said length of the run is less than 
+
+said count, accumulating a multiplicity of sums, equal to 
+N, by the steps of: 
+
+initializing said accumulation register to a precomputed 
+vector of sums Q, which when shifted by b bits per shift 
+
+up to and including N-1 times retains a most significant 
+bit of 1, but when shifted N times becomes 0; 
+
+computing sums one at a time from the beginning of the 
+unprocessed run length representations; adding each 
+
+newly-computed sum to said accumulation register;
+ 
+
+after each new sum has been added to said accumulation 
+register, testing said accumulation register to determine 
+
+if said accumulation register can accommodate another 
+sum, and shifting the contents of said register b bits to 
+
+accommodate another sum upon a positive determination and 
+writing the contents of said accumulation register to 
+
+said output line upon a negative determination; and 
+processing subsequent input lines of said set of input 
+
+lines, one at a time by, initially testing a subsequent 
+input line of said set to determine and if said 
+
+subsequent input line is entirely composed of pels of 
+value 0, and in response to a negative determination 
+
+processing the run length representations of said input 
+line from beginning to end by the steps of: 
+
+further testing the beginning of the unprocessed run 
+length representations for a run length and comparing 
+
+said length to said count C to determine if said length 
+of the run is greater than or equal to said count C, and 
+
+in response to a positive determination, when the value 
+of the pels of the run is 0, proceeding until this is no 
+
+longer true; and when the value of the pels of the run is 
+1, storing a vector of N sums of value HR in the 
+
+accumulation register and adding said vector to said 
+output line by adding its sums to the vector of partial 
+
+totals in said output line corresponding to pels in 
+earlier input lines of said set that are vertically 
+
+aligned with the pels contributing to said added sums 
+while the length of the run of unprocessed pels exceeds 
+
+or equals said count to produce a multi-bit 
+representation of said set of lines; and upon a negative 
+
+determination, accumulating a multiplicity of sums in 
+said accumulation register by the steps of: 
+
+initializing said accumulation register to Q; computing 
+sums one at a time from the beginning of the unprocessed 
+
+ 
+run-end input data run length representations; adding 
+
+each newly-computed sum to said accumulation register; 
+after each new sum has been added to said accumulation 
+
+register, testing said accumulation register to determine 
+if said accumulation register can accommodate another 
+
+sum, and shifting the contents of said register b bits to 
+accommodate another sum in response to a positive 
+
+determination, and adding the contents of said 
+accumulation register to the vector of partial totals 
+
+already stored in the output line by adding the sums in 
+said register to the partial totals in said output line 
+
+corresponding to the pels in earlier input lines of said 
+set that are vertically aligned with the pels 
+
+contributing to said added sums, in response to a 
+negative determination, to produce a multi-bit 
+
+representation of said set of lines; 
+obtaining further sets of input lines forming the 
+
+remaining portions of said image in run length 
+representation; and 
+
+repeating the processing of said remaining sets of input 
+lines of said image in accordance with the preceding 
+
+steps until all of the input lines have been 
+reconstructed into output lines forming a displayable 
+
+image in multi-bit representation representing said 
+binary image reduced in size and in multiple shades of 
+
+gray. 
+A method as in claim 1 further comprising the steps of: 
+when after testing, an input line is not entirely 
+
+composed of pels of value 0, appending a relatively long 
+run of pels of value 0 to the end of said input line; and 
+
+subsequently testing said input line for its end after 
+processing a long run of pels of value 0. 
+A method as in claim 1 or 2 further comprising the steps 
+of: deferring the writing of said output line until said 
+
+input line is not composed entirely of pels of value 0; 
+and when all input lines of a set are composed entirely 
+
+of pels of value 0 then setting a flag to so indicate. 
+A system for electronically converting a binary image in 
+run length form to a multi-bit representation, which is 
+
+displayable as an output image in multiple shades of 
+gray, reduced in the horizontal dimension by a horizontal 
+
+reduction factor HR and/or the vertical dimension by a 
+vertical reduction factor VR as compared to said binary 
+
+image, comprising: 
+means for storing a displayable multi-bit representation 
+
+of a binary image; 
+accumulation register means for holding a given number N 
+
+of sums of image pel values and having b bits allocated 
+for each of said sums; 
+
+means for obtaining a set of input lines forming a 
+portion of said image in run length representation, the 
+
+number of lines in said set being equal to VR; 
+means for processing the run length representations of 
+
+each input line to accumulate vectors of sums of pel 
+values along said input lines in said accumulation 
+
+register means, said sums corresponding to the number of 
+pels of value 1 in each of successive groups of pels 
+
+along said lines, the number of pels in each of said 
+groups being equal to HR, and each of said vectors 
+
+consisting of N sums; 
+means for totalling vectors of said sums for said set of 
+
+input lines in said register means to create a 
+displayable output line of multi-bit totals; and
+
+ 
+means for writing said output line of multi-bit totals to 
+
+said storing means; 
+said processing means comprising: 
+
+means for initially testing the first input line of said 
+set to determine if it is composed of pels entirely of 
+
+value 0; 
+means for actuating said writing means to write an output 
+
+line entirely with sums of value 0, in response to a 
+positive determination; and 
+
+means for actuating said processing means to process the 
+run length representations in said first input line from 
+
+beginning to end in response to a negative determination, 
+comprising: 
+
+means for further testing the beginning of the 
+unprocessed run-length representations in said first 
+
+input line for a run length and comparing said length to 
+
+a count C equal to the product of N and HR; 
+means for determining if said length of the run is 
+
+greater than or equal to said count C; 
+means for selecting and storing one of two precomputed 
+
+vectors of sums in the accumulation register means in 
+response to a positive determination, said precomputed 
+
+vectors comprising N sums of value 0 and H sums of value 
+HR, respectively, and said selecting comprising testing 
+
+the value of the pels represented in the run and 
+selecting the vector of N sums of value 0 in response to 
+
+0 pel values and the vector of N sums of value HR in 
+response to pel values of 1;
+
+ 
+means for actuating said writing means to write said 
+
+selected vector as an output line to said storing means, 
+upon storage in said accumulation register means; 
+
+means for reactuating said further testing means, said 
+determining means, said selecting and storing means, and 
+
+said writing means while the lengths of the unprocessed 
+runs in the input line exceed or equal count C; and 
+
+means for accumulating N sums in said accumulation 
+register means upon a determination by said determining 
+
+means that the length of the run is less than count C, 
+comprising: 
+
+means for initializing said accumulation register means 
+to a precomputed vector of sums Q, which when shifted by 
+
+b bits per shift up to and including N-1 times retains a 
+most significant bit of 1, but when shifted N times 
+
+becomes 0; 
+means for computing sums one at a time from the beginning 
+
+of the unprocessed run length representations; 
+means for adding each newly-computed sum to said 
+
+accumulation register means; 
+means for testing said accumulation register means to 
+
+determine if said accumulation register means can 
+accommodate another sum, after each new sum has been 
+
+added to said accumulation register means; 
+means for shifting the contents of said accumulation 
+
+register means b bits to accommodate another sum upon a 
+positive determination; and
+
+ 
+means for actuating said writing means to write the 
+
+contents of said accumulation register means to an output 
+line in said storing means upon a negative determination; 
+
+means for actuating said processing means to process 
+subsequent input lines of said set of input lines one at 
+
+a time, comprising: 
+means for initially testing a subsequent input line of 
+
+said set to determine if said input line is entirely 
+composed of pels of value 0; and 
+
+means, responsive to a negative determination, for 
+processing the run length representations of said input 
+
+line from beginning to end, comprising: 
+means for further testing the beginning of the unprocessed 
+
+run-length representations for a run length and 
+comparing said length to count C to determine if said 
+
+length of the run is greater than or equal to count C; 
+means, responsive to a positive determination, for 
+
+proceeding when the value of the pels of the run is zero 
+until this is no longer true, and when the value of the 
+
+pels of the run are 1, for storing a vector of N sums of 
+value HR in the accumulation register means; 
+
+means for adding said vector to the output line in said 
+storing means by adding its sums to the vector of partial 
+
+totals in said output line corresponding to pels in 
+earlier input lines of said set that are vertically 
+
+aligned with the pels contributing to said added sums, 
+while the length of the run of unprocessed pels exceeds 
+
+or equals said count C, to produce a multi-bit 
+representation of said set of lines in said storing 
+
+means; and means, upon a negative determination, for 
+ 
+
+accumulating a multiplicity of sums in said accumulation 
+register means, comprising: 
+
+means for initializing said accumulation register means 
+to Q; 
+
+means for computing sums one at a time from the beginning 
+of the unprocessed run length representations; 
+
+means for adding each newly-computed sum to said 
+accumulation register means; 
+
+means for testing said accumulation register means to 
+determine if said accumulation register means can 
+
+accommodate another sum, after each new sum has been 
+added thereto; 
+
+means for shifting the contents of said register means b 
+bits to accommodate another sum in response to a positive 
+
+determination; and 
+means for adding the contents of said accumulation 
+
+register means to the vector of partial totals already 
+stored in the output line by adding the sums in said 
+
+contents to the partial totals in said storing means with 
+correspondence between the pels contributing to said 
+
+added sums and the pels in earlier input lines of said 
+set that are vertically aligned therewith, in response to 
+
+a negative determination, to produce a multi-bit 
+representation of said set of lines; 
+
+means for obtaining further sets of input lines forming 
+the remaining portions of said image in run length 
+
+representation; and 
+means for reactuating said means for actuating said 
+
+processing means to process subsequent input lines of 
+ 
+
+said set of input lines one at a time, to process said 
+remaining sets of input lines of said image until all of 
+
+the input lines have been reconstructed into output lines 
+forming a multi-bit representation of said binary image 
+
+that is displayable as an output image in multiple shades 
+of gray and reduced in size as compared to said binary 
+
+image. 
+A system as in claim 4 further comprising: 
+means for appending a relatively long run of pels of 
+
+value 0 to the end of said input line, when after 
+testing, an input line is not entirely composed of pels 
+
+of value 0; and 
+means for subsequently testing said input line for its 
+
+end after a long run of pels of value 0 have been 
+processed. 
+A system as in claim 4 or 5 further comprising: 
+means for deferring the writing of said output line until 
+
+said input line is not composed entirely of pels of value 
+0; and 
+
+means, when all input lines of a set are composed 
+entirely of pels of value 0, for setting a flag to so 
+
+indicate. 
+</CLAIMS>
+</TEXT>
+</DOC>

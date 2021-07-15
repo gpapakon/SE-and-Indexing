@@ -1,0 +1,239 @@
+<DOC>
+<DOCNO>EP-0657813</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Distributed database management
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1200	G06F1730	G06F1200	G06F1114	G06F1114	G06F1730	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F12	G06F17	G06F12	G06F11	G06F11	G06F17	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+In parallel database management systems, database update requests 
+typically result in activity at several nodes. Rollback of all updates 
+
+is required if the update of any node fails. A coordination process 
+monitors for failure or success of updates. The coordinator further 
+
+provides for distinguishing activities that have taken place at any 
+given node from the other nodes for different database update requests. 
+
+Savepoints are local. This allows rollback of a selected update without 
+affecting nodes which did not process the update. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+CHANG AMY
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+COYLE DANIEL J JR
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MALKEMUS TIMOTHY R
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WILSON WALTER G
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+CHANG, AMY
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+COYLE, DANIEL J., JR.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MALKEMUS, TIMOTHY R.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WILSON, WALTER G.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The invention relates to parallel or homogeneous distributed
+databases and more particularly to distributed update requests within a
+transaction on a parallel database.A distributed database system is one implemented over a
+communication network linking a plurality of computers. The database
+itself is partitioned among the individual computers. A database request
+from an application program running on one computer can be sent to one or
+more remote computers over the network. To handle such a request a
+coordinator running on a computer (either the computer where the
+application program is executing or a remote computer which exclusively
+handles coordination) decides whether the transaction owning the request
+is to be committed or rolled back. A true distributed request is
+permitted to span multiple computers. Its operation is transparent to
+the user and to the application program. For example, the request may
+involve the virtual union of partitions on mutually remote computers.Throughput in a distributed database system should be better than
+in a non-distributed database system because requests from a transaction
+can be divided among appropriate remote computers or span partitions
+where more than one partition is appropriate. The handling of requests
+in parallel is readily handled as long as no modification of the database
+is required. A request which involves any modification of the records of
+the database has forced serialization (i.e. completion) of requests in
+order to allow for distribution of the request without compromising
+rollback of the transaction if later required.US Patent No. 5,140,689, Kobayashi discloses a two-phase commit
+type transaction processing system. Here a client sequentially requests
+all the servers to perform phase I processing and when the servers
+complete, the client stores data indicating completion of the processing.A distributed transaction (also called a distributed unit of work)
+may include several distributed update requests. Requiring serialization
+of all operations from the requests as in the case of Kobayashi
+compromises the principle of executing the transaction in parallel.
+Throughput then falls below possible levels.The invention is directed to providing an improved system and
+method for supporting distributed update requests within a transaction on
+a parallel database.To achieve this, the invention provides a parallel database
+management system, comprising: a communications network having a 
+plurality of computers connected thereto and a database distributed
+</DESCRIPTION>
+<CLAIMS>
+A parallel database management system, comprising:
+
+a communications network having a plurality of computers
+(11,12A,12B,12C) connected thereto;
+a database distributed among partitions (56,90) on the plurality of
+computers; characterised by
+a plurality of subordinate processes (72,74,94) resident on the
+plurality of computers for generating local savepoints (23,25) for the
+
+partitions, each savepoint identifying an entry in a transaction log to
+which a rollback may be made 
+and comprising request identification data,
+
+for executing 
+in parallel
+ a request instance and for signalling over the
+network failure or success of execution each computer comprising memory
+
+for storing the local savepoints (23,25) between the requests;
+a coordinator (13) resident on at least one of the computers for
+receiving requests from applications (70,92), for distributing over the
+
+network request instances and request savepoint data relating to the
+request to selected ones of the subordinate processes and for issuing a
+
+rollback request with reference data for comparison to the local
+savepoints upon receipt of a signal indicating failure of execution by a
+
+subordinate process; and
+the subordinate processes being arranged to respond to the
+reference data matching the local savepoints by executing a rollback.
+A parallel database management system as claimed in claim 1
+wherever each computer comprises
+
+
+a log sequence number generator for each computer for tracking all
+changes to the partition (56,90) during a transaction; and
+means responsive to receipt of a request instance for placing a log
+sequence number into the local savepoint (23,25).
+A parallel database management system as claimed in claim 1 or
+claim 2, wherein the request savepoint data includes a value for the
+
+request count for the coordinator (13).
+A parallel database management system as claimed in any preceding
+claim, the coordinator (13) further including a process responsive to
+
+entry to a transaction for initiating a request counter for the
+coordinator. 
+A parallel database management system as claimed in any preceding
+claim, in which each subordinate process (72,74,94) further includes a
+
+process responsive to entry to a transaction for initiating a request
+counter for the subordinate process and for initiating a log sequence
+
+count.
+A parallel database management system as claimed in any preceding
+claim, and further comprising:
+
+
+means responsive to initiation of a transaction for initializing
+the local savepoint for all of a plurality of distributed processes by
+
+setting a local request counter and a log sequence number to value
+indicating no prior issuance of request savepoint data.
+A computer for use in parallel database management system as
+claimed in any preceding claim, comprising:
+
+
+means (62) to connect to the network - receiving from the network
+request instances for a request with request savepoint data;
+means responsive to receipt of a request instance on one or more
+selected subordinate processes in the computer for updating a local
+
+savepoint, identifying an entry in a transaction log to which a rollback
+may be made and comprising request identification data, with the request savepoint data and locally generated
+
+savepoint data;
+means for executing in parallel the request instance for each selected
+subordinate process;
+means for indicating to a coordination process success or failure
+of execution on each request instance; and
+means responsive to indication of failure of execution for any
+request instance of the request for performing a rollback on each
+
+subordinate process which the local savepoint indicates executed a
+request instance for the request.
+A computer as claimed in claim 7 further comprising:
+
+a coordination process (13) for distributing request instances for
+a request with request savepoint data;
+means responsive to initiation of a transaction for initializing a
+request counter for the coordination process;
+means responsive to receipt of a request from an application 
+program (70,92) by the coordination process for incrementing the request
+
+counter for the coordination process; and
+the means for distributing including means for passing the request
+counter as request savepoint data.
+A computer as claimed in claim 7 or claim 8, and further
+comprising:
+
+
+means responsive to issuance of a request instance for discarding
+any prior savepoint for the or each selected subordinate process;
+means responsive to rolling back to a savepoint on a subordinate
+process for discarding to savepoint; and
+means responsive to conclusion of the transaction for discarding
+savepoints across all subordinate processes.
+A method for managing distributed requests in a parallel database
+management system comprising a distributed computer system interconnected
+
+by a network containing local database partitions, said method comprising
+the steps of:
+
+
+distributing a plurality of request instances for a selected
+
+request to a plurality of subordinate processes resident on a plurality
+of computers each request instance including associated request savepoint
+
+data;
+responsive to receipt of a request instance on a selected
+subordinate process, updating a local savepoint, identifying an entry in
+
+a transaction log to which a rollback may be made 
+and comprising request
+identification data,
+ with the request associated savepoint data and
+locally generated savepoint data;
+executing in 
+parallel
+ the request instance for each selected
+subordinate process;
+indicating to a coordination process resident on at least one of
+the computers success or failure of execution on each request instance;
+
+and
+responsive to indication of failure of execution for any request
+instance of the selected request, performing a rollback on each
+
+subordinate process which the local savepoint indicates executed a
+request instance for the selected request.
+</CLAIMS>
+</TEXT>
+</DOC>

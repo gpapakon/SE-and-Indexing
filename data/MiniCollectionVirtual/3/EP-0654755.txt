@@ -1,0 +1,559 @@
+<DOC>
+<DOCNO>EP-0654755</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+A system and method for automatic handwriting recognition with a writer-independent chirographic label alphabet
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06K962	G06K962	G06K970	G06K970	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06K	G06K	G06K	G06K	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06K9	G06K9	G06K9	G06K9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An automatic handwriting recognition system wherein each 
+written (chirographic) manifestation of each character is 
+
+represented by a statistical model (called a hidden Markov 
+model). The system implements a method which entails sampling 
+
+a pool of independent writers and deriving a hidden Markov 
+model for each particular character (allograph) which is 
+
+independent of a particular writer. The HMMs are used to 
+derive a chirographic label alphabet which is independent of 
+
+each writer. This is accomplished during what is described as 
+the training phase of the system. The alphabet is constructed 
+
+using supervised techniques. That is, the alphabet is 
+constructed using information learned in the training phase to 
+
+adjust the result according to a statistical algorithm (such as 
+a Viterbi alignment) to arrive at a cost efficient recognition 
+
+tool. Once such an alphabet is constructed a new set of HMMs 
+can be defined which more accurately reflects parameter typing 
+
+across writers. The system recognizes handwriting by applying 
+an efficient hierarchical decoding strategy which employs a 
+
+fast match and a detailed match function, thereby making the 
+recognition cost effective. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BELLEGARDA EVELINE JEANNINE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BELLEGARDA JEROME RENE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NAHAMOO DAVID
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NATHAN KRISHNA SUNDARAM
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BELLEGARDA, EVELINE JEANNINE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BELLEGARDA, JEROME RENE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NAHAMOO, DAVID
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NATHAN, KRISHNA SUNDARAM
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention is in the field of signal processing, and
+specifically is directed to systems and methods for the
+handwriting recognition of a plurality of independent writers.Automatic systems purporting to recognize cursive script
+writing, or even handwritten characters, have so far met with
+only limited success. The reason for this limited success can
+be traced largely to the lack of robustness exhibited by the
+templates used in the modeling of handwriting. For example,
+reference is made to U.S. Patent No. 4,731,857 to Tappert which
+describes an elastic matching approach for the recognition of
+run-on handwritten characters.Tappert teaches three steps. First, potential segmentation
+points are derived. Second, all combinations of the segments
+that could reasonably be a character are sent to a character
+recognizer to obtain ranked choices and corresponding scores.
+Third, the character sequences are combined so that the best
+candidate word wins.Tappert's recognition algorithm itself is a template matching
+algorithm based on dynamic programing. Each template is a
+fully formed character presumably representative of the
+writer's average way of forming this character, and the elastic
+matching scores of the current character are computed for each
+template. This strategy is vulnerable to the extensive
+variability that can be observed both across writers and across
+time. In an article entitled "Design of a Neural Network Character
+Recognizer for a Touch Terminal" by Guyon et al, Pattern
+Recognition, a neural network is employed to classify and
+thereby recognize input characters. This results in a
+relatively robust algorithm but requires a large amount of data
+and is expensive to train.A prior patent application, EP-A-0 539 749, entitled, "A Statistical Mixture
+Approach To Automatic Handwriting Recognition," filed by
+Bellegarda et al.,
+is directed to a fast algorithm for handwriting recognition
+having an acceptable degree of robustness. Bellegarda's prior
+application entails at least three considerations: (i) the
+feature elements should be chosen such as to characterize
+handwriting produced in a discrete, run-on, cursive, or
+unconstrained mode equally well; (ii) these feature elements
+should be suitably processed so as to minimize redundancy and
+thereby maximize the information represented on a per-parameter
+basis; and (iii) the resulting feature parameters should be
+further analyzed to detect broad trends in handwriting and
+enable appropriate modeling of these trends. These
+considerations are not met by the
+</DESCRIPTION>
+<CLAIMS>
+A method for operating a handwriting recognition system,
+comprising the steps of:
+
+
+generating a sequence of feature vectors in response to
+input handwriting using a two-dimensional trace associated
+
+with the input handwriting;
+projecting the sequence of feature vectors onto a
+
+chirographic space, containing frame level feature vectors;
+performing a fast match of the sequence of feature vectors
+by generating a list of probable candidate characters
+
+sequentially using single-state, hidden Markov models
+(HMMs) having output probability distributions obtained
+
+from writer-independent chirographic prototype
+distributions; and
+performing a detailed match on the list of probable
+candidate characters using multi-state, writer independent
+
+HMMs to identify a most probable character sequence that
+the input handwriting represents.
+A method as set forth in claim 1 and further including a
+preliminary step of:
+
+
+for each character of interest, representing each
+allograph in terms of a multi-state HMM, where each
+
+allograph represents a different style for writing the
+character of interest.
+A method for operating a handwriting recognition system
+comprising the steps of:
+
+
+obtaining training data from a plurality of writers; 
+extracting parameter vectors from the obtained training
+data;
+mapping the parameter vectors onto a lexographic space,
+containing only character level feature vectors,
+
+to
+determine a plurality of allographs, where each allograph
+
+represents a different style for writing a character of
+interest;
+generating an initial hidden Markov model (HMM) for each
+allograph;
+extracting feature vectors from the obtained training
+data;
+mapping the feature vectors onto a chirographic space,
+containing frame level feature vectors;
+aligning each feature vector against an appropriate one of
+the HMMs;
+forming a cluster comprised of all feature vectors that
+are aligned against the same allograph;
+determining a statistical description of each cluster;
+forming a clustering tree in accordance with the
+statistical descriptions;
+forming a set of prototypes from the clustering tree;
+forming a set of elementary handwriting units from the
+clustering tree;
+generating a set of HMMs for each allograph based on the
+formed set of prototypes and the formed set of elementary
+
+handwriting units;
+performing a fast match of the sequence of feature vectors
+by generating a list of probable candidate characters
+
+sequentially using single-state, hidden Markov models 
+(HMMs) having output probability distributions obtained
+
+from writer-independent chirographic prototype
+distributions; and
+performing a detailed match on the list of probable
+candidate characters using multi-state, writer independent
+
+HMMs to identify a most probable character sequence that
+the input handwriting represents.
+A method as set forth in claim 3 wherein the step of
+generating an inital HMM for each allograph includes a
+
+step of, for each character of interest, representing each
+allograph in terms of a multi-state HMM, where each
+
+allograph represents a different style for writing the
+character of interest.
+A method according to claim 3 or 4 wherein
+the step of forming a clustering tree includes the steps
+
+of:
+
+tagging individual ones of handwriting feature vectors in
+accordance with a statistical alignment;
+constructing a binary clustering tree from the tagged
+feature vectors;
+pruning the binary clustering tree in accordance with a
+predetermined pruning criteria to retain a first number of
+
+leaves L
+1
+ for forming clusters;
+further pruning the binary clustering tree to retain a
+second number of leaves L2, wherein L
+2
+ 
+<
+ L
+1
+, for forming a
+plurality of elementary handwriting units representing a
+
+writer-independent label alphabet; and
+establishing a relationship between the elementary
+handwriting units and clusters by a step of determining
+
+mixture coefficients.
+A method as set forth in claim 5 wherein the step of
+tagging includes a step of:
+
+
+in accordance with the statistical alignment, tagging each
+feature vector in a current chirographic space with an
+
+index which unambiguously identifies the following
+properties: (a) an associated allograph identity L
+x
+ from
+an alphabet A
+lx
+ that contains all the allographs for all
+the characters, and (b) the position P of a state within
+
+the HMM associated with L
+x
+ against which the feature
+vector was aligned, wherein each distinct (L
+x
+, P)
+represents a leaf of the binary clustering tree; and
+
+wherein the step of constructing the binary clustering
+tree includes the steps of,
+
+
+(a) computing centroids for each distinct Leaf (L
+x
+, P)
+using the tagged feature vectors;
+(b) computing a distance D between each pair of
+centroids;
+(c) ranking the centroid pairs in order of increasing
+distance D;
+(d) computing a tentative new centroid for the top k
+(clustering) pairs;
+(e) computing a distance D' between tentative new
+centroids and each remaining centroid;
+(f) merging the centroid pair from the top k pairs which
+maximizes the distance D';
+(g) determining if only one centroid is remaining, and if
+no, then repeating steps (b) through (g); else
+
+if only one centroid is remaining, then the step of
+constructing the binary clustering tree is complete.
+A method as set forth in claim 6, wherein each of the
+steps of pruning are accomplished by the steps of:
+
+
+(a) in accordance with the handwriting feature vectors
+and the constructed binary clustering tree, computing
+
+a number of vectors C for each distinct Leaf ((L
+x
+,
+P)Tag);
+(b) comparing the value of the vectors C to a
+predetermined minimum threshold value C
+min
+ to
+determine if C 
+<
+ C
+min
+, and if yes, merging the Leaf
+with its sibling;
+(c) computing a change ΔS in a spread S which would
+result from merging each Leaf with its sibling;
+(d) merging a Leaf pair having a smallest ΔS value to
+form a new Leaf;
+(e) computing a new centroid and a new spread for the new
+Leaf;
+(f) determining if the number of Leaves is greater than
+some predetermined number of Leaves;
+(g) if the number of Leaves is greater than the
+predetermined number, then repeating steps (c)
+
+through (g), else
+
+if the number of Leaves is not greater than the
+predetermined number, then the step of tree pruning is
+
+complete.
+A method as set forth in claim 7, wherein for the first
+step of pruning the predetermined number of Leaves (L
+1
+) is
+equal to approximately 750, and wherein for the second
+
+step of pruning the predetermined number of Leaves (L
+2
+) is
+equal to approximately 100. 
+A method as set forth in claim 5 wherein the step of
+determining mixture coefficients includes the steps of:
+
+
+in accordance with the tagged feature vectors, maintaining
+a record of cluster assignments at level L
+1
+, and
+maintaining a record of elementary handwriting unit
+
+assignments at level L
+2
+;
+accumulating all assignment pairs at level L
+1
+ and at level
+L
+2
+; and
+normalizing on a row-by-row basis to obtain a composition
+of elementary handwriting units in terms of cluster
+identities.
+A method as set forth in claim 5 wherein the step of
+determining mixture coefficients includes the steps of:
+
+
+in accordance with the tagged feature vectors, maintaining
+a record of cluster assignments at level L
+1
+, and
+maintaining a record of elementary handwriting unit
+
+assignments at level L
+2
+;
+accumulating all assignment pairs at level L
+1
+ and at level
+L
+2
+; and
+normalizing on a column-by-column basis to obtain a
+composition of clusters in terms of elementary handwriting
+
+unit identities.
+A method as set forth in claim 3, wherein the step of
+obtaining training data includes the steps of pre-filtering
+
+data received from a digitizing tablet means, in
+response to a movement of a pen means, to normalize for a
+
+speed of the pen means when forming a stroke; and
+interpolating the pre-filtered data, as necessary, to
+
+locate equally spaced points. 
+A method as set forth in claim 11 wherein the step of
+extracting parameter vectors includes the steps of, for
+
+each point P
+n
+ of coordinate (X
+n
+,Y
+n
+) in the training data,
+forming a P-dimensional vector P
+n
+ of feature elements
+representative of a local pen means trajectory around P
+n
+;
+and for each point P
+n
+ of coordinates (x
+n
+,y
+n
+) in the
+training data, forming a P'-dimensional vector P
+n
+ of
+feature elements representative of a global pen means
+
+trajectory up to P
+n
+.
+A method as set forth in claim 12 wherein feature elements
+of the P-dimensional vector P
+n
+ are given by: (i)
+horizontal and vertical incremental changes; (ii) the
+
+sine and cosine of the angle of the tangent to the pen
+means trajectory at P
+n
+; and (iii) incremental changes in
+the sine and cosine of the angle of the tangent, and
+
+wherein feature elements of the P'-dimensional vector P
+n
+
+are given by: (i) the height from a baseline y
+n
+, (ii) the
+width from the beginning of a stroke x
+n
+-x
+i
+, where x
+i
+ is the
+first coordinate of a current stroke, and (iii) an
+
+inter-stroke distance if a current character is comprised
+of more than one stroke.
+A method as set forth in claim 11 and further including a
+step forming a window by the steps of, for each stroke in
+
+the training data, determining a subset of the points P
+n
+
+in that stroke Q
+i
+, with each Q
+i
+ being approximately
+equally spaced apart; at each location Q
+i
+, constructing a
+Q-dimensional spliced vector by concatenating together the
+
+H vectors P
+n
+ preceding Q
+i
+, the vector q
+i
+ corresponding to
+Q
+i
+, and the H vectors P
+n
+ following Q
+i
+; and constructing a
+Q'-dimensional spliced vector by concatenating together
+
+the H' vectors P'
+n
+ preceding Q
+i
+, the vector q'
+i
+
+corresponding to Q
+i
+, and the H' vectors P
+n
+ following Q
+i
+. 
+A handwriting recognition system, comprising:
+
+means for generating a sequence of feature vectors in
+response to input handwriting received from a handwriting
+
+transducer means;
+means for projecting the sequence of feature vectors onto
+a chirographic space, containing frame level feature vectors;
+means for performing a fast match of the sequence of
+feature vectors, including means for generating a list of
+
+probable candidate characters sequentially using
+single-state, hidden Markov models (HMMs) having output
+
+probability distributions obtained from writer-independent
+chirographic prototype distributions; and
+means for performing a detailed match on the list of
+probable candidate characters using multi-state, writer
+
+independent HMMs, said detailed match performing means
+having an output for expressing a most probable character
+
+sequence that the input handwriting represents.
+A handwriting recognition system as set forth in claim 15
+and further including:
+
+
+means for representing each character of interest as an
+allograph in terms of a multi-state HMM, where each
+
+allograph represents a different style for writing the
+character of interest.
+A handwriting recognition system as set forth in claim 15,
+and further comprising:
+
+
+means for tagging individual ones of handwriting feature
+vectors in accordance with statistical alignments;
+means for constructing a binary clustering tree from the
+tagged feature vectors; 
+means for pruning the binary clustering tree in accordance
+with a predetermined pruning criteria to retain a first
+
+number of leaves L
+1
+ for forming clusters;
+means for further pruning the binary clustering tree to
+retain a second number of leaves L2, wherein L
+2
+ 
+<
+ L
+1
+, for
+forming a plurality of elementary handwriting units
+
+representing a writer-independent label alphabet; and
+means for establishing a relationship between the
+elementary handwriting units and clusters in accordance
+
+with determined mixture coefficients.
+</CLAIMS>
+</TEXT>
+</DOC>

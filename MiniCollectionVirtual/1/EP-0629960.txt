@@ -1,0 +1,344 @@
+<DOC>
+<DOCNO>EP-0629960</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Extendible file system
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1730	G06F1200	G06F1200	G06F1730	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F17	G06F12	G06F12	G06F17	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+In this disclosure an architecture for extensible file systems is described. Also disclosed is 
+an implementation of the architecture. The architecture enables the extension of file system 
+
+functionality by stacking (or composing) new file systems (layers) on top of existing file systems. 
+The implementor of a new layer has the option of keeping the files exported by the new layer 
+
+coherent with files of the underlying layer, as well as the option of sharing the same cached memory 
+with the files of the underlying layer. A flexible framework is also disclosed for arranging the file 
+
+systems' name spaces. Composing of new layers on top of existing ones can be done statically (at 
+compile/configuration time) or dynamically (at boot/run time). In addition, the file system layers 
+
+can reside in the same address space or in different address spaces, and be implemented on a local 
+computer node or on a remote computer node. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SUN MICROSYSTEMS INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SUN MICROSYSTEMS, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+KHALIDI YOUSEF A
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NELSON MICHAEL L
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KHALIDI, YOUSEF A.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NELSON, MICHAEL L.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates in general to the fields of Computer Operating Systems,
+Distributed Multi-processor Hardware Systems, Object Oriented Programming, and Virtual
+Memory Systems. In particular, the invention relates to improved techniques for establishing and
+efficiently extending file system functionality by structuring file systems as a set of dynamically
+configurable layers.The role of the operating system in a computer has traditionally been to efficiently
+manage the hardware resources (the central processing unit ("CPU"), memory and input/output
+devices). Since files are stored generally on a disk drive or magnetic tape system, this management
+function has included the role of managing the file system.Object oriented operating systems, with microkernels which permit client level
+implementation of file systems, create complexities in memory management which clients have not
+had to deal with in the past. Moreover, on widely distributed computer networks, files resident on
+different computers produce unnecessary network communications traffic, without efficient local
+caching techniques. Nevertheless, micro-kernel systems provide clients with an environment which
+makes it possible to add functionality to existing file systems, to create new file systems and extend
+old file systems while minimizing the necessity to write new code to duplicate or significantly
+modify the existing file systems and existing caching capabilities.This disclosure describes an extensible file system architecture and a method and
+apparatus for an extensible file system.In reviewing the prior art a few definitions are in order. A file is a collection of related
+information defined by its creator. Commonly, files represent programs (both source and object
+forms) and data. Data files may be numeric, alphabetic, alphanumeric or bindary; may be free-form 
+or formatted rigidly. In general a file is a sequence of bits, bytes, lines, or records whose meaning
+is defined by the file's creator and user. A file is named and is referred to by its name. In most
+hierarchical file systems, the name of a file is the path name that describes how to locate the file in
+the system hierarchy. A path name is a sequence of component names separated by the "/" character.
+A full path name starts with a "/" character which specifes that a file is found by starting at the file
+system root and traversing the file tree, following the branches that lead to successive paths. For
+example, the path name "/usr/src/cmd/two.c" designates the "two.c". A file
+</DESCRIPTION>
+<CLAIMS>
+A method for associating a new file system with an
+existing file system in a computer system having a naming
+
+service
+which can map names to files,
+
+said method characterised by the steps of:
+
+determining the location of said existing file system, by
+interrogating said naming service (Fig. 5);
+connecting said new file system to said naming service,
+such that files in said existing file system can be accessed
+
+through said new file system (Fig. 5); and
+connecting said new file system to said existing file
+system by a data movement facility which has the ability to
+
+provide coherent
+file data from said existing file system
+
+to said new file system (Fig. 5).
+The method described in claim 1 wherein said files in
+said existing file system remain directly accessible as well
+
+as accessible through said new file system.
+The method described in claim 1 wherein said existing
+file system is located in a first layer and said new file
+
+system is located in a second layer, said first layer and said
+second layer being program code sections which may reside in
+
+different computers.
+The method described in claim 3 wherein said data
+movement facility provides coherent file data from said
+
+existing file system by means of a pager program located in
+said first layer, said pager program being connected to a
+
+cache program located in said second layer, said cache program
+supplying said coherent file data from said existing file
+
+system to said new file system.
+The method described in claim 3 wherein said data
+movement facility provides coherent file attribute data from 
+
+said existing file system by means of an attribute pager
+program located in said first layer, said attribute pager
+
+program being connected to an attribute cache program located
+in said second layer, said attribute cache program supplying
+
+said coherent file attribute data from said existing file
+system to said new file system.
+The method described in claim 1 wherein said new file
+system can be implemented in a kernel of an operating system
+
+in said computer.
+The method described in claim 1 wherein said new file
+system can be implemented in a user process in said computer.
+The method described in claim 1 wherein said computer in
+which said new file system can be implemented, is a remote
+
+computer which does not contain said existing file system.
+The method described in claim 1 wherein said new file
+system can be connected to said existing file system
+
+dynamically at system run time or statically at compile time.
+The method described in claim 1 further comprising
+additional steps of interposing an additional file system in a
+
+third layer on top of said second layer containing said new
+file system and connecting said additional file system to said
+
+naming service and to said new file system.
+The method described in claim 10 wherein said second
+layer containing said new file system can cache coherent file
+
+data from said existing file system, can also act as a pager
+for supplying file data from said new file system to said
+
+third layer, said third layer also having the ability to cache 
+said file data from said new file system for use by said
+
+additional file system.
+The method described in claim 11 wherein said data
+movement facility coordinates said caching of said file data
+
+in said second layer and said third layer and provides the
+ability to maintain said cached file data coherent.
+The method described in claim 12 wherein said coherent
+cached file data may be either file data or file attribute
+
+data.
+The method described in claim 1 wherein said computer
+system is a distributed computer system with a plurality of
+
+computers.
+The method described in claim 14 further comprising
+additional steps of implementing a plurality of additional
+
+file systems, each of which said additional file systems being
+implemented on a computer anywhere in said distributed
+
+computer system, and implementing each of said additional file
+systems as layers connected to each other in any order desired
+
+by an implementor wherein said connections are by means of
+naming services and data movement facilities capable of moving
+
+data from one layer to a next layer, and wherein a given layer
+may stack on more than one underlying layer.
+An extensible file system in a distributed computer
+
+system having one or more computers, each computer having an
+operating system and an existing file system and a naming
+
+service which can map names to files, characterised by: 
+
+an identification device in a computer for identifying a
+location of said existing file system by accessing said naming
+
+service on said computer (Fig. 5);
+a file system creation mechanism coupled to said computer
+for creating a new file system by creating an instance of said
+
+new file system which can be connected to said existing file
+system (Fig. 5);
+a connecting mechanism coupled to said computer for
+connecting said new file system to said naming service
+
+whereby a client can access files in said existing file
+system, file accesses being routed through said new file
+
+system without said client having knowledge of said new file
+system (Fig. 5); and
+a data movement facility coupled to said computer to
+provide coherent file data from a first layer containing said
+
+existing file system to a second layer containing said new
+file system (Fig. 5).
+An extensible file system described in claim 16, wherein
+a client can access said new file system without having any
+
+knowledge of said existing file system.
+The extensible file system described in claim 16, wherein
+said files in said existing file system remain directly
+
+accessible even when said new file system is interposed on top
+of said existing file system, with coherency of data in said
+
+files maintained when accessed by different file system
+layers.
+The extensible file system described in claim 16, wherein
+said data movement facility caches file data in said second layer
+
+and maintains said cached file data coherent with said files
+in said existing file system. 
+The extensible file system described in claim 16, wherein
+said data movement facility caches file attribute data in said
+
+second layer and maintains said cached file attribute data
+coherent with said files in said existing file system.
+The extensible file system described in claim 16 wherein
+the implementor of said new file system decides whether it is
+
+necessary to maintain files in said new file system coherent
+with said files in said existing file system, where a
+
+particular coherency procedure to be used is chosen by said
+existing file system in its capacity as a pager.
+The extensible file system described in claim 16 wherein
+said new file system can be implemented in a kernel of an
+
+operating system in said computer.
+The extensible file system described in claim 16 wherein
+said new file system can be implemented in a user process in
+
+said computer.
+The extensible file system described in claim 16, wherein
+said computer in which said new file system can be
+
+implemented, is a remote computer which does not contain said
+existing file system.
+The extensible file system described in claim 16 wherein
+said new file system can be connected to said existing file
+
+system dynamically at system run time or statically at compile
+time as the implementor of said new file system desired.
+The extensible file system described in claim 16 further
+comprising an additional file system in a third layer which 
+
+can be interposed on top of said second layer containing said
+new file system and connected to said naming service and to
+
+said new file system.
+The extensible file system described in claim 26, wherein
+said second layer containing said new file system which can
+
+cache coherent file data from said existing file system, can
+also act as a pager for supplying file data from said new file
+
+system to said third layer, said third layer also having the
+ability to cache said file data from said new file system for
+
+use by said additional file system.
+The extensible file system described in claim 27 wherein
+said data movement facility coordinates said caching of said
+
+file data in said second layer and said third layer and
+provides the ability to maintain said cached file data
+
+coherent.
+The extensible file system described in claim 28, wherein
+said coherent cached file data may be either file data or file
+
+attribute data.
+The extensible file system described in claim 16, further
+comprising a plurality of additional file systems, each of
+
+which said additional file systems can be implemented on a
+computer anywhere in said distributed computer system, and
+
+each of which said additional file systems can be implemented
+as layers connected to each other in any order desired by an
+
+implementor wherein said connections are by means of naming
+facilities and data movement facilities capable of moving data
+
+from one layer to a next layer. 
+A computer program product having a computer readable
+medium having a computer program recorded thereon for use in a
+
+data processing system for creating a new file system on a
+local computer node which may be connected to a second file
+
+system located in a remote computer node, wherein said local
+computer node is connected to at least one remote computer
+
+node by a communications link, said computer program product
+characterised by:
+
+
+program code mechanisms for locating said second file
+system by accessing a naming service
+
+which can map names to files,
+and for connecting said
+
+new file system to said naming service, whereby file data and
+attribute data in said second file system may be accessed
+
+directly from said local computer node and also accessed
+through said new file system on said local node, said
+
+accessing of said second file system data through said new
+file system is performed through a pager program to cache
+
+program connection thereby providing the ability to maintain
+said file data and said attribute data coherent (Fig. 5).
+The computer program product described in claim 31
+wherein all file systems, program code mechanisms for locating
+
+and connecting said file systems and pager and cache programs
+are object oriented programs.
+</CLAIMS>
+</TEXT>
+</DOC>

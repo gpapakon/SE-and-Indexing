@@ -1,0 +1,464 @@
+<DOC>
+<DOCNO>EP-0619541</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Information processing system with cached flash memory
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1208	G06F1208	G11C2900	G06F1114	G11C2900	G06F306	G06F1114	G06F306	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G11C	G06F	G11C	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F12	G06F12	G11C29	G06F11	G11C29	G06F3	G06F11	G06F3	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A control method and system when a flash memory is used 
+as a semiconductor disk or a main memory in an information 
+
+processing system. A semiconductor file system comprises a first 
+nonvolatile memory electrically erasable, a second nonvolatile 
+
+memory not electrically erasable, a volatile memory, a controller 
+which controls the memories, and a control section which controls 
+
+the controller wherein a physical address corresponding to a 
+logical address specified from an external system is accessed. The 
+
+first nonvolatile memory stores data for the external system to 
+perform operations, first management information indicating the 
+
+correspondence between physical addresses at which the data is 
+stored and logical addresses, and second management information 
+
+indicating a state of the first nonvolatile memory. The second 
+nonvolatile memory previously stores interface information 
+
+required for inputting and outputting the data from and to the 
+external system and read-only data of the data. The controller 
+
+comprises control means for determining a physical sector address 
+forming predetermined high-order bits of the physical address 
+
+when data is output from the first nonvolatile memory or when 
+data is input to the volatile memory, means for storing the 
+
+determined physical sector address, and means for consecutively 
+generating addresses in a sector determined by the physical sector 
+
+address. The control section is responsive to the interface 
+information, the first management information, and the second  
+
+ 
+management information for controlling input/output of data 
+
+from/to the external system and for temporarily storing write 
+data into the first nonvolatile memory from the external system in 
+
+the volatile memory and then transferring the write data from the 
+volatile memory to the first nonvolatile memory. The consecutive 
+
+address generation means and the sector address storage means 
+output the physical sector address and the consecutively 
+
+generated addresses to the first nonvolatile memory and the 
+volatile memory when data at the physical sector address is 
+
+output from the first nonvolatile memory or when data at the 
+physical sector address is input to the volatile memory. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+HITACHI KEIYO ENG
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+HITACHI LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+HITACHI ULSI ENG CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+HITACHI KEIYO ENGINEERING CO., LTD.
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+HITACHI ULSI ENGINEERING CORP.
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+HITACHI, LTD.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+HATTORI RYUICHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KADOWAKI SHIGERU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KAKI KENICHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KATAYAMA KUNIHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KIKUCHI TAKASHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KISHI MASAMICHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KITAHARA JUN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+OKUBO TAKAO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SAITO MANABU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SEKI YUKIHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SUZUKI TAKESHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TAKAYA YOSIO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TOBITA TSUNEHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TOTSUKA TAKASHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TSUNEHIRO TAKASHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WADA TAKESHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YAMAGAMI HAJIME
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HATTORI, RYUICHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KADOWAKI, SHIGERU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KAKI, KENICHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KATAYAMA, KUNIHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KIKUCHI, TAKASHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KISHI, MASAMICHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KITAHARA, JUN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+OKUBO, TAKAO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SAITO, MANABU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SEKI, YUKIHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SUZUKI, TAKESHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TAKAYA, YOSIO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TOBITA, TSUNEHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TOTSUKA, TAKASHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TSUNEHIRO, TAKASHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WADA, TAKESHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YAMAGAMI, HAJIME
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to
+an information processing system according to claims 1, and 10
+respectively.A flash memory is available as one of the memories used
+with small information devices, machines, etc. The flash memory
+has the following four advantages as a promising memory
+replacing a hard disk:
+1. Data is retained if power is turned off (data in DRAM is
+lost when power is turned off).2. Fast data read compared with hard disk.3. Semiconductor device, which has good resistance to
+vibration compared with hard disk.4. Less expensive compared with SRAM.However, the flash memory has the following disadvantages:
+1. When data is written, the write area contents must have
+been erased.2. Erasure is made in chip units or block units of a given size. 3. It takes time for a write for reasons 1 and 2.4. Since elements are degraded by repeating a write, the
+write count is limited.Figure 97 is a schematic diagram of a flash memory
+- containing 1024 blocks each consisting of 512 bytes (524288
+bytes in total). In Figure 97, numeral 4110 denotes one block in
+the flash memory and numeral 4111 denotes a I-byte data
+retention section in the block 4110, which will be hereinafter
+referred to as a cell. Numeral 4105 is a control circuit. When a
+read access is made to the flash memory, data is read from the cell
+determined by address signal A0-A8, a buffer 4121, and a
+decoder 4122 in the block determined by address signal A9-A18,
+a buffer 4131, and a decoder 4132, and is output via a register
+4141 to I/O0-I/O7. Numeral 4123 is a control signal of the buffer
+4121 and the decoder 4122. Numeral 4133 is a control signal of
+the buffer 4131 and the decoder 4132. Numeral 4142 is a control
+signal of the register 4141. On the other hand, when a write
+access is made to the flash memory in Figure 97, the contents of
+the block determined by the address signal A9-A18, the buffer
+4131, and the decoder 4132 are erased and input data from I/O0-I/O7
+is written via the register 4141 into the cell determined by
+the address signal A0-A8, the buffer 4121, and the decoder 4122.
+Numeral 401 is a control signal of the controller 4105.The limit of the write count mentioned above will introduce
+a serious problem with the use of the flash memory as storage
+media of a semiconductor disk. For example, data is written into 
+areas such as a directory and FAT (file allocation table) on a disk
+more, frequently than other areas, that is, data is frequently
+written into only specific blocks of the flash memory allocated to
+the directory and FAT and there is
+</DESCRIPTION>
+<CLAIMS>
+An information processing system, comprising:
+
+a central processing unit (4001),
+input means for inputting data (4060),
+output means for outputting data (4061),
+volatile storage means for storing data (4003),
+nonvolatile storage means (4002) being capable of electrically erasing
+stored data by block basis, and being capable of electrically rewriting
+
+stored data to which an address space accessible by said central processing
+unit is allocated,
+data control means (4006) for at least transferring data between said volatile
+storage means (4003) and said nonvolatile storage means (4002),
+address registration means (4004) for registering addresses of data stored
+in said volatile storage means in said nonvolatile storage means, and
+address comparison means (4005) for comparing the addresses registered
+in said address registration means (4004) with an address output by said
+
+central processing unit (4001) to make a data access,
+
+wherein, in data reading and data writing, when the address output by said
+central processing unit to make a data access is input to said address comparison
+
+means and said address comparison means makes a comparison
+therebetween and outputs a comparison result, said data control means
+
+(4006) determines whether or not the address is one of the addresses registered
+in said address registration means in response to the comparison result,
+
+and when the address is one of the registered addresses, accesses the
+registered address in said volatile storage means (4003) and performs erasure
+
+processing for a corresponding write block of said nonvolatile memory 
+means (4002); in contrast, when the address is not any of the registered
+
+addresses, newly registers at least a predetermined range of addresses
+containing the address in said address registration means (4004), creates a
+
+new data storage area corresponding to the newly registered addresses in
+said volatile storage means (4003), and accesses at least one of the newly
+
+registered addresses.
+An information processing system as claimed in claim 1, further comprising
+access history record means for recording access history informati
+on.
+An information processing system as claimed in claim 2, wherein when
+said volatile storage means (4003) fills with data and does not contain any
+
+new data storage area, said data control means references the access history
+information in said access history record means for detecting an address
+
+the last access to which is the oldest among recorded addresses and
+deletes the address from said address registration means (4004).
+An information processing system as claimed in claim 3, wherein data
+control means (4406) further transfers data in said volatile storage means
+
+(4003) corresponding to the address deleted from said address registration
+means (4004) to said nonvolatile storage means (4002).
+An information processing system as claimed in claim 1, wherein said
+nonvolatile storage means (4002) is made of a ferroelectric random access
+
+memory (FRAM).
+An information processing system as claimed in claim 1, further comprising
+power off means (4201) started by a power off operation when a power
+
+supply (4204) given to said system is turned off, save process means
+(4001) responsive to a power off process by said power off means (4201)
+
+for storing information including contents of internal registers contained in 
+said information processing system and contents of internal registers contained
+
+in said non-volatile storage means, and means for stopping the
+power supply to said system upon completion of the process of said save
+
+process means (4001).
+An information processing system as claimed in claim 1, wherein said
+data control means (4006) further monitors an amount of data stored in
+
+said volatile storage means (4003) and always reserves a data unstored
+area having a capacity equal to or greater than a predetermined capacity.
+An information processing system as claimed in claim 1, further comprising
+write inhibit information storage means in which a write inhibit flag
+
+can be set indicating that a data write is inhibited for each of blocks into
+which said non-volatile storage means (4002) is divided,
+
+wherein when data is stored in one block of said non-volatile storage
+means, of the write inhibit flag is provided corresponding to the block, said
+
+data control means (4006) outputs a message to the effect that a write request
+into said block is made to said output means (4061).
+An information processing system as claimed in claim 1, wherein said
+non-volatile storage means (4002) is made of a flash memory.
+An information processing system including a flash memory (4002) which
+requires that all data in a write block of said flash memory should be
+
+erased before data from a CPU is written into a block, said information
+processing system comprising:
+
+
+a volatile memory (4003) in a copy back system having a plurality of data
+regions each retaining a copy of block data in a part of said flash memory
+
+(4002); and
+control means (4006), when a memory hit occurs in write processing into
+said flash memory (4002) from said CPU (4001), for updating data in a 
+
+corresponding data region of said volatile memory and performing erasure
+processing for a corresponding write block of said flash memory (4002).
+The information processing system as claimed in claim 10, wherein said
+volatile memory (4403) is a cache memory.
+An information processing system as claimed in claim 11, wherein said
+control means (4006) skips the erasure process if the corresponding block
+
+of said flash memory (4002) is already erased even if a cache memory hit
+occurs in write processing into said flash memory (4002) from said CPU
+
+(4001).
+An information processing system as claimed in claim 12, wherein said
+cache memory (4003) has means for retaining erasure information indicating
+
+whether or not each block of said flash memory (4002) whose data
+copy is retained in said cache memory (4003) is already erased and said
+
+control means references the erasure information for skipping the erasure
+process in response to the reference result.
+An information processing system as claimed in claim 11, wherein when a
+cache memory (4003) miss occurs in write processing into said flash
+
+memory (4002) from said CPU (4001), if a data region of said cache
+memory (4003) selected to retain a data copy in a write target block of said
+
+flash memory (4002) is not updated, said control means (4006) updates the
+data region with write data and erases data in the write target block of said
+
+main memory (4002).
+An information processing system as claimed in claim 14, wherein said
+cache memory (4003) has means for retaining update information indicating
+
+whether or not data in each data region has been updated by write
+processing from said CPU (4001) and said control means (4006) references 
+
+the update information for erasing the data in the block in response
+to the reference result.
+An information processing system as claimed in claim 11, further including
+means, when a size of each block of said flash memory and a size of
+
+each data region of said cache memory are each m bytes (m being an arbitrary
+positive integer) and said CPU (4001) reads data of a smaller size
+
+than m bytes from said main memory (4002), for temporarily reading all
+data in a block containing the data in said flash memory (4002) and selecting
+
+only the data requested by said CPU (4001) among all the data in
+the block for outputting the selected data to a bus (4102).
+An information processing system as claimed in claim 11, wherein when a
+size of each block of said flash memory (4002) and a size of each data region
+
+of said cache memory (4003) are each m bytes (m being an arbitrary
+positive integer) and said CPU (4001) writes data of a smaller size than m
+
+bytes from said flash memory (4002), said control means temporarily reads
+all data in a corresponding block of said flash memory (4002) and updates
+
+the data only in a partial area into which said CPU (4001) is to write data,
+then again writes all the 1-block data into the corresponding block of said
+
+flash memory (4002).
+An information processing system as claimed in claim 17, wherein said
+cache memory has means for retaining update area information indicating
+
+which partial area in each data region has been updated and said control
+means references the update area information for updating only the partial
+
+area into which said CPU (4001) is to write data in response to the reference
+result.
+An information processing system as claimed in claim 1, wherein if power of said information processing system is turned off, data in said address 
+registration means (4004) is retained at least until power is again supplied
+
+to said information processing system.
+An information processing system as claimed in claim 18, wherein when
+operation of said information processing system is restarted by supplying
+
+power again after a power supply (4204) to said information system is
+nonentarily stopped, the data retained in said address registration means
+
+(4004) is referenced and data stored in a an area of said non-volatile storage
+means (4002) that can be specified from the registered address data is
+
+transferred to and stored in an area of said volatile storage means that can
+be specified from a location in which said address registration means
+
+stores the address data, thereby restoring storage contents of said volatile
+
+storage means to a state when the power supply was nonentarily stopped.
+An information processing system as claimed in claim 1, wherein when
+power of said information processing system is turned off, data in said address
+
+registration means (4004) is transferred to and stored in a specific location
+of said non-volatile storage means (4002) for saving the data retained
+
+in said address registration means (4004) and when a power supply
+is started again, the saved data is restored in said address registration
+
+means, thereby preventing the data in said address registration means
+(4004) from being lost.
+An information processing system as claimed in claim 1, wherein data
+stored in said volatile storage means (4003) by a write access from said
+
+central processing unit (4001) is written back into said non-volatile storage
+means (4002) every given time period.
+An information processing system as claimed in claim 22, wherein data in
+said address registration means (4004) is also saved in said non-volatile
+
+storage means (4002) when the data stored in said volatile storage means is 
+written back into said non-volatile storage means (4002) every given period
+
+of time.
+An information processing system as claimed in claim 1, wherein electrically
+re-writable non-volatile storage means (4002) containing a serial
+
+buffer (4033) having a capacity of a plurality of bytes to input/output data
+from/to an external system is used as said non-volatile storage means and
+
+wherein data of bytes less than the number of storage bytes of said serial
+buffer (4033) is transferred from said non-volatile storage means (4002) to
+
+said volatile storage means (4003) and data bytes equal to the number of
+storage bytes of said serial bugger (4033) is transferred from said volatile
+
+storage means (4003) to said nonvolatile storage means (4002).
+</CLAIMS>
+</TEXT>
+</DOC>

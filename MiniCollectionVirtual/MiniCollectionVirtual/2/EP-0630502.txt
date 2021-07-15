@@ -1,0 +1,262 @@
+<DOC>
+<DOCNO>EP-0630502</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+TIMING MODEL FOR LOGIC SIMULATION OF INTEGRATED CIRCUITS
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1750	G06F1750	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F17	G06F17	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method approximates propagation delay through a logic device. Operation of the logic device is divided into a first region and a second region. A boundary between the first region and the second is based on duration of input ramp to the logic device and amount of capacitive load driven by the logic device. For example, the boundary between the first region and the second occurs where for each value of the capacitive load, an output ramp for the logic device is one half complete when the input ramp is complete. When the logic device operates in the first region, a first formula is used to obtain a first value representing delay through the logic device. The first formula varies the first value based on the duration of the input ramp to the logic device and the capacitive load driven by the logic device. When the logic device operates in the second region, a second formula is used to obtain the first value. The second formula also varies the first value based on the duration of the input ramp to the logic device and the capacitive load driven by the logic device.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+VLSI TECHNOLOGY INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+VLSI TECHNOLOGY, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+MISHELOFF MICHAEL N
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MISHELOFF, MICHAEL, N.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention concerns an accurate timing model for logic 
+simulation of integrated circuits. The timing model reflects the timing 
+delays caused by input ramp and output load of circuitry. When designing an integrated circuit, it is generally desirable to 
+simulate the functioning of logic circuitry within the integrated circuit. In 
+order to accurately access the performance of the circuitry, it is additionally 
+desirable that the logic simulation of logic include an accurate assessment 
+of timing delays through the circuitry, at least in the critical paths. In general, timing delays through circuitry are caused by propagation 
+delays through and between logic cells which comprise the circuitry. The 
+actual amount of propagation delay through and between logic cells is 
+generally dependent on various capacitances within and between the logic 
+cells, as well as the current available to charge or discharge the 
+capacitances. When developing a timing model, it is desirable to take into account 
+the time delay introduced by charging the input capacitance of logic cells. 
+This time delay is directly affected by the input current available to charge 
+the input capacitance to the logic cell. This input current, in turn, is 
+directly affected by the fan out of the output of the logic cell providing the 
+input current. In the prior art, timing delay caused by charging input capacitance 
+was approximated as being directly proportional to the output fan out of the 
+logic cell providing current for the input. However, this has proved to be an 
+inaccurate modelling technique because propagation delay through the logic  
+ 
+cell is additionally influenced by the shape of the voltage input ramp of the 
+input signal to the logic cell. The effect of the shape of the voltage input 
+ramp on the timing delay may be approximated by using general piecewise 
+linear functions of the voltage input ramp and the output load. See for 
+example, An-Chang Deng, Piecewise-Linear Timing Delay Modeling forDigital CMOS Circuits, IEEETransactions on Circuits and Systems, vol. 
+35, no. 10, October 1988, pp. 1330-1334. However, this approach does 
+not easily lead to a practical characterization system. In order to obtain a 
+fairly accurate timing model, a circuit simulation needs to be performed for 
+every grid point of the function. A sufficient number of grid points need 
+to be selected to obtain the desired accuracy of the timing model. This can 
+require numerous circuit simulations. In accordance with the preferred embodiment,
+</DESCRIPTION>
+<CLAIMS>
+A method running on a computer for approximating propagation 
+delay through a logic device (30), the method comprising the steps of: 
+
+
+(a) dividing operation of the logic device (30) into a fast input ramp 
+region (174), wherein an input ramp (251) to the logic device (30) is 
+
+completely switched before the output signal wave form (252) changes 
+significantly, and a slow input ramp region (175), wherein the input ramp 
+
+(281) switches so slowly that the output signal (282) switches while the input 
+ramp (281) is still switching, a boundary (173) between the fast input ramp 
+
+region (174) and the slow input ramp region (175) being based on duration of 
+input ramp to the logic device (30) and amount of capacitive load (36) driven 
+
+by the logic device (30); 
+(b) when the logic device (30) operates in the fast input ramp region 
+(174), using a first formula to obtain a first value representing delay through 
+
+the logic device (30), the first formula varying the first value based on the 
+duration of the input ramp to the logic device (30) and the capacitive load (36) 
+
+driven by the logic device (30); and; 
+(c) when the logic device (30) operates in the slow input ramp region 
+(175), using a second formula to obtain the first value, the second formula 
+
+varying the first value based on the duration of the input ramp to the logic 
+device (30) and the capacitive load (36) driven by the logic device (30). 
+A method as in claim 1 wherein the first formula has a form as 
+follows: 
+
+
+DT = A + B*(INPUT RAMP) + D*(LOAD) 
+ 
+where DT represents the first value, INPUT RAMP represents duration of 
+
+the input ramp, LOAD represents capacitive load (36) driven by the logic  
+ 
+
+device (30), and A, B and D are coefficients determined using circuit 
+simulations. 
+A method as in claim 2 wherein the second formula has a form as 
+follows: 
+
+
+DT = A+B*(CRITINRAMP)+D*(LOAD)+Z*(INPUT RAMP - CRITINRAMP) 
+ 
+wherein CRITINRAMP represents INPUT RAMP at the border between the 
+
+fast input ramp region (174) and the slow input ramp region (175) for the 
+LOAD, and Z is a determined using circuit simulations 
+A method as in claim 1 wherein the first formula has a form as 
+follows: 
+
+
+DT = A + FAT*B*(INPUT RAMP) + D*(LOAD) 
+ 
+wherein DT represents the first value, INPUT RAMP represents duration of 
+
+the input ramp, LOAD represents capacitive load (36) driven by the logic 
+device (30), and A, B, D and FAT are coefficients determined using circuit 
+
+simulations. 
+A method as in claim 4 wherein the second formula has a form as 
+follows: 
+
+
+DT = DT
+(CRITINRAMP)
+ + Z * (INPUT RAMP - CRITINRAMP) 
+ 
+wherein CRITINRAMP represents INPUT RAMP at the border between the 
+
+fast input ramp region (174) and the slow input ramp region (175) for the 
+
+LOAD, Z is a coefficient determined using circuit simulations, and 
+DT
+(CRITINRAMP)
+ is the first value when the logic ramp has an input 
+ramp equal to CRITINRAMP and a load equal to LOAD.  
+
+ 
+A method as in claim 1 wherein the method includes calculating a 
+next input ramp for a next logic device (30) coupled to an output of the logic 
+
+device (30), the method additionally comprising the steps of: 
+
+(d) when the logic device (30) operates in the fast input ramp region 
+(174), using a third formula to generate a second value representing 
+
+duration from beginning of the input ramp of the logic device (30) to an end 
+of an output ramp of the logic device (30), the second value being based on the 
+
+length of the input ramp to the logic device (30) and the amount of the load 
+driven by the logic device (30); and; 
+(e) when the logic device (30) operates in the slow input ramp region 
+(175), using a fourth formula to generate the second value; and, 
+(f) subtracting the first value from the second value to obtain the next 
+input ramp. 
+A method as in claim 6 wherein the first formula has a form as 
+follows: 
+
+
+DT₀ = A₀ + B*(INPUT RAMP) + D₀*(LOAD) 
+ 
+where DT₀ represents the first value, INPUT RAMP represents duration of 
+
+the input ramp, LOAD represents capacitive load (36) driven by the logic 
+device (30), and A₀, B and D₀ are coefficients determined using circuit 
+
+simulations. 
+A method as in claim 7 wherein the third formula has a form as 
+follows : 
+
+
+DT₁ = A₁ + B*(INPUT RAMP) + D₁*(LOAD) 
+ 
+where DT₁ represents the second value, and A₁ and D₁ are coefficients 
+
+determined using circuit simulations.  
+ 
+A method as in claim 8 wherein the second formula has a form as 
+follows: 
+
+
+DT₀=A₀+B*(CRITINRAMP)+D₀*(LOAD)+Z*(INPUT RAMP - 
+CRITINRAMP) 
+ 
+wherein CRITINRAMP represents INPUT RAMP at the border between the 
+
+fast input ramp region (174) and the slow input ramp region (175) for the 
+LOAD, and Z is determined using circuit simulations. 
+A method as in claim 9 wherein the fourth formula has a form as 
+follows: 
+
+
+DT₁ = A₁ + B*(INPUT RAMP) + D₁*(LOAD). 
+A method as in claim 6 wherein the first formula has a form as 
+follows: 
+
+
+DT₀ = A₀ + FAT*B*(INPUT RAMP) + D₀*(LOAD) 
+ 
+wherein DT₀ represents the first value, INPUT RAMP represents duration 
+
+of the input ramp, LOAD represents capacitive load (36) driven by the logic 
+device (30), and A₀, B, D₀ and FAT are coefficients determined using circuit 
+
+simulations. 
+A method as in claim 11 wherein the third formula has a form as 
+follows: 
+
+
+DT₁ = A₁ + FAT*B*(INPUT RAMP) + D₁*(LOAD) 
+ 
+wherein DT₁ represents the second value, and A₁ and D₁ are coefficients 
+
+determined using circuit simulations. 
+A method as in claim 12 wherein the second formula has a form 
+as follows:  
+
+ 
+
+DT₀ = DT₀
+(CRITINRAMP)
+ + Z * (INPUT RAMP - CRITINRAMP) 
+ 
+wherein CRITINRAMP represents INPUT RAMP at the border between the 
+
+fast input.ramp region (174) and the slow input ramp region (175) for the 
+LOAD, Z is a coefficient determined using circuit simulations, and 
+
+DT
+(CRITINRAMP)
+ is the first value when the logic ramp has an input 
+ramp equal to CRITINRAMP and a load equal to LOAD. 
+A method as in claim 13 wherein the fourth formula has a form 
+as follows: 
+
+
+DT₁ = DT
+1(CRITINRAMP)
+ + B * (INPUT RAMP - CRITINRAMP). 
+A method as in claim 6 wherein in step (a) the boundary (173) 
+between the fast input ramp region (174) and the slow input ramp region 
+
+(175) occurs where for each value of the capacitive load (36), the output ramp 
+is one half complete when the input ramp is complete. 
+A method as in claim 1 wherein in step (a) the boundary (173) 
+between the fast input ramp region (174) and the slow input ramp region 
+
+(175) occurs where for each value of the capacitive load (36), an output ramp 
+for the logic device (30) is one half complete when the input ramp is 
+
+complete. 
+</CLAIMS>
+</TEXT>
+</DOC>

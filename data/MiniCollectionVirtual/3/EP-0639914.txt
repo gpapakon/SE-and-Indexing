@@ -1,0 +1,855 @@
+<DOC>
+<DOCNO>EP-0639914</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+MSK phase acquisition and tracking method
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04L708	H04L708	H04L2714	H04L27233	H04L27233	H04L700	H04L2714	H04L700	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04L	H04L	H04L	H04L	H04L	H04L	H04L	H04L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04L7	H04L7	H04L27	H04L27	H04L27	H04L7	H04L27	H04L7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An MSK receiver includes a 
+downconverter for downconverting the received MSK 
+
+signals. The phase drift or phase error per bit 
+of the message preamble is determined. The 
+
+reference carriers are generated, and the phase 
+of the reference signals is adjusted during 
+
+message demodulation under the control of the 
+estimated rate of phase change across the 
+
+preamble portion. In accordance with another 
+aspect of the invention, the downconverted MSK 
+
+signal burst is digitized and the digitized burst 
+signal is stored in memory, following which it is 
+
+read repeatedly so that bit timing, start-of-message 
+timing, carrier phase, and carrier drift 
+
+processing may be performed in a desired 
+sequence, using all the available information for 
+
+more accurate demodulation. According to a yet 
+further aspect of the invention, a second order 
+
+tracking loop is used to adjust the phase of the 
+demodulation reference signals. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+LOCKHEED CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+LOCKHEED MARTIN CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+MUI SHOU YEE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MUI, SHOU YEE
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to an arrangement for
+reducing the lock-up time and improving the noise
+performance in a receiver for burst minimum-shift-keyed
+communications.Minimum-shift keying (MSK) is a form of
+frequency-shift keying with frequency separation
+equal to one-half the bit rate. MSK provides
+spectrally efficient modulation in terms of bits-per-second
+per hertz (Hz) of bandwidth. Prior-art
+MSK processors are described in U.S. Patent
+No. 4,583,048, issued April 15, 1986 in the name
+of Gumacos et al., and in U.S. Patent 4,635,279,
+issued January 6, 1987 in the name of Nossen. MSK signals are demodulated by concurrent
+use of in-phase (I) and quadrature (Q)
+demodulators, each of which includes the
+multiplier. Sinusoidal and co-sinusoidal
+reference or demodulating signals are applied to
+the Q and I multipliers, respectively, at a
+frequency which is ideally equal to that of the
+carrier frequency of the MSK signal.
+Asynchronous demodulation can be accomplished
+with reference signals which are at the same
+frequency as the MSK carrier, but which are not
+necessarily in the same phase. This type of
+asynchronous demodulation results in an increase
+in noise by comparison with synchronous
+demodulation, in which the sinusoidal reference
+signal is in both frequency and phase synchronism
+with a carrier component of the modulated MSK
+signal. Increased noise results in increased
+error rate, and is therefore undesirable.The MSK signal to be received may be
+downconverted to baseband in preparation for
+demodulation. The downconversion is performed by
+mixing or multiplying a local oscillator signal
+with the MSK-modulated carrier. If the local
+oscillator signal is not phase coherent with the
+MSK carrier, the baseband signal carrier will
+include a phase drift or phase error. This phase
+error results in increased noise in the
+demodulated signal and increases the bit error
+rate (BER). The features of a known method for demodulating a
+downconverted carrier signal MSK modulated with a
+plurality of signal packets, each packet having a
+discrete digital information segment accompanied by a
+preamble and a known method for wireless communication
+of digital information are detailed in the precharacterising
+portions of claims 1 and 2 respectively
+and are known from EP-A-0 349 064. This document
+discloses a method of wireless communication wherein
+packets are transmitted. Each packet comprises
+information and a preamble sequence. By correlating
+the preamble sequence with the known preamble sequence
+and searching for the maximum,
+</DESCRIPTION>
+<CLAIMS>
+A method for demodulating a downconverted
+carrier signal MSK modulated with a plurality of
+
+signal packets, each packet having a discrete
+digital information segment (214) accompanied by a
+
+preamble (210,212), said method comprising the steps
+of:-
+
+
+forming received digital signals by converting
+said downconverted carrier signal into digital form
+
+at a sample rate of at least two samples per bit;
+correlating said received signals with stored
+information (326) relating to said preamble to
+
+produce information relating to bit timing;
+correlating said received signals with stored
+information (326) relating to said preamble to
+
+produce information relating to the timing of a part
+of said preamble;
+
+   characterised by
+
+a said digital information segment (214)
+comprising a sequence of digital data words, and
+
+said preamble comprising a sequence of mutually
+identical bit/word synchronization words (216)
+
+selected for low autocorrelation and a sequence of
+message synchronization words (218);
+storing in memory (318) said received digital
+signals so as to include at least one said segment
+
+and its accompanying preamble to form stored
+received signals;
+reading from memory (318) for a first time at
+least said bit/word synchronization words of said
+
+stored received signals to produce first-read
+received signals;
+correlating said first-read received signals
+with stored information (326) relating to said 
+
+preamble to produce information relating to bit/word
+timing;
+reading from memory (318) for a second time at
+least said message synchronization words to produce
+
+second-read signals;
+correlating said second-read signals with
+stored information (326) relating to said preamble,
+
+using said information relating to bit/word timing
+to start said correlation, to produce information
+
+relating to the timing of said message
+synchronization words;
+determining the timing of said preamble from
+said information relating to the timing of said
+
+message synchronisation words and the known duration
+of other portions of said preamble;
+reading from memory (318) for a third time at
+least a portion of said preamble to produce third-read
+
+signals;
+correlating said third-read signals with stored
+information (326) relating to MSK symbol
+
+characteristics to thereby produce symbol
+correlations (XCORR, YCORR);
+storing said stored symbol correlations in
+memory (318);
+reading from memory (318) for a first time at
+least some of said stored symbol correlations to
+
+produce first-read symbol correlations;
+determining within the preamble the phase of
+said first-read symbol correlations in each word,
+
+taking the difference in phase between a particular
+bit of each word and the corresponding particular
+
+bit of the following word to produce one-word phase
+differences, averaging said one-word phase
+
+differences over at least a portion of said preamble
+to produce an estimated phase change per word, and 
+
+dividing said estimated phase change per word by the
+number of bits per word to produce an estimated
+
+phase change per bit Δ
+b
+;
+reading from memory (318) for a second time at
+least some of said stored symbol correlations to
+
+produce second-read symbol correlations;
+using said second-read symbol correlations and
+said estimated phase change per bit to produce an
+estimate of the carrier phase 
+k
+ of the first bit
+of said sequence of digital data words; and
+using said estimate of the carrier phase 
+k
+
+of the first bit of said sequence of digital data
+words and said estimated phase change per bit during
+
+demodulating said sequence of digital data words.
+A method for wireless communication of digital
+information, the method comprising the steps of:-
+
+
+producing a plurality of transmittable signal
+packets, each packet having a discrete digital
+
+information segment (214) accompanied by a preamble
+(210, 212);
+MSK modulating (36) each of said transmittable
+signal packets onto a carrier to produce a baseband
+
+modulated signal;
+upconverting (40) said baseband modulated
+signal to a higher transmission frequency to produce
+
+an upconverted signal;
+transmitting (44) said upconverted signal to
+produce a transmitted signal (46);
+receiving (344) said transmitted signal to
+produce an analog received signal including
+
+modulation in the form of MSK symbols;
+downconverting (340) said analog received
+signal by multiplying said analog received signal by
+
+a local oscillator signal (342) to produce in-phase 
+and quadrature-phase received signals;
+sampling said in-phase and quadrature received
+signals at a sampling rate which defines a plurality
+
+of samples during each of said MSK symbols of said
+downconverted received signal to produce in-phase
+
+and quadrature analog samples;
+analog-to-digital converting said in-phase and
+quadrature analog samples to produce in-phase and
+
+quadrature digital samples;
+determining the starting time of a part of said
+preamble on the basis of said in-phase and
+
+quadrature digital samples;
+determining bit timing by repeatedly
+correlating said in-phase and quadrature digital
+
+samples with a replica of said preamble (326),
+advancing the correlation window by a pair of said
+
+in-phase and quadrature digital samples at each
+repetition until a correlation peak is detected to
+
+thereby produce bit timing information;
+
+   characterised by
+
+generating the preamble (32) to have a start-of
+message portion including a bit/word synchronization
+
+portion and a message synchronization portion, said
+bit/word synchronization portion including a
+
+repetitive sequence of bit/word sync words and said
+message synchronization portion including a
+
+plurality of words;
+adding said preamble to each of said digital
+information segments to produce the transmittable
+
+signal packets;
+storing said in-phase and quadrature digital
+samples to produce stored in-phase and quadrature
+
+digital samples;
+determining bit/word timing by repeatedly
+correlating said stored in-phase and quadrature 
+
+digital samples with a replica of said bit/word
+synchronisation portion of said preamble, advancing
+
+the correlation window by a pair of said in-phase
+and quadrature digital samples at each repetition
+
+until a correlation peak is detected to thereby
+produce bit/word timing information;
+determining the starting time of said message
+synchronization portion by correlating said stored
+
+in-phase and quadrature digital samples with a
+replica of said message synchronization portion, by
+
+starting said correlation at a word boundary
+identified by said bit/word timing information, and
+
+repeating said correlation repeatedly by advancing
+the correlation window by one word at each
+
+repetition until a correlation peak is detected, to
+thereby produce said starting time of said message
+
+sync portion;
+determining the starting time of said start-of-message
+portion of said preamble by summing the
+
+duration of one of (a) said bit/word synchronization
+portion and (b) said message synchronization portion
+
+with the starting time of the other one of said (a)
+message synchronization portion and (b) said
+
+bit/word synchronization portion, respectively;
+determining the in-phase (XCORR) and quadrature
+(YCORR) symbol correlations by repeatedly
+
+correlating said stored in-phase and quadrature
+digital samples with a stored template of the
+
+MSK pulse, said symbol correlations starting at said
+starting time of said start-of-message portion of
+
+said preamble and lasting over the duration of an
+MSK pulse, advancing the correlation window by one
+
+bit of said preamble at each repetition to produce
+N pairs of in-phase and quadrature correlation
+
+values where N is the number of bits in said start-of-message 
+portion of said preamble and said digital
+
+information segment;
+determining the unadjusted in-phase word
+correlations Z
+C
+ for each word of said start-of-message
+portion of said preamble by:
+
+
+(a) summing the products of the determined in-phase
+symbol correlations multiplied by the MSK
+
+pulse polarity for the even-number bits within a
+respective said word, where the bit numbers begin
+
+with zero, and
+(b) subtracting from the resulting sum the sum
+of the products of the determined quadrature symbol
+
+correlations multiplied by the MSK pulse polarity
+for the odd-numbered bits within the respective said
+
+word;
+determining the unadjusted quadrature word
+correlations Z
+S
+ for each word of said start-of-message
+portion of said preamble by:
+
+
+(a) summing the products of the determined
+quadrature symbol correlations multiplied by the MSK
+
+pulse polarity for the odd-numbered bits within a
+respective said word, and
+(b) adding to the resulting sum the sum of the
+products of the determined in-phase symbol
+
+correlations multiplied by the MSK pulse polarity
+for the odd-numbered bits of said word;
+determining the in-phase R
+C
+ and quadrature
+R
+S
+ word correlations for each word in said preamble
+to account for integer multiple of 90° phase shift
+
+of MSK modulation, said in-phase and quadrature word
+correlations being related to said unadjusted in-phase
+
+and quadrature word correlations according to
+the relationships
+
+R
+C
+ = Z
+C
+, -Z
+S
+, -Z
+C
+ or Z
+S
+, and R
+S
+ = Z
+S
+, Z
+C
+, -Z
+S
+, -Z
+C
+,
+ 
+if the number of bits from the beginning of said
+
+preamble to the beginning of said word, not counting
+the bits in said word, modulo-4 is equal to 0, 1, 2
+
+and 3, respectively;
+determining the phase change per bit Δ
+b
+ of
+said downconverted received signal by:
+
+
+a) for each of said words of said
+preamble, taking the ratio of the amplitude of said
+
+quadrature word correlation R
+s
+ to the amplitude of
+said in-phase word correlation R
+C
+ to produce an
+arctangent ratio signal,
+(b) for each of said words, determining the
+phase of said downconverted received signal
+
+represented by said arctangent signal,
+(c) taking the difference between the phase of
+each word and the phase of the next following word
+
+within the preamble to determine the one-word phase
+differences over at least a portion of said
+
+preamble,
+(d) averaging said one-word phase differences
+over said portion of said preamble to establish an
+
+estimated rate of phase change per word, and
+(e) dividing said estimated rate of phase
+change per word by the number of bits per said word
+
+to obtain an estimated phase change per bit Δ
+b
+;
+determining an estimate of the phase of said
+downconverted signal 
+k
+ with its modulation at the
+start of a digital information segment associated
+
+with the current preamble, by iteratively:
+
+(A) odd and even processing said in-phase and
+quadrature symbol correlations to produce loop error
+
+signals e
+k
+, said odd and even processing of said
+in-phase and quadrature symbol correlations
+
+including the steps of:
+
+(a) when said bit count is even, where said bit 
+count begins with zero for the first bit of said
+
+start-of-message portion of said preamble, forming
+a cosine term r
+C
+ of the phase error between said
+phase of said downconverted signal and the estimated
+
+signal phase by summing (i) the product of
+multiplying said in-phase symbol correlation by the
+
+cosine of the estimated signal phase 
+k
+ with (ii)
+the product of multiplying said quadrature symbol
+
+correlation by the sine of said estimated signal
+phase 
+k
+, and of forming a sine term r
+S
+ of the
+phase error by taking the difference between (i) the
+
+product of multiplying said quadrature symbol
+correlation by the cosine of said estimated signal
+
+phase 
+k
+ and (ii) the product of multiplying said
+in-phase symbol correlation by the sine of said
+
+estimated signal phase 
+k
+,
+(b) when said bit count is odd, of forming a
+cosine term r
+C
+ of the phase error by taking the
+difference between (i) the product of multiplying
+
+said in-phase symbol correlation by the sine of said
+estimated signal phase 
+k
+ and (ii) the product of
+multiplying said quadrature symbol correlation by
+
+the cosine of said estimated signal phase 
+k
+, and
+of forming a sine term r
+S
+ of the phase error by
+summing (i) the product of multiplying said in-phase
+
+symbol correlation by the cosine of said estimated
+signal phase 
+k
+ with (ii) the product of
+multiplying said quadrature symbol correlation by
+
+the sine of said estimated signal phase 
+k
+, said
+sine and cosine terms being proportional to the
+
+product of the modulation and the sine and cosine,
+respectively, of said phase error,
+(c) for removing the effects of at least one of
+the preamble and data modulation from the estimated 
+
+carrier phase, if the current bit is in the
+preamble, multiplying said sine and cosine terms by
+
+the modulation phase signal m
+k
+ , m
+k
+ = +1, -1 of the
+respective known bit of said preamble and, if the
+
+current bit is in the digital information segment,
+multiplying said sine and cosine terms by the
+
+modulation phase signal of the
+demodulated bit to thereby generate modulation
+
+compensated sine r
+S
+' and cosine r
+C
+' terms
+proportional to the unmodulated sine and cosine
+
+terms of said phase error,
+(d) determining an uncorrected new estimate of
+said phase error by taking the arctangent of the
+
+ratio of said modulation compensated sine term
+divided by said modulation compensated cosine term,
+(e) determining a corrected new estimate of
+said phase error in each bit of said start-of-message
+
+portion of the preamble by, if the bits
+preceding and following the current bit are unequal,
+
+subtracting from said uncorrected new estimate of
+said phase error a quantity equal to the product of
+
+a bias constant γ multiplied by a modulation
+product, wherein said modulation product is the
+
+product of the modulation of the current bit and the
+modulation of the previous bit, and by, if said bit
+
+preceding and following said current bit are equal,
+using said uncorrected new estimate of said phase
+
+error as said corrected new estimate of said phase
+error, and
+(f) limiting the values of said corrected new
+estimate of said phase error to less that π to form
+
+said loop error signals e
+k
+, and
+(B) second-order processing said loop error
+signals by means of a second order tracking loop to
+
+produce said estimated signal phase 
+k
+ for the 
+current bit k, said second order processing
+
+including the steps of:
+
+(a) determining a residual phase shift over one
+bit for the first preceding bit f
+k-1
+ by taking the
+difference between the estimated signal phases of
+
+the first preceding bit k-1 and the second
+preceding bit k-2 and subtracting from said
+
+difference the determined estimated phase change per
+bit Δ
+b
+,
+(b) determining a residual phase shift over two
+bits g
+k
+ for the current bit k by summing (i) two
+times said residual phase shift over one bit for the
+
+first preceding bit f
+k-1
+, (ii) the product of a
+first loop constant β
+1
+ multiplied by said loop
+error signal for the preceding bit e
+k-1
+, and (iii)
+the product of a second loop constant β
+2
+ multiplied
+by said loop error signal for the second preceding
+
+bit e
+k-2
+, and
+(c) determining said estimated phase for the
+current bit k by summing (i) the estimated phase
+
+for the second preceding bit 
+k-2
+, (ii) two times
+said determined estimated phase change per bit Δ
+b
+,
+and (iii) said residual phase shift over two bits
+
+g
+k
+ for the current bit; and
+demodulating said downconverted signal
+using said estimated signal phase 
+k
+ for the
+current bit k to produce:
+
+
+(a) said demodulated bit for the current bit,
+(b) said demodulated bit for the first
+following bit k+1 by using the sum of said
+
+estimated signal phase 
+k
+ and said estimated phase
+change per bit Δ
+b
+ as said estimated phase for said
+first following bit k+1, and
+(c) said demodulated bit for the second 
+following bit k+2 by using the sum of said
+
+estimated signal phase 
+k
+ and twice said estimated
+phase change per bit Δ
+b
+ as said estimated phase
+for said second following bit.
+A method according to claim 2 wherein said
+bit/word synchronization portion of said preamble
+
+precedes said message synchronization portion.
+A method according to claim 2 or 3 wherein said
+step of determining bit/word timing precedes said
+
+step of determining the starting time of said
+message synchronization portion.
+A method according to any one of claims 2 to 4
+wherein in said step of determining the starting
+
+time of said start-of message portion, said summing
+step includes the step of subtracting said duration
+
+of said bit/word synchronization portion from said
+starting time of said message synchronization
+
+portion.
+A method according to any one of claims 2 to 5
+wherein said step of determining the starting time
+
+of said message synchronization portion follows said
+step of determining bit/word timing.
+A method according to any one of claims 2 to 6
+wherein said step of determining the starting time
+
+of said start-of message portion follows said step
+of determining the starting time of said message
+
+synchronization portion.
+A method according to any one of claims 2 to 7
+wherein said step of generating the preamble 
+
+includes the step of selecting the sequence of bits
+in each of said synchronization words for low
+
+autocorrelation and selecting words for an unbiased
+estimate of phase change per bit.
+A method according to any one of claims 2 to 8
+wherein said bit/word synchronization portion is
+
+made up of 20 copies of a 7-bit Barker sequence
+A
+0
+=111-1-11-1 and said words of the message
+synchronization portion are selected from among
+
+cyclic shifts of the 7-bit Barker sequence A
+4
+, A
+2
+,
+A
+5
+, A
+3
+, A
+5
+, A
+2
+, A
+4
+, A
+0
+, A
+0
+, where A
+i
+ is A
+0
+ cyclically
+shifted to the left by i bits.
+A method according to any one of claims 2 to 9
+wherein said bias constant γ is approximately equal
+
+to 0.57 radians.
+A method according to any one of claims 2 to 10
+wherein said second-order processing begins with bit
+
+count 4, with initial conditions 
+3
+ = 
+0
+, 
+2
+ = 
+0
+ -
+Δ
+b
+, e
+3
+ = 0, e
+2
+ = 0, where 
+0
+ is the phase estimate
+of word 0 of said preamble.
+A method according to claim 1 wherein said
+sequence of bit/word synchronization words of said
+
+preamble precedes said sequence of message
+synchronization words.
+A method according to claim 1 or 12 wherein
+said bit/word synchronization sequence is made up of
+
+20 copies of a 7-bit Barker sequence A
+0
+=111-1-11-1
+and said words of the message synchronization
+
+sequence are selected from among cyclic shifts of
+the 7-bit Barker sequence A
+4
+, A
+2
+, A
+5
+, A
+3
+, A
+5
+, A
+2
+, A
+4
+, 
+A
+0
+, A
+0
+, where A
+i
+ is A
+0
+ cyclically shifted to the left
+by i bits.
+A method according to any preceding claim
+wherein said digital information segments are
+
+encoded using error correction codes to form encoded
+digital information segments.
+</CLAIMS>
+</TEXT>
+</DOC>

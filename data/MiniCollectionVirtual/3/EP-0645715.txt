@@ -1,0 +1,189 @@
+<DOC>
+<DOCNO>EP-0645715</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+System and method for processing store instructions.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1312	G06F1312	G06F1336	G06F1336	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F13	G06F13	G06F13	G06F13	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A system and method is provided for asynchronously managing the 
+issuance of program I/O store instructions from a high speed central 
+
+processor 1 to a multiplicity of relatively lower speed I/O adapter 
+devices 8. An interface 11 between the central processor 1 and the I/O 
+
+adapter devices 8 preferably includes a program I/O store queue, a state 
+machine, and a token pool related in count to the concurrent processing 
+
+capabilities of I/O controllers 6. The interface queue includes 
+information for uniquely identifying program I/O store instructions by 
+
+adapter device destination and user application program to manage error 
+recovery. As preferably implemented, the interface system and method 
+
+also distinctly manages program I/O instructions requiring synchronous 
+execution, such as program I/O load instructions. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+CHEN WEN-TZER THOMAS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+THURBER STEVEN MARK
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TSAO GARY YUH
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+CHEN, WEN-TZER THOMAS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+THURBER, STEVEN MARK
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TSAO, GARY YUH
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention is generally directed to the management of 
+instructions being processed in a high speed computer. More 
+particularly, the invention relates to a system and method of use for 
+interfacing a high speed processor to one or more I/O bus controllers. The rapid evolution of processor technology in terms of clock rates 
+and the number of instructions executed per clock cycle has created a 
+computer architecture environment in which operations other than the 
+execution of instructions by the central processor limit the execution 
+rates of programs. An area of particular concern involves processor 
+management of program defined input/output (I/O) instructions. The 
+performance degradation caused by processor synchronized program I/O 
+operations is particularly evident for contemporary processors having 
+clock rates approaching or exceeding 100 Mhz, given that clock 
+synchronized I/O operations occur at I/O execution rates approximately an 
+order of magnitude slower. The speed differential is typical for 
+synchronized program load/store to I/O address space in that the 
+conventional practice requires the central processor to wait until the 
+I/O bus controller and related I/O device complete their operations. As 
+a consequence, program I/O instructions have proven to be very 
+undesirable for high speed computers. Although new formulations of processor instructions which eliminate 
+or minimize program I/O instructions are possible, there is still a need 
+to maintain compatibility with existing software which supports 
+synchronous program I/O operations. Thus, it is important to have a 
+hardware architecture which can directly execute the voluminous libraries 
+of existing programs. Given that program I/O "load" operations are normally followed by 
+processor instructions which use the loaded data, namely the existence of 
+strong dependency between the program I/O "load" instruction and the 
+successive processing instructions, little benefit can be gained from the 
+refined management of program I/O "load" instructions. In contrast, the 
+present invention focuses on the improved management of I/O "store" 
+operations to I/O space by using an interface between the central 
+processor and I/O system.  An interface which manages program I/O store operations potentially 
+provides significant processor efficiency improvements. However, the 
+interface should be capable of running correctly with existing software 
+and should provide a mechanism for managing error recovery of I/O 
+operations executing
+</DESCRIPTION>
+<CLAIMS>
+An interface system for coupling a main processor (1) to a bus 
+controller (6), the bus controller (6) being arranged to operate as an 
+
+interface between a system bus (4) and an I/O adapter device (8), the 
+system comprising: 
+
+   means for receiving (12, 17) from the main processor store 
+instructions issued to I/O address space at an instruction processing 
+
+rate defined by the main processor; 
+   means for queuing (17, 14) the store instructions for subsequent 
+
+processing by a selected bus controller asynchronously to the main 
+processor; and 
+
+   means for transmitting (13, 17) to the selected bus controller 
+store instructions received from the main processor at an instruction 
+
+processing rate defined by the bus controller. 
+A system as claimed in Claim 1, wherein a state machine (17) is 
+used to manage the receiving, queuing and transmitting of the store 
+
+instructions, and for sending a signal to the main processor (1) after 
+each store instruction has been entered into the queue. 
+A system as claimed in Claim 2, wherein there are multiple bus 
+controllers and the system further comprises: 
+
+   allocation means (16) accessible by the state machine (17) for 
+facilitating the allocation of queued store instructions to a selected 
+
+one of said multiple bus controllers. 
+A system as claimed in Claim 3, wherein the allocation means 
+comprises a token pool, a number of tokens being allocated to each bus 
+
+controller, a token being removed from the pool each time a store 
+instruction is transmitted to a bus controller and returned to the pool 
+
+after the store instruction has been completed. 
+A system as claimed in any preceding claim wherein a transmitted 
+store instruction is retained in the queue until confirmation is received 
+
+ 
+by the state machine (17) that the store instruction has been completed, 
+
+so as to facilitate error correction. 
+A method of operating an interface system to couple a main 
+processor (1) to a bus controller (6), the bus controller (6) being 
+
+arranged to operate as an interface between a system bus (4) and an I/O 
+adapter device (8), the method comprising the steps of: 
+
+   receiving from the main processor store instructions issued to I/O 
+address space at an instruction processing rate defined by the main 
+
+processor; 
+   queuing the store instructions for subsequent processing by a 
+
+selected bus controller asynchronously to the main processor; and 
+   transmitting to the selected bus controller store instructions 
+
+received from the main processor at an instruction processing rate 
+defined by the bus controller. 
+A method as claimed in Claim 6, wherein the receiving, queuing and 
+transmitting of the store instructions is managed by a state machine 
+
+(17), the state machine also sending a signal to the main processor (1) 
+after each store instruction has been entered into the queue. 
+A method as claimed in Claim 7, wherein there are multiple bus 
+controllers and the method further comprises the step of providing an 
+
+allocation means (16) accessible by the state machine (17) for 
+facilitating the allocation of queued store instructions to a selected 
+
+one of said multiple bus controllers. 
+A method as claimed in Claim 8, wherein the allocation means 
+comprises a token pool, a number of tokens being allocated to each bus 
+
+controller, and the method comprises the steps of removing a token from 
+the pool each time a store instruction is transmitted to a bus controllet 
+
+and returning that token to the pool after the store instruction has beem 
+
+completed. 
+A method as claimed in any of claims 6 to 9 wherein a transmitted 
+store instruction is retained in the queue until confirmation is received 
+
+ 
+by the state machine (17) that the store instruction has been completed, 
+
+so as to facilitate error correction. 
+</CLAIMS>
+</TEXT>
+</DOC>

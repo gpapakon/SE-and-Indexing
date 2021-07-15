@@ -1,0 +1,711 @@
+<DOC>
+<DOCNO>EP-0647034</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+A variable word length code decoding method, and a decoder for performing the same
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04N1419	H03M742	H03M742	H04N1419	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04N	H03M	H03M	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04N1	H03M7	H03M7	H04N1	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+At least two code tables are used to decode a variable 
+word length code sequence. A first code table (41) stores code 
+
+information of variable word length codes having code lengths 
+shorter than or equal to 8 bits. In addresses of the first code table (41) 
+
+corresponding to longer variable word length code than 8 bits, data 
+is stored indicative of longer codes than 8 bits. At first, the first 
+
+code table is accessed. If the data being read from the first code 
+table (41) indicates a code length not more than 8 bits, an input variable 
+
+word length code is identified and decoded. If the data being read 
+from the first code table indicates a code length longer than 8 bits, 
+
+the second code table (42) is accessed and the input variable word 
+length code is identified and decoded. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+NIPPON ELECTRIC CO
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+NEC CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+WATANABE MITSUHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WATANABE, MITSUHIRO
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The invention relates to a variable word length code
+decoding method and apparatus for decoding an input variable
+word length code sequence, and more particularly relates to a
+decoding method which decodes the input variable word length
+code sequence quickly by using relatively small capacity code
+tables.As is well known in the art, an amount of data to be
+transmitted or to be stored can be reduced by using a variable word
+length coding technique. In this technique, a variable word length
+code set is determined based on a generation probability
+distribution of symbols to be outputted from an information source.
+More specifically, shorter length codes are assigned to symbols with
+higher generation probabilities while longer length codes are
+assigned to symbols with lower generation probabilities. Thus, the
+amount of data can be reduced. Three conventional methods are known for decoding the
+input variable word length code sequence.The first conventional method uses a single code table
+which stores a binary code tree representing a variable word length
+code set. In the method, a variable word length code which
+coincides with a part of the input variable word length code
+sequence is searched by tracing the binary code tree on a bit-by-bit
+basis.The second conventional method uses another type of
+code table which stores bit patterns of variable word length codes
+and the corresponding decoded values. In that method, each
+variable word length code stored in the code table is compared with
+the input variable word length code sequence on a code-by-code
+basis.The third conventional method uses still another type of
+code table having addresses that represent data associated with bit
+patterns of variable word length codes and which stores a decoded
+value and a code length in the corresponding address. In that table,
+the required number of address bits corresponds to the maximum
+code length in a variable word length code set. The third
+conventional method is described, for example, in U.S. patent
+4,509,038.However, the conventional methods have the following
+disadvantages. The first conventional method requires a long
+decoding time because the method performs bit-by-bit operations.
+The second conventional method also requires a long decoding time 
+because each code in the table is compared code-by-code with the
+input sequence. The third method, on the other hand, requires a
+huge capacity memory though the method requires a short decoding
+time.It is therefore a principal object of the invention to
+provide a variable
+</DESCRIPTION>
+<CLAIMS>
+A variable word length code decoding method for decoding an
+input variable word length code sequence, comprising the steps of:
+
+
+(A) storing first N bits of an undecoded variable word
+length code sequence of said input variable word length code
+
+sequence into a first register;
+(B) generating a first value by shifting rightward a value
+being read out from said first register by N-n
+1
+ bits, wherein n
+1
+ is less
+than N, and storing the first value into a second register;
+(C) reading a first code table based on an address
+indicated by said second register, wherein
+
+
+addresses of said first code table either represent first
+data associated with first group variable word length
+
+codes having code lengths (l
+1
+) less than or equal to n
+1
+ or
+represent first remaining data;
+said first code table stores a decoded value and a
+code length in each address corresponding to each of
+
+said first data; and
+said first code table also stores data representing a
+code length larger than n
+1
+ in each address corresponding
+to the first remaining data;
+(D) proceeding to next step (E) if a code length being
+read in said step (C) is longer than n
+1
+ or proceeding to step (G) if
+not; 
+(E) generating a second value by changing first m
+1
+ bits
+of the value being read from the first register to zero values, wherein
+
+m
+1
+ is less than n
+1
+, and by shifting rightward the changed value by
+( N-n
+1
+-m
+1
+) bits; and
+
+   storing the second value into said second register;
+(F) reading a second code table based on an address
+indicated by said second register, wherein
+
+
+addresses of said second code table represent second
+data associated with second group variable word length
+
+codes having code lengths (l
+2
+) longer than n
+1
+ and m
+1
+ bits
+of which are removed; and
+said second table stores a decoded value and a code
+length in each address corresponding to said second
+
+data;
+(G) outputting a decoded value being read in said step
+(C) or said step (F) to an output memory and returning to said step
+
+(A).
+The variable word length code decoding method, as
+claimed in claim 1, wherein said first m
+1
+ bits are common to each
+other in said second group variable word length codes.
+The variable word length code decoding method, as
+claimed in claim 1, wherein 
+
+
+each of said first data belongs to an n
+1
+ length bit
+pattern set consisting of each of (l
+1
+) length bit patterns of
+said first group variable word length codes and each of
+
+(n
+1
+-l
+1
+) length arbitrary bit patterns;
+each of said second data is an (n
+2
+-m
+1
+) length bit
+pattern consisting of each of (l
+2
+-m
+1
+) length bit patterns
+and each of (n
+2
+-l
+2
+) length arbitrary bit patterns; and
+each of said (l
+2
+-m
+1
+) length bit patterns is formed by
+removing first m
+1
+ bits from each of said second group
+variable word length codes.
+A variable word length code decoding method for
+decoding an input variable word length code sequence, comprising
+
+the steps of:
+
+(A) storing first N bits of an undecoded variable word
+length code sequence of said input variable word length code
+
+sequence into a first register;
+(B) generating a first value by shifting rightward a value
+being read out from said first register by N-n
+1
+ bits, wherein n
+1
+ is less
+than N, and storing the first value into a second register;
+(C) reading a first code table based on an address
+indicated by said second register, wherein
+
+
+addresses of said first code table either represent first
+data associated with first group variable word length 
+
+codes having code lengths (l
+1
+) less than or equal to n
+1
+ or
+represent first remaining data;
+said first code table stores a decoded value and a
+code length in each address corresponding to each of
+
+said first data; and
+said first code table stores data representing a code
+length larger than n
+1
+ in each address corresponding to
+the first remaining data;
+(D) proceeding to next step (E) if a code length being
+read in said step (C) is longer than n
+1
+ or proceeding to step (G) if
+not;
+(E) generating a second value by changing first m
+1
+ bits
+of the value being read from the first register to zero values, wherein
+
+m
+1
+ is less than n
+1
+, and by shifting rightward the changed value by
+( N-n
+1
+-m
+1
+) bits; and
+
+   storing the second value into said second register;
+(F) reading a second code table based on an address
+indicated by said second register, wherein
+
+
+addresses of said second code table either represent
+second data associated with second group variable word
+
+length codes having code lengths l
+2
+ longer than n
+1
+ and
+m
+1
+ bits of which are removed or represent second
+remaining data; 
+said second table stores a decoded value and a code
+length in each address corresponding to said second
+
+data; and
+said second table also stores data representing a code
+length longer than n
+2
+;
+(G) proceeding to next step (H) if a code length being
+read in said step (F) is longer than n
+2
+ or proceeding to the following
+step (J) if not;
+(H) generating a third value by changing first m
+2
+ bits of
+said value from said first register to zero values and storing said
+
+third value into said second register;
+(I) reading a third code table based on an address
+indicated by said second register, wherein
+
+
+addresses of said third code table represent third data
+associated with third group variable word length codes
+
+having code lengths l
+3
+ longer than n
+2
+ and first m
+2
+ bits of
+which are removed;
+said third code table stores a decoded value and a
+code length in each address corresponding to said third
+
+data; and
+(J) outputting a decoded value being read in said step
+(C), said step (F) or said step (I) to an output memory and returning
+
+to said step (A).
+The variable word length code decoding method as
+claimed in claim 4, wherein
+
+
+said first m
+1
+ bits are common to each other in said
+second group variable word length codes; and
+said first m
+2
+ bits are common to each other in said
+third group variable word length codes.
+The variable word length code decoding method, as
+claimed in claim 5, wherein
+
+
+each of said first data belongs to an n
+1
+ length bit
+pattern set consisting of each of l
+1
+ length bit patterns of
+said first group variable word length codes and each of
+
+(n
+1
+-l
+1
+) length arbitrary bit patterns;
+each of said second data is an (n
+2
+-m
+1
+) length bit
+pattern consisting of each of (l
+2
+-m
+1
+) length bit patterns
+and each of (n
+2
+-l
+2
+) length arbitrary bit patterns;
+each of said (l
+2
+-m
+1
+) length bit patterns is formed by
+removing first m
+1
+ bits from each of the second group
+variable length codes;
+each of said third data belong to an (N-m
+2
+) length bit
+pattern set consisting of each of (l
+3
+-m
+2
+) length bit patterns
+and each of (N-l
+3
+) length arbitrary bit patterns; and 
+each of said (l
+3
+-m
+2
+) length bit pattern is formed by
+removing first m
+2
+ bit from each of the third group
+variable word length codes.
+A variable word length code decoder for decoding an
+input variable word length code sequence, comprising:
+
+
+(A) means for storing first N bits of an undecoded
+variable word length code sequence of said input variable word
+
+length code sequence into a first register;
+(B) means for generating a first value by shifting
+rightward a value being read out from said first register by N-n
+1
+ bits,
+wherein n
+1
+ is less than N, and storing the first value into a second
+register;
+(C) means for reading a first code table based on an
+address indicated by said second register, wherein
+
+
+addresses of said first code table either represent first
+data associated with first group variable word length
+
+codes having code lengths (l
+1
+) less than or equal to n
+1
+ or
+represent first remaining data;
+said first code table stores a decoded value and a
+code length in each address corresponding to each of
+
+said first data; and
+said first code table also stores data representing a
+code length larger than n
+1
+ in each address corresponding
+to the first remaining data;
+(D) means for generating a second value by changing
+first m, bits of the value being read from the first register to zero
+
+values, wherein m
+1
+ is less than n
+1
+, and by shifting rightward the
+changed value by (N-n
+1
+-m
+1
+) bits; and
+
+   storing the second value into said second register;
+(E) means for reading a second code table based on an
+address indicated by said second register, wherein
+
+
+addresses of said second code table represent second
+data associated with second group variable word length
+
+codes having code lengths (l
+2
+) longer than n
+1
+ and m
+1
+ bits
+of which are removed; and
+said second table stores a decoded value and a code
+length in each address corresponding to said second
+
+data;
+(F) means for outputtting a decoded value being read by said
+means (C) or said means (E) to an output memory.
+The variable word length code decoder, as claimed
+in claim 7, wherein said first m
+1
+ bits are common to each other in
+said second group variable word length codes.
+The variable word length code decoder, as claimed
+in claim 7, wherein
+
+
+each of said first data belongs to an n
+1
+ length bit
+pattern set consisting of each of (l
+1
+) length bit patterns of 
+said first group variable word length codes and each of
+
+(n
+1
+-l
+1
+) length arbitrary bit patterns;
+each of said second data is an (n
+2
+-m
+1
+) length bit
+pattern consisting of each of (l
+2
+-m
+1
+) length bit patterns
+and each of (n
+2
+-l
+2
+) length arbitrary bit patterns; and
+each of said (l
+2
+-m
+1
+) length bit patterns is formed by
+removing first m
+1
+ bits from each of said second group
+variable word length codes.
+A variable word length code decoder for decoding
+an input variable word length code sequence, comprising:
+
+
+(A) means for storing first N bits of an undecoded
+variable word length code sequence of said input variable word
+
+length code sequence into a first register;
+(B) means for generating a first value by shifting
+rightward a value being read out from said first register by N-n
+1
+ bits,
+wherein n
+1
+ is less than N, and storing the first value into a second
+register;
+(C) means for reading a first code table based on an
+address indicated by said second register, wherein
+
+
+addresses of said first code table either represent first
+data associated with first group variable word length
+
+codes having code lengths (l
+1
+) less than or equal to n
+1
+ or
+represent first remaining data; 
+said first code table stores a decoded value and a
+code length in each address corresponding to each of
+
+said first data; and
+said first code table stores data representing a code
+length larger than n
+1
+ in each address corresponding to
+the first remaining data;
+(D) means for generating a second value by changing
+first m
+1
+ bits of the value being read from the first register to zero
+values, wherein m
+1
+ is less than n
+1
+, and by shifting rightward the
+changed value by ( N-n
+1
+-m
+1
+) bits; and
+
+   storing the second value into said second register;
+(E) means for reading a second code table based on an
+address indicated by said second register, wherein
+
+
+addresses of said second code table either represent
+second data associated with second group variable word
+
+length codes having code lengths l
+2
+ longer than n
+1
+ and
+m
+1
+ bits of which are removed or represent second
+remaining data;
+said second table stores a decoded value and a code
+length in each address corresponding to said second
+
+data; and
+said second table also stores data representing a code
+length longer than n
+2
+;
+(F) means for generating a third value by changing first
+
+m
+2
+ bits of said value from said first register to zero values and
+storing said third value into said second register;
+(G) means for reading a third code table based on an
+address indicated by said second register, wherein
+
+
+addresses of said third code table represent third
+data associated with third group variable word length
+
+codes having code lengths l
+3
+ longer than n
+2
+ and first
+m
+2
+ bits of which are removed;
+said third code table stores a decoded value and
+a code length in each address corresponding to said
+
+third data; and
+(H) means for outputting a decoded value being read by
+said means (C), said means (E) or said means (G) to an
+
+output memory.
+The variable word length code decoder as claimed
+in claim 10, wherein
+
+
+said first m
+1
+ bits are common to each other in said
+second group variable word length codes; and
+said first m
+2
+ bits are common to each other in said
+third group variable word length codes.
+The variable word length code decoder, as claimed
+in claim 11, wherein 
+
+
+each of said first data belongs to an n
+1
+ length bit
+pattern set consisting of each of l
+1
+ length bit patterns of
+said first group variable word length codes and each of
+
+(n
+1
+-l
+1
+) length arbitrary bit patterns;
+each of said second data is an (n
+2
+-m
+1
+) length bit
+pattern consisting of each of (l
+2
+-m
+1
+) length bit patterns
+and each of (n
+2
+-l
+2
+) length arbitrary bit patterns;
+each of said (l
+2
+-m
+1
+) length bit patterns is formed by
+removing first m
+1
+ bits from each of the second group
+variable length codes;
+each of said third data belong to an (N-m
+2
+) length bit
+pattern set consisting of each of (l
+3
+-m
+2
+) length bit patterns
+and each of (N-l
+3
+) length arbitrary bit patterns: and
+each of said (l
+3
+-m
+2
+) length bit pattern is formed by
+removing first m
+2
+ bit from each of the third group
+variable word length codes.
+</CLAIMS>
+</TEXT>
+</DOC>

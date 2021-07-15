@@ -1,0 +1,606 @@
+<DOC>
+<DOCNO>EP-0653860</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Digital phase alignment and integrated multichannel transceiver employing same
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H03M900	H04L7033	H03M900	H04L7033	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H03M	H04L	H03M	H04L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H03M9	H04L7	H03M9	H04L7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A synchronizer and phase aligning method that provide signal 
+smoothing and filtering functions as well as slip-cycle 
+
+compensation, and allow for multichannel digital phase 
+alignment, bus deskewing, integration of multiple transceivers 
+
+within a single semiconductor chip, etc. A delay line 
+produces a plurality of delayed input replicas of an input 
+
+signal. A clock phase adjuster produces a sampling clock 
+signal from a reference clock signal. The sampling clock 
+
+signal may be phase adjusted to be offset from the input 
+signal. After certain smoothing and filtering functions, 
+
+selection logic detects a phase relationship between the 
+sampling clock signal and the input replicas and identifies a 
+
+closely synchronized signal for output. Using this identified 
+replica signal, slip-cycle compensation and retiming logic 
+
+outputs a compensated data output signal synchronized with the 
+reference clock signal. Also, an integrated multiple 
+
+transceiver produced using the phase alignment technique is 
+presented. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+GEORGIOU CHRISTOS JOHN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LARSEN THOR ARNE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LI KI WON
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GEORGIOU, CHRISTOS JOHN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LARSEN, THOR ARNE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LI, KI WON
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates in general to data
+communications and, more particularly, to a digital phase
+aligner and alignment method which provide jitter and noise
+filtering and slip-cycle compensation, and which allow
+multichannel digital phase alignment, bus deskewing, and
+integration of multiple transceivers within a single
+semiconductor chip, etc.As the operating frequency of complex digital communication
+and data transfer systems increases, a major technical
+challenge has been to operate an entire system in a
+synchronous manner. A typical complex digital system consists
+of various subsystems where the exchange of information among
+the subsystems is synchronized by a fixed frequency and fixed
+phase global reference signal (i.e., "reference clock")
+available to all subsystems. When the operating frequency
+extends above several hundred megahertz (MHz), however, it is
+difficult within reasonable hardware costs to distribute the
+reference clock to the various subsystems and still maintain
+an acceptable phase difference (i.e., "clock skew"). This is
+mainly due to the inherent electrical propagation delay along
+the various physical signal paths among the subsystems.To alleviate such stringent synchronization requirements it
+has been a growing trend to limit the synchronous operations
+to within each subsystem, while providing interactions among
+subsystems of the complex network asynchronously (i.e.,
+"asynchronous interconnections"). Typically, a subsystem is a 
+collection of VLSI modules placed close together such that
+their electrical signal path delays are small enough to
+perform their operations in a synchronous manner at a given
+clock frequency above several hundred megahertz (MHz), without
+paying the high cost penalty otherwise associated with full
+network synchronous clock distribution. Each localized
+synchronous subsystem only receives a frequency-locked
+reference clock instead of a clock which is both
+frequency-locked and phase-locked. As a result, elaborate and
+costly distribution of a high speed clock signal throughout a
+network is avoided.To exchange information asynchronously among synchronous
+subsystems, each synchronous subsystem should have suitable
+transmitter and receiver modules to transmit data to and
+retrieve transmitted data from other subsystems of the
+network. Again, this assumes the absence of a traditional
+frequency-locked and phase-locked global reference clock.
+Ideally, the receiver module should retrieve data within a few
+bit-time periods under the presence of frequent phase
+d
+</DESCRIPTION>
+<CLAIMS>
+A transceiver circuit (100) for a subsystem of a system
+
+wherein data is transferred along multiple channels
+asynchronously among a plurality of subsystems, said
+
+transceiver circuit comprising:
+
+multiple transceiver macros (102), each transceiver macro
+being coupled to a different one of the multiple channels, and
+
+comprising a receiver circuit and a transmitter circuit, each
+receiver circuit having a digitally implemented phase aligner
+
+(20, 132) for aligning an input signal with a reference clock
+signal for subsequent synchronous data operations within the
+
+subsystem of the plurality of subsystems; and
+means (112), coupled to each of the multiple transceiver
+macros, for generating the reference clock signal from one of
+
+a plurality of reference clock signals, wherein each receiver
+circuit of said multiple transceiver macros is adapted to provide at least
+
+one reference clock signal of different frequency based on the
+reference clock signal,
+
+wherein said digitally implemented phase aligner of each of
+said multiple transceiver macros is 
+characterized by
+:
+
+a delay circuit (22) having an input coupled to receive the
+input signal, said delay circuit including a plurality of
+
+serially connected delay stages, each of said delay stages
+outputting a correspondingly delayed, input replica as the
+
+input signal propagates through said delay circuit;
+clock adjustment means (30) for receiving the reference clock
+signal and for producing therefrom a sampling clock signal
+
+having a clocking transition, said sampling clock signal 
+having a same frequency as the reference clock signal and a
+
+phase offset from the input signal, said phase of the sampling
+clock signal being offset from the reference clock signal when
+
+the reference clock signal is substantially in phase with the
+input signal;
+selection means (26) for detecting a phase relationship
+between said sampling clock signal and at least two of said
+
+input replicas, and for identifying based thereon one of said
+input replicas as closely synchronized with said sampling
+
+clock signal, said identified one of the input replicas
+comprising a synchronous replica; and
+output means (32) for retiming and for outputting the
+synchronous replica as a data output signal closely
+
+synchronized with the reference clock signal, said output
+means for retiming the synchronous replica including means for
+
+compensating for said clock adjustment means sampling clock
+signal phase offset relative to the reference clock signal
+
+when the reference clock signal is substantially in phase with
+the input signal.
+The transceiver circuit of claim 1, wherein said
+digitally implemented phase aligner of each of said
+
+multiple transceiver macros comprises:
+
+a delay circuit having an input coupled to receive the
+input signal, said delay circuit including a plurality of
+
+serially connected delay stages, each of said delay
+stages outputting a correspondingly delayed, input
+
+replica as the input signal propagates through said delay
+circuit;
+means (54) for acquiring phase states for each input replica
+relative to the reference clock signal, including means
+
+for evaluating the acquired phase states, beginning with
+a phase state corresponding with a least delayed input
+
+replica, for detecting a first phase state transition and
+when detected, for setting each acquired phase state
+
+subsequent thereto to a predefined, set phase state;
+selection means (26), coupled to said means for acquiring
+phase states, for identifying based on phase states one
+
+of the input replicas as closely synchronized with the
+reference clock signal, said identified one of the input
+
+replicas comprising a synchronous replica; and
+means for outputting the synchronous replica as a data
+output signal synchronized with the reference clock
+
+signal.
+The transceiver circuit of claim 1, wherein said
+digitally implemented phase aligner of each of said
+
+multiple transceiver macros comprises: 
+
+a delay circuit (22) having an input coupled to receive the
+input signal, said delay circuit including a plurality of
+
+serially connected delay stages, each of said delay
+stages outputting a correspondingly delayed, input
+
+replica as the input signal propagates through said delay
+circuit;
+selection means (26), coupled to the delay circuit, for
+identifying one of said input replicas as closely
+
+synchronized with the reference clock signal, said
+identified one of the input replicas comprising a
+
+synchronous replica; and
+compensation means (32) for evaluating the synchronous replica
+for cycle slip, and for outputting based thereon, a
+
+slip-cycle compensated data output signal whenever a
+
+cycle slip is determined, said slip-cycle compensated
+data output signal being closely synchronized with the
+
+reference clock signal.
+The transceiver circuit of claim 1, wherein said
+digitally implemented phase aligner of each of said
+
+multiple transceiver macros comprises:
+
+a delay circuit (22) having an input coupled to receive the
+input signal, said delay circuit including a plurality of
+
+serially connected delay stages, each of said delay
+stages outputting a correspondingly delayed, input
+
+replica as the input signal propagates through said delay
+circuit;
+clock adjustment means (30) for receiving the reference clock
+clock adjustment means for receiving the reference clock
+
+signal and for producing therefrom a sampling clock
+signal having a clocking transition, said sampling clock
+
+signal having a same frequency as the reference clock
+signal and a phase offset from the input signal; 
+means (54) for acquiring phase states for the input replicas
+relative to the sampling clock signal, said means for
+
+acquiring phase states including means for filtering
+incorrect phase states;
+selection means (26), coupled to said means for acquiring
+phase states, for identifying based on acquired phase
+
+states one of the input replicas as closely synchronized
+with the sampling clock signal, said identified one of
+
+the input replicas comprising a synchronous replica; and
+retiming and cycle-slip compensation means (32) for outputting
+a slip-cycle compensated data output signal closely
+
+synchronized with the reference clock signal, said
+retiming means including means for adjusting the phase of
+
+the synchronous replica when the sampling clock signal is
+phase offset from the reference clock signal, said phase
+
+compensating of the synchronous replica being equal to
+the phase offset of the sampling clock signal relative to
+
+the reference clock signal.
+The transceiver circuit of claim 1, wherein said means
+for generating the reference clock signal includes a
+
+programmable frequency multiplier (104) connected to clock each
+of said multiple transceiver macros, and
+
+wherein each of said multiple transceiver macros includes
+its own frequency divider coupled to the programmable
+
+frequency multiplier.
+The transceiver circuit of claim 2, wherein said clock
+adjustment means includes means for initially producing
+
+the sampling clock signal to be synchronous with the
+reference clock signal and for subsequently adjusting the
+
+phase of the sampling clock signal relative to the input
+signal when the reference clock signal is substantially
+
+in phase with the input signal such that the clocking
+transition of the sampling clock signal is phase offset
+
+from the data transition of the input signal. 
+The transceiver circuit of claim 2, wherein the synchronous
+replica comprises an input replica most closely
+
+synchronized with the sampling clock signal.
+The transceiver circuit of claim 2, wherein the synchronous
+replica comprises a one of said input replicas having a
+
+phase which leads the sampling clock signal.
+The transceiver circuit of claim 2, wherein said output means
+further includes compensation means for evaluating the
+
+synchronous replica for cycle slip, and wherein when
+found, the data output signal comprises a slip-cycle
+
+compensated data output signal, said slip-cycle
+compensated data output signal being closely synchronized
+
+with the reference clock signal, and
+
+wherein said selection means includes means for storing a
+previous synchronous replica, and wherein said
+
+compensation means includes means for comparing the phase
+of the synchronous replica with a phase of the previous
+
+synchronous replica and wherein said cycle slip
+evaluation includes means for examining the synchronous
+
+replica and the previous synchronous replica for a
+predefined phase difference, and
+
+wherein said compensation means includes means for
+deleting the data output signal when the phase of the
+
+synchronous replica lags by more than 360° the phase of
+the previous synchronous replica, and wherein said
+
+compensation means includes means for adding an output
+data bit before outputting of the synchronous replica as
+
+the data output signal when the phase of the synchronous
+replica leads the phase of the previous synchronous
+
+replica by more than 360°. 
+The transceiver circuit of claim 2, further comprising an
+elastic buffer and byte synchronizer, coupled to the
+
+output means, for receiving the data output signal for
+byte synchronizing.
+The transceiver circuit of claim 2, wherein said selection means
+includes a multiplexer circuit (28) for selection of the
+
+synchronous replica from the input replicas output by the
+delay circuit.
+The transceiver circuit of claim 3, said delay circuit,
+said phase state acquiring means, said selection means
+
+and said outputting means are each digitally implemented.
+The transceiver circuit of claim 3, wherein the synchronous
+replica identified by said selection means comprises an
+
+input replica most closely synchronized with the
+reference clock signal.
+The transceiver circuit of claim 3, wherein the synchronous
+replica identified by said selection means comprises a
+
+one of said input replicas having a phase which leads the
+reference clock signal,
+
+wherein said means for outputting includes compensation
+means for evaluating the synchronous replica for cycle
+
+slip, and when identified, for outputting the data output
+signal as a slip-cycle compensated data output signal
+
+synchronized with the reference clock signal,
+
+wherein said selection means includes means for saving a
+previous synchronous replica, and said compensation means
+
+includes means for comparing the phase of the synchronous
+replica with a phase of the previous synchronous replica,
+
+said means for evaluating cycle slip including means for
+identifying a phase difference between the phase of the 
+
+synchronous replica and the phase of the previous
+synchronous replica,
+
+wherein said compensation means includes means for
+deleting the data output signal when the phase of the
+
+synchronous replica lags by more that 360° the phase of
+the previous synchronous replica, and wherein said
+
+compensation means includes means for adding an output
+data bit before the data output signal when the phase of
+
+the synchronous replica leads the phase of the previous
+synchronous replica by more than 360°, and
+
+wherein said selection means includes means for
+determining a phase change direction between the
+
+synchronous replica and the previous synchronous replica
+and for providing based thereon a corresponding lead/lag
+
+signal to said outputting means.
+The transceiver circuit of claim 3, further comprising clock
+adjustment means for receiving the reference clock signal
+
+and for producing therefrom a sampling clock signal
+having a clocking transition, said sampling clock signal
+
+having a same frequency as the reference clock signal and
+a phase offset from the input signal, the phase of the
+
+sampling clock signal being offset from the reference
+clock signal when the reference clock signal is
+
+substantially in phase with the input signal; and
+
+wherein:
+
+said selection means includes means for detecting a phase
+relationship between the sampling clock signal and at
+
+least some of the input replicas, and for identifying
+based thereon one of said input replicas is closely
+
+synchronized with the sampling clock signal, said
+identified one of the input replicas comprising a
+
+synchronous replica; 
+said means for outputting includes means for retiming the
+synchronous replica by compensating for said clock
+
+adjustment means' sampling clock signal phase offset
+relative to the reference clock signal when the reference
+
+clock signal is substantially in phase with the input
+signal; and
+said clock adjustment means includes means for initially
+producing the sampling clock signal to be synchronous
+
+with the reference clock signal and for subsequently
+adjusting the phase of the sampling clock signal relative
+
+to the input signal when the reference clock signal is
+substantially in phase with the input signal such that
+
+the clocking transition of the sampling clock signal is
+phase offset from the data transition of the input
+
+signal.
+The transceiver circuit of claim 4, wherein said synchronous
+replica comprises a one of said input replicas most
+
+closely synchronized with the reference clock signal.
+The transceiver circuit of claim 4, wherein said synchronous
+replica comprises a one of said input replicas having a
+
+phase which leads the reference clock signal.
+The transceiver circuit of claim 4, wherein said selection
+means includes means for saving a previous synchronous
+
+replica, and said compensation means includes means for
+comparing the phase of the synchronous replica with a
+
+phase of the previous synchronous replica, said
+compensation means cycle slip evaluating being based on
+
+a phase difference between the phase of the synchronous
+replica and the phase of the previous synchronous
+
+replica,
+ 
+wherein said compensation means includes means for
+
+deleting the data output signal when the phase of the
+synchronous replica lags by more than 360° the phase of
+
+the previous synchronous replica, and wherein said
+compensation means includes means for adding an output
+
+data bit before the data output signal when the phase of
+the synchronous replica leads the phase of the previous
+
+synchronous replica by more than 360°, and
+
+wherein said selection means further comprises means for
+determining phase change direction between the
+
+synchronous replica and the previous synchronous replica,
+and for outputting based thereon a corresponding lead/lag
+
+signal to said compensating means for use in said cycle
+slip evaluation.
+The transceiver circuit of claim 4, further comprising output
+means for outputting the synchronous replica as the data
+
+output signal synchronized with the reference clock
+signal when no cycle slip is determined by said
+
+compensation means.
+The transceiver circuit of claim 5, wherein said clock
+adjustment means includes means for providing the
+
+sampling clock signal synchronous with the reference
+clock signal when the reference clock signal is phase
+
+offset from the input signal,
+
+wherein said adjustment means includes means for
+initially producing the sampling clock signal to be
+
+synchronous with the reference clock signal and for
+subsequently adjusting the phase of the sampling clock
+
+signal relative to the input signal when the reference
+clock signal is substantially in phase with the input
+
+signal such that the clocking transition of the sampling
+clock signal is phase offset from the data transition of
+
+the input signal. 
+The transceiver circuit of claim 5, wherein the synchronous
+replica comprises an input replica most closely
+
+synchronized with the sampling clock signal.
+The transceiver circuit of claim 5, wherein the synchronous
+replica comprises a one of said input replicas having a
+
+phase which leads the sampling clock signal.
+The transceiver circuit of claim 5, wherein said selection
+means includes means for storing a previous synchronous
+
+replica, and wherein said compensation means includes
+means for comparing the phase of the synchronous replica
+
+with the phase of the previous synchronous replica and
+wherein said cycle slip evaluation includes means for
+
+examining the synchronous replica and the previous
+synchronous replica for a predefined phase difference,
+
+wherein said compensation means includes means for
+deleting the data output signal when the phase of the
+
+synchronous replica lags by more than 360° the phase of
+the previous synchronous replica, and wherein said
+
+compensation means includes means for adding an output
+data bit before outputting of the synchronous replica as
+
+the data output signal when the phase of the synchronous
+replica leads the phase of the previous synchronous
+
+replica by more than 360°, and
+
+wherein said selection means includes means for
+determining a phase change direction between the
+
+synchronous replica and the previous replica and for
+providing to said retiming and cycle slip compensation
+
+means a corresponding lead/lag signal. 
+The transceiver circuit of claim 5, wherein said means for
+acquiring phase states includes means for evaluating the
+
+acquired phase states, beginning with a phase state
+corresponding with a least delayed input replica, for
+
+detecting a first phase state transition and when
+detected, for setting each acquired phase state
+
+subsequent thereto to a predefined, set phase state.
+A data transfer network wherein data is transferred
+along multiple channels asynchronously among a plurality
+
+of subsystems, said network is 
+characterized by
+
+multiple synchronous subsystems, each synchronous
+subsystem having a transceiver circuit
+
+according to any of the predceding
+claims, wherein said multiple channels couple
+
+said plurality of subsystems.
+</CLAIMS>
+</TEXT>
+</DOC>

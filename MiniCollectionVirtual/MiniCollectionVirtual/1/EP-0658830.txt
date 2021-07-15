@@ -1,0 +1,328 @@
+<DOC>
+<DOCNO>EP-0658830</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Data backup apparatus utilized in an electronic control system and data backup method performed in the data backup apparatus
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G05B19042	G05B1904	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G05B	G05B	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G05B19	G05B19	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A backup RAM for storing pieces of diagnosis data regardless 
+of the cut-off of an electric power is provided in a portion 
+
+of a RAM. In cases where the detection of an unusual condition 
+by a throttle sensor or a water temperature sensor is judged 
+
+by a CPU in a current processing routine, a first checking 
+value indicating that the backup RAM is in a renewing period 
+
+is stored in a checking region of the backup RAM, and pieces 
+of previous diagnosis data stored in a data access region of 
+
+the backup RAM in a previous processing routine are copied to 
+a temporary refuge region of the backup RAM. Thereafter, 
+
+pieces of updated diagnosis data obtained in the current 
+processing routine are stored one by one in the data access 
+
+region in place of the previous diagnosis data, and a second 
+
+checking value indicating that the backup RAM is in a renewal 
+finishing period is stored in the checking region. In cases 
+
+where the first checking data is stored in the checking region 
+when the electric power cut off is again supplied, the 
+
+previous diagnosis data stored in the temporary refuge region 
+are returned to the data access region and are read out 
+
+according to a request from a diagnosis checker. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+DENSO CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+DENSO CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+KITAGAWA YOSHIHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KONDO HIROSHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+OGURI TAKAMASA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+OKUDA KAZUYUKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YANO MASATO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KITAGAWA, YOSHIHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KONDO, HIROSHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+OGURI, TAKAMASA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+OKUDA, KAZUYUKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YANO, MASATO
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates generally to a data backup
+apparatus utilized in an electronic control system, and more
+particularly to a data backup apparatus, for example, utilized
+for a failure-diagnosis apparatus in which pieces of diagnosis
+data required for the analysis of an unusual condition in on-vehicle
+equipment are stored and read out to perform a
+failure-diagnosis of the on-vehicle equipment. Also, the
+present invention relates to a data backup method for storing
+the diagnosis data utilized for the failure-diagnosis of the
+on-vehicle equipment in the data backup apparatus.EP-A-0 025 330 discloses a conventional method of rewriting
+data in a non-volatile memory as well as a system
+therefore. According to this document, information
+indicating the initiation as well as the completion of an
+operation for the modification of the data content is
+written in a flag area 13. Thus, the initiation of the
+modification operation and the completion of the
+modification operation can be detected, however, in cases
+where many types of data exist a fast and easy detection of
+the modified data is hard to achieve. Moreover, data backup apparatus in an electronic control system
+has been conventionally utilized for a failure-diagnosis
+apparatus in which pieces of diagnosis data required for the
+analysis of unusual conditions in on-vehicle equipment are 
+stored. That is, as is described in the Japanese Published
+Unexamined Patent Application No. 142849 of 1987 (S62-142849)
+as an example, in the failure-diagnosis apparatus, pieces of
+diagnosis data transferred from various on-vehicle parts are
+stored in a backup memory of the data backup apparatus at
+previous intervals regardless of the cut-off of an electric
+power to replace pieces of previous diagnosis data with pieces
+of updated diagnosis data at the previous intervals, and
+failure-diagnosis of the on-vehicle parts is performed with
+the updated diagnosis data to check whether or not a failure
+condition exists in the on-vehicle equipment.However, in cases where the electric power is cut off in
+the middle of the replacement of the diagnosis data stored in
+the backup memory, pieces of mixed data in which pieces of
+updated diagnosis data obtained after the replacement and
+pieces of previous diagnosis data obtained before the
+replacement are mixed are undesirably stored in the backup
+memory. Therefore, when the electric power cut off is again
+supplied to the failure-diagnosis apparatus, the mixed data
+composed of the updated diagnosis data and the previous
+diagnosis
+</DESCRIPTION>
+<CLAIMS>
+A data backup apparatus suitable for utilization in an electronic
+control system in which a plurality of elements including a
+
+particular element are controlled, comprising:
+
+control data storing means (24) having a first memory
+region (R107 to R113), a second memory region (R102 to
+
+R106) and a third memory region (R101) for storing pieces
+of updated control data relating to the elements in the
+
+first memory region, storing previous control data relating
+to one of the elements in the second memory region, and
+
+storing checking data in the third memory region,
+regardless of whether an electric power is cut off;
+control data copying means (33) for copying a piece of
+updated control data relating to one of the elements and
+
+stored in the first memory region of the control data
+storing means to the second memory region of the control
+
+data storing means as the previous control data;
+control data renewing means (31) for renewing one
+after another a piece of updated control data relating to
+
+one of the elements, which are stored in the first memory
+region (R107 to R113) of the control data storing means
+
+(24) and are copied to the second memory region (R102 to
+R106) of the control data storing means by the control data
+
+copying means (33), on condition that the electric power is
+supplied to the control data renewing means (31), the
+
+renewal of the updated control data being stopped during
+the renewal by cutting off the electric power supplied to
+
+the control data renewing means in the middle of the
+renewal;
+checking data setting means (32) for setting first
+checking data indicating both a start of the renewal of a
+
+piece of updated control data performed by the control data
+renewing means and one element relating to the updated
+
+control data to the third memory region of the control data
+storing means in cases where the updated control data 
+
+stored in the first memory region (R107 to R113) of the
+control data storing means (24) is renewed by the control
+
+data renewing means (31), and setting second checking data
+indicating completion of the renewal of the updated control
+
+data performed by the control data renewing means to the
+third memory region of the control data storing means in
+
+cases where the renewal of the updated control data
+performed by the control data renewing means is completed,
+
+the storage of the first checking data is maintained in the
+third memory region (R101) of the control data storing
+
+means (24) in cases where the electric power supplied to
+the control data renewing means (31) is cut off in the
+
+middle of the renewal performed by the control data
+renewing means; and
+control data returning means (34) for checking whether
+or not first checking data is stored in the third memory
+
+region (R101) of the control data storing means (24) in
+cases where the electric power cut off is again supplied to
+
+the control data renewing means (31), specifying the
+particular element indicated by the first checking data in
+
+cases where the first checking data is stored in the third
+memory region, returning the previous control data stored
+
+in the second memory region (R102 to R106) of the control
+data storing means (24) to the first memory region (R107 to
+
+R113) of the control data storing means (24) as a piece of
+particular updated control data relating to the particular
+
+element.
+An apparatus according to claim 1, wherein each piece of
+updated control data stored in the first memory region of
+
+the control data storing means is composed of pieces of
+diagnosis data indicating an unusual condition of an on-vehicle
+
+element, an unusual condition judging flag
+indicating that the diagnosis data are stored in the first
+
+memory region, and a piece of judging number data
+indicating the number of unusual condition judgements, the
+
+number of unusual condition judgements denoting the number 
+of renewals performed by the control data renewing means
+
+for the on-vehicle element.
+An apparatus according to claim 1, wherein each piece of
+updated control data stored in the first memory region of
+
+the control data storing means includes pieces of diagnosis
+data indicating an unusual condition of an on-vehicle
+
+element selected from a group comprising a throttle, an air
+flow, a crank angle and a water temperature, and the
+
+diagnosis data indicate the rotational number of a piston,
+an amount of an intake air and a failure code designating
+
+the on-vehicle element.
+An apparatus according to claim 1, wherein each piece of
+updated control data stored in the first memory region of
+
+the control data storing means is composed of pieces of
+diagnosis data indicating an unusual condition of an on-vehicle
+
+element detected by a sensor selected from a group
+comprising a throttle sensor (14) and a water temperature
+
+sensor (17), an HA unusual condition judging flag of which
+a setting value "1" indicates that the diagnosis data
+
+indicating the unusual condition of one on-vehicle element
+detected by the throttle sensor are stored in the first
+
+memory region, a piece of HA judging number data indicating
+the number of HA unusual condition judgements, which
+
+denotes the number of renewals of the diagnosis data
+indicating the unusual condition of the on-vehicle element
+
+detected by the throttle sensor, an TW unusual condition
+judging flag of which a setting value "1" indicates that
+
+the diagnosis data indicating the unusual condition of one
+on-vehicle element detected by the water temperature sensor
+
+are stored in the first memory region, a piece of TW
+judging number data indicating the number of TW unusual
+
+condition judgements, which denotes the number of renewals
+of the diagnosis data indicating the unusual condition of
+
+the on-vehicle element detected by the water temperature
+sensor,
+ 
+   wherein the diagnosis data, the HA unusual condition
+
+judging flag and the HA judging number data are copied to
+the second memory region of the control data storing means
+
+by the control data copying means and are returned to the
+first memory region of the control data storing means by
+
+the control data returning means in cases where the HA
+unusual condition judging flag is set to "1", and
+
+   wherein the diagnosis data, the TW unusual condition
+judging flag and the TW judging number data are copied to
+
+the second memory region of the control data storing means
+by the control data copying means and are returned to the
+
+first memory region of the control data storing means by
+the control data returning means in cases where the TW
+
+unusual condition judging flag is set to "1".
+An apparatus according to claim 1, comprising
+
+a sensor selected from a group comprising a throttle
+sensor (14), an air flow detector (15), a crank angle
+
+sensor (16) and a water temperature sensor (17) for
+detecting an unusual condition of an on-vehicle element;
+
+and
+diagnosis data producing means (30) for producing the
+diagnosis data indicating the unusual condition of the on-vehicle
+
+element detected by the sensor, the diagnosis data
+being stored in the first memory region by the control data
+
+renewing means.
+An apparatus according to claim 1, wherein
+
+a diagnosis checker (19) for checking which on-vehicle
+
+element is in a failure condition according to the updated
+control data returned to the first memory region by the
+
+control data returning means.
+</CLAIMS>
+</TEXT>
+</DOC>

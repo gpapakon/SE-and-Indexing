@@ -1,0 +1,448 @@
+<DOC>
+<DOCNO>EP-0627840</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Echo canceller
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04M908	H04M908	H04B323	H04B323	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04M	H04M	H04B	H04B	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04M9	H04M9	H04B3	H04B3	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+In an echo canceller, a first adaptive filter (1) 
+estimates an impulse response of an echo path between 
+
+reception and transmission side by an NLMS algorithm to 
+synthesize a pseudo echo, while a second adaptive filter 
+
+(3) determines whether there is an echo path change or a 
+double talk. A voice detector (8) detects a short time 
+
+power of the received input signal (x) to determine whether 
+far-end speech is present or absent, wherein said voice 
+
+detector controls said second adaptive filter (3) to 
+execute adaptation of said second adaptive filter for 
+
+renewal of an impulse response of an echo path when far-end 
+speech is present and otherwise to suspend the adaptation 
+
+of said second adaptive filter when far-end speech is 
+absent, while a double talk detector (9) controls the first 
+
+adaptive filter to execute or suspend adaptation of the 
+first adaptive filter according to the determination 
+
+results of the voice detector. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC IND CO LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC INDUSTRIAL CO., LTD.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+FURUKAWA HIROKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+IBARAKI SATORU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KANAMORI TAKEO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TAGAWA JUNICHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FURUKAWA, HIROKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+IBARAKI, SATORU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KANAMORI, TAKEO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TAGAWA, JUNICHI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to an echo
+canceller for controlling acoustic echoes in loud telephone
+lines and teleconference systems as well as echoes in two-to-four
+line switching hybrid of telephone lines.Acoustic echo cancellers generally used in
+teleconference systems are described here as an example.
+In a teleconference system, there are used loudspeakers and
+microphones to implement speech communication. Far-end
+speech sent from a far-end to a near end is loudened by a
+loudspeaker and reaches near-end speakers, while the far-end
+speech loudened by the loudspeaker is affected by
+reflection by walls and the like, and is entered to a
+microphone as an acoustic echo. The acoustic echo that has
+entered to the microphone is transferred to the far-end by
+line and then loudened by a loudspeaker in the far-end. To
+far-end speakers, the far-end speech returns back as an
+echo delayed to an extent of the line reciprocation.In view of the above fact, there has been
+developed an acoustic echo canceller for cancelling an echo
+in which an impulse response of an acoustic echo path 
+ranging from a loudspeaker to a microphone is estimated so
+as to convolute an input signal of a loudspeaker with the
+estimated impulse response together to thereby synthesize
+a pseudo echo, and subtracting the pseudo echo from an output
+of the microphone.Generally, an echo canceller adaptively estimates
+an impulse response of an echo path by using a spoken
+speech. To accurately estimate an impulse response of an
+acoustic echo path, it is required to renew the impulse
+response (hereinafter, referred to also as "adapt") when
+only a far-end speaker is speaking (referred to as a single
+talk). That is, it is natural that renewal of the impulse
+response be suspended when no far-end speaker is speaking
+or when only a near-end speaker is speaking, whereas
+renewal of the impulse response should also be suspended
+for a double-talk period during which both a near-end
+speaker and a far-end speaker are simultaneously speaking.
+Thus, an echo canceller is provided with a function of
+double talk detection for detecting a double talk and
+suspending the renewal of the impulse response.Below described is an acoustic echo canceller as
+disclosed in the U.S. Patent 4,894,820 which uses a double
+talk detector with reference to Fig. 17.As shown in Fig. 17, a subtracter 129 determines
+the difference in level between the signals Lrin and Lres, 
+and outputs a signal Acoms to an adder 130 and a threshold
+control section 131. The adder adds a margin to the signal
+Ac
+</DESCRIPTION>
+<CLAIMS>
+An echo canceller comprising:
+
+a first adaptive filter (1) for estimating an impulse
+response of an echo path between reception and transmission
+
+sides, configured to hold the estimated impulse response as a filter
+coefficient, and to convolute the filter coefficient with a
+
+received input signal to thereby synthesize a pseudo echo
+(Yh) ;
+a first subtracter (2) for subtracting the pseudo echo
+synthesized by said first adaptive filter (1) from a
+
+transmitting input signal (y) to thereby cancel an echo
+contained in the transmitting input signal;
+a second adaptive filter (3) for estimating an impulse
+response of the echo path, configured to hold the estimated impulse
+
+response as a filter coefficient, and to convolute the
+received input signa
+l with the filter coefficient to
+thereby synthesize a pseudo echo (Yhs);
+a second subtracter (4) for subtracting the pseudo
+echo (Yhs) synthesized by said second adaptive filter (3)
+
+from the transmitting input signal to thereby cancel the
+echo:
+
+
+a first input-output power ratio estimator (5) configured to
+detect short time powers of input and output signals of
+
+said first subtracter (2) to calculate a first I/O power
+ratio (R1) of an input-short-time-power/output-short-time
+
+power of said first subtracter (2); 
+a second input-output power ratio estimator (6) configured to
+detect short time powers of input and output signals of
+
+said second subtracter (4) to calculate a second I/O power
+ratio (R2) of an input-short-time-power/output-short-time-power
+
+of said second subtracter (4);
+a divider (7) for dividing the second I/O power ratio
+(R2) by the first I/O power ratio (R1) to calculate a third
+
+ratio (R3);
+a voice detector (8) for detecting a short time power
+of the received input signal (x) to determine whether far-end
+
+speech is present or absent, wherein said voice
+detector is configured to control said second adaptive filter (3) to
+
+execute adaptation of said second adaptive filter for
+renewal of an impulse response of an echo path when far-end
+
+speech is present and otherwise to suspend the adaptation
+of said second adaptive filter when far-end speech is
+
+absent; and
+a double talk detector (9) for controlling said first
+
+adaptive filter configured to execute or suspend adaptation of said
+first adaptive filter according to the determination
+
+results of said voice detector.
+The echo canceller as claimed in claim 1, wherein said
+double talk detector (9) is configured to control said first adaptive
+
+filter to suspend adaptation of said first adaptive filter
+for renewal of an impulse response of an echo path when
+
+said voice detector determines that far-end speech is
+absent, and otherwise to execute the adaptation of said 
+
+first adaptive filter when said voice detector determines
+that far-end speech is present under at least one of the
+
+following conditions (a) and (b) is satisfied:
+
+(a) either the first or the second I/O power ratio is
+greater than a first threshold (Th1); or
+(b) the third ratio (R3) is greater than a fixed
+second threshold (Th2).
+The echo canceller as claimed in claim 1 or 2,
+wherein said double talk detector (9) comprises:
+
+
+a threshold controller (41) for controlling the first
+threshold (Th1) to be produced therefrom, configured to receive
+
+the first I/O power ratio (R1) generated by said first I/O
+power ratio estimator (5) to thereby control the first
+
+threshold (Th1) to be produced according to an output
+result (VD) of said voice detector (8) in such a manner
+
+that, the first threshold (Th1) is gradually increased so
+as not to exceed the first ratio (R1) when far-end speech
+
+is present and besides the first ratio (R1) is greater than
+the first threshold (Th1), while the first threshold (Th1)
+
+is gradually decreased when the first ratio (R1) is smaller
+than the current threshold (Th1) irrespective of the
+
+presence of far-end speech, and otherwise the previous
+value of the first threshold (Th1) is held when no speech
+
+is present; and
+an adaptation controller (42) for controlling an
+adaptation of said first adaptive filter (1) in such a
+
+manner that said adaptation controller is configured to determine to 
+execute the adaptation of said first adaptive filter (1) in
+
+either case when far-end speech is present and besides at
+least one of the first and second ratios (R1, R2) is
+
+greater than the first threshold (Th1) or in a case when
+the third ratio (R3) is greater than the second threshold
+
+(Th2).
+The echo canceller according to claim 3, wherein said
+threshold controller (41) comprises: a memory (51) for
+
+storing the first threshold (Th1); a comparator (52) for
+comparing the first I/O power ratio (R1) with the first
+
+threshold (Th1); a switch (53) configured to which select a constant
+(Kup) when the comparator (52) has determined that the
+
+first I/O power ratio (R1) is greater than the first
+threshold (Th1) and otherwise to select a constant
+
+(Kdn); a subtracter (54) configured to subtract the first
+threshold (Th1) from the first I/O power ratio (R1); a
+
+multiplier (55) configured to calculate a product of a time
+constant (Kup or Kdn) selected by the switch (53) and an
+
+output (R1-Th1) of the subtracter (54); an adder (56) for
+adding together an output of the multiplier (55) and the
+
+first threshold (Th1); a limiter (57) for limiting the
+maximum and minimum of an output of the adder (56); a
+
+switch (58) configured to select an output of the limiter (57)
+when far-end speech is present, and to select an output
+
+of the memory (51) when no speech is present, in accordance
+with the output signal (VD) of said voice detector; a
+
+delay unit (59) for delaying an output of the switch (58) 
+by one sample and configured that the resultant output thereof is
+
+transferred to the memory ( 51).
+The echo canceller according to claim 3 or 4, wherein
+said adaptation controller (42) comprises:
+
+
+a first comparator (61) for comparing the first
+threshold (Th1) created by the threshold controller (41)
+
+with the first I/O power ratio (R1) calculated by the first
+input-output power ratio estimator ( 5) to yield a positive
+
+output when the first ratio is greater that the other and
+otherwise to yield a negative output;
+a second comparator (62) for comparing the second
+ratio (R2) calculated by the second input-output power
+
+ratio estimator (6) with the first threshold (Th1) to yield
+a positive output when the second ratio is greater than the
+
+other and otherwise to yield a negative output;
+a third comparator (63) for comparing the third ratio
+(R3) calculated by the divider (7) with the second fixed
+
+threshold (Th2) to yield a positive output when the third
+ratio is greater than the other and otherwise to yield a
+
+negative output;
+an OR circuit (64) for determining a logical OR of the
+three comparators; and
+an AND circuit (65) for determining a logical AND
+between a determination result (VD) of the voice detector
+
+(8) and a logic output of the OR circuit.
+The echo canceller as claimed in any preceding claim,
+further comprising a step gain controller (10) for
+
+controlling a step gain (α1) to be applied to said first
+adaptive filter according to both the determination result
+
+(VD) of said voice detector and the third ratio (R3).
+The echo canceller as claimed in claim 6, wherein said
+step gain controller further comprises: a divider (71) for
+
+calculating a reciprocal of the third ratio; a subtracter
+(72) for subtracting an output of said divider (71) from 1;
+
+a limiter (73) for limiting an output of said subtracter
+(72) within a specified range; and an averaging circuit
+
+(74) for averaging an output of said limiter by a specified
+time constant when said voice detector has detected speech,
+
+and otherwise for yielding a value of a previous step gain
+when said voice detector has detected no speech.
+The echo canceller as claimed in any preceding claim,
+further comprising a loss controller (11) for calculating
+
+a loss to be added to the transmitting output signal
+according to a determination result of the voice detector,
+
+the first ratio, and a third ratio; and an insertion loss
+circuit (12) for attenuating an output signal of said first
+
+subtracter by the loss calculated by said loss controller.
+The echo canceller as claimed in claim 8, wherein said
+loss controller further comprises: 
+
+
+a first averaging circuit (81) for averaging the third
+ratio by a specified time constant to be yielded therefrom
+
+when the voice detector has detected speech, and otherwise for
+holding a previous operation result to be yielded when no
+
+speech has been detected;
+a comparator (82) for comparing an output of the first
+averaging circuit with a predetermined third threshold
+
+(Th3), thereby to yield a positive output when the output
+of the first averaging circuit is greater than the third
+
+threshold and otherwise to yield a negative output;
+an AND circuit (86) for determining a logical AND
+between an output of said comparator (82) and an output of
+
+the voice detector (8);
+a divider (83) for dividing a predetermined maximum
+loss (ERLEO) by the first ratio (R1);
+a second averaging circuit (85) for averaging an
+output of said divider by a specified time constant when
+
+the voice detector has detected speech, and otherwise for
+holding a previous operation result thereof when no speech
+
+has been detected; and
+a switch (87) for selecting an output of said second
+averaging circuit as a loss when the AND circuit has
+
+yielded a positive output and otherwise for selecting a
+numerical value 1.
+The echo canceller as claimed in any preceding claim,
+wherein the renewal of the filter coefficients of said
+
+first and second adaptive filters is performed according to 
+an Normalized Least Mean Square algorithm, where the step
+
+gain of the second adaptive filter is 1, and optionally
+the step gain (α1) of the first adaptive filter is smaller
+
+than a step gain (α2) of the second adaptive filter.
+The echo canceller as claimed in any preceding claim,
+wherein a reference input signal (x) of said second
+
+adaptive filter (3, 17) and an input signal (y) of said
+second subtracter (4) are band-limited to 1/M, where M is
+
+an integer not less than 2, of a pass band of said first
+adaptive filter by band-limiting filter means (13, 15) and
+
+the resultant band-limited signals are further decimated to
+1/M by decimator means (14, 16).
+The echo canceller as claimed in claim 11, wherein
+said band-limiting filter means is a low-pass filter whose
+
+cut-off frequency is lower than 1 kHz.
+The echo canceller as claimed in claim 11 or 12,
+wherein said second adaptive filter (17) comprises:
+
+
+a first X-memory (101) for storing a received input
+signal corresponding to N samples where N is an integer;
+an H-memory (102) for storing filter coefficients
+corresponding to N samples;
+a first convoluter (103) for convoluting the latest
+data corresponding to N samples stored in the first
+
+X-memory (101) with data stored in the H-memory (102) to
+thereby synthesize a pseudo echo; 
+a first coefficient renewer (104) for renewing the
+filter coefficients stored in the H-memory (102) by using
+
+an output signal of the first subtracter (2) and the data
+stored in the first X-memory when the voice detector has
+
+determined that far-end speech is present;
+a first delay (105) for delaying the received input
+signal by M samples;
+a second delay (106) for delaying the transmitting
+input signal by M samples;
+a third delay (107) for delaying a detection result of
+said voice detector by M samples;
+a second X-memory (108) for storing an output of the
+first delay corresponding to N samples;
+a second convoluter (109) for convoluting the data
+corresponding to N samples stored in the second X-memory
+
+(108) with the data stored in the H-memory (102) to
+synthesize a pseudo echo;
+a third subtracter (110) for subtracting an output of
+the second convoluter (109) from an output of the second
+
+delay (106);
+and a second coefficient renewer (111) for renewing
+the filter coefficients stored in the H-memory (102) by
+
+using an output signal and step gain of the third
+subtracter (110) and the data stored in the second X-memory
+
+(108) when a detection result of the voice detector
+corresponding to the last M samples delayed by the third
+
+delay (107) is determined that far-end speech is present.
+</CLAIMS>
+</TEXT>
+</DOC>

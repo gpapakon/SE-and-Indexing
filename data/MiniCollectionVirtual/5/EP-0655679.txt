@@ -1,0 +1,285 @@
+<DOC>
+<DOCNO>EP-0655679</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method and apparatus for controlling instruction in pipeline processor
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F938	G06F938	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A pipeline processor for processing instruction 
+fetch prior to execution of the instruction based on the 
+
+content of branch history for storing history of the 
+result of execution of branch instructions includes an 
+
+address generating section 12, branch history retrieving 
+section 14, prefetch address holding section 16 and 
+
+instruction fetch section 18. The branch history 
+retrieving section 14 determines whether each of addresses 
+
+sequentially generated from the address generating 
+section 12 hits the branch history or not. When an 
+
+instruction stored in the address hits the branch 
+history, the branch history retrieving section 14 supplies 
+
+the content of the branch history to the prefetch 
+address holding section 16. When the branch history 
+
+retrieving section 14 is hit, the prefetch address holding 
+section 16 holds the branching-destination address of the 
+
+branch instruction until the instruction is fetched by 
+the instruction fetch section. If an instruction 
+
+fetched in a preceding cycle hits the branch history, 
+the instruction fetch section 18 fetches an instruction of 
+
+an address held in the prefetch address holding section 16, 
+and if the instruction fetched in a preceding cycle does 
+
+not hit the branch history, the instruction fetch 
+section 18 fetches an instruction of an address generated 
+
+from the address generating section 12. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+FUJITSU LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+FUJITSU LIMITED
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+INOUE AIICHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+INOUE, AIICHIRO
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to a pipeline processor
+which is a data processor for executing a sequential
+instruction stream by use of a pipeline processing
+system, and more particularly to an instruction
+controlling method and apparatus in a pipeline processor
+for independently processing instruction fetch and
+instruction execution in a pipeline fashion, previously
+predicting a branching destination (target) of a branch
+instruction based on branch history which is history
+information of the result of a past execution of the branch
+instruction, and fetching an instruction string of the
+branching destination before completion of the branch
+instruction execution.A pipeline processor is a data processor utilizing
+a pipeline processing system for executing a sequential
+instruction stream. In the pipeline processor, if an
+execution stage becomes available when one instruction
+is executed in the instruction execution process, a next
+instruction is applied to the available stage and
+execution of the next instruction is started even if
+execution of the preceding instruction is not completed. 
+Thus, in the pipeline processor, an attempt is made to
+enhance the performance by sequentially applying
+instructions and starting execution of the instructions
+if an execution stage becomes available without waiting
+for completion of the individual instruction execution
+in the process of executing sequential instructions.However, the result of execution of the preceding
+instruction often influences execution of the
+succeeding instruction, and in this case, it is
+necessary to wait for execution of the preceding
+instruction before starting execution of the succeeding
+instruction, thus causing disorder in the pipeline. The
+disorder of the pipeline may cause the performance of
+the pipeline to be lowered.Particularly, in the branch instruction, whether
+the branch is taken or not and the address of an
+instruction of a branching destination cannot be
+determined until the branch instruction execution is
+completed. That is, when a fetched instruction is a
+branch instruction, whether the branch is taken or not
+cannot be determined before the branch instruction is
+executed, and therefore, the address of an instruction
+of a branching destination based on the result of
+execution of the branch cannot be determined prior to
+execution of the branch instruction. The branch
+instruction naturally causes disorder in the pipeline.
+The frequency of occurrence of the branch instruction is 
+high and most likely causes degradation of the
+performance of
+</DESCRIPTION>
+<CLAIMS>
+A pipeline processor which fetches
+instructions sequentially from an address indicated by
+
+a program counter and executes them,
+
+   wherein the instruction fetch is performed prior
+to the instruction execution,
+
+
+the fetched instructions are stored in an
+instruction buffer (50),
+and wherein the pipeline processor comprises a
+branch history storing section (48) from which it can
+
+be determined whether or not an instruction address is
+previously registered in the branch history,
+
+   
+characterised in that
+:
+
+the instructions are fetched sequentially from the
+instruction buf-fer (50) to be supplied to an
+
+execution section (EP) in synchronism with the progress
+of the instruction execution,
+and the pipeline processor uses the processing
+steps of:
+
+
+generating addresses by an adder (76A,B,C) and an
+instruction address register (74A,B,C) dedicated for
+
+instruction fetching, both of which are independent of
+the program counter;
+performing the instruction fetch in a unit size
+equal to or different from a word length of an
+
+instruction word;
+storing a series of areas sequentially in the
+instruction buffer (50) by updating the instruction
+
+address register (74A,B,C) in synchronism with the
+instruction fetching operation;
+retrieving a branch history by the address of the
+instruction fetch in synchronism with the instruction
+
+fetching operation, the branch history being of a type
+which stores the execution results of a past branch 
+
+instruction having the instruction address of said
+branch instruction and which is paired with the
+
+instruction address of a branch target;
+when, as a result of the retrieving, the branch
+instruction of the instruction address coincides with a
+
+range of the address of the instruction fetch, i.e.
+when a hit occurs, selecting the instruction address of
+
+the branch target as the address of the instruction
+fetch;
+storing the occurred hit together with the branch
+target address; and
+starting the instruction fetch of the branch
+target at any selected time in asynchronism with the
+
+instruction fetch which has hit the branch history.
+A pipeline processor according to Claim 1
+which comprises:
+
+
+a plurality of sets of instruction fetch ports
+(A,B,C), each port consisting of an address generating
+
+section (70A,B,C) for generating the address of the
+instruction fetch;
+the instruction buffer (50) for storing therein a
+fetched area; and
+a branch target address storing section (42) for
+storing the occurred hit together with the branch
+
+target address; and
+
+   wherein an instruction fetch sequence, which is
+different from a series of instructions being currently
+
+executed, is started without waiting for completion of
+the series of instructions;
+
+
+an instruction string of the consecutive sequence
+is stored in the instruction buffer (50) in the
+
+instruction fetch sequence; and
+when the hit occurs in the second instruction
+fetch sequence, fetching of its branch target is 
+
+started at that point.
+A pipeline processor according to Claim 2,
+
+wherein, when a hit of the branch history occurs in the
+second instruction fetch sequence, the hit branch
+
+target address is stored, and
+
+   fetching of the branch target is started at any
+selected time.
+A pipeline processor according to Claim 3,
+
+wherein the processing further comprises the steps of:
+
+determining the instruction fetch to be performed
+according to a priority selected among a plurality of
+
+instruction fetches;
+selecting the instruction address corresponding to
+the selected instruction fetch; and
+
+   wherein the sequence of execution of the
+instruction fetches is determined independently of the
+
+instruction execution sequence of the instruction
+execution section.
+A pipeline processor according to Claim 4,
+
+   wherein one of the plurality of instruction
+fetches is a request for the instruction fetch of the
+
+sequence,
+
+   the execution of which has been already started in
+one of the the plurality of sets of the instruction
+
+fetch ports.
+A pipeline processor according to Claim 4,
+
+wherein one of the plurality of instruction fetches is
+a request for the instruction fetch of a new sequence,
+
+i.e. the request for the branch target instruction
+fetch which is generated by the branch instruction
+
+currently being executed. 
+A pipeline processor according to Claim 4,
+
+wherein one of the plurality of instruction fetches is
+a request for the branch target instruction fetch,
+
+   the request of which is generated at the time when
+a hit of the instruction fetch branch history occurs by
+
+using one of the ports of the plurality of the
+instruction fetches.
+A pipeline processor according to Claim 4,
+
+   wherein one of the plurality of instruction
+fetches is a request for the branch target instruction
+
+fetch stored in one of the instruction fetch ports.
+A pipeline processor according to Claim 4,
+
+   wherein the instruction fetch determining step is
+carried out upon determining the priority based on
+
+whether there is a free instruction fetch port
+or not.
+</CLAIMS>
+</TEXT>
+</DOC>

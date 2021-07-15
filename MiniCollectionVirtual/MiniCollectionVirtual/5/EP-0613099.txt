@@ -1,0 +1,225 @@
+<DOC>
+<DOCNO>EP-0613099</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Rendering an image
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T1550	G06T1550	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T15	G06T15	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A 3-D image synthesis apparatus maintains an "object 
+database" (OBJ) defining a 3-D world to be represented on a 2-D 
+
+display screen (DIS). The object database includes light sources 
+(LS) which have non-uniform distributions of illumination. To 
+
+simplify calculations of the illumination of an object surface 
+(P
+O
+), the apparatus pre-stores (606) one or more look-up 
+tables. The look-up table (606) is then addressed by polar 
+
+coordinates (ϑ,) calculated per pixel of the output image, to 
+incorporate the dependency of illumination on direction. Several 
+
+tables may be stored for each light source, each representing the 
+illumination pattern at a different distance (D) from the light 
+
+source. Smooth variations can be achieved by interpolation 
+between integer values of ϑ, and D. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+KONINKL PHILIPS ELECTRONICS NV
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+PHILIPS ELECTRONICS UK LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+KONINKLIJKE PHILIPS ELECTRONICS N.V.
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+PHILIPS ELECTRONICS UK LIMITED
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+PENNA DAVID EDWARD
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+PENNA, DAVID EDWARD
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The invention relates to a method of rendering a
+two-dimensional (2-D) image representing a three-dimensional
+object space defined in an object database.A wide range of image rendering techniques and apparatuses
+are described in "Computer Graphics : Principles and Practice" by
+Foley, van Damm, Feiner and Hughes, published by Addison-Wesley,
+ISBN 0-201-12110-7. The invention relates in particular to the
+synthesis of such images in real-time, which typically involves
+the use of special purpose image synthesis hardware for the
+execution of the method.A problem in real-time image synthesis systems is
+accurately modelling the pattern of light falling on an object
+surface from light sources which are not simple point sources
+radiating light equally in all directions. A technique described
+by David R. Warn in "Lighting Controls for Synthetic Images",
+Computer Graphics Vol. 17 No. 3 (July 1983), pages 13-21, uses a
+mathematical function of the angle between the line from a light
+source to the point being illuminated and the direction of the
+light source to determine the light source intensity at the point
+of interest.Aside from the provision of simple 'flaps' to restrict the
+extent of illumination, the Warn lighting model can only describe
+circularly symmetrical point light sources such as simple
+spotlights.Many light sources such as luminaires for interior lighting
+have arbitrarily complex and above all asymmetrical intensity
+distributions, which can be measured and represented by two-or
+more-dimensional goniometric diagrams. In "A Comprehensive
+Light-Source Description for Computer Graphics", IEEE CG&A, July
+1984, pages 66-75, C. P. Verbeck and D. P. Greenberg describes a
+computer program 'Bulb' which can receive arbitrary goniometric 
+definitions of light distributions and, approximating these with
+a succession of spline curve functions, obtain the relative
+illumination in any direction from the light source.
+Unfortunately, such a technique is unsuitable for implementation
+in low-cost, real-time image synthesis, where the hardware for
+such intensive, per-pixel calculations is not normally available.It is an object of the invention to enable the modelling of
+complex light sources in real-time using low-cost image synthesis
+hardware.The invention provides a method of rendering a
+two-dimensional (2-D) image of a three-dimensional (3-D) object
+space defined by an object database, the object database defining
+at least one light source having a position and a direction in
+the object space, the method being
+</DESCRIPTION>
+<CLAIMS>
+A method of rendering a two-dimensional (2-D) image of a three-dimensional
+(3-D) object space defined by an object database, the object
+
+database defining at least one light source having a position (P
+L
+) and a
+direction (N
+L
+) in the object space, 
+characterised by
+ the steps of:
+
+(a) creating and storing for the light source a 2-D table of illumination
+values representing a variation of illumination in a plane dependent on a direction relative
+
+to the light source direction;
+(b) identifying a point of interest (P
+O
+) in the object space and
+determining a 2-D direction in object space from the light source position (P
+L
+) to the
+point of interest (P
+O
+), relative to the light source direction (N
+L
+); and
+(c) using the determined relative 2D-direction as an index to the stored
+2-D table to obtain a value for illumination by the light source at the point of
+
+interest (P
+O
+).
+A method as claimed in Claim 1 wherein the values stored in the
+2-D table represent the variation in illumination over at least a part of a spherical
+
+surface surrounding the position (P
+L
+) of the light source in object space, the
+2-D direction used as an index in step (c) comprising a pair of angular
+
+coordinates (,).
+A method as claimed in Claim 1 or 2 wherein the direction index
+(,) comprises an integer component and a fractional component, the
+
+illumination value obtained in step (c) being derived from a plurality of the
+values stored in the 2-D table, by filtering in accordance with the said fractional
+
+component.
+A method as claimed in any preceding claim wherein the 2-D
+table is one of a series of 2-D tables stored for the light source, each
+
+representing the variation of illumination at a different distance from the light
+source position, and in that the step (b) further comprises determining the 
+
+distance (d) in object space from the light source position to the point of
+interest and the step (c) further comprises using the distance as a distance
+
+index (D) to select an appropriate 2-D table from among the series of 2-D
+tables.
+A method as claimed in Claim 4 wherein the distance index (D)
+comprises an integer component and a fractional component, the illumination
+
+value obtained in step (c) being interpolated between values stored in a
+plurality of 2-D tables of the series, in accordance with the said fractional
+
+component of the distance index.
+A method as claimed in Claim 4 or 5 wherein the illumination
+values stored in each 2-D table of the series are normalised with reference to a
+
+constant distance from the light source position, the step (c) further comprising
+scaling the values obtained from the 2-D table to incorporate an intensity
+
+variation at least approximately inversely proportional to the square of the
+distance from the light source position.
+A method as claimed in Claim 4, 5, or 6, wherein the 2-D tables
+of the series decrease in size with increasing distance from the light source
+
+position, each successive 2-D table being half the size of its predecessor in
+one or both dimensions.
+A method as claimed in any preceding claim wherein in step (a),
+a range of direction in which the illumination value is constant is not
+
+represented in the 2-D table, the step (c) comprising substituting the constant
+value for the illumination value when the direction determined in step (b) is
+
+within the said certain ranges.
+A method as claimed in any preceding claim wherein in step (a)
+at least one degree of symmetry is imposed upon the variations of the 
+
+illumination values, and only a subset of the possible 2-D directions are
+represented in the values stored in the 2-D table, the step (c) including, in a
+
+case where the direction determined in step (b) is outside the subset of
+directions represented in the 2-D table, transforming the determined direction
+
+in accordance with the imposed symmetry to obtain the index into the 2-D
+table.
+An apparatus for synthesising images of three-dimensional
+scenes, the apparatus comprising:
+
+
+means (OBJ) for maintaining an object database describing the
+arrangement and appearance of objects in a 3-D space (the object space);
+means (VEW) for defining a viewpoint for representation of the
+objects to a user of the apparatus; and
+means (DRW) for rendering via a display device (DIS) a two-dimensional
+representation of the object space as seen from the viewpoint, by
+
+means of geometrical transformations of the object database,
+
+the object database including the definition of at
+least one light source
+
+having a position (P
+L
+) and a direction (N
+L
+) in the
+object space, and 
+characterised in that
+ the rendering means (DRW) operates to
+model the effect of the light source by a method as claimed in any preceding
+
+claim.
+</CLAIMS>
+</TEXT>
+</DOC>

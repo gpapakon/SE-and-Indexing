@@ -1,0 +1,305 @@
+<DOC>
+<DOCNO>EP-0655847</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Scalable and efficient intra-domain tunneling mobile-IP scheme
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1516	H04L2906	H04L1228	G06F1300	G06F1300	G06F1516	H04L1228	H04L2906	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	H04L	H04L	G06F	G06F	G06F	H04L	H04L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F15	H04L29	H04L12	G06F13	G06F13	G06F15	H04L12	H04L29	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The present invention provides an improved method and apparatus for 
+internetwork communication between fixed host and mobile host data processing 
+
+devices. A home network (29) includes 
+at least one mobility support border router (MSBR) (15) 
+
+coupled between the home network and 
+a OSPF backbone network (25). A new area 
+
+network (27) also includes at least one 
+MSBR (30) coupled between the new area andthe OSPF 
+
+backbone network. A third network, 
+referred to as an "other area" network (32) includes an 
+
+MSBR (34) coupled between the other area network 
+and the OSPF backbone. A mobile host 
+
+(MH) data processing device may move between the three networks and continue to 
+communicate with all other fixed and mobile data processing devices coupled to the 
+
+networks. In one embodiment, a first data processing (DP) device coupled to the home 
+network may send a data packet to a MH data processing device which is normally 
+
+associated with the home network, but has moved to, for example, the new area 
+network. The data packet is sent by the first DP device to a mobility support router 
+
+(MSR) located closest to the first DP device. The MSR initiates a local search to 
+determine if the MH is currently coupled to the home area network, and if so, the MSR 
+
+sends the data packet to the MH in the home area. If the MH is not coupled to the 
+home area network, the MSBR acknowledges that the MH is out of the area and checks 
+
+an internal tunnel route table for the last area (network) the MH was located in. The 
+MSBR then send the data packet to an MSBR coupled to the new area in which the MH 
+
+is now disposed, and the new area MSBR forwards the data packet to a new area MSR. 
+The new area MSR then forwards the data packet to the MH. Any movement of the 
+
+MH within the new area is detected by the new area MSBR, such that any messages sent 
+from a new area DP device to the MH are simply forwarded to the closest MSR in the 
+
+new area network and need not be sent to the MSBR of the home area, thereby 
+optimizing routing. Additional features and methods are provided to permit the MH 
+
+to move between all interconnected networks while maximizing routing efficiency. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SUN MICROSYSTEMS INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SUN MICROSYSTEMS, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+AZIZ ASHAR
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+AZIZ, ASHAR
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to the field of Internet working
+protocols (IP), and more particularly, the present invention relates to a mobile
+networking system which permits the tracking and location of mobile hosts
+(MH) utilizing an Internet protocol.Historically, computers coupled to a network were located at fixed
+positions on the network and not easily moved to new locations. The
+relocation of a fixed host computer required shutting the host system down and
+physically moving the system to another location on the network. The
+relocated host computer was then rebooted and reconfigured for its new
+network location. The advent of portable computers with the power of
+traditional desktop workstations has made it possible to easily relocate the host
+portables from one network to another. However, the ease of movement of
+the portable machine across networks has resulted in problems in tracking and
+locating the mobile machine over the networks. For example, if a user of a
+portable laptop workstation carries his machine from a network in Palo Alto,
+California to Bangkok, Thailand, the network in Bangkok must be made aware
+that the mobile host is now coupled to its network, and the Palo Alto network
+must also be programmed to send any messages ("IP packets") intended for the
+mobile host to the Bangkok network. A number of proposals have been made to add mobile IP nodes to
+existing fixed node IP networks (See for example, John Ioannidis, Dan
+Duchamp, Gerald Q. Maguire, Jr., "IP-based Protocols For Mobile
+Internetworking", Proceedings of the SIGCOMM'91 Conference:
+Communication Architectures & Protocols, pp. 235-245, ACM, September 1991
+(herein referred to as the "Columbia" scheme); Fumio Teraoka, Yasuhiko
+Yokote, Mario Tokoro, "A Network Architecture Providing Host Migration
+Transparency", Proceedings of the SIGCOMM'91 Conference: Communication
+Architectures and Protocols, pp. 209-220, ACM, September 1991 (herein referred
+to as "Teraoka"); C. Perkins, Yakov Rekhter, "Use Of IP Loose Source Routing
+For Mobile Hosts", Draft RFC (herein referred to as "Perkins").The "Columbia" scheme is based on IP-in-IP encapsulation
+concept ("tunneling") which avoids the problems related to IP options (See for
+example, Teraoka and Perkins). The Columbia scheme works efficiently for
+small campus environments and intra-campus mobility. However, as will be
+described, Columbia reverts to highly sub-optimal routes in case of inter-campus
+mobility. The present invention discloses methods by which the
+Columbia scheme can be extended
+</DESCRIPTION>
+<CLAIMS>
+A system, which comprises a first network (20) and a second network (27) coupled to
+communicate together, said first network including a first host data processing
+
+(DP) device (49) and a mobile host (MH) data processing device (48),
+said first data processing device communicates with said mobile
+
+host data processing device once said mobile host data processing device is
+moved to and in communication with said second network, said system is 
+characterised by
+:
+
+a first mobility support border router (MSBR) (62) and a first mobility
+support router (MSR) (52) coupled to said first network;
+a second MSBR (70) and a second MSR (60) coupled to said second
+network;
+said first host DP device (49) sending a data pocket to said first MSR
+(52) coupled to said first network, said first MSR initiating a local search on
+
+said first network to determine if said MH data processing device is coupled to
+said first network;
+said first MSBR (62) notifying said first MSR that said MH data
+processing device is not coupled to said first network and instructing said first
+
+MSR (52) to tunnel said data packet destined for said MH, to said second
+MSBR (70);
+said second MSBR (70) receiving said data packet and initiating a
+search on said second network to determining if said MH data processing
+
+device (48) is in communication with said second network, and if said MH is
+located on said second network, said second MSBR (70) t
+unneling said data
+packet to said second MSR (60) and said MSR sending said data packet to
+
+said MH data processing device.
+The system as defined by Claim 1 further including a third network (32)
+coupled to communicate with said first and second networks, said third
+
+network including a third MSBR (75) and a third MSR coupled to said third
+network.
+The system as defined by claim 2 wherein in the event a second host
+DP device coupled to said third network (32) desires to send a second
+
+message packet to said MH, said second message packet is received by said
+first MSBR (62) and tunneled to said second MSBR (70), said second MSBR
+
+receiving said second message packet and tunneling said second message
+packet to said second MSR (60), said second MSR sending said second data
+
+packet to said MH data processing device.
+The system as defined by Claim 3 wherein subsequent to receipt of
+said second data packet said first MSBR (62) sends a REDIRECT message
+
+to said third MSBR (75), such that all subsequent data packets sent from DP
+devices coupled to said third network (32) are tunneled directly from said third
+
+MSBR (75) to said second MSBR (70) to be tunneled to said MH data
+processing device coupled to said second network (27).
+The system as defined by Claim 1 wherein in the event a second host
+DP device coupled to said second network (27) desires to send a second data
+
+packet to said MH (48), said second DP device sends said second data
+packet to said second MSBR (70), said second MSBR tunneling said second
+
+data packet to said second MSR (60) for transmission to said MH. 
+The system as defined by Claim 2 wherein in the event said MH data
+processing device (48) is moved from said second network (27) to said third
+
+network (32), said third MSR sends an update message to said first, second
+and third MSBRs notifying said MSBRs that said MH (48) is currently coupled
+
+to said third network (32), such that future data packets sent from DP devices
+coupled on said first, second and third networks destined for said MH data
+
+processing device are tunneled to said third MSBR (75) for tunneling to said
+third MSR and then to said MH.
+The system as defined by Claim 6 further including a fourth network
+coupled to communicate with said first (20), second (27), and third (32)
+
+networks, said fourth network having a fourth MSBR and a fourth MSR.
+The system as defined by Claim 7 wherein if said MH data processing
+device (48) is moved and coupled to said fourth network, said MH sending a
+
+last location message to said fourth MSR, said fourth MSR notifying said
+fourth, third, second and first MSBRs that said MH is now coupled to said
+
+fourth network.
+The system as defined by Claim 8 wherein in the event said third
+MSBR (75) continues to receive data packets from a MSR which are destined
+
+for said MH, said third MSBR sends a control packet MICP_FLUSH_ROUTE
+to the MSR sending said data packet.
+A method for a system having a first network (20) and a second network (27)
+coupled to communicate together, said first network including a first host data
+
+processing (DP) device (49) and a mobile host (MH) data processing device
+(48), said first data processing device communicates with
+
+said mobile host data processing device once said mobile host data 
+processing device is moved to and in communication with said second
+
+network, said method is 
+characterized by
+:
+
+(a) providing a first mobility support border router (MSBR) (62) and at
+least one first mobility support router (MSR) (52) coupled to said Home area
+
+network;
+(b) providing a second MSBR (70) and at least one second MSR (60)
+coupled to said New Area network, said second MSR being the closest MSR
+
+to said MH data processing device (48) coupled to said New Area network;
+(c) said first host data processing device (49) sending a data packet to
+said first MSR (52) coupled to said Home area network, said first MSR
+
+initiating a local search on said Home area network to determine if said MH
+data processing device (48) is coupled to said Home area network;
+(d) said first MSBR (62) notifing said first MSR (52) that said MH data
+processing device (48) is out of the home area network and instructing said
+
+first MSR to tunnel said data packet destined to said MH data processing
+device;
+(e) said second MSBR (70) receiving said data packet and initiating a
+search on said New Area network to determining if said MH data processing
+
+device (48) is in communication with said New Area network, and if said MH is
+located, said second MSBR (70) tunneling said data packet to said second
+
+MSR (60) and said second MSR sending said data packet to said MH data
+processing device (48).
+The method as defined by Claim 10 further including a third network
+(32) coupled to communicate with said first and second networks, said third
+
+network including a third MSBR and a third MSR coupled to said third network
+(32). 
+The method as defined by Claim 11 further including the step of a
+second host DP device coupled to said third network (32) sending a second
+
+message packet to said MH, said second message packet being received by
+said first MSBR (62) and tunneled to said second MSBR (70), said second
+
+MSBR receiving said second message packet and tunneling said second
+message packet to said second MSR (60), said second MSR sending said
+
+second data packet to said MH data processing device.
+The method as defined by Claim 12 further including the step of
+subsequent to receipt of said second data packet said first MSBR (62)
+
+sending a REDIRECT messge to said third MSBR (75), such that all
+subsequent data packets sent from DP devices coupled to said third network
+
+(32) are tunneled directly from said third MSBR (75) to said second MSBR
+(70) to be forwarded to said MH data processing device coupled to said
+
+second network (27).
+The method as defined by Claim 10 further including the step of a
+second host DP device coupled to said second network (27) sending a
+
+second data packet to said MH (48), said second DP device sending said
+second data packet to said second MSBR (70), said second MSBR tunneling
+
+said second data packet to said second MSR (60) for transmission to said
+MH.
+The method as defined by Claim 11 further including the step of
+moving said MH data processing device (48) from said second network (27) to
+
+said third network (32), said third MSR sending an update message to said
+first, second and third MSBRs notifying said MSBRs that said MH (48) is
+
+currently coupled to said third network (32), such that future data packets sent
+from DP devices coupled on said first, second and third networks destined for 
+
+said MH data processing device are sent to said third MSBR (75) for tunneling
+to said third MSR and then to said MH.
+The method as defined by Claim 15 further including a fourth network
+coupled to communicate with said first (20), second (27), and third (32)
+
+networks, said fourth network having a fourth MSBR and a fourth MSR.
+The method as defined by Claim 16 further including the step of
+moving said MH data processing device (48) to said fourth network, said MH
+
+sending a last location message to said fourth MSR, said fourth MSR notifying
+said fourth, third, second and first MSBRs that said MH is now coupled to said
+
+fourth network.
+The method as defined by Claim 17 further including the step that if
+said third MSBR (75) continues to receive data packets from a MSR which are
+
+destined for said MH, said third MSBR sends a control packet
+MICP_FLUSH_ROUTE to the MSR sending said data packet.
+</CLAIMS>
+</TEXT>
+</DOC>

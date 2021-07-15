@@ -1,0 +1,1436 @@
+<DOC>
+<DOCNO>EP-0639032</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Structure and method for a multistandard video encoder/decoder.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1714	G06F1714	G06T900	G06T900	H04N504	H04N504	H04N5067	H04N5073	H04N514	H04N514	H04N544	H04N544	H04N5907	H04N5907	H04N701	H04N701	H04N726	H04N726	H04N736	H04N736	H04N750	H04N750	H04N964	H04N964	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06T	G06T	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F17	G06F17	G06T9	G06T9	H04N5	H04N5	H04N5	H04N5	H04N5	H04N5	H04N5	H04N5	H04N5	H04N5	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	H04N9	H04N9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A structure and a format for providing a video signal 
+encoder under the MPEG standard are provided. In one 
+
+embodiment, the video signal interface is provided with a 
+decimator for providing input filtering for the incoming 
+
+signals. In one embodiment, the central processing unit 
+(CPU) and multiple coprocessors implements DCT and IDCT 
+
+and other signal processing functions, generating variable 
+length codes, and provides motion estimation and memory 
+
+management. The instruction set of the central processing 
+unit provides numerous features in support for such 
+
+features as alpha filtering, eliminating redundancies in 
+video signals derived from motion pictures and scene 
+
+analysis. In one embodiment, a matcher evaluates 16 
+absolute differences to evaluate a "patch" of eight motion 
+
+vectors at a time. 
+In one embodiment, a fast processor bus is used for data with a higher 
+
+speed but less wide words than the global bus. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+C CUBE MICROSYSTEMS
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+C-CUBE MICROSYSTEMS, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BOSE SUBROTO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LE GALL DIDIER J
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+PURCELL STEPHEN C
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BOSE, SUBROTO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LE GALL, DIDIER J.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+PURCELL, STEPHEN C.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to integrated circuit 
+designs; and, in particular, the present invention relates 
+to integrated circuit designs for image processing. The Motion Picture Experts Group (MPEG) is an 
+international committee charged with providing a standard 
+(hereinbelow "MPEG standard") for achieving compatibility 
+between image compression and decompression equipment. 
+This standard specifies both the coded digital 
+representation of video signal for the storage media, and 
+the method for decoding. The representation supports 
+normal speed playback, as well as other playback modes of 
+color motion pictures, and reproduction of still pictures. 
+The MPEG standard covers the common 525- and 625-line 
+television, personal computer and workstation display 
+formats. The MPEG standard is intended for equipment 
+supporting continuous transfer rate of up to 1.5 Mbits per 
+second, such as compact disks, digital audio tapes, or 
+magnetic hard disks. The MPEG standard is intended to 
+support picture frames of approximately 288 X 352 pixels 
+each at a rate between 24Hz and 30Hz. A publication by 
+MPEG entitled "Coding for Moving Pictures and Associated 
+Audio for digital storage medium at 1.5Mbit/s," included 
+herein as Appendix A, provides in draft form the proposed 
+MPEG standard, which is hereby incorporated by reference 
+in its entirety to provide detailed information about the  
+ 
+MPEG standard. Under the MPEG standard, the picture is divided into 
+a matrix of "Macroblock slices" (MBS), each MBS containing 
+a number of picture areas (called "macroblocks") each 
+covering an area of 16 X 16 pixels. Each of these picture 
+areas is further represented by one or more 8 X 8 matrices 
+which elements are the spatial luminance and chrominance 
+values. In one representation (4:2:2) of the macroblock, 
+a luminance value (Y type) is provided for every pixel in 
+the 16 X 16-pixel picture area (i.e. in four 8 X 8 "Y" 
+matrices), and chrominance values of the U and V (i.e., 
+blue and red chrominance) types, each covering the same 16 
+X 16 picture area, are respectively provided in two 8 X 8 
+"U" and two 8 X 8 "V" matrices. That is, each 8 X 8 U or 
+V matrix has a lower resolution than its luminance 
+counterpart and covers an area of 8 X 16 pixels. In 
+another representation (4:2:0), a luminance value is 
+provided for every pixel in the 16 X 16 pixels picture 
+area, and one 8 X 8 matrix for each of the U and V types 
+is provided to represent the chrominance values of the 16 
+X 16-pixel picture area. A group of
+</DESCRIPTION>
+<CLAIMS>
+A structure for encoding digitized video signals 
+representing a series of frames of images, said digitized 
+
+video signals being stored in an external memory system, 
+said structure comprising: 
+
+   a first and a second video ports, each video 
+port being configurable to be either an input port or 
+
+an output port for video signals; 
+   a host bus interface circuit for interfacing 
+
+with an external host computer; 
+   a scratch-pad memory for storing a portion of 
+
+said series of frames of images; 
+   a processor for arithmetic and logic operations, 
+
+wherein said processor computing coefficients of a 
+discrete cosine transform of said portion of said 
+
+series of frames of images, and for applying a 
+quantization step for said coefficients to obtained 
+
+quantized coefficients under a lossy compression 
+algorithm; 
+
+   a motion estimation unit for matching objects in 
+motion between said frames of images, said motion 
+
+estimation unit providing as data output motion 
+vectors representing said motion of said objects in 
+
+motion between said frames of images; 
+   a variable-length coding unit for applying an 
+
+entropy coding scheme on said quantized coefficients 
+and said motion vectors to represent said video 
+
+signals; 
+   a global bus accessible by said first and second 
+
+video port, said host bus interface, said scratch-pad 
+memory, said processor, said motion estimation unit, 
+
+and said variable-length coding unit, said global bus 
+providing data transfer among said first and second 
+
+video port, said host bus interface, said scratch-pad 
+ 
+
+memory, said processor, said motion estimation unit, 
+and said variable-length coding unit; 
+
+   a processor bus having a higher bandwidth than 
+said global bus for providing data transfer among 
+
+said processor, said scratch-pad memory, and said 
+variable-length coding unit; and 
+
+   a memory controller for (a) controlling data 
+transfers between said external memory and said 
+
+structure, and (b) for controlling the uses of said 
+global bus and said processor bus. 
+A structure as in Claim 1, wherein said 
+processor comprises: 
+
+   an instruction memory for storing instructions 
+executable by said processor; 
+
+   a register file including a predetermined number 
+of registers for storing operands; 
+
+   an arithmetic and logic unit for providing 
+arithmetic and logic operations for operands in said 
+
+register file; and 
+   a multiplication unit for performing 
+
+multiplication operations among said operands and a 
+result of said arithmetic and logic operations. 
+A structure as in Claim 1, wherein said motion 
+estimation unit comprises: 
+
+   a window memory for storing a second portion of 
+said series of frames of images, said second portion 
+
+being a subset of said portion of said series of 
+frames of images stored in said scratch-pad memory, 
+
+said second portion of said series of frames of 
+images including video data from a current frame and 
+
+video data from a reference frame; and 
+   a matcher for matching said video data from said 
+
+current frame and said video data from said reference 
+
+frame to evaluate a predetermined number of motion 
+ 
+
+vectors. 
+A structure as in Claim 1, wherein said first 
+video port comprises a decimation filter for reducing the 
+
+resolution of said video signals. 
+A system comprising a first and a second 
+structures, each structure being a structure as recited in 
+
+Claim 1, wherein said first video port of said first 
+structure and said first video port of said second 
+
+structure are connected to receive said video signals, and 
+said second video port of said first structure and said 
+
+second video port of said second structure are connected 
+to pass said video data between said first structure and 
+
+said second structure. 
+An interface for receiving digitized video 
+signals, said digitized signals including samples of a 
+
+luminance component and first and second chrominance 
+components provided to said interface in pixel interleaved 
+
+order, said interface comprising: 
+   a memory divided in groups of regions, each 
+
+group of regions having a first region, a second 
+region and a third region for storing said samples of 
+
+said luminance component and said first and second 
+chrominance components respectively; 
+
+   a counter for maintaining a count of said 
+digitized video signals, said counter being 
+
+incremented as each sample arrives at said interface; 
+and 
+
+   address generator for generating an address for 
+storing in said memory each of said samples of 
+
+digitized video samples in accordance with said 
+count, such that a sample of said luminance component 
+
+is stored in said first region, a sample of said 
+first chrominance component is stored in said second 
+
+ 
+region and a sample of said second chrominance 
+
+component is stored in said third region. 
+A synchronizer circuit for synchronizing a 
+first and a second clock signals, comprising: 
+
+   first means for detecting a transition, said 
+first means detects a transition of said second clock 
+
+signal between a first and a second transitions of 
+said first clock signal, said first and second 
+
+transitions of said first clock signal being 
+successive transitions; 
+
+   second means for detecting a transition, said 
+second means detecting a transition of said second 
+
+clock signal between said second transition and a 
+third transition of said first clock signal, said 
+
+second and third transitions of said first clock 
+signal being successive transitions; and 
+
+   means for outputting a detected transition of 
+said first and second means at a fourth transition of 
+
+said first clock signal, said fourth transition being 
+a transition of said first clock signal subsequent to 
+
+said third transition of said first clock signal. 
+A memory structure, comprising: 
+   a plurality of memory cells organized as an s X 
+
+s matrix of addressable units; and 
+   means for generating any one of 2s addresses for 
+
+accessing said addressable units, wherein s of said 
+2s addresses access s rows of said matrix, and the 
+
+remaining s addresses access s columns of said 
+matrix. 
+A central processing unit, comprising: 
+   a data memory having a plurality of data words, 
+
+each data word having a word width of n*m bits, where 
+n and m are integers;
+
+ 
+   a first set of n registers for storing n data 
+
+words, each data word having a width of m bits, said 
+n registers structured such that (i) for input 
+
+purpose, said first set of n registers receives an 
+n*m bit data word from said data memory 
+
+simultaneously as a single n*m-bit register, and (ii) 
+for output purpose, each of said n registers is 
+
+addressed independently; 
+   an arithmetic and logic unit receiving a 
+
+plurality of m-bit operands from said first set of n 
+registers and providing as a result of an operation 
+
+an m-bit result; and 
+   a second set of n registers for storing n data 
+
+words, each data word having a width of m bits, said 
+second set of n registers structured such that (i) 
+
+for input purpose, each of said n registers is 
+addressed independently for receiving said m-bit 
+
+result from an operation of said arithmetic unit; and 
+(ii) for output purpose, said second set of n 
+
+registers output an n*m bit data word to said data 
+memory simultaneously as a single n*m-bit register. 
+A memory controller for a processor having a 
+plurality of functional units, comprising: 
+
+   a first interface adapted for controlling access 
+to an external memory system; 
+
+   a second interface adapted for controlling a 
+first internal bus, said first internal bus being m-bit 
+
+wide, m being an integer; 
+   a third interface adapted for controlling a 
+
+second internal bus, said second internal bus being 
+n*m-bit wide, n being an integer; 
+
+   an arbitration unit for receiving data transfer 
+requests from said functional units and for granting 
+
+use of said first and second internal busses to a 
+selected one of said functional units; and
+
+ 
+   a direct memory access unit for controlling, 
+
+over said first, second and third interfaces, data 
+transfer among said selected functional unit, said 
+
+first and second internal busses and said data 
+memory. 
+A method for accessing pixels of an image in 
+scan-line order, comprising the steps of: 
+
+   dividing said image into tiles, each tile being 
+four adjacent quad pels in a 2 X 2 configuration, 
+
+each quad pel being four pixels in a 2 X 2 
+configuration; 
+
+   providing a memory including a plurality of data 
+words, wherein each data word of said memory being 
+
+formed by two independently addressable halfwords, 
+and each of said halfword having the capacity of 
+
+storing two pixels of a quad pel; 
+   for each tile, storing said tile in said memory, 
+
+such that (i) each data word in said memory contains 
+video data corresponding to a quad pel of said image, 
+
+each pair of horizontally adjacent pixels of said 
+quad pel being stored in the same halfword; and 
+
+   accessing said memory to retrieve a scan-line 
+element of four pixels by providing first and second 
+
+addresses to access each of said independently 
+addressable halfwords. 
+A method for storing pixel data for scan-line 
+access, said scan-line access provided for retrieving a 
+
+"scan line" element, being four pixels in a scan line of a 
+video image, comprising the steps of: 
+
+   providing a memory having odd and even memory banks, 
+and in which each memory word of said odd and even memory 
+
+banks comprises independently addressable upper and lower 
+halfwords; 
+
+   storing (i) in an even scan line, the left half of a 
+ 
+
+scan line element in a lower halfword, and the right half 
+of said scan line element in an upper halfword; and (ii) 
+
+in an odd scan line, the left half of a scan line element 
+in an upper halfword and the right half of a scan line 
+
+element in a lower halfword; and 
+   switching, every two scan lines, between storing scan 
+
+line elements in the odd memory bank to storing scan line 
+elements in the even memory bank. 
+A memory structure comprising: 
+   a memory divided into a first half and a second 
+
+half for providing a 2m-bit output datum, said 2m-bit 
+output datum being formed by concatenating a first 
+
+datum and a second m-bit datum, said first m-bit 
+datum being provided from said first half of said 
+
+memory by activating, in response to a first address, 
+one of a first set of word lines, and said second m-bit 
+
+datum being provided from said second half of 
+said memory by activating, in response to a second 
+
+address, one of a second set of word line; and 
+   an address generator for generating said first 
+
+and second address, said first and second address 
+being constrained to be identical except f
+or one bit. 
+A structure comprising: 
+   an arithmetic and logic unit receiving first and 
+
+second operands, each operand including a 
+predetermined number of data elements, said 
+
+arithmetic logic unit performing simultaneously 
+arithmetic and logic operations between data elements 
+
+of said first operand and data elements of said 
+second operand, each of said operation involving one 
+
+data element of said first operand and a 
+corresponding data element of said second operand; 
+
+   a first set of multiplexor for rearranging, 
+prior to providing said first operand to said 
+
+ 
+arithmetic and logic unit, the order of said data 
+
+elements in said first operand; and 
+   a second set of multiplexor for rearranging, 
+
+prior to providing said second operand to said 
+arithmetic and logic unit, the order of said data 
+
+elements in said second operand. 
+A non-linear filter comprising: 
+   means for setting a first threshold value T₁; 
+
+   means for setting a second threshold value T₂; 
+   means, receiving first and second operands x and 
+
+y, for providing an absolute difference between x and 
+y; 
+
+   means, receiving said absolute difference and 
+said first and second threshold values, for providing 
+
+a weighting factor a equal to (i) when said when said 
+absolute difference is less than T₁, a predetermined 
+
+weight less than 1.0, (ii) when said absolute 
+difference is between T₁ and T₂, a value between said 
+
+predetermined weight and 1.0, said value being 
+proportional to the said absolute difference, and 
+
+(iii) when said absolute difference is greater than 
+T₂, 1.0; and 
+
+   means for providing a filter output, said filter 
+output having the value 
+
+x + a(y-x)  
+. 
+A method for deinterlacing a digitized video 
+signal, said video signal comprising pixels from a first 
+
+field and a second field of an image, said method 
+comprising the steps of: 
+
+   for each pixel x in said first field of said 
+image: (i) identifying the corresponding pixel y in 
+
+said second field of said image; 
+   (ii) computing an absolute difference between x 
+
+and y; 
+   (iii) determining a weight a equalling (a) 0.5, 
+
+ 
+when said absolute difference is less than a first 
+
+threshold value T₁, (b) 1.0, when said absolute 
+difference is greater than a second threshold value 
+
+T₂, and (c) a value proportional to said absolute 
+difference; and 
+
+   (iv) providing as a pixel of a deinterlaced 
+image a pixel z having the value 
+
+x + a(y-x)  
+. 
+A method for providing a temporal noise filter 
+for a video signal, said video signal comprising pixels of 
+
+successive frames of images displayable on a screen, said 
+method comprising the steps of: 
+
+   for position x in a screen, receiving a stream 
+of pixel values x₀, x₁, ..., xT, corresponding to 
+
+values of the pixel at said position x at time points 
+0, 1, ..., T, wherein said time points correspond to 
+
+arrivals of said successive frames of images; and 
+   providing as an initial filter output value of 
+
+said temporal noise filter y₀ the value x₀; 
+   thereafter, for each time point t: 
+
+
+(i) computing an absolute difference 
+between yt-1, being the filter output value of 
+
+said temporal noise filter at time point t-1, 
+and xt, being the current value of pixel x at 
+
+said time point t; 
+(ii) determining a weight a equalling (a) 
+0.5, when said absolute difference is less than 
+
+a first threshold value T₁, (b) 1.0, when said 
+absolute difference is greater than a second 
+
+threshold value T₂, and (c) a value proportional 
+to said absolute difference; and 
+(iii) providing as filter output value of 
+temporal noise filter a value yt having the value 
+
+xt + a(yt-1-xt-1)  
+. 
+A method for scene analysis as a step in 
+ 
+
+applying adaptive control technique in an image processing 
+method, said image including a plurality of macroblocks, 
+
+each macroblock a plurality of quad pels, being 2 X 2 
+configurations of pixels, said scene analysis method 
+
+comprising the steps of: 
+   for each quad pel in each macroblock: 
+
+
+(i) computing simultaneously first and 
+second absolute differences, said first absolute 
+
+difference being an absolute difference between 
+a first pixel within said quad pel and a second 
+
+pixel within said quad pel, said second absolute 
+difference being an absolute difference between 
+
+said second pixel and a third pixel of said quad 
+pel; and 
+(ii) accumulating said first and second 
+absolute differences in first and second 
+
+accumulated sums; and 
+applying said adaptive control technique using 
+
+said first and second accumulated sums as activity 
+parameters. 
+A method for eliminating redundant fields in an 
+video signal to improve a data compression ratio, each 
+
+field comprises a plurality of quad pels, each quad pel 
+being a configuration of 2 X 2 pixels, said method 
+
+comprising: 
+   for each quad pel in a first field: 
+
+
+(i) computing a first, a second, a third 
+and a fourth differences between pixels in said 
+
+quad pel and corresponding pixels of a 
+corresponding quad pel in a second field; and 
+(ii) providing a count equal to the number 
+of said first, second, third and fourth 
+
+differences exceeding in magnitude a 
+predetermined threshold value; 
+
+accumulating said count over all quad pels in 
+ 
+
+said first field; and 
+   eliminating said second field when said 
+
+accumulated count exceeds a second predetermined 
+threshold value. 
+A zero-lookahead circuit, comprising: 
+   a plurality of zero generator circuits, each 
+
+zero generator circuit receiving as input 1-bit 
+signals a and b, and providing as output signals P, 
+
+Z+ and Z- representing, respectively, whether the 
+values of said signals a and b are not the same, the 
+
+values of said signals a and b are equal to '1', and 
+the values of said signals a and b are equal to '0'; 
+
+and 
+   a plurality of zero propagator circuits, each of 
+
+said propagator circuits receiving as input signals 
+(i) P₁, Z+₁, and Z-₁, being a first of said P, Z and 
+
+Z- signals, and (ii) P₂, Z+₂, and Z-₂, being a second 
+set and of said P, Z+ and Z- signals, and providing 
+
+as output signals a third set of P, Z and Z- signals 
+in accordance with the logic equations:P = P₁ and P₂; Z- = Z-₁ and Z-₂; and Z+ = (Z+₁ and P₂) or (Z+₂ and Z-1);   wherein said plurality of zero propagator circuits 
+
+are connected in a tree configuration, having a leaf 
+level receiving inputs from said plurality of zero 
+
+generator circuits; and 
+   an OR gate connected to the zero propagator 
+
+circuit at the root of said tree configuration of 
+zero propagating circuits, said OR gate receiving as 
+
+input signals said Z+ and Z-signal providing output 
+signal Z, representing whether a zero is detected. 
+A structure for performing motion estimation in 
+the compression of video data, said video data comprising 
+
+ 
+macroblocks of pixels in a current frame and macroblocks 
+
+of pixels in a reference frame, said structure comprising: 
+   a memory for storing said macroblocks of said 
+
+current frame and said macroblocks of said reference 
+frame; 
+
+   a filter receiving a first group of pixels from 
+said memory for resampling said first group of 
+
+pixels, said first group of pixels being pixels from 
+said macroblocks of said reference frame; and 
+
+   a matcher receiving said resampled first group 
+of pixels and a second group of pixels, said matcher 
+
+matching said second group of pixels to said first 
+group of pixels, for deriving a set of scores each 
+
+corresponding to one of a predetermined group of 
+
+motion vectors, said second group of pixels being 
+pixels from a macroblock of a current frame and each 
+
+of said scores being a measure of the differences 
+between said second group of pixels and said first 
+
+group of pixels under a corresponding motion vector 
+within said predetermined group; and 
+
+   means receiving said set of scores for 
+selecting, among said predetermined group of motion 
+
+vectors, a motion vector for said macroblock of said 
+current frame. 
+A method for performing motion estimation for a 
+video signal, said video signal comprising a first group 
+
+of pixels from a current frame and a second group of 
+pixels in a reference frame, said method comprising: 
+
+   resampling said first and second groups of 
+pixels to obtain a third group of pixels and a fourth 
+
+group of pixels, said third and fourth groups of 
+pixels being representations of said video signal at 
+
+a first reduced resolution; 
+   performing a first reduced resolution motion 
+
+estimation based on a said third and fourth groups of 
+ 
+
+pixels to obtain a first motion vector; 
+   performing a second motion estimation using said 
+
+first group of pixels, translated by said first 
+motion vector, and a subset of said second group of 
+
+pixels to obtain an incremental motion vector, said 
+subset of said second group of pixels being pixels 
+
+within a predetermined distance of the target 
+position of said first motion vector; and 
+
+   providing as output a motion vector equalling 
+the sum of said first motion vector and said 
+
+incremental motion vector. 
+A structure for encoding by motion vectors a 
+current frame of video data using a reference frame of 
+
+video data, each of said current and reference frames 
+being divided into rows and columns of macroblocks, said 
+
+macroblocks of said current frames being designated 
+"current macroblocks" and said macroblocks of said 
+
+reference frame being designated "reference macroblocks", 
+each marcoblock representing an area of pixels in the 
+
+corresponding frame, said structure comprising: 
+   a memory circuit for storing (a) a plurality of 
+
+adjacent current macroblocks from a row j of current 
+macroblocks, said plurality of said adjacent current 
+
+macroblocks being designated Cj,p, Cj,p+1, ..., Cj,p+n-1 in 
+the order along one direction of said row of 
+
+macroblocks; and (b) a plurality of adjacent 
+reference macroblocks from a first column i of 
+
+reference macroblocks, said plurality of reference 
+macroblocks being designated Rq,i, Rq+1,i, ..., Rq+m-1,i, 
+
+said plurality of adjacent reference macroblocks 
+being reference macroblocks within the range of said 
+
+motion vectors, each of said current macroblocks 
+being substantially equidistance from said Rq,i and 
+
+Rq+m-1,i reference macroblocks; 
+   means, evaluating each of said plurality of 
+
+ 
+adjacent current macroblocks against each of said 
+
+plurality of adjacent reference macroblocks under 
+said motion vectors, for selecting a motion vector 
+
+best representing the best match between each of said 
+current macroblock and a corresponding one of said 
+
+reference macroblocks; and 
+   means for replacing (a) the current macroblock 
+
+Cj,p with a current macroblock Cj,p+n, said current 
+macroblock Cj,p+n being the current macroblock adjacent 
+
+said macroblock Cj,p+n-1 in said direction; and (b) said 
+first column of adjacent reference macroblocks Rq,i, 
+
+Rq+1,i, ..., Rq+m-1,i with a second column of adjacent 
+reference macroblocks Rq,i+1, Rq+1,i+1, ..., Rq+m-1,i+1, said 
+
+second column being adjacent said first column in 
+said direction. 
+An adaptive thresholding circuit receiving a 
+first value, a second value and a third value, comprising: 
+
+   first, second and third registers connected in a 
+pipeline configuration, said first, second and third 
+
+registers holding respectively said first, second and 
+third values; and 
+
+   means for setting the content of said second register 
+to zero when (i) said first and third values are zero, and 
+
+(ii) said second value is less than a predetermined 
+threshold value. 
+A method for encoding digitized video signals 
+representing a series of frames of images, said digitized 
+
+video signals being stored in an external memory system, 
+said method comprising the steps of: 
+
+   providing a first and a second video ports, each 
+video port being configurable to be either an input 
+
+port or an output port for video signals; 
+   using a host bus interface circuit to interface 
+
+with an external host computer;
+ 
+
+   storing a portion of said series of frames of 
+images in a scratch-pad memory; 
+
+   providing a processor for arithmetic and logic 
+operations, wherein said processor computing 
+
+coefficients of a discrete cosine transform of said 
+portion of said series of frames of images, and for 
+
+applying a quantization step for said coefficients to 
+obtained quantized coefficients under a lossy 
+
+compression algorithm; 
+   matching objects in motion between said frames 
+
+of images using a motion estimation unit, said motion 
+estimation unit providing as data output motion 
+
+vectors representing said motion of said objects in 
+motion between said frames of images; 
+
+   applying in a variable-length coding unit an 
+entropy coding scheme on said quantized coefficients 
+
+and said motion vectors to represent said video 
+signals; 
+
+   providing a global bus accessible by said first 
+and second video port, said host bus interface, said 
+
+scratch-pad memory, said processor, said motion 
+estimation unit, and said variable-length coding 
+
+unit, said global bus providing data transfer among 
+said first and second video port, said host bus 
+
+interface, said scratch-pad memory, said processor, 
+said motion estimation unit, and said variable-length 
+
+coding unit; 
+   providing a processor bus having a higher 
+
+bandwidth than said global bus for providing data 
+transfer among said processor, said scratch-pad 
+
+memory, and said variable-length coding unit; and 
+   providing a memory controller for (a) 
+
+controlling data transfers between said external 
+memory and said structure, and (b) for controlling 
+
+the uses of said global bus and said processor bus. 
+A method for providing an interface for 
+receiving digitized video signals, said digitized signals 
+
+including samples of a luminance component and first and 
+second chrominance components provided to said interface 
+
+in pixel interleaved order, said method comprising the 
+steps of: 
+
+   dividing a memory into groups of regions, each 
+group of regions having a first region, a second 
+
+region and a third region for storing said samples of 
+said luminance component and said first and second 
+
+chrominance components respectively; 
+   maintaining a count of said digitized video 
+
+signals, said count being incremented as each sample 
+arrives at said interface; and 
+
+   generating an address for storing in said memory 
+each of said samples of digitized video samples in 
+
+accordance with said count, such that a sample of 
+said luminance component is stored in said first 
+
+region, a sample of said first chrominance component 
+is stored in said second region and a sample of said 
+
+second chrominance component is stored in said third 
+region. 
+A method for synchronizing a first and a second 
+clock signals, comprising: 
+
+   a first step for detecting a transition of said 
+second clock signal between a first and a second 
+
+transitions of said first clock signal, said first 
+and second transitions of said first clock signal 
+
+being successive transitions; 
+   a second step for detecting a transition of said 
+
+second clock signal between said second transition 
+and a third transition of said first clock signal, 
+
+said second and third transitions of said first clock 
+signal being successive transitions; and 
+
+   the step of outputting a detected transition of 
+
+ 
+said first and second steps at a fourth transition of 
+
+said first clock signal, said fourth transition being 
+a transition of said first clock signal subsequent to 
+
+said third transition of said first clock signal. 
+A method for accessing matrix data in either 
+column or row order, comprising the steps of: 
+
+   providing a plurality of memory cells organized 
+as an s X s matrix of addressable units; and 
+
+   generating any one of 2s addresses for accessing 
+said addressable units, wherein s of said 2s 
+
+addresses access s rows of said matrix, and the 
+remaining s addresses access s columns of said 
+
+matrix. 
+A method for providing a high performance 
+central processing unit, comprising: 
+
+   providing a data memory having a plurality of 
+data words, each data word having a word width of n*m 
+
+bits, where n and m are integers; 
+   providing a first set of n registers for storing 
+
+n data words, each data word having a width of m 
+bits, said n registers structured such that (i) for 
+
+input purpose, said first set of n registers receives 
+an n*m bit data word from said data memory 
+
+simultaneously as a single n*m-bit register, and (ii) 
+for output purpose, each of said n registers is 
+
+addressed independently; 
+   providing an arithmetic and logic unit receiving 
+
+a plurality of m-bit operands from said first set of 
+n registers and providing as a result of an operation 
+
+an m-bit result; and 
+   providing a second set of n registers for 
+
+storing n data words, each data word having a width 
+of m bits, said second set of n registers structured 
+
+such that (i) for input purpose, each of said n 
+ 
+
+registers is addressed independently for receiving 
+said m-bit result from an operation of said 
+
+arithmetic unit; and (ii) for output purpose, said 
+second set of n registers output an n*m bit data word 
+
+to said data memory simultaneously as a single n*m-bit 
+register. 
+A method for providing a memory controller for a 
+processor having a plurality of functional units, 
+
+comprising: 
+   controlling, in a first interface, access to an 
+
+external memory system; 
+   controlling, in a second interface, a first 
+
+internal bus, said first internal bus being m-bit 
+wide, m being an integer; 
+
+   controlling, in a third interface, a second 
+internal bus, said second internal bus being n*m-bit 
+
+wide, n being an integer; 
+   providing an arbitration unit for receiving data 
+
+transfer requests from said functional units and for 
+granting use of said first and second internal busses 
+
+to a selected one of said functional units; and 
+   in a direct memory access unit, controlling data 
+
+transfer among said selected functional unit, said 
+first and second internal busses and said data 
+
+memory, over said first, second and third interfaces. 
+A method for organizing a memory structure for 
+accessing image data, comprising the steps of: 
+
+   providing a memory divided into a first half and 
+a second half for providing a 2m-bit output datum, 
+
+said 2m-bit output datum being formed by 
+concatenating a first datum and a second m-bit datum, 
+
+said first m-bit datum being provided from said first 
+half of said memory by activating, in response to a 
+
+first address, one of a first set of word lines, and 
+ 
+
+said second m-bit datum being provided from said 
+second half of said memory by activating, in response 
+
+to a second address, one of a second set of word 
+line; and 
+
+   generating said first and second address, said 
+first and second address being constrained to be 
+
+identical except for one bit. 
+A method for flexible rearrangement of operands, 
+comprising the steps of: 
+
+   providing an arithmetic and logic unit receiving 
+first and second operands, each operand including a 
+
+predetermined number of data elements, said 
+arithmetic logic unit performing simultaneously 
+
+arithmetic and logic operations between data elements 
+of said first operand and data elements of said 
+
+second operand, each of said operation involving one 
+data element of said first operand and a 
+
+corresponding data element of said second operand; 
+   rearranging in a first set of multiplexor, prior 
+
+to providing said first operand to said arithmetic 
+and logic unit, the order of said data elements in 
+
+said first operand; and 
+   rearranging in a second set of multiplexor, 
+
+prior to providing said second operand to said 
+arithmetic and logic unit, the order of said data 
+
+elements in said second operand. 
+A method for providing a non-linear filter 
+comprising, the steps of: 
+
+   setting a first threshold value T₁; 
+   setting a second threshold value T₂; 
+
+   receiving first and second operands x and y to 
+provide an absolute difference between x and y; 
+
+   receiving said absolute difference and said 
+first and second threshold values to provide a 
+
+ 
+weighting factor a equal to (i) when said when said 
+
+absolute difference is less than T₁, a predetermined 
+weight less than 1.0, (ii) when said absolute 
+
+difference is between T₁ and T₂, a value between said 
+predetermined weight and 1.0, said value being 
+
+proportional to the said absolute difference, and 
+(iii) when said absolute difference is greater than 
+
+T₂, 1.0; and 
+   providing a filter output having the value 
+
+x + 
+a(y-x)  
+
+. 
+A structure for deinterlacing a digitized video 
+signal, said video signal comprising pixels from a first 
+
+field and a second field of an image, said structure 
+comprising: 
+
+   for each pixel x in said first field of said 
+image: (i) a circuit for identifying the 
+
+corresponding pixel y in said second field of said 
+image; 
+
+   (ii) a circuit for computing an absolute 
+difference between x and y; 
+
+   (iii) a circuit for determining a weight a 
+equalling (a) 0.5, when said absolute difference is 
+
+less than a first threshold value T₁, (b) 1.0, when 
+said absolute difference is greater than a second 
+
+threshold value T₂, and (c) a value proportional to 
+said absolute difference; and 
+
+   (iv) a circuit for providing as a pixel of a 
+deinterlaced image a pixel z having the value 
+
+x + 
+a(y-x)  
+
+. 
+A circuit for a temporal noise filter for a 
+video signal, said video signal comprising pixels of 
+
+successive frames of images displayable on a screen, said 
+circuit comprising: 
+
+   a circuit for, for position x in a screen, 
+ 
+
+receiving a stream of pixel values x₀, x₁, ..., xT, 
+corresponding to values of the pixel at said position 
+
+x at time points 0, 1, ..., T, wherein said time 
+points correspond to arrivals of said successive 
+
+frames of images; and 
+   a circuit for providing as an initial filter 
+
+output value of said temporal noise filter y₀ the 
+value x₀; 
+
+   a circuit for, for each time point t: 
+
+(i) computing an absolute difference 
+between yt-1, being the filter output value of 
+
+said temporal noise filter at time point t-1, 
+and xt, being the current value of pixel x at 
+
+said time point t; 
+(ii) determining a weight a equalling (a) 
+0.5, when said absolute difference is less than 
+
+a first threshold value T₁, (b) 1.0, when said 
+absolute difference is greater than a second 
+
+threshold value T₂, and (c) a value proportional 
+to said absolute difference; and 
+(iii) providing as filter output value of 
+temporal noise filter a value yt having the value 
+
+xt + a(yt-1-xt-1)  
+. 
+A circuit for scene analysis used to apply 
+adaptive control technique in an image processing method, 
+
+said image including a plurality of macroblocks, each 
+macroblock a plurality of quad pels, being 2 X 2 
+
+configurations of pixels, said circuit for scene analysis 
+comp
+rises: 
+   a circuit for, for each quad pel in each 
+
+macroblock: 
+
+(i) computing simultaneously first and 
+second absolute differences, said first absolute 
+
+difference being an absolute difference between 
+a first pixel within said quad pel and a second 
+
+ 
+pixel within said quad pel, said second absolute 
+
+difference being an absolute difference between 
+said second pixel and a third pixel of said quad 
+
+pel; and 
+(ii) accumulating said first and second 
+absolute differences in first and second 
+
+accumulated sums; and 
+means for applying said adaptive control 
+
+technique using said first and second accumulated 
+sums as activity parameters. 
+A structure for eliminating redundant fields in 
+an video signal to improve a data compression ratio, each 
+
+field comprises a plurality of quad pels, each quad pel 
+being a configuration of 2 X 2 pixels, said structure 
+
+comprising: 
+   means, for each quad pel in a first field, for: 
+
+
+(i) computing a first, a second, a third 
+and a fourth differences between pixels in said 
+
+quad pel and corresponding pixels of a 
+corresponding quad pel in a second field; and 
+(ii) providing a count equal to the number 
+of said first, second, third and fourth 
+
+differences exceeding in magnitude a 
+predetermined threshold value; 
+
+means for accumulating said count over all quad 
+pels in said first field; and 
+
+   means for eliminating said second field when 
+said accumulated count exceeds a second predetermined 
+
+threshold value. 
+A method for zero-lookahead, comprising the 
+steps of: 
+
+   providing a plurality of zero generator 
+circuits, each zero generator circuit receiving 
+
+as input 1-bit signals a and b, and providing as 
+ 
+
+output signals P, Z+ and Z- representing, 
+respectively, whether the values of said signals 
+
+a and b are not the same, the values of said 
+signals a and b are equal to '1', and the values 
+
+of said signals a and b are equal to '0'; and 
+   providing a plurality of zero propagator 
+
+circuits, each of said propagator circuits 
+receiving as input signals (i) P₁, Z+₁, and Z-₁, 
+
+being a first of said P, Z and Z- signals, and 
+(ii) P₂, Z+₂, and Z-₂, being a second set and of 
+
+said P, Z+ and Z- signals, and providing as 
+output signals a third set of P, Z and Z-signals 
+
+in accordance with the logic equations:P = P₁ and P₂; Z- = Z-₁ and Z-₂; and Z+ = (Z+₁ and P₂) or (Z+₂ and Z-1);   wherein said plurality of zero propagator circuits 
+are connected in a tree configuration, having a leaf 
+
+level receiving inputs from said plurality of zero 
+generator circuits; and 
+
+   providing an OR gate connected to the zero 
+propagator circuit at the root of said tree 
+
+configuration of zero propagating circuits, said OR 
+gate receiving as input signals said Z+ and Z-signal 
+
+providing output signal Z, representing whether a 
+zero is detected. 
+A method for performing motion estimation in the 
+compression of video data, said video data comprising 
+
+macroblocks of pixels in a current frame and macroblocks 
+of pixels in a reference frame, said method comprising teh 
+
+steps of: 
+   storing in a memory said macroblocks of said 
+
+current frame and said macroblocks of said reference 
+frame; 
+
+   receiving in a filter a first group of pixels 
+ 
+
+from said memory for resampling said first group of 
+pixels, said first group of pixels being pixels from 
+
+said macroblocks of said reference frame; and 
+   receiving in a matcher said resampled first 
+
+group of pixels and a second group of pixels, said 
+matcher matching said second group of pixels to said 
+
+first group of pixels, for deriving a set of scores 
+each corresponding to one of a predetermined group of 
+
+motion vectors, said second group of pixels being 
+pixels from a macroblock of a current frame and each 
+
+of said scores being a measure of the differences 
+between said second group of pixels and said first 
+
+group of pixels under a corresponding motion vector 
+within said predetermined group; and 
+
+   selecting among said predetermined group of 
+motion vectors, a motion vector for said macroblock 
+
+of said current frame. 
+A structure for performing motion estimation for 
+a video signal, said video signal comprising a first group 
+
+of pixels from a current frame and a second group of 
+pixels in a reference frame, said structure comprising: 
+
+   means for resampling said first and second 
+groups of pixels to obtain a third group of pixels 
+
+and a fourth group of pixels, said third and fourth 
+groups of pixels being representations of said video 
+
+signal at a first reduced resolution; 
+   means for performing a first reduced resolution 
+
+motion estimation based on a said third and fourth 
+groups of pixels to obtain a first motion vector; 
+
+   means for performing a second motion estimation 
+using said first group of pixels, translated by said 
+
+first motion vector, and a subset of said second 
+group of pixels to obtain an incremental motion 
+
+vector, said subset of said second group of pixels 
+being pixels within a predetermined distance of the 
+
+ 
+target position of said first motion vector; and 
+
+   means for providing as output a motion vector 
+equalling the sum of said first motion vector and 
+
+said incremental motion vector. 
+A method for encoding by motion vectors a 
+current frame of video data using a reference frame of 
+
+video data, each of said current and reference frames 
+being divided into rows and columns of macroblocks, said 
+
+macroblocks of said current frames being designated 
+"current macroblocks" and said macroblocks of said 
+
+reference frame being designated "reference macroblocks", 
+each marcoblock representing an area of pixels in the 
+
+corresponding frame, said method comprising the steps of: 
+   storing in a memory circuit (a) a plurality of 
+
+adjacent current macroblocks from a row j of current 
+macroblocks, said plurality of said adjacent current 
+
+macroblocks being designated Cj,p, Cj,p+1, ..., Cj,p+n-1 in 
+the order along one direction of said row of 
+
+macroblocks; and (b) a plurality of adjacent 
+reference macroblocks from a first column i of 
+
+reference macroblocks, said plurality of reference 
+macroblocks being designated Rq,i, Rq+1,i, ..., Rq+m-1,i, 
+
+said plurality of adjacent reference macroblocks 
+being reference macroblocks within the range of said 
+
+motion vectors, each of said current macroblocks 
+being substantially equidistance from said Rq,i and 
+
+Rq+m-1,i reference macroblocks; 
+   evaluating each of said plurality of adjacent 
+
+current macroblocks against each of said plurality of 
+adjacent reference macroblocks under said motion 
+
+vectors to select a motion vector best representing 
+the best match between each of said current 
+
+macroblock and a corresponding one of said reference 
+macroblocks; and 
+
+   replacing (a) the current macroblock Cj,p with a 
+ 
+
+current macroblock Cj,p+n, said current macroblock Cj,p+n 
+being the current macroblock adjacent said macroblock 
+
+Cj,p+n-1 in said direction; and (b) said first column of 
+adjacent reference macroblocks Rq,i, Rq+1,i, ..., Rq+m-1,i 
+
+with a second column of adjacent reference 
+macroblocks Rq,i+1, Rq+1,i+1, ..., Rq+m-1,i+1, said second 
+
+column being adjacent said first column in said 
+direction. 
+A method for adaptive thresholding using a first 
+value, a second value and a third value, comprising the 
+
+steps of: 
+   storing said first, second and third values in a 
+
+first, a second and a third registers connected in a 
+pipeline configuration; and 
+
+   setting the content of said second register to 
+zero when (i) said first and third values are zero, 
+
+and (ii) said second value is less than a 
+predetermined threshold value. 
+</CLAIMS>
+</TEXT>
+</DOC>

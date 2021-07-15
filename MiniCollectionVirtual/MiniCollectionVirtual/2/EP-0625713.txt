@@ -1,0 +1,433 @@
+<DOC>
+<DOCNO>EP-0625713</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method and system for tracking multiple regional objects.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G01S1300	G01S1372	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G01S	G01S	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G01S13	G01S13	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method for tracking objects is disclosed. First a region 
+containing the objects is scanned to generate a multiplicity 
+
+of sequential images or data sets of the region. A 
+plurality of points in each of the images or data sets 
+
+corresponds to a respective plurality of the objects. Next, 
+respective figures of merit are determined for assigning 
+
+the points to the tracks. Next, a k-dimensional cost function 
+is defined which sums the figures of merit for combinations 
+
+of assignments from the images or data sets. Next, 
+the complexity of the cost function is reduced by 
+
+Lagrangian Relaxation by permitting a point to be assigned 
+to more than one track and adding a penalty factor to the 
+
+cost function when a point is assigned to more than one 
+track. The reducing step is iteratively repeated and the 
+
+resultant penalized cost function is solved. Next, an auxiliary 
+function at a (k-1)-dimension is defined as a function 
+
+of lower order penalty factors and a solution at the 
+dimension at which the penalized cost function was solved 
+
+directly. Next, a gradient of the auxiliary function is 
+determined, a step is made in the direction of the gradient 
+
+to identify a peak region of the auxiliary function and 
+penalty factors at the peak region are determined. The 
+
+penalty factors at the peak region are used to determine 
+track assignments for the points in the images or data 
+
+sets. Then one or more of the following actions are taken 
+based on the track assignments: sending a warning to aircraft 
+
+or a ground or sea facility, controlling air traffic, 
+controlling anti-aircraft or anti-missile equipment, taking 
+
+evasive action, working on one of the objects. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BARKER THOMAS NORMAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+PERSICHETTI JOSEPH ANTHONY
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+POORE AUBREY BONNER JR
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+RIJAVEC NENAD
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BARKER, THOMAS NORMAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+PERSICHETTI, JOSEPH ANTHONY
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+POORE, AUBREY BONNER, JR.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+RIJAVEC, NENAD
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The invention relates generally to computerized techniques 
+for processing data obtained from radar to track multiple 
+discrete objects. There are many situations where the courses of multiple 
+objects in a region must be tracked. Typically, radar is 
+used to scan the region and generate discrete images or 
+"snapshots" based on sets of returns. In some types of 
+tracking systems, all the returns from any one object are 
+represented in an image as a single point unrelated to the 
+shape or size of the objects. "Tracking" is the process of 
+identifying a sequence of points from a respective sequence 
+of the images that represents the motion of an object. The 
+tracking problem is difficult when there are multiple 
+closely spaced objects because the objects can change their 
+speed and direction rapidly and move into and out of the 
+line of sight for other objects. The problem is 
+exacerbated because each set of returns may result from 
+noise as well as echoes from the actual objects. The 
+returns resulting from the noise are also called false positives. 
+Likewise, the radar will not detect all echoes 
+from the actual objects and this phenomena is called a 
+false negative or 'missed detect' error. For tracking airborne 
+objects, a large distance between the radar and the 
+objects diminishes the signal to noise ratio so the number 
+of false positives and false negatives can be high. For 
+robotic applications the power of the radar is low and as a 
+result, the signal to noise ratio can also be low and the 
+number of false positives and false negatives high. In view of the proximity of the objects to one another, 
+varied motion of the objects and false positives and false  
+ 
+negatives, multiple sequential images should be analyzed 
+collectively to obtain enough information to properly 
+assign the points to the proper tracks. Naturally, the 
+larger the number of images that are analyzed, the greater 
+the amount of information that must be processed. While identifying the track of an object, a kinematic model 
+describing the object's location, velocity and acceleration 
+is generated. That model provides the means by which the 
+object's future motion can be predicted. Based upon that 
+prediction, appropriate action can be initiated. For 
+example, the military may need to track multiple enemy aircraft 
+or missiles in a region to predict their objective, 
+plan responses and intercept them. Also, commercial air 
+traffic control may need to track multiple commercial aircraft 
+around an airport to predict their future
+</DESCRIPTION>
+<CLAIMS>
+Method for tracking objects, said method comprising 
+the steps of: 
+
+repeatedly scanning a region containing a plurality of 
+moving objects and generating a multiplicity of sequential 
+
+images or data sets of said region, a plurality of 
+points in each of said images or data sets corresponding 
+
+to a respective plurality of said objects; 
+
+determining respective figures of merit for assigning 
+said points to said tracks; 
+
+defining a k-dimensional cost function which sums the 
+figures of merit for combinations of assignments from 
+
+the images or data sets; 
+reducing complexity of the cost function by permitting 
+
+a point to be assigned to more than one track and 
+adding a penalty factor to the cost function when a 
+
+point is assigned to more than one track; 
+iteratively repeating the reducing step and directly 
+
+solving a resultant penalized cost function; 
+defining an auxiliary function at a (k-1)-dimension as 
+
+a function of lower order penalty factors and a solution 
+at said dimension at which said penalized cost 
+
+function was solved directly; 
+determining a gradient of said auxiliary function, 
+
+stepping in the direction of said gradient to identify 
+a peak region of said auxiliary function and determining 
+
+penalty factors at said peak region; 
+using said penalty factors at said peak region to 
+
+assign the points to corresponding tracks;
+ 
+
+taking one or more of the following actions based on 
+the track assignments: 
+
+   sending a warning to aircraft or a ground or sea 
+facility, 
+
+   controlling air traffic, 
+   controlling anti-aircraft or anti-missile 
+
+equipment, 
+   taking evasive action, 
+
+   working on one of the objects. 
+A method as set forth in claim 1 
+further comprising the following steps which are performed 
+
+before the step of defining said auxiliary function: 
+defining a preliminary auxiliary function at a dimension 
+
+equal or one greater than the dimension at which 
+said penalized cost function is solved directly, said 
+
+preliminary auxiliary function being a function of 
+lower order penalty values and a solution at said 
+
+dimension at which said penalized cost function was 
+solved directly; 
+
+determining a gradient of said preliminary auxiliary 
+function, stepping in the direction of said gradient to 
+
+identify a peak region of said preliminary auxiliary 
+function and determining penalty factors at said peak 
+
+region; and 
+iteratively repeating said defining step and said gradient 
+
+determining, stepping and penalty factor determining 
+steps to define auxiliary functions at 
+
+ 
+successively higher dimensions until the auxiliary 
+
+function at the (k-1) dimension is determined. 
+A method as set forth in claim 2 wherein each of the 
+auxiliary functions equals a solution to the auxiliary 
+
+function at the next lower dimension plus a solution to 
+a 2-dimensional penalized cost function. 
+A method as set forth in claim 3 wherein 
+the first said preliminary auxiliary function is 
+
+defined at the dimension at which said penalized cost 
+function is solved directly. 
+A method as set forth in claim 1 wherein the figure of 
+merit determining step is performed by: 
+
+extrapolating tracks for said objects; and 
+determining the figures of merit based on distances 
+
+from each of said points to the extrapolated tracks. 
+A method as set forth in claim 1 wherein the scanning 
+step is performed by radar. 
+A method as set forth in claim 1 wherein each reducing 
+step is performed by Lagrangian Relaxation. 
+A method as set forth in claim 3 wherein the 
+penalized cost function is solved directly at the 
+
+second dimension and further comprising the steps of: 
+determining at the second dimension a function equal to 
+
+minimizing of said penalized cost function and other 
+penalized cost functions at the second dimension; 
+
+determining a gradient of said function and stepping in 
+the direction of said function to identify penalty 
+
+ 
+factors corresponding to a peak region of said function; 
+
+and 
+using said penalty factors corresponding to the peak 
+
+region of said function to define the preliminary auxiliary 
+functions at a third dimension. 
+A method as set forth in claim 1 further comprising 
+the steps of: 
+
+extrapolating said tracks corresponding to said assignments; 
+taking said one or more of said actions based on said 
+
+extrapolations. 
+A method as set forth in claim 1 further comprising 
+the step of solving said auxiliary function and wherein 
+
+the gradient is determined at the solution of said auxiliary 
+function. 
+A method as set forth in claim 1 wherein said gradient 
+is based on a plurality of subgradients. 
+A method as set forth in claim 1 wherein the cost 
+determining, defining, reducing, generating, gradient 
+
+determining, stepping, penalty factor determining, and 
+using steps are performed by a computer. 
+A method as set forth in claim 1 wherein the stepping 
+step is performed by selecting an initial step size, 
+
+determining a solution to the auxiliary function one 
+step size in the direction of said gradient from a 
+
+starting point on said auxiliary function, comparing 
+said solution to a solution at said starting point and 
+
+if said solution at said one step size is larger than 
+the solution at said starting point, increasing said 
+
+ 
+step size and repeating the solution determining and 
+
+comparing steps using said increased step size. 
+A method as set forth in claim 1 further comprising 
+the following steps performed after the reducing step: 
+
+identifying a subset of said points which are likely 
+assigned to a subset of said tracks based on the 
+
+respective figures of merit; and 
+removing said points from consideration in the respective 
+
+penalized cost function; and wherein 
+the subsequent reducing steps are performed without 
+
+considering said subset of points; and further comprising 
+the step of: 
+
+separately assigning said subset of points to tracks of 
+said subset of tracks. 
+Method for tracking objects, said method comprising 
+the steps of: 
+
+repeatedly scanning a region containing a plurality of 
+moving objects and generating a multiplicity of sequential 
+
+images or data sets of said region, a plurality of 
+points in each of said images or data sets corresponding 
+
+to a respective plurality of said objects; 
+determining respective figures of merit for assigning 
+
+said points to said tracks; 
+defining a k-dimensional cost function which sums the 
+
+figures of merit for combinations of assignments from 
+the images or data sets; 
+
+reducing complexity of the cost function by permitting 
+a point to be assigned to more than one track and 
+
+ 
+adding a penalty factor to the cost function when a 
+
+point is assigned to more than one track; 
+after the reducing step, identifying a subset of said 
+
+points which should be assigned to a subset of said 
+tracks based on the respective figures of merit; 
+
+removing said points from consideration in the respective 
+penalized cost function; 
+
+separately assigning said subset of points to tracks of 
+said subset of tracks. 
+
+taking one or more of the following actions based on 
+tracks corresponding to the assignments; 
+
+   sending a warning to aircraft or a ground or sea 
+facility, 
+
+   controlling air traffic, 
+   controlling anti-aircraft or anti-missile 
+
+equipment, 
+   taking evasive action, 
+
+   working as one of the objects. 
+A method as set forth in claim 15 further comprising 
+the steps of: 
+
+repeating the reducing, identifying, removing and separately 
+assigning steps using a penalized cost function 
+
+which excludes said subset of points. 
+System for tracking objects, said system comprising:
+ 
+
+means for repeatedly scanning a region containing a 
+plurality of moving objects and generating a multiplicity 
+
+of sequential images or data sets of said 
+region, a plurality of points
+ in each of said images or 
+data sets corresponding to a respective plurality of 
+
+said objects; 
+means for determining respective figures of merit for 
+
+assigning said points to said tracks; 
+means for defining a k-dimensional cost function which 
+
+sums the figures of merit for combinations of assignments 
+from the images or data sets; 
+
+means for reducing complexity of the cost function by 
+permitting a point to be assigned to more than one 
+
+track and adding a penalty factor to the cost function 
+when a point is assigned to more than one track; 
+
+means for iteratively repeating the reducing step and 
+directly solving a resultant penalized cost function; 
+
+means for defining an auxiliary function at a 
+(k-1)-dimension as a function of lower order penalty 
+
+factors and a solution at said dimension at which said 
+penalized cost function was solved directly; 
+
+means for determining a gradient of said auxiliary 
+function, stepping in the direction of said gradient to 
+
+identify a peak region of said auxiliary function and 
+determining penalty factors at said peak region; 
+
+means for using said penalty factors at said peak 
+region to assign the points to corresponding tracks; 
+
+means for taking one or more of the following actions 
+based on the track assignments;
+
+ 
+   sending a warning to aircraft or a ground or sea 
+
+facility, 
+   controlling air traffic, 
+
+   controlling anti-aircraft or anti-missile 
+equipment, 
+
+   taking evasive action, 
+   working on one of the objects. 
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,381 @@
+<DOC>
+<DOCNO>EP-0151316</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+ON-LINE RECOGNITION METHOD AND APPARATUS FOR A HANDWRITTEN PATTERN
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06K1100	G06K980	G06T760	G06T700	G06T760	G06K1100	G06T700	G06K980	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06K	G06K	G06T	G06T	G06T	G06K	G06T	G06K	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06K11	G06K9	G06T7	G06T7	G06T7	G06K11	G06T7	G06K9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Coordinates of a handwritten pattern drawn on a tablet 
+(100) are sequentially sampled by a pattern recognition unit 
+
+(200) to prepare pattern coordinate data. Based on an area 
+encircled by segments created by the sampled pattern 
+
+coordinate data of one stroke and a line connecting a start 
+point and an end point of the one-stroke coordinate data, the 
+
+sampled pattern coordinate data of the one stroke is 
+converted to straight line and/or curved line segments. The 
+
+converted segments are quantized and normalized. The 
+segments 
+of the normalized input pattern are rearranged so 
+that the input pattern is drawn in a predetermined sequence. 
+
+Differences between direction angles for the rearranged 
+segments are calculated. Those differences are compared 
+
+with differences of the direction angles of the dictionary 
+patterns read from a memory (300) to calculate a difference 
+
+therebetween. The matching of the input pattern and the 
+dictionary pattern is determined in accordance with the 
+
+difference. If the matching fails, the first or last inputted 
+segment of the input pattern is deleted or the sampled 
+
+pattern coodinate data of the next stroke are added, to 
+continue the recognition process. 
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+HITACHI, LTD.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+HIRASAWA, KOTARO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KUZUNUKI, SOSHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SHOJIMA, HIROSHI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to on-line 
+recognition method and apparatus for a handwritten pattern, 
+and more particularly to graphic data input method and 
+apparatus suitable for an on-line handwritten document 
+preparation system. As a large scale computer system has been populated 
+and a performance of an information processing 
+terminal equipment has been improved, users of the computers 
+have been rapidly increasing and a handwritten 
+pattern input device has been attracting a public attention 
+as one of input means to the computer. Input information is classified into characters 
+and graphics. Prior art examples are described below. General description on on-line recognition of 
+a handwritten character is found in Nikkei Electronics, 
+1973, No. 5-7, pages 46 ∼ 59. A method for recognizing 
+a handwritten character by representing the handwritten 
+character by a series of short lines and comparing it 
+with a characteristic in a dictionary is explained below. Fig. 1 shows a smoothing process of a handwritten 
+pattern. P₀-P₁-P₂-P₃ represents an input pattern. The 
+point P₀ at which a pen was first dropped is defined as 
+a first sampling point S₀ and a circle centered at S₀ and  
+ 
+having a predetermined radius (e.g., 5) is drawn to seek 
+a next point P₁ which is outside of the circle. A distance 
+between the points P₀ and P₁ is divided to have a 
+ratio of n/m (e.g., 3/1) and the dividing point is defined 
+as a new sampling point S₁. A circle centered at S₁ and 
+having the radius 5 is drawn to seek a next point P₂ which 
+is outside of the circle. A distance between the points 
+P₁ and P₂ is divided to have a ratio of 3/1 and a dividing 
+point is defined as a new sampling point S₂. The above process is continued until the pen is 
+raised to define the sampling points S₀, S₁, S₂ and S₃. 
+If an angle made by the line segment S₀S₁ and the line 
+segment S₁S₂ is smaller than a predetermined angle, the 
+line S₀S₂ is handled as one straight line segment S₀S₂. 
+The above process is repeated so that the handwritten 
+pattern is approximated by segments. The segment data which approximates the handwritten 
+pattern is recognized as a specific character by 
+a character recognition tree. This method is called a direction code method. 
+The points S₀ ∼ S₃ sampled in the smoothing process are 
+serially connected to divide the handwritten pattern into 
+a plurality of segments. If the handwritten pattern 
+consists of short segments (for example, KANJI character), 
+the input pattern has little vibration and the pattern 
+can
+</DESCRIPTION>
+<CLAIMS>
+An on-line recognition method for a handwritten pattern 
+comprising the steps of:
+ 
+   sampling (20) successively coordinate information of 
+
+strokes of a handwritten pattern;
+ 
+   segmenting (30) the coordinate information of a stroke 
+
+into line segments consisting of at least either of 
+straight line segments or curved line segments;
+ 
+   quantizing (40) of the segments by assigning direction 
+
+code values to the segments so that the direction of the 
+line connecting start and end points of each segment 
+
+is classified as being within one of predetermined ranges 
+of angles to the x-axis;
+characterized
+ in that
+ 
+the method further comprises the steps of:
+ 
+   normalisation (50) of the input pattern constituted by 
+
+the quantized segments and preparation of a normalised 
+segment list (L2) containing the normalised start and end 
+
+points of the segments and their direction codes;
+ 
+   finding the presence and absence of connections between 
+
+start or end points of the segments and preparing a connection 
+list (L3) which indicates these connections;
+ 
+   rearranging (60) the order of successively quantized 
+
+line segments by selecting one segment which has a lowest 
+end point x-coordinate value from said listed segments and 
+
+arranging the order of the quantized data, starting in one 
+direction from said end point of said selected segment and 
+
+sequentially tracing the boundary, based on said connection 
+list (L3), thereby preparing a code list (L4);
+  
+ 
+
+   reading out a dictionary pattern already stored in a 
+memory (300); and
+ 
+   calculating (70, 80) a degree of difference between the 
+
+input pattern and the readout dictionary pattern by 
+comparing both on the basis of the direction codes and 
+
+the rearranged order of the quantized line segments in the 
+code list (L4), to thereby recognize the input pattern.  
+
+ 
+An on-line recognition method according to claim 1, 
+further comprising, after said difference degree calculating 
+
+step (70), a step of altering (90) the number 
+of the line segments to continue the recognition 
+
+processing when non-matching (80) is detected. 
+An on-line recognition method according to claim 2, 
+wherein in said segment number altering step (90), the 
+
+first or last inputted segment is deleted to continue 
+the pattern recognition processing. 
+An on-line recognition method according to claim 2, 
+wherein in said segment number altering step (90), the 
+
+coordinate information of a next stroke is added to the 
+coordinate information of the current stroke to continue 
+
+the pattern recognition processing. 
+An on-line recognition method according to claim 1, 
+wherein in said segmenting step (30), segmentation is 
+
+carried out by calculating an area (A) encircled by a 
+fold line sequentially connecting the coordinate points 
+
+on the coordinate information of one stroke and a line 
+connecting the start coordinate point and the end coordinate 
+
+point of the coordinate information. 
+An on-line recognition method according to claim 5, 
+wherein said segmenting step (30) includes the substeps 
+
+of:
+  
+ 
+
+   comparing the calculated area (A) with a predetermined 
+value (A
+th
+);
+ 
+   determining as a desired line segment the line connecting 
+
+the start coordinate point and the end coordinate 
+point of the coordinate information when the calculated 
+
+area is smaller than the predetermined value; 
+and
+ 
+   dividing the fold line into two fold lines when the 
+
+calculated area is not smaller than the predetermined 
+value, to continue the segmenting step (30) by comparing 
+
+with the predetermined value an area encircled by 
+the divided fold line and a line connecting the start 
+
+coordinate point and the end coordinate point of the 
+divided fold line. 
+An on-line recognition method according to claim 5, 
+wherein in said segmenting step (30), two contiguous 
+
+line segments are handled as a portion of a curve, when 
+
+an absolute difference of angle made by the two segments 
+is smaller than a predetermined angle and a sign 
+
+thereof is equal to that of the difference of angle 
+made by immediately preceeding two line segments and a 
+
+length ratio thereof is within a predetermined range. 
+An on-line recognition method according to claim 1, 
+wherein in said difference degree calculating step 
+
+(70), the difference of the quantized angles of each 
+two contiguous rearranged line segments is compared 
+
+with each corresponding difference of the readout 
+dictionary pattern.  
+
+ 
+An on-line handwritten pattern recognition apparatus for 
+carrying out the method according to claim 1 comprising:
+ 
+   a pen (101) for drawing a pattern to be recognized on 
+
+a tablet (100);
+ 
+   a coordinate input unit (201) for sampling serial 
+
+coordinate information and pen-up and pen-down information 
+of strokes of a handwritten pattern;
+ 
+   a pattern recognition unit (200) for comparing the 
+
+input information from said input unit for each input 
+stroke starting from pen-down and ending at pen-up with 
+
+standard pattern information stored in a memory (300) to 
+determine analogy therebetween;
+ 
+   a pattern generation unit (400, 500) for generating 
+
+reshaped information of the pattern recognized by said 
+pattern recognition unit;
+characterized
+ in that
+ 
+said pattern recognition unit (200) includes:
+ 
+   segmentation means (202) for converting the input information 
+
+from said coordinate input unit to straight 
+line and curved line segments;
+ 
+   quantization data generating means (203) for quantizing 
+
+the segments by assigning direction code values 
+to the segments so that the direction of the line connecting 
+
+start and end points of each segment is 
+classified as being within one of predetermined ranges 
+
+of angles to the x-axis;
+ 
+   normalisation means (204) for normalising the input 
+
+pattern constituted by the quantized line segments and 
+preparing a normalized segment list (L2) containing the  
+
+ 
+normalized start and end points of the segments and 
+
+their direction codes;
+ 
+   means (210) for finding and listing, on a connection 
+
+list (L3), the presence and absence of connections 
+between start or end points of the 
+
+segments;
+ 
+   sequencing means (205) for rearranging the quantized 
+
+data by selecting one segment which has a lowest end point x-coordinate value from said 
+listed segments and arranging the order of the quantized 
+
+data in a predetermined direction starting from said end point of said 
+selected segment, based on said connection list (L3) of 
+
+the quantized segments, and for thereby preparing a code 
+list (L4);
+ 
+   difference calculation means (206) for calculating a 
+
+degree of difference between the rearranged quantized 
+data sequence with a data sequence derived from said 
+
+standard pattern information stored in said memory 
+(300);
+ 
+   a matching detection unit (207) for detecting matching 
+
+of the input data and said standard data by comparing 
+the calculated difference with a predetermined 
+
+value; and
+ 
+   number of segments altering means (209) for increasing 
+
+or decreasing the number of segments to be 
+compared with the standard pattern information when the 
+
+difference is larger than a predetermined value, to 
+continue the process on the basis of the newly prepared 
+
+data when non-matching is detected.  
+ 
+An on-line handwritten pattern recognition apparatus 
+according to claim 9, wherein said segmentation means 
+
+(202) includes:
+ 
+   calculation means for calculating an area encircled 
+
+by segment pattern sequentially connecting points on 
+the input stroke and a line connecting the start point 
+
+and the end point of the segment pattern;
+ 
+   first decision means for determining whether the 
+
+segment pattern is to be regarded as a straight line 
+or not based on the area calculated by said calculation 
+
+means; and
+ 
+   second decision means for determining whether the 
+
+segments determined as the straight line by said first 
+decision means are a portion of a curved line.  
+
+ 
+An on-line handwritten pattern recognition apparatus 
+according to claim 9, wherein said number of segments 
+
+altering means (209) includes a start pointer and an 
+end pointer for the segments to be compared, means for 
+
+incrementing or decrementing said pointers, and segment 
+updating means for replacing the segments by new 
+
+segments pointed by said pointers. 
+</CLAIMS>
+</TEXT>
+</DOC>

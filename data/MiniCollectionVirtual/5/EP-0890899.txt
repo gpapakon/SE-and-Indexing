@@ -1,0 +1,513 @@
+<DOC>
+<DOCNO>EP-0890899</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Multiplication method and apparatus
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F748	G06F752	G06F7533	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F7	G06F7	G06F7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+In a binary fixed-point number system in which the most
+significant bit is a sign bit and the decimal point is between
+
+the most significant bit and a bit which is lower by one bit than
+the most significant bit, the circuit scale for digit place
+
+aligning means is reduced and a double-precision multiplication
+with an excellent efficiency is realized. Products of the
+
+high-order word/low-order word of a double-precision
+multiplicand and the high-order word/low-order word of a
+
+double-precision multiplier are obtained by using a single-precision
+multiplying device. A digit place alignment addition
+
+operation is performed on the obtained products to produce a
+double-precision multiplication result. In this case, at least
+
+two digits are set before the decimal point, thereby allowing
+each of the products of the high-order word/low-order word of
+
+the double-precision multiplicand and the high-order
+word/low-order word of the double-precision multiplier, to be
+
+obtained at a bit width which is larger by at least one bit than
+a bit width of double precision.
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC IND CO LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC INDUSTRIAL CO., LTD.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+KABUO HIDEYUKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TANOUE KAZUFUMI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YAMANAKA RYUTARO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KABUO, HIDEYUKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TANOUE, KAZUFUMI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YAMANAKA, RYUTARO
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The invention relates to a computing method and a computing
+apparatus which executes a double-precision multiplication by
+using a single-precision multiplying device.Conventionally, a double-precision multiplication system
+is known in which products of the high-order word/low-order word
+of a double-precision multiplicand and the high-order
+word/low-order word of a double-precision multiplier are
+obtained by using a single-precision multiplying device and a
+digit place alignment addition operation is performed on each
+of the products, thereby obtaining a double-precision
+multiplication result. This system is disclosed in, for example,
+Japanese patent publication (Kokai) No. HEI8-30439. In the
+prior art example disclosed in Japanese patent publication
+(Kokai) No. HEI8-30439, means for holding the most significant
+bit of low-word of a double-precision multiplier is disposed,
+and the most significant bit of the low-order word of the
+double-precision multiplier is used in the encoding of the 
+high-order word of the double-precision multiplier, so that the
+low-order word of the double-precision multiplier is treated as
+a signed binary. In order to perform a multiplication of the
+low-order word of the double-precision multiplicand, the system
+is provided with multiplying means having a function of enabling
+a multiplication even when the multiplicand is an unsigned binary.
+Therefore, the prior art technique can realize a double-precision
+multiplication without impairing the precision.In the prior art example disclosed in Japanese patent
+publication (Kokai) No. HEI8-30439, however, a sign indicative
+of a positive number is assumed at the bit which is higher by
+one bit than the most significant bit of a multiplicand, when
+the multiplying means treats the multiplicand as an unsigned
+binary. Therefore, the digit place of the sign of the
+multiplication result is different from that of a result of a
+multiplication in which the multiplicand is a signed binary.
+Consequently, the shift number for digit place alignment is
+different in additions of products of the high-order
+word/low-order word of a double-precision multiplicand and the
+high-order word/low-order word of a double-precision multiplier,
+and hence the prior art example has a problem in that the circuit
+scale for digit place aligning means becomes large.JP-A-08305550 discloses a product sum arithmetic unit
+in which the number of inputs to an adder tree is reduced
+so as to reduce the hardware amount and to attain a high
+operation speed. The product sum
+</DESCRIPTION>
+<CLAIMS>
+A computing method in which, in a binary fixed-point
+number system in which a most significant bit is a sign bit
+
+and a decimal point is between the most significant bit and
+a bit which is lower by one bit than the most significant
+
+bit, products of a high-order word/low-order word of a
+double-precision multiplicand and a high-order word/low-order
+
+word of a double-precision multiplier are obtained by
+using a single-precision multiplying device, a bit
+
+alignment operation is performed on each of the obtained
+products, and an addition of them is then performed to
+
+obtain a double-precision multiplication result,
+characterized in that
+ said method comprises the steps of:
+
+changing the high-order word of the double-precision
+multiplicand to a high-order word of an extended double-precision
+
+multiplicand in which a sign bit of a most
+significant bit of the high-order word of the double-precision
+
+multiplicand is subjected to sign extension, and
+which has a bit width that is larger by at least one bit
+
+than a bit width of single precision;
+changing the low-order word of the double-precision
+multiplicand to a low-order word of an extended double-precision
+
+multiplicand in which a sign bit indicative of a
+positive number is added to a bit that is higher by one bit
+
+than the most significant bit of the low-order word of the
+double-precision multiplicand, and which has a bit width
+
+that is larger by at least one bit than a bit width of
+single precision; 
+multiplying respectively the high-order word of the
+double-precision multiplicand and the low-order word of the
+
+double-precision multiplicand with the high-order word of
+the double-precision multiplier and the low-order word of
+
+the double-precision multiplier, whereby products of the
+high-order word of the double-precision multiplicand and
+
+the low-order word of the double-precision multiplicand,
+and the high-order word of the double-precision multiplier
+
+and the low-order word of the double-precision multiplier
+are obtained at a bit width that is larger by at least one
+
+bit than a bit width of double precision in a state where
+at least two bits are set before the decimal point; and
+performing bit alignment by conducting a bit-shifting
+operation in a unit of a width of a single-precision data
+
+when the products are to be added to each other.
+A computing method according to claim 1, wherein, when a
+product of the low-order word of the double-precision
+
+multiplicand and the low-order word of the double-precision
+multiplier is to be obtained, said single-precision
+
+multiplying device performs
+
+   a multiplication of a data which has a sign bit
+indicative of a positive number at a digit that is higher
+
+by one bit than a most significant bit of the low-order 
+word of the double-precision multiplicand, and which has a
+
+bit width that is larger by one bit than a bit width of
+single precision, and
+
+   a data of a bit width of single precision in which a
+most significant bit of the low-order word of the double-precision
+
+multiplier is a sign bit,
+
+   adds a data of a value "0" to a digit which is lower
+by one bit than a least signific
+ant bit of a result of the
+multiplication having a bit width of double precision, and
+
+outputs a data of a bit width which is larger by one bit
+than the bit width of double precision, as the product of
+
+the low-order word of the double-precision multiplicand and
+the low-order word of the double-precision multiplier.
+A computing method according to claim 1, wherein, when a
+product of the high-order word of the double-precision
+
+multiplicand and the low-order word of the double-precision
+multiplier is to be obtained, said single-precision
+
+multiplying device performs
+
+   a multiplication of a data in which a sign bit of a
+most significant bit of the high-order word of the double-precision
+
+multiplicand is subjected to one-bit sign
+extension, and which has a bit width that is larger by one
+
+bit than a bit width of single precision, and
+
+   a data of a bit width of single precision in which a
+most significant bit of the low-order word of the double-precision
+
+multiplier is a sign bit,
+
+   adds a data of a value "0" to a digit which is lower
+by one bit than a least significant bit of a result of the
+
+multiplication having a bit width of double precision, and
+outputs a data of a bit width which is larger by one bit
+
+than the bit width of double precision, as the product of
+the high-order word of the double-precision multiplicand
+
+and the low-order word of the double-precision multiplier. 
+A computing method according to claim 1, wherein, when a
+product of the low-order word of the double-precision
+
+multiplicand and the high-order word of the double-precision
+multiplier is to be obtained, said single-precision
+
+multiplying device performs
+
+   a multiplication of a data which has a sign bit
+indicative of a positive number at a digit that is higher
+
+by one bit than a most significant bit of the low-order
+word of the double-precision multiplicand, and which has a
+
+bit width that is larger by one bit than a bit width of
+single precision, and
+
+   a data of a bit width of single precision in which a
+data having a same value as a value of the most significant
+
+bit of the low-order word of the double-precision
+multiplicand is added to a digit of a least significant bit
+
+of the high-order word of the double-precision multiplier,
+
+   adds a data of a value "0" to a digit which is lower
+by one bit than a least significant bit of a result of the
+
+multiplication having a bit width of double precision, and
+outputs a data of a bit width which is larger by one bit
+
+than the bit width of double precision, as the product of
+the low-order word of the double-precision multiplicand and
+
+the high-order word of the double-precision multiplier.
+A computing method according to claim 1, wherein, when a
+product of the high-order word of the double-precision
+
+multiplicand and the high-order word of the double-precision
+multiplier is to be obtained, said single-precision
+
+multiplying device performs
+
+   a multiplication of a data in which a sign bit of a
+most significant bit of the high-order word of the double-precision
+
+multiplicand is subjected to one-bit sign
+extension, and which has a bit width that is larger by one
+
+bit than a bit width of single precision, and
+ 
+   a data of a bit width of single precision in which a
+
+data having a same value as a value of the most significant
+bit of the low-order word of the double-precision
+
+multiplier is added to a digit of a least significant bit
+of the high-order word of the double-precision multiplier,
+
+   adds a data of a value "0" to a digit which is lower
+by one bit than a least significant bit of a result of the
+
+multiplication having a bit width of double precision, and
+outputs a data of a bit width which is larger by one bit
+
+than the bit width of double precision, as the product of
+the high-order word of the double-precision multiplicand
+
+and the high-order word of the double-precision multiplier. 
+A computing apparatus which, in a binary fixed-point
+number system in which a most significant bit is a sign bit
+
+and a decimal point is between the most significant bit and
+a bit which is lower by one bit than the most significant
+
+bit, obtains products of a high-order word/low-order word
+of a double-precision multiplicand and a high-order
+
+word/low-order word of a double-precision multiplier by
+using a single-precision multiplying device, performs a bit
+
+alignment operation on each of the obtained products, and
+then performs an addition of them to obtain a double-precision
+
+multiplication result, 
+characterized in that
+ said
+apparatus comprises:
+
+
+MSB holding means (10) for holding a most significant
+bit of a multiplier consisting of a high-order word/low-order
+
+word of a double-precision multiplier;
+data selecting means (11) for selectively outputting
+one of a held data of said MSB holding means (10) and a
+
+value "0";
+multiplier encoding means (12) for encoding the
+multiplier by using the multiplier and an output data of
+
+said data selecting means (11), and for outputting the
+encoded multiplier;
+multiplying means (13) for receiving a multiplicand
+consisting of a high-order word/low-order word of a double-precision
+
+multiplicand, an output data of said multiplier
+encoding means (12), and a multiplicand judgement signal
+
+(C1), for, when the multiplicand judgement signal (C1) is
+inactive, obtaining a result of a multiplication of the
+
+multiplicand and the output data of said multiplier
+encoding means (12) while performing one-bit sign extension
+
+on a sign bit which is a most significant bit of the
+multiplicand, and, when the multiplicand judgement signal
+
+(C1) is active, obtaining a result of a multiplication of
+the multiplicand and the output data of said multiplier
+
+encoding means (12) while adding a sign bit indicative of a
+positive number to a bit that is higher by one bit than the
+
+most significant bit of the multiplicand, and for
+outputting the multiplication result in which at least two
+
+bits exist before a decimal point and which has a bit width
+that is larger by at least one bit than a bit width of
+
+double precision;
+adding means (14) for performing an addition of an
+addend which is an output data of said multiplying means
+
+(13) and an augend in which at least two bits exist before
+a decimal point and which has a bit width that is larger by
+
+at least one bit than a bit width of double precision, and
+for outputting an addition result in which at least two
+
+bits exist before a decimal point and which has a bit width
+that is larger by at least one bit than a bit width of
+
+double precision;
+addition result holding means (15) for holding the
+addition result output from said adding means (14); and
+bit aligning means (16) for selecting one of a held
+data of said addition result holding means (15) and a value
+
+"0", for performing bit alignment by conducting a bit-shifting
+operation in a unit of a width of a single-precision
+
+data, to perform a bit aligning, and for
+outputting a result of the bit alignment as the augend for
+
+said adding means (14).
+A computing apparatus according to claim 6, wherein,
+during an execution of a double-precision multiplication,
+
+when a product of the low-order word of the double-precision
+multiplier and the high-order word/low-order word
+
+of the double-precision multiplicand is to be obtained,
+said MSB holding means (10) holds a most significant bit of
+
+the low-order word of the double-precision multiplier.
+A computing apparatus according to claim 6, wherein,
+during an execution of a double-precision multiplication, 
+
+when a product of the low-order word of the double-precision
+multiplier and the high-order word/low-order word
+
+of the double-precision multiplicand is to be obtained,
+said data 
+selecting means (11) selectively outputs a value
+"0", and, when a product of the high-order word of the
+
+double-precision multiplier and the high-order word/low-order
+word of the double-precision multiplicand is to be
+
+obtained, selectively outputs the most significant bit of
+the low-order word of the double-precision multiplier which
+
+is held by said MSB holding means (10).
+A computing apparatus according to claim 6, wherein,
+during an execution of a double-precision multiplication,
+
+when a product of the low-order word of the double-precision
+multiplier and the high-order word/low-order word
+
+of the double-precision multiplicand is to be obtained,
+said multiplier encoding means (12) encodes the input low-order
+
+word of the double-precision multiplier and the
+output data of the value "0" selected by said data
+
+selecting means (11), in accordance with the Booth
+algorithm and then outputs the encoded word and data, and,
+
+when a product of the high-order word of the double-precision
+multiplier and the high-order word/low-order word
+
+of the double-precision multiplicand is to be obtained,
+encodes the output data of the most significant bit of the
+
+low-order word of the double-precision multiplier which is
+held by said MSB holding means (10) and selected by said
+
+data selecting means (11), in accordance with the Booth
+algorithm and then outputs the encoded data.
+A computing apparatus according to claim 6, wherein
+said multiplying means (13) comprises partial product
+
+generating means for, when the multiplicand judgement
+signal (C1) is active during an execution of a double-precision
+
+multiplication, judging that the input 
+multiplicand is the low-order word of the double-precision
+
+multiplicand, and obtaining a partial product of the
+multiplicand and the output data of said multiplier
+
+encoding means (12) while adding the sign bit indicative of
+a positive number to a digit which is higher by one bit
+
+than the most significant bit of the multiplicand, and for,
+when the multiplicand judgement signal (C1) is inactive,
+
+judging that the input multiplicand is the high-order word
+of the double-precision multiplicand, and obtaining a
+
+partial product of the multiplicand and the output data of
+said multiplier encoding means (12) while performing one-bit
+
+sign extension on the sign bit which is the most
+significant bit of the multiplicand.
+A computing apparatus according to claim 6, wherein
+said multiplying means (13) comprises at least two sets of
+
+partial product generating means, sums partial products
+which are output data of said plural partial product
+
+generating means, while aligning a digit place, adds a data
+of a value "0" to a digit which is lower by one bit than
+
+the least significant bit of a result of the partial
+product summation, and outputs a result of the addition as
+
+a desired product.
+A computing apparatus according to claim 6, wherein
+said apparatus further comprises multiplication result
+
+holding means for temporarily holding the output data of
+said multiplying means (13) and outputting the held data as
+
+the addend for said adding means (14), and said multiplying
+means (13) and said adding means (14) are operable in
+
+parallel.
+A computing apparatus according to claim 6, wherein
+said multiplier encoding means (12) has a function of 
+
+compulsorily setting the least significant bit of the
+multiplier which is an input data, to be a value "0".
+A computing apparatus according to claim 6, wherein
+said multiplying means (13) has a function of compulsorily
+
+setting the least significant bit of the multiplicand which
+is an input data, to be a value "0".
+A computing apparatus according to claim 6, wherein
+said MSB holding means (10) is realized by means for
+
+selectively holding one of the most significant bit of the
+multiplier and a value "0", in place of means for holding
+
+the most significant bit of the multiplier.
+</CLAIMS>
+</TEXT>
+</DOC>

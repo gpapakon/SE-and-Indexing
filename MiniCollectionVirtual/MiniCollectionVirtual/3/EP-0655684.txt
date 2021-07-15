@@ -1,0 +1,204 @@
+<DOC>
+<DOCNO>EP-0655684</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Branch decision encoding scheme
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1128	G06F1576	G06F930	G06F1578	G06F1136	G06F1136	G06F1128	G06F930	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F11	G06F15	G06F9	G06F15	G06F11	G06F11	G06F11	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The BRANCH DECISION ENCODING SCHEME shown herein 
+overcomes the limitations of a dedicated debug port on a 
+
+single chip computer processor. A dedicated debug port 
+resolves many of the problems associated with an add-on logic 
+
+analyzer, except for its limitation of an eight bit data 
+interface. The 8 bit port is required as a trade-off between 
+
+the device I/O requirements and development tools. During 
+real time program development, it is virtually impossible to 
+
+monitor the 24 bit program counter through a port only a 
+third as wide. 
+The present invention solves this problem by taking 
+advantage of the sequential characteristics of application 
+
+programs. There is a discontinuity in the program counter in 
+only a limited number of situations: branches, jumps, 
+
+subroutine calls and returns from subroutines, exceptions and 
+returns from exceptions, traps and return from traps, and 
+
+loopbacks to the tops of loops. Therefore, by monitoring 
+most of these discontinuities, it becomes possible to 
+
+compress the 24 bit data so that it can be output through the 
+8 bit port in real time. For example, branch decisions can 
+
+be defined by noting only that they occurred, and if they 
+were taken or not taken, i.e., "1" or "0". The results of 
+
+the decision tree are contained within the program and can be 
+reconstructed in an external work station. To maintain 
+
+synchronization, the absolute value of the program counter is 
+updated periodically as the opportunity presents itself. It 
+
+is always updated following indirect jumps. 
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+ROCKWELL INTERNATIONAL CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+ROCKWELL INTERNATIONAL CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+CLARK RICKE WAYLAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FOLWELL DALE EUGENE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HARENBERG DONALD DEAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+CLARK, RICKE WAYLAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FOLWELL, DALE EUGENE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HARENBERG, DONALD DEAN
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to a means of verifying program flow within an
+inaccessible computer processor. It is incorporated in a debug port built within
+the internal logic of a single-chip, reduced instruction set, signal processor called
+the RSP device. It is used instead of a logic analyzer, since the device's internal
+program address bus is not available at its interface.Heretofore, logic analyzers have been the primary tool used when trouble
+shooting digital computer hardware. However, with the advent of highly pipelined,
+single-chip processors having wide data and address buses, it becomes
+impractical to bring all necessary buses to the device's interface for hardware and
+program trouble shooting. Moreover, it is not possible to multiplex all of the data
+that one might find useful onto an output bus for this purpose when debugging in
+a real time program environment.These problems will also be attendant in next generation devices which
+have limited external leads, use speeds approaching all physical limits, and
+where access is required to more and wider busses.Further information regarding the prior art can be found in COMPUTER, vol. 26, no.
+5, May 1993, LONG BEACH US, pages 52.61, JAMES R. LARUS'Efficient Program
+Tracing' which reviews the historical difficulties and technical approaches to
+capturing detailed program traces and further focusses on the new techniques and
+results of efficient program tracing, in particular compiler-based program tracing.A debug port is incorporated in the RSP device as a hardware debugging
+and software development tool. It includes many of the features of commercial
+logic analyzers, but is included within the device's internal logic primarily because
+the very high speed performance characteristics of the device require that most
+operations be contained on a single silicon die. This means that a great deal of
+the functional operation of the device is internal and therefore no longer available
+to external development tools. Thus, key information within internal registers and
+memories is simply not available at the device's interface pins, and is not easily
+multiplexed out in a real time environment.The debug port, however, has almost full access to all internal buses and
+can deliver out program flow data, as well as other information requested by the
+programmer and device designers. It does, however, impose a penalty in silicon
+area, but this area is expected to be less than 5% of the total area of the device.The dedicated debug port resolves many of the problems
+</DESCRIPTION>
+<CLAIMS>
+A method of capturing and encoding program flow data in
+a processor (11) via a debug port (13) integrated in the processor
+
+chip (11) and connected to its internal program address bus (23)
+and its instruction decoder (22);
+
+wherein the debug port (13) captures only those program flow
+data necessary for reconstructing the complete program
+
+flow of said processor (11) at a remote workstation (17);
+the method comprising the following steps:
+
+
+if the instruction decoder (22) signals a simple conditional
+branch having only one possible branch address,
+
+the debug port (13) codes one logic level in a free bit position
+of a branch decision register (50) if a discontinuity
+
+occurs, and the opposite logic level if it does not occur,
+the content of the branch decision register (50) being
+
+transferred to the workstation (17) before all bit positions
+are filled;
+if the instruction decoder (22) signals an indirect conditional
+branch or an exception the debug port (13) captures
+
+the corresponding address data from the program address
+bus (45) and transfers it to the workstation (17);
+ignoring unconditional branches to a fixed target
+address; and,
+
+accumulating the branch decision data and the program
+address data at the workstation (17) as compressed program
+
+address data.
+The method of Claim 1, further comprising the step
+of accumulating an absolute new address in a further
+
+register (52) whenever a signal is received for capture of program
+address data. 
+An apparatus that captures and encodes program flow data in
+a processor (11), said apparatus comprising a debug port (13) integrated in the processor
+
+chip (11) and connected to its internal program address bus (23)
+and its instruction decoder (22);
+
+wherein the debug port (13) captures only those program flow
+data necessary for reconstructing the complete program
+
+flow of said processor (11) at a remote workstation (17);
+
+said debug port comprising:
+
+means for, if the instruction decoder (22) signals a simple conditional
+branch having only one possible branch address,
+
+coding one logic level in a free bit position
+of a branch decision register (50) if a discontinuity
+
+occurs, and the opposite logic level if it does not occur,
+and for transferring the content of the branch decision register (50),
+
+to the workstation (17) before all bit positions
+are filled;
+means for, if the instruction decoder (22) signals an indirect conditional
+branch or an exception, capturing
+
+the corresponding address data from the program address
+bus (45) and transfering it to the workstation (17);
+
+whereby said means ignore unconditional branches to a fixed target
+address; and said apparatus further comprising:
+
+means for accumulating the branch decision data and the program
+address data at the workstation (17) as compressed program
+
+address data. 
+The apparatus of Claim 3, further comprising a
+program counter reference register connected for receiving a
+
+new address as bit-form data when a signal for capturing an
+address occurs.
+The apparatus of Claim 4
+further comprising means (35)
+
+for accumulating said bit-form data for recordation.
+The apparatus of Claim 5, further comprising
+register means (52) for accumulating an absolute new address when
+
+an instruction for capturing an address is sensed for
+inclusion in compressed address data.
+</CLAIMS>
+</TEXT>
+</DOC>

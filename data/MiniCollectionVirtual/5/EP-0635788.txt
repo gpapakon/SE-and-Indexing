@@ -1,0 +1,246 @@
+<DOC>
+<DOCNO>EP-0635788</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method and apparatus for saving and restoring the state of a CPU
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1114	G06F132	G06F132	G06F100	G06F100	G06F1114	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F11	G06F1	G06F1	G06F1	G06F1	G06F11	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method of saving and restoring the state of a CPU operating code 
+in protected mode on a computer system. The save method makes use of 
+
+BIOS operating in shadow RAM located in a region where linear addresses 
+equal physical addresses while saving the state of the CPU. The 
+
+registers that cannot be directly saved to memory are determined by 
+searching the system memory for data structures that correspond to the 
+
+particular register. The restore method uses dummy page tables that 
+point to the shadowed BIOS to allow the CPU to reenter protected mode 
+
+without generating a protection fault. 
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+COMBS JAMES L
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+CRUMP DWAYNE T
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+PANCOAST STEVEN T
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+COMBS, JAMES L.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+CRUMP, DWAYNE T.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+PANCOAST, STEVEN T.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a method and apparatus for saving
+the state of a CPU executing code in protected mode without generating a
+protection fault.Personal computer systems are well known in the art. Personal
+computer systems in general, and IBM Personal Computers in particular,
+have attained wide-spread use for providing computer power to many
+segments of today's modern society. Personal computers can typically be
+defined as a desktop, floor standing, or portable microcomputer that is
+comprised of a system unit having a single central processing unit (CPU)
+and associated volatile and non-volatile memory, including all RAM and
+BIOS ROM, a system monitor, a keyboard, one or more flexible diskette
+drives, a fixed disk storage drive (also known as a "hard drive"), a so-called
+"mouse" pointing device, and an optional printer. One of the
+distinguishing characteristics of these systems is the use of a
+motherboard or system planar to electrically connect these components
+together. These systems are designed primarily to give independent
+computing power to a single user and are inexpensively priced for
+purchase by individuals or small businesses. Examples of such personal
+computer systems are IBM's PERSONAL COMPUTER AT and IBM's PERSONAL
+SYSTEM/1 (IBM PS/1).Personal computer systems are typically used to run software to
+perform such diverse activities as word processing, manipulation of data
+via spread-sheets, collection and relation of data in databases, displays
+of graphics, design of electrical or mechanical systems using system-design
+software, etc.IBM PS/1s and PS/2s are desktop computers designed to be used at a
+single location. For example, in today's society many individuals have
+desktop computers at their desks or in rooms dedicated to computer-aided
+tasks. Desktop computers are typically set up at a location and used by
+one or many users without ever moving the computer.Desktop systems may be classified into networked and non-networked
+computer systems. Networked computer systems are part of a larger
+computer system and are connected to other computers or servers via local 
+area networks (LANs) or wide area networks (WANs). Such networks, using
+special interfaces and protocols, allow computers to share data and
+programs in an efficient way. Desktop computer systems used in
+businesses are typically networked computer systems. Non-networked
+computers, on the other hand, are not connected to any other computers.
+Data transfer from one computer to another is accomplished by writing
+data to
+</DESCRIPTION>
+<CLAIMS>
+A method for restoring the state of the CPU (40) from a non-volatile
+storage device (31) in a computer system including: system
+
+memory (53) for storing memory data; a non-volatile storage device (31);
+a CPU (40) that is capable of executing code in a protected mode which
+
+causes the CPU (40) to generate a protection fault if an instruction of
+
+the code attempts to access an improper area within the system memory
+(53) or if an instruction attempts to execute a privileged instruction,
+
+that is capable of executing in a non-fault mode, which allows writes to
+selected areas of the system memory (53) and allows execution of
+
+privileged instructions without generating a protection fault, that
+creates a stack within the system memory (53), that has volatile
+
+registers for storing register values in such a manner as to normally be
+inaccessible externally of the CPU (40), and that has a page directory
+
+base register, a local descriptor table register, a global descriptor
+table register, and a task register; a BIOS in ROM (88); a shadow RAM
+
+(53) for receiving a copy of the BIOS for execution from the ROM (88); an
+operating system for restoring the execution of code on the CPU (40) and
+
+calling a resume routine in response to a resume event; and a control
+routine that generates a resume event responsive to one or more
+
+preselected conditions;
+
+wherein the resume routine is selectably callable by the operating
+system and is operable to access the register values stored in the CPU
+
+(40) volatile registers, to place the CPU (40) in a non-fault mode, to
+transfer the register values from the CPU (40) from the non-volatile
+
+storage device (31) to the stack or the shadow RAM (53), to place the CPU
+(40) in a fault mode, and to transfer the register values to the CPU (40)
+
+from either the stack or the shadow RAM (53) without generating a
+protection fault;
+the method comprising:
+
+activating the resume routine in response to a resume event;
+placing the CPU (40) in a non-fault mode, in which copying the
+register values from the non-volatile storage device (31) to either the
+
+shadow RAM (53) or the stack will not generate a protection fault within
+the CPU (40) ;
+
+   characterized in that the method comprises the subsequent steps of:
+
+estimating the value of the page directory base register;
+verifying the value of the page directory base register; 
+estimating the value of the local descriptor table register;
+estimating the value of the table register;
+transferring the register values of the CPU (40) from the non-volatile
+storage device (31) to either the stack or the shadow RAM (53);
+loading a set of page tables into shadow RAM (53) such that the
+BIOS in the shadow RAM (53) may be accessed after CPU (40) paging is
+
+activated;
+placing the CPU (40) in a fault-mode;
+transferring the register values from the stack or the shadow RAM
+(53) to the CPU (40); and
+resuming the executing of the interrupted code on the CPU (40) with
+the operating system.
+A method as claimed in claim 1 wherein the shadow RAM (53) operates
+in a portion of system memory (53) where linear addresses equal physical
+
+addresses.
+A method as claimed in claim 1 wherein the step of placing the CPU
+(40) in the non-fault mode comprises the step of resetting the CPU (40).
+A method as claimed in claim 1 wherein the non-volatile storage
+device (31) is a fixed disk storage device.
+A computer system including: system memory (53) for storing memory
+data; a non-volatile storage device (31); a CPU (40) that is capable of
+
+executing code in a protected mode, which causes the CPU (40) to generate
+a protection fault if an instruction of the code attempts to access an
+
+improper area within the system memory (53) or if an instruction attempts
+to execute a privileged instruction, that is capable of executing in a
+
+non-fault mode, which allows writes to selected areas of the system
+memory (53) and allows execution of privileged instructions without
+
+generating a protection fault, that creates a stack within the system
+memory (53), and that has volatile registers for storing register values
+
+in such a manner as to normally be inaccessible externally of the CPU
+(40), and that has a page directory base register, a local descriptor
+
+table register, a global descriptor table register, and a task register;
+a BIOS in ROM (88); a shadow RAM for receiving a copy of the BIOS for
+
+execution from the ROM (88); an operating system for restoring the
+execution of code on the CPU (40) and calling a resume routine in
+
+response to a resume event; and a control routine that generates a resume 
+event responsive to one or more preselected conditions,
+
+
+the resume routine being selectably callable by the operating
+system and being operable to access the register values stored in the CPU
+
+(40) volatile registers, to place the CPU (40) in a non-fault mode, to
+transfer the register values from the CPU (40) from the non-volatile
+
+storage device (31) to the stack or the shadow RAM (53), to place the CPU
+(40) in a fault mode, and to transfer the register values to the CPU (40)
+
+from either the stack or the shadow RAM (53) without generating a
+protection fault, and
+restoring means for restoring the state of the CPU (40) from the
+non-volatile storage device (31) including,
+means for activating the resume routine in response to a resume
+event,
+means for placing the CPU (40) in a non-fault mode, in which
+copying the register values from the non-volatile storage device (31) to
+
+either the shadow RAM (53) or the stack will not generate a protection
+fault within the CPU (40), characterised in that the apparatus comprises:
+
+
+means for estimating the value of the page directory base register,
+means for verifying the value of the page directory base register,
+means for estimating the value of the local descriptor table
+register,
+means for estimating the value of the table register,
+means for transferring the register values of the CPU (40) from the
+non-volatile storage device (31) to either the stack or the shadow RAM
+
+(53),
+means for loading a set of page tables into shadow RAM (53) wherein
+the BIOS in the shadow RAM (53) may be accessed after CPU (40) paging is
+
+activated,
+means for placing the CPU (40) in a fault-mode,
+means for transferring the register values from the stack or the
+shadow RAM (53) to the CPU (40), and
+means for resuming the execution of the interrupted code on the CPU
+(40) with the operating system.
+A system as claimed in claim 5 wherein the shadow RAM (53) operates
+in a portion of system memory (53) where linear addresses equal physical
+
+addresses.
+A system as claimed in claim 5 wherein the means for placing the
+CPU (40) in the non-fault mode comprises the step of resetting the CPU
+
+(40).
+</CLAIMS>
+</TEXT>
+</DOC>

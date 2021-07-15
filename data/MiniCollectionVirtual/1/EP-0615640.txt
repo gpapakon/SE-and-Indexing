@@ -1,0 +1,199 @@
+<DOC>
+<DOCNO>EP-0615640</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+RESERVATION OVERRIDING NORMAL PRIORITIZATION OF MICROPROCESSORS IN MULTIPROCESSING COMPUTER SYSTEMS
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F13362	G06F1336	G06F15177	G06F1336	G06F1516	G06F1516	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F13	G06F13	G06F15	G06F13	G06F15	G06F15	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Three prioritization schemes for determining which of several CPUs receives priority to become bus master of a host bus in a multiprocessor system, and an arbitration scheme for transferring control from one bus master to another. Each prioritization scheme prioritizes n elements, where a total of (n/2)x(n-1) priority bits monitors the relative priority between each pair of elements. An element receives the highest priority when each of the n-1 priority bits associated with that element points to it. In the arbitration scheme, the current bus master of the host bus determines when transfer of control of the host bus occurs as governed by one of the prioritization schemes. The arbitration scheme gives EISA bus masters, RAM refresh and DMA greater priority than CPUs acting as bus masters, and allows a temporary bus master to interrupt the current bus master to perform a write-back cache intervention cycle. The arbitration scheme also supports address pipelining, bursting, split transactions and reservations of CPUs aborted when attempting a locked cycle. Address pipelining allows the next bus master to assert its address and status signals before the beginning of the data transfer phase of the next bus master. Split transactions allow a CPU posting a read to the EISA bus to arbitrate the host bus to another device without re-arbitrating for the host bus to retrieve the data. The data is asserted on the host bus when it is idle even if the host bus is being controlled by another device.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+COMPAQ COMPUTER CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+COMPAQ COMPUTER CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+CULLEY PAUL R
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MELO MARIA L
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MORIARTY MICHAEL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SCHNELL ARNOLD T
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WOLFORD JEFF W
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+CULLEY, PAUL, R.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MELO, MARIA, L.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MORIARTY, MICHAEL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SCHNELL, ARNOLD, T.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WOLFORD, JEFF, W.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to prioritization
+and arbitration of multiple elements in a system,
+including least recently used and first-in-first-out
+prioritization schemes, a reservation scheme for
+overriding prioritization and an arbitration scheme
+including split transactions and pipelined arbitration
+for multiple microprocessors sharing a single host bus.The personal computer industry is evolving quickly
+due to the increasing demand for faster and more
+powerful computers. Historically, computer systems
+have developed as single microprocessor, sequential
+machines which process one instruction at a time.
+However, performance limits are being reached in single
+microprocessor computer systems so that a major area of
+research in computer system architecture is parallel
+processing or multiprocessing. Multiprocessing
+involves a computer system which includes multiple
+microprocessors that work in parallel on different
+problems or different parts of the same problem. The
+incorporation of several microprocessors in a computer
+system introduces many design problems that are not
+present in single microprocessor architectures.One difficulty in multiprocessor computer systems
+is that ail of the microprocessors often share a single
+host bus and only one microprocessor can access or 
+control the bus at any given time. Another difficulty
+is that many of the microprocessors may request control
+of the host bus at the same time. Therefore, some type
+of arbitration scheme is necessary to determine which
+microprocessor will take control of the host bus, when,
+and how that microprocessor takes control from the
+microprocessor or other device previously having
+control.A complication that is encountered in
+multiprocessor computer systems is the maintenance of
+cache coherency when each microprocessor includes its
+own local cache memory. For simplicity, the system
+comprising the microprocessor and its local cache
+memory and cache support logic will be referred to as a
+central processing unit (CPU). Cache memory was
+developed in order to bridge the gap between fast
+microprocessor cycle times and slow memory access
+times. A cache is a small amount of very fast,
+relatively expensive, zero wait state memory that is
+used to store a copy of frequently accessed code and
+data from main memory. A CPU can operate out of its
+cache and thereby reduce the number of wait states that
+must be interposed during memory accesses. When a
+microprocessor requests data from the memory and the
+data resides in the local cache, then a cache "hit"
+takes
+</DESCRIPTION>
+<CLAIMS>
+A computer system, comprising:
+
+a system bus;
+an I/O bus coupled to said system bus;
+a device coupled to said I/O bus;
+an I/O bus controller coupled to said system
+bus and said I/O bus, said I/O bus controller including
+
+means for detecting when said device coupled to said
+I/O bus has control of said I/O bus and for asserting a
+
+locked retry signal while said device has control of
+said I/O bus;
+a plurality of microprocessors coupled to
+said system bus, each said microprocessor including
+
+means for requesting and gaining control of said system
+bus and further including means for performing a locked
+
+cycle to said I/O bus while having control of said
+system bus, wherein a microprocessor having control of
+
+said system bus and initiating a locked cycle aborts
+its locked cycle and releases control of said system
+
+bus if said locked retry signal is asserted, wherein
+said microprocessor again requests control of said
+
+system bus when said locked retry signal is next
+negated;
+a prioritizer coupled to said plurality of
+microprocessors for prioritizing between those of said
+
+plurality of microprocessors requesting control of said
+bus and awarding control of said system bus to a
+
+highest priority microprocessor, said prioritizer
+including means for detecting a microprocessor aborting
+
+its locked cycle due to said locked retry signal and
+setting a reservation in response, wherein when said
+
+locked retry signal is next negated said prioritizer
+overrides normal priority and awards priority to said
+
+aborted microprocessor over said highest priority 
+microprocessor when said system bus is next available
+
+if said aborted microprocessor is requesting control of
+said system bus.
+The computer system of claim 1, further
+comprising:
+
+
+said system bus including a reservation line
+and a retry line;
+said prioritizer further including means for
+asserting a reservation signal on said reservation line
+
+when a reservation is set; and
+wherein said I/O bus controller asserts a
+retry signal on said retry line in response to
+
+receiving said reservation signal.
+The computer system of claim 2, further
+comprising:
+
+
+said system bus further including a data bus,
+an address bus and a ready line;
+each said microprocessor including means for
+initiating a cycle which is posted by providing an
+
+address directed to said I/O bus and releasing control
+of said system bus after receiving a ready signal;
+said I/O bus controller further including
+means for posting a cycle on said system bus directed
+
+to said I/O bus, wherein said posting means receives
+said address directed to said I/O bus on said address
+
+bus, provides said ready signal on said ready line and
+provides said retry signal on said retry line in
+
+response to posting said cycle and removes said retry
+signal from said retry line in response to completion
+
+of said posted cycle; and
+wherein said microprocessor having control of
+said bus and initiating a cycle directed to said I/O 
+
+bus aborts its cycle and releases control of said
+system bus if said retry signal is asserted.
+</CLAIMS>
+</TEXT>
+</DOC>

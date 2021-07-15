@@ -1,0 +1,299 @@
+<DOC>
+<DOCNO>EP-0646877</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Computer system and method for processing vector data
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F930	G06F1716	G06F930	G06F1716	G06F9318	G06F1576	G06F9318	G06F1578	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F17	G06F9	G06F17	G06F9	G06F15	G06F9	G06F15	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A plurality of special multi-element registers (115, F20-F30), 
+called "vector registers" herein, are incorporated into a 
+
+scalar computer. The vector registers are controlled to 
+sequence the transfer of vector data between a main memory (101) 
+
+and a processing unit (100) of the computer to occur one element 
+at a time until an entire array of vector data has been 
+
+processed. The vector registers operate concurrently with 
+the processing unit and the main memory. A common address 
+
+scheme is used between the vector registers and the scalar 
+registers (f0 - f31) of the computer so the vector registers are 
+
+visible in the scalar register address space. Pointers (302) 
+are used in the vector registers to keep track of the 
+
+order of the array elements during processing. Vector 
+registers are used to store intermediate results of the 
+
+vector processing operations. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+FUJITSU LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+FUJITSU LIMITED
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+MAHESHWARI DINESH C
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MCKEEVER BRUCE T
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SOMASUNDARAM MADIAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WATANABE AKIRA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MAHESHWARI, DINESH C.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MCKEEVER,BRUCE T.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SOMASUNDARAM,MADIAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WATANABE, AKIRA
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This application is related to U. S. patent
+application, US-A-5 499 199, filed on October 5,
+1993.This invention relates to high-speed processing of
+vector data and, more particularly, to a computer system
+and method that uses special multi-element registers,
+called "vector registers" to enhance vector processing
+operations.Data processing operations can be classified as
+scalar, vector, or mixed. In scalar processing, the
+elements of scalar data are independent of each other as
+to their nature and the calculations or operations to be
+performed. In vector processing, the elements of vector
+data are arranged in arrays. The elements of an array are
+the same in nature and generally are each subjected to the
+same calculations or operations. Vector processing
+generally handles massive amounts of data to arrive at a
+result. A typical example of vector data is a matrix
+subjected to a mathematical operation.One important application of vector processing is in
+the field of computer graphics. Typical applications 
+include laser printers, digital copiers, video games,
+and three-dimensional image processors used for medical
+diagnostics. For example, in this setting vector
+operations upon matrices can be used to perform
+coordinate transformation.Use of a computer designed to process scalar data
+for vector operations results in processing delays and
+slow overall throughput. For one thing, much of the
+time the processor has to wait while large arrays of
+vector data are being transferred element by element
+between the processing unit and the main memory of the
+computer. For another thing, valuable processor time
+is consumed generating an address for every element of
+the vector data transferred to the main memory. In
+addition, it is difficult to program such a scalar
+computer to perform vector operations in a high level
+language. As a result, much time consuming hand coding
+is required. For this reason, it has been common
+practice in the past to employ a dedicated computer to
+process vector data.EP-A-0167959 discloses an apparatus for vector
+register processing. The movement of a set of element
+data in a computer is achieved by means of a plurality
+of vector registers and a moving unit which can move a
+set of element data from one register to another
+register in response to one instruction without going
+through main memory or functional units. A selector
+responds to the instruction to route the output from
+one register to the input of another. This document
+does not disclose the use of vector registers within a
+scalar
+</DESCRIPTION>
+<CLAIMS>
+A computer system (100) for executing scalar
+type instructions having data elements as operands, the
+
+scalar type instructions each having an instruction
+type designation field and an operand register
+
+designating field, the instructions and data elements
+being stored in a main memory (101), said computer
+
+system comprising:
+
+a plurality of scalar registers (f0-f31)
+identified by addresses stored in the operand register
+
+designating field of the instructions, each scalar
+register having a depth of one data element;
+processing means (111) for executing the scalar
+type instructions; and
+bus control means (107) coupled to the main memory
+(101) and the plurality of scalar registers for
+
+transferring data elements therebetween;
+
+characterised in that:
+said computer system is also for executing vector
+type instructions having arrays of data elements as
+
+operands;
+said computer system further comprises a plurality
+of vector registers (F20, F22, ... F30) identified by
+
+the same addresses as some (f20, f22, ... f30) of the
+scalar registers, such addresses being stored in the
+
+operand register designating field of the instructions
+whereby the plurality of vector registers are visible
+
+in the scalar register address space, each vector
+register having a depth of a plurality of data
+
+elements;
+said processing means (111) is provided with:
+
+means (208, 210) for decoding the instruction
+type designating field and the operand register
+
+designating field of each instruction to select at
+least one scalar register (f30, f31) as an operand
+
+if the instruction is a scalar type instruction
+and to select at least one vector register (F20, 
+
+F22, ... F30) if the instruction is a vector type
+instruction, and
+means (108) for storing intermediate
+processing results of vector type instructions in
+
+selected ones of the plurality of vector
+registers;
+said bus control means (107) is further coupled to
+the plurality of vector registers (F20, F22, ... F30)
+
+for transferring entire arrays of data elements between
+the plurality of vector registers and the main memory,
+
+wherein data transfers to and from the plurality of
+scalar registers and to and from the plurality of
+
+vector registers are performed concurrently with the
+processing means (111) executing instructions; and in
+
+that
+the instruction type designating field is used to
+distinguish between arithmetic operations using data
+
+elements from the plurality of scalar registers (f0-f31)
+or from the plurality of vector registers (F20,
+
+F22, ... F30).
+The computer system of claim 1, wherein the
+processing means (11) performs different arithmetic
+
+operations on successive elements of an array of data
+elements stored in one of the plurality of vector
+
+registers (F20, F22, ... F30).
+The computer system of claim 1, wherein the
+processing means performs arithmetic operations on
+
+different sized arrays of data elements stored in at
+least two of the plurality of vector registers (F20,
+
+F22, ... F30).
+The computer system of claim 1, wherein the
+operand register designating field of an instruction
+
+specifies a selected one of the plurality of vector
+registers (F20, F22, ... F30) and a selected one of the
+
+plurality of scalar registers (f0-f31). 
+The computer system of any preceding claim,
+wherein each one of the plurality of vector registers
+
+(F20, F22, ... F30) is a first-in-first-out (FIFO)
+queue having a maximum depth of a predetermined number
+
+of data elements.
+The computer system of any preceding claim,
+wherein each one of the plurality of vector registers
+
+includes a single pointer (302) for referencing all of
+the plurality of data elements in the vector register
+
+(F20, F22, ... F30).
+The computer system of any preceding claim,
+wherein the vector type instructions include a load
+
+vector register instruction to write a plurality of
+data elements into a vector register (F20, F22, ...
+
+F30) from the main memory (101) in a single
+instruction, and a store vector register instruction to
+
+read a plurality of data elements from a vector
+register into the main memory in a single instruction.
+The computer system of any preceding claim,
+wherein each of the plurality of vector registers
+
+comprises:
+
+buffer means (301) coupled to the bus control
+means (107) for storing an array of data elements;
+pointer means (302) coupled to the buffer means
+(301) for referencing a selected location in the buffer
+
+means for storage or retrieval of a data element;
+means (306) for specifying the number of data
+elements stored in the buffer means (301);
+read control means (308) for controlling data
+transfers from the buffer means; and
+write control means (310) for controlling data
+transfers to the buffer means.
+The computer system of claim 8, wherein the
+buffer means (301) comprises a FIFO queue. 
+In a computer system having a main memory
+(101) coupled to a processing unit (111) by a plurality
+
+of vector registers, each vector register having a
+depth of a plurality of elements, a method of
+
+processing vector data comprising the steps of:
+
+(a) storing arrays of data elements as vector data
+in the main memory (101);
+(b) transferring a first set of unprocessed vector
+data from the main memory to the processing unit (111)
+
+via a first vector register (F20, F22, ... F30);
+(c) processing the first set of unprocessed vector
+data one data element at a time into a first set of
+
+processed vector data;
+(d) transferring the first set of processed vector
+data from the processing unit (111) to a second vector
+
+register;
+(e) transferring the first set of processed vector
+data from the second vector register to the processing
+
+unit;
+(f) processing the vector data from the second
+vector register one data element at a time into a
+
+second set of processed vector data, and
+(g) transferring the second set of processed
+vector data from the processing unit (111) to a vector
+
+register other than the second vector register.
+</CLAIMS>
+</TEXT>
+</DOC>

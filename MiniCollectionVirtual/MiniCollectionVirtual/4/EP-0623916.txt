@@ -1,0 +1,254 @@
+<DOC>
+<DOCNO>EP-0623916</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+A method and apparatus for implementing a long-term synthesis filter
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G10L1912	G10L1900	H03H2100	G10L1908	G10L1900	G10L1300	H04B304	G10L1300	G10L1906	H03H1702	H03H1702	H04B304	G10L1914	H03H2100	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G10L	G10L	H03H	G10L	G10L	G10L	H04B	G10L	G10L	H03H	H03H	H04B	G10L	H03H	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G10L19	G10L19	H03H21	G10L19	G10L19	G10L13	H04B3	G10L13	G10L19	H03H17	H03H17	H04B3	G10L19	H03H21	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The description pertains to a synthesis filter, which models the effect of 
+the fundamental frequency of speech, for digital speech coders operating 
+
+on the analysis-by-synthesis principle. By means of the invention it is 
+possible also to model such high fundamental frequencies as have a shorter 
+
+corresponding cycle length than the frame length employed in the analysis-by-synthesis 
+method. The filter construction according to the invention 
+
+furthermore involves the use of a number of parallel separately adaptable 
+synthesis memory blocks. This permits the use as an excitation signals that 
+
+have been stored in memory several frames earlier. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+NOKIA MOBILE PHONES LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+NOKIA MOBILE PHONES LTD.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+JARVINEN KARI JUHANI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+JARVINEN, KARI JUHANI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The invention relates to a method and apparatus for implementing a long-term
+synthesis filter which models the effect of the fundamental frequency
+of speech, particularly for digital speech coders operating on the analysis-by-synthesis
+principle.The prior art is discussed in the following with reference to the
+accompanying figures, of which
+Figure 1 shows an encoder in accordance with the prior art,Figure 2 shows various types of delays caused by the synthesis filter.Figure 1 shows an encoder in accordance with the prior art. In the encoder
+the analysis-by-synthesis method is used to calculate the parameter values
+of the long-term predictive filter (which is also known as the fundamental
+frequency filter; LTP filter, Long-Term Prediction; or adaptive code
+book). In the coder shown in Figure 1 each excitation vector residing in
+the memory of long-term synthesis filter 101 at different delay values is
+amplified appropriately and applied to the short-term LPC synthesis filter
+102 as an excitation. LPC (Linear Predictive Coding) is a generally known
+method used to code the short-term sample dependence of a speech signal.The signal synthesized by means of each excitation vector is further
+compared with the target signal 103 in the subtraction means 104, whereby
+the synthesization error is identified. The target signal can be an original
+speech signal which it is desired to have coded or a signal given by some 
+previous coding measure. The error signal is generally then weighted in
+weighting filter 105 to improve the speech quality from the standpoint of
+human auditory perception. The power level of the error signal is
+calculated in power calculating block 106 and the error power level
+calculated for each excitation vector is supplied to the code book's search
+controller 107, which searches the vector residing in the synthesis filter's
+memory to find the excitation which produces the smallest weighted error
+signal. The delay value Dopt 108 corresponding to the best excitation vector
+as well as the scaling coefficient bopt 109 are relayed ahead to the decoder.The long-term synthesis filter can be considered as being an adaptive code
+book in which the excitation signal of a few previous frames is stored in
+memory. The content of the memory is adapted by placing the excitation
+signal formed at each time in memory and, correspondingly, dropping the
+oldest excitation frame from the memory, thereby forming a type of LIFO
+buffer.In conjunction with the search for the parameters of the long-term
+synthesis filter
+</DESCRIPTION>
+<CLAIMS>
+A method for operating a long-term synthesis filter (LTP) utilising an
+analysis-by-synthesis procedure, comprising reading signals of a
+
+predetermined length stored in an adaptive code book (507) and utilising
+the signals for forming respective synthesis signals, comparing respective
+
+synthesis signals with a target signal and forming an error signal indicative
+of the correlation between respective synthesis signals and the target
+
+signal, selecting a signal producing the greatest correlation for synthesis
+and storing this signal, wherein there are provided a plurality of separately
+
+adaptable adaptive code books and the signal having the greatest
+correlation is stored in one of the plurality of adaptive code books.
+A method for operating a long-term synthesis filter (LTP) utilising an
+analysis-by-synthesis procedure, comprising reading signals of a
+
+predetermined length stored in an adaptive code book (507) for different
+delay values (D) and utilising the signals for forming respective synthesis
+
+signals, comparing respective synthesis signals with a target signal and
+forming an error signal indicative of the correlation between respective
+
+synthesis signals and the target signal, selecting a signal producing the
+greatest correlation for synthesis and storing this signal in the adaptive code
+
+book, wherein there is provided an auxiliary memory means (307) for
+storing the signal producing the greatest correlation for delay values (D)
+
+less than or equal to the predetermined length.
+A method according to claim 1 or claim 2 or claim 1 and claim 2, 
+wherein the predetermined length corresponds to a sub-frame of length L.
+A method according to claim 3, wherein optimization of the adaptive
+code book synthesis filter's parameters is executable with a two-stage
+
+algorithm by means of an appropriately scaled partial signal that is routed
+to an auxiliary memory, so that by using the partial signal delay values
+
+(D) that are shorter than the sub-frame can be implemented in the
+synthesis filter.
+A method according to claim 4, wherein the two-stage algorithm
+comprises a first stage for forming an approximation signal corresponding
+
+to the beginning of the sub-frame under optimisation and calculates a
+scaling coefficient b' corresponding to the partial signal of length
+
+n=1,...D for forming a signal exi
+D
+(n); n=D+1,...L corresponding to an
+unknown signal to be optimised, and a second stage for using the signal
+
+exi
+(D)
+ as the unknown signal thereby extending analysis of the long-term
+filter's parameters to delay values (D) shorter than the length (L) of the
+
+sub-frames.
+A method according to claim 5, wherein it is implemented as an
+arrangement of an amplification block, an auxiliary memory and a switch,
+
+in which the amplification coefficient is calculated, by means of the
+correlation procedure, with the length of D samples.
+A method according to any one of claims 3 to 6, wherein the
+processing of the adaptive code books is carried out by adapting the same 
+
+adaptive code book from which the signal has been selected for use in the
+synthesis.
+A method according to any one of claims 3 to 6, wherein when an
+adaptive code book is used as a signal for less than a predetermined
+
+number of frames R its content is adapted with a signal formed by scaling
+from the adaptive code book from which the signal was selected thereby
+
+adapting a different adaptive code book from the one from which the
+
+signal has been taken.
+A method according to claim 8, wherein
+
+the content of the adaptive code books are searched for a signal
+giving the smallest error and an appropriate amplification coefficient (602)
+
+is calculated for it,
+the scaled signal selected from the adaptive code books is supplied as
+a signal (603) such that the adaptive code book from which the signal has
+
+been selected is activated with a switch (503),
+a check is made that all the adaptive code books have been in use
+within a reasonable time during the formation of the signal (604),
+that adaptive code book is adapted, from which the signal was
+selected (606), by setting another switch (505) to point to the adaptive
+
+code book from which the signal has been taken via the first-mentioned
+switch (503) or, alternatively, only that adaptive code book is adapted,
+
+which has been classified as having been unused too long (605).
+A method according to any of the claims 3 to 9, wherein in 
+optimizing the filter
+
+
+the search for the delay values D is initialized to start from the
+maximum value (401) and a pointer is formed to the corresponding point
+
+of the adaptive code book (402),
+a test is made for straying into the delay value range, which points to
+the sub-frame that is being optimized (n≥K) (403),
+a sample value of each unscaled signal (405) is formed and the
+procedure is repeated by moving the pointing of the signal ahead until a
+
+signal of the length of the entire L samples has been formed (406),
+testing of the length is carried out (407),
+a calculation is made of the response of a partial signal thus formed
+(421) in an LPC synthesis filter,
+the scaling coefficient b' is calculated for the partial signal by
+forming the response of the partial signal and correlating it with the signal
+
+to be modelled with a check interval of length D (422),
+for the partial signal an approximation is formed for the unknown
+part of the signal, this being supplied to the auxiliary memory (423),
+the lacking part of the signal needed for the analysis-by-synthesis
+method is taken from the auxiliary memory (424),
+each unamplified signal is supplied to the LPC synthesis filter (409),
+the correlation of the output of the LPC synthesis filter with the
+target signal is calculated with a check interval of length L (410),
+the correlation term calculated for each delay value D is compared
+with the maximum value of the previously calculated correlation terms and
+
+any correlation value that is higher than the previous ones is selected as
+the optimal delay value D
+opt
+ and the corresponding scaling coefficient as 
+the optimal scaling coefficient b
+opt
+ (411),
+the next delay value is taken for processing (412) until all the delay
+values have been tested (413), and
+the adaptive code book is updated (414).
+A method according to claim 10, wherein the previously performed
+calculation of the partial signal response and the scaling coefficient b'
+
+(421, 422) is utilized in calculating the signals and the correlation terms
+(409, 410).
+A long-term synthesis filter (LTP) for utilising an analysis-by-synthesis
+procedure, comprising more than one adaptive code book (507)
+
+individually selectable for adaptation and use with a signal undergoing
+coding.
+A long-term predictive synthesis filter (LTP) for utilising an analysis-by-synthesis
+procedure, comprising an auxiliary memory means (307)
+
+corresponding to an adaptive code book (303) for storing signals when
+delay values (D) are less than or equal to a predetermined length.
+A synthesis filter according to claim 12 or claim 13 or claim 12 and
+claim 13, wherein each adaptive code book (507) is associated with an
+
+amplification coefficient of its own (506) and the filter comprises a switch
+(503) that selects a signal from the adaptive code books (507), and further
+
+comprising a switch (505) that selects the adaptive code book to be
+adapted as well as control logic (508) for adapting the adaptive code 
+
+books.
+A synthesis filter according to claim 14, wherein a number of
+separate adaptive code books serve as an additional signal.
+A synthesis filter according to claim 14, wherein the predetermined
+length corresponds to a sub-frame of length L.
+A synthesis filter according to any of claims 14 or 15, wherein a
+signal of length L samples is selected from an appropriate point in the
+
+adaptive code book (303) and coupled to an amplification block (302) in
+which the signal is amplified for use as an optimal signal (304) and the
+
+auxiliary memory (307) to which a signal is supplied from the adaptive
+code book, as required, is coupled via the amplification block (306) and
+
+suitably amplified.
+</CLAIMS>
+</TEXT>
+</DOC>

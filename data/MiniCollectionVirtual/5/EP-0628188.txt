@@ -1,0 +1,236 @@
+<DOC>
+<DOCNO>EP-0628188</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+METHOD OF IDENTIFYING AND CHARACTERIZING A VALID OBJECT BY COLOR
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T700	G06T700	G06T740	G01V810	G06T100	G06T740	G06T100	G01V810	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	G06T	G01V	G06T	G06T	G06T	G01V	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T7	G06T7	G06T7	G01V8	G06T1	G06T7	G06T1	G01V8	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The present invention relates to a method of identifying and characterizing, by color, at least one valid object having at least one predetermined attribute value in a background. The method generates a plurality of images of a candidate object and the background, where each image is one of three primary color images or a black-and-white image. The method searches the image for a candidate object using an automatically calculated threshold gray level and determines the interior points of the candidate object. The method further determines the gray level value of the interior points in the image and calculates a color parameter for the interior points. The method thus enables one to characterize the candidate object by the color parameter and validate the candidate object having the valid object predetermined attribute value.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+DU PONT
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+E.I. DU PONT DE NEMOURS AND COMPANY
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+FOWLER DENNIS BURTON
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+VAIDYANATHAN AKHILESWAR GANESH
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FOWLER, DENNIS, BURTON
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+VAIDYANATHAN, AKHILESWAR, GANESH
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to an image analysis
+method for automatically identifying an object in a
+background by generating a description of the gray level
+space of an image of the object and the background.
+Object identification is enhanced by determining the
+interior points of the object, thereby further
+characterizing the object by color, texture and pattern.The ability to access interior points of a region
+when its contour is given is a classic problem in image
+processing. Previous solutions to this problem have been
+described by L.W. Chang and K. L. Leu in an article
+entitled "A Fast Algorithm for the Restoration of Images
+Based on Chain Codes Description and Its Application",
+Computer Vision, Graphics, and Image Processing, 50, 296 -
+307 (1990). One algorithm described, connectivity
+filling, requires that every pixel in the object be 
+interrogated. Since the number of pixels within an object
+is greater than the number of pixels which comprise the
+perimeter of the object, such a technique is relatively
+slow. Another method described is parity checking, which
+is based on the fact that the intersection of a straight
+line with the contour regions of an object delineates an
+even number of points on the perimeter of the object.
+Designation of the interior points is determined by an
+arbitrary filling rule, where all points between each odd
+point and the next even point on the contour in each line
+of the image are designated as interior points. Such a
+parity checking algorithm will not work with objects of
+complex shape.In the same article cited above, Chang and Leu
+propose an enhanced parity checking algorithm which relies
+on characterizing the perimeter points into one of four
+categories, based on direction code values.
+Characterizing the points leads to the creation of a new
+buffer of perimeter points, wherein some points have been
+duplicated and others eliminated. By applying the parity
+checking algorithm to the newly created buffer, interior
+points of objects with complex shapes may be identified.
+However, the enhanced algorithm presented by Chang and Leu
+is an indirect method for solving the problem of interior
+point determination, requiring an excessive number of
+steps.Japanese Patent Publication Number 62-60069 to
+Hitachi Electronic Engineering Co., Ltd., published on
+December 14, 1987, discloses a colony screening device
+which distinguishes colonies based on color. Colonies are
+identified by pattern recognition using a predetermined
+threshold, and a small number of points in the center of a
+co
+</DESCRIPTION>
+<CLAIMS>
+A method for identifying and 
+characterizing by
+
+color at least one valid object having at least one
+predetermined attribute value, comprising the steps of:
+
+
+(a) generating a plurality of images of candidate
+objects and a background, each of said plurality of
+
+images being one of a primary color image or a black and
+white image, each image being constituted by a two-dimensional
+
+intensity value distribution;
+(b) searching at least one of said plurality of
+images for at least one candidate object by detecting
+
+the perimeter of the at least one candidate object using
+at least one automatically calculated threshold level
+
+and excluding the background from said at least one of
+said plurality of images;
+(c) determining the interior points of the at
+least one object on the basis of the perimeter of the at
+
+least one candidate object and detecting at least one
+intensity value of the interior points of the at least
+
+one object;
+(d) calculating at least one color parameter from
+each detected intensity value;
+(e) characterizing the candidate object by the
+said at least one color parameter; and
+(f) validating the at least one candidate object
+if it has the at least one predetermined color attribute
+
+value so as to identify it.
+The method of claim 1, wherein the step of
+searching the image includes the sub-steps of:
+
+
+(i) generating a gray level histogram of the
+image, the gray level histogram having an entropy
+
+function,
+(ii) entropically selecting a threshold gray level
+value such that the entropy function of the histogram is
+
+maximized, 
+(iii) scanning the image for at least one object
+using the entropically selected threshold gray level
+
+value, and
+(iv) tracing the candidate object having at
+least one boundary gray level value determined by the
+
+entropically selected threshold gray level value.
+The method of claim 1, wherein the step of
+determining at least one interior point of the
+
+candidate object includes the sub-steps of:
+
+(i) determining the perimeter points of the
+candidate object by tracing the candidate object
+
+sequentially, the candidate object having at least one
+boundary gray level determined by the entropically
+
+selected threshold gray level values,
+(ii) creating a perimeter buffer, the perimeter
+buffer comprising the perimeter points, each perimeter
+
+point having a row-position coordinate value, a column-position
+coordinate value and a direction code vector,
+
+the direction code vector comprising a first and a
+second direction code value for each perimeter point,
+
+the first direction code value describing the
+relationship of each respective perimeter point to the
+
+next perimeter point and the second direction code
+value describing the relationship of each respective
+
+perimeter point to the previous perimeter point,
+(iii) sorting the perimeter points in the
+perimeter buffer in a predetermined order to create a
+
+sorted perimeter buffer,
+(iv) assigning to each perimeter point a status
+variable having one of a first and a second value, the
+
+value of the status variable being determined by the
+first and second direction code values, and
+(v) designating as the interior points of the
+object each point on the same line segment as the
+
+perimeter point being examined and lying between the 
+examined perimeter point and the next perimeter point,
+
+the examined perimeter point being assigned the first
+value of the status variable.
+The method of claim 1, further comprising the
+step of checking for each redundant perimeter point.
+The method of claim 4, further comprising the
+
+step of designating all points lying between each
+redundant perimeter point and the next perimeter point
+
+on the same line segment as the interior points of the
+object only when all instances of each redundant
+
+perimeter point are assigned the first value of the
+status variable.
+The method of claim 1, wherein the step of
+determining the gray level value of each interior point
+
+comprises the sub-step of characterizing the object by
+texture using the gray level values of the interior
+
+points.
+The method of claim 1, wherein the step of
+determining the gray level value of each interior point
+
+comprises the sub-step of characterizing the object by
+at least one pattern in the object using the gray level
+
+values of the interior points.
+The method of claim 1, wherein the step of
+calculating at least one color parameter comprises the
+
+sub-step of calculating the hue for each interior point
+of the candidate object.
+The method of claim 1, wherein the step of
+calculating at least one color parameter comprises the
+
+sub-step of calculating the saturation for each
+interior point of the candidate object.
+The method of claim 1, wherein the step of
+calculating at least one color parameter comprises the
+
+sub-step of calculating the lightness for each interior
+point of the candidate object. 
+The method of claim 1, wherein the validating
+step comprises the sub-step of validating the candidate
+
+object having at least one predetermined attribute
+value, wherein the predetermined attribute value is at
+
+least one color parameter.
+</CLAIMS>
+</TEXT>
+</DOC>

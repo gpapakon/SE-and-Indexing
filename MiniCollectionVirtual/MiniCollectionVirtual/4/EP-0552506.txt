@@ -1,0 +1,463 @@
+<DOC>
+<DOCNO>EP-0552506</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method for displaying a waveform of at least one input signal and attribute information on the screen of a cathode ray tube of an oscilloscope, and an oscilloscope for applying the method
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T1120	G01R1320	G01R1334	G09G106	G06F3153	G06T1120	G01R1320	G01R1322	G09G108	G06F3153	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G01R	G01R	G09G	G06F	G06T	G01R	G01R	G09G	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T11	G01R13	G01R13	G09G1	G06F3	G06T11	G01R13	G01R13	G09G1	G06F3	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Method for displaying a waveform of at least one input 
+signal and attribute information on a screen of a cathode 
+
+ray tube of an oscilloscope, in which suitable deflection 
+signals and an intensity modulation signal for an 
+
+electron beam of the tube are generated and delivered to 
+the tube. The method comprises transferring coordinate 
+
+data of dots, to be displayed, of a waveform of at least 
+one input signal from an acquisition memory (18) to a processor 
+
+memory (8) which is connected to a bus structure (4) of a 
+microprocessor system. Stored in the processor memory are 
+
+also coordinate data of attribute information dots to be 
+displayed, as well as a display program
+ for the 
+microprocessor system which depends on a desired composition 
+
+of an image on the screen and on a desired display 
+sequence of dots of the image. Depending on the program, 
+
+selected coordinate data of points to be displayed are 
+selected from the processor memory and transferred by 
+
+means of direct memory access (DMA) from the processor 
+memory to a first-in-first-out (FIFO) display memory (30). For 
+
+each selected coordinate datum, the program determines a 
+display control datum which is stored together with the 
+
+coordinate datum in the display memory. The transfer to 
+the display memory is continuously repeated but is 
+
+postponed if and for as long as the display memory has 
+reached a predetermined degree of occupation thereof. The 
+
+control datum read out of the display memory together 
+with the coordinate datum determines the selection of the 
+
+deflection signals and the modulation signal. The 
+coordinate data of the at least one waveform are also 
+
+transferred by means of direct memory access (DMA) from 
+an acquisition memory to the processor memory. 
+
+
+ 
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+TEKTRONIX HOLLAND NV
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+TEKTRONIX HOLLAND N.V.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+TEN BRUMMELHUIS FOLQUINUS HERM
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TEN BRUMMELHUIS, FOLQUINUS HERMAN
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The invention relates to a method according to 
+the preamble of claim 1. The attribute information 
+mentioned therein may be any information which is not 
+waveform information, for example cursors and measurement 
+data. A method of this sort is known from the digital 
+storage oscilloscope 2211 supplied by Tektronix, 
+Beaverton, Oregon, USA. In this known oscilloscope, the 
+acquisition memory means for each of the input signals to 
+be sampled comprise a separate acquisition memory and the 
+display memory means for every waveform to be displayed 
+and for attribute information to be displayed comprise a 
+separate display memory. A waveform to be displayed may 
+be a reference waveform obtained earlier. The deflection 
+signals supplied to the deflection means of the cathode 
+ray tube depend on which waveform in signal amplitude to 
+time (Yt) display mode, or waveforms in signal amplitude 
+to signal amplitude (XY) display mode and which group of 
+attribute information have to be displayed. For this 
+purpose, complicated control means are needed to write 
+into and read from the display memories. If the data 
+stored in the display memories, in particular of 
+waveforms, were required to be processed, for example for 
+use in a computing algorithm and for displaying the 
+result, this would make the control means still more 
+complicated. Another drawback of the known oscilloscope 
+is that, when the width of a waveform on the screen of 
+the cathode ray tube is expanded, an X-deflection signal 
+(X-sweep signal) is simply amplified, as a result of 
+which inaccuracies or disturbances in the display of both 
+the waveforms and the attribute information become all  
+ 
+the more noticeable. Furthermore, to extend or change 
+functions of the oscilloscope, for example in relation to 
+the desired composition of displays, its hardware would 
+have to be altered. In addition, transfer of coordinate 
+data of waveforms to be displayed and obtained by acquisition 
+or by calculation to a receiver outside the 
+oscilloscope presents serious problems. In view of the 
+complexity of this, a microprocessor is therefore used 
+which is specifically intended for carrying out such a 
+transfer. The object of the invention is to eliminate the 
+drawbacks of the known method. This object is achieved by means of the method 
+described in claim 1. The memory means can as a result be 
+simply and very flexibly controlled, while a very simple 
+and cheap implementation is made possible which, in terms 
+of hardware, does not have to alter if the number of
+</DESCRIPTION>
+<CLAIMS>
+Method for displaying a waveform (CH1, CH2, REF1, 
+REF2) of at least one input signal (UCH1, UCH2) and 
+
+attribute information on a screen of a cathode ray tube 
+of an oscilloscope, comprising obtaining coordinate data, 
+
+which each represent a coordinate of a sample dot to be 
+displayed of the waveform, or of a dot of the attribute 
+
+information, storing the coordinate data of each dot 
+in an acquisition memory means (18), transferring the 
+
+dot coordinate data from the acquisition memory 
+means (18) to display memory means (30), storing 
+
+the dot coordinate data in the display memory means 
+(30), reading the dot coordinate data out of the display 
+
+memory means (30) at a predetermined speed and in a 
+predetermined sequence, converting each dot coordinate datum 
+
+read into a first analog deflection signal (UX), 
+generating a second analog deflection signal 
+
+(UY), which may be a sweep signal (SWPDM), selecting said first and 
+second deflection signals, one of which is the sweep signal 
+
+during the display of a waveform in a signal amplitude to 
+time (Yt) display mode, and delivering the selected 
+
+deflection signals (UX, UY) to deflection means for the 
+cathode ray tube so as to deflect the electron beam 
+
+thereof to a position on the screen whose coordinates are 
+determined by the selected deflection signals, the 
+
+intensity of the beam in the selected position being 
+modulated as a function of a modulation signal (UZ), 
+
+characterised in that all the coordinate data are stored 
+in a processor memory (7,8) which is connected to a bus 
+
+structure (4) of a microprocessor system, a display 
+program is assembled for the microprocessor system, which 
+
+display program depends on a desired composition of an 
+image on the screen and a desired display sequence of the 
+
+image dots, the display program is stored in the 
+processor memory (7,8), the display program selects, 
+
+during the operation thereof, coordinate data of dots to 
+be displayed from the processor memory (7,8), each 
+
+selected coordinate datum is transferred by means of  
+ 
+
+direct memory access (DMA1) from the processor memory 
+(7,8) to a first-in-first-out (FIFO) display memory (30), 
+
+the display program 
+determines for each selected coordinate datum 
+
+a display control datum (CW) and transfers it 
+at the same time as a coordinate datum to the display 
+
+memory (30), the transfer to the display memory (30) is 
+continuously repeated but postponed if, and for as long as, 
+
+the display memory (30) has reached a predetermined 
+degree of occupation, and each control datum (CW) is 
+
+read out of the display memory (30) together with a 
+coordinate datum determining the selection of the 
+
+deflection signals and the modulation signal (UZ). 
+Method according to claim 1, characterised in 
+that the processor system accepts a request (REQ1) for 
+
+enabling a direct memory access data transfer (DMA1) for 
+the transfer of one or more data to the display memory 
+
+(30) with the highest priority. 
+Method according to claim 1 or 2, characterised 
+in that the direct memory access transfer (DMA1) from the 
+
+processor memory (7,8) takes place in the burst mode. 
+Method according to one of the preceding claims, 
+characterised in that the microprocessor used in the microprocessor system is a 
+
+microprocessor (1) for a bus structure (4), a data bus 
+(DBUS) of which comprises a number of bits which is at 
+
+least as great as the sum of the numbers of bits of two 
+coordinate data, first-type words (W1) consisting of two 
+
+coordinate data being stored in the processor memory 
+(7,8) and second-type words (W2) consisting of a first-type 
+
+word (W1) and an associated control datum (CW) being 
+stored in the display memory, the control datum (CW) of 
+
+each second-type word (W2) having significance for both 
+coordinate data of the second-type word (W2). 
+Method according to claim 4, characterised in 
+that the first-type word (W1) in the display memory (30) 
+
+consists of two coordinate data of two waveforms (CH1, 
+CH2, REF1, REF2) or of one or two coordinate data of an 
+
+attribute information dot. 
+Method according to claim 4, characterised in 
+that, in the acquisition memory means (18) first-type  
+
+ 
+words (W1) are stored which each comprise two coordinate 
+
+data of two respective waveforms (CH1, CH2). 
+Method according to one of the preceding claims, 
+characterised in that the direct memory access transfer 
+
+(DMA1) to the display memory (30) comprises an alternating 
+transfer of series of coordinate data of waveform 
+
+dots and of series of coordinate data of attribute 
+information dots. 
+Method according to one of the preceding claims, 
+characterised in that all the dots of each waveform (CH1, 
+
+CH2, REF1, REF2) to be displayed are displayed before the 
+dots of another waveform are displayed. 
+Method according to one of the preceding claims, 
+characterised in that the control datum (CW) for a 
+
+coordinate datum of a waveform dot contains a control 
+indication for reading out the display memory (30) with 
+
+a speed assigned to the indication. 
+Method according to one of claims 1 to 8 inclusive, 
+characterised in that the control datum (CW) for a 
+
+coordinate datum of a waveform dot contains a control 
+indication for postponing the reading out of the next 
+
+second-type word (W2) from the display memory (30) for a 
+predetermined delay time and for maintaining the actual 
+
+level of the sweep signal (SWPDM) during the delay time. 
+Method according to one of claims 1 to 8 inclusive, 
+characterised in that the control datum (CW) of an 
+
+attribute information dot contains a control indication 
+for the temporary maintenance of the actual level of the 
+
+sweep signal (SWPDM). 
+Method according to one of claims 1 to 8 inclusive, 
+characterised in that one of the selected deflection 
+
+signals (UY, UX) is a second-type deflection signal (UX) 
+which is an adjustable direct-voltage signal. 
+Method according to claim 12, characterised in 
+that, in an analog mode, the chosen deflection signals 
+
+(UY, UX) and further analog signals are alternately 
+delivered to the deflection means. 
+Method according to one of the preceding claims, 
+in which, after a trigger signal (EXTTRIG) has been  
+
+ 
+received and after a predetermined number of coordinate 
+
+data have then been stored in the acquisition memory 
+(18), the acquisition is postponed and the coordinate 
+
+data obtained by the acquisition are transferred from the 
+acquisition memory (18) to the display memory means 
+
+(30), characterised in that the coordinate data 
+stored in the acquisition memory (18) are transferred by 
+
+means of direct memory access (DMA2) from the acquisition 
+memory (18) to the processor memory (8). 
+Method according to claim 14, characterised in 
+that the direct memory access transfer (DMA2) to the 
+
+processor memory takes place in the cycle steal mode. 
+Method according to one of claims 1 to 13 inclusive, 
+characterised in that, in a scan mode, there is 
+
+continuously, with the read-out speed of the first-in-first-out 
+display memory (30), taken a sample from an 
+
+input signal (UCH1, UCH2) so as to obtain a coordinate 
+datum of a waveform (CH1, CH2) of the input signal, the 
+
+coordinate datum is transferred by means of direct memory 
+access (DMA2) as quickly as possible to a location having 
+
+a rotating write address of an area (71), assigned to the 
+waveform, of the processor memory (8), and, during the 
+
+direct memory access transfer (DMA1) to the first-in-first-out 
+display memory (30), the transfer always starts 
+
+from a same location of the area and continues up to and 
+including the last location of the area. 
+Method according to one of claims 1 to 13 inclusive, 
+characterised in that, in a roll mode, there is 
+
+continuously, with the read-out speed of the first-in-first-out 
+display memory (30), taken a sample from an 
+
+input signal (UCH1, UCH2) so as to obtain a coordinate 
+datum of a waveform (CH1, CH2) of the input signal, the 
+
+coordinate datum is transferred as quickly as possible by 
+means of direct memory access (DMA2) to a location having 
+
+a rotating write address of an area (72) assigned to the 
+waveform, of the processor memory (8), the number of 
+
+coordinate data of the dots, to be displayed of the 
+waveform comprising a smaller subarea than the entire 
+
+area (72), the write address is initially chosen outside  
+ 
+
+the subarea, the direct memory access transfer (DMA1) to 
+the first-in-first-out display memory (30) starts, for a 
+
+first dot, to be displayed, of the waveform, from an 
+initial read address beyond the write address and extends 
+
+over the subarea, and the initial read address is 
+increased for each repeated display of the waveform by a 
+
+number which is equal to the number of samples taken 
+during the last display of a subarea, always viewed as 
+
+circulating in the entire area (72). 
+Oscilloscope having a cathode ray tube for 
+displaying a waveform (CH1, CH2, REF1, REF2) of at least 
+
+one input signal (UCH1, UCH2) or of a derivative thereof 
+and attribute information on a screen of the tube, 
+
+comprising acquisition means for receiving 
+and sampling the at least one input signal (UCH1, 
+
+UCH2) and for storing, in acquisition memory means 
+(18) of the acquisition means, waveform 
+
+coordinate data which represent the samples taken or 
+derivatives thereof, display means (30) 
+
+containing display memory means (30), digital/analog 
+converters (34,35) connected to the display memory means 
+
+(30), multiplexers (40-43) connected to the converters 
+(34, 35) and to the deflection means for the 
+
+tube, and control means which are connected 
+to the acquisition memory (18), the display memory 
+
+means (30), the multiplexers (40-43) and 
+a modulation circuit for modulating the intensity of an 
+
+electron beam of the tube, the control means 
+transferring the waveform coordinate data from the 
+
+acquisition memory means (18) to the display memory 
+means (30), the control means storing 
+
+coordinate data of attribute information in the display 
+memory means (30), the control means 
+
+reading the data stored in the display memory means 
+(30) in a predetermined sequence and delivering them 
+
+to the converters (34,35), the multiplexers (40-43) 
+receiving the output signals of the converters (34,35) 
+
+and a sweep signal (SWPDM) from a sweep generator (45), 
+and the control means controlling the  
+
+ 
+multiplexers (40,43) so as to select and let an analog 
+
+signal (UY, UX) through to the deflection means, 
+characterised in that the control means 
+
+comprise a microprocessor system having a bus structure 
+(4), a first direct memory access (DMA1) control circuit 
+
+(2), a first state machine (32) and a second state 
+machine (33), the first direct memory access control 
+
+circuit (2) and the acquisition memory means are 
+connected to the bus structure (4), the display memory 
+
+means comprise a processor memory (7,8) connected to the 
+bus structure (4), a register (9) for storing a control 
+
+datum (CW) is connected to the bus structure (4), the 
+display memory means also comprise a first-in-first-out 
+
+(FIFO) display memory (30), data inputs of the first-in-first-out 
+display memory (30) are connected to a data bus 
+
+(DBUS) of the bus structure (4) and to data outputs of 
+the register (9) so as to receive coordinate data and 
+
+control data, respectively, data outputs of the first-in-first-out 
+display memory (30) are connected to data 
+
+inputs of the converters (34,35) and to inputs of the 
+first state machine (32), so as to deliver thereto 
+
+coordinate data and the control datum (CW), respectively, 
+outputs of the first state machine (32) are connected to 
+
+control inputs of the multiplexers (40-43), possibly a 
+sweep generator (45), and the modulation circuit, and the 
+
+second state machine (33) is connected between the first 
+direct memory access control circuit (2) and the first-in-first-out 
+
+display memory (30). 
+Oscilloscope according to claim 18, characterised 
+in that the control means comprise a second direct memory 
+
+access (DMA2) control circuit (3) which is connected to 
+the bus structure (4) and to the acquisition memory means 
+
+(18). 
+</CLAIMS>
+</TEXT>
+</DOC>

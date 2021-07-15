@@ -1,0 +1,68 @@
+<DOC>
+<DOCNO>EP-1374059</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+METHOD AND SYSTEM FOR DETERMINING THE USE AND NON-USE OF SOFTWARE PROGRAMS
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1134	G06F1134	G06F1136	G06F1136	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F11	G06F11	G06F11	G06F11	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method and system for auditing software systems by monitoring the use and non-use of software programs in a computer. An operating system of the computer controls execution of software products through the invocation of respective load modules thereof. A monitor is periodically triggered to collect load module execution information and a correlator correlates load module execution information with data that associates load module names with corresponding software products and develops a list of products executed in the computer over the course of a given time period. Alternatively, rather than operating periodically, the monitor collects load module execution information at the end of and by being triggered by computer processes controlled by the operating system. As a further alternative, the monitoring of the execution of software products is detected by monitoring inputs and/or outputs to specific files or datasets, reflecting uniquely the use of corresponding software products. The invention also provides the ability to determine the load libraries and search order for load modules being executed or called by the operating system.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+ISOGON CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+ISOGON CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BARRITZ ROBERT
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BARRITZ, ROBERT
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+ METHOD AND SYSTEM FOR DETERMINING THE USE AND NON-USE OF SOFTWARE PROGRAMSRELATED APPLICATIONThis Application claims priority and is entitled to the filing date of U.S. Provisional Application Serial No. 60/226,816 filed August 22, 2000, and entitled "METHOD AND SYSTEM FOR DETERMINING THE USE AND NON-USE OF SOFTWARE PROGRAMS," the contents of which are incorporated by reference herein.BACKGROUND OF THE INVENTIONThe present invention relates to software auditing systems and, more particularly, the invention concerns a method and system for monitoring the use and non-use of software programs . Licensed software products, such as those fromIBM, Computer Associates or Microsoft, are typically composed of a number of discrete executable components: exe-files, batch files, JCL, etc., herein collectively referred to as modules. A typical mainframe computer might have 500 products, composed of 500,000 modules on 3,000 libraries, often with many of the products duplicated on a number of libraries. While many software products are installed in default libraries specified by the vendor, some installations choose to link the more commonly used products into the system libraries.Prior Isogon patents have described techniques for performing software auditing, including the steps of Surveying (scanning all hard-drives or disk storage for modules) , Identification (deciding, for each 
+
+module on each library, what software product it belongs to) and Monitoring (intercepting and recording all module executions) . As described in those patents, and as practiced by Isogon' s software auditing product, SoftAudit, the steps of Surveying,Identification, and Monitoring are both interrelated and separate processes.The SoftAudit Monitor is also described in the present Assignee's issued United States Patent No. 5,590,056, the contents of which are incorporated by reference herein. The SoftAudit Monitor collects usage data for (virtually) every load module executed within the system (image, LPAR) . This usage data is correlated to survey and identification data to ultimately determine and report which software products, and the libraries in which they are installed, have and have not been used.For the MVS and OS/390 operating systems, it does this by intercepting the LOAD, LINK, ATTACH, and XCTL system functions. Whenever such a function is invoked, the Monitor creates an entry in a memory table which relates the module usage to the job/job step/started task/TSO session (hereinafter, process) for which the module was loaded.
+</DESCRIPTION>
+<CLAIMS>
+WHAT IS CLAIMED IS:
+1. A system for determining program usage on a computer, the system comprising: a plurality of executable software programs constituting software products, each of the software products being constituted of one or more load modules, the load modules being stored in at least one memory of the computer; an operating system of the computer that controls execution in the computer of the software products through the invocation of respective load modules thereof ; a monitor that is periodically triggered to collect load module execution information; a correlator that correlates the load module execution information with data that associates load module names with corresponding software products and develops a list of software products executed in the computer over the course of a given time period; and a reporter that outputs data reflecting the use of the software products in the computer in terms of software product names thereof .
+2. The system of claim 1, in which the monitor operates by taking periodic snapshots of the then current state of active processes in the computer.
+3. The system of claim 2, including a facility that allows adjusting the period between snapshots in response to program usage activity levels. 
+
+4. The system of claim 2, in which the monitor produces a list of executing load modules and their respective directory path names.
+5. The system of claim 2, including a facility that determines how many processes have begun and ended between snapshots.
+6. The system of claim 2, including a facility that compares successive snapshots to determine which modules have executed and how many were missed.
+7. The system of claim 1, in which the correlator operates in conjunction with a knowledge base that associates load module names with software product names.
+8. The system of claim 1, further including a surveying program that develops an inventory of substantially all software products on the computer and a facility which produces a list of non-used software products based on comparing the inventory of software products against the data outputted by the reporter which reflects the use of the software products in the computer .
+9. The system of claim 11, in which the knowledge base is a database of records which also associates file names to software products that use them and additionally includes at least one of the following: flags indicating if a module is used uniquely or shared among vendor products; a number indicating file matches required for 
+
+
+correlation with the product; file type; file size; file creation date; and embedded strings of text.
+10. The system of claim 1, in which the monitor collects load module execution information by deducing which load modules are being used in given processes of the computer, without directly monitoring the actual invocation by the operating system of the load modules.
+11. The system of claim 10, in which the monitor obtains the load module execution information from a load module table created by the operating system which makes entries in the load module tables as processes are executed and access requests for load modules are made.
+12. The system of claim 10, in which the monitor is implemented to execute every time the end of a process is reached.
+13. The system of claim 10, in which the monitor executes as an exit routine near the end of a process .
+14. The system of claim 10, in which the monitor gathers and accumulates usage data across sub processes of a higher level process so that when the load module table is successively read, only those module entries not previously encountered in a prior sub process of the current high level process are accumulated and names of load modules already found in the table for the current high level process are ignored. 
+
+15. The system of claim 10, in which the correlator operates by identifying the names of all software products used by correlating module usage data by using a knowledge base that associates the names of load modules with software products they comprise.
+16. The system of claim 10, in which the correlator operates by correlating module usage data with an inventory of software products that itself has been obtained by correlating in a knowledge base load module names with software product names .
+17. The system of claim 1, in which the monitor collects software product execution information by monitoring input or output to specific files or datasets by the software products, wherein such inputs and outputs are associated with corresponding software products or groups of software products.
+18. A system for determining program usage on a computer, the system comprising: a plurality of executable software programs constituting software products, each of the software products being constituted of one or more load modules, the load modules being stored in at least one memory of the computer; an operating system of the computer that controls execution in the computer of software products through the invocation of respective load modules thereof; 
+
+
+ a monitor that collects load module execution information reflecting the usage of software products on the computer; a library source determination facility that determines the load library from which each executed load module has been loaded; and a reporter that outputs data showing the directory paths for load modules that have been executed.
+19. The system of claim 17, in which the library source determination facility obtains a list of modules that have been used by a particular process, determines the load libraries and their search order used by the process, and using a search order determined in a prior step, searches the load libraries of the computer for a first library containing the same modules that best matches the list of modules used.
+20. The system of claim 17, in which the library source determination facility uses a JCL (Job Control Language) interpreter.
+21. The system of claim 17, in which the load library determination facility determines both the identity and order of load libraries used by a particular process by reading JCL data structures of a current job to obtain a load library list for the process. 
+
+</CLAIMS>
+</TEXT>
+</DOC>

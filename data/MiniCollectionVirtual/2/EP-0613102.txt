@@ -1,0 +1,313 @@
+<DOC>
+<DOCNO>EP-0613102</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method and apparatus for saving printer memory
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06K1500	G06F312	B41J530	G06K1500	B41J530	G06F312	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06K	G06F	B41J	G06K	B41J	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06K15	G06F3	B41J5	G06K15	B41J5	G06F3	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A page printer uses alternative internal representations for the print data in each of multiple 
+lateral strips that make up the page. Page description language input is converted to an 
+
+intermediate display list format that is sorted into display commands associated with each strip. 
+
+If during input the display list representation of the data fills the memory allotted to its storage, 
+one or more of the strips is converted from display list format to raster format and compressed 
+
+using a lossless compression algorithm. If storage of compressed strips subsequently exceeds 
+available memory, raster data is further compressed using a lossy compression algorithm. 
+
+Additional display list commands are rasterized by decompressing the compressed strips, 
+processing the new commands and recompressing the data using lossless or lossy compression 
+
+as required. If the display list does not overflow memory during input, the complete strips are 
+rasterized and compressed one at a time in the order in which they will be printed. The 
+
+rasterizing time is stored. Should memory overflow at any point in the process, then the 
+rasterizing times for the remaining strips are determined without storing the raster output. A 
+
+decision can then be made for each strip to rasterize it to the print engine on the fly, pre-compute 
+and store it as lossless compressed raster data, or revert to a lossy-compressed pre-computed 
+
+version. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+ADOBE SYSTEMS INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+ADOBE SYSTEMS INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+COOPER MICHAEL DAVID
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HODGSON MICHAEL L
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ONG PATRICK SWEE-HOCK
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ROVNER PAUL D
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SANDMAN JAMES G JR
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+COOPER, MICHAEL DAVID
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HODGSON, MICHAEL L.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ONG, PATRICK SWEE-HOCK
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ROVNER, PAUL D.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SANDMAN, JAMES G., JR.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to printers and, more particularly, to a method and apparatus for
+minimizing the amount of memory required for supplying graphical information to a print
+mechanism which moves at a predetermined speed.Page printers, such as laser printers, receive data in page description language form before
+starting the printing process. With a page description language a page is represented using
+graphics, text, and images that can be specified to be located anywhere on the page, and in any
+order, using successive commands of the language. The page description language commands
+reflect the way the page is composed. However, before printing, the received data must be
+rasterized so the print mechanism ("print engine") in the printer can print the page while
+moving the paper uniformly in one direction, usually top to bottom.Rasterization is the process of converting data that represents a page or portion of a page
+into a series of individual dots or pixels across the printed page to form a raster scanline,
+producing successive scanlines one after another down the page. The complete set of scanlines
+for a page is the raster data for the page. Rasterization is performed in the page printer by a
+raster generator.Many page printers rasterize and store the entire raster data for a page before starting to
+send data to the print engine of the printer. The print engine must run at a predetermined 
+speed. Therefore precomputing the entire page of raster data
+ensures that each raster scanline is ready to send when needed
+by the print engine.To store the raster data for an entire page may require
+substantial memory. Laser printers have commonly printed about
+516 sq. cms (80 square inches)of graphic information on a page
+at a resolution of 120 dots per cm (300 dots per inch), both
+horizontally and vertically. With one bit indicating each dot
+to be printed or left unprinted, over 875K bytes (one byte
+equals eight bits) are required to store the raster data for an
+entire page. To increase the printer speed, a second page of
+raster data may be computed and stored in additional memory as
+the raster data for the first page is being sent incrementally
+to the print engine, having a second page doubles the memory
+requirements.New printer technology is enabling 600 x 600 dot (or pixel)
+resolution continuous tone color printing which may require 24
+bits per pixel or more. If full-page storage is used to meet
+high resolution colour requirements, over 80 million bytes of
+memory per page is required; 160 million bytes of
+</DESCRIPTION>
+<CLAIMS>
+A printer having an input (30) for receiving a page
+description (12) encoded in a page description language, the
+
+input (30) providing to the printer a sequence of successive
+commands in the page description language, a print engine (40)
+
+for printing pages composed of a sequence of raster scanlines,
+means for converting page description language commands into
+
+display list commands and a raster generator (32,34,36,42) for
+converting received page description language commands (12) into
+
+a sequence of raster scanlines in a format required for
+printing, the printer being characterized by:
+
+
+means for converting page description language commands
+received at said input (30) into a plurality of intermediate
+
+representations (5), said means being operable to convert page
+description language commands (12) into intermediate
+
+representations (5) including said display list commands (16),
+compressed raster data (14-2,14-3), and uncompressed raster data
+
+(14-4), said means operating to select the intermediate
+representations (5) for the page representation so that
+
+available memory in the printer is never exceeded and print
+overruns are always avoided;
+means for ordering the plurality of intermediate
+representations (5) according to their position on the page
+
+(10);
+means for converting the plurality of intermediate
+representations (5) into raster scanlines; and
+means for supplying the raster scanlines to the print
+engine (40) at a predetermined rate. 
+description language commands which the printer converts into a
+raster data representation of that page (10) for printing, and
+
+wherein the printer has means to convert page description
+language commands into display list commands, the method being
+
+characterized by:
+converting the page description language comments for the
+page into a plurality of intermediate representation
+s (5),
+including said display list commands (16), compressed raster
+
+data (14-2, 14-3) and uncompressed raster data (14-4), so that
+available memory in the printer is never exceeded and print
+
+overruns are always avoided;
+rasterizing at least a portion of the intermediate
+representations (5)to form a raster data representation; and
+supplying the raster data representation to a print engine
+(40) for printing.
+The printer of claim 1, wherein the means for converting
+page description language commands are operable to convert page
+
+description language commands into intermediate representations 
+including lossless-compressed raster data (14-2) and lossy-compressed
+
+raster data (14-3).
+The printer of claim 2, wherein a page (10) is logically
+subdivided into strips (15), each strip (15-1) corresponding to
+
+a predetermined contiguous area of the page (10), and the
+representation of the page to be printed includes a list of
+
+these strips.
+The printer of claim 3, wherein the raster generator
+(32,34,36,42) includes means for estimating required memory,
+
+rasterizing time, or both, associated with alternative
+intermediate representations for each strip and determining
+
+therefrom the types of intermediate representations for the
+representation of each strip to minimize storage or time
+
+requirements while allowing the conversion of the intermediate
+representations to raster scanlines at a rate sufficient for
+
+providing raster scanlines to the print engine at said
+predetermined rate.
+The printer of claim 4, wherein the means for estimating
+required memory, rasterizing time, or both, uses formulas
+
+applied to the intermediate representations.
+The printer of claim 5, wherein the estimating means
+computes the estimates by computing alternative intermediate
+
+format representations for each strip and storing the resultant
+time or space information, or both.
+A method of reducing the memory requirements for a printer,
+wherein the printer receives a page description language
+
+representation (12) of a page (10), said page description
+language representation (10) comprising a sequence of page 
+The method of reducing the memory requirements for a
+printer of claim 7, wherein the printer has memory (32)
+
+allocated for storing display list commands (16), uncompressed
+rasterized data (14-4) and compressed rasterized data (14-2, 14-3),
+
+the method further comprising:
+
+(1) converting the page description language
+representation (12) of the page (10) into display list commands
+
+(16) and storing the display list commands (16) in the memory
+(32) allocated for display list commands until that memory is
+
+exhausted;
+(2) rasterizing the display list commands (16) from the
+display list memory allocation to form raster data and storing
+
+the raster data in the raster data memory allocation, thus
+freeing up memory allocated for display list comments (16) for
+
+further use;
+(3) compressing the raster data in the raster data memory
+allocation to form compressed raster data (14-2,14-3) and
+
+storing the compressed raster data (14-2, 14-3) in the 
+compressed raster data memory allocation, thus freeing up the
+
+raster data memory allocation for further use;
+(4) continuing conversion of the page description language
+commands (12) into second display list commands (16) until
+
+either the display list memory allocation is again exhausted or
+the conversion is complete;
+(5) decompressing the compressed raster data (14-2,14-3)
+in the compressed raster data memory allocation and either
+
+sending it to the print engine (40) for printing or storing it
+in the raster data memory (32), in either case freeing up the
+
+compressed raster data memory for further use;
+(6) rasterizing the second display list commands (16) and
+combining the resulting raster data with the raster data in the
+
+raster data memory allocation;
+(7) if the conversion in step (4) was not complete,
+carrying out steps (4) through (6) again; or
+(8) if the conversion in step (4) converted the page
+description language data (12) for the entire page (10),
+
+printing the page from the raster data memory or compressed
+raster data memory, or both.
+The method of claim 7, wherein the intermediate
+representations (5) further comprise a display list
+
+representation (16) and an uncompressed raster data
+representation (14-4).
+The method of claim 7, further comprising:
+
+computing for the portion of the display list
+representation (16) an estimate of how fast the display list can
+
+be rendered;
+comparing the estimate to a predetermined rate to determine
+whether to rasterize the portion of the display list
+
+representation (16) before printing begins; and 
+rasterizing the portion of the display list representation
+(16) of the page (10) to form a raster data representation if
+
+the comparison determines that the display list cannot be
+rendered at the predetermined rate.
+The method of claim 7, wherein the printer has a fixed
+amount of memory (32), the method further comprising:
+
+
+logically dividing the page into strips (15);
+identifying each strip (15-1) as raceable or non-raceable,
+a strip being identified as raceable only if the display list
+
+(16) for the strip can be rendered at least as fast as the
+predetermined rate;
+rendering the display list (16) of each non-raceable strip into
+raster data and compressing the raster data for storage in a
+
+memory using a lossless compression method (14-3) or a lossy
+compression method (14-2), the lossy compression method (14-2)
+
+being used when the memory (32) does not have enough space
+available to store the raster data using lossless compression
+
+(14-3);
+storing the compressed raster data (14-2,14-3) into memory
+(32) ; and
+printing the page (10) by printing the strips (15) in
+succession, the raceable strips being rendered from their
+
+respective display lists while the compressed raster data for
+each non-raceable strip is decompressed from the memory.
+</CLAIMS>
+</TEXT>
+</DOC>

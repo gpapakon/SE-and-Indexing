@@ -1,0 +1,271 @@
+<DOC>
+<DOCNO>EP-0614585</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+METHOD AND UNIT FOR THE RECONSTRUCTION OF THE CORRECT SEQUENCE OF ATM CELLS
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04L1256	H04Q1104	H04L1256	H04Q1104	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04L	H04Q	H04L	H04Q	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04L12	H04Q11	H04L12	H04Q11	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Method and unit for the reconstruction of the initial order of the sequence of the flow of the cells pertaining to the same virtual channel (VC) or path (VP) at the output of the ATM switching network with high priority cell control. The method is based upon the maximum delay equalization for the scheduling of the cells to transfer at the output, by using lists addressed by pointers and a shared queues approach for the management of the contentions by more cells for the same output time slot, so to obtain a significant saving of the memory space. The resequencing unit includes memories the dimensions of which depend upon the maximum number of cells being actually present in the resequencing unit.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+ITALTEL SPA
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+ITALTEL SOCIETA ITALIANA TELECOMUNICAZIONI S.P.A.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+COLLIVIGNARELLI MARCO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+COLLIVIGNARELLI, MARCO
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to a method and a unit for the 
+reconstruction or resequencing of the initial order of the 
+sequence of a cell flow in telecommunication systems using 
+a special digital technique called ATM (Asynchronous 
+Transfer Mode), for the transmission and/or switching of 
+the vocal signals, video signals and data. In the ATM technique the information relating to the 
+various users and services are organized as time contiguous 
+units with a fixed length of approx. 400 bits called cells. 
+The cell bits are subdivided into a field containing the 
+information to be exchanged (payload) and into a heading 
+field (header) containing the information requested to 
+route the cell through the switching network and other 
+service information. The ATM technique is considered as the more profitable 
+solution for the multiplexing and switching into the 
+evolution of the public communication networks towards the 
+future wide band numerical network integrated in the 
+services (B-ISDN), as this technique allows a very great 
+flexibility compared to the previous systems. On an ATM link, in the same time, a certain number of 
+connections can be active; they are called virtual channels 
+(VC) and virtual paths (VP). A virtual channel is a logic 
+association between the end points of a link that enables 
+the unidirectional transfer of cells over that link, while 
+a virtual path is a logic association of virtual channels 
+between the end points of a link that enables the 
+unidirectional transfer of cells belonging to a set of 
+virtual channels to take place over that link (CCITT Rec. 
+I.113).  
+ At the ATM level the integrity of the cell sequence inside 
+every VC/VP has to be preserved, i. e. the AT network must 
+be able to supply at the output the cells belonging to the 
+same VC/VP in the same sequence order with which they are 
+sent to the network. The keeping of the sequencing order is automatically 
+assured if all the cells in the same VC/VP follow the same 
+path inside the ATM network. However, in the ATM switching nodes to perform the 
+switching operation it should be suitable to free ourselves 
+of the need to make the cells of a same VC/VP pass through 
+the same path. In particular, in the ATM technique, a switching node 
+consists (Fig. 1) of a switching network (SN) and of a 
+certain number of exchange terminations (ET) to which the 
+ATM links are connected. In the case under examination all the cells that belong to 
+the same VC/VP are allowed to follow different paths inside 
+the SN and as the cells
+</DESCRIPTION>
+<CLAIMS>
+Method for the reconstruction of the initial order 
+(resequencing) of the sequence of a flow of cells 
+
+pertaining to a same virtual channel (VC) or path (VP) 
+entering a switching network of an ATM telecommunication 
+
+system, consisting of the following phases : 
+
+to counter mark each cell entering the switching 
+network with a temporal stamp (TS) and to store the output 
+
+cells of the switching network (SN) in a cell memory 
+(CellMem); 
+to determine the time elapsed by the single cells 
+inside the switching network (SN) and to create pre-setting 
+
+queues for the output in each time slot (OS(j)) of the 
+output channel (OC), with the cells for which a fixed 
+
+number of cell times between the moment of entering the 
+network (SN) and the one foreseen for the transmission in 
+
+the time slot (OS(j)) has elapsed; 
+ 
+such method being characterized by the following phases: 
+
+
+to create a first list (TSlotList) consisting of the 
+values (PLC) representing the cell memory (CellMem) 
+
+locations, such list being addressed by three pointers, 
+respectively, a first pointer (PZOS) identifying the input 
+
+time slot (IS) in which a cell is received, a second 
+pointer (PSOS) identifying the output time slot (OS) for 
+
+which the output supplying of the cell received is 
+foreseen, and a third pointer or virtual pointer (PVOS) 
+
+identifying the output time slot (OS) in which more than 
+one cell should be supplied; 
+to create a second list (LListMem), such list being 
+linked and addressed by the values contained in the first 
+
+said list (TSlotList), in which some queues with some 
+elements (PPC) are formed, each of which addresses the cell 
+
+in the preceding position of the same queue; 
+to create a third list (NxtQList) consisting of 
+pointers (PNQ) that point at the next queues, comprehended  
+
+ 
+between the said first (PZOS) and third (PVOS) pointer and 
+
+active, that is, containing at least a not-empty element; 
+to transmit, in a given output time slot (OS(j)), 
+the last cell of the queue relating to the said time slot 
+
+(OS(j)), if any, and in the next time slots the other cells 
+of the same queue in the reverse order in respect with the 
+
+one according to which they were entered in the queue. 
+Method according to claim 1, characterized by the 
+fact that the length of the said first list (TSlotList) is 
+
+equal to 2 (DM-Dm) +1, where DM and Dm are respectively 
+the maximum and the minimum crossing delay of the switching 
+
+network (SN). 
+Method according to claim 2, characterized by the 
+fact that the Length of the said second (LListMem) and 
+
+third (NxtQList) list is equal to (DM - Dm +1). 
+Method according to claim 2 or 3, characterized by 
+the fact that the queues of the said second (LListMem) and 
+
+third (NxtQList) list are separated by empty elements 
+consisting of terminators in the form of univocally 
+
+recognizable codes (CAP1, CAP2). 
+Method according to claim 4, characterized by the 
+fact to form an additional priority list (PrioList) for the 
+
+managing of the cells qualified as high priority ones, 
+consisting of (DM - Dm +1) positions and addressed by two 
+
+additional pointers (PPZOS, PPSOS) identifying respectively 
+the input time slot (IS) in which a cell is received and 
+
+the output time slot (OS) for which the output supplying of 
+the high priority cell is foreseen and by the fact that for 
+
+each time slot (OS(j)) the high priority cell is 
+transmitted, unless the corresponding element of the 
+
+priority list (PrioList) is empty. 
+Method according to claim 5, characterized by the 
+fact to foresee an additional pointer(PLQ) associated to 
+
+the said third list (NxtQList) that addresses the last 
+active queue which has been validated by the said first 
+
+pointer (PZOS).  
+ 
+Unit for the resequencing of a flow of cells 
+pertaining to a same virtual channel (VC) or path (VP), 
+
+entering a switching network (SN) of an ATM 
+telecommunication system, such unit being positioned 
+
+between the output of the switching network (SN) and a 
+heading processor (CHP) and including: 
+
+
+an input block (IN) and an output block (OUT) 
+between which an intermediate storage (RESBUF) is 
+
+interposed and a controller connected to the said blocks 
+(IN, OUT) and to the said intermediate storage (RESBUF) 
+
+which allows the transferring of the cells to the output 
+after a minimum fixed time from the moment of the input of 
+
+the cells in the said switching network (SN); 
+ 
+the said unit being characterized by the fact that the 
+
+intermediate storage (RESBUF) includes a cell memory 
+(CellMem) in the locations of which the output cells from 
+
+the switching network (SN) are stored and by the fact that 
+the controller (RESCTRL) includes: 
+
+
+a first storage (TSlotList) containing pointers 
+(PLC) at the locations of the said cell memory (CellMem), 
+a second storage (LListMem) in which queues with 
+some elements are formed, each of which addresses the cell 
+
+in the previous position of the same queue; 
+a third storage (NxtQList) containing pointers 
+(PNQ) that point at the queues containing at least one not 
+
+empty element, consisting of the cells for which the said 
+fixed minimum time period has already elapsed. 
+Unit according to claim 7, characterized by the 
+fact to comprehend three registers containing the same 
+
+number of pointers, respectively, the first pointer (?ZOS) 
+identifying the input time slot (IS) in which a cell is 
+
+received, a second pointer (PSOS) identifying the output 
+time slot (OS) for which the output of the received cell is 
+
+foreseen and a third pointer or virtual pointer (PVOS) 
+identifying the output time slot (OS) in which more than 
+
+one cell should be supplied.  
+ 
+Unit according to claim 7, characterized by the 
+fact that the locations of the said second storage 
+
+(LListMem) are addressed by the pointers (PLC) contained in 
+the said first storage (TSlotList), and the same pointers 
+
+(PLC) are used to address the said cell memory (CellMem). 
+Unit according to claim 7, characterized by the 
+
+fact that the lengths of the said second (LListMem) and 
+third (NxtQList) storage are equal to (DM-Dm+1), where, 
+
+(DM-Dm) is the maximum floating delay with which the cells 
+may present themselves at the output of the switching 
+
+network (SN). 
+Unit according to claim 10, characterized by the 
+fact that the said maximum floating delay (DM-Dm) is fixed 
+
+equal to 10
+-10
+ quantile of the variable component of the 
+said delay. 
+Unit according to any claim from 7 to 11, 
+characterized by the fact to comprehend an additional 
+
+storage (PrioList) to manage the cells qualified as high 
+priority cells, such memory having a length equal to (DM-Dm+1). 
+Unit according to any claim from 7 to 11, 
+characterized by the fact to comprehend an additional 
+
+register containing a pointer (FlpHead) indicating the 
+first free location of the cell in the said cell memory 
+
+(CellMem) and the corresponding location of the said second 
+storage (LListMem). 
+</CLAIMS>
+</TEXT>
+</DOC>

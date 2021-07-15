@@ -1,0 +1,419 @@
+<DOC>
+<DOCNO>EP-0652512</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method and system for management of component connections
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F942	G06F944	G06F944	G06F940	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method and system for managing the connection of client components to an 
+interface implemented by a server component. In a preferred embodiment, a user component 
+
+provides an implementation of an interface and a description of the interface. A component 
+manager aggregates the user component into itself to form a server component. When a 
+
+client requests a connection to the interface, the component manager retrieves a reference to 
+the interface from the user component and sends the reference to the client components. In a 
+
+preferred embodiment, the component manager tracks the client components connected 
+through an interface. A user component may also provide multiple interfaces to client 
+
+components which the component manager also tracks. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MICROSOFT CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MICROSOFT CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+STUTZ DAVID S
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WESTIN CHRIS T
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+STUTZ, DAVID S.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WESTIN, CHRIS T.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a computer system for interconnecting two
+components as well as to a respective method.Computer systems often employ object-oriented techniques. An object is composed
+of instance data (data members) and member functions (method), which implement the
+behavior of the object. Figure 1A is a block diagram of typical data structures used to
+represent an object. The data structures used to represent an object comprise instance
+data structure 1A01, virtual function table 1A02, and the function members 1A03, 1A04,
+1A05. The instance data structure 1A01 contains a pointer to the virtual function table
+1A02 and contains data members. The virtual function table 1A02 contains an entry for
+each virtual function member defined for the object. Each entry contains a reference to the
+code that implements the corresponding function member. The layout of this sample objet
+conforms to the model defined in U.S. Patent Application Serial No. 07/682,537, entitled
+"METHOD FOR IMPLEMENTING VIRTUAL FUNCTIONS AND VIRTUAL BASES IN A
+COMPILER IN A COMPILER FOR AN OBJECT ORIENTED PROGRAMMING
+LANGUAGES," filed April 9, 1991. In the
+following, an object will be described as an instance of a class as defined by the C++
+programming language. One skilled in the art would appreciate that objects can be defined
+using other programming languages.In the C++ language, object-oriented techniques are supported through the use of
+classes. A class is a user-defined type. A class declaration describes the data members
+and function members of the class. For example, the following declaration defines data
+members and a function member of a class named CIRCLE.
+ 
+Variables x and y specify the center location of a circle and variable radius specifies the
+radius of the circle. These variables are referred to as data members of the class
+CIRCLE. The function draw is a user-defined function that draws the circle of the
+specified radius at the specified location. The function draw is referred to as a function
+member of class CIRCLE. The data members and function members of a class are
+bound together in that the function operates on an instance of the class. An instance of
+a class is also called an object of the class.In the syntax of C++, the following statement declares the objects a and
+b to be of type class CIRCLE.
+CIRCLE a, b;
+This declaration causes the allocation of memory for the objects a and b. The following
+statements assign data to the data members of objects a and b.
+a.x = 2;a.y = 2;a.radius = 1;b.x = 4;b.y =
+</DESCRIPTION>
+<CLAIMS>
+A method in a computer system for interconnecting two components, the method
+comprising:
+
+
+creating a first component having a first component interface;
+creating a second component;
+creating a first connector object having a pointer to the first component interface;
+creating a second connector object having a reference to a location in the second
+component; and
+connecting the first component to the second component by designating the first
+connector object and the second connector object, by retrieving the pointer to the
+
+first component interface from the first connector object, by retrieving the
+reference to the location in the second component from the second connector
+
+object, and by storing the retrieved pointer in the location referenced by the
+retrieved reference,
+whereby the second component can access services of the first component
+interface through the pointer stored at the referenced location.
+The method of claim 1 wherein the step of creating a first
+component includes aggregating a first instance of a component
+
+manager with a first user component, the component manager for
+managing the interconnection of components, the first user
+
+component having the first component interface;
+
+wherein the step of creating a second component includes
+aggregating a second instance of the component manager with a
+
+second user component;
+wherein the step of creating a first connector object is
+performed under control of the first instance of the component
+
+manager; and
+wherein the step of creating a second connector object is
+performed under control of the second instance of the component
+
+manager.
+The method of claim 2 wherein the second user component has a
+second component interface and the second connector object has
+
+a pointer to the second component interface, wherein the first
+connector object has a reference to a location in the first
+
+user component, and wherein the step of connecting includes
+
+connecting by retrieving the reference to the location in the
+first user component from the first connector object, by
+
+retrieving the pointer to the second component interface from
+the first connector object, and by storing the retrieved
+
+pointer in the location referenced by the retrieved reference, 
+
+wherein the first user component can access service of the
+second component interface through the pointer stored at the
+
+referenced location.
+The method of claim 3 wherein the first connector object
+includes an identification of the first component interface and
+
+the second connector object contains an identification of the
+second component interface and the step of connecting includes
+
+determining whether the identification of the first component
+interface is compatible with the identification of the second
+
+component interface.
+The method of claim 4 wherein the step of creating a first
+connector object includes the step of invoking a create call
+
+back routine of the first user component to notify the first
+user component of the creating of the first connector object.
+The method of claim 2 wherein the step of connecting the first
+component to the second component further includes the step of:
+
+
+requesting that the first connector object connect to the
+second connector object;
+after requesting the first connector object to connect to the
+second connector object, requesting the second connector object
+
+to connect to the first connector object and to notify the
+second user component of the connection; and
+after requesting the second connector object to connect to the
+first connector object, requesting the first connector object
+
+to notify the first user component of the connection.
+The method of claim 1 wherein the step of creating a first
+component creates the first component as a combination of a
+
+first instance of a component manager and a first user
+component, the component manager for managing the connecting of
+
+components, the first user component having the first component
+interface;
+
+
+wherein the step of creating a second component creates the
+second component as a combination of a second instance of the
+
+component manager with a second user component;
+wherein the step of creating a first connector object is
+performed under control of the first instance of the component
+
+manager; and
+wherein the step of creating the second connector object is
+performed under the control of the second instance of the
+
+component manager.
+A computer system for interconnecting two components, the
+computer system comprising:
+
+
+means for creating a server component having a server component
+interface;
+means for creating a client component having a location for
+storing a pointer to an interface of a component to which the
+
+client component is connected; 
+means for generating a pointer to the server component
+interface;
+means for generating a reference to the location in the client
+component; and
+means for connecting the server component to the client
+component by specifying the pointer to the server component
+
+interface and the reference to the location in the client
+component and by storing the pointer in the referenced
+
+location,
+whereby the client component can access services of the server
+component interface through the pointer stored at the
+
+referenced location.
+The computer system of claim 8 for notifying a plurality of
+client components connected to the server component, each
+
+client component having a client component interface with a
+function member, the server component having a server component
+
+manager and a server user component, the server component
+manager for connecting the client components to the server
+
+component, the server component manager having a reference to
+the client component interface of each connected client
+
+component, comprising;
+
+means for, under control of the server component manager,
+creating a multicasting object having an implementation of the
+
+function member of the client component interface; 
+means for, under control of the server user component, invoking
+
+the function member of the client component interface of the
+multicasting object; and
+means for, under control of the invoked function member of the
+client component interface of the multicasting object,
+
+
+retrieving the reference to the client component
+interface for each of the client components; and
+invoking the function member of the client component
+interface referenced by the retrieved references.
+The computer system of claim 8 for sending a message to a
+plurality of client components connected to the server
+
+component, each client component providing a client component
+interface, the client component interface having a function
+
+member, the server component having a reference to the client
+component interface of each client component, comprising:
+
+
+means for creating a multicasting object having an
+implementation of the function member of the client component
+
+interface;
+means for invoking the function member of the client component
+interface of the multicasting object; and
+means for, under control of the invoked function member of the
+client component interface of the multicasting object, 
+
+
+retrieving the reference to the client component
+interface of the client component for each of the client
+
+components; and
+invoking the function member of the client component
+interface referenced by the retrieved references.
+The computer system of claim 10 wherein the server component
+has a server component manager and a server user component and
+
+including means for, under control of the server user
+component, requesting the server component manager to create
+
+the multicasting object and wherein the creating is performed
+by the server component manager and the invoking of the
+
+function member of the client component interface of the
+multicasting object is performed by the server user component.
+The computer system of claim 11 wherein the client component
+interface includes a plurality of function members and
+
+including means for selecting a function member of the client
+component interface through which to send the message to the
+
+client component such that the invoking of the function member
+of the client component interface invokes the selected function
+
+member.
+The computer system of claim 10 including means for creating a
+connector object for each client component and storing the
+
+reference to the client component interface in the created
+connector objects. 
+The computer system of claim 8 for delayed binding to the
+server component interface, the server component interface
+
+having a function member, comprising:
+
+means for creating a delayed binding object having an
+implementation of the function member of the server component
+
+interface;
+means for storing a reference to the delayed binding object;
+means for, when the client component is to invoke the function
+mem
+ber of the server component interface of the server
+component,
+
+
+retrieving the stored reference;
+when the retrieved reference refers to the delayed
+binding object,
+
+
+invoking the function member of the server component
+interface of the delayed binding object; and
+under control of the invoked function member of the
+delayed binding object,
+
+
+binding to the server component interface of
+the server component to generate a reference
+
+to the server component interface of the
+server component, replacing the stored
+
+reference to the delayed binding object with
+the generated reference to the server 
+
+component interface of the server component;
+and
+invoking the function member of the server
+component interface of the server component;
+
+and
+means for, when the retrieved reference refers to the
+server component interface of the server component,
+
+invoking the function member of the server component
+interface of the server component
+whereby binding to the server component interface of the server
+component is delayed until a function member of the server
+
+component interface of the server component is to be invoked by
+the client component.
+The computer system of claim 14 wherein the client component
+includes a client component manager and a client user
+
+component, wherein the client component manager includes means
+for creating the delayed binding object and passing the
+
+reference to the delayed binding object to the client user
+component, and wherein the client user component includes means
+
+for storing the passed reference, retrieving the stored
+reference, and invoking the function member of the interface
+
+referenced by the retrieved reference.
+The computer system of claim 8 for delayed binding to the
+server component interface of the server component, the server
+
+component interface having a function member, comprising: 
+
+means for creating a delayed binding object having an
+implementation of the function member of the server component
+
+interface, the implementation of the function member for
+binding to the server component interface of the server
+
+component to generate a reference to the server component
+interface of the server component, for replacing a reference to
+
+the server component interface of the delayed binding object
+with the reference to the server component interface of the
+
+server component, and for using the generated reference to
+invoke the function member of the server component interface of
+
+the server component;
+means for storing the reference to server component interface
+of the created delayed binding object; and
+means for retrieving the stored reference when invoking the
+function member of the server component interface of the server
+
+component, wherein
+
+when the retrieved reference refers to the server
+component interface of the delayed binding object,
+
+invoking the function member of the server component
+interface of the delayed binding object to bind to the
+
+server component interface of the server component to
+generate the reference to the server component interface
+
+of the server component, to replace the reference to the
+server component interface of the delayed binding object
+
+with the reference to the server component interface of
+the server component, and to use the generated reference
+
+to invoke the function member of the server component
+interface of the server component; and 
+when the retrieved reference refers to the server
+component interface of the server component, invoking the
+
+function member of the server component interface of the
+server component.
+</CLAIMS>
+</TEXT>
+</DOC>

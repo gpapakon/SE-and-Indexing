@@ -1,0 +1,187 @@
+<DOC>
+<DOCNO>EP-0624984</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method for non exhaustive motion estimation which times out.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1714	G06F1714	H04N514	H04N514	H04N726	H04N726	H04N730	H04N730	H04N732	H04N732	H04N750	H04N750	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F17	G06F17	H04N5	H04N5	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method is provided for performing motion 
+estimation in a system having a test image and a plurality of 
+
+candidate images. A candidate image is selected and the 
+difference between the test image and the selected candidate 
+
+image is determined. The motion of an image is estimated 
+according to this differencing and a determination is made of 
+
+the duration of the motion estimation process in the system of 
+the present invention. The candidate image selection, the 
+
+differencing and the motion estimation are then repeated 
+according to the duration determination. The duration 
+
+determination may be a determination of a time duration or a 
+determination of a number of machine cycles. The system is 
+
+adapted to iteratively decrease a measurement of the error 
+between the test image and selected candidate images as these 
+
+actions are repeated. When the error stops decreasing and 
+begins increasing the assumption is made in the system of the 
+
+present invention that a best match has been determined. Thus 
+a best match is iteratively determined unless a time out 
+
+occurs first. 
+
+</ABSTRACT>
+<APPLICANTS>
+</APPLICANTS>
+<INVENTORS>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to the field of video processing 
+and, in particular, to the compression and decompression 
+of video signals. It is well known to perform loop filtering within 
+video compression and decompression these systems. For example, 
+it is known to provide a two-dimensional spatial filter 
+which operates on pels within a predicted eight-by-eight 
+block. The filter is separable into two one-dimensional 
+functions, horizontal and vertical. Both the horizontal 
+function and the vertical function are nonrecursive with  
+ 
+coefficients of one-quarter, one-half and one-quarter except 
+at block edges where one of the tags would fall outside the 
+block. In such cases the one-dimensional filter is altered to 
+have coefficients zero, one and zero. Full arithmetic precision 
+is retained with rounding to eight bit integer values at 
+the two-dimensional filter output. In addition, it is well known to provide 
+quantization within these systems. In a typical system the 
+number of quantizations may be one for the intrablock encoded 
+DC coefficient and thirty-one for all other coefficients. 
+Within a macroblock the same quantization is used for all 
+coefficients except the intrablock encoded DC quantization. 
+The decision levels may not be defined. The intrablock 
+encoded dc coefficient is nominally the transform value 
+linearly quantized with a step size of eight and no dead zone. 
+Each of the other thirty-one quantizations is also nominally 
+linear but with a central dead zone around zero and with a 
+step size of an even value in the range two to sixty-two. In 
+these systems the full dynamic range of the transformed 
+coefficients cannot be represented for smaller quantization 
+step sizes. To prevent quantization distortion of transformed 
+coefficient amplitudes causing arithmetic overflow in the 
+encoder and decoder loops, clipping functions are sometimes 
+inserted. The clipping functions are applied to the 
+reconstructed image which is formed by summing the prediction 
+and the prediction error as modified by the coding process.  
+ 
+This clipper operates on resulting pel values less than zero 
+or greater than two hundred fifty-five, changing them to zero 
+and two hundred fifty-five respectively. Values that are quantized in this manner may be 
+dequantized in the following manner. For all coefficients 
+other than the intrablock encoded DC quantization the 
+reconstruction levels, REC, are in the range of -2048 to 2047 
+and are given by clipping the results of the following 
+equations: 
+Where QUANT ranges
+</DESCRIPTION>
+<CLAIMS>
+A method for estimating image motion in a video 
+processing system having test image, a plurality of candidate 
+
+images, difference determining means for determining a 
+difference between images and duration determining means, 
+
+comprising the steps of: 
+
+(a) selecting a candidate image of said 
+plurality of candidate images; 
+(b) determining a difference between said test 
+image and said selected candidate image; 
+(c) estimating said image motion of in 
+accordance with the determining of step (b); 
+(d) determining a duration by said duration 
+determining means; and, 
+(e) repeating step (c) in accordance with the 
+duration determination of step (d). 
+To the motion estimation method of Claim 1, 
+wherein said determined error decreases as step (c) is 
+
+repeated. 
+The motion estimation method of Claim 2, 
+comprising the further steps of: 
+
+
+(e) determining whether said error continues 
+to decrease when step (c) is repeated; and, 
+(f) repeating step (c) in accordance with the 
+determination of step (e). 
+The motion estimation method of Claim 3, 
+comprising the step of randomly selecting a candidate image of 
+
+said plurality of candidate images in accordance with the 
+determination of step (e). 
+The motion estimation method of Claim 1, 
+further comprising the step of comparing said determined 
+
+duration with a predetermined duration. 
+The motion estimation method of Claim 5, 
+further comprising the step of comparing said duration with a 
+
+predetermined time duration. 
+The motion estimation method of Claim 5, 
+wherein said video processor system has video processor system 
+
+cycles further comprising the step of comparing said duration 
+with a predetermined number of video processor system cycles. 
+The motion estimation method of Claim 5, 
+wherein said predetermined time duration is varied. 
+The motion estimation method of Claim 8, 
+wherein said predetermined duration is varied in accordance 
+
+with utilization of said video processor system. 
+The motion estimation method of Claim 1, 
+further comprising the step of determining a motion vector in 
+
+accordance with the determined difference of step (b). 
+The motion estimation method of Claim 10, 
+wherein said candidate image of step (a) is selected in 
+
+accordance with said motion vector. 
+The motion estimation method of Claim 10, 
+wherein step (b) comprises the step of determining a plurality 
+
+of differences and said motion vector is determined in 
+accordance with said plurality of differences. 
+The motion estimation method of Claim 1, 
+wherein step (a) comprises selecting candidate images having 
+
+first and second relative displacements from a center image 
+having a predetermined starting image position. 
+The motion estimation method of Claim 13, 
+comprising the further steps of: 
+
+
+(g) determining relative errors of said 
+candidate images having said first displacement from said 
+
+center image; and, 
+(h) determining relative errors of said 
+candidate images having said second displacement from said 
+
+center image. 
+The motion estimation method of Claim 14, 
+comprising the further step of selecting said candidate image 
+
+in accordance with the determinations of step (g), (h). 
+The motion estimation method of Claim 13, 
+wherein said first and second relative displacements are 
+
+perpendicular to each other. 
+</CLAIMS>
+</TEXT>
+</DOC>

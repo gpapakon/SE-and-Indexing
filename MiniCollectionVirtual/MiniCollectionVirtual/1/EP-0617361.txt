@@ -1,0 +1,379 @@
+<DOC>
+<DOCNO>EP-0617361</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Scheduling method and apparatus for a communication network
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F946	G06F948	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Method and apparatus for avoiding receive livelock 
+and transmit starvation, and for minimizing packet loss and 
+
+latency in a communication network station. The invention 
+uses a combination of processing threads, polling and, in a 
+
+preferred embodiment, a judicious use of interrupts, to 
+allocate the use of processing resources fairly among 
+
+competing functions. Real time processing threads are 
+structured to execute for a preselected maximum time 
+
+interval, based on numbers of units processed by each thread, 
+and then to yield control to a thread scheduler, which 
+
+selects and invokes a new thread for execution. Work to be 
+done in the various threads is determined either by polling 
+
+or by an interrupt system, and then posted to the threads for 
+execution. If interrupts are used, interrupt service routines 
+
+perform only the minimal processing needed to recognize an 
+interrupt, other interrupt servicing functions being deferred 
+
+for execution in a processing thread. The thread scheduler 
+operates on a round-robin basis and also selects from at 
+
+least one general purpose processing thread for functions 
+that are less time critical, the general purpose thread being 
+
+structured to operate for a selected minimum time, if needed, 
+in a non-preemptable mode, and thereafter in a preemptable 
+
+mode. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+CABLETRON SYSTEMS INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+CABLETRON SYSTEMS, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+RAMAKRISHNAN KADANGODE K
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TING DENNIS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+VAITZBLIT LEV
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+RAMAKRISHNAN, KADANGODE K.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TING, DENNIS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+VAITZBLIT, LEV
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates generally to the efficient
+design and operation of communication networks and, more
+particularly, to scheduling mechanisms for use in stations
+connected to a communication network. A network consists of
+a communication channel, and a number of stations connected
+to the channel. Information is transmitted over the channel
+in data frames or packets, the packets having headers that
+permit each station to determine the destination cf the data.Each station has to perform a number of tasks and
+subtasks related to sending and receiving data packets. In
+general, these tasks and subtasks may overlap in time, and
+the performance of any one of them may be depencent on the
+completion of another. Moreover, the functions performed in
+a station, whether dependent or independent, typically have
+relative priorities. Since a station may comprise only one
+processor for performing all of the station tasks and
+subtasks, scheduling these tasks and subtasks at the station 
+is a critical aspect of network operations. Scheduling in the
+end-system has to meet the requirements expected by the
+network: the network protocols, the rules for accessing the
+channel, and so forth, primarily in terms of throughput and
+latency.As computer networks have developed, various
+approaches have been used in the choice of communication
+medium, network topology, message format, and protocols for
+channel access. Some of these approaches have emerged as
+standards, and a model for network architectures has been
+proposed and widely accepted. It is known as the
+International Standards Organization (ISO) Open Systems
+Interconnection (OSI) reference model. The OSI reference
+model is not itself a network architecture. Rather it
+specifies a hierarchy of protocol layers and defines the
+function of each layer in the network. Each layer in one
+computer of the network carries on a conversation with the
+corresponding layer in another computer with which communication
+is taking place, in accordance with a protocol defining
+the rules of this communication. In reality, information is
+transferred down from layer to layer in one computer, then
+through the channel medium and back up the successive layers
+of the other computer. However, for purposes of design of the
+various layers and understanding their functions, it is
+easier to consider each of the layers as communicating with
+its counterpart at the same level on the remote machine. 
+However, of interest in the present invention are the data
+flowing from one layer to the next on the same
+</DESCRIPTION>
+<CLAIMS>
+A computer implemented method for scheduling multiple
+processing tasks in a network communication station, the
+
+method comprising the steps of:
+
+establishing a plurality of processing threads
+(44), each of which is structured to execute
+
+processing of tasks for a limited time before being
+subject to preemption by another processing thread,
+
+each said processing thread having a plurality of
+thread units;
+repeatedly determining (46) when work of the
+processing tasks is to be done;
+posting (48) any determined work of the
+processing tasks to be done to appropriate ones of
+
+said plurality of processing threads;
+selecting a processing thread that has work to be
+done;
+determining a limited time which is required to
+complete a selected number of executed units in
+
+processed tasks of said selected processing thread;
+executing (52) said selected processing thread
+for said limited time; and
+repeating the selecting (54) and executing for
+other processing threads.
+A method as defined in claim 1, wherein the step of
+repeatedly determining when work of the processing tasks is
+
+to be done includes polling (70) all of the processing
+tasks.
+A method as defined in claim 1, wherein the step of
+repeatedly determining when work of the processing tasks is
+
+to be done includes:
+
+enabling interrupts (80) for higher priority
+tasks, said interrupts temporarily preempting
+
+execution of said selected processing thread, said 
+interrupts indicating that work of the processing
+
+tasks is to be done; and
+servicing each said interrupt (82) by suspending
+execution of said selected processing thread and
+
+executing a thread associated with each said
+interrupt.
+A method as defined in claim 1, wherein the step of
+establishing a plurality of processing threads includes:
+
+
+establishing at least one real time processing
+thread for execution of time-critical functions, each
+
+real time processing thread being structured to
+execute for a time period determined by counting a
+
+maximum number of executed units of said real time
+processing thread; and
+establishing at least one general purpose
+processing thread, wherein the general purpose
+
+processing thread is structured to execute for a
+preselected minimum time during which it is non-preemptable
+
+by other threads, and to execute
+thereafter in a preemptable mode.
+A method as defined in claim 1, wherein:
+
+the step of selecting a processing thread is
+performed on a round-robin basis; and
+the step of executing the selected thread
+includes switching the context of processing from the
+
+previously executing thread to the selected thread,
+and transferring processing control to the selected
+
+thread.
+A method as defined in claim 4, wherein:
+
+the step of selecting a processing thread
+includes selecting a thread on a round-robin basis
+
+from the real time and general purpose threads that
+have work posted; and 
+the step of executing the selected thread
+includes switching the context of processing from the
+
+previously executing thread to the selected thread,
+and transferring processing control to the selected
+
+thread.
+A method as defined in claim 1, wherein the step of
+posting any determined work of the processing tasks to be
+
+done to appropriate processing threads includes:
+
+setting a posting flag for each processing thread
+that has work to be done; and wherein
+said step of selecting further includes selecting
+from real time and general purpose threads which have
+
+posting flags.
+A computer implemented method for scheduling multiple
+processing tasks in a network communication station, the
+
+method comprising the steps of:
+
+establishing at least one real time processing
+thread having a plurality of thread units, said
+
+processing thread being structured to execute for a
+selected maximum time period determined by counting a
+
+selected number of executed units of said real time
+processing thread, and at least one general purpose
+
+processing thread, which is structured to execute in a
+non-preemptable mode for a selected minimum time;
+repeatedly determining when work of the
+processing tasks is to be done;
+posting any determined work of the processing
+tasks to be done to appropriate ones of the processing
+
+threads;
+selecting a processing thread that has work to be
+done;
+executing the selected processing thread; and
+repeating the selecting and executing steps for
+other processing threads.
+A method as defined in claim 8, wherein the step of
+repeatedly determining when work of the processing tasks is
+
+to be done includes:
+
+enabling interrupts for higher priority tasks,
+which temporarily preempt other processing; and
+deferring time consuming interrupt servicing
+functions for execution in processing threads, and
+
+further comprising the step of:
+
+limiting the rate at which interrupts can be
+serviced by temporarily disabling interrupts from
+
+time to time.
+A method as defined in claim 8, wherein:
+
+said at least one real time processinc thread is
+selected for execution of time-critical functions; and
+the at least one general purpose processing
+thread is selected for execution of non tine-critical
+
+functions.
+A method as defined in claim 8, wherein:
+
+the step of selecting a processing thread
+includes selecting a thread on a round-robin basis
+
+from the real time and general purpose threads that
+have work posted; and
+the step of executing the selected thread
+includes switching the context of processing from the
+
+previously executing thread to the selected thread,
+and transferring processing control to the selected
+
+thread.
+Apparatus (10) for scheduling multiple processing
+tasks in a network communication station, the apparatus
+
+
+characterized by
+:
+
+a set of executable processing threads (44),
+including at least one real time process
+ing thread
+having a plurality of thread units, said at least one
+
+real time processing thread structured to execute for 
+a selected maximum time period determined by counting
+
+a selected number of executed units of said real time
+processing thread, and at least one general purpose
+
+processing thread (42) structured to execute in a non-preemptable
+mode for a selected minimum time;
+a thread posting mechanism (48) repeatedly
+determining when work of the processing tasks is to be
+
+done by any of the processing threads, said thread
+posting mechanism posting any determined work to be
+
+done to appropriate ones of the processing threads;
+and
+a thread scheduler (46) selecting processing
+threads that have work to be done, said thread
+
+scheduler allowing selected real time processing
+threads to execute for said selected maximum time and
+
+allowing said general purpose thread to execute in a
+non-preemptable mode for said selected minimum time.
+Apparatus as defined in claim 12, wherein the thread
+posting mechanism includes:
+
+
+means for polling all of the processing tasks.
+Apparatus as defined in claim 12, wherein the thread
+posting mechanism includes:
+
+
+an interrupt system capable of temporarily
+preempting processing when a processing task has to be
+
+done; and
+minimal interrupt servicing means, for rapid
+processing of interrupts, wherein time consuming
+
+interrupt servicing functions are deferred for
+execution in processing threads.
+Apparatus as defined in claim 12, wherein:
+
+said at least one real time processing thread is
+selected for execution of time-critical functions; and 
+the at least one general purpose processing
+thread is selected for execution of non time-critical
+
+functions.
+Apparatus as defined in claim 12, wherein tie thread
+scheduler includes:
+
+
+means for selecting a thread on a round-robin
+basis from the real time and general purpose threads
+
+that have work posted; and
+means for executing the selected thread by
+switching the context of processing from the
+
+previously executed thread to the selected thread, and
+transferring processing control to the selected
+
+thread.
+Apparatus as defined in claim 12, wherein the means
+for posting any determined work to be done to appropriate
+
+processing threads includes:
+
+means for setting a posting flag for each
+processing thread that has work to be done.
+</CLAIMS>
+</TEXT>
+</DOC>

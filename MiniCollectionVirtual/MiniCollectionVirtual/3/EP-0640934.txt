@@ -1,0 +1,1133 @@
+<DOC>
+<DOCNO>EP-0640934</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+OCR classification based on transition ground data
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06K964	G06K964	G06K936	G06K962	G06K936	G06K940	G06K962	G06K940	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06K	G06K	G06K	G06K	G06K	G06K	G06K	G06K	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06K9	G06K9	G06K9	G06K9	G06K9	G06K9	G06K9	G06K9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An OCR system 10 classifies an input image vector of 
+an unclassified symbol with respect to a library of T 
+
+template image vectors of pre-classified characters. Each 
+template vector is in the form of a sequence of elements 
+
+representing the image contrast level of a pixel within 
+the character defined by that template vector. Each 
+
+template element is part of the image background or 
+foreground or transition ground between the background 
+
+and foreground. The input vector, like the template 
+vectors, is also in the form of a sequence of elements. 
+
+However, in the input vector, the elements represent an 
+image contrast level signal component defining the symbol 
+
+within the image of the unclassified symbol and a 
+greyscale noise component. Each input element is also 
+
+part of the background or foreground or transition 
+ground. The input vector and at least one of the T 
+
+template vectors are entered into a classifier device 18. 
+The input vector is classified based on the backgrounds, 
+
+foregrounds, and transition grounds. The presence of 
+transition ground in the input vector and the template 
+
+vector produces a robust classification response with a 
+more uniform correlation coefficient between repeated 
+
+classifications of the same input symbol. The classifier 
+device may be a distance function classifier or a neural 
+
+network classifier. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+CANON KK
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+CANON KABUSHIKI KAISHA
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+AVI-ITZHAK HADAR
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MELEN ROGER D
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+AVI-ITZHAK,HADAR
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MELEN,ROGER D.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to OCR classification of 
+input images against a library of template images, and 
+more particularly to such classification employing 
+transition ground data (greyscale signal) along with 
+background data and foreground data (binary signal). Heretofore, unclassified input images and pre-classified 
+template images were digitized to eliminate 
+the greyscale content of the underlying data. The 
+resulting binary inputs and templates were "clean" images 
+with minimum data to be processed. These prior art 
+systems were generally slow by today's standards with 
+limited memory. Greyscale was treated as noise not 
+signal. Digitization of the images eliminated the greyscale 
+noise, along with the greyscale signal (transition ground 
+data). Transition ground is the thin region of variable 
+intensity along the edge within an image between the 
+background region and the foreground region. The level of 
+the transition ground signal progressively changes from 
+background level to foreground level. Transition ground, 
+like greyscale noise, forms part of the non-binary 
+content of the image, and is lost during digitization.  
+ The removal of greyscale noise permitted the 
+classification process to provide higher correlation 
+coefficients. Greyscale noise was generally non-reproducible 
+between repeated classification of the same 
+character, and merely detracted from the proper match of 
+the input symbol with the templates. Unfortunately, the 
+resulting classification response of these prior binary 
+systems was "brittle" due to the loss of transition 
+ground signal. The correlation coefficient was based on a 
+suitable distance criterion such as the "Hamming" distance 
+between the input symbol and the matching template. The 
+distance and resulting correlation coefficients were nonuniform 
+between repeated classifications of the same 
+printed image. A paper by Lui et al (Proceedings of the International 
+Joint Conference on Neural Network, Singapore, Nov 18-21 1991, 
+Vol 1 of 3 18 November 1991 Institute of Electrical and 
+Electronic Engineers pages 325-330 entitled "Character 
+Recognition on Gray Level image Using Neural Networks) 
+describes an OCR technique for recognising gray level 
+characters wherein windows of pixels define input nodes for a 
+neural network to enable portions of the character image to be 
+defined.  
+ It is therefore an object of this invention to 
+provide an OCR classification method which employs 
+background and foreground binary data and transition 
+ground greyscale data. In
+</DESCRIPTION>
+<CLAIMS>
+An OCR (optical character recognition) method of 
+classifying an input image vector of an unclassified 
+
+whole character with respect to a library of template 
+image vectors of pre-classified characters, the method 
+
+comprising the steps of: 
+
+providing a library of template image vectors of 
+pre-classified characters each in the form of a sequence 
+
+of template elements, each template element having a 
+numerical value representing the image intensity level 
+
+of a corresponding element within the pre-classified 
+character defined by that template vector, said template 
+
+elements including image background elements, image 
+foreground elements and image transition ground elements 
+
+that are situated between image background elements and 
+image foreground elements and are caused by a progressive 
+
+change from background intensity level to foreground 
+intensity level; 
+providing an input image vector of an unclassified 
+whole character in the form of a sequence of input 
+
+elements, each input element having a numerical value 
+representing an image intensity level signal component 
+
+corresponding to an element within the unclassified 
+character, said input elements being from the group of 
+
+elements comprising image background elements, image 
+foreground elements and image transition ground elements  
+
+ 
+that are situated between image background elements and 
+
+image foreground elements and are caused by a progressive 
+change from background intensity level to foreground 
+
+intensity level; 
+entering the input image vector and at least one of 
+the template image vectors into a classifier means; and 
+classifying the input image vector with respect to 
+the template image vectors by comparing numerical values 
+
+of the background, foreground and transition ground 
+elements of the input image vector with numerical values 
+
+of the background, foreground and transition ground 
+elements of the template image vectors. 
+The OCR method of claim 1, wherein the classifier 
+means is a distance function classifier for comparing the 
+
+input image vector to each of the template image vectors 
+on an element basis and summing the element comparisons 
+
+to classify the input image vector. 
+The OCR method of claim 1, wherein the classifier 
+means is a neural network classifier which develops a 
+
+learned data base therein in response to the template 
+image vectors to classify the input image vector. 
+The OCR method of any one of claims 1 to 3, further 
+comprising, before the classifying step, the additional 
+
+steps of:  
+ 
+
+
+identifying the elements of the input image vector 
+having a numerical value within a predetermined 
+
+background clamping range of numerical values; and 
+clamping the numerical value of each of the 
+identified elements to a predetermined background 
+
+clamping level. 
+The OCR method of claim 4, wherein the predetermined 
+background clamping level is within the predetermined 
+
+background clamping range. 
+The OCR method of claim 4, wherein the predetermined background 
+clamping level is a general background signal level 
+
+determined by the levels of the signal components of the 
+background elements of the input vector, the portion of 
+
+the numerical value of each background element below the 
+general background signal level defines a hyper 
+
+background noise sub-component of a greyscale noise 
+component of that element, the background clamping range 
+
+is a hyper background clamping range determined by the 
+hyper background noise sub-components, and clamping the 
+
+numerical value of elements within the hyper background 
+range eliminates hyper background noise by clamping the 
+
+numerical value of elements within the hyper background 
+range to the general background signal level. 
+The OCR method of claim 6, wherein the portion of  
+ 
+
+the numerical value of each element near the general 
+background signal level defines a near background noise 
+
+sub-component of the greyscale noise component of that 
+element, the background clamping range is the hyper 
+
+background clamping range plus a near background clamping 
+range determined by the near background noise sub-components, 
+
+and the clamping of the hyper background 
+range together with the near background range eliminates 
+
+hyper background noise plus the near background noise by 
+clamping elements within the hyper background range and 
+
+the near background range to the general background 
+signal level. 
+The OCR method of claim 4, wherein the background 
+clamping level is a general background signal level 
+
+determined by the levels of the signal components of the 
+background elements of the input vector, the portion of 
+
+the numerical value of each element near the general 
+background signal level defines a near background noise 
+
+sub-component of a greyscale noise component of that 
+element, the background clamping range is a near clamping 
+
+range determined by the near background noise sub-components, 
+and clamping elements within the near 
+
+background range eliminates near background noise by 
+clamping the near background range to the general 
+
+background signal level.  
+ 
+The OCR method of claim 4, wherein the intensity of 
+each element of the signal components of the input vector 
+
+is between a minimum limit value and a maximum limit 
+value, with the intensities of the background elements 
+
+closer to one of the limit values than to the other one 
+of the limit values, and the intensities of the 
+
+foreground elements closer to the other one of the limit 
+values than to said one of the limit values. 
+The OCR method of claim 9, wherein the background 
+clamping level is a general background signal level 
+
+determined by the intensity of the signal components of 
+the background elements of the input vector. 
+The OCR method of claim 9, wherein the background 
+clamping level is 0.00. 
+The OCR method of claim 9, wherein the background 
+level is a predetermined number of levels away from 
+
+minimum limit value. 
+The OCR method of claim 1, further comprising, 
+before the classifying step, the additional steps of: 
+
+
+identifying the elements of the input vector having 
+a numerical value within a predetermined foreground 
+
+clamping range of numerical values; and 
+clamping the numerical value of each of the  
+ 
+
+identified elements to a predetermined foreground 
+clamping numerical value. 
+The OCR method of claim 13, wherein the foreground 
+clamping level is a general foreground signal level 
+
+determined by the levels of the signal component of the 
+numerical values of the foreground elements of the input 
+
+vector, the portion of the numerical value of each 
+foreground element above the general foreground signal 
+
+level defines a hyper foreground noise sub-component of 
+a greyscale noise component of that element, the 
+
+foreground clamping range is a hyper foreground clamping 
+range determined by the hyper foreground noise sub-components, 
+
+and clamping elements within the hyper 
+foreground range eliminates the hyper foreground noise 
+
+by clamping elements within the hyper foreground range 
+to the general foreground signal level. 
+The OCR method of claim 14, wherein the portion of 
+the numerical value of each element near the general 
+
+foreground signal level defines a near foreground noise 
+sub-component of the greyscale noise component of that 
+
+element, the foreground clamping range is the hyper 
+foreground clamping range plus a near foreground clamping 
+
+range determined by the near foreground sub-components, 
+and the clamping of elements within the hyper foreground 
+
+range together with the near foreground range eliminates  
+ 
+
+hyper foreground noise plus near foreground noise by 
+clamping elements within the hyper foreground range and 
+
+the near foreground clamping range to the general 
+foreground signal level. 
+The OCR method of claim 13, wherein the foreground 
+clamping level is a general foreground signal level 
+
+determined by the levels of the signal component of the 
+numerical values of the foreground elements of the input 
+
+vector, the portion of the numerical value of each 
+element near the general foreground signal level defines 
+
+a near foreground noise sub-component of a greyscale 
+noise component of that element, the foreground clamping 
+
+range is a near foreground clamping range determined by 
+the near foreground noise sub-components, and clamping 
+
+elements within near foreground range eliminates near 
+foreground noise by clamping elements within the near 
+
+foreground range to the general foreground signal level. 
+The OCR method of claim 13, wherein the intensity 
+of each element of the level of the signal components of 
+
+the input vector is between a minimum limit value and a 
+maximum limit value, with the intensities of the 
+
+background elements closer to one of the limit values, 
+and the intensities of the foreground elements closer to 
+
+the other one of the limit values.  
+ 
+The OCR method of claim 17, wherein the foreground 
+clamping level is a general foreground signal level 
+
+determined by the intensity level of the signal component 
+of the foreground elements of the input vector. 
+The OCR method of claim 17, wherein the foreground 
+clamping level is 1.00. 
+The OCR method of claim 17, wherein the foreground 
+clamping level is a predetermined number of levels away 
+
+from the maximum limit value. 
+The OCR method of claim 1, further comprising, 
+before the classifying step, the addition steps of: 
+
+
+identifying the elements of the input vector having 
+a numerical value within a predetermined background 
+
+clamping range of numerical values; 
+clamping the numerical value of each of the 
+identified elements to a predetermined background 
+
+clamping numerical value within the predetermined 
+background clamping range; 
+identifying the elements of the input vector having 
+a numerical value within a predetermined foreground 
+
+clamping range of numerical values; and 
+clamping the numerical value of each of the 
+identified elements to a predetermined foreground 
+
+clamping numerical value within the predetermined  
+ 
+
+foreground clamping range. 
+The OCR method of claim 21, wherein the background 
+clamping level is a general background signal level 
+
+determined by the levels of the signal components of the 
+numerical values of the background elements of the input 
+
+vector, the portion of the numerical value of each 
+background element below the general background signal 
+
+level defines a hyper background noise sub-component of 
+a greyscale noise component of that element, the 
+
+background clamping range is a hyper background clamping 
+range determined by the hyper background noise sub-components, 
+
+and clamping elements within the hyper 
+background range eliminates hyper background noise by 
+
+clamping elements within the hyper background range to 
+the general background signal level. 
+The OCR method of claim 22, wherein the portion of 
+the numerical value of each element near the general 
+
+background signal level defines a near background noise 
+sub-component of the greyscale noise component of that 
+
+element, the background clamping range is the hyper 
+background clamping range plus a near background clamping 
+
+range determined by the near background noise sub-components, 
+and the clamping of the hyper background 
+
+range together with the near background range eliminates 
+hyper background noise plus near background noise by  
+
+ 
+clamping elements within the hyper background range and 
+
+the near background clamping range to the general 
+background signal level. 
+The OCR method of claim 21, wherein the background 
+clamping level is a general background signal level 
+
+determined by the levels of the signal component of the 
+numerical values of the background elements of the input 
+
+vector, the portion of the numerical value of each 
+element near the general background signal level defines 
+
+a near background noise sub-component of the greyscale 
+noise component of that element, the background clamping 
+
+range is a near background clamping range determined by 
+the near backgroun
+d noise sub-components, and clamping 
+elements within the near background range eliminates near. 
+
+background noise by clamping elements within the near 
+background range to the general background signal level. 
+The OCR method of claim 21, wherein the foreground 
+clamping level is a general foreground signal level 
+
+determined by the level of the signal component of the 
+numerical values of the foreground elements of the input 
+
+vector, the portion of the numerical value of each 
+foreground signal above the general foreground signal 
+
+level defines a hyper foreground noise sub-component of 
+the greyscale noise component of that element, the 
+
+foreground clamping range is a hyper foreground clamping  
+ 
+
+range determined by the hyper foreground noise sub-components, 
+and clamping elements within the hyper 
+
+foreground range eliminates hyper foreground noise by 
+clamping elements within the hyper foreground range to 
+
+the general foreground signal level. 
+The OCR method of claim 25, wherein the portion of 
+the numerical value of each element near the general 
+
+foreground signal level defines a near foreground noise 
+sub-component of the greyscale noise component of that 
+
+element, the foreground clamping range is the hyper 
+foreground clamping range plus a near foreground clamping 
+
+range determined by the near foreground noise sub-components, 
+and the clamping of the hyper foreground 
+
+range together with the near foreground range eliminates 
+hyper foreground noise plus near foreground noise by 
+
+clamping elements within the hyper foreground range and 
+the near foreground clamping range to the general 
+
+foreground signal level. 
+The OCR method of claim 21, wherein the foreground 
+clamping level is a general signal level determined by 
+
+the levels of the signal components of the numerical 
+values of the foreground elements of the input vector, 
+
+the portion of the numerical value of each element near 
+the general foreground signal level defines a near 
+
+foreground noise sub-component of the greyscale noise  
+ 
+
+component of that element, the foreground clamping range 
+is a near foreground clamping range determined by the 
+
+near foreground noise sub-components, and clamping 
+elements within the near foreground range eliminates near 
+
+foreground noise by clamping elements within the near 
+foreground range to the general foreground signal level. 
+The OCR method of claim 1, further comprising, 
+before the classifying step, the additional steps of: 
+
+
+identifying the elements of the input vector having 
+a numerical value within a predetermined input clamping 
+
+range of numerical values; 
+clamping the numerical value of each of the 
+identified input elements to a predetermined input 
+
+clamping numerical value; 
+identifying the elements of the template vectors 
+having a numerical value within a predetermined template 
+
+clamping range of numerical values; and 
+clamping the numerical value of each of the 
+identified template elements to a predetermined template 
+
+clamping numerical value. 
+The OCR method of claim 28, wherein the 
+predetermined template clamping range conforms to the 
+
+predetermined input clamping range, and the predetermined 
+template clamping level conforms to the predetermined 
+
+input clamping level.  
+ 
+The OCR method of claim 1, further comprising, 
+before the classifying step, the additional steps of:
+ 
+   sorting the elements of the input vector in order 
+
+of the numerical values thereof. 
+The OCR method of claim 30, further comprising, 
+after the input vector sorting step, the additional step 
+
+of:
+ 
+   sorting the elements of the template vector in order 
+
+of the numerical values thereof. 
+The OCR method of claim 1, wherein numerical values 
+of the background elements of the input vector determine 
+
+a general background input signal level, numerical values 
+of the foreground elements of the input vector determine 
+
+a general foreground input signal level, numerical values 
+of the background elements of the entered template vector 
+
+determine a general background template signal level, and 
+numerical values of the foreground elements of the 
+
+entered template vector determine a general foreground 
+template signal level. 
+The OCR method of claim 32, further comprising, 
+before the classifying step, the additional steps of: 
+
+
+setting the general background signal level of the 
+input vector and the template vector to the same general 
+
+background signal level; and  
+ 
+setting the general foreground signal level of the 
+input vector and the template vector to the same general 
+
+foreground signal level. 
+The OCR method of claim 32, further comprising, 
+before the classifying step, the additional steps of: 
+
+
+setting the general background signal level of the 
+input vector to the general background signal level of 
+
+the entered template vector; and 
+setting the general foreground signal level of the 
+input vector to the general foreground signal level of 
+
+the entered template vector. 
+The OCR method of claim 1, wherein an input image 
+is scanned and input by a scanner, and said input image 
+
+vector is extracted by said input image. 
+An OCR (optical character recognition) system for 
+classifying an input image vector of an unclassified 
+
+whole character with respect to a library of template 
+image vectors of pre-classified characters, the system 
+
+comprising: 
+
+library means for providing a library of template 
+image vectors of pre-classified characters each in the 
+
+form of a sequence of template elements, each template 
+element having a numerical value representing the image 
+
+intensity level of a corresponding element within the  
+ 
+
+pre-classified character defined by that template vector, 
+said template elements including image background 
+
+elements, image foreground elements, and image transition 
+ground elements that are situated between the image 
+
+background elements and image foreground elements and are 
+caused by a progressive change from background intensity 
+
+level to foreground intensity level; 
+input means for providing an input image vector of 
+an unclassified whole character in the form of a sequence 
+
+of input elements, each input element having a numerical 
+value representing an image intensity level signal 
+
+component corresponding to an element within the 
+unclassified character, said input elements being from 
+
+the group of elements comprising image background 
+elements, image foreground elements, and image transition 
+
+ground elements that are situated between image 
+background elements and image foreground elements and are 
+
+caused by a progressive change from background intensity 
+level to foreground intensity level; 
+classifying means for classifying the input image 
+vector with respect to the template image vectors by 
+
+comparing numerical values of the background, foreground 
+and transition ground elements of the input image vector 
+
+with numerical values of the background, foreground and 
+transition ground elements of the template image vectors. 
+The OCR system of claim 36 wherein the classifier  
+ 
+
+means comprises a distance function classifier for 
+comparing the input image vector to each of the template 
+
+image vectors on an element by element basis and summing 
+th
+e element comparisons to classify the input image 
+vector. 
+The OCR system of claim 36 wherein the classifier 
+means comprises a neural network classifier which 
+
+develops a learned database therein in response to the 
+template image vectors to classify the input image 
+
+vector. 
+The OCR system of any one of claims 36 to 38 further 
+comprising:
+ 
+   background clamping means arranged at the input of the 
+
+classifying means for identifying the elements of the 
+input image vector having a numerical value within a 
+
+predetermined background clamping range of numerical 
+values, and for clamping the numerical value of each of 
+
+the identified elements to a predetermined background 
+clamping level. 
+The OCR system of claim 39 wherein the background clamping 
+means is arranged to clamp the numerical value of each 
+
+of the identified elements to a predetermined background 
+clamping level which is within the predetermined 
+
+background clamping range.  
+ 
+The OCR system of claim 39 wherein the background clamping 
+means is arranged to clamp the numerical value of each 
+
+of the identified elements to a predetermined background 
+clamping level which is a general background signal level 
+
+determined by the levels of the signal components of the 
+background elements of the input vector, the portion of 
+
+the numerical value of each background element below the 
+general background signal level defining a hyper 
+
+background noise sub-component of a greyscale noise 
+component of that element, the background clamping range 
+
+is a hyper background clamping range determined by the 
+hyper background noise sub-components, and the clamping 
+
+means is adapted to clamp the numerical value of elements 
+within the hyper background range to eliminate hyper 
+
+background noise by clamping the numerical value of 
+elements within the hyper background range to the general 
+
+background signal level. 
+The OCR system of claim 41 wherein the portion of 
+the numerical value of each element near the general 
+
+noise background signal level defines a near background 
+noise sub-component of the greyscale noise component of 
+
+that element, the background clamping range is the hyper 
+background clamping range plus a near background clamping 
+
+range determined by the near background noise sub-components, 
+wherein the clamping means is arranged to 
+
+clamp the hyper background range together with the near  
+ 
+
+background range to eliminate the hyper background noise 
+plus the near background noise by clamping elements 
+
+within the hyper background range and the near background 
+range to the general background signal level. 
+The OCR system of claim 39 wherein the background 
+clamping level is a general background signal level 
+
+determined by the levels of the signal components of the 
+background elements of the input vector, the portion of 
+
+the numerical value of each element near the general 
+background signal level defines a near background noise 
+
+sub-component of a greyscale noise component element, the 
+background clamping range is a near background clamping 
+
+range determined by the near background noise sub-components, 
+where the clamping means is arranged to clamp 
+
+elements within the near background range to eliminate 
+near background noise by clamping the near background 
+
+range to the general background signal level. 
+The OCR system of claim 39 wherein the intensity of 
+each element of the signal components of the input vector 
+
+is between a minimum limit value and a maximum limit 
+value, wherein the intensities of the background elements 
+
+are closer to one of the limit values than to the other 
+one of the limit values and the intensities of the 
+
+foreground elements are closer to the other one of the 
+limit values than to said one of the limit values.  
+
+ 
+The OCR system of claim 44 wherein the clamping 
+means is arranged to determine the background clamping 
+
+level as a general background signal level determined by 
+the intensity level of the signal component of the 
+
+background elements of the input vector. 
+The OCR system of claim 44 wherein the clamping 
+means is arranged to determine the background clamping 
+
+level to have a value of 0.00. 
+The OCR system of claim 44 wherein the clamping 
+means is arranged to determine the background clamping 
+
+level as a predetermined number of levels away from the 
+minimum limit value. 
+The OCR system of claim 36 including clamping means 
+arranged at the input of the classifying means for 
+
+identifying the elements of the input vector having a 
+numerical value within a predetermined foreground 
+
+clamping range of numerical values, and for clamping the 
+numerical value of each of the identified elements to a 
+
+predetermined foreground clamping numerical value. 
+The OCR system of claim 48 wherein the foreground 
+clamping level is a general foreground signal level 
+
+determined by the level of the signal component of the  
+ 
+
+numerical values of the foreground elements of the input 
+vector, the portion of the numerical value of each 
+
+foreground element above the general foreground signal 
+level defines a hyper foreground noise sub-component of 
+
+a greyscale noise component of that element, the 
+foreground clamping range is a hyper foreground clamping 
+
+range determined by the hyper foreground noise sub-component, 
+and the clamping means is arranged to clamp 
+
+elements within the hyper foreground range to eliminate 
+the hyper foreground noise by clamping elements within 
+
+the hyper foreground range to the general foreground 
+signal level. 
+The OCR system of claim 49 wherein the portion of 
+the numerical value of each element near the general 
+
+foreground signal level defines a near foreground noise 
+sub-component of the greyscale noise component of that 
+
+element, the foreground clamping range is the hyper 
+foreground clamping range plus a near foreground clamping 
+
+range determined by the near foreground noise sub-components, 
+the clamping means is arranged to clamp 
+
+elements within the hyper foreground range together with 
+the near foreground range to eliminate hyper foreground 
+
+noise plus near foreground noise by clamping elements 
+within the hyper foreground range and the near foreground 
+
+clamping range to the general foreground signal level.  
+ 
+The OCR system of claim 48 wherein the foreground 
+clamping level is a general foreground signal level 
+
+determined by the level of the signal component of the 
+numerical values of the foreground elements of the input 
+
+vector, the portion of the numerical value of each 
+element near the general foreground signal level defines 
+
+a near foreground noise signal element of a greyscale 
+noise component of that element, the foreground clamping 
+
+range is a near foreground clamping range determined by 
+the near foreground noise sub-components, and the 
+
+clamping means is arranged to clamp elements within the 
+near foreground range to eliminate near foreground noise 
+
+by clamping elements within the near foreground range to 
+the general foreground signal level. 
+The OCR system of claim 48 wherein the intensity 
+value of each element of the level of the signal 
+
+component is between a minimum limit value and a maximum 
+limit value, with the intensities of the background 
+
+elements closer to one of the limit values, and the 
+intensities of the foreground elements closer to the 
+
+other one of the limit values. 
+The OCR system of claim 52 wherein the clamping 
+means is arranged to determine 
+the foreground clamping 
+level as a general foreground signal level from the 
+
+intensity level of the signal component of the foreground  
+ 
+
+elements of the input vector. 
+The OCR system of claim 52 wherein the clamping 
+means is arranged to clamp the foreground clamping level 
+
+to a value of 1.00. 
+The OCR system of claim 52 wherein the clamping 
+means is arranged to clamp the foreground clamping level 
+
+to a predetermined number of levels away from the maximum 
+limit values. 
+The OCR system of claim 36 including clamping means 
+arranged at the input of the classifying means for 
+
+identifying the elements of the input vector having a 
+numerical value within a predetermined background 
+
+clamping range of numerical values, for clamping the 
+numerical values of each of the identified elements to 
+
+a predetermined background clamping numerical value 
+within the predetermined background clamping range, for 
+
+identifying the elements of the input vector having a 
+numerical value within a predetermined foreground 
+
+clamping range of numerical values, and for clamping the 
+numerical value of each of the identified elements to a 
+
+predetermined foreground clamping numerical value within 
+the predetermined foreground clamping range. 
+The OCR system of claim 56 wherein the background  
+ 
+
+clamping level is a general background signal level 
+determined by the level of the signal components of the 
+
+numerical values of the background elements of the input 
+vector, the portion of the numerical value of each 
+
+background element below the general background signal 
+level defines a hyper background noise sub-component of 
+
+a greyscale noise component of that element, the 
+background clamping range is a hyper background clamping 
+
+range determined by the hyper background noise sub-components, 
+and the clamping means is arranged to clamp 
+
+elements within the hyper background range to eliminate 
+hyper background noise by clamping elements within the 
+
+hyper background range to the general background signal 
+level. 
+The OCR system of claim 57 wherein the portion of 
+the numerical value of each element near the general 
+
+background signal level defines a near background noise 
+sub-component of the greyscale noise component of that 
+
+element, the background clamping range is the hyper 
+background clamping range plus a near background clamping 
+
+range determined by the near background noise components, 
+and the clamping means is arranged to clamp the hyper 
+
+background range together with the near background range 
+to eliminate hyper background noise plus near background 
+
+noise by clamping elements within the hyper background 
+range and the near background clamping range to the  
+
+ 
+general background signal level. 
+The OCR system of claim 56 wherein the background 
+clamping level is a general background signal level 
+
+determined by the level of the signal component of the 
+numerical values of the background elements of the input 
+
+vector, the portion of the numerical value in each 
+element near the general background signal level defines 
+
+a near background noise sub-component of the greyscale 
+noise component of that element, the background clamping 
+
+range is a near background clamping range determined by 
+the near background noise sub-components, and the 
+
+clamping means is arranged to clamp elements within the 
+near background range to eliminate near background noise 
+
+by clamping elements within the near background range to 
+the general background signal level. 
+The OCR system of claim 56 wherein the foreground 
+clamping level is a general foreground signal level 
+
+determined by the level of the signal component of the 
+numerical values of the foreground elements of the input 
+
+vector, the portion of the numerical value of each 
+foreground element above the general foreground signal 
+
+level defines a hyper foreground noise sub-component of 
+the greyscale noise component of that element, the 
+
+foreground clamping range is a hyper foreground clamping 
+range determined by the hyper foreground noise sub-components,  
+
+ 
+and the clamping means is arranged to clamp 
+
+elements within the hyper foreground range to eliminate 
+hyper foreground noise by clamping elements within the 
+
+hyper foreground range to the general foreground signal 
+level. 
+The OCR system of claim 60 wherein the portion of 
+the numerical value of each element near the general 
+
+foreground signal level defines a near foreground noise 
+sub-component of the greyscale noise component of that 
+
+element, the foreground clamping range is the hyper 
+foreground clamping range plus a near foreground clamping 
+
+range determined by the near foreground noise sub-components, 
+and the clamping means is arranged to clamp 
+
+the hyper foreground range together with the near 
+foreground range to eliminate hyper foreground noise plus 
+
+near foreground noise by clamping elements within the 
+hyper foreground range and the near foreground clamping 
+
+range to the general foreground signal level. 
+The OCR system of claim 56 wherein the foreground 
+clamping level is a general foreground signal level 
+
+determined by the level of the signal components of the 
+numerical values of the foreground elements of the input 
+
+vector, a portion of numerical value of each element near 
+the general foreground signal level defines a near 
+
+foreground noise sub-component of the greyscale noise  
+ 
+
+component of that element, the foreground clamping range 
+is a near foreground clamping range determined by the 
+
+near foreground noise sub-components, and the clamping 
+means is arranged to clamp elements within the near 
+
+foreground range to eliminate near foreground noise by 
+clamping elements within the near foreground range in the 
+
+general foreground signal level. 
+The OCR system of claim 36 further comprising 
+clamping means arranged at the input of the classifying 
+
+means for identifying the elements of the input vector 
+having a numerical value within a predetermined input 
+
+clamping range of numerical values, for clamping the 
+numerical value of each of the identified input elements 
+
+to a predetermined input clamping numerical value, for 
+identifying the elements of the template vectors having 
+
+a numerical value within a predetermined template 
+clamping range of numerical values, and for clamping the 
+
+numerical value of each of the identified template 
+elements to a predetermined template clamping numerical 
+
+value. 
+The OCR system of claim 63 wherein the predetermined 
+template clamping range conforms to the predetermined 
+
+input clamping range the predetermined template clamping 
+level conforms to the predetermined input clamping level.  
+
+ 
+The OCR system of claim 36 further including sorting 
+means for sorting the elements of the input vector in 
+
+order to the numerical values thereof prior to input to 
+the classifying means. 
+The OCR system of claim 65 wherein the sorting means 
+is arranged to sort the elements of the template vector 
+
+in order of the numerical values thereof after sorting 
+of the elements of the input vector. 
+The OCR system of claim 36 wherein the numerical 
+values of the background elements of the input vector 
+
+determine a general background input signal level, 
+numerical values of the foreground elements of the input 
+
+signal vector determine a general foreground input signal 
+level, numerical values of the background elements of the 
+
+entered template vector determine a general background 
+template signal level, and numerical values of the 
+
+foreground elements of the entered template vector 
+det
+ermined a general foreground template signal level. 
+The OCR system of claim 67 further comprising: 
+
+background setting means for setting the general 
+background signal level of the input vector and the 
+
+entered template vector to the same general background 
+signal level for the input vector is input into the 
+
+classifying means; and  
+ 
+foreground setting means for setting the general 
+foreground signal level of the input vector and the 
+
+entered template vector to the same general foreground 
+signal level before the input vector is input into the 
+
+classifier means. 
+The OCR system of claim 67 further comprising: 
+
+background setting means for setting the general 
+background signal level of the input vector to the 
+
+general background signal level of the entered template 
+vector before the input vector is input into the 
+
+classifying means; and 
+foreground setting means for setting the general 
+foreground signal level of the input vector to the 
+
+general foreground signal level of the entered template 
+vector before the input vector is input into the 
+
+classifying means. 
+The OCR system of claim 1 including scanner means 
+for scanning an image containing characters and means for 
+
+extracting the input image vector from the scanned image 
+from the scanner. 
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,161 @@
+<DOC>
+<DOCNO>EP-0618560</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Window-based memory architecture for image compilation
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G09G514	G09G539	G09G514	G06F314	G06F314	G09G536	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G09G	G09G	G09G	G06F	G06F	G09G	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G09G5	G09G5	G09G5	G06F3	G06F3	G09G5	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An image processing system combines a multitude of image signals to 
+create a compound image. The system has a plurality of memory modules operative to 
+
+store the image signals as pixels for the compound image as respective segments of 
+consecutive pixels. A specific row of consecutive pixels of the compound image is 
+
+formed by consecutive arrangement of the respective segments. This permits the use of 
+a simple addressing protocol, and of simple page-mode access DRAMs. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+KONINKL PHILIPS ELECTRONICS NV
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+KONINKLIJKE PHILIPS ELECTRONICS N.V.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+DE LANGE ALPHONSUS ANTHONIUS J
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LA HEI GERARD DAVID
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DE LANGE, ALPHONSUS ANTHONIUS JOZEF
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LA HEI, GERARD DAVID
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The invention concerns an image processing system for combining a
+multitude of image data streams to create a compound image. The system comprises a
+plurality of memory modules being operative in combination to store the image data as
+pixels for the compound image. It also concerns a method for creating
+a row of pixels for a compound image by combining a plurality of image data streams.U.S. Patent 5,068,650 discloses such an image processing system using a
+window compilation technique to combine image data from a plurality of sources, e.g.,
+video data and still image data including text and computer-generated graphics. Multimedia
+integration typically requires large amounts of high-bandwidth memories to
+implement multiple-window processing functions for full-motion video images (e.g.,
+multiple-source gen-lock, variable scaling variable positioning, and scan rate
+conversion) and high-resolution animated graphics (e.g., α-channelling, block moving,
+multiple-windowing), all in real-time. The aforesaid prior art discloses a multi-ported
+high-performance memory system. Each independent memory port provides random
+access to addressed memory locations.The memory system of the prior art stores the data according to an
+interleaving strategy on a pixel-to-pixel basis. In order to establish a pattern of
+overlapping windows, it is necessary to write into the memory the data that will be
+displayed in the windows defined by the pattern. To this end, a key is assigned to each
+pixel location of the memory system. A particular key represents a particular one of a
+plurality of overlapping windows making up the compound image. Each pixel to be
+written contains key data, corresponding to the window within which it is intended to be
+displayed. The key data acts serves to gain access to an addressed location within the
+specific window corresponding to the actual key data. The key-based memory access
+thus provides a unified approach to determine which pixels of the incoming image data
+are written into the memory system at particular memory locations to properly reflect 
+visibility of a predetermined pattern of windows.The prior art memory system contains a plurality of 16 memory modules.
+Pixels from consecutive columns of a line in the eventual compound image are stored in
+consecutive memory modules in a round robin fashion. Accordingly, the clock
+controlling the operation of an individual memory module is lowered by a factor of 16
+with regard to the basic clock for the operation of the memory system as a whole.The prior art
+</DESCRIPTION>
+<CLAIMS>
+An image processing system (100) for combining a multitude of image data
+streams (V1, V2, V3) to create a compound image (200), comprising
+
+
+a plurality of memory modules (102, 104, 106) being operative in combination to store the
+image data as pixels for the compound image;
+
+characterized in that
+
+the system (100) is operative to allocate the compound image (200) into a plurality of
+segments (208, 210, 212), each segment (208, 210, 212) comprising a respective one of
+
+contiguous regions of the compound image, and each segment (208, 210, 212)
+corresponding to a respective one of the plurality of memory modules (102, 104, 106);
+the system (100) is operative to create groups of contiguous pixels (302, 304, 306, 308),
+each group containing data from only one of the segments (208, 210, 212) and from only
+
+one of the data streams (V1, V2, V3);
+the system (100) is operative to create a row of pixels in the memory modules (102, 104,
+106) by, for each of the memory modules (102, 104, 106), storing in the memory module
+
+each of the groups of contiguous pixels which correspond to the segment corresponding to
+the memory module; and
+the system (100) is operative to read the row of consecutive pixels of the compound image
+by consecutive arrangement of the respective segments (208, 210, 212) from the respective
+
+memory modules (102, 104, 106).
+The system of claim 1, further comprising:
+
+input means for receiving the streams of image data;
+bus means (108) coupled between the input means and the memory modules (102, 104,
+106) for routing of the image data; 
+output means coupled to the bus means (108) for supply of the respective segments (208,
+210, 212) upon reading of the memory modules;
+buffer means for storing the image data prior to supplying the image data to the memory
+modules, coupled at least between the input means and the bus means (108) or between the
+
+bus means (108) and the memory modules.
+The system of claim 2, wherein
+
+the input means comprises a multitude of input ports;
+the buffer means comprises a multitude of buffers (124, 128, 132; 136), each respective
+one being coupled between a respective one of the input ports and the bus means (108) or
+
+between a respective one of the memory modules (102, 104, 106) and the bus means (108).
+The system of claim 2 or 3, comprising control means (1000) to control the
+memory modules (102, 104, 106) and the buffer means using run-length encoding.
+The system of claim 3, comprising control means (1000) to control the
+memory modules (102, 104, 106) and the buffers using run-length encoding, wherein the
+
+control means comprises:
+
+a run-length encoded event table (1002);
+a control signal generator (1004) for supply of control signals;
+a cache memory (1014) between an output of the table (1002) and an input of the generator
+(1004) to store functionally successive run-length codes retrieved from the table.
+The system of claim 1, wherein each respective one of the modules (102,
+104, 106) compnses a respective DRAM.
+The system of claim 6, where the respective DRAM is suitable for page-mode
+access.
+A method for creating a row of pixels for a compound image (200) by
+combining a plurality of image data streams (V1, V2, V3), the method comprising:
+
+
+receiving the plurality of data streams (V1, V2, V3);
+allocating the compound image (200) into a plurality of segments (208, 210, 212) , each
+segment comprising a respective one of contiguous regions of the compound image, and
+
+each segment corresponding to a respective one of a plurality of memory modules (102,
+104, 106); 
+within each segment, grouping image data to create groups of contiguous pixels (302, 304,
+306, 308), each group containing data from only one of the segments (208, 210, 212) and
+
+from only one of the data streams (V1, V2, V3);
+creating a row of pixels in the memory modules (102, 104, 106) by, for each of the
+memory modules (102, 104, 106), storing in the memory module each of the groups of
+
+contiguous pixels which correspond to the segment corresponding to the memory module;
+and
+reading the row from the plurality of memory modules (102, 104, 106) by consecutively
+arranging the respective segments (208, 210, 212) from the respective memory modules
+
+(102, 104, 106).
+</CLAIMS>
+</TEXT>
+</DOC>

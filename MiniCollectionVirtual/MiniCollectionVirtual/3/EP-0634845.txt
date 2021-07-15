@@ -1,0 +1,287 @@
+<DOC>
+<DOCNO>EP-0634845</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Noise burst detection in an ADPCM decoder.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H03M738	H03M738	H04B1402	H04B1406	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H03M	H03M	H04B	H04B	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H03M7	H03M7	H04B14	H04B14	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A signal processor such as an ADPCM decoder (128b) 
+receives an input signal. As part of the CCITT Recommendation 
+
+G.726 algorithm, an inverse adaptive quantizer (41) processes the 
+input signal to provide a quantized difference signal d
+q
+(k). When 
+enabled, a noise detector (50) samples signal d
+q
+(k) once for each 
+of a predetermined number of received samples. The noise 
+
+detector (50) adds the absolute value of signal d
+q
+(k) to a total 
+energy estimate. At the end of the predetermined number of 
+
+samples, the noise detector (50) compares the total energy 
+estimate to a product of a noise threshold and the predetermined 
+
+number. If the total energy estimate exceeds this product, then a 
+noise indication is provided. In another embodiment (228b) a 
+
+noise detector (250) compares an existing energy estimate signal 
+d
+ml
+(k) computed by an adaptation speed control block (48) as part 
+of the G.726 algorithm to an energy threshold to save processing 
+
+time. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MOTOROLA INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MOTOROLA INC
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BONET LUIS A
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+CORLETO JOSE G
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GREAVES CARLOS A
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BONET LUIS A
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+CORLETO JOSE G
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GREAVES CARLOS A
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates generally to signal processors, and 
+more particularly, to signal processors with noise burst detection 
+and related methods. The increased density and reduced cost of integrated circuit 
+components has made many previously impractical products 
+commercially viable. One type of product made viable by advances 
+in integrated circuit technology is the digital cordless telephone. 
+A digital cordless telephone handset receives an analog speech 
+signal via a microphone, converts the analog speech signal into a 
+digital speech signal, compresses the digital speech signal, 
+modulates the compressed signal at a radio frequency (RF), and 
+transmits the modulated RF signal through an antenna. The 
+transmitted RF signal is received by a nearby base station where 
+it may be converted to an analog signal (or remain in digital form 
+for digital switching equipment), and ultimately relayed to the 
+destination telephone. When a similar signal is received from the 
+destination telephone, the telephone signal undergoes the same 
+process in reverse. The base station transmits a digital RF signal 
+to the handset which is received via the antenna, demodulated, 
+decompressed, and converted into an analog speech signal which 
+drives a speaker in the handset. One standard for the operation of a cordless telephone 
+handset is the U.K. Cordless Telephone, Second Generation (CT-2) 
+standard. A CT-2 handset receives an analog voice signal from a 
+microphone. The voice signal is converted to digital pulse code 
+modulation (PCM) format, processed through an adaptive 
+differential pulse code modulation (ADPCM) encoder, and then 
+modulated and transmitted according to the CT-2 Common Air 
+Interface (CAI) protocol to a base station. CT-2 specifies CCITT  
+ 
+G.721 ADPCM for the operation of the ADPCM encoder. Transmit 
+and receive signals are sent and received to and from the base 
+station in packets in a ping-pong fashion. CAI specifies that a 
+part of the packet includes signalling information including such 
+things as call setup and termination requests and handshaking 
+information. For signal reception, a packet is received, 
+demodulated, processed through a G.721 ADPCM decoder, 
+converted from digital PCM to analog, and then provided to a 
+speaker. Both analog and digital functions are necessary in the 
+operation of a digital cordless telephone handset. To perform the 
+conversion from analog to PCM and from PCM to analog, a 
+conventional integrated circuit such as the Motorola MC145554 
+m-law PCM Codec-Filter
+</DESCRIPTION>
+<CLAIMS>
+A method for noise burst detection in a signal processor 
+(128b) comprising the steps of: 
+
+   continuously receiving an input signal (41); 
+   adaptively quantizing said input signal (41) to provide 
+
+a quantized difference signal; 
+   providing (42, 43, 44, 45, 46, 47, 48, 49) an output 
+
+signal of the signal processor in response to 
+said quantized difference signal; and 
+
+   providing a noise indication (50) in response to at 
+least one sample of said quantized difference 
+
+signal exceeding a total energy estimate. 
+The method of claim 1 wherein said step of providing said 
+noise indication (50) comprises the steps of: 
+
+   initializing (55) said total energy estimate to zero; 
+   adding (56, 57, 58) an absolute value of said quantized 
+
+difference signal to said total energy estimate a 
+predetermined number of times; and 
+
+   providing (59, 60) said noise indication if said total 
+energy estimate exceeds a predetermined 
+
+threshold. 
+The method of claim 2 further comprising the step of 
+providing said noise indication (59, 60) if said total energy 
+
+estimate exceeds a product of said predetermined number 
+and an energy threshold. 
+The method of claim 1 wherein said step of providing said 
+noise indication (50) comprises the steps of: 
+
+   initializing (54) a counter to a predetermined value; 
+   initializing (55) said total energy estimate to zero; 
+
+   step of adding (56) an absolute value of a difference 
+signal dq(k) of an ADPCM decoder (128b) 
+
+substantially complying with CCITT 
+Recommendation G.726 for at least one data rate 
+
+thereof, to said total energy estimate; 
+   decrementing (57) said counter; 
+
+   repeating said steps of adding (56) and decrementing 
+(57) until said counter is less than zero; and 
+
+   providing (59, 60) said noise indication if said total 
+energy estimate exceeds a predetermined 
+
+threshold. 
+In an adaptive differential pulse code modulation (ADPCM) 
+decoder (228b) substantially complying with CCITT 
+
+Recommendation G.726-1990 for at least one data rate 
+thereof, a method for noise burst detection comprising the 
+
+steps of: 
+   receiving an input signal I(k) at an input of the ADPCM 
+
+decoder (228b); 
+   forming a signal dml(k) in an adaptation speed control 
+
+block (48) of the ADPCM decoder (228b); 
+   comparing said signal dml(k) to a predetermined 
+
+energy threshold; and 
+   providing a noise indication if said signal dml(k) 
+
+exceeds said predetermined energy threshold. 
+The method of claim 5 wherein said step of providing 
+further comprises the step of providing a noise indication if 
+
+said signal dml(k) exceeds said predetermined energy 
+threshold when a noise detection enable signal is activated. 
+A signal processor with noise burst detection (128b), 
+comprising: 
+
+   an inverse adaptive quantizer (41) for providing a 
+quantized difference signal dq(k) in response to 
+
+an input signal I(k) of the signal processor 
+(128b); 
+
+   noise detection means (50) coupled to said inverse 
+adaptive quantizer (41), for receiving said signal 
+
+dq(k), a predetermined number, and a product of 
+a noise threshold and said predetermined 
+
+number, for calculating a total energy estimate 
+of said signal dq(k) sampled once for each of 
+
+said predetermined number of samples of a 
+plurality of samples, and for providing a noise 
+
+indication in response to said total energy 
+estimate exceeding said product of said noise 
+
+threshold and said predetermined number; and 
+   output means (42, 43, 44, 45, 46, 47, 48, 49) coupled 
+
+to said inverse adaptive quantizer (41), for 
+providing an output signal of the signal 
+
+processor sd(k) in response to said quantized 
+difference signal dq(k); 
+
+said inverse adaptive quantizer (41) and said output means 
+(42, 43, 44, 45, 46, 47, 48, 49) substantially forming a 
+
+CCITT Recommendation G.726-1990 adaptive differential 
+pulse code modulation (ADPCM) decoder for at least one data 
+
+rate thereof. 
+The signal processor (128b) of claim 7 wherein said output 
+means (42, 43, 44, 45, 46, 47, 48, 49) comprises an integral 
+
+digital receive gain (44) for receiving a signal sr(k) and a 
+gain factor, for multiplying said signal sr(k) by said gain 
+
+factor to provide a reconstructed signal with gain sg(k), and 
+for substituting said signal sg(k) for said signal sr(k) in 
+
+said output means (42, 43, 44, 45, 46, 47, 48, 49) when said 
+gain factor is not equal to unity gain. 
+A signal processor with noise burst detection (228b), 
+comprising: 
+
+   adaptive pulse code modulation (ADPCM) signal 
+processing means (228b) for receiving an input 
+
+signal I(k) and for providing an output signal 
+sd(k); 
+
+   said ADPCM signal processing means (228b) including 
+an adaptation speed control (48) having an 
+
+output for providing an output signal dml(k); and 
+   noise detection means (250) coupled to said 
+
+adaptation speed control (48), for receiving said 
+signal dml(k) and a predetermined energy 
+
+threshold, for comparing said signal dml(k) to 
+said predetermined energy threshold, and for 
+
+providing a noise indication in response to said 
+signal dml(k) exceeding said predetermined 
+
+energy threshold; 
+said ADPCM signal processing means (228b) substantially 
+
+forming a CCITT Recommendation G.726-1990 ADPCM 
+decoder for at least one data rate thereof. 
+The signal processor (228b) of claim 9 wherein ADPCM 
+signal processing means (228b) further comprises an 
+
+integral digital receive gain (44) for receiving a signal sr(k) 
+and a gain factor, for multiplying said signal sr(k) by said 
+
+gain factor to provide a reconstructed signal with gain 
+sg(k), and for substituting said signal sg(k) for said signal 
+
+sr(k) when said gain factor is not equal to unity gain. 
+</CLAIMS>
+</TEXT>
+</DOC>

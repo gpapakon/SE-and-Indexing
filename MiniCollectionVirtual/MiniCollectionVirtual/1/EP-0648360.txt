@@ -1,0 +1,252 @@
+<DOC>
+<DOCNO>EP-0648360</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+TRACKING OBJECTS IN VIDEO SEQUENCES
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04N726	H04N726	G06T720	H04N714	H04N714	G06T720	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04N	H04N	G06T	H04N	H04N	G06T	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04N7	H04N7	G06T7	H04N7	H04N7	G06T7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A process is described for tracking a subject in a sequence of image frames, for example received from the camera of a video film. Regions of each new image frame are classified in accordance with pre-defined criteria to determine the probability that they form part of the subject being tracked. This information is used with a record of the region previously designated as containing the subject in a previous frame, to update the designated region. In particular, a spatially varying threshold is defined with reference to the previously designated region, and regions of the new frame whose probability classification does not exceed this threshold are excluded from the updated designated region. The updating is performed only according to certain conditions, in particular to prevent excessive growth or shrinkage of the designated region. The process described can also be applied to more general subject tracking applications, for example in transferring cine film images to MPEG digital video. In such applications, a chrominance probability distribution or some other classification criterion can be used in place of motion detection.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+KONINKL PHILIPS ELECTRONICS NV
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+PHILIPS ELECTRONICS UK LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+KONINKLIJKE PHILIPS ELECTRONICS N.V.
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+PHILIPS ELECTRONICS UK LIMITED
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+PONTICOS CONSTANTINE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+PONTICOS, CONSTANTINE
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The invention relates to methods and apparatuses for tracking subjects
+in motion picture sequences, to apparatuses for performing such methods and
+to related methods and apparatuses. The invention may be applied for
+example in videophones, or in the digital encoding of general motion picture
+sequences, for example for publishing motion pictures on optical Compact
+Discs.The improvement in the subjective image quality of videophone images
+that can be achieved by enhancing the area round the user's face, at the
+expense of the rest of the frame, has been known for some time and
+successful algorithms to accomplish this task have already been developed.
+Implementation of such algorithms on commercial hardware, however, has
+been delayed by the computational complexity. Most successful algorithms
+rely on techniques for edge detection and operate at pixel rates requiring much
+high speed hardware.The article "Segmentation through the Detection of Changes Due to
+Motion" by Ramesh Jain, W.N. Martin, and J.K. Aggarwal published in
+Computer Graphics and Image Processing. Vol. 11. 13, 34 (1979), discusses a
+scheme for extracting the images of moving objects in dynamic scenes.
+Differencing operations are used to identify areas containing moving objects.
+The images of the moving objects can then be obtained by focusing the
+segmentation processes on these restricted areas.Some algorithms operate on frame differences for motion detection, a
+much simpler technique, but they have, however, had problems in the past
+with changes in overall lighting intensity, movement in the background (a
+common occurrence in office environments), or even non movement of the
+user. Other algorithms exploit the fact that the video compression codec
+divides the image into blocks (typically of 16x16 pixels) for coding, and extracts
+a few parameters from each. By operating on these much smaller arrays of
+parameters they can run at a lower rate and are much less demanding
+computationally.The invention provides techniques which can detect movement on a
+block or pixel level but addresses the above problems through a process that
+discriminates between the user of the videophone and other moving objects.
+The techniques are also suitable for general subject tracking, when colour, or
+some attribute other than movement, can be used as the basis for tracking.In a first particular aspect, the invention provides a method of image
+processing for tracking a subject in a sequence of image frames, the method
+comprising:
+(a) defining criteria for classifying
+</DESCRIPTION>
+<CLAIMS>
+A method of image processing for tracking a subject in a
+sequence of image frames, the method comprising:
+
+
+(a) defining criteria for classifying image regions of said images
+frames as being potentially part of the subject to be tracked;
+(b) obtaining for each new image frame (F
+k
+) a record (H
+k-1
+) of an
+image region previously designated as containing the subject;
+(c) classifying in graded form image regions of each new image
+frame (F
+k
+) in accordance with the defined criteria;
+(d) defining a spatially varying threshold level (P
+k
+) with reference to
+the previously designated image region; and
+(e) updating the designated image region with reference to both the
+classification of regions in the new frame (M
+k
+) and the previously designated
+region (H
+k-1
+), but with image regions whose classification grade is below the
+threshold level excluded.
+A method as claimed in Claim 1 wherein image regions classified
+as potentially part of the subject are included or not included in the updated
+
+designated image region, depending on their proximity to the previously
+designated region.
+A method as claimed in Claim 1, or Claim 2 wherein the updated
+designated image region is defined as a convex hull with reference to all
+
+regions which are to be included.
+A method as claimed in any preceding claim wherein updating of
+the designated image region is automatically inhibited to prevent excessive
+
+growth of the designated image region. 
+A method as claimed in Claim 4 wherein growth in area of the
+designated image region is judged excessive or not by comparison with an
+
+area value averaged over a number of previous frames.
+A method as claimed in any preceding claim wherein updating of
+the designated image region is automatically inhibited to prevent excessive
+
+shrinkage of the designated image region.
+A method as claimed in Claim 6 wherein shrinkage in area of the
+designated image region is judged excessive or not in comparison with an
+
+area value averaged over a number of previous frames.
+A method as claimed in any preceding claim wherein updating of
+the designated image region is automatically inhibited in the event that the
+
+updated designated image region would include an excessive proportion of
+regions not classified as potentially part of the subject.
+A method as claimed in any preceding claim wherein motion of
+the subject or designated image region is detected over successive frames,
+
+and wherein updating of the designated image region in step (d) is performed
+with reference to the classification of image regions in the new frame, the
+
+previously designated image region and a predicted degree of motion.
+A method as claimed in any preceding claim wherein each new
+image frame is divided into blocks of pixels and the classification step (c) is
+
+performed on a block by block basis.
+A method as claimed in Claim 10 wherein the pixels of each
+image frame are classified individually and the classification for each block is
+
+obtained by combining the classifications of the pixels within the block. 
+A method as claimed in Claim 11 wherein individual pixels are
+classified in binary form and the classification of each block is performed by
+
+counting pixels within each block meeting the pixel classification criteria.
+A method as claimed in Claims 10, 11 or 12 wherein blocks are
+classified in binary form.
+A method as claimed in any preceding claim wherein the
+classification criteria are defined so as to classify moving objects as potentially
+
+part of the subject being tracked.
+A method as claimed in any preceding claim wherein the
+classifying criteria for each image region include whether a pixel value or
+
+values of the image region in the new frame is different to the corresponding
+pixel value of a previous frame.
+A method as claimed in Claim 15 wherein for the classifying step
+(c) pixel differences are disregarded below a predetermined noise threshold.
+A method as claimed in Claims 15 or 16 wherein the classifying
+step (c) includes a step of discriminating between changes representing
+
+movement of the subject and changes representing uncovering of background.
+A method as claimed in Claim 17 wherein two successive
+comparisons are performed over three successive image frames and wherein
+
+changes are disregarded for image regions which do not change in both
+comparisons.
+A method as claimed in any preceding claim wherein the
+classifying criteria for each image region include whether a pixel value or
+
+values of the image region in the new frame fall within a predetermined subset
+of possible pixel values. 
+A method as claimed in Claim 19 wherein said predetermined
+subset is determined automatically by probability analysis of pixel values
+
+present in a designated image region when compared with the image frame as
+a whole.
+A method as claimed in Claim 19 or 20 wherein said subset of
+possible pixel values is defined with reference to the chrominance
+
+characteristics of the subject to be tracked.
+A method as claimed in any preceding claim wherein a default
+designated image region is defined for the start of the sequence.
+A method as claimed in Claim 22 wherein updating of the default
+designated image region is inhibited until a significant area within the
+
+designated image region is classified as potentially part of the subject.
+A method as claimed in any of Claims 1 to 22 wherein an initial
+designated image region for the sequence is defined by manual input.
+A method as claimed in Claim 24 wherein the classification
+criteria are defined automatically with reference to the initial designated image
+
+region.
+A method as claimed in any preceding claim further comprising
+the steps of
+
+   defining a default position for the subject within each image frame;
+
+   obtaining and updating over the sequence of image frames a record of
+the subject's position in each new frame by reference to predetermined subject
+
+identification criteria and also with reference to criteria based on a previous
+recorded position;
+ 
+   determining whether features satisfying the subject identifying criteria
+
+but not the criteria based on previous recorded position are closer to the
+default position; and
+
+   if such features are closer, updating the recorded position to refer to
+such features.
+A method as claimed in Claim 26 wherein the updating step is
+performed subject to a time delay.
+A method according to any preceding claim, wherein said steps
+(a) to (d) comprise a routine for encoding motion picture image frames with
+
+limited data rate wherein image quality is enhanced for a region designated as
+including a particular subject, and wherein the designated region is updated to
+
+track the subject using the steps (a) through (c).
+A method according to Claim 28 wherein said limited data rate is
+allocated on a block basis and wherein the designated region is updated in
+
+corresponding block units.
+A method as claimed in Claim 28 or 29 wherein the encoding is
+H261 compatible.
+A method as claimed in Claim 28 or 29 wherein the encoding is
+MPEG compatible.
+A videophone apparatus including a camera and means for
+encoding image frames output by the camera by a method as claimed in any
+
+of Claims 28 to 31. 
+A data processing apparatus for carrying out the method of any
+one of claims 1 to 31 wherein elements of a stored regular two-dimensional
+
+array are designated active or inactive, the apparatus comprising means for
+identifying a convex hull, encompassing all active elements of the stored array,
+
+including:
+
+(a) means for scanning rows of the array to record the most extreme
+active element(s) in each row in a linear list; and
+(b) means for processing the linear list of extreme active elements to
+identify the desired convex hull without considering further the other
+
+less-extreme active elements in each row of the array.
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,79 @@
+<DOC>
+<DOCNO>EP-1374063</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+METHOD AND APPARATUS FOR AUTOMATIC DATABASE ENCRYPTION
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1200	G06F1200	G06F1214	G06F1214	G06F1730	G06F1730	G06F2100	G06F2100	G06F2124	G09C100	G09C100	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G09C	G09C	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F12	G06F12	G06F12	G06F12	G06F17	G06F17	G06F21	G06F21	G06F21	G09C1	G09C1	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+One embodiment of the present invention provides a system for managing encryption within a database system that is managed by a database administrator, and wherein a user administrator not otherwise associated with the database system, manages users of the database system. This system performs encryption automatically and transparently to a user of the database system. The system operates by receiving a request to store data in a column of the database system. If a user has designated the column as an encrypted column, the system automatically encrypts the data using an encryption function. This encryption function uses a key stored in a keyfile managed by the security administrator. After encrypting the data, the system stores the data in the database system using a storage function of the database system.
+ 
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+ORACLE INT CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+ORACLE INTERNATIONAL CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+WESSMAN RICHARD
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WESSMAN, RICHARD
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+ METHOD AND APPARATUS FOR AUTOMATIC DATABASE ENCRYPTIONInventor: Richard R. WessmanBACKGROUNDField of the Invention The present invention relates to computer security and databases within computer systems. More specifically, the present invention relates to a method and apparatus for automatically encrypting and decrypting data to be stored in a database.Related ArtModern database systems store and retrieve vast quantities of information. Some of this information is sensitive, such as credit card numbers, bank balances, and nuclear secrets, and hence must be protected so that the information does not end up in the wrong hands. Some database systems are able to restrict access to specific information by using access controls that are specified in security profiles assigned to each client. Such systems prevent a client from accessing information other than what has been authorized for the client. This normally protects the sensitive information and, therefore, leads users to trust the database system to ensure that information stored within the database system remains secret.There is, however, a major weakness in these types of database systems. The data base administrator (DBA) has access to everything that is stored within the database system. This unrestricted access allows an unscrupulous DBA to steal information from the database system and to use the stolen information for illicit purposes. Note that is not practical to implement access controls for the DBA 
+
+because doing so prevents the DBA from performing necessary database maintenance functions.Sensitive information can be kept secret from the DBA by encrypting the sensitive information within the user application at the client. In this approach, all sensitive information is stored in an encrypted form within the database system and is consequently protected from examination by the DBA. This approach has the advantage that the DBA is not restricted from performing database maintenance functions. A major drawback to this approach, however, is that all user applications that handle sensitive information need to be able to encrypt and decrypt information. Providing such encryption and decryption code in all of the numerous applications that handle sensitive data is very inefficient.What is needed is a method and an apparatus that allows a DBA to have unrestricted access to the database system while protecting sensitive information within the database system in an efficient manner.SUMMARY One embodiment of the present invention provides a system for
+</DESCRIPTION>
+<CLAIMS>
+What Is Claimed Is:
+1. A method for managing encryption within a database system that is managed by a security administrator, wherein encryption is performed automatically and transparently to a user of the database system, wherein users of the database system are managed by a user administrator, the method comprising: receiving a request to store data in a column of the database system, wherein the column is designated as an encrypted column; in response to receiving the request, automatically encrypting data using an encryption function, wherein the encryption function uses a key stored in a keyfile managed by the security administrator; and storing data in the database system using a storage function of the database system.
+2. The method of claim 1, further comprising: receiving a request to retrieve data from the encrypted column of the database system; if the request to retrieve data is received from the database administrator, preventing the database administrator from decrypting encrypted data; if the request to retrieve data is received from the security administrator, preventing the security administrator from decrypting encrypted data; and if the request to retrieve data is from an authorized user of the database system, allowing the authorized user to decrypt encrypted data.
+3. The method of claim 1, wherein the security administrator selects one of data encryption standard (DES) and triple DES as a mode of encryption for the column.
+4. The method of claim 1, wherein the security administrator, the database administrator, and the user administrator are distinct roles, and wherein a 
+
+
+person selected for one of these roles is not allowed to be selected for another of these roles.
+5. The method of claim 1, wherein managing the keyfile includes, but is not limited to: creating the keyfile; establishing a plurality of keys to be stored in the keyfile; establishing a relationship between a key identifier and the key stored in the keyfile; storing the keyfile in one of, an encrypted file in the database system, and a location separate from the database system; and moving an obfuscated copy of the keyfile to a volatile memory within a server associated with the database system.
+6. The method of claim 1, wherein upon receiving a request from the security administrator specifying the column to be encrypted, if the column currently contains data, the method further comprises: decrypting the column using an old key if the column was previously encrypted; and encrypting the column using a new key.
+7. The method of claim 5, wherein the key identifier associated with the encrypted column is stored as metadata associated with a table containing the encrypted column within the database system.
+8. The method of claim 5, further comprising establishing encryption parameters for the encrypted column, wherein the encryption parameters include encryption mode, key length, and integrity type by: entering encryption parameters for the encrypted column manually; and 
+
+
+ recovering encryption parameters for the encrypted column from a profile table in the database system.
+9. A computer-readable storage medium storing instructions that when executed by a computer causes the computer to perform a method for managing encryption within a database system that is managed by a security administrator, wherein encryption is performed automatically and transparently to a user of the database system, wherein users of the database system are managed by a user administrator, the method comprising: receiving a request to store data in a column of the database system, wherein the column is designated as an encrypted column; in response to receiving the request, automatically encrypting data using an encryption function, wherein the encryption function uses a key stored in a keyfile managed by the security administrator; and storing data in the database system using a storage function of the database system.
+10. The computer-readable storage medium of claim 9, the method further comprises: receiving a request to retrieve data from the encrypted column of the database system; if the request to retrieve data is received from the database administrator, preventing the database administrator from decrypting encrypted data; if the request to retrieve data is received from the security administrator, preventing the security administrator from decrypting encrypted data; and if the request to retrieve data is from an authorized user of the database system, allowing the authorized user to decrypt encrypted data.
+11. The computer-readable storage medium of claim 9, wherein the security administrator selects one of, data encryption standard (DES) and triple DES as a mode of encryption for the column. 
+
+
+12. The computer-readable storage medium of claim 9, wherein the security administrator, the database administrator, and the user administrator are distinct roles, and wherein a person selected for one of these roles is not allowed to be selected for another of these roles.
+13. The computer-readable storage medium of claim 9, wherein managing the keyfile includes, but is not limited to: creating the keyfile; establishing a plurality of keys to be stored in the keyfile; establishing a relationship between a key identifier and the key stored in the keyfile; storing the keyfile in one of, an encrypted file in the database system, and a location separate from the database system; and moving an obfuscated copy of the keyfile to a volatile memory within a server associated with the database system.
+14. The computer-readable storage medium of claim 9, wherein upon receiving a request from the security administrator specifying the column to be encrypted, if the column currently contains data, the method further comprises: decrypting the column using an old key if the column was previously encrypted; and encrypting the column using a new key.
+15. The computer-readable storage medium of claim 13 , wherein the key identifier associated with the encrypted column is stored as metadata associated with a table containing the encrypted column within the database system.
+16. The computer-readable storage medium of claim 13, wherein the method further comprises establishing encryption parameters for the encrypted 
+
+
+column, wherein the encryption parameters include encryption mode, key length, and integrity type by: entering encryption parameters for the encrypted column manually; and recovering encryption parameters for the encrypted column from a profile table in the database system.
+17. An apparatus that facilitates managing encryption within a database system that is managed by a security administrator, wherein encryption is performed automatically and transparently to a user of the database system, wherein users of the database system are managed by a user administrator, comprising: a receiving mechanism that is configured to receive a request to store data in a column of the database system, wherein the column is designated as an encrypted column; an encrypting mechanism that is configured to encrypt data using an encryption function, wherein the encryption function uses a key stored in a keyfile managed by the security administrator; and a storing mechanism that is configured to store data in the database system using a storage function of the database system.
+18. The apparatus of claim 17, further comprising: the receiving mechanism that is further configured to receive a request to retrieve data from the encrypted column of the database system; an access mechanism that is configured to prevent the database administrator and the security administrator from decrypting encrypted data; and wherein the access mechanism is configured to allow an authorized user of the database system to decrypt encrypted data.
+19. The apparatus of claim 17, further comprising a selection mechanism that is configured to select one of, data encryption standard (DES) and triple DES as a mode of encryption for the column. 
+
+20. The apparatus of claim 17, wherein the security administrator, the database administrator, and the user administrator are distinct roles, and wherein a person selected for one of these roles is not allowed to be selected for another of these roles.
+21. The apparatus of claim 17, further comprising: a creating mechanism that is configured to Greate the keyfile; an establishing mechanism that is configured to establish a plurality of keys to be stored in the keyfile; wherein the establishing mechanism is further configured to establish a relationship between a key identifier and the key stored in the keyfile; a storing mechanism that is configured to store the keyfile in one of, an encrypted file in the database system, and a location separate from the database system; and a moving mechanism that is configured to move an obfuscated copy of the keyfile to a volatile memory within a server associated with the database system.
+22. The apparatus of claim 17, further comprising: a decrypting mechanism that is configured to decrypt the column using a previous key if the column was previously encrypted; and wherein the encrypting mechanism is further configured to encrypt the column using a new key.
+23. The apparatus of claim 21, wherein the key identifier associated with the encrypted column is stored as metadata associated with a table containing the encrypted column within the database system.
+24. The apparatus of claim 21, wherein the establishing mechanism is further configured to establish encryption parameters for the encrypted column, wherein encryption parameters include encryption mode, key length, and integrity type, and wherein the establishing mechanism includes: 
+
+
+ an entering mechanism that is configured to enter encryption parameters for the encrypted column manually; and a recovering mechanism that is configured to recover encryption parameters for the encrypted column from a profile table in the database system. 
+
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,206 @@
+<DOC>
+<DOCNO>EP-0622906</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Stabilization of probability estimates by conditioning on prior decisions of a given context.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T900	G06T900	H03M740	H03M740	H04N141	H04N141	H04N1411	H04N1411	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	H03M	H03M	H04N	H04N	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T9	G06T9	H03M7	H03M7	H04N1	H04N1	H04N1	H04N1	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A system and method involving a statistical conditioning technique that improves the coding 
+efficiency in compression systems which have unstable statistical properties by conditioning 
+
+the probability estimate for a given model context on prior decisions for that 
+context thus enlarging the conditioning decision set. Instead of extending the model context 
+
+by increasing the range of prior decisions in the pixel neighborhood, each model context 
+is expanded into a set of two contexts which are the actual coding contexts. For a 
+
+given probability estimation model context, the selection of a coding context index is done 
+on the basis of the previous coding decision (1 or 0) for that model context. Thus, if a 
+
+model context is assigned an index A, the coding context would be assigned an index 
+
+2*A 
++ D(A)' 
+ 
+, where D(A)' is the previous (immediately preceding) binary decision for model 
+
+context A; the decision of which coding context to use turns on whether the model context 
+was used most recently for coding a 1 or a 0. More generally, each model context index 
+
+A is expanded into a set of 2**N coding context indices, where N is the number of previous 
+decisions for model context index A used in the conditioning of, for example, an arithmetic 
+
+coding decision. The addressing of the context expansion can be done in any way which 
+expands the total number of contexts by a factor of 2**N. The index for a case where the 
+
+expansion is by one decision bit may be 
+
+2*A + D(A)' 
+ 
+, whereas in the case where the expansion 
+
+is by two decision bits the index may be 
+
+4*A + 2*D(A)' + D(A)'' 
+ 
+. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+PENNEBAKER WILLIAM BOONE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+PENNEBAKER, WILLIAM BOONE
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to data compression and more particularly to a system and 
+method for the conditioning of a probability estimate for a given model context on prior 
+decisions for that context when dealing with unstable model statistics. Coding systems with simple statistical models sometimes have problems with unstable statistical 
+estimates. For example, the well-known ABIC 7-pel template model (see the November, 
+1988 issue of the IBM JOURNAL OF RESEARCH AND DEVELOPMENT) 
+exhibits this kind of behavior. It is very effective for compression of both text documents 
+and binary halftone images. However, experiments with the Q-Coder probability estmation 
+scheme (again see IBM JRD November, 1988) have shown that for the ABIC 
+model the probability estimates are not always stable, but that significant compression 
+improvements can be obtained by using a more complex multi-rate adaptation scheme (see 
+U.S.Pat.No.4,935,882, to PENNEBAKER AND MITCHELL). Still, the estimation 
+state machine of this multi-rate scheme is quite complex. Hence, a simpler technique would 
+be desirable to achieve efficient coding when unstable statistical estimates are encountered 
+by various models for compression. Adaptive binary arithmetic coders such as the Q-Coder. (see U.S.Pat.No.4,905,297, to 
+LANGDON, MITCHELL, PENNEBAKER AND RISSANEN), or the lineal 
+descendent of the Q-Coder used in the emerging ISO JPEG/JBIG image compression 
+standards (e.g., ISO DIS 10918-1, CCITT Recommendation T.81 - see "JPEG Still Image 
+Data Compression Standard" by William B. Pennebaker and Joan L. Mitchell, Van 
+Nostrand Reinhold, 1993 ISBN 0-442-01272-1), imbed a dynamic probability estimation  
+ 
+process into the coding procedures. Each coding system incorporates a statistical model 
+which describes how each coding decision is "conditioned" on prior coding decisions. The 
+statistical models used with the coders work best when the probability estimates are slowly 
+varying or stable. Then, once the learning stage is complete, the estimates are quite accurate, 
+and coding efficiencies are nearly optimum. However, if the probabilities are sufficiently 
+unstable so that the coder cannot maintain an accurate probability estimate, the 
+coding efficiency suffers. One approach to achieving at least a partial solution to this problem is to try by some 
+means to detect that the estimate is poor, and when this is detected, adapt to new estimates 
+more quickly. For example, unstable probability estimates are detected in the above-mentioned 
+mult
+</DESCRIPTION>
+<CLAIMS>
+A method for improving the coding performance of adaptive data compression systems 
+having unstable statistical properties in their probability estimation model contexts, comprising 
+
+the steps of: 
+expanding each probability estimation model context into a set of at least two coding 
+
+contexts; 
+selecting between the two coding contexts in a given set on the basis of the previous binary 
+
+coding decision (1 or 0) for the respective probability estimation model context; and 
+applying the selected coding context in the conditioning decision when compressing data. 
+A method as in claim 1 wherein the conditioning decision is an arithmetic coding decision 
+and a given model context is assigned an index A which is expanded into a set of 2**N 
+
+coding contexts, where N is the number of previous decisions for said given model context 
+used in the conditioning of the arithmetic coding decision. 
+A method as in claim 2 wherein the selected coding context is assigned an index 
+2*A 
+
++ D(A)  
+, where D(A) is the previous binary coding decision for the respective model context. 
+A method as in claim 2 wherein the selected coding context is assigned an index 
+4*A 
+
++ 2*D(A)' + D(A)''  
+, where D(A)' and D(A)'' are the previous binary coding decisions for 
+
+the respective model context. 
+A method as in claim 2 wherein said model context has M bits of coding and N bits of 
+history decision with value H(A), and the selected coding context is assigned an index 
+
+(2**N)A + H(A)  
+, if the N bits were the low order bits of the coding context index. 
+A method as in claim 2 wherein said model context is expanded into a set of at least two 
+coding contexts whenever excess correlation between renormalizations occurs during 
+
+arithmetic coding. 
+A method as in claim 1 wherein at least one of the model contexts is expanded to a 
+coding context that contains at least one previous binary coding decision for the respective 
+
+model context for use in dynamic model switching during coding. 
+A method as in claim 1 wherein said model context are expanded into a set of at least 
+two coding contexts whenever unstable probability estimates are encountered during coding. 
+A method as in claim 1 wherein said model contexts are expanded into more than two 
+coding contexts. 
+A system for improving the coding performance of adaptive data compression systems 
+having unstable statistical properties in their probability estimation model contexts, comprising: 
+
+means for expanding each probability estimation model context into a set of at least two 
+coding contexts;
+
+ 
+means for selecting between the two contexts in a given set on the basis of the previous 
+
+coding decision (1 or 0) for the respective probability estimation model context; and 
+means for applying the selected coding context in the conditioning decision when compressing 
+
+data. 
+A system as in claim 10 wherein the conditioning decision is an arithmetic coding decision 
+and further comprising means for assigning a given model context an index A; and 
+
+means for expanding said given model context into a set of 2**N coding contexts, where 
+N is the number of previous decisions for said given model context used in the conditioning 
+
+of the arithmetic coding decision. 
+A system as in claim 11 further comprising means for assigning the selected coding 
+
+context an index 
+2*A + D(A)  
+
+, where D(A) is the previous binary coding decision for said 
+given model context. 
+A system as in claim 11 further comprising means for assigning the selected coding 
+context an index 
+
+4*A + 2*D(A)' + D(A)''  
+, where D(A)' and D(A)'' are the previous binary 
+
+coding decisions for said given model context. 
+A method as in claim 11 wherein said model context has M bits of coding and N bits 
+of history decision with value H(A), and further comprising means for assigning the selected 
+
+coding context an index 
+(2**N)A + H(A)  
+
+, if the N bits were the low order bits of 
+the coding context index. 
+A system as in claim 11 further comprising means for actuating said model context 
+expanding means whenever unstable probability estimates are encountered during coding. 
+A system as in claim 10 wherein at least one model contains at least one previous binary 
+coding decision for a model context and further comprising means, responsive to said 
+
+determined previous decision, for dynamic model switching during coding. 
+A system as in claim 10 further comprising means for actuating said model context 
+expanding means whenever unstable probability estimates are encountered during coding. 
+A system as in claim 10 wherein said data compression system comprises an arithmetic 
+coder and further comprising means for actuating said model context expanding means 
+
+whenever excess correlation between renormalizations of the arithmetic coder occurs during 
+coding. 
+A system as in claim 10 wherein said model context expanding means expands said 
+model contexts into more than two coding contexts. 
+</CLAIMS>
+</TEXT>
+</DOC>

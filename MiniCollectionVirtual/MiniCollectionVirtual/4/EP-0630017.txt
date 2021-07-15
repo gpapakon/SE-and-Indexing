@@ -1,0 +1,287 @@
+<DOC>
+<DOCNO>EP-0630017</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Detecting and validating formatted blocks on magnetic tape.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G11B509	G11B509	G11B1504	G11B1504	G11B2010	G11B2010	G11B2012	G11B2012	G11B2018	G11B2018	G11B2736	G11B2736	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G11B	G11B	G11B	G11B	G11B	G11B	G11B	G11B	G11B	G11B	G11B	G11B	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G11B5	G11B5	G11B15	G11B15	G11B20	G11B20	G11B20	G11B20	G11B20	G11B20	G11B27	G11B27	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An apparatus and method for detecting and validating formatted 
+blocks during read/write data operations in a magnetic tape data storage 
+
+system includes component functionality for reading and writing data on a 
+magnetic tape medium in a plurality of modes, including a read-only (R) 
+
+mode and a read-while-write (RWW) mode, the data being arranged in one or 
+more tracks in a sequence of formatted blocks. In preferred embodiments, 
+
+formatted block detection and validation is performed by appropriate 
+
+logic circuitry configured to detect at least one formatting entity 
+representing an inter-block gap, a block acquisition burst, a 
+
+synchronization character, or any other desired formatting entity, using 
+first and second programmable detection thresholds that are the same or 
+
+substantially the same in both the R and RWW modes. In addition, a 
+validation determination is made in the RWW mode whether detection of the 
+
+formatting entity satisfies an RWW error threshold that is greater than 
+either of the first and second programmable detection thresholds. If the 
+
+RWW error threshold is not satisfied, a message is generated indicating 
+that a write retry may be required. In this way, the detection of 
+
+various formatting entities is achieved uniformly during the R and RWW 
+modes but provision is also made for applying a more stringent threshold 
+
+criteria during the RWW mode for write validation. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BENTLEY STEVEN ROSS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MURRAY RICKEY W
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+PARANJAPE SUSHAMA MAHESH
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+QUINTANA FERNANDO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BENTLEY, STEVEN ROSS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MURRAY, RICKEY W.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+PARANJAPE, SUSHAMA MAHESH
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+QUINTANA, FERNANDO
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates generally to the recording and 
+retrieval of digital information on magnetic tape, and more particularly, 
+to the detection and validation of formatted magnetic tape data during 
+read/write data transfer operations to and from the magnetic tape medium. Magnetic tape drive standards for the recording of digital 
+information on streaming magnetic tape media contemplate the storage of 
+data in one or more tracks (channels) in a sequence of formatted blocks. 
+Each block contains formatting entities utilized by the tape drive 
+controller to oversee and manage the flow of information to and from the 
+tape and to control the magnetic heads and other hardware used during 
+read/write operations. Formatting entities of interest relative to the present invention 
+include the boundary areas between each block, known as inter-block gaps 
+or IBGs, and entities within the blocks including acquisition burst 
+patterns, intermediate burst patterns, and byte synchronization 
+characters. When engaging in read/write operations, conventional tape 
+drive controllers utilize these formatting entities to acquire essential 
+timing and control information. For example, the presence of an interblock 
+gap indicates to the controller that a formatted block is 
+approaching and that the controller should next expect an acquisition 
+burst indicating that the block has arrived. When the acquisition burst 
+is sensed, bit synchronization (clocking) of the track read circuits is 
+commenced and the controller begins waiting for the byte synchronization 
+characters. When a sufficient number of byte synchronization characters 
+are detected, the read circuits are byte synchronized and data transfer 
+operations within the formatted block are commenced. Subsequent 
+formatting entities within the block (e.g. resynchronization bursts and 
+resynchronization characters) help maintain bit and byte synchronization 
+as the block is processed. In some prior art tape drives, the detection and validation of 
+formatted blocks during read/write data transfer operations is performed  
+ 
+by microcode routines executed by the tape drive controller. For 
+example, microcode has been used to perform inter-block gap detection by 
+sampling a register containing bit pattern information reported by the 
+magnetic head and detection circuitry. The microcode subsequently 
+responds to an interrupt from the hardware when the inter-block gap 
+pattern has terminated, at which time the microcode resorts to polling 
+another register to determine
+</DESCRIPTION>
+<CLAIMS>
+A method for detecting and validating formatted blocks (4, 6) in 
+conjunction with read/write data transfer operations, for use in a 
+
+magnetic tape data storage system for reading and writing data on a 
+magnetic tape medium (2) in a plurality of modes, including a read-only 
+
+(R) mode and a read-while-write (RWW) mode, the data being arranged in 
+one or more tracks in a sequence of formatted blocks, the method 
+
+comprising the steps of: 
+
+(1) detecting one or more formatting entity data patterns using 
+one or more programmable detection thresholds that are the same or 
+
+substantially the same in both the R and RWW modes; 
+(2) determining while in the RWW mode whether said formatting 
+entity data patterns satisfy one or more RWW error validation thresholds 
+
+that are greater than respective ones of said one or more programmable 
+detection thresholds; and if false 
+(3) generating a status message indicating that a data block may 
+need rewriting. 
+A method as claimed in claim 1 wherein: 
+the one or more formatting entity data patterns are: 
+
+   a first data pattern representing an inter-block gap; 
+   a second data pattern representing a block acquisition burst; 
+
+and 
+   a third data pattern representing a forward synchronization 
+
+character; 
+   the first, second and third data patterns being detected by 
+
+respective first, second and third programmable detection thresholds. 
+A method as claimed in claim 2 further comprising the steps of 
+relaxing said second detection threshold following the detection of an 
+
+inter-block gap and restoring said second detection threshold following 
+the detection of said forward synchronization character. 
+A method as claimed in claim 2 further comprising the steps of 
+raising said first detection threshold following the detection of a 
+
+synchronization character and restoring said first detection threshold 
+following the detection of a data block. 
+A method as claimed in claim 2 further comprising the steps of 
+relaxing said first detection threshold following the detection of a 
+
+formatted block and restoring said first detection threshold following 
+detection of said inter-block gap. 
+A method as claimed in claim 2 wherein said first and second 
+detection thresholds include interval count thresholds corresponding to 
+
+the number of repeating intervals of said inter-block gap and acquisition 
+burst character patterns, and wherein said third detection threshold is a 
+
+track voting threshold corresponding to the number of tracks concurrently 
+detecting a synchronization character. 
+A method as claimed in claim 2 further including a first timing 
+step of providing a first programmable time period within which to 
+
+perform said acquisition burst detection step and proceeding to said 
+synchronization character detection step following the expiration of said 
+
+first programmable time period. 
+A method as claimed in claim 7 further including a second timing 
+step of providing a second programmable time period within which to 
+
+obtain clock acquisition across all data tracks and proceeding to said 
+synchronization character detection step following the expiration of said 
+
+second programmable time period. 
+A method as claimed in claim 8 further including a third timing 
+step of providing a third programmable time period within which to 
+
+perform said synchronization character detection step. 
+A method as claimed in claim 2 wherein said acquisition burst 
+detection step and said synchronization character detection step include 
+
+the steps of testing for the presence of repeating character patterns 
+representing inter-block gaps and returning to said burst detection step 
+
+if an inter-block gap repeating character pattern is found during said 
+testing. 
+A magnetic tape data storage system for reading and writing data on 
+a magnetic tape medium in a plurality of modes, including a read-only (R) 
+
+mode and a read-while-write (RWW) mode, the data being arranged in one or 
+more tracks in a sequence of formatted blocks, said data storage system 
+
+including a system for detecting and validating the formatted blocks in 
+ 
+
+conjunction with read/write data transfer operations, said detection and 
+validation system comprising: 
+
+
+(1) a storage resource containing one or more programmable R and 
+RWW threshold values that are the same or substantially the same in both 
+
+the R and RWW modes, and one or more programmable RWW error threshold 
+values that are greater than corresponding ones of said R and RWW 
+
+threshold values; 
+(2) an interval count threshold logic circuit, including: 
+
+(a) a first input for receiving one or more input values 
+representing formatting entity data patterns; 
+(b) a second input for receiving one or more input values 
+from said storage resource representing said programmable 
+
+thresholds; and 
+(c) an output for generating one or more output values 
+representing formatting entity detection and validation signals; 
+(3) a track voting threshold logic circuit, including: 
+
+(a) a first input for receiving one or more input 
+characters representing said formatting entity detection signals; 
+(b) a second input for receiving one or more input values 
+from said storage resource representing programmable thresholds; 
+
+and 
+(c) an output for generating one or more output values 
+representing formatting entity track vote signals; and 
+(4) a state machine for controlling the operation of said 
+interval count threshold and track voting threshold logic circuits. 
+A data storage system as claimed in claim 11 wherein said interval 
+count threshold circuit contains an IBG detection circuit and a burst 
+
+detection circuit. 
+A data storage system as claimed in claim 11 wherein said track 
+voting threshold logic circuit includes a synchronization character voter 
+
+circuit, an IBG voter circuit and a burst voter circuit. 
+A data storage system as claimed in claim 11 wherein said state 
+machin
+e includes an output for generating threshold programming signals 
+to said storage resource. 
+A data storage system as claimed in claim 11 wherein said state 
+machine includes an output for generating threshold relaxation and 
+
+enhancement signals to said interval count threshold logic circuit. 
+A method for detecting and validating formatted blocks (4, 6) in 
+conjunction with read/write data transfer operations, for use in a 
+
+magnetic tape data storage system for reading and writing data on a 
+magnetic tape medium (2) in a plurality of modes, including a read-only 
+
+(R) mode and a read-while-write (RWW) mode, the data being arranged in 
+one or more tracks in a sequence of formatted blocks, the method 
+
+comprising the steps of: 
+
+(1) detecting one or more formatting entity data patterns using a 
+storage resource containing a first bank of programmable thresholds 
+
+corresponding to the R mode and a second bank of programmable thresholds 
+corresponding to the RWW mode; and 
+(2) selecting between said first and second banks of programmable 
+thresholds depending on the mode of operation of the magnetic tape data 
+
+storage medium. 
+A method as claimed in claim 16 wherein said first and second banks 
+of programmable thresholds include read-only and RWW thresholds that are 
+
+substantially the same and wherein said second bank of programmable 
+thresholds also includes one or more RWW error thresholds that are higher 
+
+than corresponding ones of said read-only and RWW thresholds. 
+</CLAIMS>
+</TEXT>
+</DOC>

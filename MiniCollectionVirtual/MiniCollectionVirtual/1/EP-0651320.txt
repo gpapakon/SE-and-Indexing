@@ -1,0 +1,281 @@
+<DOC>
+<DOCNO>EP-0651320</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Superscalar instruction decoder
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F9318	G06F930	G06F9318	G06F930	G06F9455	G06F938	G06F9455	G06F938	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	G06F9	G06F9	G06F9	G06F9	G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A superscalar complex instruction set computer 
+("CISC") processor (100) having a reduced instruction 
+
+set computer ("RISC") superscalar core (110) includes an 
+instruction cache (ICACHE 104) which identifies and 
+
+marks raw x86 instruction start and end points and 
+encodes "pre-decode" information, a byte queue (BYTEQ 
+
+106) which is a queue of aligned instruction and pre-decode 
+information of the "predicted executed" state, 
+
+and an instruction decoder (IDECODE 108) which generates 
+type, opcode, and operand pointer values for RISC-like 
+
+operations (ROPs) based on the aligned pre-decoded x86 
+instructions in the BYTEQ 106 and determines the number 
+
+of possible x86 instruction dispatch for shifting the 
+BYTEQ 106. The IDECODE includes in each dispatch 
+
+position a logic conversion path (FASTCONVx 902), a 
+memory conversion path (MROMx 906), and a common 
+
+conversion path (ICOMMONx 904) for converting CISC 
+instructions to ROPs. An ROP multiplexer (ROPMUX 700) 
+
+directs x86 instructions from the BYTEQ to the 
+conversion paths, a select circuit (ROPSELECTx 1500) 
+
+assembles ROP information from the appropriate 
+conversion paths, and a share circuit (ROPSHARED 790) 
+
+processes ROP information from the ROPSELECTx for shared 
+resources. ROP type and opcode information is 
+
+dispatched from the IDECODE to the RISC core. Pointers 
+to the A and B source operands are furnished by the 
+
+IDECODE to a register file (REGF 112) and to a reorder 
+buffer (ROB 114) in the RISC core, which in turn furnish 
+
+the appropriate "predicted executed" versions of the A 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+ADVANCED MICRO DEVICES INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+ADVANCED MICRO DEVICES INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+GODDARD MICHAEL D
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WITT DAVID B
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GODDARD, MICHAEL D.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WITT, DAVID B.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The invention relates to microprocessor
+architecture, and more particularly to superscalar
+instruction decoder architecture.General purpose processors typically are based on
+scalar instruction sets. Processor architectures are
+either RISC (Reduced Instruction Set Computer) -based or
+CISC (Complex Instruction Set Computer) -based. Each
+approach has its advantages and disadvantages, as has
+been widely discussed in the literature.The term "superscalar" describes a computer
+implementation that improves performance by concurrent
+execution of scalar instructions. Progress in
+implementing superscalar RISC architectures has been
+good. Scalar RISC architectures typically are defined
+with a pipelined implementation in mind, and include
+many features which facilitate superscalar
+implementation. These features include a fixed format
+and fixed length instructions, explicit instruction
+operands, and a load/store architecture. Superscalar
+RISC architectures are described in Johnson, Superscalar
+Microprocessor Design, Prentice Hall, Englewood Cliffs,
+New Jersey, 1991, which is incorporated herein by
+reference in its entirety.Although interest has been expressed in achieving
+superscalar CISC architectures, progress has been 
+hindered in part because few CISC architectures were
+defined with superscalar implementation in mind. CISC
+architectures were defined at a time when the principal
+implementation technique was microcode interpretation of
+the instruction set, with an emphasis on deciding which
+operations should be combined into instructions rather
+than designing operations so that they could be
+overlapped. While enormously versatile, microcode
+interpretation does not facilitate development of
+pipelined architectures or superscalar architectures.
+Difficulties arise from numerous aspects of conventional
+CISC architectures, including instruction format
+complexity, frequent register reuse, frequent memory
+access, and the inclusion of unusually complex
+instructions.An example of a CISC instruction format is the
+instruction format of the Intel i486™ microprocessor,
+which is available from Intel Corporation of Santa
+Clara, California. In this instruction format, an
+instruction may have an operation code ("opcode")
+consisting of one or two opcode bytes, a modify register
+or memory ("mod r/m") byte, a scale-index-base ("sib")
+byte, displacement bytes, and immediate date bytes. The
+opcode specifies the operation code, and may also
+contain a register identifier. The mod r/m byte
+specifies whether an operand is in a register or
+</DESCRIPTION>
+<CLAIMS>
+An apparatus for dispatching up to a plurality "m" of RISC-like operations
+"ROPs" in parallel wherein the ROPs are mapped from one or more CISC
+
+instructions, comprising:
+
+   a memory (106) for storing a CISC instruction and predecode information;
+
+   
+characterised by
+ the predecode information including a value identifying the
+number of ROPS to which the CISC instruction maps;
+
+
+a multiplexer (700) having a plurality "m" of outputs and being coupled to
+the memory for directing CISC opcode and addressing information in parallel to
+
+unallocated ones of the multiplexer outputs equal to the number of
+ROPs to which the CISC instruction maps, up to "m" ROPs;
+a plurality of conversion paths (710, 720, 730, 740) respectively coupled to the
+multiplexer outputs for converting the CISC instruction information
+
+present on the multiplexer outputs into respective ROPs to which the
+CISC instruction maps; and
+dispatch logic (718, 728, 738, 748) coupled to the conversion paths for
+dispatching the ROPs in the current dispatch window.
+An apparatus as in claim 1 wherein:
+
+the predecode information includes an instruction start identifier (BYTEQS)
+and an instruction end identifier (BYTEQE); and
+the multiplexer includes instruction complete logic for detecting whether the
+CISC instruction is completely contained in memory as indicated by the
+
+start and end identifiers;
+the multiplexer being responsive to the instruction complete logic for directing
+the CISC instruction information to the group of the multiplexer outputs when the
+
+CISC instruction is completely contained in memory.
+An apparatus as in claim 2 wherein: 
+
+the predecode information includes an opcode identifier (BYTEQP2); and
+the multiplexer includes select logic to select an opcode byte of the CISC
+instruction for inclusion in the CISC instruction information.
+An apparatus as in claim 3 wherein the multiplexer includes select logic to
+select additional bytes of the CISC instruction having predetermined relationships to
+
+the opcode byte for inclusion in the CISC instruction information, the predetermined
+relationships qualifying the additional bytes as prefix, MODRM, and SIB bytes.
+An apparatus as in claim 1 wherein the multiplexer comprises scan logic
+coupled to the memory, the scan logic detecting unallocated ones of the conversion
+
+paths and allocating the unallocated conversion paths to the CISC instruction.
+An apparatus as claimed in any one of claims 1 to 5 wherein each conversion
+path comprises:
+
+
+logic means (712, 722, 732, 742) for converting a first-type CISC instruction
+directed thereto to ROP information for a first respective ROP in a first ROP
+
+sequence to which the first-type CISC instruction maps, conversion by the
+logic means being in accordance with the position of the first respective ROP
+
+relative to other ROPs of the first ROP sequence in the current dispatch
+window;
+memory means (716, 726, 736, 746) for converting a second-type CISC
+instruction directed thereto to ROP information for a second respective
+
+ROP in a second ROP sequence to which the second-type CISC
+instruction maps, conversion by the memory means being in accordance
+
+with the position of the second respective ROP relative to other ROPs
+of the second ROP sequence in the current dispatch window and
+
+relative to the number of ROPs of the second ROP sequence
+dispatched; and
+means (714, 724, 734, 744) common to the logic converting means and the 
+memory converting means for converting prefix, mod r/m, and sib
+
+elements of a CISC instruction into ROP operand pointer information;
+means for combining outputs of the logic means and the common means for
+ROPs mapped from first-type CISC instructions, and for combining
+
+outputs of the memory means and the common means for ROPs
+mapped from second-type CISC instructions; and
+wherein the dispatch logic dispatches ROPs in the current dispatch window to
+a superscalar RISC core (110).
+An apparatus as in claim 6 wherein the memory means of each
+conversion path comprises:
+
+   memory comprising a set of microcoded instructions of the ROP sequence;
+and wherein each conversion path further comprises:
+
+
+means for generating a memory entrypoint in accordance with a CISC
+instruction presented for conversion; and
+means for controlling the reading of the memory in accordance with the
+entrypoint, whereby there is furnished from each of the conversion
+
+paths a particular ROP type and opcode in accordance with the position
+of the ROP in the current dispatch window relative to other ROPs of
+
+the ROP instruction sequence and relative to the number of ROPs of
+the ROP instruction sequence dispatched.
+An apparatus as in claim 7 wherein the memory controlling means
+further comprises means for determining an initial entrypoint in accordance with the
+
+CISC instruction presented for conversion.
+An apparatus as in claim 7 or 8 wherein CISC instructions presented
+to the memory means for conversion map to a number of ROPs greater than or equal
+
+to the plurality of dispatch positions. 
+An apparatus as in claim 7 or 8 wherein CISC instructions presented
+to the memory means for conversion are infrequently used CISC instructions.
+An apparatus as claimed in any preceding claim further comprising
+means for stalling the apparatus when not all ROPs in the current dispatch window
+
+dispatch in a decode cycle so that the undispatched ROPs are available for subsequent
+
+dispatch.
+A method for decoding CISC instructions into RISC-like operations "ROPs"
+for dispatch to a RISC processor, wherein the CISC instructions map to respective
+
+numbers of ROPs in accordance with a predefined CISC instruction to ROP mapping,
+the method comprising:
+
+
+storing a CISC instruction and predecode information including a value identifying the number of ROPs to which the CISC instruction maps,
+identifying an unallocated dispatch position (ROPDISPATCHx);
+directing a CISC opcode and addressing information in parallel to the identified
+unallocated dispatch position and to successive dispatch positions in
+
+accordance with the number of ROPs to which the directed CISC
+opcode maps, up to a last dispatch position,
+converting the CISC opcodes and addressing information into ROP opcodes
+and addressing information based on, for each CISC instruction, the
+
+position of the dispatch position decoding the CISC instruction relative
+to other dispatch positions decoding the same CISC instruction; and
+driving the ROP opcodes and addressing information from the dispatch
+positions in parallel to the RISC processor.
+A method as in claim 12 further comprising repeating the identifying and
+directing until no unallocated dispatch positions remain.
+A method as in claim 12 or 13 wherein the converting comprises:
+
+generating an initial entrypoint from the directed CISC opcode; and
+reading ROP opcodes to which the directed CISC opcode maps from 
+microcode ROM (MROMx) in accordance with the initial entrypoint.
+A method as in claim 14 wherein the converting further comprises:
+
+generating a subsequent entrypoint from the directed CISC opcode; and
+reading ROP opcodes to which the directed CISC opcode maps from
+microcode ROM in accordance with the subsequent entrypoint.
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,211 @@
+<DOC>
+<DOCNO>EP-0645699</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Fast multiply-add instruction sequence in a pipeline floating-point processor.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F700	G06F700	G06F748	G06F7487	G06F7508	G06F7527	G06F753	G06F7533	G06F7544	G06F776	G06F776	G06F938	G06F938	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F7	G06F7	G06F7	G06F7	G06F7	G06F7	G06F7	G06F7	G06F7	G06F7	G06F7	G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The present invention is related to a pipeline floating point 
+processor in which the addition pipelining is reorganized so that 
+
+no wait cycle is needed when the addition uses the result of an 
+immediately foregoing multiplication (fast multiply-add 
+
+instruction). 
+The re-organization implies the following changes of an existing 
+data flow of the pipeline floating processor shown in Fig. 4: 
+
+
+1. Data feed-back via path ND of normalized data from the 
+multiplier M into the aligners AL1,2; 
+ 
+2. Shift left one digit feature on both sides of the data path 
+for taking account of a possible leading zero digit of the 
+
+product, and special zeroing of potential guard digits by 
+Z1,2; 
+ 
+3. Exponent build by 9 bits for overflow and underflow 
+recognition, and due to an underflow the exponent result is 
+
+reset to zero on the fly by a true zero unit (T/C). 
+ 
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+DAO-TRONG SON DR
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HAAS JUERGEN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MUELLER ROLF
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DAO-TRONG, SON, DR.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HAAS, JUERGEN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MUELLER, ROLF
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The invention is related to an arrangement and a method in a 
+pipeline floating-point processor (FLPT) of improving the 
+performance of a multiply-add sequence in which the multiplication 
+is performed within three cycles: operand read, partial sums 
+build, and add the partial sums to end result, and where the 
+addition also needs three cycles: operand read, operands 
+alignment, and addition. Floating-point processors (FLPTs) are used to be functionally 
+added to a main processor (CPU) for performing scientific 
+applications. In the entry-level models (e.g. 9221) of the IBM 
+Enterprise System/9000 (ES/9000) the floating-point processor is 
+tightly coupled to the CPU and carries out all IBM System/390 
+floating-point instructions. All instructions are hardware-coded, 
+so no microinstructions are needed. Moreover, binary integer 
+multiplication is also implemented on the floating-point unit to 
+improve overall performance. Fig.1 shows the data flow of the above mentioned floating point 
+processor which is described in more detail in the IBM Journal of 
+Research and Development, Vol. 36, Number 4, July 1992. While the 
+CPU is based on a four stage pipeline, the floating-point 
+processor requires a five stage pipeline to perform its most used 
+instructions, e.g. add, subtract, and multiply in one cycle for 
+double-precision operands (reference should be made to "ESA/390 
+Architecture", IBM Form No.: G580-1017-00 for more detail). The CPU resolves operand addresses, provides operands from the 
+cache, and handles all exceptions for the floating-point 
+processor. The five stages of the pipeline are instruction fetch, 
+which is executed on the CPU, register fetch, operand realignment, 
+addition, and normalization and register store.  To preserve synchronization with the CPU, a floating-point wait 
+signal is raised whenever a floating-point instruction needs more 
+than one cycle. The CPU then waits until this wait signal 
+disappears before it increments its program counter and starts the 
+next sequential instruction, which is kept on the bus. Because the IBM System/390 architecture requires that interrupts 
+be precise, a wait condition is also invoked whenever an exception 
+may occur. As can further be seen from Fig.1 many bypass busses 
+are used to avoid wait cycles when the results of the foregoing 
+instructions are used. A wait cycle is needed only if the result 
+of one instruction is used immediately by the next sequential 
+instruction (NSI), e.g. when an add instruction follows a multiply 
+instruction, the
+</DESCRIPTION>
+<CLAIMS>
+Arrangement in a floating point processor comprising 
+
+a multiply section (MS) having a first input 
+register (MA) and a second input register (MB) for 
+
+intermediately storing the operands (OPDI, OPDII) 
+prior to a multiplication in a multiplier (M) the 
+
+output of which is connected to adder output registers 
+(PC, PS) for intermediately storing the partial sums 
+
+of the multiplication prior to their addition in a 
+first adder (ADD-M), and a first normalizer (NORM-M) 
+
+connected to the adder output for normalizing the sum 
+(OPD2) of the partial sums; and 
+an add section (AS) having a third (FA) and a fourth 
+input register (FB) for intermediately storing the 
+
+operands (OPD1, OPD2) for addition, a first (FC) and a 
+second adder input register (FD) for intermediately 
+
+storing the operands prior to their addition in a 
+second adder (ADD-A), a first aligner (AL1) for 
+
+operand (OPD1) alignment interconnected between said 
+third input register and a true/complement unit (T/C) 
+
+for operand true/complement building, which is 
+connected to said first adder input register, a second 
+
+aligner (AL2) connected to said fourth input register 
+for operand (OPD2) alignment, and a second normalizer 
+
+(NORM-A) connected to said second adder's output for 
+normalizing the final result, 
+ 
+characterized in, that for performing a fast multiply-add 
+
+instruction without requiring a wait cycle there is 
+provided: 
+a feedback path (ND; Fig.4) connecting the output of 
+said first normalizer to the input of said first and 
+
+second aligner; 
+a first left shifter (SL1) interconnected between said 
+first aligner and said true/complement unit; 
+a zero setter (Z1) interconnected between the 
+true/complement unit and said first adder input 
+
+register; and 
+a second left shifter (SL2) interconnected between 
+said second aligner and a second zero setter (Z2) 
+
+which itself is connected to said second adder input 
+register. 
+Method of performing a fast multiply-add instruction 
+without requiring a wait cycle in an arrangement in a 
+
+floating point processor in particular in accordance with 
+claim 1, characterized by the following steps: 
+
+
+1. Read the operands (OPDI, OPDII) for multiplication 
+into first (MA) and second input register (MB) of 
+
+multiplier (M); 
+2. Build the partial sums by the multiplier (M); 
+3. Perform the product exponent calculation and 
+reduce the exponent by 1 if the product has a 
+
+leading zero, and at the same time read operand (OPD1) 
+of the addition; 
+4. Add the partial sums of the multiplication and feed 
+the resulting intermediate value back to the aligners 
+
+(AL1, AL2) via feed-back path (ND); 
+5. Compare the exponents of the intermediate value of the 
+product and the addend (OPD1) and perform, if they do 
+
+not compare a proper alignment; 
+6. Test whether the following cases do apply: 
+
+a. If the product is true zero then the operand 
+feedback from the multiplier is forced to zero; 
+b. If the intermediate product exponent is smaller 
+than or equal to the addend operand (OPD1) 
+
+exponent, then the product will be aligned; 
+c. If the intermediate product exponent is greater 
+than the addend operand exponent, then the addend 
+
+will be aligned; 
+7. If the product does not have a leading zero, then a 
+potential guard digit of the product is set to zero; 
+8. If the product has a leading zero, then both operands 
+are shifted left by the shifters (SL1, SL2) by 1 digit 
+
+and the least significant digit of the aligner becomes 
+the guard digit of the result; 
+9. When both operands are properly aligned, then they 
+will be added by the second Adder (ADD-A) to the final 
+
+result of the fast multiply-add instruction. 
+</CLAIMS>
+</TEXT>
+</DOC>

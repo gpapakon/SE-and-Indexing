@@ -1,0 +1,176 @@
+<DOC>
+<DOCNO>EP-0649234</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method and apparatus of transferring data in an ATM network
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04L1256	H04Q1104	H04L2906	H04Q1104	H04L2906	H04L1256	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04L	H04Q	H04L	H04Q	H04L	H04L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04L12	H04Q11	H04L29	H04Q11	H04L29	H04L12	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method and an apparatus for transferring structured data 
+of a constant bit rate traffic in an ATM network. The 
+
+method uses the recurrence of alignment of the structured 
+data field of length N in a 47 octet SA_PDU payload. At 
+
+the transmitting end the CSI bit of the header of the 
+first SAR_PDU is set to 1. It is then set to 0 for the 
+
+next SAR_PDUs until the Nth SAR_PDU is reached. It is then 
+again set to 1. This process is repeated until the last 
+
+SAR_PDU has been emitted. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+DUAULT MAURICE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DUAULT, MAURICE
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to telecommunications networks and 
+more particularly to a method of transferring structured 
+data of constant bit rate traffic in an ATM network. In a digital transmission network, data from a large number 
+of users are serially transmitted from one network 
+node to another network node, up to their respective final 
+destination. Due to the evolution of networks towards more and more 
+complex mixing of sub-networks with heterogeneous architectures, 
+it is clear that there is a requirement to support 
+distributed computing applications across high speed 
+backbones that may be carrying LAN traffic, voice, video 
+and traffic among channel-attached hosts and workstations. Fast packet switching is now commonly used to accommodate 
+the bursty, multiprocess communication found in distributed 
+computing environments. Recently the concept of cell switching has been introduced. 
+Cell switching can be thought of as a high performance 
+form of packet switching. In packet switching networks, 
+the packet size is a fixed maximum, but individual 
+packets may always be shorter than the maximum. In a cell  
+ 
+based network cells have a fixed length. Cells are usually 
+a lot shorter than packets, because the use of short fixed 
+length cells simplifies the hardware needed in each node 
+of the network. Asynchronous Transfer Mode (ATM) is a protocol for user 
+access to and the internal operation of a public high 
+speed cell switching system. This protocol is suitable for 
+all kinds of traffic: data, voice, image, video. In order to make an ATM network practical it is necessary 
+to adapt the internal network characteristics to those of 
+the various traffic types that will use the network. This 
+is the purpose of the ATM Adaptation Layer (AAL). The 
+function of the AAL is thus to provide generalized 
+interworking across the ATM network. The AAL function 
+operates an end-to-end protocol across the ATM network to 
+provide support for end users of different classes of 
+service corresponding to generic classes of network traffic. One of these classes (Class One) is intended for constant 
+rate voice and video applications. It requires a constant 
+bit rate at source and destination, a timing relationship 
+between source and destination and permits to transfer 
+structured information between source and destination. Methods that satisfy these requirements are disclosed in 
+Revised Recommendation I.363 from CCITT, which is included 
+herein by reference. This Recommendation describes the interactions between the
+
+</DESCRIPTION>
+<CLAIMS>
+A method of transferring with constant bit rate, from a transmitter to 
+a receiver, consecutive data structures of N bytes length within SAR_PDUs 
+
+comprising a header with a Convergence Sublayer Indicator (CSI) and a 
+fixed length payload in a network using an Asynchronous Transfer Mode 
+
+(ATM) protocol, wherein the ATM Adaptation Layer (AAL) maps the higher 
+layers Protocol Data Units (PDU) into the information field of the ATM 
+
+cell using the functions of the Segmentation And Reassembly (SAR) 
+sublayer, 
+
+
+said method 
+characterized in that
+ it comprises the following steps of: 
+
+setting the Convergence Sublayer Indicator (CSI) to 1 for each N or 
+multiple of N SAR_PDU payloads, 
+setting the Convergence Sublayer Indicator (CSI) to 0 for each 
+payload different of the N of multiple of N SAR_PDU payloads, 
+said Convergence Sublayer Indicator (CSI) indicating the alignment of 
+the data structure of N bytes with the first byte of the SAR_PDU 
+
+payload, 
+said method comprising the steps of, at the transmitting end: 
+
+a) setting the Convergence Sublayer Indicator (CSI) equal to 1, in 
+the first SAR_PDU, 
+b) setting an internal count to the value N, 
+c) when the internal count is not equal to 0, setting the Convergence 
+Sublayer Indicator (CSI) equal to 0 in the next SAR_PDU, and 
+
+decrementing the internal count by one, 
+d) repeating step c) until the internal count is equal to 1, 
+e) setting the Convergence Sublayer Indicator (CSI) equal to 1 in the 
+Nth SAR_PDU and setting the internal count to the value N,  
+
+ 
+f) repeating step c) to e) until the last SAR_PDU is transmitted, 
+said method comprising the steps of, at the receiving end : 
+
+g) checking that the Convergence Sublayer Indicator (CSI) equal to 1 
+in the first SAR_PDU received, 
+h) setting an internal count to the value N, 
+i) checking that for the next SAR_PDU having the Convergence Sublayer 
+Indicator (CSI) equal to 1, the internal count is at 1, 
+j) resetting the internal count to N, 
+k) repeating steps i) and j) until the last SAR_PDU is received. 
+The method at the receiving end according to the preceding claim 
+wherein step i) comprises the further step of 
+
+
+if the internal count is not at 1, inserting dummy data for 
+recovering the alignment of the data structure of N bytes with the 
+
+first byte of the SAR_PDU payload. 
+The method at the receiving end according to any one of the preceding 
+claims comprising the further step of: 
+
+
+recovering the data structure length, said data structure length 
+being equal to one or to a multiple of the recurrence of the 
+
+Convergence Sublayer Indicator (CSI). 
+The method at the receiving end according to any one of the preceding 
+claims comprising the further step of: 
+
+
+determining the number of data structures transported between two 
+recurrences of the Convergence Sublayer Indicator (CSI), said number  
+
+ 
+of data structures being equal to one or a multiple of the number of 
+
+bytes of the payload. 
+The method at the receiving end according to any one of the preceding 
+claims comprising the further step of: 
+
+
+recovering each N-byte data structure by concatenating received 
+payloads and any dummy data. 
+A system comprising means adapted for 
+carrying out 
+
+each of the steps of 
+the method according 
+
+to anyone of the preceding claims. 
+</CLAIMS>
+</TEXT>
+</DOC>

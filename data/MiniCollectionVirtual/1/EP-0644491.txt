@@ -1,0 +1,169 @@
+<DOC>
+<DOCNO>EP-0644491</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Data processing system maintaining cache coherency by using a snooping protocol
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1208	G06F1208	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F12	G06F12	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A data processing system and method dynamically changes the snoop 
+comparison granularity between a sector and a page, depending upon the 
+
+state (active or inactive) of a direct memory access (DMA) I/O device 20, 
+22 which is writing to a device 7 on the system bus 5 asynchronously when 
+
+compared to the CPU clock 1. By using page address granularity, 
+erroneous snoop hits will not occur, since potentially invalid sector 
+
+addresses are not used during the snoop comparison. Sector memory 
+addresses may be in a transition state at the time when the CPU clock 
+
+determines a snoop comparison is to occur, because this sector address 
+has been requested by a device operating asynchronously with the CPU 
+
+clock. Once the asynchronous device becomes inactive the system 
+dynamically returns to a page and sector address snoop comparison 
+
+granularity. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+ARIMILLI RAVI KUMAR
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GREGOIRE DENNIS GERARD
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YOUNGS AMY MAY
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ARIMILLI, RAVI KUMAR
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GREGOIRE, DENNIS GERARD
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YOUNGS, AMY MAY
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a data processing system having a
+central processing unit (CPU) and other devices that monitor the system
+bus by "snooping" to ensure cache coherency.A problem exists with conventional multi-cache systems having
+asynchronous buses and a snooping protocol in that a time period exists
+when the address of data being written to a cache is invalid. If a snoop
+comparison occurs during this time period (due to the asynchrony between
+the update and the snoop comparison) an erroneous response may cause
+performance degradation or incorrect data in the system. This erroneous
+response may include a false snoop hit, or an actual snoop hit that was
+not identified. More particularly, due to the asynchronous nature of
+input/output (I/O) devices writing to, or reading from, a cache memory
+included in an input/output channel controller (IOCC), a period of time
+exists when the I/O device is ending its interaction with one memory
+sector and beginning to interact with another memory sector. Thus, the
+sector address used for a snoop comparison is in a state of transition
+such that if a snoop of the system bus occurs during the address
+transition time period, then an erroneous snoop hit or failure to detect
+a snoop hit may occur.A conventional solution for maintaining cache coherency is
+described by US patent 5,119,485 which involves coupling an encoded
+control signal from an alternate busmaster to a bus interface control
+circuit to selectively enable data bus snooping. US patent 5,072,369
+discusses mapping addresses across different buses to ensure coherency.
+That is, an interface circuit maps selected bus addresses to
+corresponding addresses on another bus such that when a busmaster on a
+first bus attempts to read or write a bus interface circuit responds by
+accessing a corresponding address in the memory of the second bus.Another method of cache coherency is described by US patent
+5,025,365 which has distributed directories which allow updates of each
+cache memory at different time periods. This causes directory
+inconsistencies to occur during the period between updates. A system bus
+protocol is arranged to provide a periodic correct operation to maintain
+data coherency by updating the distributed directories. US patent
+5,193,170 includes a CPU, RAM and ROM. During a ROM mapped to RAM mode a 
+snoop cycle is implemented to detect any CPU write operations and, if
+detected, a cache invalidation signal is sent to the CPU. US patent
+4,945,486 includes a series of processors connected through a
+</DESCRIPTION>
+<CLAIMS>
+A data processing system including a CPU (1), a system memory (11),
+and a first device (7) connected via a system bus (5), said first device
+
+including a cache (9), said system maintaining coherency of the cache by
+using a snooping protocol wherein a snoop comparison occurs at a time
+
+determined by a CPU clock, said system including:
+
+means for requesting ownership of data from said system memory (11), said
+request including an address having a page portion and a sector portion;
+means for actively accessing said data in said cache (9) asynchronously
+with said CPU clock; and
+means for performing a snoop comparison;
+and characterised in that only the page portion of said address is
+used to implement said snoop comparison during the time when said cache (9) is
+
+being actively accessed; and the page portion and the sector portion of
+said address are used to implement said snoop comparison during the time
+
+when said cache (9) is not being actively accessed.
+A data processing system according to claim 1 further comprising
+means for preventing another device from obtaining access to said data
+
+when said data is being actively accessed.
+A data processing system according to claims 2 further comprising
+means for invalidating said data in said first device (7) upon determining
+
+that another device has requested said data during the time when the
+cache (9) is not being actively accessed.
+A data processing system according to any preceding claim wherein
+said first device (7) is an input/output controller that provides an
+
+interface between the system bus (5) and an input/output bus (13).
+A data processing system according to claim 4 wherein said means
+for actively accessing is an input/output device (20, 22) connectable to
+
+said input/output controller and capable of implementing a direct memory
+access of data with said system memory (11).
+A data processing system according to claim 5 wherein said means
+for using only the page portion includes means for dynamically changing
+
+the granularity used to implement said snoop comparison between said page
+portion and said sector portion, based on the state of said input/output
+
+device. 
+A data processing system according to claim 6 wherein said means
+for dynamically changing comprises a logic circuit contained on said
+
+input/output controller.
+A method of maintaining cache coherency in a data processing system
+including a CPU (1), a system memory (11), and a first device (7)
+
+connected via a system bus (5), said first device including a cache (9),
+said system using a snooping protocol wherein a snoop comparison occurs
+
+at a time determined by a CPU clock, said method comprising the steps of:
+
+requesting ownership of data from said system memory (11), said request
+including an address having a page portion and a sector portion;
+actively accessing said data in said cache (9) asynchronously with said
+CPU clock; and
+performing a snoop comparison;
+and characterised in that only the page portion of said address is
+used to implement a snoop comparison during the time when said cache (9) is
+
+being actively accessed; and the page portion and the sector portion of
+said address are used to implement said snoop comparison during the time
+
+when said cache (9) is not being actively accessed.
+</CLAIMS>
+</TEXT>
+</DOC>

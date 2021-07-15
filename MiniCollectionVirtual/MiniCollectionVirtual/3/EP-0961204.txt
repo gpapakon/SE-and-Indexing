@@ -1,0 +1,167 @@
+<DOC>
+<DOCNO>EP-0961204</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Thread based governor for time scheduled process execution
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F946	G06F946	G06F948	G06F1516	G06F15177	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	G06F9	G06F15	G06F15	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A scheduling governor that regulates the number of scheduled tasks that are
+executed concurrently over a network computer system is presented. All task
+
+requests that are scheduled to be executed within a pre-specified interval of time
+(710), are serviced according to their priority. During heavy load times, the
+
+scheduling governor prevents overloads of the processing resources of the host
+computer by limiting the number of concurrently executing scheduled tasks to a pre-specified
+
+capacity dimension (742). Task requests that are unable to be run due to
+the governed cap (742) on the number of allowed concurrently executing processes
+
+are given a priority to be executed once one of the fixed number of execution slots
+becomes available. Accordingly, the scheduling governor allows each scheduled
+
+task to be executed as close to its scheduled time as possible yet prevents system
+resource overload to improve efficiency and performance.
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+HEWLETT PACKARD CO
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+HEWLETT-PACKARD COMPANY
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+WILLIAMS ROY H
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WILLIAMS, ROY H.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention pertains generally to network management systems,
+and more particularly, to a method and system for governing the number of
+concurrently executing processes in a process scheduler.The maintenance of a computer network is typically performed under the
+control of a network management system. The network management system
+monitors the occurrences of certain events across the system, such as network node
+utilization and disk I/O performance. To assist in network maintenance, reporting
+applications may be used to organize and present network event information into a
+format useful to the system administrator. These reports, depending on the type of
+information gathered, may be generated on a pre-determined schedule, e.g., once
+every ten minutes, once daily, or once weekly.In the prior art, scheduling applications that schedule the execution of
+processes such as report generating applications causes execution of the scheduled
+applications to occur at precisely the time that they are scheduled. This technique
+can be problematic. Due to the cyclical nature of work week timing, there is a
+very high propensity for requests to be clustered around certain times of the day.
+For example, it often makes sense to generate daily reports at exactly midnight so
+that data used in generating those reports need not necessarily be saved from day to
+day. When too many processes are scheduled at the same time, and hence
+concurrently run, the performance of the network system may be adversely
+impacted due to not enough system resources being available to service all of the 
+executing processes. System resources must then be time-shared according to a
+priority scheme across all executing processes, resulting in very slow performance
+for all processes or at least those that have low priority.Accordingly, a need exists for a method for governing the number of
+allowed concurrently executing processes launched by the scheduler, to thereby
+increase system performance in the face of a heavy schedule load.The present invention is a thread-based scheduling governor that
+regulates the number of scheduled tasks that are executed concurrently. The
+schedule governor of the invention is implemented using threads. In the system of
+the invention, a task goes through a life cycle. In infant form, it is given a slot on
+the file system as a "request file"; it graduates from "in-file" form to "in-memory"
+form, where it is maintained as an idle thread in a priority-ordered queue. When
+the time comes for the task to be executed,
+</DESCRIPTION>
+<CLAIMS>
+A task scheduling governor for a computer processing system comprising
+a plurality of tasks to be scheduled to execute according to a respective associated
+
+schedule, comprising:
+
+a priority-ordered execution queue (108, 714) comprising at least one task
+request, said at least one task request comprising only said tasks that are due to be
+
+executed within a pre-specified time interval (710), each said task requests in said
+priority-ordered execution queue (108, 714) comprising an associated priority
+
+indicating a priority of said task request;
+an In-Service queue (110, 750) comprising a plurality of execution entries (0,
+1, ..., N-1), each said execution entry for holding a task request that is commenced
+
+when said task request is added to said In-Service queue (110, 750), said task request
+being removed from said In-Service queue (110, 750) upon completion of said task
+
+request to make said associated execution entry available, said In-Service queue
+(110, 750) limited to a pre-specified number (742) of said execution entries;
+a service manager (102) which monitors said In-Service queue (110, 750)
+and transfers said task request present in said priority-ordered execution queue (108,
+
+714) having said associated priority of highest rank from said priority-ordered
+execution queue (108, 714) to said In-Service queue (110, 750) when said In-Service
+
+queue (110, 750) comprises an available execution entry and said priority-ordered
+execution queue (108, 714) is not empty; and
+a solicitor function (104) which discovers scheduled task requests that are
+due to be executed within said pre-specified time interval (710) and enters said
+
+discovered scheduled task requests into said priority-ordered execution queue (108,
+714).
+A task scheduling governor in accordance with claim 1, wherein:
+said priority of said task request is time-ordered priority.
+A task scheduling governor in accordance with claim 2, wherein:
+
+said priority-ordered execution queue (108, 714) comprises a time-ordered
+execution queue wherein said task requests residing in said time-ordered queue are
+
+arranged in order of priority in time.
+A task scheduling governor in accordance with claim 1, 2 or 3,
+comprising:
+
+
+a deferred task queue (728), said deferred task queue (728) comprising said
+task requests due to be executed but not being is said In-Service queue (110, 750).
+A method for limiting a number of concurrently executing scheduled
+tasks in a computer system to a pre-specified capacity dimension (742), said method
+
+comprising:
+
+discovering (202) a task request that is due to be executed within a pre-specified
+time interval (710);
+entering (204) said discovered task request into a priority-ordered execution
+queue (108, 714), said discovered task request having a priority associated with it;
+monitoring (206) an In-Service queue (110, 750), said In-Service queue
+(206) comprising a plurality of execution entries equal in number to said capacity
+
+dimension (742), each of said plurality of execution entries comprising either an
+available execution entry or an In-Service execution entry, each said In-Service
+
+execution entry comprising a task currently being executed by said computer
+system;
+when said In-Service queue (110, 750) comprises an available execution
+entry, transferring (208) said task request having 
+a highest priority from said
+priority-ordered queue (108, 714) to said available execution entry in said In-Service
+
+queue (110, 750);
+commencing execution (210) of said transferred task request;
+repeating said discovering task through said repeating step.
+A method in accordance with claim 5, comprising:
+
+when said task request in one of said execution entries completes execution,
+removing (214) said completed task request from said execution entry in said In-Service
+
+queue (110, 750), said execution entry becoming an available execution
+entry.
+A method in accordance with claim 5 or 6, comprising:
+
+determining (216) whether a next time due of said removed task request
+exceeds said pre-specified time interval (710);
+if said next time due does not exceed said pre-specified time interval (710),
+re-entering said task request into said priority-ordered queue (108, 714).
+</CLAIMS>
+</TEXT>
+</DOC>

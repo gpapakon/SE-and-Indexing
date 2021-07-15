@@ -1,0 +1,73 @@
+<DOC>
+<DOCNO>EP-0642686</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+POSTMORTEM FINALIZATION.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1200	G06F1200	G06F1202	G06F1202	G06F1730	G06F1730	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F12	G06F12	G06F12	G06F12	G06F17	G06F17	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Frequently some final action or sequence of actions needs to be taken when a memory object becomes a garbage object, beyond simply reclaiming the memory occupied by such objects. An automated finalization mechanism performs such a pre-specified set of actions when it has determined that a memory object has become garbage. A postmortem finalization mechanism performs these finalization actions only after the garbage object has actually been reclaimed by the system's garbage collector. Delaying the execution of the finalization actions until the object in question has been fully reclaimed prevents this object from accidentally being resurrected as a possible side effect of the finalization actions. A mechanism for supporting postmortem finalization is constructed by extending the capabilities of an automatic storage-reclamation system.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+PARCPLACE SYSTEMS INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+PARCPLACE SYSTEMS, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+DEUTSCH L PETER
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+JACKSON FRANKLIN R
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SCHIFFMAN ALLAN M
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+UNGAR DAVID
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DEUTSCH, L., PETER
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+JACKSON, FRANKLIN, R.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SCHIFFMAN, ALLAN, M.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+UNGAR, DAVID
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+ POSTMORTEM FINALIZATIONTechnical Field This invention relates to computer systems, particularly to the process of automatic finaiization.BackgroundINTRODUCTIONThe primary purpose of an automatic storage-reclamation system for digital computers is to reclaim the memory occupied by memory objects that are no longer necessary for the correct operation of the computer programs that are clients of the reclamation system. Clients typically refer to computer programs that utilize the storage-reclamation system. Objects refer to client data associated with a portion of the computer memory.A storage-reclamation system is thus a process of reclaiming the memory locations occupied by garbage objects, or garbage, the term commonly used to refer to those memory objects that are no longer necessary. The act of reclaiming such memory objects is commonly called garbage collection, and a garbage collector is a process by which an automatic storage-reclamation system actually reclaims the memory occupied by memory objects that have become garbage.An automatic storage-reclamation system is capable of reclaiming such memory without explicit instructions from the programs that formerly utilized these objects.Frequently, however, some final action or sequence of 
+
+ actions needs to be taken when a memory object becomes a garbage object, beyond simply reclaiming the memory occupied by such memory objects. Finaiization is the sequence of actions that should be performed once a memory object has become garbage. For example, a garbage object may refer to an external resource that is managed by another subsystem.Further, this external subsystem may expect its clients to issue explicit confirmation that they no longer need the external resource, thus making it possible for the external resource to be recycled. Examples of such external resources are the file-system objects managed by the computer's operating system and the various resources utilized by the computer's window-management subsystem.WHEN TO PERFORM FINALIZATION Although finaiization is, by definition, intended to be performed only after an object has been determined to be garbage, there is still some question as to precisely when the finaiization actions for a given garbage object should be taken. The finaiization actions can be performed immediately prior to an object's death (i.e., before the object has been destroyed and is no longer accessible to any program) , or the finaiization actions can be postponed until sometime after an object's death. The former type of
+</DESCRIPTION>
+<CLAIMS>
+WHAT IS CLAIMED IS
+1. An automatic postmortem finaiization process to allow automatic invocation of predefined final actions for one or more reclaimed objects processed by a garbage collection sequence, said automatic postmortem finaiization process comprising the steps of: providing to said postmortem finaiization process a set of associated objects, wherein said set of associated objects comprising: one or more heir objects, each of said one or more heir objects replicating at least some information in an associated object to be finalized; one or more weak objects, each of said one or more weak objects having one or more corresponding weak references associating said weak object to said associated object to be finalized; and one or more executor objects, each of said one or more executor objects registered with a notification means to receive notification of destruction of said associated object to be finalized;
+scanning said one or more weak references in each said weak object to detect said one or more reclaimed objects;
+overwriting each weak reference associated with said one or more reclaimed objects detected with a death marker reference;
+placing each said weak object having associated with said weak object a death marker reference on a finaiization queue;
+notifying a finaiization process sequence that said finaiization queue is non-empty; and
+executing said finaiization process, said finaiization process further comprising the steps of: 
+
+
+ extracting each weak object from said finaiization queue; and invoking a system notification means, said system notification means providing a notice to said one or more executor objects indicating interest in receiving notice that said one or more reclaimed objects have been reclaimed by said garbage collection sequence.
+2. An automatic postmortem finaiization process of claim 1 wherein said finaiization process further comprising the steps of executing an executor finaiization sequence to invoke one or more final actions.
+3. An automatic postmortem finaiization process to allow automatic invocation of predefined final actions for one or more reclaimed objects processed by a garbage collection sequence, said automatic postmortem finaiization process comprising the steps of: providing to said postmortem finaiization process a set of associated objects, wherein said set of associated objects comprises: one or more heir objects, each of said one or more heir objects replicating at least some information in an associated object to be finalized; and one or more executor objects, each of said one or more executor objects registered with a notification means to receive notification of destruction of said associated object to be finalized;
+analyzing a reserved bit associated with each of said one or more reclaimed objects to be finalized; and
+invoking a system notification means, said system notification means providing a notice to said one or more executor objects indicating interest in receiving notice that said one or more reclaimed objects have been reclaimed by said garbage collection sequence. 
+
+
+4. An automatic postmortem finaiization process of claim 3 wherein said finaiization process further comprising the steps of executing an executor finaiization sequence to invoke one or more final actions. 
+
+</CLAIMS>
+</TEXT>
+</DOC>

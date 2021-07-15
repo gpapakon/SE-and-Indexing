@@ -1,0 +1,167 @@
+<DOC>
+<DOCNO>EP-0618534</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+FAULT-TOLERANT TRANSACTION-ORIENTED DATA PROCESSING.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1100	G06F1100	G06F1114	G06F1114	G06F1200	G06F1200	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F11	G06F11	G06F11	G06F11	G06F12	G06F12	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+In transaction processing systems, it is known for resource-updating 
+operations within a transaction to be backed out at the request 
+
+of an application program following detection of error conditions during 
+processing of the transaction. If the error condition is very likely to 
+
+recur, it may be undesirable for the operations request to be presented 
+to the application exactly as before. A transaction-oriented data 
+
+processing system and a method of transaction-oriented data processing 
+are provided in which operation requests or data packets may be marked to 
+
+be excluded from the effects of application-requested backouts. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+DIEVENDORFF RICHARD
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MOHAN CHANDRASEKARAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DIEVENDORFF, RICHARD
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MOHAN, CHANDRASEKARAN
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to fault-tolerant transaction-oriented 
+data processing, and in particular to a method of processing 
+and a transaction-oriented data processing system such as a transaction-oriented 
+messaging system, file system, or database system, which deals 
+adequately with application-detected error conditions. Many business functions can be implemented by transaction 
+processing as application-oriented computer programs. Commercial 
+application programs typically process many similar items, such as seat 
+reservations in an airline booking system or requests for funds 
+withdrawal at an automated teller machine (ATM). The processing of one 
+of these items (i.e. the execution of a discrete unit of processing that 
+constitutes a logical entity within an application) is a transaction. Most application-oriented programs need to access some form of 
+computer system facilities (facilities such as processors, databases, 
+files, queues, input/output devices, other application programs) - which 
+are generically known as resources. The system software which controls 
+these resources is generically known as the resource manager. A common 
+processing requirement is to be able to make a coordinated set of 
+changes to two or more resources - such that either all of the changes 
+take effect, and the resources are moved to a different consistent 
+state, or none of them does. The user must know which of these two 
+possible outcomes was the actual result. In the example of a financial 
+application to carry out a funds transfer from one account to another 
+account held in the same system, there are two basic operations that are 
+carried out by a single process: the debit of one account and the credit 
+of the other. Normally both of the operations succeed, but if one fails 
+then the other must also not take effect, or data integrity is lost. 
+The failure might be for operational reasons, for example one part of 
+the system being temporarily unavailable, in which case the transaction 
+request can be presented again later. Alternatively, it might be 
+because there are insufficient funds in the account to be debited, in 
+which case a suitable response should be returned to the initiator of 
+the transaction request. A sequence of associated operations which transforms a consistent  
+ 
+state of a recoverable resource into another consistent state (without 
+necessarily preserving consistency at all intermediate points) is known 
+as a "unit of work". Transaction processing is the management of 
+discrete units
+</DESCRIPTION>
+<CLAIMS>
+A method of fault-tolerant transaction-oriented data processing in 
+which resource updates performed by a first application program are made 
+
+permanent and visible to other application programs only on successful 
+completion of the transaction, and are backed out following discovery of 
+
+an error condition prior to successful completion, comprising the steps 
+of: 
+
+   initiating execution by said first application program of a first 
+unit of work; 
+
+   specifying whether an operation on a resource within said first 
+unit of work is to be excluded from the effects of application-requested 
+
+backouts following detection of error conditions; 
+   responsive to detection of an error condition by said first 
+
+application program, backing out resource updates performed in said first 
+unit of work whilst ensuring that any excluded resource is not made 
+
+available to other application programs; 
+   initiating a unit of work which includes said excluded operation, 
+
+to enable further processing by the application program. 
+A method according to claim 1, wherein said excluded resource or 
+resources are prevented from being made available to other application 
+
+programs by the acquisition of allocation-duration locks on said 
+resources by said first application program. 
+A method according to claim 1 wherein the excluded operation or 
+operations of a unit of work for which backout exclusion is specified are 
+
+not backed out on application-requested backout and said unit of work 
+which is initiated after backout is constructed to include said operation 
+
+or operations which are not backed out. 
+A method according to any one of the preceding claims, wherein the 
+operations which are excludable from the effects of an application-requested 
+
+backout include the transaction-initiating operation. 
+A method according to any one of the preceding claims wherein 
+specific operation requests or transaction requests which are to be 
+
+excluded from the effects of application-requested backouts are marked 
+and a list of said marked requests is stored for examination by the 
+
+transaction processing system. 
+A method according to claim 4 or claim 5 in which inter-program 
+communication between application programs is carried out using message 
+
+queuing and in which transaction requests comprise messages sent to 
+queues, wherein committing said unit of work which is initiated following 
+
+application-requested backout in response to detection of error 
+conditions causes the message which raised an error condition to be 
+
+deleted from the message queue. 
+A fault-tolerant transaction-oriented data processing system in 
+which resource updates performed by a first application program are made 
+
+permanent and visible to other application programs only on successful 
+completion of the transaction, and are backed out following discovery of 
+
+an error condition prior to successful completion, comprising: 
+   means for specifying whether an operation within a first unit of 
+
+work is to be excluded from the effects of application-requested backouts 
+following detection of error conditions; 
+
+   means, responsive to detection of an error condition by said first 
+application program, for backing out resource updates performed in said 
+
+first unit of work whilst ensuring that any excluded operation is not 
+made available to other application programs; 
+
+   means for initiating a unit of work which includes said excluded 
+operation, to enable further processing by the application. 
+</CLAIMS>
+</TEXT>
+</DOC>

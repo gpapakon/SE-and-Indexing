@@ -1,0 +1,265 @@
+<DOC>
+<DOCNO>EP-0625765</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method and apparatus for adjusting density in digital images
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06K1512	G06T340	H04N1387	H04N1387	G06K1510	G06K1502	G06K1502	G06K1512	B41J244	G06T340	B41J244	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06K	G06T	H04N	H04N	G06K	G06K	G06K	G06K	B41J	G06T	B41J	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06K15	G06T3	H04N1	H04N1	G06K15	G06K15	G06K15	G06K15	B41J2	G06T3	B41J2	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method and apparatus for adjusting the dot or pixel density of a 
+digital image which provides a toner or ink saving mode for high resolution 
+
+printers. The invention is accomplished by generating a mask pattern which is 
+applied to the image data prior to printing to reduce the number of dots actually 
+
+printed. One hardware implementation of the invention uses a pair of finite 
+state machines to generate a repeating mask which is offset from one row to 
+
+the next as it is applied to the image data. This mask is applied to the data by 
+logically ANDing bits in the mask to bits of image data. Wherever an OFF bit 
+
+appears in the mask, the corresponding bit of image data will be OFF. Edge 
+detection and preservation preserves any or all of the left, right, top or bottom 
+
+edges of an image or character. Edge preservation compares contiguous pixels 
+of an image before masking and preserves "transition" pixels, preserving ON 
+
+pixels preceded or followed by an OFF pixel. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+HEWLETT PACKARD CO
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+HEWLETT-PACKARD COMPANY
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+ROBERTSON KARL W
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TAYLOR RICHARD D
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ZIMMERMAN GARY D
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ROBERTSON, KARL W.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TAYLOR, RICHARD D.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ZIMMERMAN, GARY D.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to a method and apparatus for adjusting the
+density of bits in a bitmap of rasterized data, and, more particularly, to adjusting
+or reducing the number of dots of ink or toner printed in repeating strings of
+dots, thereby reducing printer toner or ink consumption.Laser, and other high resolution, dot matrix printing technologies
+have defined new resolution standards. Today, even documents produced for
+every day correspondence are printed in high resolution. Laser and other high
+resolution printers are currently capable of printing resolutions of 300 x 300,
+600 x 600 and even 1200 x 1200 dots-per-inch (dpi). However, many
+software programs are not capable of generating text and images at these high
+resolutions. Consequently, lower resolution text and images are mapped onto a
+high resolution grid, where each pixel of the low resolution image is represented
+by several high resolution pixels. This is the basis of the "super pixel" concept.Unfortunately, printing a low resolution image on a high resolution
+printer does not result in a lower number dots being printed. Instead, the
+printed image has jagged edged lines due to the super pixels. To compensate
+for the jagged and rough edges, several printer manufacturers have implemented
+resolution enhancing features which generally tend to average and smooth the
+jagged edges. These enhancements do not, however, significantly reduce the
+number of dots actually printed, so there is no change in the amount toner or
+ink applied.Toner for today's laser printers is relatively expensive. A
+reduction in the amount of toner used for draft printing, would naturally result in
+reduced printing costs. Thus, it would be desirable, from a consumer's perspective,
+to be able to print drafts at significantly lower densities which result in a
+significant toner savings when presentation or letter quality printing is not 
+necessary.EP 0 331 033 A2 relates to a printing system for a
+dot-matrix printer for enabling to print a dot-matrix
+character graphic patterns at the speed n-times higher than
+a normal printing mode as well as enabling to print at the
+normal speed printing mode by processing a basic dot matrix
+of the normal printing mode for generating a dot matrix of
+n-times speed printing mode. The printing system comprises
+means enabling to drive a printhead at a speed n-times
+higher than a normal driving speed, a dot-matrix generator
+for processing the basic dot-matrix to generate a dot-matrix
+for the n-times speed printing mode in the manner that a
+non-prin
+</DESCRIPTION>
+<CLAIMS>
+A method of adjusting a number of pixels printed in
+rastorized bitmap format which comprises:
+
+
+generating a bitmask having a regular, repeating pattern of
+active and inactive pixel elements;
+ANDing a stream of output bits representing pixels or an
+absence of pixels, in the rastorized bitmap with the bitmask;
+reducing the number of pixels in said rastorized bitmap by
+not printing each bitmap pixel ANDed with an inactive pixel
+
+element of said bitmask; and
+detecting edge pixels of images in said rastorized bitmap
+and preserving states of those pixels irrespective of the state
+
+of the bitmask.
+The method of claim 1 wherein the step of detecting is
+limited to detecting leading vertical edge pixels by analyzing
+
+two consecutive bits, VDI
+(x-1)
+ and VDI
+(x)
+, and preserving the
+state of VDI
+(x)
+ if VDI
+(x)
+ is ON and VDI
+(x-1)
+ is OFF.
+The method of claims 1 and 2 wherein the step of
+detecting is limited to detecting trailing vertical edge pixels
+
+by analyzing two consecutive bits, VDI
+(x+1)
+ and VDI
+(x)
+, and
+preserving the state of VDI
+(x)
+ if VDI
+(x)
+ is ON and VDI
+(x+1)
+ is
+OFF.
+The method of claims 1, 2 and 3 wherein the step of
+detecting is limited to detecting top horizontal edge pixels by
+
+analyzing two consecutive bits, VDI(
+y-1
+) and VDI(
+xy
+), and
+preserving the state of VDI(
+xy
+) if VDI(
+xy
+) is ON and VDI(
+y-1
+)
+is OFF.
+The method of claims 1, 2, 3, and 4 wherein the step of
+detecting is limited to detecting bottom horizontal edge pixels
+
+by analyzing two consecutive bits, VDI
+(y+1)
+ and VDI
+(xy)
+, and
+preserving the state of VDI
+(xy)
+ if VDI
+(xy)
+ is ON and VDI
+(y+1)
+ is OFF. 
+An apparatus for adjusting a number of pixels printed in
+rastorized bitmap format which comprises:
+
+
+mask generation means (11) for generating a bitmask having
+a regular, repeating pat
+tern of active and inactive pixel
+elements;
+a first AND gate (15) having a first input configured to
+receive bits of data representing the rastorized bitmap and a
+
+second input connected to an output of the mask generation
+means for ANDing a stream of output bits representing present
+
+pixel or absent pixels, in the rastorized bitmap with the
+bitmask, any output bit issuing from said first AND gate (15)
+
+that is a result of a present pixel ANDed with an inactive
+pixel element of said bitmask, representing an absence of said
+
+pixel, thereby reducing a number of printed pixels in a string
+of repeating pixels; and
+edge-detection means for detecting either leading or
+trailing edge pixels of images in said rastorized bitmap and
+
+preserving states of those pixels irrespective of the state of
+the bitmask.
+The apparatus of claim 6 wherein the edge detection
+means comprises:
+
+
+a bit register (13) being configured to receive and hold
+two consecutive bits of the data, VDI
+(x-1)
+ and VDI
+(x)
+;
+a second AND gate (18) having a gate enable input and a
+second input, the second input being connected to the bit
+
+register (13C) holding VDI(
+x-1)
+;
+a third AND gate (14) having a first input and a second
+input, the first input being configured to receive an inverted
+
+output from the second AND gate (18) and the second input being
+configured to receive a stream of bits representing the pixels
+
+in the bitmask; and
+the output of the mask generation means being connected to
+the second input of the third AND gate (14) instead of the
+
+first input of the first AND gate (15), the first input of the
+first AND gate (15) being configured to receive an inverted
+
+output from the third AND gate (14).
+The apparatus of claim 7, wherein the bit register (13)
+is configured to receive and hold three consecutive bits of the
+
+data, VDI
+(x-1)
+, VDI
+(x)
+ and VDI
+(x+1)
+ ;
+
+   said apparatus further comprising:
+
+an OR gate (16) being positioned between the second AND
+gate (18) and the third AND gate (14), the OR gate (16) having
+
+a first input, a second input and an output, the first input
+being connected to an output of the second AND gate (18);
+a fourth AND gate (17) having a first enable input, a
+second input and a output, the second input being connected to
+
+the bit register (13A) holding VDI
+(x+1)
+;
+the second input of the OR gate (16) being connected to the
+output of the fourth AND gate (17); and
+the first input of the third AND gate (14) being configured
+to receive an inverted output from the OR gate (16), instead of
+
+an inverted output from the second AND gate (18).
+</CLAIMS>
+</TEXT>
+</DOC>

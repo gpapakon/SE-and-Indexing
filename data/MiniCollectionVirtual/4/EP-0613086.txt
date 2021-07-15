@@ -1,0 +1,277 @@
+<DOC>
+<DOCNO>EP-0613086</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+METHOD AND APPARATUS FOR INTERPROCESS COMMUNICATIONS.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F946	G06F946	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An apparatus for and method of managing interprocess communications 
+including apparatus for and step of receiving a request for activating a 
+
+common destination identifier to designate a destination process for a 
+plurality of source processes, apparatus for and step of determining 
+
+whether any of the source processes currently utilizes the destination 
+identifier to designate a different destination process, and apparatus 
+
+for and step of activating the destination identifier in memory for the 
+source processes while allowing other source processes to utilize the 
+
+destination identifier to designate different destination processes. In 
+addition, apparatus for and method of managing interprocess 
+
+communications including apparatus for and step of receiving a request to 
+reserve a destination identifier to designate a destination process for 
+
+at least one source process, apparatus for and step of reserving the 
+destination identifier in memory to designate the destination process for 
+
+the source processes if the source processes do not currently utilize the 
+destination identifier to designate a different destination process, 
+
+apparatus for and step of receiving a request.to activate the reserved 
+destination identifier to designate the destination process for the 
+
+source processes, and apparatus for and step of activating the 
+destination identifier if the destination identifier is reserved in 
+
+memory for the source processes. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+ARDENT JAMES WENDELL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MANIKUNDALAM RAVINDRANATH KASI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+PHELAN JAMES MICHAEL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ARDENT, JAMES WENDELL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MANIKUNDALAM, RAVINDRANATH KASINATH
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+PHELAN, JAMES MICHAEL
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates generally to interprocess 
+communications in computers and more specifically to reserving and 
+activating destination identifiers for such interprocess communications. Operating systems such as UNIX (registered trademark of Unix 
+Systems Laboratories, Inc.) have recently been implemented as application 
+systems with a small kernel providing memory management and communication 
+functions. One example of such a kernel is the Mach kernel developed by 
+Carnegie Mellon University as described in "Unix as an Application 
+Program", USENIX Summer Conference, June 11-15, 1990, pages 87-95. This 
+modularization provides for faster interprocess communications and also 
+standardizes the application interface among multiple operating systems. Figure 1 is an illustration of current techniques for using the 
+Mach kernel to handle communications between multiple processes. In the 
+illustrated example, a kernel 10 provides communications between a server 
+S1 20, a task T1 30, a task T2 40, and a file server FS1 50. The server 
+may be an operating system such as Unix. The tasks may be application 
+programs such as spreadsheets or word processing. The file server is a 
+memory management program for accessing data in memory as needed. Server S1 includes a path list 22 that lists all paths between 
+processes that were enabled by the server. Each of the processes and the 
+kernel includes a port address list 14, 24, 34, 44, and 54. A port 
+address is an identifier that identifies the destination process of a 
+communication and may also be referred to as a destination identifier. 
+Each port address list includes 32 bit port addresses, shown in 
+hexadecimal with a range of 00 to FF, which are used by each process to 
+access other processes across paths enabled by the server. The kernel 
+also includes a port address translation list 16 to provide 
+communications between the processes. For example, if task T1 wishes to send a message to task T2, then 
+T1 will read its port address list to determine that task T2 may be 
+reached using port address (destination identifier) F3. Process T1 then 
+sends the message to kernel 10 using port address F3. The kernel then 
+utilizes the port address translation list 16 to determine that the  
+ 
+message from process T1 on port F3 is to be passed to process T2 using 
+port address 2D. The kernel then sends the message to process T2 using 
+port address 2D. Process T2 then receives the communication on port 2D 
+for processing. It is an attribute of this example that a
+</DESCRIPTION>
+<CLAIMS>
+Apparatus for managing interprocess communications in a data 
+processing system, the apparatus comprising: 
+
+
+a) means for receiving a request for activating a common 
+destination identifier to designate a destination process for a 
+
+plurality of source processes; 
+b) means for determining whether any of the source processes 
+currently utilizes the destination identifier to designate a 
+
+different destination process; and 
+c) means for activating the destination identifier in memory for 
+the source processes while allowing other source processes to 
+
+utilize the destination identifier to designate different 
+destination processes. 
+Apparatus as claimed in Claim 1 wherein the means for determining 
+includes means for accessing memory to determine whether the destination 
+
+identifier is currently activated for the source processes. 
+Apparatus as claimed in Claim 2 further comprising: 
+
+a) means for receiving a request to reserve a destination 
+identifier to designate a destination process for at least one 
+
+source process; and 
+b) means for reserving the destination identifier to designate 
+the destination process for the source processes if the source 
+
+processes do not currently utilize the destination identifier to 
+designate a different destination process. 
+Apparatus as claimed in Claim 3 wherein the means for activating 
+includes means for activating the destination identifier if the 
+
+destination identifier is reserved for the source processes. 
+A method for managing interprocess communications in a data 
+processing system comprising the steps of: 
+a) receiving a request for activating a common destination 
+identifier to designate a destination process for a plurality of 
+
+source processes; 
+b) determining whether any of the source processes currently 
+utilizes the destination identifier to designate a different 
+
+destination process; and 
+c) activating the destination identifier in memory for the 
+source processes while allowing other source processes to utilize 
+
+the destination identifier to designate different destination 
+processes. 
+A method as claimed in Claim 5 wherein the step of determining 
+includes accessing memory to determine whether the destination identifier 
+
+is currently activated for the source processes. 
+A method as claimed in Claim 6 further comprising the steps of: 
+
+a) receiving a request to reserve a destination identifier to 
+designate a destination process for at least one source process; 
+
+and 
+b) reserving the destination identifier to designate the 
+
+destination process for the source processes if the source 
+processes do not currently utilize the destination identifier to 
+
+designate a different destination process. 
+A method as claimed in Claim 7 wherein the step of activating 
+includes activating the destination identifier if the destination 
+
+identifier is reserved for the source processes. 
+Apparatus for managing interprocess communications comprising: 
+
+a) means for receiving a request to reserve a destination 
+identifier to designate a destination process for at least one 
+
+source process; 
+b) means for reserving the destination identifier in memory to 
+designate the destination process for the source processes if the 
+
+ 
+source processes do not currently utilize the destination 
+
+identifier to designate a different destination process; 
+c) means for receiving a request to activate the reserved 
+destination identifier to designate the destination process for the 
+
+source processes; and 
+d) means for activating the destination identifier if the 
+destination identifier is reserved in memory for the source 
+
+processes. 
+Apparatus as claimed in Claim 9 wherein the means for activating 
+includes means for activating the destination identifier to designate the 
+
+destination process for the source processes if the source processes do 
+not currently utilize the destination identifier to designate a different 
+
+destination process. 
+Apparatus as claimed in Claim 10 further comprising: 
+
+a) means for receiving a message from one of the source 
+processes including the destination identifier; and 
+b) means for forwarding the received message to the designated 
+process if the destination identifier has been activated for the 
+
+source processes. 
+Apparatus as claimed in Claim 11 wherein the means for reserving 
+includes means for reserving the destination identifier to designate the 
+
+destination process for the source processes while allowing other source 
+processes to utilize the destination identifier to designate different 
+
+destination processes. 
+Apparatus as claimed in Claim 12 wherein the means for activating 
+includes means for activating the destination identifier to designate the 
+
+destination process for the source processes while allowing other source 
+processes to utilize the destination identifier to designate different 
+
+destination processes. 
+A method of managing interprocess communications comprising the 
+steps of: 
+a) receiving a request to reserve a destination identifier to 
+designate a destination process for at least one source process; 
+b) reserving the destination identifier in memory to designate 
+the destination process for the source processes if the source 
+
+processes do not currently utilize the destination identifier to 
+designate a different destination process; 
+c) receiving a request to activate the reserved destination 
+identifier to designate the destination process for the source 
+
+processes; and 
+d) activating the destination identifier if the destination 
+identifier is reserved in memory for the source processes. 
+A method as claimed in Claim 14 wherein the step of activating 
+includes activating the destination identifier to designate the 
+
+destination process for the source processes if the source processes do 
+not currently utilize the destination identifier to designate a different 
+
+destination process. 
+A method as claimed in Claim 15 further comprising the steps of: 
+
+a) receiving a message from one of the source processes 
+including the destination identifier; and 
+b) forwarding the received message to the designated process if 
+the destination identifier has been activated for the source 
+
+processes. 
+A method as claimed in Claim 16 wherein the step of reserving 
+includes reserving the destination identifier to designate the 
+
+destination process for the source processes while allowing other source 
+processes to utilize the destination identifier to designate different 
+
+destination processes. 
+A method as claimed Claim 17 wherein the step of activating 
+includes activating the destination identifier to designate the 
+
+destination process for the source processes while allowing other source 
+ 
+
+processes to utilize the destination identifier to designate different 
+destination processes. 
+</CLAIMS>
+</TEXT>
+</DOC>

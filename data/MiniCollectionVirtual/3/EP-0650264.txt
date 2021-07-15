@@ -1,0 +1,247 @@
+<DOC>
+<DOCNO>EP-0650264</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Byte aligned data compression
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H03M730	G06T900	H03M730	H03M746	G06F500	H03M746	G06F500	G06T900	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H03M	G06T	H03M	H03M	G06F	H03M	G06F	G06T	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H03M7	G06T9	H03M7	H03M7	G06F5	H03M7	G06F5	G06T9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+In a system (1) for compressing, decompressing, and 
+logically manipulating arbitrary bit-maps (20), the bit-map 
+
+is aligned along byte boundaries. Each aligned byte (22) is 
+classified as a gap byte if all of the bits (21) of the byte 
+
+store the same logical value, otherwise the byte is 
+classified as a non-gap byte. Adjacent bytes of the same 
+
+class are grouped. Groups of gap bytes are encoded into an 
+atomic sequence (30) of bytes as a count of the number of 
+
+bits included in the grouped gap bytes (50). Map bytes are 
+duplicated in the atomic sequence and also associated with a 
+
+count thereof (60). 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+DIGITAL EQUIPMENT CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+DIGITAL EQUIPMENT CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+ANTOSHENKOV GENNADY
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ANTOSHENKOV, GENNADY
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates generally to computer
+systems, and more particularly to compressing data stored in
+a memory of a computer system.In computer systems, it is well known that the amount
+of physical space required to store data can be reduced by
+compressing the data to a more compact format. Furthermore,
+as an additional advantage, compressed data can generally be
+processed in less time than uncompressed data. For example,
+fewer bits are processed when compressed data are
+communicated from one computer system to another. Data
+compression is frequently used for large data bases, graphic
+images, and full-text inverted files.One type of compression that is sometimes used for
+integer vectors is "bit-map" encoding. With bit-map
+encoding, each integer of the vector is represented in a 
+bit-map by a single bit. A logical "1" in a bit position of
+the bit-map signifies the presence of an integer, and a
+logical "0" denotes the absence of an integer. Not only is
+there a substantial reduction in space, but also, time is
+saved during processing, since the representative bits of
+the bit-map can be directly accessed and manipulated.Bit-maps are comparatively efficient in space and time
+utilization for compressing dense vectors. Dense vectors are
+vectors which are populated with a relatively large number
+of integers. However, bit-maps suffer space and time losses
+for sparse vectors, or vectors with skewed densities. In
+bit-maps representing sparse vectors, a large proportion of
+the bit map space is wasted on bit sequences having nothing
+but logical zeroes.For vectors which lack any type of systemic bit
+distribution, "bit-wise" compression is sometimes used. Bit-wise
+compression derives space reduction from the fact that
+the differences between consecutive integers in a vector are
+typically small for very large vectors. Thus, the number of
+significant bits in the differences between consecutive
+integers can be encoded more compactly than the integers
+themselves. Each difference is encoded as a "prefix" bit 
+string, followed by a "suffix" bit string. The prefix bit
+string encodes the number of bits in the suffix, and the
+suffix bit string encodes all significant bits of the
+difference. Bit-wise compression which encodes successive
+differences is sometimes known as Delta-compression.Bit-wise compression compresses close to the
+theoretical limit for any kind of distribution of the
+compressed data. However, data which are compressed bit-wise
+suffer because the compressed representation of the data can
+generally
+</DESCRIPTION>
+<CLAIMS>
+A method (500) for
+compressing data in a computer system (1) comprising the steps of:
+
+
+storing the data into a first set of bytes (20) of a
+memory (3) of the computer system, each byte (22) of said
+
+set of bytes including an identical number of bits (21) for
+storing logical values;
+classifying a byte of said first set of bytes as a gap
+byte (23) if each bit of said byte stores the identical
+
+logical value, otherwise, classifying said byte as a map
+byte;
+grouping adjacent identically classified bytes;
+storing, in a second set of ordered bytes (30) of said
+memory, for each group of gap bytes, a first bit sequence
+
+(50) representative of the number of bits in said group of
+gap bytes;
+storing, in said second ordered set of bytes, for each
+group of map bytes, a second bit sequence (60)
+
+representative of the number of bits in said
+group of map bytes, said second ordered set of bytes having an order
+
+corresponding to said first set of bytes.
+The method as in claim 1 further including the steps
+of
+
+
+sensing if said bits of a particular group of gap bytes
+stores all zeros or all ones,
+storing a flag (44) associated with a particular first
+bit sequence corresponding to said particular group of gap
+
+bytes, said flag indicative of the sense of said bits of
+said particular group of gap bytes.
+The method as in claim 2 further including the steps
+of
+
+
+sensing if a first byte of a group of map bytes has
+exactly one bit different than an immediately preceding
+
+group of gap bytes, and
+in response to said sensing, storing said first byte as
+a bit off-set in said second set of bytes, said bit off-set
+
+associated with a corresponding first bit sequence
+representative of said preceding group of gap bytes, said
+
+bit off-set indicative of the position of said one different
+bit in said first byte.
+The method as in claim 3 further including the steps
+of 
+
+
+organizing said set second set of bytes as a plurality
+of atoms (30), each of said atoms including a control byte
+
+(40) for storing said first bit sequence, said second bit
+sequence, and said flag.
+The method as in claim 4 further including the step
+of
+
+
+storing said first bit sequence in a byte following
+said control byte if the number of bits in said group of gap
+
+bytes is larger than a predetermined number.
+An apparatus for compressing data including:
+
+a memory (3) having a first set of bytes (20) for
+storing the data, each byte (22) including a plurality of
+
+bits (21) for storing logical values representative of the
+data, said logical values being either a one or a zero;
+means for classifying a byte of said first set of bytes
+as a gap byte if all of said plurality of bits of said byte
+
+store the identical logical value, otherwise classifying
+said byte as a map byte;
+means for counting the number of bits in adjacent bytes
+having the identical classification; 
+means for storing a first bit sequence representative
+of the counted number of bits in a second set of bytes of
+
+said memory for each group of adjacent gap bytes;
+means for storing a second bit sequence representative
+of the counted number of bits in said second set of bytes
+
+for each group of adjacent map bytes;
+means for storing said group of adjacent map bytes in
+said second set of bytes, the order of said first and second
+
+set of bytes corresponding to each other.
+The apparatus as in claim 6 further including
+
+means for sensing if a particular group of gap bytes
+stores all zeros or all ones, and
+means for storing a flag associated with a particular
+first bit sequence, said flag indicative of the sense of the
+
+bits of said particular group of gap bytes.
+The apparatus as in claim 7 further including
+
+means for sensing if a first byte of a group of map
+bytes has exactly one bit different than an immediately
+
+preceding group of gap bytes, and
+means, response to said sensing means, for storing said
+first byte as a bit off-set in said second set of bytes,
+
+said bit off-set associated with a corresponding first bit 
+sequence representative of said preceding group of gap
+
+bytes, said bit off-set indicative of the position of said
+one different byte in said first byte.
+A method for compressing data comprising the steps
+of:
+
+
+storing the data into a source set of bytes of a
+storage device, each source byte having a plurality of bits,
+
+each of said bits to store a logical zero or a logical one;
+determining if all of said plurality of bits of a
+particular byte of said source set of bytes store the
+
+identical logical value;
+in response to a true determination, classifying said
+particular byte as a gap byte, otherwise classifying said
+
+particular byte as a map byte;
+grouping adjacent identically classified bytes of said
+
+source set of bytes;
+counting the number of said bits in each group of
+adjacent identically classified bytes;
+storing in a destination set of bytes of said storage
+device, for each group of classified gap bytes, a gap bit
+
+sequence representative of the number of said counted bits
+of said groups of gap bytes; 
+storing in said destination set of bytes of said
+storage device, for each group of classified map bytes, a
+
+map bit sequence representative of the number of said
+counted bits of said groups of map bytes;
+storing in said destination set of bytes of said
+storage device, each group of classified map bytes, the
+
+order of said source and destination sets of bytes
+corresponding to each other.
+</CLAIMS>
+</TEXT>
+</DOC>

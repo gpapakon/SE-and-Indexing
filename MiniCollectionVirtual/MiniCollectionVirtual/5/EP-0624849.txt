@@ -1,0 +1,641 @@
+<DOC>
+<DOCNO>EP-0624849</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+System and method of rendering curves
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T1120	G06T1120	G09G520	G09G520	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	G09G	G09G	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T11	G06T11	G09G5	G09G5	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A system and method of rendering a curve using data look-up tables for 
+rasterizing the curve. The curve is subdivided so that it is approximated by a series of straight 
+
+line segments of approximately equal length, with no line segment exceeds two pixels in 
+length. The system subdivides any line segment that crosses horizontal axis of two adjacent 
+
+horizontal scan rows. If the line segment does not cross the horizontal axis of a scan row, the 
+pixel does not require detailed analysis. If the line segment does cross the horizontal axis of a 
+
+particular horizontal scan row, the system uses look-up tables to determine the distance from 
+the center point of the pixel in which the line segment crosses the horizontal axis to the point 
+
+at which the line segment crosses the horizontal axis. The system uses three indices as 
+pointers to the data look-up table containing the desired data. The three indices are 
+
+themselves pointers to separate index tables in which the multiplication calculations required 
+for the data look-up table have been precalculated and are incorporated into the values stored 
+
+in the index tables. The index tables also incorporate a reduction in resolution from 1/64 to 
+1/8 pixel resolution. The index tables are also nonlinear to allow more data entries in areas 
+
+where the round off error resulting from the resolution reduction are greatest. If the line 
+segment crosses the horizontal axis to the left of the center of a pixel, the logic state for the 
+
+pixel is changed. The system can be implemented on any computer and operates with any 
+raster scan graphics display unit. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MICROSOFT CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MICROSOFT CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BALLARD DEAN D
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BALLARD, DEAN D.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates generally to a system and method for
+rendering curves and, more particularly, to a system and method of rasterizing curves.Computer systems frequently include graphics displays such as a display
+screen or graphic printer capable of displaying curves and alphanumeric characters.
+Figure 1 illustrates a curve 2 and a series of alphanumeric characters 3 in the form of a
+graph that may be displayed on a typical computer display screen or graphic printer.Graphic images are shown on the display screen or printer as a series of
+small dots. A pixel represents the smallest element or dot on the display screen or
+printer that can be addressed. The display screen or printed page is made up of many
+scan lines arranged in one dimension, typically the horizontal dimension, with each scan
+line being one pixel high. Each horizontal scan line is comprised of a series of pixels.
+As an example, a typical laser printer may have a resolution of 300 dots per inch. This
+means that the printed page is made up of 300 horizontal scan lines per inch, and each
+horizontal scan line is made up of 300 pixels per inch. A curve or alphanumeric
+character is displayed by the display screen or the printer using a group of pixels that
+approximates the curve and character.A graphics display computer system generally includes a memory for
+storing a digital representation of the curve or character to be displayed. In prior art
+computer system, the digital values represent each pixel on the display screen or printed
+page. This approach to graphics display would require an extremely large memory to
+represent digital values for each pixel of a graphics display. Such a system is too slow
+when initiaily generating digital values which represent a curve, and is also too slow
+when manipulating the curve, such as when the curve is rotated or relocated on the
+display screen. Similarly, prior art computer systems represent graphic alphanumeric
+characters in memory as a bit-map where each bit in the bit-map corresponds to a pixel
+on the display screen. The curves of the individual alphanumeric characters are defined
+by the bit-map data for each alphanumeric character. This requires large amounts of
+memory to store the bit-map data and made it difficult to manipulate the alphanumeric
+characters, such as changing font type or font size. Because of these problems, many 
+computer graphics systems utilize the Bézier spline method of modeling curves. This
+included a method of modeling alphanumeric characters as a series of lines
+</DESCRIPTION>
+<CLAIMS>
+A computer system for rendering an Nth order curve defined by N+1
+control points for display on a graphic display unit using at least one first series of pixels
+
+arranged in a first dimension and a second series of pixels arranged in a second dimension to
+define a two dimensional array of pixels, the graphic display scanning the pixel array in the
+
+first dimension to display the curve, each pixel being defined by first and second opposite
+binary logic states, the computer system using a coordinate system in the first and second
+
+dimensions having a selected unit of measurement with a resolution greater than one pixel, the
+computer system comprising:
+
+
+a line segment generator using the control points to subdivide the curve into a
+plurality of line segments with each line segment having a length no greater than one pixel and
+
+first and second end points, each of said end points having first and second coordinates
+indicating the location of said end points in the first and second dimensions, respectively, said
+
+coordinates being expressed in the selected units;
+a pixel analyzer to determine if one of said line segments crosses a first center
+axis of the first pixel series, and if said one line segment does cross said first center axis, said
+
+pixel analyzer also generating first, second, and third index pointers corresponding to the
+distance from the first end point to the second end point of said one line segment in the first
+
+dimension, the distance from the first end point to the second end point of said one line
+
+segment in the second dimension, and the distance from the first end point of said one line
+segment to said first center axis in the second dimension, respectively, said pointers being
+
+expressed in the selected units;
+a data look-up table containing a plurality of distance values expressed in the
+selected units and corresponding to the range of possible distances in the first dimension from
+
+a second center axis of the second pixel series in which said one line segment crosses said first
+center axis to the point at which said line segments cross said first center axis, said data look-up
+
+table having a final address pointer indicating a particular location in said data look-up
+table containing a distance value for said one line segment;
+first, second and third index tables used to generate said final address pointer,
+each of said index tables containing a number of index table locations selected to correspond
+
+to the range of possible values of said first, second, and third index pointers, respectively, said
+first, second, and third index pointers indicating first, second, and third particular index table
+
+locations within said first, second, and third index tables, respectively; 
+address means for receiving said index data values from said first, second, and
+third particular locations and generating said final address pointer; and
+a rasterizer to add said distance value to said first coordinate of said first end
+point for said one line segment to determine the point at which said one line segment crosses
+
+said first center axis and, if said one line segment crosses said first center axis at a
+predetermined location relative to said second center axis, changing the binary logic state of
+
+the pixel in which said one line segment crosses said first center axis to the opposite binary
+logic state.
+The system of claim 1 wherein said first, second, and third index table
+locations contain index data values that include a division factor to change from the selected
+
+unit of measurement to a second unit of measurement with a lower resolution.
+The system of claim 2 wherein said first, second, and third index table
+locations contain index data values that are nonlinear data values selected to compensate for
+
+errors introduced from said resolution reduction.
+The system of claim 1, wherein said index table locations containing
+index data values that are pre-weighted to include a multiplication factor, thereby avoiding
+
+multiplication operations in generating said final address pointer, said address means receiving
+said index data values from said first, second, and third particular locations and adding said
+
+index data values to generate said final address pointer.
+A computer system for rendering an Nth order curve defined by N+1
+control points for display on a graphic display unit using a plurality of first series of pixels
+
+arranged in a first dimension and a second series of pixels arranged in a second dimension to
+define a two dimensional array of pixels, the graphic display scanning the pixel array in the
+
+first dimension to display the curve, each pixel being defined by first and second opposite
+binary logic states, the computer system using a coordinate system in the first and second
+
+dimensions having a selected unit of measurement with a resolution greater than one pixel, the
+computer system comprising:
+
+
+a line segment generator using the control points to subdivide the curve into a
+plurality of line segments with each line segment having a length no greater than two pixels
+
+and first and second end points, each of said end points having first and second coordinates
+indicating the location of said end points in the first and second dimensions, respectively, said
+
+coordinates being expressed in the selected units; 
+a pixel analyzer to determine if one of said line segments crosses a first center
+axis of the first pixel series, and if said one line segment does cross said first center axis, said
+
+pixel analyzer also generating first, second, and third index pointers corresponding to the
+distance from the first end point to the second end point of said one line segment in the first
+
+dimension, the distance from the first end point to the second end point of said one line
+segment in the second dimension, and the distance from the first end point of said one line
+
+segment to said first center axis in the second dimension, respectively, said pointers being
+expressed in the selected units, said pixel analyzer also determining if any of said plurality of
+
+line segments crosses said first center axis of an adjacent second one of the first pixel series,
+said pixel analyzer subdividing in half a line segment that crosses both said first center axis of
+
+said first one of the first pixel series and said first center axis of said adjacent second one of
+the first pixel series and treating said subdivided line segment in the same manner as said line
+
+segments;
+a data look-up table containing a plurality of distance values expressed in the
+selected units and corresponding to the range of possible distances in the first dimension from
+
+a second center axis of the second pixel series in which said one line segment crosses said first
+center axis to the point at which said line segments cross said first center axis, said data look-up
+
+table having a final address pointer indicating a particular location in said data look-up
+table containing a distance value for said one line segment;
+first, second and third index tables used to generate said final address pointer,
+each of said index tables containing a number of index table locations selected to correspond
+
+to the range of possible values of said first, second, and third index pointers, respectively, said
+first, second, and third index pointers indicating first, second, and third particular index table
+
+locations within said first, second, and third index tables, respectively;
+address means for receiving said index data values from said first, second, and
+third particular locations and generating said final address pointer; and
+a rasterizer to add said distance value to said first coordinate of said first end
+point for said one line segment to determine the point at which said one line segment crosses
+
+said first center axis and, if said one line segment crosses said first center axis at a
+predetermined position relative to said second center axis, changing the binary logic state of
+
+the pixel in which said one line segment crosses said first center axis to the opposite binary
+logic state.
+The system of claim 5 wherein said first, second, and third index table
+locations contain index data values that include a division factor to change from the selected
+
+unit of measurement to a second unit of measurement with a lower resolution. 
+The system of claim 6 wherein said first, second, and third index table
+locations contain index data values that are nonlinear data values selected to compensate for
+
+errors introduced from said resolution reduction.
+The system of claim 9, wherein said index table locations containing
+index data values that are pre-weighted to include a multiplication factor, thereby avoiding
+
+multiplication operations in generating said final address pointer, said address means receiving
+said index data values from said first, second, and third particular locations and adding said
+
+index data values to generate said final address pointer.
+A computer system for rendering an Nth order curve defined by N+1
+
+control points for display on a graphic display unit using a plurality of first series of pixels
+arranged in a first dimension and a second series of pixels arranged in a second dimension to
+
+define a two dimensional array of pixels, the graphic display scanning the pixel array in the
+first dimension to display the curve, each pixel being defined by first and second opposite
+
+binary logic states, the computer system using a coordinate system in the first and second
+dimensions having a selected unit of measurement with a resolution greater than one pixel, the
+
+computer system comprising:
+
+a line segment generator using the control points to subdivide the curve into a
+plurality of line segments with each line segment having a length no greater than a
+
+predetermined number of pixels and first and second end points, each of said end points
+having first and second coordinates indicating the location of said end points in the first and
+
+second dimensions, said coordinates being expressed in the selected units;
+a pixel analyzer to determine if one of said line segments crosses a first center
+axis of a first one of the first pixel series, and if said one line segment does cross said first
+
+center axis, said pixel analyzer also generating first, second, and third index pointers
+corresponding to the distance from the first end point to the second end point of said one line
+
+segment in the first dimension, the distance from the first end point to the second end point of
+said one line segment in the second dimension, and the distance from the first end point of said
+
+one line segment to said first center axis in the second dimension, said pointers being
+expressed in the selected units, said pixel analyzer also determining if any of said line segments
+
+crosses said first center axis of an adjacent second one of the first pixel series, said pixel
+analyzer subdividing said line segment that crosses both said first center axis of said first one
+
+of the first pixel series being analyzed and said first center axis of said adjacent second one of
+the first pixel series to generate subdivided line segments that do not cross said first center
+
+axis of more than one of the first pixel series, each of said subdivided line segments being
+treated in the same manner as said line segments and having first and second end points, each 
+
+of said end points having first and second coordinates indicating the location of said end
+points in the first and second dimensions, said coordinates being expressed in the selected
+
+units;
+a data look-up table containing a plurality of distance values expressed in the
+selected units and corresponding to the range of possible distances in the first dimension from
+
+a second center axis of one of the second pixel series in which said one line segment crosses
+said first center axis to the point at which said line segments cross said first center axis, said
+
+data look-up table having a final address pointer indicating a particular location in said data
+look-up table containing a distance value for said one line segment;
+first, second and third index tables used to generate said final address pointer,
+each of said index tables containing a number of index table locations selected to correspond
+
+to the range of possible values of said first, second, and third index pointers, respectively, said
+first, second, and third index pointers indicating first, second, and third particular index table
+
+locations within said first, second, and third index tables, respectively;
+address means for generating said final address pointer from said index data
+values from said first, second, and third particular locations; and
+a rasterizer to add said distance value for said one line segment to said
+coordinate of said first end point in the first dimension to determine the point at which said
+
+one line segment crosses said first center axis and, if said one line segment crosses said first
+center axis at a predetermined position relative to said second center axis, changing the binary
+
+logic state of the pixel in which said one line segment crosses said first center axis to the
+opposite binary logic state.
+The system of claim 9 wherein said index table locations contain index
+data values that are pre-weighted to include a multiplication factor, thereby avoiding
+
+multiplication operations in generating said final address pointer, said address means receiving
+said index data values from said first, second, and third particular locations and adding said
+
+data index values to generate said final address pointer.
+The system of claim 9 wherein said first, second, and third index table
+locations contain index data values that include a division factor to change from the selected
+
+unit of measurement to a second unit of measurement with a lower resolution.
+The system of claim 11 wherein said first second, and third index table
+locations contain index data values that are nonlinear data values selected to compensate for
+
+errors introduced from said resolution reduction. 
+A method using a computer system and a graphics display unit for
+rendering an Nth order curve defined by N+1 control points for display on the graphic display
+
+unit using at least one first series of pixels arranged in a first dimension and a second series of
+pixels arranged in a second dimension to define a two dimensional array of pixels, the graphic
+
+display scanning the pixel array in the first dimension to display the curve, each pixel being
+defined by first and second opposite binary logic states, the computer system using a
+
+coordinate system in the first and second dimensions having a selected unit of measurement
+with a resolution greater than one pixel, the method comprising the steps of:
+
+
+(a) subdividing the curve into a plurality of line segments with each line
+segment having a length no greater than one pixel and first and second end points, each of said
+
+end points having first and second coordinates indicating the location of said end points in the
+first and second dimensions, respectively, said coordinates being expressed in the selected
+
+units;
+(b) determining if one of said line segments crosses a first center axis of the
+first pixel series;
+(c) if one of said line segments crosses said first center axis, generating
+first, second, and third index pointers for said one line segment, said first, second, and third
+
+index pointers corresponding to the distance from the first end point to the second end point
+of said one line segment in the first dimension, the distance from the first end point to the
+
+second end point of said one line segment in the second dimension, and the distance from the
+first end point of said one line segment to said first center axis in the second dimension,
+
+respectively, said pointers being expressed in the selected units;
+(d) determining first, second, and third particular index table locations
+within a first, second, and third index tables using said first, second, and third index pointers,
+
+respectively, each of said index tables containing a number of index table locations selected to
+correspond to the range of possible values of said first, second, and third index pointers,
+
+respectively,
+(e) generating a final address pointer using the index data values in said
+first, second, and third particular index table locations;
+(f) determining a particular location in a data look-up table containing a
+distance value for said one line segment using said final address pointer, said data look-up
+
+table containing a plurality of distance values expressed in the selected units and
+corresponding to the range of possible distances in the first dimension from a second center
+
+axis of the second pixel series in which said one line segment crosses said first center axis to
+
+the point at which said line segments cross said first center axis; 
+(g) adding said distance value to said first coordinate of said first end point
+for said one line segment to determine the point at which said one line segment crosses said
+
+first center axis; and
+(h) changing the binary logic state of the pixel in which said one line
+segment crosses said first center axis to the opposite binary logic state said one line segment
+
+crosses said first center axis at a predetermined location relative to said second center axis.
+The method of claim 13 wherein step (a) of subdividing the curve into
+said plurality of straight line segments includes the steps of:
+
+
+(1) measuring the absolute magnitude of the difference in pixels from each
+of the N+1 control points to an adjacent control point for the first dimension to give N
+
+difference values for the first dimension;
+(2) measuring the absolute magnitude of the difference in pixels from each
+of the N+1 control points to an adjacent control point for the second dimension to give N
+
+difference values for the second dimension;
+(3) determining the maximum value for said N difference values for the
+first and said second dimensions; and
+(4) doubling said maximum value to determine a minimum number of line
+segments into which the curve is subdivided.
+The method of claim 13, further including the step of changing the
+binary logic state of all subsequent pixels in the first pixel series if step (h) changed the binary
+
+logic state of the pixel in which said one line segment crosses said first center axis until step
+(h) changes to an opposite binary logic state the binary logic state of another pixel in which
+
+one of said line segments crosses said first center axis.
+The method of claim 13 wherein said index table locations contain
+index data values that are pre-weighted to include a multiplication factor, step (e) of
+
+generating said final address pointer adding the index data values in said first second and third
+particular index table locations, thereby avoiding multiplication operations in generating said
+
+final address pointer.
+The method of claim 13 wherein said first second, and third index table
+locations contain index data values that include a division factor to change from the selected
+
+unit of measurement to a second unit of measurement with a lower resolution, said step (e)
+using said index data values with reduced resolution to generate said final address pointer. 
+The method of claim 17, wherein said index table locations contain
+nonlinear data values to compensate for errors caused by said division factor, said step (e)
+
+using said nonlinear index data values with reduced resolution to generate said final address
+pointer.
+A method using a computer system and a graphics display unit for
+rendering an Nth order curve defined by N+1 control points for display on the graphic display
+
+unit using a plurality of a first series of pixels arranged in a first dimension and a second series
+of pixels arranged in a second dimension to define a two dimensional array of pixels, the
+
+graphic display scanning the pixel array in the first dimension to display the curve, each pixel
+being defined by first and second opposite binary logic states, the computer system using a
+
+coordinate system in the first and second dimensions having a selected unit of measurement
+with a resolution greater than one pixel, the method comprising the steps of:
+
+
+(a) subdividing the curve into a plurality of line segments with each line
+segment having a length no greater than two pixels and first and second end points, each of
+
+said end points having first and second coordinates indicating the location of said end points in
+the first and second dimensions, respectively, said coordinates being expressed in the selected
+
+units;
+(b) determining if one of said line segments crosses a first center axis of a
+first one of the first pixel series;
+(c) determining if any of said line segments crosses said first center axis of
+an adjacent second one of the first pixel series;
+(d) subdividing said line segment that crosses both said first center axis of
+said first one of the first pixel series and said first center axis of said adjacent second one of
+
+the first pixel series until each of said subdivided line segments crosses only one of said first
+center axis and treating each of said subdivided line segments in the same manner as said line
+
+segments, each of said subdivided line segments having first and second end points, each of
+said end points having first and second coordinates indicating the location of said end points in
+
+the first and second dimensions, said coordinates being expressed in the selected units;
+(e) if one of said line segment does cross said first center axis, generating
+first, second, and third index pointers for said one line segment, said first, second, and third
+
+index pointers corresponding to the distance from the first end point to the second end point
+of said one line segment in the first dimension, the distance from the first end point to the
+
+second end point of said one line segment in the second dimension, and the distance from the
+first end point of said one line segment to said first center axis in the second dimension,
+
+respectively, said pointers being expressed in the selected units; 
+(f) determining first, second, and third particular index table locations
+within a first, second, and third index tables using said first, second, and third index pointers,
+
+respectively, each of said index tables containing a number of index table locations selected to
+correspond to the range of possible values of said first, second, and third index pointers,
+
+respectively;
+(g) generating a final address pointer using the index data values in said
+first, second, and third particular index table locations;
+(h) determining a particular location in a data look-up table containing a
+distance value for said one line segment using said final address pointer, said data look-up
+
+table containing a plurality of distance values expressed in the selected units and
+corresponding to the range of possible distances in the first dimension from a second center
+
+axis of the second pixel series in which said one line segment crosses said first center axis to
+the point at which said line segments cross said first center axis;
+(i) adding said distance value to said first coordinate of said first end point
+for said one line segment to determine the point at which said one line segment crosses said
+
+first center axis; and
+(j) changing the binary logic state of the pixel in which said one line
+segment crosses said first center axis to the opposite binary logic state if said one line segment
+
+crosses said first center axis at a predetermined location relative to said second carrier axis.
+The method of claim 19 wherein step (a) of subdividing the curve into
+said plurality of straight line segments includes the steps of:
+
+
+(1) measuring the absolute magnitude of the difference in pixels from each
+of the N+1 control points to an adjacent control point for the first dimension to give N
+
+difference values for the first dimension;
+(2) measuring the absolute magnitude of the difference in pixels from each
+of the N+1 control points to an adjacent control point for the second dimension to give N
+
+difference values for the second dimension;
+(3) determining the maximum value for said N difference values for the
+first and said second dimensions; and
+(4) subdividing the curve into said plurality of line segments using said
+maximum value to determine the minimum number of line segments.
+The method of claim 19, further including the step of changing the
+binary logic state of all subsequent pixels in the first pixel series if step (j) changed the binary
+
+logic state of the pixel in which said one line segment crosses said first center axis until step (j) 
+changes to an opposite binary logic state the binary logic state of another pixel in which one of
+
+said line segments crosses said first center axis.
+The method of claim 19 wherein said index table locations contain
+index data values that are pre-weighted to include a multiplication factor, step (e) of
+
+generating said final address pointer adding the index data values in said first, second and third
+particular index table locations, thereby avoiding multiplication operations in generating said
+
+final address pointer.
+The method of claim 19 wherein said first, second, and third index table
+locations contain index data values that include a division factor to change from the selected
+
+unit of measurement to a second unit of measurement with a lower resolution, said step (e)
+using said index data values with reduced resolution to generate said final address pointer.
+The method of claim 23 wherein said index table locations contain
+nonlinear data values to compensate for errors caused by said division factor, said step (e)
+
+using said nonlinear index data values with reduced resolution to generate said final address
+pointer.
+A method using a computer system and a graphics display unit for
+rendering an Nth order curve defined by N+1 control points for display on the graphic display
+
+unit using a plurality of a first series of pixels arranged in a first dimension and a second series
+of pixels arranged in a second dimension to define a two dimensional array of pixels, the
+
+graphic display scanning the pixel array in the first dimension to display the curve, each pixel
+being defined by first and second opposite binary logic states, the computer system using a
+
+coordinate system in the first and second dimensions having a selected unit of measurement
+with a resolution greater than one pixel, the method comprising the steps of:
+
+
+(a) subdividing the curve into a plurality of line segments with each line
+segment having a length no greater than a predetermined number of pixels and first and
+
+second end points, each of said end points having first and second coordinates indicating the
+location of said end points in the first and second dimensions, respectively, said coordinates
+
+being expressed in the selected units;
+(b) determining if one of said line segments crosses a first center axis of a
+first one of the first pixel series;
+(c) determining if any of said line segments crosses said first center axis of
+an adjacent second one of the first pixel series; 
+(d) subdividing said line segment that crosses both said first center axis of
+said first one of the first pixel series and said first center axis of said adjacent second one of
+
+the first pixel series until each of said subdivided line segments crosses only one of said first
+center axis and treating each of said subdivided line segments in the same manner as said line
+
+segments, each of said subdivided line segments having first and second end points, each of
+said end points having first and second coordinates indicating the location of said end points in
+
+the first and second dimensions, said coordinates being expressed in the selected units;
+(e) if one of said line segments does cross said first center axis, generating
+first, second, and third index pointers for said one line segment, said first, second, and third
+
+index pointers corresponding to the distance from the first end point to the second end point
+of said one line segment in the first dimension, the distance from the first end point to the
+
+second end point of said one line segment in the second dimension, and the distance from the
+first end point of said one line segment to said first center axis in the second dimension,
+
+respectively, said pointers being expressed in the selected units;
+(f) determining first, second, and third particular index table locations
+within a first, second, and third index tables using said first, second, and third index pointers,
+
+respectively, each of said index tables containing a number of index table locations selected to
+correspond to the range of possible values of said first, second, and third index pointers,
+
+respectively;
+(g) generating a final address pointer using the index data values in said
+first, second, and third particular index table locations;
+(h) determining a particular location in a data look-up table containing a
+distance value for said one line segment using said final address pointer, said data look-up
+
+table containing a plurality of distance values expressed in the selected units and
+corresponding to the range of possible distances in the first dimension from a second center
+
+axis of the second pixel series in which said one line segment crosses said first center axis to
+the point at which said line segments cross said first center axis;
+(i) adding said distance value to said first coordinate of said first end point
+for said one line segment to determine the point at which said one line segment crosses said
+
+first center axis; and
+(j) changing the binary logic state of the pixel in which said one line
+segment crosses said first center axis to the opposite binary logic state if said one line segment
+
+crosses said first center axis at a predetermined location relative to said second center axis.
+The method of claim 25 wherein step (a) of subdividing the curve into
+said plurality of straight line segments includes the steps of: 
+
+
+(1) measuring the absolute magnitude of the difference in pixels from each
+of the N+1 control points to an adjacent control point for the first dimension to give N
+
+difference values for the first dimension;
+(2) measuring the absolute magnitude of the difference in pixels from each
+of the N+1 control points to an adjacent control point for the second dimension to give N
+
+difference values for the second dimension;
+(3) determining the maximum value for said N difference values for the
+first and said second dimensions; and
+(4) subdividing the curve into said plurality of line segments using said
+maximum value to determine the minimum number of line segments.
+The method of claim 25, further including the step of changing the
+binary logic state of all subsequent pixels in the first pixel series if step (j) changed the binary
+
+logic state of the pixel in which said one line segment crosses said first center axis until step (j)
+changes to an opposite binary logic state the binary logic state of another pixel in which one of
+
+said line segments crosses said first center axis.
+The method of claim 25 wherein said index table locations contain
+index data values that are pre-weighted to include a multiplication factor, step (e) of
+
+generating said final address pointer adding the index data values in said first, second and third
+particular index table locations, thereby avoiding multiplication operations in generat
+ing said
+final address pointer.
+The method of claim 25 wherein said first, second, and third index table
+locations contain index data values that include a division factor to change from the selected
+
+unit of measurement to a second unit of measurement with a lower resolution, said step (e)
+using said index data values with reduced resolution to generate said final address pointer.
+The method of claim 29 wherein said index table locations contain
+nonlinear data values to compensate for errors caused by said division factor, said step (e)
+
+using said nonlinear index data values with reduced resolution to generate said final address
+pointer.
+</CLAIMS>
+</TEXT>
+</DOC>

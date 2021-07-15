@@ -1,0 +1,193 @@
+<DOC>
+<DOCNO>EP-0658022</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Cryptographic key generation using sequential concatenation
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G09C100	G06F2100	H04L918	G06F1214	G09C100	H04L922	G06F1214	G06F2124	G06F2100	H04L918	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G09C	G06F	H04L	G06F	G09C	H04L	G06F	G06F	G06F	H04L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G09C1	G06F21	H04L9	G06F12	G09C1	H04L9	G06F12	G06F21	G06F21	H04L9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A software-efficient pseudorandom function maps an index and an
+encryption key to a pseudorandom bit string useful for constructing a
+
+stream cipher. The method begins by preprocessing the encryption key
+into a table of pseudorandom values. The index and a set of values from
+
+the table is then used to generate a set of initial values for the
+registers. At least some of the register values are modified in part by
+
+taking a current value of a register and replacing the current value with
+a function of the current value and a value retrieved from the table, the
+
+latter value being determined by the values in one or more other
+registers. After modifying the register values in this fashion, the
+
+values are masked using other values from the table and the results then
+concatenated into the pseudorandom bit string. The modification step is
+
+repeated and a new masked function of the register values is then
+concatenated into the pseudorandom bit string. The modification and
+
+concatenation steps are repeated to continue growing the pseudorandom bit
+string until the string reaches some desired length.
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+COPPERSMITH DON
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ROGAWAY PHILLIP W
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+COPPERSMITH, DON
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ROGAWAY, PHILLIP W.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to methods for data encryption.Cryptographic systems are widely used to insure the privacy and
+authenticity of messages communicated over insecure channels. In many
+applications, it is necessary that encryption be performed at high data
+rates, a requirement usually achieved, if at all, with the help of
+supporting cryptographic hardware. Such hardware, however, is not
+available on most conventional computer systems. Moreover, even when
+cryptographic hardware is available, it has been found that an algorithm
+designed to run well in hardware does not perform in software as well as an
+algorithm optimized for software execution. The hardware-efficient
+algorithm of the Data Encryption Standard (DES) is no exception.Prior attempts to design encryption methods for efficient
+implementation in software are known in the prior art. Several of these
+functions are described in U.S. Patent No. 5,003,597 and in the article
+entitled "Fast Software Encryption Functions", R. Merkle, Advances in
+Cryptology, CRYPTO '90 Proceedings, Springer-Verlag. In general, the
+Merkle technique constructs a fixed length or "block" cipher by operating
+upon a data input having two halves: a left half and a right half. The
+left half is used as an index to access a table of pseudorandom numbers to
+thereby retrieve a table value. That value is then exclusively ORed (XOR)
+with the right half of the data input and the result relabeled as the left
+half. The original left half is then rotated by a predetermined amount and
+relabeled as the right half. The iterative process is then continued in
+this fashion until the data input is fully randomized. To achieve high
+speed, in one embodiment the table of pseudorandom numbers is precomputed."Good Stream Ciphers are Hard to Design", Rueppel, ETH-ZENTRUM KT,
+1989, discloses a keystream generation process G=(F,f) consisting of a
+next-state function F which may depend in addition to the state also in the
+key k, some prior plaintext symbols, and some prior ciphertext symbols and
+an output function, wherein the purpose of the keystream generator is to
+expand a short random key into a long pseudorandom string.The Merkle technique and other known software-oriented block ciphers
+provide advantages over prior art hardware-based encryption techniques. 
+Nevertheless, there remains a need to provide improved software-efficient
+encryption techniques that exhibit high speed and computational efficiency
+on conventional processor platforms.The present invention provides, in a first aspect,
+</DESCRIPTION>
+<CLAIMS>
+A method for mapping an index and a key into a pseudorandom bit
+string, comprising the steps of:
+
+
+(a) preprocessing (10) the key into first, second and third tables
+of pseudorandom values;
+(b) using (12) the index and a first set of values from the first
+table to map values from the third table into first and second sets of
+
+register values;
+(c) mixing (M
+1
+, M
+2
+, M
+3
+...M
+N
+) the first set of register values by
+taking a current value of a register and replacing the current value with a
+
+function of the current value and a value retrieved from the third table;
+(d) using (B
+1
+, B
+2
+, B
+3
+...B
+N
+) a first set of values from the second
+table to mask the register values as mixed in step (c);
+(e) concatenating into the pseudorandom bit string a function of
+the masked register values;
+(f) repeating steps (c)-(e) using a second set of values from the
+second table to grow the pseudorandom bit string; and
+(g) repeating steps (b)-(f) using a second set of values from the
+first table to further grow the pseudorandom bit string until it reaches an
+
+application-determined length.
+The method as claimed in Claim 1 wherein before step (f) the second
+set of register values are used to modify the register values generated in
+
+step (c).
+The method as claimed in Claim 1 or claim 2 wherein the key is
+preprocessed into the first, second and third tables using a pseudorandom
+
+generator derived from a secure hash algorithm.
+Apparatus for mapping an index and a key into a pseudorandom bit
+string, comprising: 
+
+
+(a) means for preprocessing (10) the key into first, second and
+third tables of pseudorandom values;
+(b) means for using (12) the index and a first set of values from
+the first table to map values from the third table into first and second
+
+sets of register values;
+(c) means for mixing (M
+1
+, M
+2
+, M
+3
+...M
+N
+) the first set of register
+values by taking a current value of a register and replacing the current
+
+value with a function of the current value and a value retrieved from the
+third table;
+(d) means for using (B
+1
+, B
+2
+, B
+3
+...B
+N
+) a first set of values from the
+second table to mask the register values as mixed in step (c);
+(e) means for concatenating into the pseudorandom bit string a
+function of the masked register values;
+(f) means for repeating steps (c)-(e) using a second set of values
+from the second table to grow the pseudorandom bit string; and
+(g) means for repeating steps (b)-(f) using a second set of values
+from the first table to further grow the pseudorandom bit string until it
+
+reaches an application-determined length.
+Apparatus as claimed in Claim 4 wherein before the operation of means
+(f) the second set of register values are used to modify the register
+
+values generated by means (c).
+Apparatus as claimed in Claim 4 or claim 5 wherein the key is
+preprocessed into the first, second and third tables using a pseudorandom
+
+generator derived from a secure hash algorithm.
+</CLAIMS>
+</TEXT>
+</DOC>

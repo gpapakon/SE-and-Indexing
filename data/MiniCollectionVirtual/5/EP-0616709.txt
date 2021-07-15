@@ -1,0 +1,204 @@
+<DOC>
+<DOCNO>EP-0616709</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+SEMAPHORE BYPASS
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1516	G06F952	G06F15167	G06F15177	G06F1200	G06F1200	G06F946	G06F946	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F15	G06F9	G06F15	G06F15	G06F12	G06F12	G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<APPLICANTS>
+<APPLICANT-NAME>
+SEIKO EPSON CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SEIKO EPSON CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+LAU TE-LI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LENTZ DEREK J
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LAU, TE-LI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LENTZ, DEREK, J.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates generally to a system and method of 
+utilizing semaphores to synchronize multiple processes, and more particularly 
+to a system and method for providing a semaphore bypass mechanism which 
+reduces the amount of memory bandwidth waste. One of the major requirements of a shared-memory multiprocessor is 
+being able to coordinate processes that are working on a common task. 
+Typically, a programmer will use semaphores to synchronize the processes. As 
+such, semaphores are widely used to prevent asynchronous accesses to 
+resources such as devices or memory locations. A common semaphore 
+implementation is by means of a test and set mechanism. In such a 
+mechanism, a semaphore is a flag or label which is stored in an addressable 
+memory location for controlling access to certain regions of memory or other 
+addressable resources. When a process wishes to access a region of memory, for example 
+memory region xyz, with which a semaphore is associated, and wants to 
+prevent other processes from accessing that region, the process writes all 1's 
+into the semaphore associated with that particular memory region. If a 
+different process should wish to access memory region xyz, it first checks the 
+semaphore and if it finds that there are all 1's in the semaphore, the process 
+knows that it is denied access. Heretofore, the second process continually goes to memory and checks 
+the semaphore to see if memory region xyz is available. This constant 
+checking of the semaphore is called "spin-locking" and it wastes an enormous 
+amount of memory bandwidth since the semaphore may not be available for a 
+long time and each semaphore access means a memory transaction. For a 
+more in-depth discussion on the above discussed synchronization mechanism, 
+see Hennessy, et al., Computer Architecture a Quantitative Approach, 
+Chapter 8, Morgan Kaufman Publishers (1990).  
+ U.S. Patent No. 5,050,072 to Earnshaw et al. (hereinafter the 
+Earnshaw patent) describes a system for reducing common bus contention. It 
+allows the semaphore test bit and set operations to be performed on each 
+CPU's local bus. An identical copy of the semaphore lock bits are stored locally 
+in SRAM on each CPU. SRAM's have a limited amount of storage space, and 
+eventually the SRAM memory is filled with semaphores and the mechanism 
+described in the Earnshaw patent will once again fall victim to spin locking. In 
+addition, the Earnshaw patent caches semaphores. Caching of semaphores is 
+expensive and difficult, and decreases system
+</DESCRIPTION>
+<CLAIMS>
+A computer-based system which improves the performance 
+of controlling access to shared resources, the 
+
+computer-based system comprising: 
+
+a) a bus (105) connected to one or more shared 
+resources; 
+b) a storage compare unit (120) coupled to a 
+requesting device adapted to access said one or more 
+
+shared resources, adapted to store only the addresses of one or 
+more semaphores associated with said shared resources 
+
+that are locked for which an access from said requesting 
+device had recently failed; and 
+c) a control unit (130) connected to determine 
+whether said one or more shared resources are locked by 
+
+evaluating the contents of said storage compare unit, 
+and connected to control the flow of information onto 
+
+said bus from said requesting device; 
+ 
+wherein said storage compare unit and said control unit 
+
+are located between said bus and said requesting 
+device.  
+
+ 
+The system of claim 1, wherein the system is located 
+within a central processing unit. 
+The system of claim 1, wherein said storage compare 
+unit comprises a content addressable memory (CAM). 
+The system of claim 1, wherein said one or more 
+semaphores are counting semaphores. 
+The system of claim 1, further comprising a snoop 
+address generator (160), said snoop address generator 
+
+connected to snoop said bus for writes to memory 
+locations. 
+The system of claim 5, further comprising a share 
+signal, said share signal connected to said snoop 
+
+generator to prevent the requesting devices from 
+clearing an entry in said storage compare unit during a 
+
+test and set memory transaction. 
+The system of claim 1, wherein a valid bit is 
+associated with each storage location in said storage 
+
+compare unit. 
+The system of claim 1, wherein said control unit is 
+adapted to allow information from said requesting device to flow onto said bus if 
+
+said shared resource has not been locked, and to stop 
+the flow of information from said requesting device onto said bus if said shared 
+
+resource has been locked.  
+ 
+A method which improves the performance of controlling 
+access to shared resources, comprising the steps of: 
+
+
+i) comparing, in response to a request for access to 
+a shared resource which is protected by a semaphore, 
+
+the address of a requested semaphore with the contents 
+of a storage compare unit (120), said storage compare 
+
+unit being interconnected between a requesting device 
+and a bus; 
+ii) storing the address of said semaphore associated 
+with said shared resource in said storage compare unit 
+
+if it has not already been stored in said storage 
+compare unit as determined by step i); and 
+iii) sending a semaphore failed signal (HIT) to the 
+source of said request for said semaphore if said 
+
+semaphore address is resident in said storage compare 
+unit (120). 
+The method of claim 9 further comprising a step of 
+generating a snoop address corresponding to addresses 
+
+on a bus, wherein said snoop address is used to clear 
+an address in said storage compare unit. 
+The method of claim 9, further comprising a step of 
+releasing said semaphore and clearing said storage 
+
+compare unit in response to a write to said semaphore.  
+ 
+The method of claim 9 further comprising the step of 
+periodically checking said storage compare unit to 
+
+determine whether said semaphore has been unlocked. 
+The method of claim 9, further comprising the step of 
+using a share signal to prevent the requesting units 
+
+from clearing said storage compare entry during a test 
+and set memory transaction. 
+The method of claim 9, wherein each individual 
+requesting device autonomously prevents clearing said 
+
+storage compare device during a test and set operation. 
+The computer-based method of claim 9, further 
+comprising the step of accessing the memory location 
+
+protected by said semaphore. 
+The computer-based method of claim 9 further comprising 
+the step of snooping said bus for memory requests in 
+
+order to determine whether the address from one of said 
+semaphores stored in said storage compare unit should 
+
+be removed from said storage compare unit. 
+The method of claim 9 wherein said local storage 
+compare unit is cleared if a write to the resource, 
+
+other than a write from atest and set instruction, is 
+attempted. 
+The method of claim 9, further comprising the step of 
+removing one of said addresses associated with said 
+
+semaphores from said storage compare unit when said  
+ 
+
+storage compare unit is full using a least-recently-used 
+algorithm. 
+The method of claim 9, further comprising the steps of 
+releasing said semaphore and clearing said storage 
+
+compare unit in response to a write to said shared 
+resource holding said semaphore. 
+</CLAIMS>
+</TEXT>
+</DOC>

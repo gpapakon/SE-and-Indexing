@@ -1,0 +1,280 @@
+<DOC>
+<DOCNO>EP-0619897</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+METHOD FOR IMPROVING PARTIAL STRIPE WRITE PERFORMANCE IN DISK ARRAY SUBSYSTEMS
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1216	G11B2018	G06F1110	G06F1110	G06F1216	G11B2018	G06F306	G06F306	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G11B	G06F	G06F	G06F	G11B	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F12	G11B20	G06F11	G06F11	G06F12	G11B20	G06F3	G06F3	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method and apparatus for improving disk performance during partial stripe write operations in a computer system having a disk array subsystem utilizing parity fault tolerance technique. When a partial stripe write generation is begun, the method determines if the area or stripe where the write is to occur is unused space in the file system. If not, the partial stripe write operation is performed using a preceding read operation to read the current data and parity information from the disk as would normally be done. However, if the write area is unused space in the file system, then the contents of the data stripe do not need to be preserved. In this instance, the partial stripe write operation can be performed without any preceding read operations. By obviating the necessity of a preceding read operation, much of the performance penalty of doing a partial stripe write in the case where the rest of the data stripe does not need to be preserved is removed.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+COMPAQ COMPUTER CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+COMPAQ COMPUTER CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+NEUFELD E DAVID
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NEUFELD, E., DAVID
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention is directed toward a method 
+for improving performance for multiple disk drives in 
+computer systems, and more particularly to a method for 
+performing write operations in a disk array utilizing 
+parity data redundancy and recovery protection. Microprocessors and the computers which utilize 
+them have become increasingly more powerful during the 
+recent years. Currently available personal computers 
+have capabilities in excess of the mainframe and 
+minicomputers of ten years ago. Microprocessor data 
+bus sizes of 32 bits are widely available whereas in 
+the past 8 bits was conventional and 16 bits was 
+common. Personal computer systems have developed over the 
+years and new uses are being discovered daily. The 
+uses are varied and, as a result, have different 
+requirements for various subsystems forming a complete 
+computer system. With the increased performance of 
+computer systems, it became apparent that mass storage 
+subsystems, such as fixed disk drives, played an 
+increasingly important role in the transfer of data to 
+and from the computer system. In the past few years, a 
+new trend in storage subsystems, referred to as a disk 
+array subsystem, has emerged for improving data 
+transfer performance, capacity and reliability. One 
+reason for building a disk array subsystem is to create  
+ 
+a logical device that has a very high data transfer 
+rate. This may be accomplished by "ganging" multiple 
+standard disk drives together and transferring data to 
+or from these drives in parallel. Accordingly, data 
+for a logical volume is stored "across" each of the 
+disks comprising the disk array so that each disk holds 
+a portion of the data comprising the volume. If n 
+drives are ganged together, then the effective data 
+transfer rate can be increased up to n times. This 
+technique, known as striping, originated in the 
+supercomputing environment where the transfer of large 
+amounts of data to and from secondary storage is a 
+frequent requirement. In striping, a sequential data 
+block is broken into segments of a unit length, such as 
+sector size, and sequential segments are written to 
+sequential disk drives, not to sequential locations on 
+a single disk drive. The unit length or amount of data 
+that is stored "across" each disk is referred to as the 
+stripe size. If the data block is longer than n unit 
+lengths, the process repeats for the next sector 
+location on the disk drives. With this approach, the n 
+physical drives become a single logical device. This 
+may be implemented either
+</DESCRIPTION>
+<CLAIMS>
+A method for performing disk array write operations in 
+a computer system disk array having a plurality of disk 
+
+units each having a plurality of stripes for storing data 
+and parity information, wherein the disk array utilizes 
+
+parity fault tolerance techniques, the method comprising: 
+
+generating a data write operation to write valid data 
+to a data stripe portion in the disk array; 
+determining if the write operation is a partial stripe 
+write operation, wherein the partial stripe write operation 
+
+includes writing the valid data to only a first portion of 
+the data stripe portion; 
+determining if a second portion of the data stripe 
+portion other than the first portion comprises unused space 
+
+if the write operation is a partial stripe write operation; 
+generating parity information for the data stripe 
+portion using only the valid data if the second portion 
+
+comprises only unused space; and 
+writing the valid data to the first portion and the 
+parity information to the parity information portion of the 
+
+stripe after generating the parity information. 
+The method of claim 1, further comprising: 
+
+generating parity information for the data stripe 
+using the valid data and dummy data if the write operation 
+
+is a partial stripe write operation and the second portion 
+comprises unused space; and 
+writing the dummy data to the second portion of the 
+data stripe portion during the step of valid data and 
+
+parity information writing. 
+The method of claims 1 or 2, further comprising: 
+
+generating parity information for the data stripe 
+portion using only the valid data if the write operation is 
+
+a full stripe write operation;  
+ 
+writing the valid data and the parity information to 
+the stripe after generating the parity information for the 
+
+full stripe write operation. 
+The method of claims 1 or 2, further comprising: 
+
+reading old data from the second portion of the data 
+stripe portion after the step of unused space determining 
+
+if the write operation is a partial stripe write operation 
+and the second portion comprises used space; 
+generating second parity information for the data 
+stripe portion using the valid data and the old data; and 
+writing the valid data and the second parity 
+information to the stripe after generating the second 
+
+parity information. 
+The method of claims 1 or 2, further comprising: 
+
+reading old data from the second portion and old 
+parity information from the parity information portion 
+
+after the step of unused space determining if the write 
+operation is a partial stripe write operation and the 
+
+second portion comprises used space; 
+generating second parity information for the data 
+stripe portion using the valid data, the old data, and the 
+
+old parity information; and 
+writing the valid data and the second parity 
+information to the stripe after generating the parity 
+
+information. 
+The method of claims 1 or 2, wherein the step of 
+partial stripe write determining is performed by a system 
+
+processor in the computer system. 
+The method of claims 1 or 2, wherein the step of 
+partial stripe write determining is performed by a local 
+
+processor coupled to the disk array.  
+ 
+The method of claim 1, wherein the step of generating 
+the data write operation includes generating separate write 
+
+command lists for full stripe write operations and partial 
+stripe write operations; and
+ 
+   wherein the step of write operation determining 
+
+includes determining if a received write command list is a 
+full stripe write operation or a partial stripe write 
+
+operation. 
+A computer system which performs disk array write 
+operations, comprising: 
+
+
+a system bus; 
+a disk array coupled to the system bus having a 
+plurality of disk units each having a plurality of stripes 
+
+for storing data and parity information; 
+means coupled to the system bus for generating a data 
+write operation to write valid data to a data stripe 
+
+portion in the disk array; 
+means coupled to the write generating means for 
+determining if the write operation is a partial stripe 
+
+write operation, wherein the partial stripe write operation 
+includes writing the valid data only to a only first 
+
+portion of the data stripe portion; 
+means coupled to the partial stripe write determining 
+means and the disk array for determining if a second 
+
+portion of the data stripe portion comprises unused space 
+if the write operation is a partial stripe write operation; 
+means coupled to the unused space determining means 
+and the system bus receiving the data for generating parity 
+
+information for the data stripe portion using only the 
+valid data if the second portion comprises only unused 
+
+space; and 
+means coupled to the parity information generating 
+means, the system bus, and the disk array for writing the 
+
+valid data to the first portion and the parity information 
+to the parity information portion of the stripe. 
+The computer system of claim 9, wherein the parity 
+information generating means generates parity information 
+
+for the data stripe using the valid data and dummy data if 
+the second portion comprises unused space; and
+ 
+   wherein the writing means writes the dummy data to the 
+
+second portion of the data stripe portion when the valid 
+data and the parity information are written to the stripe. 
+The computer system of claims 9 or 10, wherein the 
+parity information generating means is also coupled to the 
+
+partial stripe write determining means and operates if the 
+write operation is a full stripe write operation. 
+The computer system of claims 9 or 10, further 
+comprising: 
+
+
+means coupled to the disk array, the unused space 
+determining means, and the partial stripe write determining 
+
+means for reading old data from the second portion of the 
+data stripe portion if the write operation is a partial 
+
+stripe write operation and the second portion comprises 
+used space; 
+means coupled to the old data reading means and the 
+system bus receiving the data for generating second parity 
+
+information for the data using the valid data and the old 
+data; and 
+means coupled to the second parity information 
+generating means, the system bus, and the disk array for 
+
+writing the valid data and the second parity information to 
+the stripe. 
+The computer system of claims 9 or 10, further 
+comprising: 
+
+
+means coupled to the disk array, the unused space 
+determining means, and the partial stripe write determining 
+
+means for reading old data and old parity information from 
+the stripe if the write operation is a partial stripe write 
+
+operation and the second portion comprises used space;  
+ 
+
+means coupled to the reading means and the write operation 
+generating means receiving the valid data for generating 
+
+second parity information for the data stripe portion using 
+the valid data, the old data, and the old parity 
+
+information; and 
+means coupled to the second parity generating means 
+and the disk array for writing the valid data and the 
+
+second parity information to the stripe. 
+</CLAIMS>
+</TEXT>
+</DOC>

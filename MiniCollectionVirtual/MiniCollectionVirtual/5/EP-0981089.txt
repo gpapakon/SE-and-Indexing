@@ -1,0 +1,260 @@
+<DOC>
+<DOCNO>EP-0981089</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method and apparatus for providing failure detection and recovery with predetermined degree of replication for distributed applications in a network
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F15177	G06F1116	G06F1516	G06F1116	G06F1114	G06F1114	G06F1100	G06F1100	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F15	G06F11	G06F15	G06F11	G06F11	G06F11	G06F11	G06F11	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An application module (A) running on a host computer in a computer network
+is failure-protected with one or more backup copies that are operative on other host
+
+computers in the network. In order to effect fault protection, the application module
+registers itself with a ReplicaManager daemon process (112) by sending a
+
+registration message, which message, in addition to identifying the registering
+application module and the host computer on which it is running, includes the
+
+particular replication strategy (cold backup, warm backup, or hot backup) and the
+degree of replication associated with that application module. The backup copies
+
+are then maintained in a fail-over state according to the registered replication
+strategy. A WatchDog daemon (113), running on the same host computer as the
+
+registered application periodically monitors the registered application to detect
+failures. When a failure, such as a crash or hangup of the application module, is
+
+detected, the failure is reported to the ReplicaManager, which effects the requested
+fail-over actions. An additional backup copy is then made operative in accordance
+
+with the registered replication style and the registered degree of replication. A
+SuperWatchDog daemon process (115-1), running on the same host computer as
+
+the ReplicaManager, monitors each host computer in the computer network. When
+a host failure is detected, each application module running on that host computer is
+
+individually failure-protected in accordance with its registered replication style and
+degree of replication.
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+ACADEMIA SINICA
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+LUCENT TECHNOLOGIES INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+ACADEMIA SINICA
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+LUCENT TECHNOLOGIES INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+CHUNG PI-YU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HUANG YENNUN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LIANG DERON
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SHIH CHIA-YEN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YAJNIK SHALINI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+CHUNG, PI-YU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HUANG, YENNUN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LIANG, DERON
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SHIH, CHIA-YEN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YAJNIK, SHALINI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to detection of a failure of an application module
+running on a host computer on a network and recovery from that failure.In order for an application module running on a host computer in a
+network to provide acceptable performance to the clients accessing it, the
+application module must be both reliable and available. In order to provide
+acceptable performance, schemes are required for detecting the failure of an
+application module or the entire host computer running it, and for then quickly
+recovering from such a detected failure. Replication of the application module on
+other host computers in the network is a well known technique that can be used
+to improve reliability and availability of the application module.Three strategies are known in the art for operating and configuring the fail-over
+process as it applies to the replicas, or backup copies, of an application 
+module and which define a state of preparedness for these backups. In the first
+strategy, known as a "cold backup" style, only the primary copy of an application
+module is running on a host computer and other backup copies remain idle on
+other host computers in the network. When a failure of the primary copy of the
+application module is detected, the primary copy of the application module is
+either restarted on the same host computer, or one of the backup copies of the
+application module is started on one of the other host computers, which backup
+then becomes the new primary. By using a checkpointing technique to
+periodically take "snapshots" of the running state of the primary application
+module, and storing such state in a stable storage media, when a failure of the
+primary application module is detected, the checkpoint data of the last such
+stored state of the failed primary application module is supplied to the backup
+application module to enable it to assume the job as the primary application
+module and continue processing from such last stored state of the failed primary
+application module.The second strategy is known as a "warm backup" style. Unlike the cold
+backup style in which no backup of an application module is running at the same
+time the primary application module is running, in the warm backup style one or
+more backup application modules run simultaneously with the primary
+application module. The backup application modules, however, do not receive
+and respond to any client requests, but periodically receive state updates from
+the primary application module. Once a failure of the primary application
+</DESCRIPTION>
+<CLAIMS>
+A fault-managing computer apparatus comprising:
+
+a watchdog daemon process (113-1) running on a first host computer
+(101) that is interconnected on a network (100) with other host computers (102, 103,
+
+104, 105, 106) each running their own watchdog daemon process (113-2, 113-3, 113-4,
+113-5, 113-6), the watchdog daemon process on the first host computer monitoring a
+
+copy of at least one application module (A1) that is running on the first host computer
+for detecting a failure of that copy of the application module, at least one of the other
+
+host computers having a backup copy (A2, A3, A4)of the application module on it that
+
+is in either a running or idle state, the watchdog daemon processes running on the other
+host computers monitoring any backup copy of the application module running on them, a
+
+degree of replication specifying the total number of copies of the application module on
+the host computers on the network to be maintained in a running state; and
+a replica manager daemon process (112) running on one of the host
+computers (102) on the network, the replica manager daemon process being operative to
+
+receive an indication from the first host computer's watchdog daemon process that the
+copy of the application module running on the first host computer has failed and/or an
+
+indication from the watchdog daemon process running on any of the other host
+computers that the backup copy of the application module running on it has failed, the
+
+replica manager daemon process in response to receiving an indication of the failure of
+the copy of the application module running on any of the host computers initiating
+
+failure recovery with the backup copy on at least one of the other host computers that
+has a backup copy of the application module on it,
+
+   
+characterized in that
+:
+
+the replica manager daemon process automatically executes at least one
+of the idle backup copies of the application module on at least one host computer when
+
+a failure of a copy of the application module running on any of the host computers is
+received in order to maintain the total number of running copies of the application
+
+module on the host computers on the network at a degree of replication specified in a
+registration message that is received by the replica daemon process from the copy of the
+
+application module running on the first host computer.
+The fault managing computer apparatus of claim 1 further comprising:
+
+a checkpoint server (110) connected to the network, the checkpoint
+server periodically storing the states of the running copy of the application module on the
+
+first host computer and the replica manager daemon process.
+The fault managing computer apparatus of claim 2 wherein when
+failure recovery with a backup copy is iniliated upon a detected failure of the copy of
+
+the application module running on the first host computer, the backup copy assumes the
+processing functions of the failed copy of the application module and retrieves from the
+
+checkpoint server the last stored state of the failed copy of the application module.
+The fault managing computer apparatus of claim 3 further comprising:
+
+a superwatchdog daemon process (115-1) running on the same host
+computer as the replica daemon process, the superwatchdog daemon process monitoring
+
+the first host computer for a failure.
+The fault managing computer apparatus of claim 4 wherein upon
+detection by the superwatchdog daemon process of a failure of the first host computer, a
+
+backup copy of the application module running on the failed first host computer is
+signaled to assume the processing functions of that copy of the application module, the
+
+backup copy retrieving from the checkpoint server the last stored state of that copy of
+the application module.
+The fault managing computer apparatus of claim 5 wherein the
+registration message received by the replica manager daemon process from the
+
+application module further specifies a fail-over strategy that indicates whether the
+backup copy of the application module should assume the processing functions of the
+
+copy of the application module running on the first host computer each time the replica
+manager detects a failure of that copy, or whether the backup copy should assume those
+
+processing functions only after a predetermined number of failures of that copy.
+A method for fault-tolerant computing on a network (100) on which a
+plurality of host computers (101, 102, 103, 104, 105, 106) are connected comprising the
+
+steps of: 
+
+monitoring on a first host computer (101) at least one application module
+(A1) that is running on the first host computer for detecting a failure of that copy of the
+
+application module, at least one of the other host computers having a running or idle
+backup copy (A2, A3, A4) of the application module, the running backup copy of the
+
+application module on the other host computer being monitored for detecting a failure
+of that backup copy, a degree of replication specifying the total number of running
+
+copies of the application module on the host computers on the network;
+receiving on one of the host computers an indication that the copy of the
+application module running on the first host computer has failed and/or an indication
+
+that the backup copy of the application module running on one of the other host
+computers has failed; and
+initiating from the computer at which the failure indication regarding a copy of the
+application module has been received, failure recovery with the backup copy of the
+
+failed copy of the application module on at least one of the other host computers on
+which a backup copy resides;
+
+   
+characterized in that
+ the method further comprises:
+
+receiving on the host computer from which failure recovery is initiated
+from the copy of the application module running on the first host computer, a
+
+registration message that specifies a degree of replication for that application module;
+and
+in response to the indication of the failure of the copy of the application
+module running on any of the host computers, automatically executing at least one of
+
+the idle backup copies of the application module on which an idle copy of the
+application module resides to maintain the total number of running copies of the
+
+application module in the network at the degree of replication specified in the received
+registration message.
+The method of claim 7 wherein the registration message further
+specifies a fail-over strategy that indicates whether the backup copy of the application
+
+module should assume the processing functions of the copy of the application module
+running on the first host computer each time a failure of that copy of that application
+
+module is detected, or whether the backup copy should assume those processing
+functions only after a predetermined number of failures.
+</CLAIMS>
+</TEXT>
+</DOC>

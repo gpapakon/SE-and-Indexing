@@ -1,0 +1,264 @@
+<DOC>
+<DOCNO>EP-0615184</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Nonvolatile memory.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F306	G06F306	G06F1110	G06F1110	G06F1114	G06F1114	G06F1200	G06F1200	G06F1202	G06F1202	G06F1206	G06F1206	G06F1216	G06F1216	G11C1602	G11C1602	G11C1700	G11C1700	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G11C	G11C	G11C	G11C	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F3	G06F3	G06F11	G06F11	G06F11	G06F11	G06F12	G06F12	G06F12	G06F12	G06F12	G06F12	G06F12	G06F12	G11C16	G11C16	G11C17	G11C17	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A nonvolatile memory (20) with flash erase capability comprises a 
+plurality of sectors, each of the sectors holding the attribute 
+
+information for identification. A cluster information sector is in 
+principle placed in the top of a cluster to which it belongs. A data 
+
+sector is placed in a data area which is the region other than the top of 
+the cluster. A controller (30) connected to the memory creates a cluster 
+
+information copy sector when erasing a cluster, and reconstructs cluster 
+management information from the cluster information copy sector when 
+
+initializing a cluster, thereby forming a cluster information sector. 
+This improves the endurance against failure such as power failure 
+in a solid state file apparatus using a nonvolatile memory with flash 
+
+erase capability. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+NIIJIMA HIDETO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TOYOOKA TAKASHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NIIJIMA, HIDETO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TOYOOKA, TAKASHI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a nonvolatile memory with flash 
+erase capability such as a flash EEPROM (hereinafter referred to as a 
+flash memory) and a solid state file apparatus using the same, and more 
+particularly to save, recover, and update the control information such as 
+erase counts of a cluster. A flash memory has been developed as a memory used for a solid 
+state file apparatus. Its memory element is composed of one transistor 
+as a DRAM so that it can be packaged at high density, and it is expected 
+to have a bit cost equivalent to, or less than that of a DRAM (low cost, 
+large capacity), depending on the future market. The memory element is 
+nonvolatile and does not require a battery backup. Erasure is generally 
+performed for each chip for each smaller block. The outline of such a 
+flash memory is introduced by Richard D. Pashley et al. in "Flash 
+Memories: the best of two worlds," IEEE SPECTRUM, December 1989, pp. 30 - 
+33. As far as performance is concerned, the block erase type is superior 
+to the chip erase type. When the flash memory of block erase type is used for a solid state 
+file (SSF), it is convenient to memory management if the size of a block 
+is made equal to a sector, which is a unit of access in the magnetic disk 
+apparatus. European Patent Application 392895, for example, discloses a 
+flash EEPROM system of the sector erase type. The system makes it 
+possible to simultaneously erase any plural sectors by providing a latch 
+for each sector, which is a unit of erasure, and setting a latch 
+corresponding to a sector to be erased. Also known is a flash memory 
+whose unit of erasure is a block having a size equivalent to a plurality 
+of sectors (e. g. 4K bytes). Furthermore, it is possible to make a 
+cluster including a plurality of blocks, each of which is a physical 
+erase unit, a logical erase unit. However, the flash memory has limitations which SRAMs and DRAMs do 
+not have. First, the programming of memory bits is a one-way process and 
+change is allowed only from 0 to 1 or from 1 to 0. Therefore, when new 
+data is to be written to a memory location which has already been 
+written, writing should be performed after a block including that memory 
+location is erased to an all 0 or all 1 state. It is usually takes from 
+several tens of milliseconds to several seconds for erasure and writing.  
+ 
+Furthermore, the flash memory is deteriorated by erasure and writing and 
+reaches a use limit, at present, after several tens of thousands to 
+several hundreds of thousands of
+</DESCRIPTION>
+<CLAIMS>
+A nonvolatile memory having flash erase capability, comprising a 
+plurality of sectors, each of the sectors storing attribute information 
+
+for identification. 
+A nonvolatile memory as claimed in Claim 1 further comprising a 
+plurality of clusters, each cluster comprising a plurality of said 
+
+sectors, and the clusters are erasable on a cluster-by-cluster basis, and 
+wherein each cluster is provided with a cluster information sector for 
+
+storing management information for said cluster, said cluster information 
+sector holding attribute information for the cluster information sector; 
+
+and sectors for user data holding the attribute information for the data 
+sector. 
+A nonvolatile memory as claimed in Claim 2, wherein said cluster 
+information sectors are placed at a predetermined location in the 
+
+clusters, said data sectors are placed in a data area at a location other 
+than said predetermined location in the cluster. 
+A nonvolatile memory as claimed in Claim 3 further comprising a 
+sector in a data area in a given cluster for storing a copy of management 
+
+information for another cluster, said sector holding the identifier of 
+said another cluster and the attribute information for the cluster 
+
+information copy sector. 
+A nonvolatile memory as claimed in any of Claims 2 to 4 wherein 
+said management information contains cluster erase counts and a bad 
+
+sector map. 
+A nonvolatile memory as claimed in Claim 5 further comprising a 
+sector in a data area in a given cluster for storing a location of a bad 
+
+sector which is in said cluster or another cluster and not yet reflected 
+in the bad sector map in the related cluster information sector, said 
+
+sector holding the identifier of the cluster containing said bad sector 
+and the attribute information for the bad sector information sector. 
+A nonvolatile memory as claimed in any of Claims 2 to 6 wherein 
+each cluster comprises a plurality of blocks, each of said blocks being a 
+
+physical erase unit and comprising a plurality of pages;
+ 
+
+   top pages of one half of the blocks constituting a given cluster 
+being allocated to the first half of the cluster information sector of 
+
+said given cluster, top pages of the remaining blocks being allocated to 
+the second half of said cluster information sector; and 
+
+   the management information for said given cluster being written in 
+said first and second halves of said cluster information sector in 
+
+duplicate. 
+A nonvolatile memory as claimed in Claim 7, wherein the first and 
+second halves of said cluster information sector are assigned to 
+
+different memory chips. 
+A nonvolatile memory as claimed in Claim 8, wherein, when one half 
+of said cluster information sector is bad, a replacement-cluster-information 
+
+sector is placed in the data area of said given cluster, said 
+sector holding the attribute information for cluster information sector; 
+
+the other half of said cluster information sector holding a pointer 
+pointing said replacement-cluster-information sector. 
+A solid state file apparatus comprising: 
+   a controller; and 
+
+   a nonvolatile memory with flash erase capability comprising a 
+plurality of clusters, each of said clusters comprising a plurality of 
+
+sectors, said clusters being erasable cluster-by-cluster basis, each 
+cluster being provided with a cluster information sector for storing 
+
+management information for said cluster, said cluster information sector 
+holding the attribute information for cluster information sector, and 
+
+sectors for user data holding the attribute information for data sector. 
+A solid state file apparatus as claimed in Claim 10, wherein said 
+cluster information sectors are placed at a predetermined locations in 
+
+the clusters, said data sectors being placed at data areas at locations 
+other than said predetermined locations in the clusters. 
+A solid state file apparatus as claimed in Claim 10 or Claim 11, 
+wherein said management information includes erase count of the cluster. 
+A solid state file apparatus as claimed in any of Claims 10 to 12, 
+wherein: 
+
+   prior to erasure of a given cluster, said controller reads the 
+management information in its cluster information sector; and 
+
+   writes an identifier of said given cluster and said management 
+information in a sector in a data area of a cluster other than said given 
+
+cluster, and sets in said written cluster the attribute information for 
+cluster information copy selector. 
+A solid state file apparatus as claimed in Claim 13, wherein: 
+   said management information includes cluster erase count; 
+
+   said controller determines the validity of the cluster information 
+sector in a given cluster to be erased by comparing the erase count held 
+
+in said cluster information copy sector with that held in the cluster 
+information sector for the cluster pointed by said sector; and 
+
+   if it is valid, copies said cluster information copy sector to a 
+data area of another cluster prior to erasure of said given cluster. 
+A solid state file apparatus as claimed in Claim 13 or Claim 14, 
+wherein, when initializing a given cluster after erasure, said controller 
+
+reconstructs the management information from the cluster information copy 
+sector, which is created prior to erasure and includes the identifier of 
+
+said given cluster, and creates the cluster information sector in said 
+given cluster. 
+A solid state file apparatus as claimed in any of Claims 13 to 15, 
+wherein, when failing to read the cluster information sector for a given 
+
+cluster, said controller searches the cluster information copy sector 
+including the identifier of said given cluster. 
+A solid state file apparatus as claimed in any of Claims 10 to 16, 
+wherein said management information includes a bad sector map. 
+A solid state file apparatus as claimed in Claim 17, wherein, when 
+detecting a bad sector in a given sector, said controller writes the 
+
+ 
+identifier of said cluster, the identifier of said bad sector, and the 
+
+erase count of said cluster in a sector of a cluster to which user data 
+is being written, and sets in said written cluster the attribute 
+
+information for the bad sector information cluster. 
+A solid state file apparatus as claimed in Claim 18, wherein: 
+   said management information includes cluster erase count; 
+
+   said controller determines the validity of the bad sector 
+information sector in a given cluster to be erased by comparing the erase 
+
+count held in said bad sector information sector with that held in the 
+cluster information sector for the cluster pointed by said sector; and 
+
+   if it is valid, copies said bad sector information sector to a data 
+area of another cluster prior to erasure of said given cluster. 
+A solid state file apparatus as claimed in Claim 18, wherein, when 
+initializing a given cluster after erasure, said controller references 
+
+the bad sector information sector, which is created prior to erasure and 
+includes the identifier of said given cluster, and updates the bad sector 
+
+map of said given cluster. 
+A solid state file apparatus as claimed in any of Claims 10 to 20, 
+furth
+er comprising: 
+   a random access memory connected to said controller; 
+
+   said random access memory being provided with an address 
+translation table, said table translating a logical address contained in 
+
+a command issued by a processor connected to said controller into a 
+physical address pointing a specific sector; 
+
+   when reconstructing said address translation table by reading all 
+sectors in said memory upon starting up, said controller recording the 
+
+associativity between the cluster identifier included in the detected 
+cluster information copy sector and the location of said sector in a 
+
+table other than said address translation table on said random access 
+memory. 
+</CLAIMS>
+</TEXT>
+</DOC>

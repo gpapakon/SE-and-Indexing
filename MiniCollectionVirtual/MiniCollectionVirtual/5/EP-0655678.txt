@@ -1,0 +1,344 @@
+<DOC>
+<DOCNO>EP-0655678</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Data processing system.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F9302	G06F9302	G06F932	G06F932	G06F938	G06F938	G06F946	G06F948	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	G06F9	G06F9	G06F9	G06F9	G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The data processing system(10) implements a resumable 
+instruction using two instruction bytes. When a program counter 
+
+(72) points to a first instruction byte, a first data processing 
+operation is initiated. If an interrupt occurs during execution of 
+
+the first data processing operation, intermediate data 
+calculations held in a plurality of temporary registers (64, 66, 
+
+68) are saved in stack memory at a location pointed to by the 
+stack pointer register (72). The program counter is incremented 
+
+to point to a second byte of the instruction. An instruction 
+resume operation is executed and the intermediate results of the 
+
+data processing operation are accessed from the stack memory 
+and restored to respective storage locations within the data 
+
+processing system. After the intermediate results are restored, 
+the program counter is decremented to point to the first 
+
+instruction byte and the instruction continues executing the data 
+processing operation as though no interrupt occurred. 
+ 
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MOTOROLA INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MOTOROLA, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+SIBIGTROTH JAMES M
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+VIOT GREG J
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WINTER MARLAN L
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SIBIGTROTH, JAMES M.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+VIOT, GREG J.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WINTER, MARLAN L.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates generally to an instruction in a data 
+processing system, and more particularly to a resumable 
+instruction in a data processing system. As the complexity of data processing systems increases, 
+some instructions executed by the data processing systems 
+require more instruction cycles to be fully executed. Increasing 
+instruction cycles correspond to longer execution times and, 
+consequently, the need for signals to interrupt execution of the 
+function. The interrupting signals generally indicate that more 
+urgent data processing functions should be performed. In current 
+instructions which have a high latency, one of two methods is 
+generally implemented when an interrupt is asserted before an 
+instruction is fully executed. In a first method, the data processing system ignores the 
+interrupt until after the instruction is fully executed. After the 
+instruction is executed, the interrupt is then processed. In data 
+processing instructions, such as divide, multiply and accumulate, 
+and complex fuzzy logic instructions, the time expended before 
+handling the interrupt may be critical to the proper operation of 
+the data processing system. In other systems in which the timing 
+of the interrupt is not critical, the efficiency of the system may 
+be decreased by the long execution time of the instruction 
+currently being executed. In a second method, the data processing system simply 
+stops execution of the instruction when the interrupt is received. 
+The data necessary for execution of the instruction is typically 
+stored in a stack memory, or other memory device, in the data 
+processing system and the interrupt is then processed 
+immediately. After processing the interrupt, the data processing  
+ 
+system then retrieves the data stored on the stack memory, or 
+other memory device, and resumes execution of the instruction 
+from the beginning. Previously calculated intermediate results 
+are retrieved and again used during subsequent execution of the 
+same instruction. In data processing systems which implement 
+this second method of processing interrupts, initialization for 
+execution of the instruction must be performed in a series of 
+additional instructions. If the initialization steps were 
+performed during execution of the instruction, then all 
+initialization steps would be repeated each time the instruction 
+was interrupted. Again, the efficiency of the data processing 
+system is not optimized. The required inclusion of initialization 
+steps prior to instruction execution uses
+</DESCRIPTION>
+<CLAIMS>
+A data processing system (10), comprising: 
+   interface means (30) for receiving a resumable 
+
+instruction, the resumable instruction having a 
+first instruction byte and a second instruction 
+
+byte; 
+   instruction decode means (30) for decoding the 
+
+resumable instruction to provide a plurality of 
+control values, the instruction decode means 
+
+being coupled to the interface means for 
+receiving the resumable instruction; 
+
+   a program counter (70) for storing a program counter 
+value pointing to the resumable instruction, the 
+
+program counter selectively pointing to one of 
+the first instruction byte and the second 
+
+instruction byte of the resumable instruction; 
+   register means (56, 58, 60, 62) for storing a plurality 
+
+of initialization values and a plurality of 
+intermediate values calculated when the 
+
+program counter value points to the first 
+instruction byte of the resumable instruction; 
+
+   an arithmetic logic (52) unit coupled to the register 
+means for receiving the plurality of 
+
+initialization values and the plurality of 
+intermediate values, the arithmetic logic unit 
+
+selectively using the plurality of initialization 
+values and the plurality of intermediate values 
+
+to calculate a result of the resumable 
+instruction in response to the plurality of 
+
+control values; and 
+   a stack memory (64, 66, 68) for storing the plurality 
+
+of intermediate values stored in the register 
+means when an interrupt signal is asserted and 
+
+the program counter value points to the first 
+instruction byte of the resumable instruction, 
+
+the stack memory providing the plurality of 
+ 
+
+intermediate values to the register means when 
+the program counter value points to the second 
+
+instruction byte of the resumable instruction. 
+The data processing system of claim 1 wherein the 
+resumable instruction is a weighted average instruction for 
+
+performing a weighted average operation. 
+The data processing system of claim 1 wherein the program 
+counter value points to the second instruction byte of the 
+
+resumable instruction after the interrupt signal is initially 
+asserted. 
+A method for executing a resumable instruction in a data 
+processor, comprising the steps of 
+
+   receiving a resumable instruction having a first 
+instruction byte and a second instruction byte; 
+
+   enabling a program counter (70) to point to one of the 
+first instruction byte and the second instruction 
+
+byte; 
+   executing a first data processing function when the 
+
+program counter points to the first instruction 
+byte; and 
+
+   executing a second data processing function when the 
+program counter points to the second instruction 
+
+byte, wherein the second data processing 
+function enables the data processor to resume 
+
+execution of the first data processing function. 
+The method of claim 4 further comprising the steps of: 
+   receiving an interrupt signal during execution of the 
+
+first data processing function; 
+   incrementing the program counter by a predetermined 
+
+value to point to the second instruction byte 
+when the interrupt signal is asserted. 
+The method of claim 4 further comprising the steps of: 
+   decrementing the program counter by a predetermined 
+
+value to point to the first instruction byte when 
+the second data processing function is executed 
+
+completely. 
+The method of claim 4 wherein the first data processing 
+function comprises the steps of: 
+
+
+i) initializing a plurality of temporary registers 
+(62, 64, 66) to a first predetermined value; 
+ii) storing an iteration value in a first accumulator 
+(58); 
+iii) storing a pointer to a first operand in a first 
+index (60) register and storing a pointer to a 
+
+second operand in a second index register (62); 
+iv) decrementing the iteration value in the first 
+accumulator; 
+v) providing the first operand and the second 
+operand to an arithmetic logic unit (52); 
+vi) enabling the arithmetic logic unit to multiply 
+the first operand and the second operand to 
+
+generate a product; 
+vii) adding the product to a first intermediate value 
+stored in a first portion of the plurality of 
+
+temporary registers; 
+viii) adding the first operand to a second 
+intermediate value stored in a second portion of 
+
+the plurality of temporary registers; 
+ix) testing to determine if the iteration value 
+stored in the first accumulator is equal to a 
+
+second predetermined value; 
+x) repeating each of steps iv) through ix) if the 
+iteration value stored in the first accumulator 
+
+is not equal to the second predetermined value; 
+and 
+xi) dividing the first intermediate value by the 
+second intermediate value to produce a weighted 
+
+average output. 
+The method of claim 4 further comprising the steps of: 
+   determining if an interrupt signal is asserted; 
+
+   incrementing the program counter (70) to point to the 
+second instruction byte when the interrupt 
+
+signal is asserted; 
+   storing the first intermediate value and the second 
+
+intermediate value in a stack memory; and 
+   executing an interrupt routine in response to the 
+
+interrupt signal. 
+The method of claim 8 wherein the second data processing 
+function comprises the steps of: 
+
+   retrieving the first intermediate value and the second 
+intermediate value from the stack memory; 
+
+   storing the first intermediate value in the first 
+portion of the plurality of temporary registers 
+
+(64, 66, 68); and 
+   storing the second intermediate value in the second 
+
+portion of the plurality of temporary registers. 
+A method for executing a resumable instruction in a data 
+processor (10), comprising the steps of 
+
+
+i) initializing a plurality of temporary registers 
+(66, 68, 70) to a first predetermined value; 
+ii) storing an iteration value in a first accumulator 
+(58); 
+iii) storing a pointer to a first operand in a first 
+index register (60) and storing a pointer to a 
+
+second operand in a second index register (62); 
+iv) receiving a resumable instruction having a first 
+instruction byte and a second instruction byte; 
+v) enabling a program counter (70) to point to the 
+first instruction byte; 
+vi) decrementing the iteration value in the first 
+accumulator; 
+vii) providing the first operand and the second 
+operand to an arithmetic logic unit (52); 
+viii) enabling the arithmetic logic unit to multiply 
+the first operand and the second operand to 
+
+generate a product; 
+ix) adding the product to a first intermediate value 
+stored in a first portion of the plurality of 
+
+temporary registers; 
+x) adding the first operand to a second 
+intermediate value stored in a second portion of 
+
+the plurality of temporary registers; 
+xi) testing to determine if the iteration value 
+stored in the first accumulator is equal to a 
+
+second predetermined value; 
+xii) repeating each of steps iv) through ix) if the 
+iteration value stored in the first accumulator 
+
+is not equal to the second predetermined value; 
+xiii) interrupting execution of step iv) through step 
+ix) to execute step xiv) through xix) when an 
+
+interrupt signal is asserted' 
+xiv) incrementing the program counter to point to the 
+second instruction byte when the interrupt 
+
+signal is asserted; 
+xv) storing the first intermediate value and the 
+second intermediate value in a stack memory; 
+xvi) executing an interrupt routine in response to the 
+interrupt signal; 
+xvii) retrieving the first intermediate value and the 
+second intermediate value from the stack 
+
+memory; 
+xviii) storing the first intermediate value in the first 
+portion of the plurality of temporary registers; 
+
+and 
+xix) storing the second intermediate value in the 
+second portion of the plurality of temporary 
+
+registers. 
+</CLAIMS>
+</TEXT>
+</DOC>

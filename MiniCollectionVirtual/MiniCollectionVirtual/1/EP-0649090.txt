@@ -1,0 +1,403 @@
+<DOC>
+<DOCNO>EP-0649090</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Microprocessor having register bank architecture
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F9312	G06F946	G06F930	G06F1206	G06F1206	G06F930	G06F946	G06F9312	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	G06F9	G06F12	G06F12	G06F9	G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A microprozessor having a register bank architecture has 
+n register banks (RF1 to RF4), a memory (606), a bus (208) for 
+
+connecting the register bank and the memory, and a bank controller 
+(BCU1) for controlling store/load operations banks and the 
+
+memory. The controller has a current bank pointer indicating 
+data region of the register banks and the memory during the data store/load 
+
+operations, and a bank size designation register indicating a bank size to be 
+stored/loaded during the store/load operations. When an address of the current 
+
+bank pointer is set in an destination operand in an instruction, the controller 
+receives the contents of the current bank pointer and bank size designation 
+
+register. The controller controls the store operation for the n register banks 
+based on the current bank pointer and the bank size designation register, and 
+
+changes the content of the current bank pointer with the content of the 
+destination operand in the instruction after the completion of the data store 
+
+operation, receives the content of the current bank pointer and the content of 
+the bank size designation register, and controls the load operation for the 
+
+memory by the contents of the current bank pointer and bank size designation 
+register. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+</APPLICANTS>
+<INVENTORS>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a microprocessor having
+a register bank architecture in which a built-in RAM and
+general-purpose registers are connected through an
+exclusive high-speed bus in order to that the contents
+of the general-purpose registers agree with the contents
+of the built-in RAM specified by a bank pointer, and, in
+particular, to a microprocessor having a register bank
+architecture wherein a wait time for execution of a
+following instruction caused during the switching
+operation of a bank in the register banks can be reduced
+according to the preamble of claim 1. From EP-A-0 538 817 a processor is known having register bank means
+comprising a plurality of register banks, namely exclusive-purpose registers and
+general-purpose registers organized in four groups of four registers, a dedicated
+bank memory RAM 2 for storing/loading the contents of one to five of said register
+banks over a high-speed 64-bit exclusive-use data bus.
+Bank control means for controlling said store/load operations includes a current
+bank pointer CBP 4, a bank size field BS 32 included within a register PSW 8, said
+BS 32 specifying a size of a bank presently in use, and an instruction CHGBK for
+changing the content of CBP when switching task.
+There is however no mention in EP-A-0 538 817 of associating flags to the
+register banks.Further, IBM TECHNICAL DISCLOSURE BULLETIN. vol. 33, no. 3B, August
+1990, NEW YORK, US, pages 472 - 473; "Technique to improve context switching
+performance in a CPU" describes to use a reference register to keep track of
+which general-purpose registers have been used during program execution, each
+bit thereof corresponding to one of said general-purpose registers. Exploiting an
+optimized compiler, a single instruction can then be used to save or restore only
+the referenced general-purpose registers.
+It must be noted, however, that the reference register described in this document
+keeps track of which general-purpose registers have been used in the past, and
+not of those registers that will be used in an upcoming task.Conventionally, in a conventional microprocessor having
+a register bank architecture, a built-in RAM 126 and
+general-purpose register group 127 are connected through
+a exclusive high-speed bus 128 in order to that the
+contents of the general-purpose register group 127 are
+agreed with the contents of t he built-in RAM 126. In
+the conventional microprocessor, contents of the
+general-purpose register group 127 are stored and loaded
+to/from the RAM 126 by setting a destination part
+</DESCRIPTION>
+<CLAIMS>
+A microprocessor having a register bank architecture for
+executing instructions, comprising:
+
+
+register bank means (607) comprising n register banks,
+where n is a positive integer, each of said n register
+
+banks comprising a plurality of general-purpose
+registers;
+memory means (606) for storing data of said register
+bank means (607);
+bus means (208) for connecting said register bank means
+(607) and said memory means (606);
+bank control means (BCUi, i=1-4) for controlling a data
+store operation for storing data in said register bank
+
+means (607) to said memory means (606) and for
+controlling a data load operation for loading data in
+
+said memory means (606) to said register bank means
+(607);
+n reference flags (BRi, i=1-n), one reference flag provided for each of said n register
+banks for indicating those of said n register banks
+
+which are referenced by subsequent instructions after
+said data store operation,
+
+is completed,
+ 
+said bank control means (BCUi, i=1-4) comprising:
+
+
+a current bank pointer (CBP) for storing address data
+indicating a data region in said memory means (606) to
+
+which data contained in one of said register banks is
+saved or from which data contained in one of said
+
+register banks is restored; and
+a bank size designation register (BS) for storing bank
+size data indicating a bank size to be stored and to be
+
+loaded during the data store operation and the data load
+operation,
+
+wherein when an address of said current bank pointer
+(CBP) is set in a destination operand in an instruction,
+
+said bank control means (BCUi, i=1-4) receives the
+content of said current bank pointer (CBP) and the
+
+content of said bank size designation register (BS), and
+said bank control means (BCUi, i=1-4) controls said data
+
+store operation for said n register banks designated by
+the contents of said current bank pointer (CBP) and said
+
+bank size designation register (BS) in order to save
+data of the bank size as specified by said bank size
+
+designation register (BS) to said memory means (606),
+said bank control means (BCUi, i=1-4) changes the
+
+content of said current bank pointer (CBP) with the
+content of the destination operand in said instruction
+
+after the completion of said data store operation, said
+bank control means (BCUi, i=1-4) receives the content of
+
+said current bank pointer (CBP) and the content of said
+bank size designation register (BS), and said bank
+
+control means (BCUi, i=1-4) controls said data load
+operation from said memory means (606) by the contents of
+
+said current bank pointer (CBP) and said bank size
+designation register (BS) in order to restore data of
+
+the bank size as specified by said bank size designation
+register (BS) to said memory means (606), and
+ 
+wherein said bank control means (BCUi, i=1-4) sets n
+
+reference flags after said data store operation has
+been completed, said
+
+microprocessor restarts the execution of said subsequent
+instructions, and said bank control means (BCUi, i=1-4)
+
+controls subsequent data load operations for only those
+of said n register banks for which said reference flags
+
+have been set.
+A microprocessor as claimed in claim 1, further
+comprising:
+
+n load completion flags (BFi, i=1-n), one load completion flag provided for each of said n
+register banks, each for indicating that said data load
+
+operation has been completed in a corresponding register
+bank, wherein after the data store operation is
+
+completed, subsequent instructions are executed by said
+microprocessor, a subsequent data load operation is
+
+executed, and said bank control means (BCUi, i=1-4) sets
+n load completion flags only for said n register banks
+
+for which said data load operation has been completed,
+and wherein the subsequent instructions use of said n
+
+register banks commences only after the n load
+completion flags are set.
+A microprocessor as claimed in claim 2, further
+comprising n rewrite flags (BKi, i=1-n), one rewrite flag
+
+provided for each of said n register banks for indicating
+that the contents of said n register banks have been
+
+rewritten, wherein said bank control means (BCUi, i=1-4)
+controls said data store operation only for those register
+
+banks for which the corresponding rewrite flag has been set.
+A microprocessor as claimed in claim 2,
+
+wherein said bank size designation register (BS) is
+constituted by: 
+
+
+a first bank size designation register (BS1) for
+designating the bank size of n register banks for said
+
+data store operation; and
+a second bank size designation register (BS2) for
+designating the bank size of said n register banks fo
+r
+said data load operation,
+wherein said bank control means (BCUi, i=1-4) receives
+the contents of said first bank size designation
+
+register (BS1) and controls said data store operation
+only for said n register banks designated by the content
+
+of said first bank size designation register (BS1), and
+said bank control means (BCUi, i=1-4) receives the
+content of said second bank size designation register
+
+(BS2) and controls said data load operation only for
+said n register banks designated by the content of said
+
+second bank size designation register (BS2).
+A microprocessor as claimed in claim 2, wherein said
+instructions include a special instruction, the address
+
+of said current bank pointer (CBP) and the address of
+said bank size designation register (BS) are set in an
+
+operand part in said special instruction.
+A microprocessor as claimed in claim 2, further
+comprising a precurrent bank pointer latch (PCBP) whose
+
+address is set in the destination in said instruction,
+
+wherein said bank control means (BCUi, i=1-4) receives a
+content of said current bank pointer (CBP) and controls
+
+said data store operation for said register banks
+designated by the content of said current bank pointer
+
+(CBP), and said bank control means (BCUi, i=1-4)
+receives a content of said precurrent bank pointer latch
+
+(PCBP) and controls said data load operation for said 
+memory means (606) designated by the content of said
+
+precurrent bank pointer latch (PCBP).
+A microprocessor as claimed in claim 1, further
+comprising n rewrite flags (BKi, i=1-n),
+
+one rewrite flag provided for each of said n register banks for indicating
+that the contents of said n register banks have been
+
+rewritten, wherein said bank control means (BCUi, i=1-4)
+controls said data store operation only for those register
+
+banks for which the corresponding rewrite flags has been set.
+A microprocessor as claimed in claim 7,
+wherein said bank size designation register (BS) is
+
+constituted by:
+
+a first bank size designation register (BS1) for
+designating the bank size of said n register banks for
+
+said data store operation; and
+a second bank size designation register (BS2) for
+designating the bank size of n register banks for said
+
+data load operation,
+wherein said bank control means (BCUi, i=1-4) receives
+the content of said first bank size designation register
+
+(BS1) and controls said data store operation only for
+said n register banks designated by the content of said
+
+first bank size designation register (BS1), and
+said bank control means (BCUi, i=1-4) receives the
+content of said second bank size designation register
+
+(BS2) and controls said data load operation only for
+said n register banks designated by the content of said
+
+second bank size designation register (BS2).
+A microprocessor as claimed in claim 7, wherein said
+instructions include a special instruction, the address
+
+of said current bank pointer (CBP) and the address of 
+said bank size designation register (BS) are set in an
+
+operand part in said special instruction.
+A microprocessor as claimed in claim 7, further
+comprising a precurrent bank pointer latch (PCBP) whose
+
+address is set in the destination in said instruction,
+wherein said bank control means (BCUi, i=1-4) receives a
+
+content of said current bank pointer (CBP) and controls
+said data store operation for said register banks
+
+designated by the content of said current bank pointer
+(CBP), and said bank control means (BCUi, i=1-4)
+
+receives a content of said precurrent bank pointer latch
+(PCBP) and controls said data load operation for said
+
+memory means (606) designated by the content of said
+precurrent bank pointer latch (PCBP).
+A microprocessor as claimed in claim 1,
+
+wherein said bank size designation register (BS) is
+constituted by:
+
+
+a first bank size designation register (BS1) for
+designating the bank size of said n register banks for
+
+said data store operation; and
+a second bank size designation register (BS2) for
+designating the bank size of n register banks for said
+
+data load operation,
+
+wherein said bank control means (BCUi, i=1-4) receives
+the content of said first bank size designation register
+
+(BS1) and controls said data store operation only for
+said n register banks designated by the content of said
+
+first bank size designation register (BS1), and said
+bank control means (BCUi, i=1-4) receives the content of
+
+said second bank size designation register (BS2) and
+controls said data load operation only for said n
+
+register banks designated by the content of said second
+bank size designation register (BS2). 
+A microprocessor as claimed in claim 11, wherein said
+instructions include a special load instruction, the address
+
+of said current bank pointer (CBP) and the address of
+said second bank size designation register (BS2) are set in an
+
+operand part in said special load instruction.
+A microprocessor as claimed in claim 11, further
+comprising a precurrent bank pointer latch (PCBP) whose
+
+address is set in the destination in said instruction,
+
+wherein said bank control means (BCUi, i=1-4) receives a
+content of said current bank pointer (CBP) and controls
+
+said data store operation for said register banks
+designated by the content of said current bank pointer
+
+(CBP), and said bank control means (BCUi, i=1-4)
+receives a content of said precurrent bank pointer latch
+
+(PCBP) and controls said data load operation for said
+memory means (606) designated by the content of said
+
+precurrent bank pointer latch (PCBP).
+A microprocessor as claimed in claim 1, wherein said
+instructions include a special instruction, the address
+
+of said current bank pointer (CBP) and the address of
+said bank size designation register (BS) are set in an
+
+operand part in said special instruction.
+A microprocessor as claimed in claim 1, further
+comprising a precurrent bank pointer latch (PCBP) whose
+
+address is set in the destination in said instruction,
+
+wherein said bank control means (BCUi, i=1-4) receives a
+content of said current bank pointer (CBP) and controls
+
+said data store operation for said register banks
+designated by the content of said current bank pointer
+
+(CBP), and said bank control means (BCUi, i=1-4)
+receives a content of said precurrent bank pointer latch 
+
+(PCBP) and controls said data load operation for said
+memory means (606) designated by the content of said
+
+precurrent bank pointer latch (PCBP).
+</CLAIMS>
+</TEXT>
+</DOC>

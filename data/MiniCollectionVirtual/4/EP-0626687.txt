@@ -1,0 +1,129 @@
+<DOC>
+<DOCNO>EP-0626687</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Optical disk apparatus utilizing different registers for different processes
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G11B1902	G11B709	G06F306	G11B7095	G11B709	G05B19414	G05B19414	G06F308	G11B2110	G11B7095	G11B1902	G11B2110	G06F306	G06F308	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G11B	G11B	G06F	G11B	G11B	G05B	G05B	G06F	G11B	G11B	G11B	G11B	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G11B19	G11B7	G06F3	G11B7	G11B7	G05B19	G05B19	G06F3	G11B21	G11B7	G11B19	G11B21	G06F3	G06F3	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An optical disk apparatus in which data is stored in internal registers (21 - 25) of 
+a digital signal processor (13) need not be saved and returned when a servo 
+
+processing based on an interrupt processing routine is executed. Internal registers 
+of the digital signal processor are allocated. At least one group of the divided 
+
+internal registers is exclusively allocated to the execution of a servo signal 
+processing interrupt routine and the other groups of internal registers are 
+
+exclusively allocated to execute a system control processing. With such 
+allocations, when a sampling interrupt occurs, servo signal processing of a focus 
+
+servo signal processing and a tracking servo processing is carried out without 
+saving data from the internal registers of the digital signal processor. After servo 
+
+processing is completed, the interrupt processing routine can be ended without 
+
+returning data to the internal registers. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SONY CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SONY CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+OKAWA SUMIHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+OKAWA, SUMIHIRO
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates generally to an optical disk apparatus, and in
+particular to memory allocation within an optical disk apparatus.Optical disk apparatus have hitherto used a digital signal processor ("DSP") in
+order digitally process servo signals through the execution of programs or routines,
+which are also referred to as software or firmware.In software servo processing, a focusing error signal and a tracking error signal
+contained within an output signal of a quadrant diode type of optical pickup are
+converted by an analog-to-digital ("A/D") converting circuit into digital signals. These
+digital signals are supplied through a bus line to a DSP. The DSP then processes these
+digital signals supplied thereto in accordance with a predetermined routine or program
+in some suitable signal processing fashion, such as a phase compensation or the like.
+The processed digital signals are supplied through a digital-to-analog ("D/A") converting
+circuit and a driver to a focusing actuator and to a tracking actuator of the optical
+pickup.In a conventional optical disk apparatus in which the DSP executes the software
+servo processing, the DSP is also utilized to execute processing other than the servo
+processing, such as system control or the like. In such a conventional optical disk
+apparatus, servo processing has a higher interrupt processing priority. Therefore, at the
+beginning of the interrupt processing (interrupt routine), data in the internal registers of
+the DSP are stored in and saved in a data RAM of the DSP. At the completion of
+interrupt processing, data is returned to the internal registers from the data RAM.A typical digital signal processor used in conventional optical disk apparatus is one
+manufactured and sold by the Motorola, Inc., Semiconductor Products Sector, 3102
+North 56th Street, Phoenix, Arizona 85018 under the model designation DSP56001.
+The DSP56001 is a 24-bit fixed-point general purpose digital signal processor which
+features three single-cycle execution units, namely, a data arithmetic logic unit, an
+address arithmetic unit and a program controller, all of which operate in parallel at
+instruction speeds of up to 16.5 MHz. The DSP56001 also contains an on-chip program
+random access memory (RAM). Using such a DSP, a time or period corresponding to
+68 steps is required in order to save and return data because this DSP contains a total of
+34 internal registers. In further detail, assuming an operation speed of the DSP is 100
+nsec/step, and a servo signal sampling rate of 30 kHz,
+</DESCRIPTION>
+<CLAIMS>
+An optical disk apparatus comprising:
+
+an optical pickup (3) having a photo-detector;
+means (4) for generating a servo error signal in response to an output signal from the
+photo-detector;
+a digital signal processor (13) for executing processing of signals including the servo
+error signal;
+a number of data registers (X0, X1, Y0, Y1, A0-A2, B0-B2) and a number of
+address registers (R0-R7, N0-N7, M0-M7) within the digital signal processor (13),
+
+wherein some of the number of data registers (X0, Y0, A0-A2) and some of
+the number of address registers (R2-R5, N2-N5, M2-M5) are exclusively allocated
+
+to execution of servo error signal processing, and the remaining registers (X1, Y1,
+B0-B2, R0, R1, R6, R7, N0, N1, N6, N7, M0, M1, M6, M7) are allocated to
+
+execution of processing of signals other than the servo error signal;
+means (11) for generating an interrupt signal and for supplying said interrupt signal
+to the digital signal processor, the digital signal processor executing servo error
+
+signal processing in response to the interrupt signal; and
+servo means (10) for controlling the optical pickup in response to the processed
+servo error signal.
+The optical disk apparatus of claim 1 wherein the optical pickup (3) further
+comprises:
+
+
+a focusing actuator,
+a tracking actuator, and
+a slide motor, the actuators and slide motor operative to position the photo-detector
+to read tracks of the optical disk.
+The optical disk apparatus of claim 1 or 2,
+
+wherein the registers comprise:
+
+an arithmetic logic unit register (21),
+an accumulator register (22),
+a pointer register (23),
+an offset register (24), and
+a modifier register (25).
+The optical disk apparatus according to one of the preceeding claims,
+
+wherein the servo error signal processing is executed with the timing of the interrupt
+signal of a pre-determined interval, and the processing of the signals other than the
+
+servo error signal processing is respectively executed in the time duration between
+the end of the processing of the servo error signal and the timing of the next
+
+interrupt signal.
+</CLAIMS>
+</TEXT>
+</DOC>

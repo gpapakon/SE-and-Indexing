@@ -1,0 +1,949 @@
+<DOC>
+<DOCNO>EP-0651304</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Constructing method of finite-state machine performing transitions according to a partial type of success funtion and a failure function
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1750	G06F700	G06K968	G05B19045	G06K968	G06F700	G06F1750	G06F1730	G06F1730	G05B1904	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06K	G05B	G06K	G06F	G06F	G06F	G06F	G05B	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F17	G06F7	G06K9	G05B19	G06K9	G06F7	G06F17	G06F17	G06F17	G05B19	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A constructing method of a finite state machine with failure 
+transitions FFM is disclosed. The machine FFM is constructed 
+
+from a nondeterministic finite-state machine and a string of 
+external inputs. States 
+<
+p,q
+>
+ in the machine FFM is formed of 
+a state set q included in the nondeterministic finite-state 
+
+machine and a set p defined as a subset of the state set q, 
+and the number of states 
+<
+p,q
+>
+ is finite. Also, an external 
+input c takes the machine FFM from a current state s to a next 
+
+state g(s,c) and an output µ(s) is output from the next state 
+g(s,c) in cases where a value g(s,c) of a success function g 
+
+is defined, and an external input c takes the machine FFM from 
+the current state s to a state g(f(f···f(s)···)) determined by 
+
+repeatedly calculating a value f(s) of a failure function f 
+until a value g(f(f···f(s)···)) defined is found out in cases 
+
+where the value g(s,c) of the success function g is not 
+defined. Because all of transitions from the current state s 
+
+for all external inputs c are not defined by the success 
+function g, a storage capacity for storing the machine FFM is 
+
+considerably reduced. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC IND CO LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC INDUSTRIAL CO., LTD.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+KANNO YUJI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KANNO, YUJI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a method for
+constructing a finite-state machine which is utilized for an
+automatic control system operated according to outside
+conditions and used in a chemical plant, a power plant, an
+airplane, a robot and a radar system. In previously proposed art
+the concept of a finite-state machine proposed by McCulloch
+and Pitts in 1943 has been extended by many researchers, and
+various characteristics of the finite-state machine has been
+clarified. The finite-state machine has been recently utilized
+for the research and development in the industrial world and
+an academic society as the most simple model of an automaton
+and a computer. Also, the relationship between the finite-state
+machine and a regular expression relating to the finite-state
+machine in a pair has been profoundly researched. The
+finite-state machine or a finite-state automaton classified as
+a type of finite-state machine and the regular expression have
+been reported in various publications and literatures such as
+a first publication --M.L. Minsky, "Computation: Finite and
+Infinite Machines", Englewood, New Jersey, (1967)--, a second
+publication --E.J. Hopcroft, and D.J. Ullman, "Formal
+Languages and their Relation to Automata", Addison-Wesley,
+Mass., (1964)--, a third publication --translation by Nozaki 
+et al., "Language Theory and Automa", Science Inc., (1971)--,
+a fourth publication --A. Salommaa, "Theory of Automata",
+Pergamon Press, England, (1969)--, a fifth publication --translated
+by Kitagawa et al., "Theory of Automata", Kyoritsu
+Press, (1964)--, a sixth publication --E. Tomita and T.
+Yokomori "Automata and Theory of languages", Morikita Press,
+(1992)--, and a literature --R. Mcnaughton and H. Yamada,
+"Regular Expressions and State Graphs for Automata", IRE
+Transactions on Electronic Computers", (1960). Therefore,
+introductory explanation of the finite-state machine and
+various concepts accompanying the finite-state machine is
+omitted, and formal definitions of a nondeterministic Moore
+machine NMO, a deterministic Moore machine DMO, regular
+expressions relating to the machines NMO and DMO and regular
+transformations equivalent to the extension of the regular
+expressions are merely described.The nondeterministic Moore machine is initially
+described.The nondeterministic Moore machine NMO = (Q,Σ,Δ,δ,λ,q)
+representing a nondeterministic finite-state machine consists
+of a finite set Q of states, a finite input set Σ expressed by
+symbolizing an input from the outside, a finite output set Δ
+expressed by
+</DESCRIPTION>
+<CLAIMS>
+A constructing method of a finite-state machine
+with failure transitions, comprising the steps of:
+
+
+preparing a nondeterministic finite-state machine, an
+external input taking the nondeterministic finite-state
+
+machine from a current state to a plurality of next states;
+producing a deterministic finite-state machine by utilizing
+the nondeterministic finite-state machine, an external input
+
+taking the deterministic finite-state machine from a current
+state to a next state and specifying an output at the next
+
+state, a form for specifying the next state and the output in
+the deterministic finite-state machine being the same as that
+
+in the nondeterministic finite-state machine or being
+expressed according to a pattern expression in which the form
+
+is equivalent to that in the nondeterministic finite-state
+machine and is convertible into that in the nondeterministic
+
+finite-state machine;
+regarding a combination 
+<
+p,q
+>
+ of state sets p and q as
+states of the deterministic finite-state machine, the state 
+
+set q being a set of states in the nondeterministic finite-state
+machine, and the set p being defined as a subset of the
+
+state set q (step S101);
+setting an initial state s
+0
+ of the deterministic finite-state
+machine to a state 
+<
+{q
+0
+},{q
+0
+}
+>
+, q
+0
+ denoting an initial
+state of the nondeterministic finite-state machine (step
+
+S102);
+storing the initial state s
+0
+ = 
+<
+{q
+0
+},{q
+0
+}
+>
+to add the initial
+state s
+0
+ to a state set of the deterministic finite-state
+machine as an element having an unprocessed tag (step S103);
+setting an output µ(s
+0
+) of the deterministic finite-state
+machine at the initial state so to be a set {λ{q
+0
+}} having an
+output of the nondeterministic finite-state machine at the
+
+initial state q
+0
+ (step S104);
+storing the output µ(s
+0
+) (step S105);
+producing a state 
+<
+,
+>
+ of the deterministic finite-state
+machine obtained in case of q =  (step S106);
+storing the state 
+<
+,
+>
+ to add the state 
+<
+,
+>
+ to the state
+set of the deterministic finite-state machine as an element
+
+having a processed tag (step S107);
+setting a value µ(
+<
+,
+>
+) of an output function µ of the
+deterministic finite-state machine at the state 
+<
+,
+>
+ to be an
+empty set  (step S108);
+storing the value µ(
+<
+,
+>
+) (step S109);
+setting values g(
+<
+,
+>
+,c) of a success function g for
+arbitrary external inputs c to be the state 
+<
+,
+>
+ (step S110); 
+storing the values g(
+<
+,
+>
+,c) (step S111);
+checking whether or not one or more elements respectively
+having an unprocessed tag exist in the state set of the
+
+deterministic finite-state machine (step s112);
+selecting one of the elements 
+<
+p,q
+>
+ respectively having an
+unprocessed tag from the set of states of the deterministic
+
+finite-state machine as a selected element 
+<
+p,q
+>
+ in cases
+where one or more elements 
+<
+p,q
+>
+ respectively having an
+unprocessed tag exist in the set of states of the
+
+deterministic finite-state machine (step S114);
+changing the selected element 
+<
+p,q
+>
+ having an unprocessed
+tag to a selected element 
+<
+p,q
+>
+ having a processed tag (step
+S115);
+setting one or more values g(
+<
+p,q
+>
+,c) of the success
+function g to one or more states 
+<
+x,y
+>
+ of the deterministic
+finite-state machine for first external inputs c which specify
+
+a non-empty set of next states δ(t,c) defined in the
+nondeterministic finite-state machine according to one of
+
+elements t of a state set p of the nondeterministic finite-state
+machine corresponding to a first component of the
+
+selected state 
+<
+p,q
+>
+ (step S116);
+selecting a union ∪δ(t,c) of the next states δ(t,c) of the
+nondeterministic finite-state machine for the first external
+
+inputs c and the elements t of the set p as values of a set y
+(step S118);
+selecting the values of the set y or a non-empty subset of
+the set y as elements of a set x (step S119);
+storing the values g(
+<
+p,q
+>
+,c) = 
+<
+x,y
+>
+ (step S117);
+storing the states 
+<
+x,y
+>
+ to add the states 
+<
+x,y
+>
+ to the
+state set of the deterministic finite-state machine as
+
+elements respectively having an unprocessed tag in cases where 
+the states 
+<
+x,y
+>
+ are not stored (step S120);
+setting a union ∪{λ(t)} of outputs λ(t) of the
+nondeterministic finite-state machine for elements t of the
+
+set y as output values µ(
+<
+x,y
+>
+) of the output function µ of
+the deterministic finite-state machine at the states 
+<
+x,y
+>
+ in
+cases where any of the values µ(
+<
+x,y
+>
+) is not defined (step
+S121);
+storing the output values µ(
+<
+x,y
+>
+) = ∪{λ(t)} (step S122);
+setting values f(
+<
+p,q
+>
+) of a failure function f not
+depending on any of second external inputs d to states 
+<
+z,q-p
+>
+
+obtained by combining a difference set q-p defined by removing
+elements of the subset p from elements of the set q and an
+
+arbitrary subset z of the difference set q-p in cases where
+each of the second external inputs d does not specify any of
+
+next states g(
+<
+p,q
+>
+,d) defined in the nondeterministic finite-state
+machine for any of elements of the state set p of the
+
+selected element 
+<
+p,q
+>
+ (step S123);
+storing the values f(
+<
+p,q
+>
+) = 
+<
+z,q-p
+>
+ stored (step S124);
+setting a union ∪{λ(t)} of outputs λ(t) of the
+nondeterministic finite-state machine for elements t of the
+
+difference set q-p to output values µ(
+<
+z,q-p
+>
+) of the output
+function µ of the deterministic finite-state machine at the
+
+states 
+<
+z,q-p
+>
+ in cases where the values µ(
+<
+x,y
+>
+) of the
+output function µ are not defined (step S125);
+storing the output values µ(
+<
+z,q-p
+>
+) = ∪{λ(t)} (step
+S126);
+repeating the steps of checking whether or not one or more
+elements respectively having an unprocessed tag exist, 
+selecting one of the elements 
+<
+p,q
+>
+, changing the selected
+element 
+<
+p,q
+>
+, setting one or more values g(
+<
+p,q
+>
+,c),
+selecting a union ∪δ(t,c), selecting the values of the set y,
+
+storing the values g(
+<
+p,q
+>
+,c) = 
+<
+x,y
+>
+, storing the states
+
+<
+x,y
+>
+, setting a union ∪{λ(t)}, storing the output values
+µ(
+<
+x,y
+>
+), setting values f(
+<
+p,q
+>
+) of a failure function f,
+storing the values f(
+<
+p,q
+>
+), setting a union ∪{λ(t)} and
+storing the output values µ(
+<
+z,q-p
+>
+) = ∪{λ(t)} until no
+existence of an element having an unprocessed tag is detected
+
+in the step of checking whether or not one or more elements
+respectively having an unprocessed tag exist (step S112); and
+defining the deterministic finite-state machine modified in
+the above steps as a finite-state machine with failure
+
+transitions, wherein the number of states 
+<
+p,q
+>
+ is finite, an
+external input c takes the finite-state machine with failure
+
+transitions from a current state s to a next state g(s,c) and
+an output µ(s) is output from the next state g(s,c) in cases
+
+where a value g(s,c) of the success function g is defined, and
+an external input c takes the finite-state machine with
+
+failure transitions from a current state to a next state
+g(h,c) (where h = f(f(---f(s)---))) determined by repeating a
+
+process that a value f(s) of the failure function f is
+calculated and the value f(s) is rewritten to the symbol s
+
+until a value g(h,c) of the success function g is defined in
+cases where a value g(s,c) of the success function g is not
+
+defined.
+A constructing method according to claim 1 in which 
+
+the step of selecting the values of the set y comprises the
+steps of:
+calculating a union of sets V of next states to which the
+first external inputs c take the nondeterministic finite-state
+
+machine from each state in the set p;
+calculating a difference set V-y defined by removing
+elements of the set y from elements of the set V; and
+setting the difference set V-y as the value of the set x.
+A constructing method according to claim 1 in
+which the pattern expressing in the step of preparing a
+
+
+nondeterministic finite-state machine is a
+regular expression or a regular transformation.
+An automatic product inspection system,
+comprising:
+
+
+detecting means (22;23) for detecting a plurality of types
+of features of a product at one time every prescribed time and
+
+time-sequentially outputting a string of inspecting values Iv,
+each of the inspecting values Iv indicating particular types
+
+of features of the product detected at one time; and
+action means (26) for processing the product according to
+the string of inspecting values Iv produced in the detecting
+
+means,
+characterized in that
+ the automatic product inspection
+system further comprises:
+
+
+finite-state machine with failure transitions constructing
+means (24) for constructing a finite-state machine with
+
+failure transitions from a nondeterministic finite-state
+machine according to a constructing method, the constructing
+
+method comprising the steps of
+preparing the nondeterministic finite-state machine, an
+external input taking the nondeterministic finite-state
+
+machine from a current state to a plurality of next states,
+producing a deterministic finite-state machine by
+utilizing the nondeterministic finite-state machine, an
+
+external input taking the deterministic finite-state machine
+from a current state to a next state and specifying an output
+
+at the next state, a form for specifying the next state and
+the output in the deterministic finite-state machine being the
+
+same as that in the nondeterministic finite-state machine or
+being expressed according to a pattern expression in which the
+
+form is equivalent to that in the nondeterministic finite-state
+machine and is convertible into that in the
+
+nondeterministic finite-state machine, 
+regarding a combination 
+<
+p,q
+>
+ of state sets p and q as
+states of the deterministic finite-state machine, the state
+
+set q being a set of states in the nondeterministic finite-state
+machine, and the set p being defined as a subset of the
+
+state set q,
+setting an initial state s
+0
+ of the deterministic finite-state
+machine to a state 
+<
+{q
+0
+},{q
+0
+}
+>
+, q
+0
+ denoting an initial
+state of the nondeterministic finite-state machine,
+storing the initial state s
+0
+ = 
+<
+{q
+0
+},{q
+0
+}
+>
+to add the
+initial state s
+0
+ to a state set of the deterministic finite-state
+machine as an element having an unprocessed tag,
+setting an output µ(s
+0
+) of the deterministic finite-state
+machine at the initial state s
+0
+ to be a set {λ{q
+0
+}} having an
+output of the nondeterministic finite-state machine at the
+
+initial state q
+0
+,
+storing the output µ(s
+0
+),
+producing a state 
+<
+,
+>
+ of the deterministic finite-state
+machine obtained in case of q = ,
+storing the state 
+<
+,
+>
+ to add the state 
+<
+,
+>
+ to the state
+set of the deterministic finite-state machine as an element
+
+having a processed tag,
+setting a value µ(
+<
+,
+>
+) of an output function µ of the
+deterministic finite-state machine at the state 
+<
+,
+>
+ to be an
+empty set ,
+storing the value µ(
+<
+,
+>
+),
+setting values g(
+<
+,
+>
+,c) of a success function g for
+arbitrary external inputs c to be the state 
+<
+,
+>
+, 
+storing the values g(
+<
+,
+>
+,c),
+checking whether or not one or more elements respectively
+having an unprocessed tag exist in the state set of the
+
+deterministic finite-state machine,
+selecting one of the elements 
+<
+p,q
+>
+ respectively having an
+unprocessed tag from the set of states of the deterministic
+
+finite-state machine as a selected element 
+<
+p,q
+>
+ in cases
+where one or more elements 
+<
+p,q
+>
+ respectively having an
+unprocessed tag exist in the set of states of the
+
+deterministic finite-state machine,
+changing the selected element 
+<
+p,q
+>
+ having an unprocessed
+tag to a selected element 
+<
+p,q
+>
+ having a processed tag,
+setting one or more values g(
+<
+p,q
+>
+,c) of the success
+function g to one or more states 
+<
+x,y
+>
+ of the deterministic
+finite-state machine for first external inputs c which specify
+
+a non-empty set of next states δ(t,c) defined in the
+nondeterministic finite-state machine according to one of
+
+elements t of a state set p of the nondeterministic finite-state
+machine corresponding to a first component of the
+
+selected state 
+<
+p,q
+>
+,
+selecting a union ∪δ(t,c) of the next states δ(t,c) of the
+nondeterministic finite-state machine for the first external
+
+inputs c and the elements t of the set p as values of a set y,
+selecting the values of the set y or a non-empty subset of
+the set y as elements of a set x,
+storing the values g(
+<
+p,q
+>
+,c) = 
+<
+x,y
+>
+,
+storing the states 
+<
+x,y
+>
+ to add the states 
+<
+x,y
+>
+ to the
+state set of the deterministic finite-state machine as
+
+elements respectively having an unprocessed tag in cases where
+the states 
+<
+x,y
+>
+ are not stored, 
+setting a union ∪{λ(t)} of outputs λ(t) of the
+
+nondeterministic finite-state machine for elements t of the
+set y as output values µ(
+<
+x,y
+>
+) of the output function µ of
+the deterministic finite-state machine at the states 
+<
+x,y
+>
+ in
+cases where any of the values µ(
+<
+x,y
+>
+) is not defined,
+storing the output values µ(
+<
+x,y
+>
+) = ∪{λ(t)},
+setting values f(
+<
+p,q
+>
+) of a failure function f not
+depending on any of second external inputs d to states 
+<
+z,q-p
+>
+
+obtained by combining a difference set q-p defined by removing
+elements of the subset p from elements of the set q and an
+
+arbitrary subset z of the difference set q-p in cases where
+each of the second external inputs d does not specify any of
+
+next states g(
+<
+p,q
+>
+,d) defined in the nondeterministic finite-state
+machine for any of elements of the state set p of the
+
+selected element 
+<
+p,q
+>
+,
+storing the values f(
+<
+p,q
+>
+) = 
+<
+z,q-p
+>
+ stored,
+setting a union ∪{λ(t)} of outputs λ(t) of the
+nondeterministic finite-state machine for elements t of the
+
+difference set q-p to output values µ(
+<
+z,q-p
+>
+) of the output
+function µ of the deterministic finite-state machine at the
+
+states 
+<
+z,q-p
+>
+ in cases where the values µ(
+<
+x,y
+>
+) of the
+output function µ are not defined,
+storing the output values µ(
+<
+z,q-p
+>
+) = ∪{λ(t)},
+repeating the steps of checking whether or not one or more
+elements respectively having an unprocessed tag exist,
+
+selecting one of the elements 
+<
+p,q
+>
+, changing the selected
+element 
+<
+p,q
+>
+, setting one or more values g(
+<
+p,q
+>
+,c),
+selecting a union ∪δ(t,c), selecting the values of the set y, 
+
+storing the values g(
+<
+p,q
+>
+,c) = 
+<
+x,y
+>
+, storing the states
+
+<
+x,y
+>
+, setting a union ∪{λ(t)}, storing the output values
+µ(
+<
+x,y
+>
+), setting values f(
+<
+p,q
+>
+) of a failure function f,
+storing the values f(
+<
+p,q
+>
+), setting a union ∪{λ(t)} and
+storing the output values µ(
+<
+z,q-p
+>
+) = ∪{λ(t)} until no
+existence of an element having an unprocessed tag is detected
+
+in the step of checking whether or not one or more elements
+respectively having an unprocessed tag exist, and
+defining the deterministic finite-state machine modified in
+the above steps as a finite-state machine with failure
+
+transitions, wherein the number of states 
+<
+p,q
+>
+ is finite, an
+external input c takes the finite-state machine with failure
+
+transitions from a current state s to a next state g(s,c) and
+an output µ(s) is output from the next state g(s,c) in cases
+
+where a value g(s,c) of the success function g is defined, and
+an external input c takes the finite-state machine with
+
+failure transitions from a current state to a next state
+g(h,c) (where h = f(f(---f(s)---))) determined by repeating a
+
+process that a value f(s) of the failure function f is
+calculated and the value f(s) is rewritten to the symbol s
+
+until a value g(h,c) of the success function g is defined in
+cases where a value g(s,c) of the success function g is not
+
+defined; and
+control means (25) for performing state-transitions of the
+finite-state machine with failure transitions constructed by
+
+the finite-state machine with failure transitions constructing
+means by utilizing the string of inspecting values Iv produced
+
+by the detecting means, each of the inspecting values Iv
+taking the finite-state machine with failure transitions from
+
+a current state s to a next state g(s,Iv) and an output µ(s) 
+being output from the next state g(s,Iv) in cases where a
+
+value g(s,Iv) of the success function g is defined, each of
+the inspecting values Iv taking the finite-state machine with
+
+failure transitions from a current state s to a next state
+f(s) determined by a value f(s) of the failure function f in
+
+cases where the value g(s,Iv) of the success function g is not
+defined, and the product being processed by the action means
+
+according to the output µ(s).
+</CLAIMS>
+</TEXT>
+</DOC>

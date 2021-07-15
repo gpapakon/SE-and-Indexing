@@ -1,0 +1,177 @@
+<DOC>
+<DOCNO>EP-0649118</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Drawing data producing apparatus and methods
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1320	G06T1540	G06F1328	G06F3153	G06F3153	G06T1510	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06T	G06F	G06F	G06F	G06T	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F13	G06T15	G06F13	G06F3	G06F3	G06T15	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A drawing data producing apparatus includes: a memory (3) having a plurality 
+of sequence tables into which sequence data indicating processing sequences of a 
+
+plurality of blocks obtained by dividing a picture are written for every object 
+constituting the picture with information in the Z-direction in three dimensional 
+
+coordinates of representative pixels of the respective blocks being used as addresses; 
+and a sorting control means (5) for carrying out, in a stepwise manner, Z-sorting 
+
+between a plurality of sequence tables, thereby to produce drawing data by stepwise 
+Z-sorting between a plurality of sequence tables. Thus, even in the case where 
+
+physically divided objects are present at depths close to each other, the apparatus 
+excludes polygon unit interference, thus making it possible to produce drawing data 
+
+of excellent picture quality. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SONY COMP ENTERTAINMENT INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SONY COMPUTER ENTERTAINMENT INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+YUTAKA TEIJI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YUTAKA, TEIJI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to drawing data producing apparatus and methods.In a three-dimensional picture display in computer graphics, since it is
+necessary to produce (prepare) drawing (painting) data so as not to display the portion
+invisible from the observer's eye, e.g., an original picture is divided into a plurality
+of blocks to prepare pointers indicating processing sequences every blocks from
+information in Z (depth) direction in three-dimensional coordinates of respective
+blocks to write them into a buffer memory, and to register their headers into a table
+to carry out processing in block unit in accordance with a sequence designated by the
+header and the pointer.A known method and apparatus for producing drawing data in accordance with
+such processing is disclosed in an article entitled "Real-time Hidden surface Removal
+In a Flight Simulator" by T.Sheperd and S. Laporte, published at IEEE Pacific Rim
+Conference on Communications, Computers and Signal Processing, May 9-10, 1991.
+This article discloses a process in which pixels which make up a picture are divided
+into primitive elements known as polygons. The polygons are then listed in
+association with a relative depth of each polygon. The polygons are then sorted in
+depth order from which the drawing data is produced.A better understanding of the technical problem to which the present invention
+is directed and in part a solution to this problem is provided by the following
+explanation.An original picture is divided into (64 x 96) blocks as, e.g., unit block of (8
+x 8) pixels to determine coordinate positions in Z-direction in three dimensional
+coordinates every 
+representative pixels of respective blocks to allow the depth to
+be in the range of O ~ D to register, as header (start address),
+block No. (n, m) of the first block having representative pixel
+of depth d into a table having depth z as address to write a
+series of block numbers starting from the header (start address)
+into a memory as pointer to prepare sequence tables prescribing
+processing sequences from shallow portion toward deep portion in
+block units to produce drawing data by Z-sorting using these
+sequence tables.Namely, in the case where depth of the representative pixel
+of a block of block No. (n, m) is d, if any address data is not
+written in d address of table, the block number (n, m) is written
+into the d address of the table as start address. On the other
+hand, when start address (n0, m0) is already written in the d
+address as shown in FIG. 10, pointer value (n1, m1) of (n0,
+</DESCRIPTION>
+<CLAIMS>
+A drawing data producing apparatus operable to produce drawing data for
+reproducing a picture representing at least one object, said apparatus comprising
+
+   a picture dividing processor (2, 7, 8) operable to store in a memory unit (3) a
+plurality of data blocks divided from said picture, each of said data blocks representing
+
+a plurality of pixels of said picture, and to provide each of said data blocks with a
+depth data value representative of the depth in said picture according to a z-direction in
+
+three dimensional co-ordinates of an object or objects represented by the pixels of said
+data block, 
+characterised by
+
+   said picture dividing processor being operable to allocate each object of said
+picture to a sequence table stored in said memory unit, the sequence table for each
+
+object having stored therein sequence data indicating processing sequences of said
+plurality of data blocks of said object in accordance with a depth direction order, each
+
+sequence table being assigned a depth value representative of the depth of the object
+with which said sequence table is associated, and
+
+   a sorting control means operable to step wise z-sort in said depth direction said
+sequence tables to produce drawing data from the stepwise z-sorting of said sequence
+
+tables.
+A drawing data producing apparatus as claimed in Claim 1, wherein each
+sequence table includes memory cells for storing addresses of said plurality of data
+
+blocks, and each of said plurality of data blocks has a pointer area, which in operation
+is provided by said picture dividing processor with an address of a subsequent memory
+
+cell of the sequence table associated with the object represented at least in part by the
+data block, said sequence data indicating the processing sequences of said data blocks
+
+being thereby formed from the addresses in said memory cells and the addresses in
+pointer area of said data blocks.
+A drawing data producing apparatus as claimed in claims 1 or 2, wherein said
+sorting control means is arranged in operation to process said sequence tables to
+
+prescribe a processing sequence from a shallower depth towards a deeper depth to
+produce sequentially data to form said processed sequence tables. 
+A drawing data producing apparatus as claimed in any preceding Claim,
+wherein the sorting control means (5) is comprised of a DMA controller.
+A drawing data producing method for producing drawing data for reproducing
+a picture representative of at least one object, said method comprising the steps of
+
+   storing a plurality of data blocks divided from a picture in a memory unit, each
+of said data blocks representing a plurality of pixels of said picture from which said
+
+data blocks were divided,
+
+   providing each of said data blocks with a depth data value representative of the
+depth in a z-direction in three dimensional co-ordinates of an object or objects forming
+
+said picture represented as said pixels of said each data block, 
+characterised in that
+ said
+storing said plurality of data blocks includes
+
+   allocating each object of said picture to a sequence table stored in said memory
+unit,
+
+   storing in said sequence tables for each object sequence data indicating
+processing sequences of said plurality of data blocks in accordance with a depth
+
+direction order,
+
+   assigning a depth value to the sequence table representative of the depth of the
+object with which said sequence table is associated, and 
+characterised by
+
+   step wise z-sorting in said depth direction said plurality of said sequence tables
+to produce drawing data from the stepwise z-sorting of said sequence tables.
+A drawing data producing method as claimed in Claim 5, wherein each
+sequence table includes memory cells for storing addresses of said plurality of data
+
+blocks, and each of said plurality of data blocks has a pointer area, and said storing
+said sequence data indicating the processing order of said data blocks comprises
+
+   providing for each data block an address of a subsequent memory cell of the
+sequence table allocated to the object represented at least in part by the data block, and
+
+   storing said provided address in the pointer area of the data block, said
+sequence data indicating the processing sequences of said data blocks being
+ thereby 
+formed from the addresses in said memory cells and the addresses in the pointer area
+
+of said data blocks.
+A drawing data producing method as claimed in Claims 5 or 6, comprising the
+step of processing said data blocks in accordance with said depth data from said
+
+sequence tables by arranging said data blocks from a shallower depth toward a deeper
+depth to produce sequentially data from said processed sequence table.
+</CLAIMS>
+</TEXT>
+</DOC>

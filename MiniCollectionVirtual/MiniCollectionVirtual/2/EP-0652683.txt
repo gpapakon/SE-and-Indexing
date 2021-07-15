@@ -1,0 +1,399 @@
+<DOC>
+<DOCNO>EP-0652683</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+A frame relay apparatus and a relay method
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04Q1104	H04L1256	H04L2906	H04L1256	H04L2906	H04Q1104	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04Q	H04L	H04L	H04L	H04L	H04Q	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04Q11	H04L12	H04L29	H04L12	H04L29	H04Q11	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+This invention provides a frame relay apparatus and 
+a relay method with an efficient transfer time, 
+
+regardless of the transmitting rates of the input signal 
+and the output signal. A route control table which 
+
+corresponds the transmitting line number to the 
+transmitting logical link number by using the receiving 
+
+line number and the received logical link number of the 
+header of the received frame is provided as is a line 
+
+attribute table which stores the transmitting rates of 
+the input signal and output signal. Furthermore, the 
+
+line attribute table to store the transmitting rates of 
+the input signal and the output signal and a comparison 
+
+control mechanism to calculate the necessary buffering 
+amount of the sending buffer based on the frame length of 
+
+the concerning received frame which is gotten at or 
+before the receiving time of the data of the received 
+
+frame are provided. Additionally, a transmitting handler 
+mechanism is provided to start a transmission immediately 
+
+when the transmission rate of the designated transmitting 
+line is equal to or lower than the transmitting rate of 
+
+the input signal, and to start a transmission after 
+
+storing the transmission data up to the required 
+buffering amount when the transmitting rate of the input 
+
+signal is higher than the transmitting rate of the output 
+signal. 
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MITSUBISHI ELECTRIC CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MITSUBISHI DENKI KABUSHIKI KAISHA
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+SATO HIROYUKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SHIKAMA TOSHIHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SATO, HIROYUKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SHIKAMA, TOSHIHIRO
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to a frame relay apparatus
+(or frame handler) and a frame relay method to relay
+information in a communication network in a unit of a
+frame efficiently in time.A frame relay type data switching apparatus is
+disclosed in Us 4,890,280 which comprises an input
+control unit for separating a header and communication
+data contained in the logical channel data from each
+other, a header translating circuit for updating the
+separated header, a communication data buffer for
+temporarily storing the separated communication data and
+an output control unit for combining an outgoing logical
+channel number from the header translating circuit and
+the communication data from the data buffer to produce
+logical channel data."A Semi Store-and-Forward Packet Switching Method"
+in Published Unexamined Japanese Patent Application Sho
+63-224443 and "A Frame Check Sequence Method" in
+Published Unexamined Japanese Patent Application Sho 62-57345 
+describe a semi store-and-forward switching technique
+of a packet or a frame. The packet used in ISDN
+(Integrated Services Digital Network), as described in
+the former application, and the frame used in the frame
+relay method, as described in the latter application,
+differ both in form and in the layers at which they are
+handled. However, the packet and the frame are the same
+in the sense that they treat a group of data as a unit
+for communication purposes. Therefore, hereinafter the
+word "frame" is used instead of the word "packet", even
+though "packet" is originally used in the published 
+unexamined patent application.FIG. 32 shows a configuration of a conventional semi
+store-and-forward switching method, employed in order to
+shorten a total communication time. In FIG. 32,
+terminals 1a and 1b, frame relay apparatuses (FR
+apparatuses, hereinafter) 2a and 2b, access lines 3a and
+3b and a relay line 4 are shown. The terminal 1a is
+connected to the FR apparatus 2a through the access line
+3a, and the terminal 1b is connected to the FR apparatus
+2b through the access line 3b. The FR apparatus 2a and
+the FR apparatus 2b are connected to each other via the
+relay line 4.FIG. 33 shows a sample time sequence of a frame
+transfer in the configuration shown in FIG. 32. In FIG.
+33, time is shown on the ordinate. The time sequence of
+the frame transmitted via the access line 3a, the relay
+line 4 and the access line 3b is shown respectively in
+the time sequence 5a, 6 and 5b. A frame 7, a header 8,
+information 9 and a frame check sequence 10 are also
+shown. Time t1, t2, t3 and t4
+</DESCRIPTION>
+<CLAIMS>
+A frame relay apparatus connected to input lines
+(21) and output lines (24) comprising
+
+
+at least one receiver (22), receiving a frame on
+one of the input lines, the frame having a header and
+
+the receiver including means for providing header
+information indicative of the header;
+a controller (25) receiving the header information
+and including means for selecting one of the
+
+output lines as selected output line on which to
+transmit the frame;
+at least one transmitter (23) for transmitting a
+frame on the selected output line,
+characterized in that
+the receiver receives the frame at a first
+transmission rate and said controller includes means
+
+(32) for determining a second transmission rate of
+the output line and
+means (35) for determining a buffering amount
+based on the first and the second transmission rates,
+
+on the header information and on a length of the
+frame,
+
+and said transmitter includes
+a buffer (37) coupled to the receiver (22) to
+receive the frame,
+means (36) for storing a portion of the frame in
+the buffer according to the buffering amount and 
+means (38) for transmitting the content of the
+buffer (37) corresponding to the buffer amount on the
+
+selected output line at the second transmission rate,
+whereby said means (35) for determining a buffering
+
+amount determines no buffering if the second transmission
+rate is not less than the first transmission
+
+rate.
+The frame relay apparatus of claim 1 characterized
+by comprising a switching module (26)
+
+coupling the at least one receiver to the at least
+one transmitter, the switching module being
+
+controlled by the controller (25).
+The frame relay apparatus of claim 1,
+wherein the header information
+
+includes a frame length, indicative of the length of
+the frame
+, characterized in that the means (35) for determining a buffering
+amount utilizes the frame length to determine
+
+the buffering amount.
+The frame relay apparatus of claim 1 characterized
+in that, the controller (25) includes an attribute
+
+table (32) having stored therein the second
+transmission rate and in that the means for determining
+
+a second transmission rate accesses the attribute
+table to determine the second transmission
+
+rate.
+The frame relay apparatus of claim 4
+wherein the frame received by the
+
+receiver (23, 33) includes a transmitting logical
+line number,
+
+characterized
+in that the controller (25) includes a control table (31)
+
+and the control table (31) includes a 
+maximum frame length corresponding to the transmitting
+
+logical line number and wherein the means for
+determining a buffer amount determines the buffering
+
+amount based on the first and second transmission
+rates and on the maximum frame length.
+The frame relay apparatus of claim 1, wherein
+the frame includes a frame check
+
+sequence, characterized in that the frame relay apparatus
+further comprises:
+
+
+means (100) for checking the frame check sequence
+of the frame received by the receiver and for
+
+producing an error signal if there is a frame check
+error; and
+means (110) for providing the error signal on
+the selected output line.
+The frame relay apparatus of claim 1 characterized
+in that, including a receiving buffer in the
+
+at least one receiver to hold a frame, the receiving
+buffer discarding the frame in response to the frame
+
+check error detected by the means for checking.
+The frame relay apparatus of claim 1 characterized
+by comprising:
+
+
+an underrun detector (130) to detect if an
+underrun has occurred in the transmitter; and
+a re-transmission requester (140) to cause the
+transmitter to retransmit the frame stored in the
+
+buffer in response to the underrun detector detecting
+an underrun.
+The frame relay apparatus of claim 4, characterized
+in that, the controller (25) includes a
+
+control table (31) including first range information
+indicating whether the frame is destined to be
+
+transmitted outside of predetermined range of frame
+relay apparatuses and further the controller (25)
+
+includes means for accessing the control table to
+access said first range information and the means for
+
+storing will store the entire frame if the frame is
+destined to be transmitted outside the predetermined
+
+range.
+The frame relay apparatus of claim 5 characterized
+in that, the control table (316) includes a
+
+buffering amount stored therein and the means (35)
+for determining a buffering amount accesses the
+
+control table to determine the buffering amount, and
+in that the transmitter includes means (36) for
+
+checking the buffer to determine if a portion has
+been unutilized, the transmitter including means for
+
+reducing the buffering amount stored in the control
+table in response thereto,
+
+
+the transmitter further including means for
+detecting an underrun and for increasing the buffering
+
+amount stored in the control table in response
+thereto.
+The frame relay apparatus of claim 1 characterized
+by comprising:
+
+
+a re-transmission count memory (160) to count
+times of re-transmission in a predefined time;
+means (170) for determining whether the retransmission
+count memory has a count exceeding a
+
+first predetermined threshold value and whether the 
+re-transmission count memory has a count below a
+
+second predetermined threshold value; and
+
+wherein the means (36, 37) for storing stores
+the entire frame, if the means for determining determines
+
+that the count exceeds the first predetermined
+threshold and wherein the means for storing stores a
+
+portion of the frame according to the buffering
+amount, if the count is less than the second
+
+predetermined threshold value.
+The frame relay apparatus of claim 5 characterized
+in that the control table (31) includes information
+
+indicating the frame originated from outside
+a predetermined range of frame relay apparatuses,
+
+and in that the means for determining a
+buffering amount determines the entire frame should
+
+be stored, if the information indicates the frame
+originated from outside the predetermined range.
+A method for relaying a frame, received from a
+transmission source, the frame having a header; on a
+
+transmission line, characterized by the steps of:
+
+(a) receiving the frame at a first rate and
+transmitting it on the transmission line at a second
+
+rate;
+(b) determining the first rate and the second
+rate by referring to a reference table using information
+
+from the header;
+(c) if the second rate is not smaller than the
+first rate, transmitting the frame immediately;
+(d) if the first rate is greater than the
+second rate, calculating a ratio of the first rate
+
+with respect to the second rate to determine a buffering 
+amount in conjunction with a frame length of
+
+the frame;
+(e) buffering the received frame in accordance
+with the buffering amount if step (d) determines the
+
+first rate is smaller; and
+(f) transmitting the buffered frame, if step
+(d) determines the first rate is smaller.
+The method of claim 13, characterized by further
+comprising the steps of checking a frame check sequence
+
+of the received frame to determine if a frame
+check sequence error is present; and
+
+
+transmitting the frame check sequence error on
+the transmission line if a frame check sequence error
+
+is detected.
+The method of claim 14 characterized in that
+steps (c) and (f) occur after the step of checking.
+The method of claim 15 characterized by further
+comprising the steps of detecting if a transmission
+
+underrun has occurred on the transmission lines, and
+transmitting an abort signal on the transmission
+
+line, if an underrun is detected.
+A method according to claim 13 characterized by
+further comprising the steps of:
+
+
+determining if a destination of the frame is
+outside the frame relay network;
+if the frame is destined to outside of the frame
+relay network, buffering the entire frame and checking
+
+the frame for a frame check sequence error;
+checking if the received frame is from a source
+outside the frame relay network; 
+if the source is outside the frame relay network
+determining a frame length of the frame and
+
+calculating the buffering amount based upon the first
+rate, second rate, and the frame length.
+A method according to claim 13 characterized by
+further comprising the steps of:
+
+
+determining if a destination of the frame is
+outside the frame relay network;
+if the frame is destined to outside of the frame
+relay network, buffering the entire frame and checking
+
+the frame for a frame check sequence error;
+calculating the buffering amount based upon the
+first rate, second rate, and the frame length.
+A method according to claim 13 characterized by
+further comprising the steps
+ of:
+
+checking if the received frame is from a source
+outside the frame relay network;
+if the source is outside the frame relay network
+determining a frame length of the frame;
+calculating the buffering amount based upon the
+first rate, second rate, and the frame length.
+</CLAIMS>
+</TEXT>
+</DOC>

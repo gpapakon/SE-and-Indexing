@@ -1,0 +1,195 @@
+<DOC>
+<DOCNO>EP-0644481</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Back-up logic for dual execution unit processor.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F938	G06F938	G06F946	G06F946	G06F948	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	G06F9	G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An apparatus and method provides additional logic in both execution 
+units 9,11 of a dual execution unit processor in order to determine if 
+
+the instruction is interruptable. Additionally, backout logic 17,19 is 
+provided for saving the contents of unique registers 13,15. The backout 
+
+logic 17,19 uses two decodes to determine if the instruction currently 
+executing modifies the unique registers 13,15. It is possible for a 
+
+single instruction to modify more than one unique register 13,15. The 
+backout logic of the present invention resides in both of the execution 
+
+units 9,11 and particularly in the unit which contains the unique 
+register being modified by the executing instruction. If an instruction 
+
+is being executed which modifies one of the unique registers 13,15, then 
+the contents of that register are saved in a backout latch 17,19. A 
+
+cancel signal is then provided if the interruptable instruction executes 
+without causing an interrupt. However, if the interruptable instruction 
+
+does cause an interrupt, then the contents of the backout latch are 
+reloaded into the execution units. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+RAY DAVID SCOTT
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SPENCER ALEXANDER KOOS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+RAY, DAVID SCOTT
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SPENCER, ALEXANDER KOOS
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to computer processing systems having 
+dual execution units. More specifically, logic is provided that allows a 
+second execution unit to operate even when interruptable instructions are 
+executing on the first execution unit. Conventionally, in a dual execution unit processing system, when an 
+interruptable instruction is encountered on a first execution unit, the 
+second unit is held off until that instruction executes. Since, many 
+common instructions can potentially cause interrupts, the performance of 
+the processing system is degraded if instructions executing on the second 
+execution unit are held depending on whether the instructions executing 
+on the first unit cause an interrupt. In a dual execution unit processor design, it is often necessary to 
+cancel the second instruction that has just executed. Reasons for 
+cancelling this instruction may be the occurrence of an interrupt which 
+is caused by the execution of the first instruction. Interrupts may 
+occur due to a "page fault" occurrence, (i.e. a page is not in memory), 
+or because of a trap type interrupt. Since both instructions execute in 
+the same machine cycle, the second instruction may have altered an 
+architected register, i.e. one that is capable of being altered by the 
+software, which must now be restored to its previous state. For example 
+if a load instruction is executing in the first execution unit and an add 
+instruction with overflow enable is executing in the second unit, and the 
+load causes an interrupt, the bits set by the add instruction in the 
+fixed point exception register (XER) must be restored to their previous 
+values, because the add instruction must be cancelled due to the 
+interrupt. Thus, the problem is restoring the modified contents of architected 
+registers in a multi-execution unit design when the instruction executing 
+in the second execution unit is cancelled, due to a side effect caused by 
+the execution of the first instruction executing in the first execution 
+unit. It can be seen that this problem does not exist with architected  
+ 
+registers that are modified during the write back cycle (not the 
+execution cycle) because the interrupt is known during write back. 
+Therefore, if an actual interrupt is generated during the execute cycle, 
+the contents of these registers will contain the machine state as it was 
+prior to the interrupt. This is because the actual interrupt is not 
+identified until the write back cycle, such that update of the registers 
+which are normally
+</DESCRIPTION>
+<CLAIMS>
+A method for selectively saving a state of a multi-execution unit 
+processing system, comprising the steps of: 
+
+   determining (302) if a first instruction is interruptable; 
+   determining (304) if a second instruction to be executed 
+
+concurrently with said first instruction modifies a register (13,15) 
+updated during the execution cycle; 
+
+   saving (305) a content of said register when said first instruction 
+is interruptable and said second instruction modifies said register; and 
+
+   restoring (310) said register with said content upon the occurrence 
+of an interrupt. 
+A method as claimed in claim 1 further comprising the step of 
+executing (306) said first and second instructions on a first (9) and 
+
+second (11) execution unit, respectively. 
+A method as claimed in claim 2 wherein said step of executing (306) 
+comprises the step of modifying said register (13, 15) with a new value 
+
+resulting from the execution of said first and second instructions. 
+A method as claimed in any preceding claim wherein said step of 
+restoring (310) comprises the step of determining (308) whether said 
+
+interruptable first instruction actually caused an interrupt to occur. 
+A method as claimed in claim 4 wherein said step of restoring (310) 
+further comprises the step of placing the saved contents into said 
+
+register thereby restoring said register to a state prior to execution of 
+said first and second instructions. 
+A method as claimed in claim 5 further comprising the step of: 
+   preventing other registers, updated subsequent to said execution cycle, 
+
+from being updated with results corresponding to the execution of said 
+first and second instructions if an interrupt actually occurs; and 
+
+   updating said other registers with results corresponding to the execution 
+of said first and second instructions if an interrupt does not occur. 
+A method as claimed in claim 5 further comprising the step of re-executing 
+said first and second instructions if an interrupt does 
+
+actually occur. 
+A system that selectively saves a state of a multi-execution unit 
+processing system, comprising: 
+
+   means (9,11) for executing first and second instructions; 
+   means (7) for determining if a first instruction is interruptable; 
+
+   means (7) for determining if a second instruction to be executed 
+concurrently with said first instruction modifies a register (13,15) 
+
+updated during the execution cycle; 
+   means (17,19) for saving a content of said register when said first 
+
+instruction is interruptable and said second instruction modifies said 
+register; and 
+
+   means for restoring said register with said content upon the 
+occurrence of an interrupt. 
+A system as claimed in claim 8 wherein said means for executing 
+(9,11) comprises means for modifying said register (13,15) with a new 
+
+value resulting from the execution of said first and second instructions. 
+A system as claimed in claim 8 or claim 9 wherein said means for 
+restoring comprises means for determining whether said interruptable 
+
+first instruction actually caused an interrupt to occur. 
+A system as claimed in claim 10 wherein said means for restoring 
+further comprises means for placing the saved contents into said register 
+
+(13,15) thereby restoring said register to a state prior to execution of 
+said first and second instructions. 
+A system as claimed in any one of claims 8 to 11 further 
+comprising: 
+
+   means for preventing other registers (5), updated subsequent to 
+said execution cycle, from being updated with results corresponding to 
+
+the execution of said first and second instructions if an interrupt 
+actually occurs; and 
+
+   means for updating said other registers (5) with results 
+corresponding to the execution of said first and second instructions if 
+
+an interrupt does not occur. 
+A system as claimed in claim 12 further comprising means for re-executing 
+said first and second instructions if an interrupt does 
+
+actually occur. 
+A system as claimed in any one of claims 8 to 13 wherein said means 
+for determining if a first instruction is interruptable and said means 
+
+for determining if a second instruction modifies a register comprise a 
+decode circuit (7) included in a central processing unit 
+</CLAIMS>
+</TEXT>
+</DOC>

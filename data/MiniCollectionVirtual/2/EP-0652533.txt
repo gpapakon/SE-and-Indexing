@@ -1,0 +1,356 @@
+<DOC>
+<DOCNO>EP-0652533</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Detection of the condition of a printer
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06K1500	G06F312	G06K1500	G06F312	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06K	G06F	G06K	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06K15	G06F3	G06K15	G06F3	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A printing apparatus has, in addition to a normal command interpreter (66), a real-time 
+command interpreter (64) for simultaneously analyzing control commands as data is received 
+
+from a host device. This real-time command interpreter functions even when the printing 
+apparatus is off-line, thereby enabling the status of the printing apparatus to be known even 
+
+when the printing apparatus is not operating. Thus, the host device can be notified of the 
+cause for non-operation thereby achieving a high throughput rate printing. The user can cancel 
+
+a cut-sheet paper insertion wait-state at any time. Why an error occurred can be determined in 
+an off-line st
+ate to enable recovery from the error. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SEIKO EPSON CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SEIKO EPSON CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+AKIYAMA TAKAAKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HYONAGA TAKUYA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KOAKUTSU NAOHIKO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MIYASAKA MASAYO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TERADAIRA MITSUAKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+AKIYAMA, TAKAAKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HYONAGA, TAKUYA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KOAKUTSU, NAOHIKO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MIYASAKA, MASAYO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TERADAIRA, MITSUAKI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a printing apparatus for printing according to commands
+received from a host computer, and relates particularly to a printing apparatus suitable for data
+processing apparatuses, such as point-of-sale (POS) terminals and electronic cash registers
+(ECR), used in processing monetary transactions.When it is inappropriate to continue a current printing operation, since, for instance, the paper
+supply is depleted, the printer cover has been opened, or an error has occurred, conventional
+printing apparatuses typically stop the printer mechanism containing the print head, and bring
+the interface to the host computer off-line (a logical non-connection state) to both protect the
+printing apparatus and the communications data, and assure user safety. Once this off-line
+state has been entered, however, internal control of the printer apparatus stops, and the data
+already transferred to the printer apparatus is no longer processed. Data is also no longer
+received by the printer apparatus, and the printer apparatus cannot receive or process any data
+output thereto or respond to inquiries from the host computer.The printing apparatus even moves off-line when the form-feed switch is pressed and paper is
+being advanced, and when the data receive buffer storing the received data is full (a buffer full
+state), and it is difficult to distinguish between these off-line states and off-line states in which
+it is inappropriate to continue printing.When the printing apparatus goes off-line, the host computer is no longer able to send the print
+data, and the complete system, POS, ECR, or other, comes to a stop. In such a case, the host
+computer typically displays a message such as "printer problem, please check" on a display
+device, and the user must manually inspect the printing apparatus and correct the problem
+leading to the off-line state. However, for many general POS and ECR users, determining the
+problem is often difficult and time-consuming.On the other hand, control commands stored in the data receive buffer are interpreted in a
+first-in-first-out (FIFO, the first commands stored are the first interpreted) order, and the
+appropriate command process is executed. Control commands that have been processed are
+deleted from the data receive buffer. As a result, as control commands are successively input
+from the host computer, the commands are stored one after the other to the data receive
+buffer, and processed in order from the oldest control command stored. This creates a time lag
+between
+</DESCRIPTION>
+<CLAIMS>
+A printing apparatus having a printer mechanism (40, 41, 42) for printing to a print
+medium and control means (50) for controlling the printer mechanism in response to received
+
+data transmitted from a host device (61), said received data including control commands and
+
+print data, said control means comprising:
+
+receiving means (62) for receiving said data and outputting them as first data;
+receive buffer means (65) for storing at least the control commands among said first
+data and outputting them as second data in a first-in-first-out order;
+first control command interpreting means (64) for receiving and interpreting said first
+data;
+first process execution means (73) for executing the process corresponding to a control
+command interpreted by the first control command interpreting means (64);
+second control command interpreting means (66) for receiving and interpreting said
+second data;
+second process execution means (68) for executing the process corresponding to a
+control command interpreted by the second control command interpreting means (66);
+device-condition detection means (47, 54, 69, 71, 75, 76, 77, 79) for detecting a
+condition of the printing apparatus (300);
+transmission means (63) for transmitting data to the host device (61); and
+device-condition reporting means for reporting data obtained by the device-condition
+detection means to the transmission means;
+
+   
+characterized in that
+a process corresponding to a control command interpreted by said first control
+command interpreting means is executed with priority over a process corresponding to a control
+
+command interpreted by said second control command interpreting means,
+said device-condition detection means includes operating-state detection means for
+detecting a wait state of the printing apparatus,
+said control means further comprises wait state flag storage means (53, 79) for storing
+a wait state flag in response to the occurrence of a wait state, and
+the second process execution means (68) is adapted to stop process execution while
+the wait state flag is set; and the first process execution means (73) comprises a wait state flag
+
+resetting means for resetting the wait state flag.
+A printing apparatus according to claim 1, wherein the operating-state detection
+means comprises an error state detection means for detecting an error state of the printing
+
+apparatus.
+A printing apparatus according to claim 2,
+ 
+   wherein said control means further comprises an error state flag storage means (69) for
+
+storing error state flags set in response to the occurrence of the error state detected by said
+error state detection means,
+
+   wherein the second process execution means (68) is adapted to stop process execution
+while the error state flag is set; and the first process execution means (73) comprises an error
+
+state flag resetting means for resetting the error state flag.
+A printing apparatus according to the prior art portion of claim 1,
+
+   
+characterized in that
+a process corresponding to a control command interpreted by said first control
+command interpreting means is executed with priority over a process corresponding to a control
+
+command interpreted by said second control command interpreting means,
+said device-condition detection means includes an error state detection means for
+detecting an error state of the printing apparatus,
+said control means comprises error state flag storage means (69) for storing an error
+state flag in response to the occurrence of an error state, and
+the second process execution means (68) is adapted to stop process execution while
+the error state flag is set; and the first process execution means (73) comprises an error state
+
+flag resetting means for resetting the error state flag.
+A printing apparatus according to claim 2, 3 or 4 wherein the error state detection
+means comprises a recovery evaluation means for determining whether the error state is
+
+recoverable.
+A printing apparatus according to any one of the preceding claims, further
+comprising a cover member which covers the printer mechanism (40, 41, 42) when closed, and
+
+exposes the printer mechanism when open, wherein the device-condition detection means
+comprises a cover member detection means (54) for detecting the open/closed state of the cover
+
+member.
+A printing apparatus according to any one of the preceding claims, further
+comprising a peripheral device connecting means for connecting a peripheral device to be
+
+controlled based on the control commands, wherein the device-condition detection means
+comprises a detection means (76) for detecting the state of the peripheral device connecting
+
+means.
+A printing apparatus according to any one of the preceding claims, wherein the
+device-condition detection means comprises a print medium detection means (47) for detecting
+
+the presence and/or the remaining amount of available print medium.
+A printing apparatus according to any one of the preceding claims, wherein the
+device-condition detection means comprises a set-state detection means for detecting the
+
+settings of the printing apparatus. 
+A printing apparatus according to claim 9 further comprising:
+
+a continuous sheet transport means (6a, 6b) for transporting and supplying a
+continuous print medium (17) to a printing means (1, 1a, 2) of the printer mechanism (40, 41,
+
+42);
+a cut-sheet transport means (8a, 8b, 9a, 9b) for transporting and supplying cut-sheet
+print media (19) to the printing means; and
+a cut-sheet selection means for prohibiting or permitting operation of the cut-sheet
+transport means; and
+the set-state detection means comprising a cut-sheet selection detection means (79) for
+detecting the state of the cut-sheet selection means.
+A printing apparatus according to any one of the preceding claims further
+comprising:
+
+
+a cut-sheet transport means (8a, 8b, 9a, 9b) for transporting and supplying cut-sheet
+print media (17) to a printing means (1, 1a, 2) of the printer mechanism (40, 41, 42); and
+a cut-sheet transport control means (68) for waiting until a cut-sheet print medium is
+supplied to the cut-sheet transport means, and then beginning print medium transportation by
+
+the cut-sheet transport means;
+
+   wherein the operating-state detection means comprises a cut-sheet transport state
+detection means (79) for detecting the state of the cut-sheet transport control means.
+A printing apparatus according to any one of the preceding claims wherein:
+
+the device-condition detection means comprises a data storage state detection means
+for detecting the state of the receive buffer means (65).
+A printing apparatus according to any one of the preceding claims, further
+comprising:
+
+
+a print medium transport switch (49) for requesting execution of the print medium
+transport operation independently of the control command;
+
+   wherein the device condition detection means comprises a transport switch detection
+means (75) for detecting the state of the print medium transport switch.
+A printing apparatus according to any one of the preceding claims wherein:
+
+
+the first process execution means (73) further comprises a received data cancellation
+means for cancelling the received data, stored in the receive buffer means (65).
+A printing apparatus according to claim 1 or 4 further comprising:
+
+a cut-sheet transport means (8a, 8b, 9a, 9b) for transporting and supplying cut-sheet
+print media (19) to a printing means (1, 1a, 2) of the printer mechanism (40, 41, 42);
+a cut-sheet transport control means (68) for waiting until a cut-sheet print medium is
+supplied to the cut-sheet transport means, and then beginning print medium transportation by
+
+the cut-sheet transport means; and
+a cut-sheet transport state detection means (79) for detecting the state of the cut-sheet
+transport control means;
+ 
+   wherein the first process execution means (73) comprises a cut-sheet supply wait-state
+
+cancellation means for cancelling operation of the cut-sheet transport control means when the
+cut-sheet supply wait-state of the cut-sheet transport control means is detected by the cut-sheet
+
+transport state detection means.
+A method of controlling a printing apparatus in response to received data
+transmitted from a host device for printing to a print medium, said received data including control
+
+commands and print data; said control method comprising:
+
+a receiving step for receiving said data and outputting them as first data;
+a storing step for storing at least the control commands among said first data and for
+outputting them as second data in a first-in-first-out order;
+a first control command interpreting step for receiving and interpreting said first data;
+first process execution step for executing the process corresponding to a control
+command interpreted in the first control command interpreting step;
+a second control command interpreting step for receiving and interpreting said second
+data;
+second process execution step for executing the process corresponding to a control
+command interpreted in the second control command interpreting step;
+a device-condition detection step for detecting a condition of the printing apparatus;
+and
+a transmission step for transmitting data obtained in the device-condition detection step
+to the host device (61);
+
+   
+characterized in that
+
+   the first process execution step is executed with priority over the second process
+execution step, and said device-condition detection step includes an operating-state detection
+
+step for detecting a wait state of the printing apparatus, and a wait state flag storage step for
+storing a wait state flag in response to the occurrence of a wait state,
+
+   wherein the second process execution step stops process execution while the wait
+state flag is set, and the first process execution step comprises a wait state flag resetting step
+
+for resetting the wait state flag.
+The method according to claim 16, further comprising:
+
+an error state flag storing step for setting and storing an error state flag when an error
+state is detected in the operating-state detection step;
+wherein the second process execution step stops process execution while the error
+state flag is set; and
+the first process execution step comprises an error state flag resetting step for resetting
+the error state flag.
+A method according to the prior art portion of claim 16, 
+characterized in that
+ the
+first process execution step is executed with priority over the second process execution step,
+
+and 
+
+said device-condition detection step includes an operating-state detection step for
+detecting an error state of the printing apparatus, and an error state flag storage step for storing
+
+an error state flag in response to the occurrence of an error state,
+
+   wherein the second process execution step stops process execution while the error
+state flag is set, and the first process execution step comprises an error state flag resetting step
+
+for resetting the error state flag.
+The method according to claim 16, 17 or 18 wherein the first process execution
+step further comprises a received data cancellation step for cancelling the stored received data.
+The method according to any one of claims 16 to 19 further comprising:
+
+a cut-sheet transport step for waiting until a cut-sheet print medium is supplied, and
+starting transporting to supply the cut-sheet print medium to a printing means of the printer
+
+mechanism (40, 41, 42) ;
+
+   wherein the first process execution step comprises a cut-sheet supply wait-state
+cancellation step for cancelling the cut-sheet transport step when the cut-sheet transport step is
+
+in the cut-sheet transport wait-state.
+A data processing apparatus comprising:
+
+a printing apparatus according to any one of claims 1 to 15; and
+a host device (61) for sending said data, including control commands and print data, to
+the printing apparatus, wherein:
+
+
+said host device comprises:
+
+command transmission means (304) for transmitting to the printing apparatus (300) a
+report device-condition command,
+said command being a control command requesting transmission of the device condition
+detection data, and being interpretable by the first control command interpreting means.
+The apparatus according to claim 21 wherein said host device (61) further
+comprises:
+
+
+display means (61,302) responsive to the device condition detection data received from
+the printing apparatus (300) in response to said command for displaying information related to
+
+the device condition.
+The apparatus according to claim 21 or 22 wherein said host device (61) further
+comprises determination means for determining whether an error condition of said printing
+
+apparatus indicated by said device condition detection data is recoverable, and, if it is, said
+command transmission means (304) transmits to the printing apparatus (300) a control
+
+command requesting said printing apparatus to recover from the error condition, the control
+command being interpretable by the first control command interpreting means (64).
+The apparatus according to claim 22 or 23 wherein said display means (61, 302)
+displays a prompt in accordance with the device condition detection data sent from the printing
+
+apparatus (300) in response to said command. 
+The apparatus according to claim 24 wherein said prompt includes an instruction
+which the operator should follow to improve the condition of said printing apparatus.
+</CLAIMS>
+</TEXT>
+</DOC>

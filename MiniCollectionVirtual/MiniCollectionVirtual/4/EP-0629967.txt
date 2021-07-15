@@ -1,0 +1,338 @@
+<DOC>
+<DOCNO>EP-0629967</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Pipelined image processing system for a single application environment
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1578	G06F1576	G06F946	G06T120	G06F946	G06T120	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06T	G06F	G06T	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F15	G06F15	G06F9	G06T1	G06F9	G06T1	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A control system for pipelined image processing emulates a multi-tasking 
+environment using a single tasking application. A number of predefined image processing 
+
+tasks are provided in a library. When a host application (120) needs a processed image from an 
+image source (12), the host application creates a pipeline (40) of initialized instantiations of 
+
+one or more of the tasks from the library. When the host application invokes the pipeline, the 
+first data request for the header of the image travels upstream in a first channel (42). The 
+
+processed image header is returned down the first channel. Then a data request for scanlines 
+of image data is sent upstream in a second data channel. The data request ripples 
+
+upstreamwardly to the upstream-most instantiation of one of the tasks (1,2,3) from the task 
+library. The upstream-most instantiation of a task obtains a scan line from an image data 
+
+source and returns it downstreamwardly to the host application (120) in the second channel. 
+Each instantiation of a task from the task library further operates on the image data. Once all 
+
+of the scanlines have been processed, the memory allocations and data structures (44) created 
+during initialization are released to free up that memory. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+XEROX CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+XEROX CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+VENABLE DENNIS L
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+VENABLE, DENNIS L.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to processing an image, comprising an image header and
+image data, in a single-application environment, by emulating a multi-processing
+environment. In particular, this invention relates to an object-oriented system employing a
+library of predefined objects or data structures which can be linked between a host application
+and a data source to create a stream-oriented data processing structure emulating a UNIX® -like
+pipeline data structure.The use of data processing pipelines in true multi-processing environments is well
+known. Examples of known multi-processing environments include both multiple-processor
+systems and high level systems where a single processor is able to support true multi-processing.
+The UNIX® operating system is often used in such multi-processing systems.In such multi-processing environments, data processing pipelines are extremely
+useful for processing large, highly structured data blocks, such as those associated with image
+processing, database processing, or spreadsheet processing. In such data blocks, various data
+processing operations must be performed on each data element of the data blocks. Further,
+the various data processing operations are performed in a specific order. For example, McLauchlan discloses, in "HORATIO:
+Libraries for vision applications" 15 Dec 1992, UK, OUEL
+1967/92, a set of libraries written for either Sun
+Workstations or transputers. This set of libraries is
+dedicated to group of processors arranged in one or more
+pipelines.In a multi-processing environment, data processing
+pipelines provide a very efficient method for processing
+the data blocks. In these data processing pipelines, each
+separate data processing operation is defined as a section
+of the pipeline. Each section is linked to one or both of
+the sections (the upstream and downstream sections) to
+which it is adjacent. The data processing operation thus
+form a chain of linked pipeline sections between a data
+source and a host application. In a computer having a
+number of independent processors, each pipeline section
+corresponds to one of the processors. In this case, each
+processor works independently, and the computer operating
+system controls the flow of data between processors and the
+memory allocation. While this effectively processes the
+data, the overhead necessary to control the processors and
+the memory consumes a significant proportion of the system
+resources.Likewise, in a computer having a single processor whch
+can simultaneously run a number of different
+</DESCRIPTION>
+<CLAIMS>
+A method for pipelined data processing of a data item in a single tasking environment,
+the data item comprising a header and at least one data set, the method comprising the step of
+
+running a host application on a processor (S10), 
+characterized in that
+ the method further comprises
+the steps of:
+
+
+instantiating a plurality of data processing tasks to form a pipeline of linked tasks
+(S30, S40, S50), each data processing task being an instantiation of a library function, each data
+
+processing task controlling the processor to perform data processing, each data processing task (Fig.
+11) comprising:
+
+
+a header channel (84a);
+at least one data processing channel (84b), and
+at least one link to at least one of another data processing task and the host
+application; and
+invoking (S60) the pipeline with the host application to cause the data processing
+tasks to process the at least one data set of the data item based on the header of the data item.
+The method of claim 1, wherein the step of invoking the pipeline (S60) comprises the
+steps of:
+
+
+(a) requesting a processed data item from the pipeline with the host application
+(S300);
+(b) obtaining or generating the header of the data item and returning the header to
+the host application through the header channel;
+(c) requesting a processed data set from the pipeline with the host application;
+(d) obtaining (S70, S340) or generating (S350) a data set;
+(e) processing the data set with the plurality of data processing tasks and returning
+the processed data set to the host application through the at least one data processing channel; and
+(f) repeating steps (c) - (e) a plurality of times based on the header until all the data
+sets of the data item have been processed and returned to the host application (S80).
+The method of either one of claims 1 or 2, further comprising the steps of:
+
+(g) storing a plurality of data processing functions in a library memory;
+(h) storing a host application in a first block of RAM memory;
+(i) instantiating one of the plurality of data processing functions as a task;
+(j) storing the instantiated task in at least one additional block of RAM memory, the
+task comprising:
+
+
+a first data buffer as a header channel,
+at least one second data buffer, each second data buffer being a data
+processing channel,
+at least one third data buffer storing at least one procedure pointer as a link;
+and 
+a fourth data buffer storing a current state of the task;
+(k) repeating steps (i) and (j) at least one additional time to form a data processing
+pipeline comprising a plurality of linked tasks, the plurality of linked tasks including an upstream-most
+
+task, at least one intermediate task, and a downstream-most task; and
+(l) obtaining a processed data item from the pipeline by operating the processor in
+response to the pipeline and the host application so that the data processing tasks process the at leas
+
+one data set of the data item based on the header of the data item.
+The method of claim 3, wherein the obtaining step (1) further comprises:
+
+(m) operating the processor based on a last task of the pipeline in response to the
+host application;
+(n) operating the processor based on a next task in response to a current task;
+(o) repeating step (n) until next task is a first task of the pipeline;
+(p) obtaining data item from a data source in response to the first task;
+(q) returning the obtained data item from the first task to the preceding task of the
+pipeline;
+(r) operating the processor based on the returned data and the preceding task to
+generate processed data item;
+(s) returning the processed data item to the preceding task of the pipeline;
+(t) repeating steps (r) and (s) until the preceding task is the host application;
+(u) repeating steps (n) to (t) for the entire data item; and
+(v) releasing the plurality of second blocks of RAM memory.
+The method of claim 4, wherein the steps of returning the obtained data item comprises
+copying the data from one of the at least one second data buffers of a current task to a
+
+corresponding second data buffer of the preceding task, and/or wherein a first iteration of steps (m)
+to (t) comprises obtaining a header portion of the data item, the header portion being returned
+
+through the plurality of the first data buffers of the pipeline, and/or wherein at least one subsequent
+iteration of steps (m) to (t) comprises obtaining one scanline of a portion of the data item, the
+
+plurality of the scanlines being returned through the at least one second data buffer of the pipeline.
+The method of claim 4, wherein the releasing step (q) comprises the steps of:
+
+(q1) requesting error codes by the host application, as a current task, with the last
+task being a new task;
+(q2) repeating step (q1) with the current task of the pipeline being the previous nex
+task of the pipeline until the next task is the first task;
+(q3) returning an error code from the next task to the current task;
+(q4) deleting the next task from the RAM memory;
+(q5) adding any error codes of the current task to the returned error code;
+(q6) returning the added error code of the current task to a previous task of the
+pipeline; and 
+(q7) repeating steps (q4) to (q6) until the previous task is the host application, and
+preferably wherein the returning steps comprise copying the error codes to the third data buffer of
+
+the previous task, and preferably wherein the deleting step comprises de-allocating the memory
+block of the RAM corresponding to the next task.
+The method of any one of claims 3 to 6, wherein the obtaining step (1) comprises the
+steps of:
+
+
+(11) controlling the processor with the host application to perform the steps of:
+
+requesting a data set from the downstream-most task of the pipeline with the
+host application, and
+turning control of the processor over to the downstream-most task of the
+pipeline;
+(12) the downstream-most task of the pipeline controlling the processor to perform
+the steps of:
+
+
+requesting a data set from an adjacent upstream task of the pipeline,
+and
+turning control of the processor over to the adjacent upstream task;
+(13) each at least one intermediate task of the pipeline, in turn, controlling the
+processor to perform the steps of:
+
+
+requesting a data set from an adjacent upstream task of the pipeline, and
+turning control of the processor over to the adjacent upstream task until the
+request for a data set reaches the upstream-most task of the pipeline;
+(14) controlling the processor with the upstream-most task of the pipeline to
+perform the steps of:
+
+
+obtaining or generating a data set,
+providing the obtained or generated data set to an adjacent downstream task
+of the pipeline, and
+turning control of the processor over to the adjacent downstream task of the
+pipeline;
+(15) each at least one intermediate task of the pipeline, in turn, controlling the
+processor to perform the steps of:
+
+
+processing the data set received from an adjacent upstream task of the
+pipeline,
+providing the processed data set to an adjacent downstream task of the
+pipeline, and
+turning control of the processor over to the adjacent downstream task of the
+pipeline until the processed data set is provided to the downstream-most task
+
+of the pipeline;
+(16) controlling the processor with the downstream-most task of the pipeline to
+perform the steps of: 
+
+
+providing the processed data set to the host application, and
+turning control of the processor over to the host application; and
+(17) repeating steps (11) to (16) until all the data sets of the data item have been
+processed and provided to the host application.
+The method of any one of claims 3 to 7, further comprising a step of deleting the
+pipeline from RAM memory which comprises the steps of:
+
+
+requesting error codes from the downstream-most task of the pipeline with the host
+application;
+the downstream-most task of the pipeline requesting the error codes from an
+adjacent upstream task;
+each at least one intermediate task of the pipeline, in turn, requesting the error codes
+from an adjacent upstream task until the request for error codes reaches the upstream-most task of
+
+the pipeline;
+returning any error codes associated with the upstream-most task to an adjacent
+downstream task;
+each of the at least one intermediate tasks of the pipeline, in turn, performing the
+steps of:
+
+
+deleting an adjacent upstream task,
+appending any error codes associated with the at least one intermediate task
+to the error codes received from an adjacent upstream task to create a set of
+
+accumulated error codes, and
+returning the set of accumulated error codes to an adjacent downstream task,
+until the set of accumulated error codes are returned to the downstream-most
+task of the pipeline;
+returning the set of accumulated error codes to the host application with the
+downstream-most task of the pipeline; and
+deleting the downstream-most task of the pipeline.
+The method of any one of claims 1 to 8, further comprising the steps of:
+
+creating a data processing pipeline of data processing tasks; and
+obtaining processed data items from the data processing pipeline, wherein the
+obtaining step comprises:
+
+
+passing a request for a header of a data item in an upstream direction of the
+pipeline;
+obtaining the header from a data source;
+returning the requested header in a downstream direction of the pipeline,
+each task of the pipeline analyzing and processing the header based on a data processing function of
+
+the task;
+returning the processed header to the host application; and 
+repeatedly invoking the pipeline based on a number of data sets of the data
+item obtained from the header wherein the invoking step comprises:
+
+
+passing a request for a data set in the upstream direction of the
+pipeline,
+obtaining a data set from the data source,
+returning the requested data set in the downstream direction of the
+pipeline, each task analyzing and processing the data set, and
+returning the processed data set to the host application.
+A pipelined data processing system (100) for processing a data item, the data item
+comprising a header and at least one data set, the system comprising:
+
+
+library means (10) for storing data processing functions;
+a memory (26) comprising a plurality of blocks of memory;
+memory management means (56) for allocating and deallocating blocks of the
+memory;
+a processor (20);
+host application means (50) for operating the processor, the host application means
+being stored in at least one block of memory;
+characterized in that
+ the system further comprises:
+
+a data processing pipeline (80) comprising a plurality of linked data processing tasks
+(60, 62, 64), wherein the plurality of linked data processing tasks process the at least one data set of
+
+the data item based on the header of the data item, each of the plurality of data processing tasks
+
+being stored in at least one block of the memory;
+wherein the host application means comprises:
+
+instantiating means for instantiating the data processing functions to form
+the pipeline of data processing tasks,
+invoking means (54) for invoking the data processing pipeline, and
+data processing means (58) for processing data obtained from the data
+processing pipeline;
+wherein each one of the plurality of data processing tasks comprises:
+
+link means (82) for linking the data processing task to at least one of another
+data processing task and the host application means,
+first channel means (84a) for passing the header of a data item between at
+least one of a pair of linked data processing tasks and a data processing task and the host
+
+application means,
+at least one second channel means (84b) for passing the at least one data set
+of a data item between at least one of a pair of linked data processing tasks, and a data processing
+
+task and the host application means,
+data processing means (86) for processing a data item, and
+task state means (90) for controlling the state of the data processing task.
+</CLAIMS>
+</TEXT>
+</DOC>

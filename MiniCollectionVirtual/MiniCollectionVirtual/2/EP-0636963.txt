@@ -1,0 +1,651 @@
+<DOC>
+<DOCNO>EP-0636963</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Authentication system using one-time passwords.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F100	G06F100	G06F2100	G06F2100	G09C100	G09C100	H04L932	H04L932	H04L1222	H04L1222	H04L2906	H04L2906	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G09C	G09C	H04L	H04L	H04L	H04L	H04L	H04L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F1	G06F1	G06F21	G06F21	G09C1	G09C1	H04L9	H04L9	H04L12	H04L12	H04L29	H04L29	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A system for authenticating a user located at a
+requesting node to a resource such as a host application
+
+located at an authenticating node using one-time passwords
+that change pseudorandomly with each request for
+
+authentication. At the requesting node a non-time-dependent
+value is generated from nonsecret information identifying
+
+the user and the host application, using a secret encryption
+key shared with the authenticating node. The non-time-dependent
+
+value is combined with a time-dependent value to
+generate a composite value that is encrypted to produce an
+
+authentication parameter. The authentication parameter is
+reversibly transformed into an alphanumeric character string
+
+that is transmitted as a one-time password to the
+authenticating node. At the authenticating node the
+
+received password is transformed back into the corresponding
+authentication parameter, which is decrypted to regenerate
+
+the composite value. The non-time-dependent value is
+replicated at the authenticating node using the same
+
+nonsecret information and encryption key shared with the
+requesting node. The locally gene
+rated non-time-dependent
+value is combined with the regenerated composite value to
+
+regenerate the time-dependent value. The user is
+authenticated if the regenerated time-dependent value is
+
+within a predetermined range of a time-dependent value that
+is locally generated at the authenticating node. Passwords
+
+found not to have a corresponding authentication parameter
+are trivially rejected by the authenticating node to avoid
+
+unnecessary processing steps. A encryption system for
+transforming short blocks into encrypted blocks of the same
+
+length is also disclosed.
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+COPPERSMITH DON
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GUSKI RICHARD HENRY
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+JOHNSON DONALD BYRON
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LARSON RAYMOND CRAIG
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MATYAS JR STEPHEN MICHAEL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+COPPERSMITH, DON
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GUSKI, RICHARD HENRY
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+JOHNSON, DONALD BYRON
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LARSON, RAYMOND CRAIG
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MATYAS JR, STEPHEN MICHAEL
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to an authentication system and, 
+more particularly, to a system for authenticating a user 
+located at a requesting node to an authenticating node 
+coupled to the requesting node by a communications channel, 
+using one-time passwords. Systems for authenticating users to system resources 
+such as user applications are well known in the art. Many 
+such systems operate by using passwords that are generally 
+known only to the user and issuer or authenticator. Systems 
+that transmit such passwords over a communications channel 
+from a resource-requesting node (e.g., a workstation or ATM 
+terminal) are vulnerable to the interception of transmitted 
+passwords by unauthorized persons who may tap into the 
+communications channel. Such persons may thereafter attempt 
+to gain unauthorized access to system resources by using the 
+intercepted passwords together with such nonsecret 
+information as a user ID which may also have been 
+intercepted. To thwart such attempts to gain unauthorized access, 
+passwords are usually transmitted over communications 
+channels in encrypted form, so that access to the 
+communications channel does not yield the password itself in 
+plaintext form. However, even systems that encrypt 
+passwords before transmission are vulnerable to the 
+possibility that a person may record the encrypted password  
+ 
+and thereafter inject the encrypted password directly into 
+the communications channel (rather than through a terminal 
+and encryption device) to secure the desired access. To counter this more sophisticated challenge, recent 
+systems have used so-called "one-time" or "dynamic" 
+passwords that are valid for only a brief time interval 
+(e.g., a minute or less), so that interception of such a 
+password during one interval provides no useful information 
+for gaining access to a system during a later interval. 
+Authentication systems of this type are described in Vaughan 
+U.S. Patent 4,800,590 and Weiss U.S. Patent 4,885,778, as 
+well as in the commonly assigned, copending application of 
+applicant Richard H. Guski, Serial No. 08/012,087, filed 
+February 1, 1993, and entitled "Method and Apparatus for 
+Securing Communications in a Distributed Data Processing 
+System", the specifications of which are incorporated herein 
+by reference. In the system described in the copending 
+application, for example, a one-time password is generated 
+by a requesting product or function (or by the host 
+authentication system at the request of another program) and 
+used instead of the user's
+</DESCRIPTION>
+<CLAIMS>
+An authentication method comprising the steps of: 
+generating an authentication parameter as a function of 
+
+time-dependent information using a predetermined first 
+transformation, said predetermined first transformation 
+
+having an inverse transformation such that said time-dependent 
+information may be regenerated from said 
+
+authentication parameter using said inverse 
+transformation; 
+
+generating a time-dependent password comprising a 
+character string from said authentication parameter using 
+
+a predetermined second transformation, said predetermined 
+second transformation having an inverse 
+
+transformation such that said authentication parameter 
+
+may be regenerated from said password using said inverse 
+transformation; and 
+
+presenting said password to an authenticator, whereby 
+said authenticator may regenerate said time-dependent 
+
+information from said password by regenerating said 
+authentication parameter from the password presented to 
+
+said authenticator using the inverse of said second 
+transformation and then regenerating said time-dependent 
+
+information from said authentication parameter using the 
+inverse of said first transformation. 
+The method of claim 1, further comprising the steps of: 
+regenerating said authentication parameter from the 
+
+password presented to said authenticator using the 
+inverse of said second transformation; and 
+
+regenerating said time-dependent information from said 
+authentication parameter using the inverse of said first 
+
+transformation. 
+The method of claim 2, further comprising the steps of: 
+comparing the regenerated time-dependent information 
+
+with reference time-dependent information; and 
+granting access to a resource in accordance with the 
+
+comparison of said regenerated time-dependent information 
+with said reference time-dependent information. 
+The method of one of claims 1 to 3, wherein said first 
+transformation is a cryptographic transformation using an 
+
+encryption key shared with said authenticator. 
+The method of one of claims 1 to 4, wherein said step of 
+generating an authentication parameter comprises the 
+
+steps of: 
+combining said time-dependent information with non-time-dependent 
+
+information to generate composite 
+information; and 
+
+encrypting said composite information to generate said 
+authentication parameter. 
+The method of claim 5, wherein said non-time-dependent 
+information is generated by encrypting nonsecret 
+
+information identifying a request for 
+authentication. 
+The method of one of claims 1 to 6, wherein said password 
+comprises a string of alphanumeric characters. 
+The method of one of claims 1 to 7, wherein said 
+authentication parameter has a predetermined first number 
+
+of possible values, said character string having a 
+predetermined second number of possible values greater 
+
+than said first number. 
+The method of one of claims 1 to 8, comprising the 
+further steps of: 
+
+determining whether the password presented to the 
+authenticator has a corresponding authentication 
+
+parameter from which the password could have been 
+generated using said second transformation; 
+
+further processing said password if it is determined to 
+have said corresponding authentication parameter, 
+
+otherwise denying access to a resource without further 
+processing. 
+The method of one of claims 1 to 9, wherein said 
+time-dependent information comprises time-of-day (TOD) 
+
+information. 
+The method of one of claims 1 to 10 in a system in which 
+a valid password is generated by generating an 
+
+authentication parameter as a function of time-dependent 
+information using a predetermined first transformation 
+
+and then generating a time-dependent password comprising 
+a character string from said authentication parameter 
+
+using a predetermined second transformation, said 
+predetermined first transformation having an inverse 
+
+transformation such that said time-dependent information 
+may be regenerated from said password using said inverse 
+
+transformation, said predetermined second transformation 
+having an inverse transformation such that said 
+
+authentication parameter may be regenerated from said 
+password using said inverse transformation, a method of 
+
+validating a password presented to an authenticator 
+comprising the steps of: 
+
+regenerating said authentication parameter from the 
+password presented to said authenticator using the 
+
+inverse of said second transformation;
+ 
+
+regenerating said time-dependent information from said 
+regenerated authentication parameter using the inverse of 
+
+said first transformation; 
+comparing the regenerated time-dependent information 
+
+with reference time-dependent information; and 
+granting access to a resource in accordance with the 
+
+comparison of said regenerated time-dependent information 
+with said reference time-dependent information. 
+The method of one of claims 2 to 11, wherein said first 
+transformation is a cryptographic transformation using an 
+
+encryption key shared with said authenticator, said 
+encryption key having a corresponding decryption key, 
+
+said step of regenerating said time-dependent information 
+comprising the step of decrypting said authentication 
+
+parameter using said decryption key. 
+The method of one of claims 1 to 12, wherein said 
+password contains a plurality of sets of bits, each of 
+
+said sets of bits being generated as a function of a 
+corresponding set of bits of said authentication 
+
+parameter. 
+The method of claim 13, wherein each of said sets of 
+bits in said password represents a character. 
+The method of claim 13 or 14, wherein the corresponding 
+sets of bits in said authentication parameter overlap one 
+
+another. 
+An authentication method comprising the steps of: 
+generating time-dependent information at a requesting 
+
+node; 
+combining said time-dependent information with non-time-dependent 
+
+ 
+information to generate composite 
+
+information, the combining being such that said time-dependent 
+information can be regenerated from said 
+
+composite information by combining said composite 
+information with said non-time-dependent information; 
+
+generating an authentication code from said composite 
+information using a predetermined transformation, said 
+
+predetermined transformation having an inverse 
+transformation such that said composite information may 
+
+be regenerated from said authentication code using said 
+inverse transformation; 
+
+transmitting said authentication code to an 
+authenticator located at an authenticating node, whereby 
+
+said authenticator may regenerate said time-dependent 
+information from said authentication code by regenerating 
+
+said composite information from the authentication code 
+transmitted to said authenticator using the inverse of 
+
+said predetermined transformation and then 
+regenerating said time-dependent information from said 
+
+composite information by combining said composite 
+information with said non-time-dependent information. 
+The method of claim 16, further comprising the steps 
+of: 
+
+regenerating said composite information from the 
+authentication code transmitted to said authenticator 
+
+using the inverse of said transformation; and 
+regenerating said time-dependent information from said 
+
+composite information by combining said composite 
+information with said non-time-dependent information. 
+The method of claim 17, further comprising the steps 
+of:
+
+ 
+comparing the regenerated time-dependent information 
+
+with reference time-dependent information; and 
+granting access to a resource in accordance with the 
+
+comparison of said regenerated time-dependent information 
+with said reference time-dependent information. 
+The method of one of claims 16 to 18, wherein said 
+non-time-dependent information and said time-dependent 
+
+information each comprise bit strings and are combined 
+bitwise by the operation of modulo 2 addition. 
+The method of one of claims 16 to 19, wherein said 
+predetermined transformation is a cryptographic 
+
+transformation using an encryption key shared with said 
+
+authenticator. 
+A method of transforming an input data block containing 
+n bits into an output data block containing n bits, where 
+
+n is an even integer, said method comprising the steps 
+of: 
+
+
+(a) partitioning the input data block into first and 
+second halves each containing n/2 bits; 
+(b) subjecting said halves of said input data block to a 
+plurality of rounds in which first and second input 
+
+halves are transformed into first and second output 
+halves serving as the corresponding input halves for 
+
+the subsequent round, each of said rounds comprising 
+the steps of: 
+
+
+(1) generating a predetermined first function of 
+the first input half; 
+(2) generating the first output half as a 
+predetermined second function of said 
+
+predetermined first function and the second 
+input half; and 
+(3) generating the second output half as a 
+predetermined third function of the first input 
+
+half; 
+ 
+at least one of said first, second and third functions 
+
+involving a permutation of a set of n/2 input bits to 
+yield n/2 output bits, said permutation being different 
+
+for each of said rounds; and 
+(c) recombining said first and second halves to produce 
+said output data block. 
+A method of transforming an input data block containing 
+n bits into an output data block containing n bits, where 
+
+n is an even integer, said method comprising the steps 
+of: 
+
+
+(a) partitioning the input data block into first and 
+second halves each containing n/2 bits; 
+(b) subjecting said halves of said input data block to a 
+plurality of rounds in which first and second input 
+
+halves are transformed into first and second output 
+halves, the output halves of a given round serving 
+
+as the corresponding input halves for the subsequent 
+round, each of said rounds comprising the steps of: 
+
+
+(1) padding said first input half with padding bits 
+to generate a m-bit input value, where m is 
+
+greater than n/2; 
+(2) encrypting said m-bit input value using a 
+predetermined m-bit encryption procedure to 
+
+generate a 64-bit output value; 
+(3) selecting predetermined bits of said m-bit 
+output value to form an n/2-bit output value; 
+(4) generating the first output half for said round 
+as a function of the modulo 2 sum of said 
+
+n/2-bit output value and the second input half 
+for said round; and 
+(5) setting the second output half for said round 
+equal to the first input half for said round; 
+
+and 
+(c) recombining said first and second halves to produce 
+said output data block. 
+The method of claim 22, wherein m is 64 and said 
+predetermined encryption procedure is the DES encryption 
+
+procedure, and said predetermined m-bit encryption 
+procedure has a key and wherein the same key is 
+
+used for each of said rounds. 
+Authentication apparatus comprising: 
+means for generating an authentication parameter as a 
+
+function of time-dependent information using a 
+predetermined first transformation, said predetermined 
+
+first transformation having an inverse transformation 
+such that said time-dependent information may be 
+
+regenerated from said authentication parameter using said 
+inverse transformation; 
+
+means for generating a time-dependent password comprising 
+a character string from said authentication parameter 
+
+using a predetermined second transformation, said 
+ 
+
+predetermined second transformation having an inverse 
+transformation such that said authentication parameter 
+
+may be regenerated from said password using said inverse 
+transformation; and 
+
+means for presenting said password to an authenticator, 
+whereby said authenticator may regenerate said time-dependent 
+
+information from said password for comparison 
+with reference time-dependent information by regenerating 
+
+said authentication parameter from the password presented 
+to said authenticator using the inverse of said second 
+
+transformation and then regenerating said time-dependent 
+information from said authentication parameter using the 
+
+inverse of said first transformation; 
+means for regenerating said authentication parameter 
+
+from the password presented to said authenticator using 
+the inverse of said second transformation; 
+
+means for regenerating said time-dependent information 
+from said authentication parameter using the inverse of 
+
+said first transformation; 
+means for comparing the regenerated time-dependent 
+
+information with reference time-dependent information; 
+and 
+
+means for granting access to a resource in accordance 
+with a comparison of said regenerated time-dependent 
+
+information with reference time-dependent information. 
+Authentication apparatus comprising: 
+means for generating time-dependent information at a 
+
+requesting node; 
+means for combining said time-dependent information 
+
+with non-time-dependent information to generate composite 
+ 
+
+information, the combining being such that said time-dependent 
+information can be regenerated from said 
+
+composite information by combining said composite 
+information with said non-time-dependent information; 
+
+means for generating an authentication code from said 
+composite information using a predetermined 
+
+transformation, said predetermined transformation having 
+an inverse transformation such that said composite 
+
+information may be regenerated from said authentication 
+code using said inverse transformation; 
+
+means for transmitting said password to an 
+authenticator located at an authenticating node, whereby 
+
+said authenticator may regenerate said time-dependent 
+information from said authentication code by regenerating 
+
+said composite information from the authentication code 
+transmitted to said authenticator using the inverse of 
+
+said transformation and then regenerating said 
+time-dependentinformation from said composite information 
+
+by combining said composite information with said 
+non-time-dependent information; 
+
+means for regenerating said composite information from 
+the authentication code transmitted to said authenticator 
+
+using the inverse of said transformation; and 
+means for regenerating said time-dependent information 
+
+from said composite information by combining said 
+composite information with said non-time-dependent 
+
+information. 
+Apparatus for transforming an input data block 
+containing n bits into an output data block containing n 
+
+bits, where n is an even integer, said apparatus 
+comprising: 
+(a) means for partitioning the input data block into 
+first and second halves each containing n/2 bits; 
+(b) means for subjecting said halves of said input data 
+block to a plurality of rounds in which first and 
+
+second input halves are transformed into first and 
+second output halves serving as the corresponding 
+
+input halves for the subsequent round, said means 
+including means operative on each of said rounds 
+
+for: 
+
+(1) generating a predetermined first function of 
+the first input half; 
+(2) generating the first output half as a 
+predetermined second function of said 
+
+predetermined first function and the second 
+input half; and 
+(3) generating the second output half as a 
+predetermined third function of the first input 
+
+half; 
+ 
+at least one of said first, second and third functions 
+
+involving a permutation of a set of n/2 input bits to 
+yield n/2 output bits, said permutation being 
+
+different for each of said rounds; and 
+(c) means for recombining said first and second halves 
+to produce said 
+output data block. 
+Apparatus for transforming an input data block 
+containing n bits into an output data block containing n 
+
+bits, where n is an even integer, said apparatus 
+comprising: 
+
+
+(a) means for partitioning the input data block into 
+first and second halves each containing n/2 bits; 
+(b) means for subjecting said halves of said input data 
+block to a plurality of rounds in which first and 
+
+second input halves are transformed into first and 
+second output halves, the output halves of a given 
+
+round serving as the corresponding input halves for 
+the subsequent round, said means including means 
+
+operative on each of said rounds for: 
+
+(1) padding said first input half with padding bits 
+to generate a m-bit input value, where m is 
+
+greater than n/2; 
+(2) encrypting said m-bit input value using a 
+predetermined m-bit encryption procedure to 
+
+generate a 64-bit output value; 
+(3) selecting predetermined bits of said m-bit 
+output value to form an n/2-bit output value; 
+(4) generating the first output half for said round 
+as a function of the modulo 2 sum of said 
+
+n/2-bit output value and the second input half 
+for said round; and 
+(5) setting the second output half for said round 
+equal to the first input half for said round; 
+
+and 
+(c) means for recombining said first and second halves 
+to produce said output data block. 
+</CLAIMS>
+</TEXT>
+</DOC>

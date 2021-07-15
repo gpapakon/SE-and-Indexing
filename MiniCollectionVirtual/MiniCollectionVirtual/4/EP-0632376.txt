@@ -1,0 +1,271 @@
+<DOC>
+<DOCNO>EP-0632376</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Encoding and rebuilding the data content of up to two unavailable DASDs in a DASD array
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1216	G06F1216	G06F306	G06F306	G11B2018	G11B2018	G06F1110	H03M1300	H03M1311	G06F1110	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G11B	G11B	G06F	H03M	H03M	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F12	G06F12	G06F3	G06F3	G11B20	G11B20	G06F11	H03M13	H03M13	G06F11	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The data contents of up to two concurrently failed or erased 
+DASDs can be reconstituted where the data is distributed across 
+
+M DASDs as an (M-1)*M block array and where (1) the (M-1)st DASD 
+contains the simple parity taken over each of the array diagonals 
+
+in diagonal major order in the same mode (odd/even) as that 
+exhibited by the major diagonal of the array and (2) where the 
+
+M-th DASD contains the simple even parity over each of the rows 
+in row major order. Relatedly, short write updates require fewer 
+
+operations for data blocks located off the major data array 
+diagonal. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BLAUM MIGUEL MARIO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BRADY JIM
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BRUCK JEHOSHUA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MENON JAISHANKAR M
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BLAUM, MIGUEL MARIO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BRADY, JIM
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BRUCK, JEHOSHUA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MENON, JAISHANKAR M.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to arrays of failure independent direct
+access storage devices (DASDs), and more particularly, to
+maintaining availability of data stored on said DASD arrays even
+where up to two DASDs in the array are concurrently rendered
+unavailable as by erasure of their contents.In the prior art, the spreading of data blocks across DASD arrays
+to enhance access, data rate, fault tolerance, and recovery of
+array stored data blocks has been well appreciated. Of particular
+interest, is the use of simple parity for the correction of
+single DASD failures or erasures (Ouchi) and the use of more
+complex redundancy codes to correct up to two (Blaum I, II) or
+even three (Blaum III) concurrent failures. In order to return
+DASD array operation from a degraded mode upon the occurrence of
+failure to a fault tolerant mode, it is known to employ some
+DASDs as hot spares (Dunphy) which can be switched in to replace
+failed DASDs and be available to store rebuilds of the missing or
+erased data. It is also known to reserve spare space (Mattson I)
+among the DASDs of an array equivalent to some number of DASDs
+which might be expected to fail so as to maintain availability
+even though array operation would continue in a degraded mode or
+to effectuate load balancing (Mattson II).Ouchi, US Pat 4,092,732, "System for Recovering Data Stored in a
+Failed Memory Unit", issued 5/30/78, discloses the spreading of
+data blocks from the same logical file across a string of N-1
+failure independent DASDs and recording a parity block on the Nth
+DASD. According to Ouchi, the parity block is an XORing of the
+contents of the N-1 other blocks. Contents from any single 
+inaccessible DASD can be recovered by XORing the parity blocks
+with the blocks stored on the N-2 remaining accessible DASDs. In
+the event of a single failure, Ouchi is operated in a degraded
+mode since any additional failure until a spare disk is
+reconstituted would render the subsystem totally unavailable.
+This feature was later re described in Hartness, USP 4,775,978,
+"Data Error Correction System", issued 10/4/1988.In an Ouchi type array, correction of blocks requires
+identification of failed DASDs. This can be achieved by Hamming
+codes. However, such codes are usually used on a bit rather than
+block interleaved DASD array and the number of DASDs dedicated to
+redundancy is a significant fraction of the total as reported by
+Patterson et al, "A Case For Redundant Arrays Of Inexpensive
+Disks (RAID)", Report No. UCB/CSD 87/391, December 1987, Computer
+Science Division,
+</DESCRIPTION>
+<CLAIMS>
+In a system having a plurality of DASDs, a portion of said
+plurality of DASDs forming an array of M failure independent DASDs, said subsystem
+
+further having means responsive to external commands for accessing
+subsets of data blocks logically addressed in an (M-1)*(M-2) array of
+
+data blocks from said M DASDs, M being a prime number, said data block
+array having a major or reference diagonal, said data blocks being
+
+arranged in said data block array in diagonal and row major order, each
+diagonal and row order of data blocks having a parity mode, odd or even,
+
+one of said plurality of DASDs being designated as spare, a method for encoding
+and rebuilding of the contents of said array in the event that up to two
+
+DASD's from the M DASD array become unavailable, comprising the steps of:
+
+(a) ascertaining (21) the parity mode of the major diagonal of data blocks
+in the (M-1)*(M-2) data block array;
+(b) generating (22) an (M-1)*(M) data block array from said (M-1)*(M-2) data
+array by forming an (M-1)th column by calculating simple parity values
+
+from the data blocks in diagonal major order according to the same parity mode, odd or even, of
+step (a) and by forming an M-th column by calculating for each of the rows simple parity
+
+values from the data blocks in row major order according to an even
+parity mode;
+(c) writing (23) said (M-1)*M data block array onto counterpart locations
+
+across the M DASD array or spare equivalent in the event of DASD
+unavailability; and
+(d) responsive to the unavailability of up to two DASDs, rebuilding the
+erased or unavailable portion of said data array from no less than (M-2)
+
+available DASDs, such that:
+
+(1) if the up to two failed DASDs consist of the DASDs storing
+the diagonal parity ((M-1)st DASD) and row parity (Mth DASD) values
+
+respectively, then repeating step (b) and writing the reconstituted
+row and parity values to the spare DASD substitutes for the (M-1)st
+
+and Mth DASDs respectively,
+(2) if the up two failed DASDs consist of a DASD (ith DASD)
+storing data blocks and the DASD (Mth DASD) storing row parity
+
+values, then reconstructing the ith DASD by ascertaining (405) the parity 
+mode of the major diagonal, calculating (406) each data block of the ith
+
+DASD by XOR'ing only the data blocks lying along the diagonal
+intersecting the ith DASD according to the ascertained parity mode,
+
+and reconstructing the Mth DASD by calculating each row parity
+value by XOR'ing only the data blocks lying along the row
+
+intersecting the Mth DASD, and writing (412) said calculated data blocks
+and row parity values to the spare DASD substitutes for the ith
+
+DASD and Mth DASD respectively,
+(3) if the up to two failed DASDs consist of a DASD (ith DASD)
+storing data blocks and a DASD ((M-1)st) storing diagonal parity
+
+values, then reconstructing the ith DASD by calculating (408) each data
+block of the ith DASD by XOR'ing each of the remaining data blocks
+
+and the row parity value intersecting the ith DASD, and
+reconstructing the (M-1)st DASD by ascertaining the parity mode of
+
+the major diagonal, calculating (410) each diagonal parity value by
+XOR'ing the data blocks lying along the diagonal intersecting the
+
+(M-1)st DASD, together with said parity mode of the major diagonal,
+and writing (412) said calculated data blocks and diagonal parity values
+
+to the spare DASD substitutes for the ith DASD and (M-1)st DASD
+respectively, and
+(4) if each of the up to two failed DASDs consist of a DASD (ith
+and jth DASDS) storing data blocks, then ascertaining (407) the parity
+
+mode of the major array diagonal as being odd if the XOR of the
+diagonal parity values is not equal to the XOR of the row parity
+
+values and as being even otherwise, ascertaining (411) each data block
+value in either the ith or jth DASD as the XOR solution to a single
+
+equation with a single unknown formed by either a diagonal of data
+blocks and diagonal parity value intersecting said each data block
+
+being calculated or a row of data blocks and row parity value
+intersecting said each data block being calculated, and writing (412)
+
+said calculated data blocks to the spare DASD substitutes for the
+ith and jth DASDs.
+The method according to claim 1, wherein said accessing means
+includes means for assigning spare capacity assigned among the M DASDs in
+
+a predetermined manner, means for substituting spare DASDs for the failed
+ones, and further wherein step (d) includes writing said rebuilt portion
+
+either to counterpart ones of said plurality of DASDs operatively
+designated as spares or to spare space available on no less than M-2 
+
+remaining DASDs.
+The method according to claim 1, wherein if M is not a prime
+number then causing steps (b), (c), and (d) to emulate a data block array
+
+expanded to include additional columns of uniform binary value to yield
+an effective array (M'-1)*M' where M' constitutes a prime number larger
+
+than M.
+The method according to claim 1, wherein said method executes at
+least one small write access through said access means to the (M-1)*M
+
+data array stored on array of M DASDs, a first and a second DASD storing
+simple parity values while M-2 other DASDs storing data blocks, and
+
+wherein said method further comprises the steps of:
+
+(a) ascertaining (35) whether the data block to be modified lies on the main
+or reference diagonal of the data block array;
+(b) in the event (36) that the block to be modified is not located on the
+main diagonal, then
+
+
+(1) reading the old data block from the DASD storing said block
+and reading the old diagonal and old row parity values from the
+
+first and second redundant DASDs respectively;
+(2) determining a new diagonal parity value by XOR'ing the old
+data block, new data block, and old diagonal parity value, and
+
+determining a new row parity value by XOR'ing old data block, new
+data block, and old row parity value;
+
+and
+(3) writing said new data block, and new diagonal and row parity
+values in place in the data block storing DASD and the first and
+
+second redundant DASDs, respectively;
+(c) in the event (37) that the block to be modified is located on the main
+diagonal, then
+
+
+(1) reading the old data block from the DASD storing said block,
+the old row parity value from the second redundant DASD, and M
+
+diagonal parity values from the first redundant DASD; 
+(2) determining each of M-1 new diagonal parity values by XOR'ing
+each old counterpart diagonal parity value, the old data block and
+
+the new data block, and determining a new row parity value by
+XOR'ing the old data block, the new data block, and the old row
+
+parity value; and
+(3) writing said new data block, new row parity value, and M new
+diagonal parity values to ccunterpart ones of the M DASDs.
+The method according to claim 4, wherein step (c) (3) further
+includes the step of writing said data blocks and parity values in place
+
+in said counterpart DASDs.
+The method of claim 4, wherein the calculation of the (M-1) new
+parity values responsive to the write update command to modify a data
+
+block located on the major diagonal includes logically complementing the
+counterpart old diagonal parity values.
+</CLAIMS>
+</TEXT>
+</DOC>

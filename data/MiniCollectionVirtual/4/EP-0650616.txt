@@ -1,0 +1,313 @@
+<DOC>
+<DOCNO>EP-0650616</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+SYSTEM AND METHOD FOR DYNAMICALLY CONTROLLING CACHE MANAGEMENT
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1212	G06F1208	G06F1212	G06F1208	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F12	G06F12	G06F12	G06F12	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A cache management system and method monitors and controls the contents of cache memory (12) coupled to at least one host (22a) and at least one data storage device (18a). A cache indexer (16) maintains a current index (25) of data elements which are stored in cache memory (12). A sequential data access indicator (30), responsive to the cache index (16) and to a user selectable sequential data access threshold, determines that a sequential data access is in progress for a given process and provides an indication of the same. The system and method allocate a micro-cache memory (12) to any process performing a sequential data access. In response to the indication of a sequential data access in progress and to a user selectable maximum number of data elements to be prefetched, a data retrieval requestor requests retrieval of up to the selected maximum number of data elements from a data storage device (18b). A user selectable number of sequential data elements determines when previously used micro-cache memory locations will be overwritten. A method of dynamically monitoring and adjusting cache management parameters is also disclosed.
+ 
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+EMC CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+EMC CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+ALTERESCU BRUNO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+CASTEL DANIEL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+VISHLITZKY NATAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YANAI MOSHE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ALTERESCU, BRUNO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+CASTEL, DANIEL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+VISHLITZKY, NATAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YANAI, MOSHE
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to computer systems and more
+particularly, to a system and method for improved management of
+cache memory.Computer systems which are coupled to a large amount of data
+storage may spend a great deal of CPU and BUS time reading and
+writing data to and from the storage devices. Data retrieval
+from disk drives or similar data storage devices tremendously
+impacts and decreases system performance and throughput.Accordingly, many systems now include cache memory which can
+be accessed much more rapidly by the CPU without the inherent
+delays associated with the mechanical motion and time delay
+inherent in a disk drive. Thus, if the required data is stored
+in cache instead of on the disk drive, system performance can be
+increased tremendously. Cache memory, however, is a finite
+resource. It is costly and accordingly, must be properly managed
+to yield its intended benefit.Prior art systems or methods aimed at managing cache memory
+include a system disclosed in U.S. Patent No. 4,489,378 wherein
+the system prefetches a selected number of records in
+anticipation that the data will soon be requested. Several
+problems, however, exist with such a system. For example, the
+system has no knowledge of what is already stored in cache and
+thus, the system must make real time decisions as to whether or
+not a sequential data access is being performed. Further, the
+system prefetches a selected number of data elements without
+regard for what is currently in cache. Most importantly, such
+a system is not efficient when used with a multi-tasking/multi-processor
+system wherein a storage device controller is handling
+requests in a multiplexed fashion from many hosts. In such a
+case, multiplexed sequential data access would appear as a non-sequential
+or random data requests to the cache manager and the
+desired data would not be present in the cache due to the non-Sequential 
+appearance of the task.An additional prior art system for controlling or managing cache
+memory is disclosed in US Patent No 4,853,846 wherein a cache memory
+directory is split up into as many segments as there are processors or hosts
+which are accessing the memory. Given the associated high cost of cash
+memory, such a system results in expensive, duplicative cache memories.
+In addition, such a system is also incapable of handling multi-tasking systems
+given that the system requires a dedicated cache directory associated with
+each accessing host or processor.Further, both references prior art systems as well as other similar prior
+art systems
+</DESCRIPTION>
+<CLAIMS>
+A cache management system including a cache manager (10) for
+monitoring and controlling contents of cache memory (12) coupled to at least
+
+one host (22) and to at least one data storage device (18), said cache
+management system comprising:
+
+
+a cache indexer (16), for maintaining a cache index of data elements
+which are retrieved from said at least one data storage device (18) by said
+
+at least one host (22) and stored in said cache memory (12);
+a sequential data access indicator (30), for providing an indication that
+at least one process executing on said at least one host (22) is effecting a
+
+sequential data access; and
+a data retrieval requester (34) for requesting retrieval from said at least
+one storage device (18);
+
+   wherein said sequential data access indicator (30) is
+responsive to said cache index (16), for detecting a plurality of sequential
+
+data elements retrieved from said at least one data storage device (18) and
+stored in said cache memory (12), and responsive to said detection of a
+
+plurality of sequential data elements retrieved from said at least one data
+storage device (18) and stored in cache memory (12) and
+
+   
+characterised in that
+ said sequential access indication (30) to a user
+selectable sequential data access indicator threshold value; and
+
+   said data retrieval requester (34) is responsive to said indication that at
+least one process executing on said at least one host is effecting a sequential
+
+data access and to a user selectable value of a predetermined number of data
+elements to be prefetched (B), and requests retrieval from said at least one
+
+data storage device of up to a number of data elements equal to the value
+of said user selectable predetermined number of data elements to be
+
+prefetched.
+The cache management system of claim 1 
+characterised in that
+ said
+selectable sequential data access indicator threshold value and the value of 
+
+said selectable predetermined number of data elements to be prefetched are
+user selectable for each data storage device (18) coupled to the cache
+
+management system.
+The cache management system of claim 1 or 2 
+characterised in that
+
+said cache management system includes one system wide cache memory
+(12); and
+
+   wherein said cache management system establishes and maintains at
+least one micro-cache memory (50a, 50b) having a predetermined number
+
+of memory locations for use by said at least one process effecting a
+sequential data access, said predetermined number of memory locations
+
+corresponding to said user selectable value of a predetermined maximum
+number of sequential data elements to be stored in said cache memory (12).
+The cache management system according to any one of claims 1 to
+3 further 
+characterised by
+ a cache data replacer (38), responsive to a user
+selectable value of a predetermined maximum number of sequential data
+
+elements to be stored in said cache memory (12) for use by said at least one
+process effecting a sequential data access., and to said data retrieval
+
+requester (34) requesting retrieval of a data element, for requesting
+replacement of a least recently used sequential data element stored in said
+
+cache memory (12) in excess of the value of said predetermined maximum
+number to be stored for use by said at least one process upon each retrieval
+
+of a data element in excess of said predetermined maximum number
+previously stored in said cache memory (12) for use by said at least one
+
+process.
+The cache management system according to any one of claims 1 to
+4 further 
+characterised by
+ a dynamic cache management system adjuster,
+responsive to said indication that at least one process executing on said at
+
+least one host (22) is effecting a sequential data access, for dynamically 
+adjusting at least the values of said user selectable sequential data access
+
+indicator threshold and said user selectable predetermined number of data
+elements to be prefetched.
+The cache management system of claim 4 or 5 
+characterised in that
+
+said data retrieval requester (34) requests storage of said prefetched data
+elements in said at least one micro-cache memory (50a, 50b); and
+
+   wherein said cache data replacer (38) requests replacement of the
+least recently used sequential data element stored in said at least one micro-cache
+
+memory (50a, 50b).
+The cache management system of claim 3 
+characterised in that
+ said
+cache management system includes a plurality of processes effecting a
+
+sequential data access; and
+
+   wherein said cache management system establishes and maintains one
+micro-cache memory (50a, 50b) for each of said plurality of processes
+
+effecting a sequential data access.
+A cache management method, for monitoring and controlling contents
+of cache memory (12) coupled to at least one host (22) and to at least one
+
+data storage device (18), said cache management method comprising:
+
+establishing and maintaining in said cache memory (12), a current
+index of the contents of said cache memory (12);
+reading said current index of the contents of said cache memory (12);
+determining that at least one sequential data access is in progress; and
+requesting retrieval and storage in said cache memory (12) of a
+number of data elements;
+establishing an alterable, sequential data access indicator threshold
+value, for providing a predet
+ermined minimum number of data elements
+stored in said cache memory (12) indicating an occurrence of a sequential 
+
+data access in progress by at least one process executing on said at least
+one host (22);
+determining that at least one sequential data access is in progress by
+said at least one process in response to reading said current index of the
+
+contents of said cache memory (12) and to said sequential data access
+indicator threshold value;
+establishing a first alterable value corresponding to a predetermined
+number of data elements to be prefetched from said at least one data storage
+
+device (18); and
+requesting retrieval and storage in said cache memory (12) of a
+number of data elements equal to said established value of predetermined
+
+number of data elements to be prefetched and stored in cache memory (12)
+in response to the determination of a sequential data access in progress.
+A cache management method according to claim 8 
+characterised by
+
+the further steps of:
+
+establishing a second alterable value corresponding to a predetermined
+maximum number of sequential data elements to be stored in said cache
+
+memory (12); and
+requesting replacement of a least recently used sequential data
+element stored in said cache memory (12) in excess of said predetermined
+
+maximum number previously stored in said cache memory (12) for use by
+said at least one process in response to said established second alterable
+
+value of predetermined maximum number of sequential data elements to be
+stored in said cache memory (12).
+The method of claim 8 or 9 
+characterised in that
+ after the step of
+determining that at least one sequential data access is in progress, further
+
+including the step of:
+
+establishing and maintaining at least one micro-cache memory (50a,
+50b) having a predetermined number of memory locations for use by said at 
+
+least one process determined to be effecting a sequential data access, said
+predetermined number of memory locations corresponding to said second
+
+alterable value of a predetermined maximum number of sequential data
+elements to be stored in said cache memory (12).
+The cache management method of claim 8 or 9 
+characterised in that
+
+after the step of requesting replacement, further including the step of:
+
+dynamically monitoring and adjusting the cache management method,
+said step of dynamically monitoring and adjusting comprising the steps of:
+
+
+dynamically adjusting at least the values of said data access
+indicator threshold value and said first alterable value corresponding
+
+to a predetermined number of data elements to be prefetched.
+The method of claim 11 
+characterised in that
+ the step of dynamically
+monitoring and adjusting the cache management system further includes the
+
+steps of:
+
+increasing the value of said sequential data access indicator threshold
+in response to detecting unused data elements retrieved from said at least
+
+one data storage device (18) and stored in said cache memory (12); and
+decreasing the value of said sequential data access indicator threshold
+in response to detecting no unused data elements retrieved from said at least
+
+one data storage device (18) and stored in said cache memory (12).
+The method claim 11 
+characterised in that
+ said step of dynamically
+monitoring and adjusting further includes the steps of:
+
+
+increasing the value of said predetermined number of data elements
+to be prefetched in response to an increasing number of retrieved, stored and
+
+used data elements; and
+decreasing the value of said predetermined number of data elements
+to be prefetched in response to a decreasing number of retrieved; stored and
+
+used data elements.
+</CLAIMS>
+</TEXT>
+</DOC>

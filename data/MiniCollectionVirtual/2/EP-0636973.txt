@@ -1,0 +1,231 @@
+<DOC>
+<DOCNO>EP-0636973</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Processor interface chip for dual-microprocessor processor system
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1120	G06F1320	G06F1324	G06F9445	G06F1122	G06F1116	G06F1116	G06F948	G06F15177	G06F1516	G06F1208	G06F1202	G06F1122	G06F1336	G06F1120	G06F1336	G06F1208	G06F946	G06F9445	G06F1202	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F11	G06F13	G06F13	G06F9	G06F11	G06F11	G06F11	G06F9	G06F15	G06F15	G06F12	G06F12	G06F11	G06F13	G06F11	G06F13	G06F12	G06F9	G06F9	G06F12	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A processor interface chip and a maintenance 
+diagnostic chip are provided coupled with two microprocessors 
+
+designed to be run in tandem. The processor interface chip 
+includes logic for interfacing between the microprocessors and 
+
+a main memory, logic for pipelining multiple microprocessor 
+requests between the microprocessors and main memory, logic 
+
+for prefetching data before a microprocessor issues a read 
+request, logic for allowing a boot to occur from code anywhere 
+
+in physical memory without regard to the microprocessors' 
+fixed memory location for boot code, and logic for 
+
+intelligently limiting the flow of interrupt information over 
+a processor bus between the microprocessors and the processor 
+
+interface chip. The maintenance diagnostic chip includes 
+logic to halt either of the microprocessors if an error is 
+
+detected, and read out the state of the microprocessors and a 
+secondary cache attached to the microprocessors, before the 
+
+state of the microprocessors at the time of the fault changes 
+to a different state which might hide evidence of the cause of 
+
+the fault. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+HEWLETT PACKARD DEVELOPMENT CO
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+HEWLETT-PACKARD DEVELOPMENT COMPANY, L.P.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+FU PETER
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GROSZ MARTIN JIRI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+RAHMAN MIZANUR MOHAMMED
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+RECTOR RUSSELL MARK
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SABERNICK FRED C
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SPROUSE JEFF A
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FU, PETER
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GROSZ, MARTIN JIRI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+RAHMAN, MIZANUR MOHAMMED
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+RECTOR, RUSSELL MARK
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SABERNICK, FRED C.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SPROUSE, JEFF A.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to the field of
+processor interface circuitry. More specifically, in one
+embodiment the invention provides an improved interface
+between a microprocessor, or a set of microprocessors, and
+other processor circuits.In many cases, a microprocessor can be designed to
+run faster than external components with which it
+communicates. Unfortunately, the microprocessor often cannot
+proceed until a particular action is taken by the external
+device, and thus the performance of the processor system in
+which the microprocessor is used is adversely affected. One
+reason for this bottleneck is that communication between two
+circuits on the same integrated circuit, or chip, is generally
+faster than communication between two circuits separated by an
+inter-chip bus or other interface. Thus, one solution to the
+need for faster interaction with the microprocessor is to
+place more circuitry on the microprocessor chip, such as data
+and instruction caches. However, adding higher-level
+components on chip with the microprocessor make diagnosing
+errors much more difficult. This is because by the time an
+internal error is detected within the microprocessor and
+percolates out of the chip to a diagnostic system, the
+diagnostic system has much less time to investigate the cause
+of the error before the continued operation of the
+microprocessor changes the state of its internal circuits to
+the point where the state at the time of the error is no
+longer known. For example, if a data error occurs deep inside
+the microprocessor, but is detected and apparently fixed by
+logic inside the microprocessor before being output, external
+circuits may act on that data as being valid data thereby
+corrupting the processor system. Another problem with processor systems is the microprocessor bus,
+over which most of the microprocessor requests and responses to those
+requests pass. The microprocessor bus carries write requests, along with the
+data to be written, read requests, read and write responses back to the
+microprocessor, and interrupt signals into the microprocessor. This traffic
+over the bus often limits the speed at which data can be accepted from, and
+provided to, the microprocessor.From the above it is seen that an improved interface to a
+microprocessor is needed.EDN Electrical Design News, vol. 30, no. 7, April 1985; J
+Staniaszczyk: "Start 8085 RAM address at 0000HEX" proposes a reset circuit
+that responds to a reset by clearing the processor program counter and
+selecting the address of the first byte of a 3-byte
+</DESCRIPTION>
+<CLAIMS>
+A processor interface circuit (16), for coupling a processor bus
+(18), coupled to at least one microprocessor (12(0), 12(1)) to an internal bus
+
+(26) which handles requests for memory reads, memory writes, and
+input/output accesses issued by the at least one microprocessor, the program
+
+instruction flow in said at least one microprocessor being responsive to interrupts
+including processor stored prioritized interrupts, the processor interface
+
+circuit comprising:
+
+processor bus interface logic (180), which maintains a
+bidirectional data path between the processor bus (18) and the processor
+
+interface circuit (16);
+internal bus interface logic (182), which maintains a bidirectional
+data path over the internal bus (26) between the processor interface circuit
+
+and microprocessor request handlers internal to a processor system, said
+microprocessor request handlers including at least a memory interface circuit
+
+(20) for reading and writing a memory (22) in response to requests from a
+microprocessor (12); wherein said internal bus interface logic
+
+comprises a boot address relocator (194),
+arranged to access an address
+
+portion of a memory access request, and to
+relocate an address in said address portion when a boot indicator is set and
+
+said address portion does not point to an address in said memory (22)
+accessed by said memory interface circuit (20);
+a request pipeline (195), coupled to said processor bus
+interface (180) and said internal bus interface (182), arranged to accept
+
+microprocessor requests and to acknowledge said requests before said
+requests are output on said internal bus interface (182) when said internal
+
+bus interface is not able immediately to accept said requests; 
+a prefetch queue (196), coupled to said processor bus interface
+(180) and said internal bus interface (182), arranged to fetch and hold a
+
+predicted block of data from said memory (22), said predicted block being a
+block in memory following a block which was requested by a
+
+microprocessor (12); and
+an interrupt filter (198), coupled to said internal bus interface
+(182) and said processor bus interface (180), arranged to receive interrupt signals
+
+from said internal bus (26) and to pass on to the processor bus (18) only
+interrupts that would change the processor stored prioritized interrupts, (450).
+A processor interface circuit according to claim 1,
+including an interrupt image store (452) arranged to store an image of the
+
+processor stored interrupts, and a comparator (470) operable to compare
+interrupts received from the internal bus (26) with the contents of the
+
+interrupt image store (452) to determine whether or not received interrupts
+should be passed on to the processor bus (18).
+A processor interface circuit according to claim 1 or
+claim 2, wherein, following a microprocessor reset, the microprocessor
+
+requests a first boot instruction which is pointed to by a fixed address, and
+wherein the fixed address comprises a plurality of address bits, and wherein
+
+the boot address relocator (194) includes:
+
+a boot detector (218), arranged to output a booting signal following
+a microprocessor reset;
+an address blocking means, responsive to said booting signal
+and coupled to the internal bus (26), arranged to block selected address bits of the
+
+fixed address; 
+an address substitution means, responsive to said booting
+signal and coupled to the internal bus (26), arranged to substitute a substituted
+
+plurality of address bits for said blocked address bits, when the fixed address
+does not point to a physical address and said booting signal is asserted, said
+
+substituted plurality of address bits, when combined with unblocked address
+bits of the fixed address, forming a physical address in an instruction
+
+memory; and
+disabling means arranged to disable said address substitution means after the
+microprocessor (12) is configured to only make requests from valid
+
+addresses.
+A processor interface circuit according to any of claims
+1 to 3, wherein said address blocking means and said address substitution
+
+means comprise a multi-bit input, 2-to-1 multiplexer (402) with a selection
+control input responsive to said booting signal.
+A processor interface circuit according to any of claims
+1 to 4, wherein addresses on the internal bus (26) include parity bits meeting
+
+a parity criterium, and wherein said address substitution means further
+comprises means for including substituted parity bits, wherein said
+
+substituted parity bits meet said parity criterium.
+</CLAIMS>
+</TEXT>
+</DOC>

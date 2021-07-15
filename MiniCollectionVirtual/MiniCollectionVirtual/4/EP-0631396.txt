@@ -1,0 +1,284 @@
+<DOC>
+<DOCNO>EP-0631396</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Real-time convolutional decoder with block synchronising function
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H03M1341	H04L704	H03M1323	H03M1300	H04L100	H04L704	H04L2508	H04L100	H04L2508	H03M1333	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H03M	H04L	H03M	H03M	H04L	H04L	H04L	H04L	H04L	H03M	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H03M13	H04L7	H03M13	H03M13	H04L1	H04L7	H04L25	H04L1	H04L25	H03M13	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A decoder receives frames of data that have been block 
+coded, then convolutionally coded, at a rate of multiple 
+
+frames per block. As each frame is received, the decoder 
+counts it, stores convolutional code path information, and 
+
+updates metric values pertaining to the paths. Once per 
+block of frames, the decoder selects a path having the best 
+
+metric value, convolutionally decodes one block, detects 
+errors from both the block code and path metric, and 
+
+generates error information. From the error information, 
+the decoder decides whether block synchronization has been 
+
+acquired or lost, and clears, decrements, or sets the frame 
+count accordingly. If synchronized, the decoder outputs the 
+
+block and its error information, and updates the path memory 
+in preparation to decode the next block. Otherwise, the 
+
+decoder prepares to reacquire block synchronization. 
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+OKI ELECTRIC IND CO LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+OKI ELECTRIC INDUSTRY CO., LTD.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+ABE MASAMI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+IWATA JUN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ABE, MASAMI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+IWATA, JUN
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a Viterbi decoder for a
+convolutional code that it concatenated with a block code
+and transmitted in frames at a rate of two or more frames
+per block and to a method of decoding such codes.A Viterbi decoder that uses a word synchronisation circuit
+is disclosed in GB-A-2123655.In a block code, the data to be transmitted are divided
+into blocks of a fixed size. A redundant code is generated
+from the data in each block and added to the block for the
+purpose of error detection or correction.A convolutional code does not divide data into blocks, but
+generates output data at a rate N times higher than the
+input data rate, each group of N output bits being
+generated from the most recent K input bits. (K and N are
+positive integers.) Convolutional codes are commonly
+decoded by a maximum-likelihood algorithm known as the
+Viterbi algorithm.It has been found that a low error rate can be attained by
+first performing a block coding process, then carrying out
+a convolutional coding process on the block-encoded data.
+Such concatenated codes have successfully returned data
+from the outer reaches of the solar system. They are also
+used in terrestrial communications: for example, in digital
+cellular telephony. A natural way to decode such a concatenated code is to
+wait for an entire block of data to be received, then apply
+the Viterbi decoding algorithm and block decoding process to
+that block. A better method is to wait, before decoding one
+block, until part of the next block has been received, so as
+to give the Viterbi algorithm more data to work with and
+enable it to decode the convolutional code more accurately.
+A problem with both of these methods, however, is that the
+Viterbi algorithm requires many computational steps, so if
+all the computations for decoding one block must be
+performed in one burst, it is difficult for the decoder to
+operate in real time.A further problem arises when the data are transmitted
+in frames and each block occupies multiple frames, with no
+indication of the frame in which a block begins. In this
+case the decoder has the additional tasks of acquiring block
+synchronization, detecting loss of block synchronization,
+and reacquiring block synchronization when lost.Block synchronization is basically acquired by looking
+for agreement of the block code; that is, by checking
+whether the redundant code in each block has the right
+value. Here, however, a further problem arises: the block
+code may agree fortuitously, even when block synchronization
+has been lost. It
+</DESCRIPTION>
+<CLAIMS>
+A method of decoding data that have been block encoded
+with a redundant code in each block, then convolutionally
+
+coded and transmitted using a block of frames (SACCH),
+comprising the steps of:
+
+
+receiving said frames (SACCH) and storing their data
+temporarily in an input buffer memory (22) ;
+storing path information describing possible
+convolutional code paths of said data in a path memory
+
+(23);
+storing metric values pertaining to said
+paths in a metric memory (24) ;
+new path information and metric values being stored as each of said frames is received;
+keeping a count of frames (SACCH) received (15);
+waiting until said count reaches a value representing
+a particular block of frames (16);
+selecting (17) a path from said paths (23), according
+to said metric values (24);
+generating one block of convolutionally decoded data
+by retracing the selected path (17);
+detecting errors (18) according to both the redundant
+code contained in said particular block and the metric
+
+value stored in said metric memory (24) pertaining to said
+selected path, and generating corresponding error
+
+information;
+deciding, from said error information, whether block
+synchronisation has been acquired (19) or lost (20); and 
+altering the value of said count in dependence upon
+the result of the decision for the purpose of block
+
+synchronisation.
+A method of decoding data according to claim 1
+comprising deciding from said error information, whether
+
+block synchronization has been acquired (19);
+
+altering said count (15) to a value representing one
+frame less than one block of frames if block
+
+synchronization has not been acquired;
+clearing said count to a value representing zero
+frames if block sychronization has been acquired;
+deciding, from said error information, whether block
+synchronization has been lost (20);
+clearing said count (15) to a value representing zero
+frames if block synchronization has not been lost; and
+setting said count to a value representing at most
+zero frames if block synchronization has been lost.
+The method according to claim 1 or 2, wherein the step
+of deciding whether block synchronization has been acquired
+
+is performed once per frame until block synchronization is
+indeed acquired, after which the step of deciding whether
+
+block synchronization has been lost is performed once per
+block until block synchronization is indeed lost.
+The method according to any preceding claim,
+comprising the further step of clearing all said metric
+
+values from said metric memory (24) after said step of
+deciding whether block synchronization has been lost. 
+The method according to any preceding claim, wherein
+said count is initially set to a value representing a
+
+negative number of frames, so that said one block of
+convolutionally decoded data will not be generated until at
+
+least one frame after the data of said one block has been
+received.
+The method according to any preceding claim, wherein
+said step of detecting errors comprises:
+
+
+deciding whether said one path matches the data
+received for said one block; and
+deciding whether the redundant code in said one block
+is correct.
+The method according to any preceding claim, wherein
+the step of detecting whether block synchronization has
+
+been lost comprises deciding whether errors have been
+detected in a certain number of consecutive blocks.
+The method according to any preceding claim, wherein
+said error information comprises a single error flag.
+The method of claim 8, wherein said error flag is
+cleared to a certain value when said one path matches the
+
+data received for said one block and the redundant code in
+said one block is correct, and said error flag is otherwise
+
+set to a different value.
+The method according to any preceding claim, wherein
+said path information comprises pointers. 
+A Viterbi decoder for decoding data that have been
+block encoded with a redundant code in each block, then
+
+convolutionally coded, transmitted using a block of frames (SACCH), and received in frames
+at a rate of at least two frames per block, comprising:
+
+
+an input buffer memory (22) with a capacity of at
+least one frame, for storing said data as received;
+a path memory (23) for storing path information
+describing possible convolutional code paths for at least
+
+one block of said data;
+a metric memory (24) for storing selected metric
+values pertaining 
+to said paths;
+a path processor (14) coupled to store new path
+information in said path memory (23) and update said metric
+
+memory (24) as each frame is received;
+a counter (15) coupled to count received frames;
+a path decoder (17) coupled to wait until said counter
+(15) reaches a value representing one block of frames, then
+
+select one path among said paths according to said metric
+values and generate one block of convolutionally decoded
+
+data by retracing said one path;
+an error detector (18) coupled to detect errors
+according to the redundant code contained in said one block
+
+and the metric value stored in said metric memory (24)
+pertaining to said one path, and generate error
+
+information;
+a synchronizing processor (19) coupled to decide from
+said error information whether block synchronization has
+
+been acquired, decrement said counter (15) if block
+synchronization has not been acquired, and clear said
+
+counter (15) to a value representing zero frames if block
+synchronization has been acquired; 
+a steady-state processor (20) coupled to decide from
+said error information whether block synchronization has
+
+been lost, clear said counter (15) to a value representing
+zero frames if block synchronization has not been lost, and
+
+set said counter (15) to a value representing at most zero
+frames if block synchronization has been lost; and
+an output section (21) coupled to output said one
+block and said error information.
+The decoder of claim 11 wherein, after deciding
+whether block synchronization has been lost, said steady-state
+
+processor (20) clears all said metric values from
+said metric memory (24).
+The decoder according to either claims 11 or 12,
+wherein said counter (15) is initially set to a value
+
+representing a negative number of frames, so that said path
+decoder (17) will not generate said one block of
+
+convolutionally decoded data until at least one frame after
+the data of said one block has been received.
+The decoder according to any one claims 11 to 13,
+wherein said error detector (18) detects an error unless
+
+the redundant code in said one block is correct and said
+one path matches the data received for said one block.
+The decoder according to any one of claims 11 to 14,
+wherein said steady-state processor (20) detects loss of
+
+block synchronization if said error detector (18) detects
+that errors are present in a certain number of consecutive
+
+blocks. 
+The decoder according to any one claims 11 to 15,
+wherein said error information comprises a single error
+
+flag.
+The decoder according to any one claims 11 to 16,
+wherein said path information comprises pointers.
+</CLAIMS>
+</TEXT>
+</DOC>

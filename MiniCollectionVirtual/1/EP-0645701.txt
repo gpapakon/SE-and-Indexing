@@ -1,0 +1,367 @@
+<DOC>
+<DOCNO>EP-0645701</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Emulating the memory functions of a first system on a second system
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1210	G06F1210	G06F9455	G06F9455	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F12	G06F12	G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A memory translation mechanism and method executing in a second system to 
+perform first system memory operations for first system executive and user tasks 
+
+executing on the second system which includes a second system memory organized as a 
+plurality of memory segments, wherein first memory segments are designated to 
+
+correspond to system memory areas and second memory segments are designated to 
+correspond to user memory areas, and wherein each memory segment corresponds to a 
+
+combination of a type of first system task and a type of a first system memory area. An 
+interpreter maps by reading an identification of the type of the task corresponding to the 
+
+first system virtual address from the task type memory and the area type value from the 
+first system virtual address and determining a memory segment corresponding to the type 
+
+of the first system task and the type of first system area referenced by the first system 
+virtual address. The interpreter maps the identified segment to a memory pool identifier 
+
+wherein each memory pool identifier corresponds to a task. The second system includes a 
+plurality of pseudo device drivers corresponding to first system input/output devices. Each 
+
+pseudo device driver includes a segment mapping mechanism which includes a segment 
+pool for storing entries relating memory pool identifiers and providing a corresponding 
+
+base address identifying the location of the corresponding memory segment in the second 
+
+system memory. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+BULL HN INFORMATION SYST
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+BULL HN INFORMATION SYSTEMS INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+FLYNN DENNIS R
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GRYNBERG MAREK
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HIRSCH THOMAS S
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TOVELL MARY E
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WOODS WILLIAM E
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FLYNN, DENNIS R.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GRYNBERG, MAREK
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HIRSCH, THOMAS S.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TOVELL, MARY E.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WOODS, WILLIAM E.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present patent application is related to:
+U.S. Patent No. 5,983,012 issued on November 9, 1999, for Executing Programs Of A First
+System On A Second System by Richard S. Bianchi et al.;U.S. Patent No. 5,619,682, issued on April 8, 1997 for Emulating Layered
+Communications of a First System On A Second System by Bruce D. Mayer, et al.; and,U.S. Patent No. 6,006,029 issued on December 21, 1999 for Emulation of Disk Drivers
+Of A First System On A Second System by Richard S. Bianchi et al.The present invention relates to a method and apparatus for executing programs of
+a first system on a second system and, more particularly, to a method and apparatus for
+emulating a first operating system and hardware platform on a second operating system
+and hardware platform.A recurring problem in computer systems is that of executing, or running,
+programs written for a first computer system having a first hardware platform, that is,
+processor, memory and input/output devices, on a second computer system having a
+second and different hardware platform. The problem is compounded when the second
+computer system, as is frequently the case, uses a second operating system which may be
+substantially different from the operating system of the first system.This problem usually occurs when a user or a manufacturer of computer systems is
+attempting to move application programs from a first system to a second system to
+upgrade or update the computer system while, at the same time, preserving the user's
+investment in application programs and data created through the application programs.
+This situation may arise, for example, when moving application programs from one
+proprietary system, that is, a system having an operating system and hardware platform
+which is particular to one manufacturer, to another proprietary system OR when moving
+application programs from a proprietary system to a "commodity" system, that is, a system
+having a hardware platform and operating system which is used by many manufacturers.In the Hewlett-Packard Journal, December 1987, pp. 87-89, entitled
+"HP 3000 Emulation on HP Precision Architecture Computers" the disclosed
+emulator enables a user program to be loaded and run without modification
+on an HP Precision Architecture computer with the normal unmodified object
+code program used for the previous HP 3000 computer series. A software
+environment is created using two subsystems to provide program execution
+on an advanced system with the program coding of the previous computer series. Computer systems
+</DESCRIPTION>
+<CLAIMS>
+A memory space translation apparatus for emulating a
+1st-DP-system (10) on a 2nd-DP-system (54), the 1st-DP-system
+
+including:
+
+a hardware platform (20) with a plurality of input/output
+devices (26c);
+a memory (26b) for storing data and programs;
+different types of tasks, i.e. at least one user level program
+(user task 30) performing user level program operations,
+
+and at least one executive or system program (executive
+task 28) performing executive or system program operations
+
+of the 1st-DP-system (10), wherein the user tasks (30)
+and executive tasks (28) generate 1st-OP-system virtual
+
+addresses (126) referring to locations in the 1st-DP-system
+memory (26b);
+an input/output level (18) including a plurality of I/O
+drivers (44) for controlling 1st-DP-system I/O devices
+
+(26c) in response to 1st-DP-system executive and user
+program task operations; and
+
+a memory management unit (46) for translating 1st-DP-system
+virtual addresses (126) into physical addresses in the
+
+1st-OP-system memory (26b);
+two types of storage areas (SYSMEM 110 and IPOOLS 112),
+i.e., a 1st-DP-system executive or system memory area
+
+(110) for use by the 1st-DP-system executive tasks (28)
+and at least one 1st-DP-system user program memory area
+
+(112) for use by the 1st-DP-system user tasks (30),
+wherein access privileges to each 1st-DP-system memory
+area is determined by the type of task (executive program 
+
+or user program) associated with a 1st-DP-system
+virtual address (126) referencing the 1st-DP-system
+
+memory area (110, 112), and
+wherein each 1st-DP-system virtual address (126) includes
+besides the virtual address a memory area type value
+
+(binary 0 or 1) representing the type of said 1st-DP-system
+memory area;
+
+the said memory space translation apparatus included in the
+2nd-DP-system (54) adapted to perform 1st-DP-system memory
+
+operations for 1st-DP-system executive and user program tasks
+executing on the 2-nd-DP-system, is 
+characterized by
+:
+
+a 2nd-DP-system memory (58b) organized as a plurality
+of memory segments (3, 4, 5 and 6 in Fig.7),
+
+wherein first memory segments (3, 4) are designated to
+correspond to 1st-DP-system executive program memory
+
+areas (SYSMEM 110), and second memory segments (5, 6)
+are designated to correspond to 1st-DP-system user
+
+program memory areas (IPOOLS 112), and
+
+wherein each memory segment is further designated to
+correspond to one of the 1st-DP-system task types
+
+(executive task or user task), and thereby to a type
+of a 1st-DP-system memory area (Fig.7);
+an interpreter (72) for mapping 1st-DP-system virtual
+addresses (126) into the said memory segments (3, 4,
+
+5, 6) of the 2nd-DP-system memory (58b), including
+
+address translation means (ADDRXLT 98), which
+comprise:
+a task type memory (152) for storing an identification
+of the type of a task corresponding to a
+
+1st-DP-system virtual address (126),
+a segment adder (150) for determining one of said
+2nd-DP-system memory segments corresponding to the
+
+1st-DP-system virtual address (126), by: 
+
+(i) reading the identification of the type of the
+task from the task type memory (152),
+(ii) reading the area type value from the 1st-DP-system
+virtual address (126), and
+(iii) determining said 2nd-DP-system memory segment
+(Fig.7) corresponding to the 1st-DP-system
+
+task types (executive programs or user programs)
+and to the type of said 1st-DP-system memory area
+
+referenced by the 1st-DP-system virtual address
+(126);
+a plurality of pseudo device drivers (74) in the 2nd-DP-system,
+each one of them corresponding to a 1st-DP-system
+
+I/O device (26c) and being associated with a
+segment memory pool mapping means (ADDRXLP 96) which
+
+includes a segment pool memory residing in the 2nd-DP-system
+memory (58b) for storing entries with segment
+
+base addresses identifying the locations in the 2nd-DP-system
+memory (58b);
+said memory pool mapping means (ADDRXLP 96) access in
+response to memory pool identifiers (160) which correspond
+
+to a 1st-DP-system task, which are associated
+with the virtual address and are stored in a memory
+
+pool array (162), an entry from the memory segment
+(Fig. 7) for providing a corresponding base address
+
+identifying the location of the corresponding memory
+segment (3, 4, 5, 6 in Fig. 7) of the 2nd-DP-system
+
+memory (58b).
+The apparatus of claim 1, wherein combinations are provided
+of a first type of 1st-DP-system memory space (SYSMEM 110) and
+
+user tasks (30) and/or a second type of 1st-DP system memory
+space (IPOOLS 112) and executive tasks (28), and wherein the
+
+first type of 1st-DP-system memory space (SYSMEM 110) is provided
+by at least two first type 2nd-DP-system memory segments
+
+(3, 4) and the second type of 1st-DP-system memory space (IPOOLS
+112) is provided by at least two second type 2nd-DP-system
+
+memory segments (5, 6). 
+The apparatus of claim 1, wherein the memory pool mapping
+means (ADDRXLP 96) further comprises a task control block
+
+(32) associated with the 1st-DP-system task corresponding to
+the 1st-DP-system virtual address (126) for storing an identification
+
+of a corresponding entry in a segment descriptor table
+memory (162) residing in the 2nd-DP-system memory (58b) and
+
+provided for storing an entry corresponding to the 1st-DP-system
+task and to the 1st-DP-system virtual address, said entry containing
+
+an identification of the corresponding memory pool
+identifier (160). 
+A method for emulating the memory operations of a 1st-DP-system
+(10) on a 2nd-DP-system (54), the 1st-DP-system including
+
+at least one user program (30) and at least one executive
+program (28) for managing operations of the 1st-DP-system
+
+(10), a hardware platform (20) including a plurality of input/
+output devices (26c) and a memory (26b) for storing data and
+
+programs, at least one user task (30) performing user level
+program operations, and at least one executive task (28) performing
+
+executive program operations, wherein the 1st-DP-system
+user program and executive program tasks generate 1st-DP-system
+
+virtual addresses (126) referring to locations in the 1st-DP-system
+memory (26b), and the 1st-DP-system (10) includes an
+
+input/output level (18) including a plurality of I/O drivers
+(44) for controlling 1st-DP-system I/O devices (26c) in response
+
+to 1st-DP-system executive and user task operations, including
+a memory management unit (46) for translating 1st-DP-system
+
+virtual addresses (126) into 1st-DP-system physical addresses
+in the 1st-DP-system memory (26b), and
+
+
+wherein the 1st-DP-system memory (26b) includes a 1st-DP-system
+executive program area (110) for use by the 1st-DP-system executive
+
+tasks (28) and at least one 1st-DP-system user program
+area (112) for use by the 1st-DP-system user program tasks, and
+wherein access privileges to each 1st-DP-system memory area
+are determined by the type of said 1st-DP-system task associated
+
+with a 1st-DP-system virtual address (126) referencing
+the 1st-DP-system memory area, and
+wherein each 1st-DP-system virtual address (126) includes a
+virtual address and an area type value representing the type
+
+of said 1st-DP-system memory area (110 or 112),
+said method executing in the 2nd-DP-system (54) to perform
+1st-OP-system memory operations for 1st-OP-system executive
+
+program and user program tasks executing on the 2nd-DP-system,
+said method is 
+characterized by
+ the steps of: 
+
+structuring a 2nd-DP-system memory (58b) as a plurality
+of memory segments, wherein first memory segments of the 2nd-DP-system
+
+memory (58b) are designated to correspond to 1st-DP-system
+execute memory areas, and second memory segments of the 2nd-DP-system
+
+memory (58b) are designated to correspond to 1st-DP-system
+user memory areas, and wherein each memory segment of
+
+the 2nd-DP-system memory (58b) is designated to correspond to
+a type (28 or 30) of said 1st-DP-system task and thereby to
+
+a type (110 or 112) of a 1st-DP-system memory area;
+mapping 1st-DP-system virtual addresses (126) into the
+memory segments of the 2nd-DP-system memory (58b), by storing
+
+an identification of the type of a 1st-DP-system task (28
+or 30) corresponding to a 1st-DP-system virtual address (126)
+
+in a task type memory (152) residing in the 2nd-DP-system memory
+(58b);
+reading the identification of the type of the 1st-DP-system
+task from the task type memory (152);
+reading the area type value from the 1st-DP-system virtual
+address (126); and
+determining a memory segment corresponding to the type (executive
+program or user program) of the 1st-OP-system task and
+
+thereby to the type of said 1st-DP-system memory area (110 or
+112) referenced by the 1st-DP-system virtual address (126);
+mapping the memory segment onto a memory pool residing in
+the 2nd-DP-system memory (58b), by storing memory pool identifiers
+
+(160), each one of them corresponding to a 1st-DP-system
+task, and responsive to the 1st-DP-system task for providing
+
+the corresponding memory pool identifier (160);
+providing a plurality of pseudo device drivers (74) in
+the 2nd-DP-system (54), each one of them corresponding to a
+
+1st-DP-system input/output device (26c),
+mapping in each pseudo device driver (74) the memory
+pool identifiers (160) to the first and second memory segments
+
+of the 2nd-DP-system memory (58b), by storing entries of relating 
+memory pool identifiers (160) with segment base addresses
+
+identifying the locations of the first and second memory segments
+in the 2nd-DP-system memory (58b), and
+providing in response to the memory pool identifier (160)
+a corresponding base address identifying the location of the
+
+corresponding memory segment in the 2nd-DP-system memory (58b).
+</CLAIMS>
+</TEXT>
+</DOC>

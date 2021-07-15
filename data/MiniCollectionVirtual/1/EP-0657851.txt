@@ -1,0 +1,315 @@
+<DOC>
+<DOCNO>EP-0657851</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+File management system for memory card
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F2124	G06K19073	G07F710	G06F2100	G06K19073	G06K1907	G06F1200	G06F1214	G06K1907	G06F1200	G06F1214	G07F710	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06K	G07F	G06F	G06K	G06K	G06F	G06F	G06K	G06F	G06F	G07F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F21	G06K19	G07F7	G06F21	G06K19	G06K19	G06F12	G06F12	G06K19	G06F12	G06F12	G07F7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+In an IC card using a file management system for 
+performing data management of a plurality of files 
+
+obtained by dividing a data memory, when selection is 
+performed to allow use of the file (ST20), discrimination 
+
+ID information representing that each file is 
+already selected is provided to each file (ST50). In 
+
+accessing a file (ST70), the provided discrimination ID 
+information (ID No.) is added to each access command to 
+
+designate a specific access, and a file serving as an 
+access target is recognized on the basis of the 
+
+designated discrimination ID information (YES in ST80), 
+thereby accessing the file (ST84). 
+
+
+</ABSTRACT>
+<APPLICANTS>
+</APPLICANTS>
+<INVENTORS>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a file management
+system for managing data of a plurality of files divided
+in a nonvolatile memory in a so-called IC card incorporating
+an IC chip having the nonvolatile memory and a
+control unit such as a CPU for controlling the nonvolatile
+memory and the like.In recent years, an IC card incorporating an IC
+chip having a nonvolatile data memory and a control unit
+such as a CPU for controlling the data memory and the
+like has received a great deal of attention as a
+portable data storage medium.As described in US-A-4,988,855 (Iijima),
+an IC card of this type divides an incorporated data
+memory into a plurality of files and stores data
+necessary for running a software application in each
+file. An application ID (identification) name is input
+from an external device to use selected or corresponding
+application data. For this reason, a plurality of
+application data are divided into files and stored in
+a single IC card, thus allowing multi-purpose applications.
+The preamble of claim 1 is based on the disclosure of US-A-4,988,855.A plurality of data files for storing data such as
+transaction data and a key file for storing key information
+for collating a password can belong to the above 
+application files.A file attribute called an access condition is set
+in each file. This access condition is determined by
+selectively designating a collation state of key
+information required at the time of access to the
+corresponding file. For example, when an access
+condition designates that the collation state of key
+information A in an IC card is required, key information
+A must be collated before this file is accessed.Assume that a given application program is to
+access a file using a usable file discrimination ID
+number. For example, when this file is to accessed
+using file discrimination ID number 1, file discrimination
+ID number 1 is set for the file, and key information
+A is collated using this file discrimination ID
+number 1, thereby allowing access to this file for the
+first time. Assume that another file discrimination ID
+number (e.g., discrimination ID number 2) is set by
+another external application. In this case, if the
+collation state of key information A which is
+established using file discrimination ID number 1 is
+succeeded unconditionally, the above external application
+can access to the file, which requests the collation
+state of key information A, without collating key
+information A, thereby disabling to maintain security.It is an object of the present invention to
+
+</DESCRIPTION>
+<CLAIMS>
+A file management system for managing files stored
+in a memory space of a memory card (12) which memory space is
+
+divided into a plurality of regions allotted to a plurality of
+files, respectively, and the files are accessed based on external
+
+commands, the file management system comprising:
+
+a directory (121) for storing file definition information
+(DFname, DFID, DFSN, PFSN),
+
+and file location information pieces (ATOP, ASIZ); characterized by;
+a temporary file status storage (11a) having a plurality of
+storage areas for storing file status information (FINF/STS) derived
+
+from the definition information of current files, file discrimination ID numbers (ID0 - ID2) and file link levels
+being associated to the storage areas;
+means for, when a file selection external command (Fig 18)
+including a command code (FC), a file discrimination ID number (ID0-ID2) and
+
+a file name (DF name) is received, referring to the directory based on
+the file name contained in the file selection external command,
+
+and for storing file status information (FINF/STS) corresponding
+to the file name in a storage area of the file status storage,
+
+said storage area being designated by the file discrimination
+ID number (ID No) contained in the file selection external command and the level within the link a files;
+detecting means (11) for when a file access external
+command (Fig 24 A and B) including a command code (FC) and a file discrimination ID
+
+number (ID No) is received, detecting the file status information
+stored in the storage area having the file discrimination
+
+ID number contained in the file access external command, of the
+file status storage; and
+means (12) for referring to the directory based on the file definition information corresponding
+to the file status information detected by the detecting
+
+means, and for accessing a file corresponding to the detected
+file definition information.
+A file management system according to claim 1, comprising:
+
+means for assigning, respectively, file discrimination
+ID numbers (ID0-2) to particular files which have been selected
+
+as current files;
+means for designating one of the current files by
+one of the file discrimination ID numbers assigned by said
+
+assigning means and inserted to an access command which
+is given to the memory card from an outside thereof;
+means for identifying the one current file
+designated by said designating means in accordance with
+
+the one file discrimination ID number inserted to said access
+command;
+means for selectively checking key information of a
+file corresponding to said one file discrimination ID number
+
+in response to a key check command which is given to
+the memory card from the outside thereof; and
+means for storing said one file discrimination ID number
+with a result of checking of the key information by said
+
+selectively checking means.
+A file management system according to claim 2 , comprising
+
+means for comparing access condition information
+with the result of checking by said selectively checking
+
+means in response to an access check command which is
+given to the memory card from the outside thereof, so as
+
+to provide a comparison result, said access condition
+information determining a condition of access to the
+
+current file corresponding to said one file discrimination
+ID number; and
+means for, based on the comparison result provided
+by said comparing means, determining whether or not the
+
+access to the current file corresponding to said one
+file discrimination ID number is allowed.
+A memory card (100) having a memory (12) for storing a
+plurality of files, said memory card
+
+comprising a file management system as indicated in claim 1, and further comprising:
+
+location information storing means (11a) for storing
+said location information pieces indicating respective locations
+
+of two or more independent current files in the
+memory, which current files are associated with different
+
+file link levels and file discrimination
+ID numbers, and are accessible from an outside of the
+
+memory card;
+obtaining means, which decodes an external command (Fig. 18)
+sent from the outside and containing any of said file discrimination
+
+ID number , for obtaining one of the location
+information pieces from said location information
+
+storing means according to the file discrimination ID number
+contained in the decoded external command, said obtained
+
+one location information piece indicating the location
+of a specific one of the current files in said memory;
+
+and
+executing means, which accesses the specific one
+current file indicated by the one location information
+
+piece obtained by said obtaining means, for executing
+said external command with respect to the accessed specific
+
+one current file.
+The memory card of claim 4 utilizing a
+hierarchical file management system (Fig.6) by which said plurality
+
+of files are managed with a tree-like structure
+having a root directory, wherein said location
+
+information pieces stored in said location information
+storing means include:
+
+
+a first file location information which specifies
+a first pass from the root d
+irectory (MF) to a hierarchical
+location of a first current file (DF1-2) of the current files (DF1-2; DF1; DF2-1); and
+a second file location information which specifies
+a second pass from the root directory (MF) to nother
+
+hierarchical location of a second current file (DF1) of the current
+files (DF1-2; DF1; DF2-1).
+The memory card of claim 5, wherein
+
+said location information storing means has a
+matrix structure comprising:
+a row along which information of said first and
+second file location information is arranged, and
+a column (ID0, ID1) along which information of the first pass (#01, #06, #18) or the
+second pass (#01, #06) starting from the root directory (MF) and ending
+
+at a location of the first current file (DF1-2) or the second current file (DF1) is
+arranged.
+The memory card of claim 6, wherein
+
+a matrix cell defined by a cross-point between the
+row and the column of said matrix structure includes:
+a first cell (FINF) for storing file identification information
+of a file to be managed under said hierarchical
+
+file management system, and a second cell (STS) for storing
+key information associated with this file, said file
+
+identification information containing a serial number (#01,..)
+for arranging the file and said key information containing
+
+a status bit (Fig.11) for checking whether an access to
+the file is allowed.
+The memory card of claim 7, wherein
+said external command contains a status pointing
+
+bit (Fig. 12) to be referred to the status bit,
+
+said executing means includes comparing means for
+comparing the status bit with the status pointing bit
+
+contained in said external command, so as to detect
+matching between the status bit and the status pointing
+
+bit, and
+said executing means executes said external command
+when said comparing means detects that the status bit
+
+matches the status pointing bit.
+The memory card of claim 7, wherein
+said external command contains a status pointing
+
+bit (Fig. 12) to be referred to the status bit, said executing
+means includes:
+
+
+logical means for obtaining a logical sum of the 
+status bits of specific files on a pass from the root
+
+directory to a file to be accessed; and
+means for comparing the logical sum of the status
+bits, obtained by said logical means, with the status
+
+pointing bit contained in said external command, so as
+to detect matching between the logical sum and the status
+
+pointing bit,
+and wherein said executing means executes said
+external command when said comparing means detects that
+
+the logical sum matches the status pointing bit.
+The memory card of claim 7, wherein
+
+said external command contains a status pointing
+bit (Fig. 12) to be referred to the status bit which contains a
+
+common indication bit indicating whether or not the key
+information is to be commonly applied, said executing
+
+means includes:
+logical means for obtaining a logical sum of the
+status bits of particular files on a pass from the root
+
+directory to a file to be accessed, said key information
+being commonly applied to said particular files which
+
+are indicated as common files by said common indication
+bit; and
+means for comparing the logical sum of the status
+bits, obtained by said logical means, with the status
+
+pointing bit contained in said external command, so as
+to detect matching between the logical sum and the status
+
+pointing bit,
+and wherein said executing means executes said
+external command when said comparing means detects that
+
+the logical sum matches the status pointing bit.
+</CLAIMS>
+</TEXT>
+</DOC>

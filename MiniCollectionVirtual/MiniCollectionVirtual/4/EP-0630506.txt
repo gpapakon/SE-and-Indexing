@@ -1,0 +1,77 @@
+<DOC>
+<DOCNO>EP-0630506</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+IMAGE COMPRESSION CODER HAVING IMPROVED BIT RATE CONTROL AND BLOCK ALLOCATION.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T900	G06T900	H04N141	H04N141	H04N726	H04N726	H04N730	H04N730	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	H04N	H04N	H04N	H04N	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T9	G06T9	H04N1	H04N1	H04N7	H04N7	H04N7	H04N7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method of bit rate control and block allocation for discrete cosine transform (DCT) image signal compression includes the steps of (a) partitioning the image signals in blocks (b) calculating DCT coefficients in all blocks, (c) obtaining a measure of block activity (BACT) for each block based on DCT coefficients and for the total image activity (ACT) as a sum of the measures of all block activity, (d) determining a code allocation factor (AF) for each block based on the ratio of block activity (BACT) to target code volume (TCV data) for the coded image date, and (e) allocating bits for each block using the allocation factor (AF) for each block and the target code volume (DCV data). Steps (a-d) are carried out with a first statistical pass through the image data, and step (e) is carried out in a second compression pass through the image data.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+ZORAN CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+ADAR, RUTIE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GILL, AHARON
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GRANSKY, MICHAEL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+RETTER, RAFAEL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SHENBERG, ISAAC
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+ IMAGE COMPRESSION CODER HAVING IMPROVED BIT RATE CONTROL AND BLOCK ALLOCATIONBACKGROUND OF THE INVENTIONThis invention relates generally to image compression, and more particularly the invention relates to discrete cosine transform (DCT) based compression and coding of images.Image compression is used in reducing large volumes of data in digitized images for convenient and economical storage and for transmission across communication networks having limited bandwidth. Image compression technology is important in digital still video cameras, color scanners, color printers, color fax machines, computers, and multimedia. The joint photographic experts group (JPEG) has established a color image data compression standard for use in a variety of still image applications. Compression employs DCT- based processes operating on discrete blocks of the image. The DCT coefficients are then quantized based on measurements of the threshold for visibility. For coding, an 8x8 pixel array of DCT coefficients is reorganized into a one dimensional list using a zigzag sequence which tends to concentrate coefficients expressing the lowest spatial frequencies at lower indices with the DC component being number 0 in the zigzag. The quantized AC coefficients are then encoded using a Huffman coder. Finally, headers and markers are inserted in the codes for individual blocks along with bit and byte stuffings for JPEG data compatibility. Fig. l illustrates the JPEG compression algorithm. The compressed data can then be stored (as in an electronic still camera) or transmitted efficiently over a limited bandwidth communication network. Reconstruction of the image requires a reverse process in which the headers and markers are extracted, the Huffman code is decoded, coefficients are dequantized, and an inverse DCT (IDCT) operation is performed on the coefficients. 
+
+ Zoran Corporation (assignee herein) has developed a chip set for image compression including a discrete cosine transform (DCT) processor designated ZR36020 and an image compression coder/decoder designated ZR36031, as shown in Fig. 2. The chip set employs an algorithm or high quality compression of continuous tone color or monochrome images similar to the JPEG standard. The DCT processor implements both forward and inverse discrete cosine transform computations on 8x8 pixel blocks, while the coder/decoder implements the quantization, dequantization, Huffman encoding and decoding of the image compression algorithm. The chip set reduces the large data size required to
+</DESCRIPTION>
+<CLAIMS>
+WHAT IS CLAIMED IS:
+1. A method of bit rate control and block allocation for discrete cosine transform (DCT) image signal compression comprising the steps of:
+(a) partitioning the image signals in blocks representing portions of the total image,
+(b) calculating DCT coefficients for image data in all blocks,
+(c) obtaining a measure of block activity (BACT) for each block based on said calculated DCT coefficients and for the total image activity (ACT) as a sum of the measures of all block activity,
+(d) determining a code allocation factor (AF) for each block based on the ratio of block activity (BACT) to target code volume (TCV data) for the coded image data, and (e) allocating bits for each block using the allocation factor (AF) for each block and the target code volume (TCV data) .
+2. The method - as defined by claim 1 wherein in step (d) target code volume (TCV data) is determined as target size less end of block (EOB) and bit and byte stuffings, and allocation factor (AF) is defined as
+._ _ TCV data
+A "
+ ACT
+3. The method as defined by claim 1 wherein step (c) includes summing coefficient absolute values in computing BACT.
+4. The method as defined by claim 1 wherein step (c) includes obtaining the root of the sum of squared coefficients in computing BACT.
+5. The method as defined by claim 1 wherein step (c) includes assigning different weights for different frequencies. 
+
+
+
+ 6. The method as defined by claim 1 wherein steps (a- d) are carried out with a first statistical pass through the image data and step (e) is carried out in a second compression pass through the image data using the code allocation factor (AF) from step (d) and an estimation of unpredictable features for each block.
+7. The method as defined by claim 6 wherein step (e) further includes comparing the estimation of unpredictable features to the accumulated actual code volume and spreading remainder bits to the allocation for at least the next block allocation and subtracting borrowed bits from at least the next block allocation.
+8. The method as defined by claim 7 wherein the subtracting of borrowed bits from at least a next block allocation includes borrowing bits from a plurality of following block allocations.
+9. The method as defined by claim 8 wherein step (e) includes spreading any remainder of allocated bits of a block to a following plurality of blocks.
+10. The method as defined by claim 7 wherein step (e) includes spreading any remainder of allocated bits of a block to the following plurality of blocks.
+11. In a method of bit rate control and block allocation for discrete cosine transform (DCT) image signal compression wherein DCT coefficients are calculated for image data in image blocks, the steps of: (a) obtaining a measure of block activity (BACT) for each block based on DCT coefficients, and
+(b) obtaining a measure of activity for the total image activity (ACT) as a sum of the measures of all block activity. 
+
+
+ 12. The method as defined by claim 11 wherein step (b) includes summing coefficient absolute values in computing BACT.
+13. The method as defined by claim 11 wherein step (b) includes obtaining the root of the sum of squared coefficients in computing BACT.
+14. The method as defined by claim 11 wherein step (b) includes assigning different weights for different frequencies.
+15. In a method of bit rate control and block allocation for discrete cosine transform (DCT) image compression wherein DCT coefficients are calculated for image blocks in a first pass through all image signals, the steps of: (a) determining a code allocation factor (AF) for each block based on the ratio of block activity (BACT) to target code volume (TCV data) , and
+(b) allocating bits for each block in a second pass using the allocation factor (AF) and the target code volume (TCV data) and an estimation of unpredictable features for each block.
+16. The method as defined by claim 15 wherein step (b) includes comparing the estimation of unpredictable features to the accumulated actual code volume and spreading remainder bits to the allocation for at least the next block allocation and subtracting borrowed bits from at least the next block allocation.
+17. The method as defined by claim 16 wherein the subtracting of borrowed bits from at least a next block allocation includes borrowing bits from a plurality of following block allocations.
+18. The method as defined by claim 16 wherein the step (b) includes spreading any remainder of allocated bits of a block to a following plurality of blocks. 
+
+</CLAIMS>
+</TEXT>
+</DOC>

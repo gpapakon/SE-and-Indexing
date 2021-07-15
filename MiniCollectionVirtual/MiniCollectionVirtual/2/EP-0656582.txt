@@ -1,0 +1,151 @@
+<DOC>
+<DOCNO>EP-0656582</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Parallel adding and averaging circuit and method
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F7505	G06F750	G06F7544	G06F7506	G06F938	G06F748	G06F7575	G06F938	G06F748	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F7	G06F7	G06F7	G06F7	G06F9	G06F7	G06F7	G06F9	G06F7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An apparatus[10, 30, 100] that can also be used for generating the average 
+
+of two integers. The apparatus[10, 30, 100] can be divided into a plurality of sub-adders[102]
+ 
+that operate on sub-words of the input integers in parallel. Hence, the 
+
+adder can be used for adding or subtracting one set of two integers wherein each 
+integer is of some predetermined length or a plurality of sets of two integers 
+
+provided the sum of the lengths of the integers is less than or equal to this 
+predetermined length. The apparatus[10, 30, 100]
+ can also generate the sum, or 
+difference, of each of the sub-words divided by two. The parallel operations can 
+
+be carried out in response to a single instruction. The results of the division by 
+two are rounded in a manner that eliminates biasing of the results. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+HEWLETT PACKARD CO
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+HEWLETT-PACKARD COMPANY A DELAWARE CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BECK JOHN PAUL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LEE RUBY BEI-LOH
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BECK, JOHN PAUL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LEE, RUBY BEI-LOH
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to computers, and more particularly, to arithmetic units for use therein.Computers normally include an arithmetic logic unit that includes an adder that adds numbers of some maximum number of bits. Adders for words of length 32 and 64 bits are common in microprocessors and the like. While these adders will also operate on much smaller words, when doing so, the majority of the logic circuits contained in the adders are idle. For example, a 64-bit adder can be used to add two 8-bit words by placing each of the 8-bit words in the least significant portion of a corresponding 64-bit word and then adding the 64-bit words. During the addition, the logic circuitry concerned with adding the 7 high order bytes of each of the words is effectively idle. Hence, 7/8ths of the capacity of the adder is being wasted during this operation.Computations involving the addition of a large number of pairs of small words are often encountered in multi-media data processing. For example, consider the problem of adding two gray-scale images to generate a sum image. The pixels of the images are typically stored as one byte integers representing the light intensity at a corresponding point in the image. Since storage space is always at a premium, the pixels of the image are typically packed into words. If the basic word size on the computer is 32-bits, the pixels could be packed four per word. Each image may have a million pixels. Hence, the computation of the sum image involves adding two pixels from the component image to generate a corresponding pixel in the sum image. If there are a million pixels in each image, a million such additions must be performed. Each addition requires the "unpacking" of two words, one from each component image, the addition of the two unpacked bytes, and then the storage of the result in the correct byte of a word in the sum image.If the basic word size of the computer is 32-bits, the computer will normally have a 32-bit adder. During these computations, 75% of the adding capacity of the adder will be idle. Hence, a conventional arithmetic logic unit is not being used optimally when performing this type of image calculation.The computation times encountered in these types of operations can be excessive. Hence, special parallel computer architectures are often employed to reduce the time between the execution of the sum image command and the time at which the sum image is completed. Since all of the additions are independent of each other, the adds can be performed in
+</DESCRIPTION>
+<CLAIMS>
+An apparatus (10, 30, 100) for operating on the contents of an X word (12) having bits X
+i
+ and a Y word (14) having bits Y
+i
+ to generate a result word having bits Z
+i
+, where i=0 to N-1, where Z
+0
+ is the least significant bit of said result word (16) and Z
+N-1
+ is the most significant bit of said result word, said apparatus comprising means for partitioning (33, 110, 112) said X, Y and result words into a plurality of sub-words (17, 18, 19, 20, 21, 22), there being one sub-word of said Y and result words corresponding to each sub-word of said X word; adding means (31, 32, 102, 121-124), responsive to a first instruction (A= false), for generating the sum of each X sub-word and the corresponding Y sub-word, the result thereof determining said corresponding sub-word of said result word, and, responsive to a second instruction (A=true), for generating the sum divided by two of each X sub-word and the corresponding Y sub-word, the result thereof determining said corresponding sub-word of said result word; wherein said adding means comprises a number of adding sections (102), each adding section (102) having multiplexers (121-124) associated therewith, said multiplexers being controlled by said first and second instructions (A), said multiplexers being configured to operate as a least significant bit multiplexer (124), an interior bit multiplexer (122, 123), or a most significant bit multiplexer (121), wherein a most-significant bit multiplexer (121) is provided at each sub-word boundary for shifting a carry overflow of the sum back to the corresponding sub-word of said result word.
+The apparatus of claim 1, wherein said most significant bit multiplexer (121), responsive to a third signal (M
+q+4
+) is configured for connecting a carry overflow generated by the adding section (102) to the corresponding sub-word of said result word.
+The apparatus of claim 1 or 2, wherein said least significant bit multiplexer (124), responsive to a fourth signal (M
+q
+) is configured for suppressing the least significant bit of the corresponding sub-word of said result word.
+The apparatus of one of the preceding claims, wherein said apparatus comprises means for operating on one or more bits from said X word and corresponding bits derived from said Y word, and means for generating a generate bit and a propagate bit corresponding to each said bit of said X word, and wherein said partitioning means comprises means for forcing said generate bit and said propagate bit to values determined by the operation being performed if said bit of said X word is the most significant bit of a sub-word.
+The apparatus of one of the preceding claims, wherein said apparatus comprises a plurality of adding stages (31, 32, 102) connected in series, each said adding stage comprising means for operating on one or more bits from said X word and corresponding bits derived from said Y word, and means for propagating a carry bit from said adding stage to the next said adding stage in said series connection, and wherein said partitioning means comprises means (33, 110, 112) for forcing said carry bit to a value determined by the operation being performed if said adding stages operate on bits of different sub-words in said X word.
+The apparatus of claim 5, wherein said adding stages generate N result bits, S
+i
+, for i=0 to N-1, S
+i
+ being derived from operations on X
+i
+, and wherein said apparatus further comprises N multiplexing means (121-124), each said multiplexing means generating a signal indicative of one of said result bits, there being one said multiplexing means for each said result bit Z
+p
+, for p=0 to N-1, said multiplexing means corresponding to Z
+p
+ connecting S
+p
+ to Z
+p
+ in response to said first instruction.
+The apparatus of claim 6, wherein said multiplexing means corresponding to Z
+p
+ connects Z
+p
+ to S
+p+1
+ in response to said first instruction if Z
+p
+ is interior to one of said sub-words and to C
+p
+ if Z
+p
+ is most significant bit of one of said result sub-words, wherein C
+p
+ is said carry bit generated by said adding stage operating on the most significant bit of said X sub-word corresponding to said result sub-word containing Z
+p
+.
+The apparatus of claim 6 or 7, wherein said multiplexing means (200) corresponding to Z
+p
+ further comprises means to connect Z
+p
+ to (S
+p+1
+ OR S
+p
+) if Z
+p
+ is the least significant bit of one of said result sub-words.
+The apparatus of claim 5, 6 or 7 further comprising means for generating a carry bit, C
+p
+, corresponding to each bit X
+p
+ that is a most significant bit of a sub-word and wherein said multiplexing means corresponding to Z
+p
+ connects Z
+p
+ to S
+p+1
+ in response to said first instruction, if Z
+p
+ is interior to one of said sub-words and to C
+p
+ if Z
+p
+ is the most significant bit of one of said result sub-words, wherein C
+p
+ is said carry bit generated by said adding stage operating on the most significant bit of said X sub-word corresponding to said result sub-word containing Z
+p
+The apparatus of claim 9, wherein said multiplexing means corresponding to Z
+p
+ further comprises means to connect Z
+p
+ to (S
+p+1
+ OR S
+p
+), if Z
+p
+ is the least significant bit of one of said result sub-words.
+</CLAIMS>
+</TEXT>
+</DOC>

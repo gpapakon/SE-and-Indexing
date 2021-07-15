@@ -1,0 +1,277 @@
+<DOC>
+<DOCNO>EP-0635818</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method and apparatus for efficient transfer of data to memory
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G09G536	G06F500	G06T1140	G06T1120	G06F1206	G09G5393	G06F1204	G06F1206	G06F1200	G06F500	G06F1204	G06T1140	G06F1200	G06T1120	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G09G	G06F	G06T	G06T	G06F	G09G	G06F	G06F	G06F	G06F	G06F	G06T	G06F	G06T	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G09G5	G06F5	G06T11	G06T11	G06F12	G09G5	G06F12	G06F12	G06F12	G06F5	G06F12	G06T11	G06F12	G06T11	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method for storing a sequence consisting of a 
+repeated data pattern of three bytes to a memory in 
+
+double word increments aligned with double word 
+boundaries. A register is loaded with the first four 
+
+bytes of the sequence. The contents of the register are 
+then repeatedly stored to consecutive locations of the 
+
+memory. Between each storing of the register's 
+contents, the contents are updated to the next four 
+
+bytes of the sequence by shifting the second through 
+fourth bytes to the first through third bytes and also 
+
+moving the second byte to the fourth byte. When the 
+beginning address where the sequence is to be stored in 
+
+memory is not aligned with a double word boundary, the 
+initial bytes of the sequence up to the double word 
+
+boundary are stored and the contents of the register 
+updated to the next four bytes of the sequence. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MICROSOFT CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MICROSOFT CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+CHATTERJEE AMIT
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+PATRICK STUART R
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+CHATTERJEE,AMIT
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+PATRICK,STUART R.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to methods and apparatus
+for storing in a memory a repeated pattern of data whose
+length is not optimal for transfer to the memory. More
+particularly, this invention relates to an
+efficient method and apparatus for including the
+repeated pattern in a repeating sequence of data whose
+length is optimal for memory transfer.In one type of computer graphics imaging known
+as bit-mapped graphics, the color of each pixel of an
+image is controlled by a group of one or more data bits
+stored in a memory or frame buffer. Generally, the data
+bits are stored in a sequential order in the memory such
+as in a series or string of bytes. Commonly, a byte
+contains eight bits, but not necessarily, and in the
+specification the term is to be understood as including
+a group of bits of any convenient length. (Generally,
+the smallest addressable unit of the memory is a byte.)
+The group of bits controlling the color of the pixel in
+the top left corner of the image is usually placed first
+in the memory. Following is the group of bits that
+control the pixel to the right of the first pixel. This
+sequential organization of the data bits in the memory
+proceeds from left to right along the top line of
+pixels, then from left to right along each line from the
+top to the bottom of the image.The sequential organization of the data in the
+memory can be advantageous to computer manipulation of
+the graphics image. For example, since consecutive
+groups of data bits in the memory map to consecutive
+pixels in horizontal lines of the image, horizontal line
+segments can be drawn quickly and easily by the
+computer. The computer simply stores a bit pattern
+corresponding to a desired line color to consecutive 
+storage locations in the memory that map to pixels
+within the line segment.The ability to draw horizontal line segments
+quickly is important in many graphics operations. One
+common graphics operation that uses horizontal line
+segment drawing is that of "filling" a closed figure in
+an image with a solid color. The "fill" is accomplished
+by drawing a number of short horizontal line segments
+extending between the left to right edges of the closed
+figure. A number of such lines, one drawn below another
+from top to bottom of the figure, fill the figure with a
+single solid color.The ability of computers to quickly draw solid
+color, horizontal line segments, however, can be
+affected by the number of data bits controlling the
+color of pixels in the image. This is because computer
+systems are generally structured to most
+</DESCRIPTION>
+<CLAIMS>
+A method of storing in memory (20) a repeated multiple-byte
+data pattern whose length is smaller than an optimal length for
+
+efficient data transfer to the memory, the optimal length being
+other than an integer multiple of the data pattern's length,
+
+
+characterized in
+ that the method comprises:
+
+loading a first register (30) with the data pattern
+repeated sufficiently to complete a data sequence of the
+
+optimal length for the efficient data transfer; and
+repeating for a finite number of times the following steps:
+
+
+storing the data sequence of the first register (30)
+in locations (22-27) in the memory beginning at a
+
+given address;
+incrementing the memory address for storing a
+following data sequence; and
+rearranging the data sequence in the first register to
+produce the following data sequence that, when stored
+
+to memory, continues the data pattern already stored
+in the memory.
+The method of claim 1, 
+characterized in
+ that the first
+register has four locations (58, 60, 62, 64), the data pattern
+
+has first through third bytes, and the data sequence comprises
+the first through third bytes of the data pattern in the first
+
+three locations of the register and the first byte in the fourth
+location.
+The method of claim 1, 
+characterized in
+ that the first
+register (30) has four locations (58, 60, 62, 64), the data
+
+pattern has first through third bytes, and loading the first
+register to complete a data sequence comprises:
+
+
+loading the first through third bytes of the data pattern
+in the first three locations of the register, respectively; 
+
+and
+loading the first byte into the fourth location.
+The method of claim 3, 
+characterized in
+ that the
+rearranging step comprises:
+
+
+shifting the data pattern one byte toward the first
+location of the first register; and
+moving the second byte into the fourth location.
+The method of claim 4, 
+characterized in
+ that the step of
+moving the second byte into the fourth location of the first
+
+register comprises:
+
+moving the second byte into a second register (32) before
+shifting the data pattern one byte toward the first
+
+location of the first register; and
+moving the byte from the second register (32) into the
+fourth location of the first register,
+thereby placing the second byte into the first and fourth
+locations of the first register (30).
+The method of claim 3, 
+characterized in
+ that the
+rearranging step comprises:
+
+
+moving the second byte into the first location; and
+rotating the bytes in the first register one byte toward
+the first register location, thereby placing the second
+
+byte into the first and fourth locations.
+The method of claim 2, 
+characterized in
+ that the first
+through third bytes of the data pattern correspond to red, green
+
+and blue components of a 24-bit color value, respectively, the
+method drawing a solid segment in a bit-mapped image stored in
+
+the memory. 
+The method of claim 1, 
+characterized in
+ that the memory has
+double word boundaries and the data sequences comprise four
+
+bytes stored in double word increments to locations in memory in
+alignment with double word boundaries.
+The method of claim 1, 
+characterized in
+ that the memory has
+double word boundaries, the method further comprising aligning
+
+the first register with a double word boundary if the beginning
+address of the memory locations does not coincide with such a
+
+boundary.
+The method of claim 9, 
+characterized in
+ that the data
+sequences comprise four bytes in the first register and the
+
+aligning step comprises:
+
+storing a number of bytes from the first register to the
+locations in memory equal to the number of bytes from the
+
+beginning address to the next double word boundary;
+if the beginning address is one memory location from the
+next double word boundary, shifting the bytes in the first
+
+register by one byte toward the first byte location,
+including shifting the byte in the second location into the
+fourth byte location of the first register; and
+if the beginning address is two memory locations from the
+next double word boundary, shifting the bytes in the first
+
+register by two bytes toward the first byte location,
+including shifting the bytes in the second and third
+
+locations of the first register into the third and fourth
+locations, respectively.
+A method of storing in a memory (20) a repeated pattern of
+three data bytes, wherein each data byte comprises a
+
+predetermined group of data bits, said method comprising:
+
+loading a first register (30) for storing four data bytes 
+with four data bytes, the four data bytes including said
+
+three data bytes;
+repeating the following steps:
+
+storing the four data bytes of the register (30) in
+locations (22-27) in said memory beginning at a given
+
+address;
+incrementing the memory address for storing a
+following data sequence of four data bytes; and
+shifting the four bytes of the sequence in the
+register, whereby the bytes currently in a second
+
+through fourth register locations of the register are
+shifted to a first through third register location,
+respectively, and the byte currently in the second
+register location is also moved into the fourth
+
+register location.
+The method of claim 11 wherein the three data bytes
+correspond to red, green, and blue components of a 24-bit color
+
+value, respectively.
+</CLAIMS>
+</TEXT>
+</DOC>

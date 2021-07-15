@@ -1,0 +1,350 @@
+<DOC>
+<DOCNO>EP-0634747</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Optical information control device and synchronizing method thereof
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G11B2010	G11B2014	G11B2730	G11B2730	G11B2014	G11B2012	G11B2012	G11B2010	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G11B	G11B	G11B	G11B	G11B	G11B	G11B	G11B	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G11B20	G11B20	G11B27	G11B27	G11B20	G11B20	G11B20	G11B20	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The present invention comprises: a mark detection
+circuit for detecting marks recorded at even intervals
+
+in a track on an optical disk and outputting a mark
+detection signal indicating a detected mark; a frequency
+
+dividing circuit (219) for generating a reference clock by
+frequency-dividing a pit clock and stopping an operation
+
+thereof when having received the mark detection signal;
+and a resumption circuit for resuming the frequency
+
+dividing circuit after a preset time from reception of
+the mark detection signal. Moreover, the present
+
+invention enables to synchronize the reference clock to
+a byte boundary of data recorded on the optical disk by
+
+stopping generation of the reference clock for a preset
+time.
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+NIPPON ELECTRIC CO
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+NEC CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+KOBUNAYA HIDEKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KOBUNAYA, HIDEKI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to an optical
+information control device for recording information on an
+optical disk and replaying information recorded on an
+optical disk.First of all, a prior optical information control
+device is explained.Fig.14 is a block diagram of a prior optical
+information control device.In Fig.14, 1 is an optical disk.2 is an optical head.3 is a head amp.4 is a waveform shaping circuit.5 is a laser driver circuit.6 is a decoder.7 is an encoder.8 is a format control section.9 is a buffer.10 is an error correction circuit.11 is a SCSI control section.12 is an internal bus.13 is a SCSI bus. 14 is the host computer.15 is an actuator.16 is a servo-circuit.17 is a PLL (Phased Locked Loop).18 is an error detection circuit.19 is a mark detection circuit.20 is a lock signal that is a completion signal of
+PLL synchronization.21 is a clock (rdclk) synchronized to optical disk
+data.211 is a crystal oscillator.22 is a clock (rfclk) output from the crystal
+oscillator 211.23 is an address mark detection signal.24 is a sector mark detection signal.52 is an output enable circuit for making an output
+from the mark detection circuit 19 enable.213 is a selector for switching over the rdclk 21
+and the rfclk 22 by the lock signal 20.57 is an output (chclk) from the selector 213.208 is a 16-frequency divider that outputs a byte
+clock BCLK.203 is a counter.201 and 210 are registers for holding values loaded
+into the counter 203. 202 and 209 are registers for holding values to
+become the object of comparison to output from the
+counter 203204 and 207 are zero detector circuits.205 is a comparison circuit.206 is a counter.212 is a logical sum.214 is a window signal.215 is a selector that selects values to be loaded
+into the counter 203.216 is a selector for selecting values to become
+the object of comparison to the counter 203.217 is a window central signal.218 is an RS flip-flop.Next, operation of an optical information control
+device configured by above components is explained.First, the sector format of an optical disk is
+explained.Fig.4 shows the sector format of an optical disk.In this figure, SM is a 5-byte sector mark
+indicating beginning location of the sector.VFO is a Variable Frequency Oscillator, where VFO1
+is of 12-byte, VFO2 is of 8-byte, VFO3 is of 12-byte.AM is an address mark. There are three AM's in a
+sector. Each of ID1 - ID3 is a 5-byte identification code,
+configured by a two-byte truck number, a 1-byte sector
+number, and a 2-byte error detection code CRC.PA is a postamble of 1-byte.ODF
+</DESCRIPTION>
+<CLAIMS>
+An optical information control device comprising a
+mark detection means (19) for detecting marks (AM) recorded at
+
+even intervals in tracks on an optical disk (1) and
+outputting a mark detection signal (23), when having detected
+
+a mark, wherein said mark detection signal is used as a
+trigger signal for processing data recorded on said
+
+optical disk, 
+characterized by
+ comprising:
+
+   a reference clock generation means (208, 219, 220, 101, 102) for stopping the
+generation of a reference clock (BCLK) when having received
+
+said mark detection signal and for synchronizing said reference
+clock to a byte boundary of data recorded on said
+
+optical disk by regenerating said reference clock after
+a preset time from stoppage of the generation of said
+
+reference clock.
+The optical information control device of claim 1,
+wherein said reference clock generation means comprises:
+
+
+a frequency dividing means (208) for generating said
+reference clock by dividing a pit clock (57 chclk) and for stopping
+
+operation when having received said mark detection
+signal; and
+a resumption means (101, 102) for making said frequency
+dividing means resume operation after said pre-set time from input of said
+
+mark detection signal.
+The optical information control device of claim 2, 
+wherein said pit clock is a clock synchronized with said
+
+pits of the optical disk.
+The optical information control device of claim 2,
+wherein said pit clock is a clock made from data recorded
+
+in said optical disk.
+The optical information control device of claim 2,
+wherein said pit clock is a clock generated by a pit
+
+clock generation means (17, 211, 213) provided in the device.
+The optical information control device of claim 2,
+wherein said resumption means comprises:
+
+
+a first counter circuit (102) for counting said pit clock
+when having received said mark detection signal; and
+a first detection circuit (101) for detecting the
+arrival of the counted number of said first counter
+
+circuit to a first pre-set number.
+The optical information control device of claim 1,
+comprises a window signal generation means (201 to 207) for
+
+generating a window signal (103) based on said reference clock that enables the outputting of said mark
+detection signal.
+The optical information control device of claim 7,
+wherein said window signal 
+generation means comprises:
+
+a second counter circuit (203) for counting said
+reference clock;
+a second detection circuit (205) for detecting the
+arrival of the counted number of said second counter 
+
+circuit to a second pre-set number and outputting a set signal (i) in response thereto;
+a clock phase adjusting means (220) for generating
+a phase adjusted clock (BCLK1) adjusted in phase relative to said
+
+reference clock;
+a third counter circuit (206) for counting said phase adjusted
+clock when the counted number of said second
+
+counter circuit has arrived to said second pre-set number and has
+output said set signal in response thereto;
+a third detection circuit (207) for detecting
+the arrival of the counted number of said third counter
+
+circuit to a third pre-set number and outputting a reset
+signal (j) in response thereto; and
+a window signal generation circuit (104) for generating
+said window signal set to an active level by
+
+said set signal (i) and reset by
+said reset signal (j).
+The optical information control device of claim 7,
+comprising:
+
+
+a multi-phase clock generation means (26) for generating
+a multi-phase clock (C
+0
+ to C
+15
+) synchronized with said pit clock,
+stopping generation of said multi-phase clock when
+
+having received said mark detection signal, resuming
+generation of said multi-phase clock after said pre-set time
+
+from stoppage of generation of said multi-phase clock and
+then synchronizing said multi-phase clock with pits of 
+
+said optical disk;
+wherein said optical information control device is
+configured so as to adjust generation of said window
+
+signal in pit unit using said reference signal and said
+multi-phase clock.
+An optical information control device comprising a
+mark detection means (19) for detecting marks (AM) recorded at
+
+even intervals in tracks on an optical disk (1) and
+outputting a mark detection signal (23) when having detected
+
+a mark, wherein said mark detection signal is used as a
+trigger signal for processing data recorded on said
+
+optical disk, 
+characterized by
+ comprising: 
+
+a clock generation means (27, 26) for receiving a pit clock (57 chclk),
+generating a reference clock (BCLK) and a preset multi-phase clock (C
+0
+ to C
+15
+) synchronized to said
+reference clock and to said pit clock, stopping generation
+
+of said multi-phase clock and of said reference clock when
+having received said mark detection signal,
+
+synchronizing said reference clock to a byte boundary of
+data recorded on said optical disk by regenerating said
+
+multi-phase clock and said reference clock after a
+preset time from stoppage of the generation of said
+
+reference clock and synchronizing said multi-phase clock
+to a pit of said optical disk; and
+a window signal generation means (25) for receiving said
+multi-phase clock and said reference clock and for
+
+adjusting therewith, in pit units, the generation of a window signal enabling
+the detection of said mark detection signal.
+The optical information control device of claim 10,
+wherein said pit clock is a clock synchronized to a pit
+
+on said optical disk.
+The optical information control device of claim 10,
+wherein said pit clock is made of byte of said data
+
+recorded on said optical disk.
+The optical information control device of claim 10,
+wherein said pit clock is a clock generated by a pit
+
+clock generation means (17, 211, 213) provided in the device.
+The optical information control device of claim 10, 
+wherein said clock generation means comprises:
+
+
+a clock generation circuit (27) for generating a
+reference clock from said pit clock and for generating a
+
+multi-phase clock synchronizing to said pit clock; and
+a resumption means (26) for stopping clock generation of
+said clock generation circuit and starting to count said
+
+pit clock when having received said mark detection
+signal, and making said clock generation circuit resume operation when
+
+the counted number has reached a preset number.
+The optical information control device of claim 14,
+wherein said clock generation circuit comprises:
+
+
+a counter circuit for counting said pit clock;
+a multi-phase clock generation circuit for
+synchronizing to said pit clock in accordance with an
+
+output value of said counter circuit, and generating a
+plurality of multi-phase clocks each having a different phase;
+
+and
+a frequency dividing circuit for generating said
+reference clock by dividing said pit clock.
+The optical information control device of claim 14,
+   wherein said clock generation circuit comprises:
+
+
+a clock phase adjusting circuit for
+generating a phase adjusted clock (BCLK1) synchronizing to said
+
+reference clock (BCLK); and
+said window signal generation means (25) comprises: 
+a first counting means (36) for counting said reference
+clock and outputting a first signal (51) when the counted
+
+number has reached a first preset number;
+a selection means (30) for selecting a first multi-phase
+clock and a second multi-phase clock from said plurality
+
+of multi-phase clocks;
+a means (46) for outputting said second signal (a), in
+synchronization with said first multi-phase clock;
+a means (44) for outputting a set signal when having
+received said second signal, by latching said first
+
+signal ;
+a means (41, 42) for counting said phase adjusted clock (BCLK1) when
+the counted number of said first counting means has
+
+reached a third preset number and outputting a third signal (50)
+when the counted number has reached said third preset number;
+a means (47) for outputting a fourth signal (b), in
+synchronization with said second multi-phase clock;
+a means (45) for latching said third signal and
+outputting a reset signal when having received said
+
+fourth signal ; and
+said window signal generation circuit generating
+said window signal by activating said
+
+window signal in response to said set signal and by inactivating said
+window signal response to said reset signal.
+A synchronization method of an optical information
+control device synchronizing a reference clock (BCLK) to byte
+
+boundary of data recorded on an optical disk (1),
+comprising:
+
+
+(A) a step of detecting a mark (AM) recorded at even
+intervals in a track on said optical disk and generating
+
+a mark detection signal (23); and
+
+   said method being 
+characterised by
+:
+(B) a step of synchronizing said reference clock to
+the byte boundary of said data recorded on said optical disk by
+
+stopping the generation of said reference clock when having
+received said mark detection signal and by resuming generation of said reference clock
+
+after a preset time from the stoppage.
+The synchronization method of claim 17, wherein said (B) step
+comprises:
+
+
+a step of generating said reference clock by
+dividing a pit clock;
+a step of counting said pit clock when having
+received said mark detection signal and resuming
+
+generation of said reference clock when the counted
+
+number has reached to a preset number.
+The synchronization method of 
+of claim 18, wherein said pit clock is a
+
+clock synchronizing to a pit of said optical disk.
+</CLAIMS>
+</TEXT>
+</DOC>

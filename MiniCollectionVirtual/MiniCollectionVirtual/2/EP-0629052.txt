@@ -1,0 +1,178 @@
+<DOC>
+<DOCNO>EP-0629052</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+METHOD OF AND CIRCUIT FOR CORRECTING ERRORS
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G11B2018	H03M1300	G06F1110	G11B2018	G06F1110	H03M1300	H03M1315	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G11B	H03M	G06F	G11B	G06F	H03M	H03M	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G11B20	H03M13	G06F11	G11B20	G06F11	H03M13	H03M13	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+After calculation of syndrome by 
+use of syndrome registers [S0 to S3]
+ 
+(15 to 18), the value of the syndrome 
+
+register (15) is loaded in the syndrome 
+registers (16 to 18), and the values of the 
+
+syndrome registers (16 to 18), in the data 
+registers [R1-R3]
+ (22 to 24), respectively, 
+when there is a singlet error. By use of 
+
+the syndrome registers (15 to 18), power 
+operation of µ, µ², and µ³ is repeated 
+
+until coincidence detection circuits (25 to 
+28) detect coincidence of the values of 
+
+the syndrome registers (15 to 18) with 
+the data registers (22 to 24). A counter 
+
+(29) is operated in synchronism with the 
+power operation. When the coincidence 
+
+is detected, the count value is defined as 
+the location of data which includes an 
+
+error. The error is corrected by assuming 
+the value of the syndrome registers [S0]
+ 
+(15) to be its magnitude. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SONY CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SONY CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+AKITA MAMORU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+AKITA, MAMORU
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to an error correction
+method and an error correction circuit and, particularly to an
+error correction method and an error correction circuit for use
+in error correction in digital data processing apparatus, such
+as reproducing apparatus for reproducing a CD (compact disc) and
+a DAT (digital audio tape) or the like.An error correction code of CD is formed by
+interleaving 2-stage Reed-Solomon codes and referred to as CIRC
+(Cross Interleaved Reed-Solomon Code). The 2-stage Reed-Solomon
+codes used in the CIRC are referred to as C1, C2, respectively.When error is corrected by the C1 code, for example,
+error-correction is carried out at the unit of 32 byte-data in
+which 4-byte parity data are added to 28-byte data. The 32-byte
+data are referred to as x0 to x31, respectively.4-byte parity data are selected such that all of four
+equations on [Equation 1] yield "0"s:
+Data thus generated are recorded on the disc, and 
+recorded data contains error due to various causes when
+reproduced.Data (data containing errors) received by an error
+correction circuit after they had been read out from the disc
+are respectively referred to as x0' to x31' in order that they
+can be distinguished from data recorded on the disc.When error correction is implemented in actual
+practice, data is received and then syndromes S0 to S3 are
+calculated based on [Equation 2]:
+Galois field theorem proved that there exists a finite
+field having 28 elements. This finite field is expressed as
+GF(28).Codes used in the CD are defined by generator
+polynomial on [Equation 3]:
+P(x) = x8 + x4 + x3 + x2 + 1Then, α is a root of equation established when P(x) =
+0.Study of [Equation 2] reveals that, if received data
+contains no error, then S0 = S1 = S2 = S3 = 0 (parity data are
+added for this reason). Conversely, if any one of syndromes
+were not "0", data error could be detected. Although the syndrome should be calculated based on
+the [Equation 2] prior to the error correction, if the syndromes
+were calculated as described above, then the number of
+calculation would be increased.Therefore, [Equation 2] is modified as [Equation 4]:
+The syndrome S1, for example, can be calculated in
+accordance with an algorithm shown in FIG. 3. Other syndromes
+S0, S2, S3 also can similarly be calculated by changing a
+predetermined power of α variously.This calculation can be implemented by a circuit
+composed of an adder 41 supplied at one input thereof with
+received data, a register 42 for storing added data from the
+adder 41 and a
+</DESCRIPTION>
+<CLAIMS>
+An error correction method comprising the steps of:
+
+calculating (S1) n syndromes from received data, n being a positive integer
+determined by a number of parity words contained in said received data, and storing
+
+a single syndrome in a single syndrome register, said single syndrome representing
+an error amount if error is a single-error, and storing other syndromes in n-1
+
+syndrome registers;
+
+   characterised by the following steps:
+
+after calculation of syndromes is ended, loading the values stored in said n-1
+syndrome registers into n-1 data registers and loading the value stored in said single
+
+syndrome register into all of said n-1 syndrome registers (S2);
+multiplying the contents of each of the n-1 syndrome registers by a power of
+α such that the i
+th
+ syndrome register is multiplied by α
+i
+, where i is an integer from
+1 to n-1 and α is a root of a generator polynomial 
+on Galois field (S6);
+repeating this multiplication step until it is detected that the value stored in
+each of the n-1 syndrome registers is equal to the value stored in the respective n-1
+
+data register (S4);
+incrementing a count each time the above multiplication step is performed (S7)
+whereby, if the value of the count is greater than the length of the received data, the
+
+error is uncorrectable (S11), otherwise, once no more multiplication steps are performed,
+the value of the count is equal to the location of a single error in the received data
+
+and the value in said single syndrome register is equal to the error amount (S9); and
+effecting error correction based on said error location and said error amount.
+An error correction circuit comprising:
+
+means (11-21) for calculating n syndromes from received data, n being a
+positive integer determined by a number of parity words contained in said received
+
+data, and storing a single syndrome in a single syndrome register (15), said single
+syndrome representing an error amount if error is a single-error, and storing other
+
+syndromes in n-1 syndrome registers (16-18);
+
+   characterised by means for implementing the following steps: 
+
+after calculation of syndromes is ended, loading the values stored in said n-1
+syndrome registers (16-18) into n-1 data registers (22-24) and loading the value stored
+
+in said single syndrome register into all of said n-1 syndrome registers (16-18);
+multiplying (19-21) the contents of each of the n-1 syndrome registers (16-18)
+by a power of α such that the i
+th
+ syndrome register is multiplied by α
+i
+, where i is an
+integer from 1 to n-1 and α is a root of a generator polynomial on Galois field;
+repeating this multiplication step until it is detected (25-28) that the value
+stored in each of the n-1 syndrome registers (16-18) is equal to the value stored in the
+
+respective n-1 data register (22-24);
+incrementing a count (29) each time the above multiplication step is performed
+whereby, if the value of the count is greater than the length of the received data, the
+
+error is uncorrectable, otherwise, once no more multiplication steps are performed,
+the value of the count is equal to the location of a single error in the received data
+
+and the value in said single syndrome register (15) is equal to the error amount; and
+effecting error correction based on said error location and said error amount.
+</CLAIMS>
+</TEXT>
+</DOC>

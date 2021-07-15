@@ -1,0 +1,325 @@
+<DOC>
+<DOCNO>EP-0644493</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method and system for locating field breaks within input data
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1724	G06F1200	G06F1200	G06F1721	G06F1721	G06F1724	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F17	G06F12	G06F12	G06F17	G06F17	G06F17	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method and system for locating field breaks within input data is 
+provided. In a preferred embodiment, a software facility locates field breaks within 
+
+input data. The facility first receives input data made of a large number of rows of 
+text. The facility then selects a group of the received rows of text to analyze. The 
+
+facility identifies field breaks within the input data by analyzing the selected group 
+of rows of text. The facility preferably analyzes the selected rows by counting the 
+
+number of substantive characters in each column of the selected rows. The facility 
+then uses the count to determine which columns have less than a field-break 
+
+threshold of substantive characters. The facility locates one field break within each 
+series of columns that have less than the field-break threshold of substantive 
+
+characters. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MICROSOFT CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MICROSOFT CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+COMER ROSS W
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SOLOMON CYNTHIA ANN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+COMER, ROSS W.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SOLOMON, CYNTHIA ANN
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The invention relates generally to a method and system for
+receiving input data, and more specifically, to a method and system for
+locating field breaks within input data.Computers are often used to store and process data. Computer
+users usually use an application program to store a particular kind of data, or to
+process data in a particular way. A particular type of application program,
+called a database application, permits users to store and process a body of
+related data in the form of a table. A table is composed of records, each
+containing data about a particular thing, such as a mechanical part needed to
+construct a go-cart. Each record corresponds to one "line" of data, and a line is
+terminated by an end-of-line character, such as a return or line feed character.
+Each record is divided into a set of fields, or particular pieces of data. The set
+of fields is the same for every record in the table. Example fields for part
+records include part number, part description, and part cost. A record in such
+table would contain the part number, part description, and part cost for a
+particular part. Fields usually also have a uniform length, measured in number
+of characters, in every record.Figure 1 is a diagram showing the contents of an example table.
+The table 100 contains twenty records 101-120, each specifying data for each
+of seven fields 131-137. The fields are a stock number field 131, a description
+field 132, a quantity required field 133, a responsible mechanic field 134, an
+item cost field 135, a total cost field 136, and a date required field 137. In
+order to construct a go-cart, two axles, stock number 663661, which cost $215
+each, are needed by Sue by December 16, 1993, at a total cost of $430.00.
+Accordingly, the stock number field for record 113 contains the stock number
+"663661", the description field contains the description "axles", the quantity
+required field contains the quantity "2", the responsible mechanic field
+contains the name "Sue", the item cost field contains the item cost "$215.00",
+the total cost field contains the total cost "$430.00", and the date required field 
+contains the date "12/16/93". These field contents would typically have been
+stored in the table after being inputted by a user. A user typically positions an
+insert cursor to a particular field and types the data the field is to contain, then
+instructs the database application to move the input cursor to another field
+using a next field key, such as the tab key.Some database applications store table data in
+</DESCRIPTION>
+<CLAIMS>
+A method in a computer system for locating field breaks (301, 302, 303, 304)
+within input data, the method comprising the steps of:
+
+
+receiving input data comprising a multiplicity of rows of data, the multiplicity of
+rows of data having ordered columns, each containing a character that may be
+
+either substantive or non-substantive;
+substantive characters being those characters allowed within data fields;
+selecting (501) a plurality of rows of data of the multiplicity of rows of data; and
+characterized by the further steps of:
+identifying field breaks within the input data by analyzing the selected rows of data
+by counting (502) the number of substantive characters in each column of the
+
+selected rows of data, wherein a count value is produced for each column,
+and wherein the count values
+
+are ordered to correspond to the order of the columns; and
+positioning field breaks (503, 504) at columns proximate to columns having a relative
+minimum number of substantive characters with respect to surrounding columns.
+The method of claim 1 wherein the multiplicity of rows of data is ordered, such that
+one of the rows of data is the top row of data, wherein the selecting step includes the
+
+step of omitting a contiguous group of one or more rows of data that includes the top row
+of data.
+The method of claim 1 wherein the count values are ordered to correspond to the
+order of the columns, and wherein the rows of data include header rows that contain 
+
+header information for describing the contents of other rows of data, and wherein the
+
+selecting step includes the step of omitting the header rows.
+The method of claim 1 wherein the step of identifying field breaks within the input
+data based upon the count values includes the steps of
+
+
+identifying (503) one or more series of columns for which the count values
+are below a field-break threshold; and
+locating (504) a field break within each series of columns identified.
+The method of claim 4 wherein the step of identifying one or more series of
+columns for which the count values are below a field-break threshold includes the step of
+
+omitting a series of columns for which the count values that are below the field-break
+threshold that appears in the order of the columns before the first column for which the
+
+count value is greater than the field-break threshold.
+The method of claim 4 wherein the input data may contain one or more
+justification points, each of which is a column within the input data to which data in each
+
+row of data of the input data is aligned, and wherein the locating step includes the steps
+of, for each series of columns:
+
+
+selecting (701) a contiguous minimum subset of the series of columns, such
+that the contiguous minimum subset of the series of columns have counts that are
+
+generally not larger than any of the series of columns not within the contiguous
+minimum subset of the series of series of columns;
+determining (702) whether zero, one, or two of the two count values that are
+immediately adjacent to the contiguous minimum subset of the series of columns
+
+are justification points within the input data;
+if one of the columns that is immediately contiguous to the contiguous minimum
+subset of the series of columns is a justification point, locating the field break 
+
+(703) between the column that is a justification point and the contiguous minimum
+subset of the series of columns; and
+if zero or two of the count values that are immediately contiguous to the
+contiguous minimum subset of the series of columns are justification points,
+
+locating the field break (704) within the contiguous minimum subset of the series
+off columns.
+The method of claim 6 wherein the step of, if zero or two of the count values that
+are immediately contiguous to the contiguous minimum subset of
+
+
+the series of columns are justification points, locating the field break (704) within
+the contiguous minimum subset of the series of columns locates the field break as
+
+near to the center of the contiguous minimum subset of the series of columns as
+is possible.
+The method of claim 6 wherein the step of determining whether
+zero, one, or two of the two count values that are immediately adjacent to the
+
+contiguous minimum subset of the series of columns are justification points includes
+the steps of
+
+
+determining whether the count value for the column immediately
+preceding the first column of the contiguous minimum subset of the series of
+
+columns exceeds a justification threshold; and
+determining whether the count value for the column immediately
+following the last column of the contiguous minimum subset of the series of
+
+columns exceeds the justification threshold.
+The method of claim 4 wherein the input data contains data organized in one of a
+predefined multiplicity of data formats, a plurality of the data formats specifying
+
+organizing the data using non-substantive characters, further including the steps
+of, after the step of locating a field break: 
+
+
+recognizing that a field break (903) has been located within a field containing data
+organized in a data format specifying organizing the data using non substantive
+
+characters; and
+removing the field break recognized in the recognizing step.
+The method of claim 1 wherein the selected rows of data have ordered columns,
+each containing a character that may either be non-substantive or substantive, and
+
+wherein the step of identifying field breaks within the input data by analyzing the selected
+rows of data, includes the further steps of:
+
+
+for each column, counting the number of selected rows in which there is a
+substantive character in both the column and in an adjacent column; and
+identifying field breaks within the input data based upon the count values
+produced by said counting step.
+The method of claim 1 wherein the plurality of rows of data is ordered, such that
+one of the rows of data is the top row of data, wherein the
+
+selecting step includes the step of omitting a contiguous group of one or more
+rows of data that includes the top row of data.
+The method of claim 1 wherein the rows of data include header rows that contain
+header information for describing the contents of other rows of data, and wherein the
+
+selecting step includes the step of omitting the header rows.
+The method of claim 1 wherein the step of counting the number of substantive
+characters in each column only counts characters contained in a first predefined group of
+
+characters;
+
+and comprising the further steps of 
+
+counting the number of substantive characters contained in a second predefined
+group of characters in each column of the selected rows of text, such that a
+
+second character group count value is produced for each column, and such that
+the second character group count values are ordered to correspond to the order
+
+of the columns; and
+identifying fields within the input data based upon the first character group count
+values and second character group count values produced by the counting steps.
+The method of claim 13 wherein the first predefined group of characters and the
+second predefined group of characters are mutually exclusive, and wherein the step of
+
+counting the number of substantive characters contained in a first predefined group of
+characters in each column of the selected rows of text counts only characters not
+
+counted by the step of counting the number of substantive characters contained in a
+second predefined group of characters in each column of the selected rows of text.
+The method of claim 14 wherein some characters are letters, and wherein the first
+predefined group of characters contains letters and the second predefined group of
+
+characters contains non-letters, and wherein the step of
+
+counting the number of substantive characters contained in a second predefined
+group of characters in each column of the selected rows of text counts only
+
+nonletters.
+The method of claim 14 wherein some characters are numerals, and wherein the
+first predefined group of characters contains numerals and the second predefined group
+
+of characters contains non-numerals, and wherein the step of counting the number of
+substantive characters contained in a second predefined group of characters in each
+
+column of the selected rows of text counts only nonnumerals.
+The method of claim 1, comprising the further step of:
+
+manipulating the field breaks positioned in the identifying step in response to
+receiving input from a user.
+The method of claim 17 wherein the manipulating step includes
+the steps of:
+
+
+receiving a relocate instruction from the user; and
+relocating a field break identified in the identifying step in response to receiving
+the relocate instruction from the user.
+The method of claim 18 wherein the step of receiving a relocate instruction from
+the user includes the step of receiving an indication of which field break to relocate and
+
+an indication of the position to which to relocate the field break, and wherein the
+relocating step relocates the field break in accordance with the indications.
+The method of claim 17 wherein the manipulating step includes
+the steps of
+
+
+receiving a delete instruction from the user; and
+deleting a field break identified in the identifying step in response to receiving the
+delete instruction from the user.
+The method of claim 20 wherein the step of receiving a delete instruction from the
+user includes the step of receiving an indication of which field break to delete, and
+
+wherein the deleting step deletes the field break in accordance with the indication.
+The method of claim 17 wherein the manipulating step includes the steps of
+
+receiving an add instruction from the user; and
+adding a field break to those identified in the identifying step in response to
+receiving the add instruction from the user.
+The method of claim 22 wherein the step of receiving an add instruction from the
+user includes the step of receiving an indication of the position at which a field break is to
+
+be added, and wherein the adding step adds the field break at the position indicated by
+the indication.
+A computer-based field break locator (401) for identifying field breaks within input
+data, the input data having rows of fields, each field having characters, the rows of the
+
+input data being logically divided into one-character columns, each character being
+either substantive or non-substantive, substantive characters being those characters
+
+allowed within data fields, the computer-based field break locator comprising:
+
+a receiver (404) for receiving the input data;
+a selector for selecting a plurality of rows of the received input data; and
+an analyzer (402) for identifying the fields within the input data based on the
+selected rows, itself characterized by a counter for determining the number of
+
+substantive characters in each column of the selected rows of the input data,
+a counter memory (403) for storing the number of substantive characters in
+each column of the selected rows of the input data, and
+a field break positioner (402) for positioning a field break at a column proximate to
+a column having a relative minimum number of substantive characters with respect to
+
+surrounding columns.
+The field break locator of claim 24 wherein the field break positioner includes a
+data justification detector for detecting whether data in columns adjacent to the column
+
+having the smallest number of substantive characters is justified to the columns
+adjacent to the column having the smallest number of non-substantive characters, and
+
+wherein the field break positioner positions the field break based upon the results
+realized by the detector. 
+The field break locator of claim 24 wherein one or more rows of data contain
+header information for identifying portions of the remainder of the rows of data, and
+
+wherein the selector includes a discriminator for detecting and omitting one or more rows
+of data containing header information.
+</CLAIMS>
+</TEXT>
+</DOC>

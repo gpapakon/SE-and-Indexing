@@ -1,0 +1,209 @@
+<DOC>
+<DOCNO>EP-0644490</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Cache control system.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1208	G06F1208	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F12	G06F12	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A system and method are provided which include devices implementing a 
+snooping protocol. Data to be written by an I/O peripheral to an I/O 
+
+controller is mapped to a specific location in memory, and then the data 
+is actually written to an L1 cache in the controller by the I/O device. 
+
+During this period when the I/O device is writing to the controller 
+cache, the controller does not actually own the data stored in the 
+
+specific memory location. Once the write operation is complete for a 
+given memory sector, the I/O controller then performs the bus operations 
+
+required to obtain ownership of the data in the specified memory 
+location. The data read from memory is then merged with the data written 
+
+from the I/O device and written back to the memory. If a snoop hit is 
+identified by the I/O controller, during the period when the data is 
+
+owned the I/O controller intervenes to prevent the memory access which 
+caused the snoop hit. The invention limits the time period in which a 
+
+snoop hit can occur to only those times when the device owning the data 
+is already in the process of performing an atomic Read-Modify-Write 
+
+operation such that reordering of queued bus transaction operations is 
+never required. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BAUMGARTNER YOANNA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GREGOIRE DENNIS GERARD
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YOUNGS AMY MAY
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BAUMGARTNER, YOANNA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GREGOIRE, DENNIS GERARD
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YOUNGS, AMY MAY
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a data processing system having 
+multiple data cache devices which monitor a system bus to maintain cache 
+coherency. More particularly, the invention relates to a cache control 
+technique whereby the need to reorder bus transactions in response to a 
+request for data by another device monitoring the bus is eliminated. Conventional systems are known which implement what is commonly 
+referred to as "snooping" in order to monitor a system bus for the memory 
+address of the data that the device is modifying. Generally, when more 
+than one device, which includes a cache, is capable of modifying data 
+stored at a particular memory address the devices perform bus snooping to 
+determine whether another device has requested the same data which is 
+owned (the device has been granted access to the data) by the device 
+doing the modifying. The requesting device places the memory address for 
+the desired data on the system bus and the device which owns the data 
+monitors the bus for this address. The device owning the data compares 
+the memory address on the bus with the memory address of the data being 
+modified, and if the addresses are the same a "snoop hit" is said to have 
+occurred. The conventional response to a snoop hit is to perform a 
+"snoop push" operation which causes the modifying device to immediately 
+push, or transfer, the data back to memory. This snoop push requires all 
+pending bus transaction operations to be reordered such that the 
+transactions that implement the snoop push are executed first. A great 
+deal of complex logic is required to perform this reordering of bus 
+transactions. For example, a modifying device (such as a central processing 
+unit), or the like performs a read with intent to modify operation which 
+reads the data from the system memory and stores a copy of the data in 
+its cache. Next, the modifying device begins snooping the bus and also 
+begins modifying the data. If the device sees the memory address of the 
+data that it currently owns then a snoop hit occurs. Snoop hits are 
+normally caused by another device requesting the data from memory by 
+placing the memory address of the requested data on the system bus. Generally, when a snoop hit occurs the device which has modified 
+the data must reorder its bus transaction queue and transfer the modified 
+data back to system memory in order for the requesting device to have the  
+ 
+most up to date copy of the data, this is accomplished using a snoop 
+push. Additionally, the requesting device
+</DESCRIPTION>
+<CLAIMS>
+A method of managing a memory coherent cache to avoid implementing 
+a snoop push operation in response to a snoop hit, comprising the steps 
+
+of: 
+   modifying data in said cache prior to obtaining ownership of said 
+
+data such that a snoop hit will not occur; 
+   reading an original copy of said data from a system memory, and 
+
+merging said modified data with said original copy of said data; and 
+   initiating an operation to write said merged data to said system 
+
+memory, wherein said steps of reading, merging and initiating are 
+independent of a snoop hit. 
+A method as claim in claim 1 wherein said step of modifying 
+comprises the steps of: 
+
+   mapping said data to be modified in said cache to an address 
+corresponding to memory sector address containing said original copy of 
+
+said data; and 
+   determining whether said memory sector is completely filled with 
+
+said modified data. 
+A method as claimed in claim 1 or claim 2 wherein said step of 
+reading comprises the steps of: 
+
+   arbitrating for ownership of a system bus such that said original 
+copy of said data can be read from said system memory; and 
+
+   gaining ownership of said original copy of said data. 
+A method as claimed in claim 3 wherein said step of merging 
+comprises the step of combining said modified data, which has partially 
+
+filled said memory sector, and that portion of said original copy of said 
+data, which is contained in the remainder of said memory sector. 
+A method as claimed in claim 4 wherein said step of initiating 
+comprises the step of arbitrating for ownership of said system bus such 
+
+ 
+that said merged data can be written to said system memory at said memory 
+
+sector address. 
+A method as claimed in any preceding claim further comprising the 
+step of writing said merged data to said system memory independent of a 
+
+snoop hit. 
+A cache control system for managing a memory coherent cache to 
+avoid implementing a snoop push operation in response to a snoop hit, 
+
+comprising: 
+   means for modifying data in said cache prior to obtaining ownership 
+
+of said data such that a snoop hit will not occur; 
+   means for reading an original copy of said data from a system 
+
+memory, and for merging said modified data with said original copy of 
+said data; and 
+
+   means for initiating an operation to write said merged data to said 
+system memory, wherein said steps of reading, merging and initiating are 
+
+independent of a snoop hit. 
+A cache control system as claimed in claim 10 further comprising 
+means for writing said merged data to said system memory independent of a 
+
+snoop hit. 
+A data processing system comprising: 
+   a processing unit; 
+
+   at least one control device having an internal cache and a cache 
+control system as claimed in claim 7 or claim 8; 
+
+   a system connecting said central processing unit, said system 
+memory and said at least one control device. 
+A system as claimed in claim 9 wherein said means for modifying 
+comprises:
+
+ 
+   an input/output device for writing data to the internal cache of at 
+
+least one of said control devices; and 
+   circuit means, within said control device, for issuing a bus 
+
+control signal classifying said data written by said input/output device 
+as not subject to a snoop hit. 
+A system as claimed in claim 10 wherein said means for reading 
+comprises circuit means, within said control device, for issuing a read 
+
+with intent to modify bus control signal. 
+A system as claimed in claim 11 wherein said means for reading, and 
+said means for initiating comprise circuit means for arbitrating for 
+
+ownership of said system bus. 
+A system as claimed in any of claims 9 to 12 wherein said snoop hit 
+matches a memory address of the data in the internal cache of said 
+
+control device with a memory address on said system bus corresponding to 
+a request for ownership of the data issued by said central processing 
+
+unit or any other of said control devices. 
+</CLAIMS>
+</TEXT>
+</DOC>

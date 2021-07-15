@@ -1,0 +1,117 @@
+<DOC>
+<DOCNO>EP-0763915</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Packet transfer device and method adaptive to a large number of input ports
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04L1256	H04Q1104	H04L1256	H04Q1104	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04L	H04Q	H04L	H04Q	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04L12	H04Q11	H04L12	H04Q11	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A packet transfer device that can be easily realized
+even when a number of input ports is large. Each input
+
+buffer temporarily stores entered packets class by class,
+and outputs packets of a selected class specified by the
+
+control unit, while the control unit determines the
+selected class of packets to be outputted from the input
+
+buffers according to a packet storage state in the packet
+storage units of the input buffers as a whole for each
+
+class. Each input buffer can temporarily store entered
+packets while selecting packets to be outputted at a next
+
+phase, and the control unit can specify packets to be
+selected in the input buffers according to an output state
+
+of packets previously selected in the input buffers as a
+whole. Packets stored in the buffer can be managed in terms
+
+of a plurality of groups, and each packet entered at the
+buffer can be distributed into a plurality of groups so
+
+that packets are distributed fairly among flows. The
+packets belonging to one of a plurality of groups are then
+
+outputted from the buffer toward the output port. A packet
+transfer at the buffer can be controlled by issuing a
+
+packet transfer command according to a log of packet
+transfer commands with respect to the buffer and a packet
+
+storage state of the buffer.
+
+</ABSTRACT>
+<APPLICANTS>
+</APPLICANTS>
+<INVENTORS>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a packet transfer device such as a cell multiplexing device and a cell buffer device in an ATM communication network. Since a cell switch can be formed by combining a plurality of cell multiplexing devices, the present invention is also applicable to a cell switch which has each output port in a configuration of a cell multiplexing device according to the present invention. The cell buffer device of the present invention is not necessarily limited to handling of cells and applicable to a buffer device in general. The present invention is also not necessarily limited to an application to the ATM communication network and applicable to a packet switching network as well.Currently, researches on ATM (Asynchronous Transfer Mode) communication scheme are actively conducted by researchers of the communication technology throughout the world. In the ATM communication scheme, fixed length packets called cells are used to transmit and switch information. In the ATM communication scheme, a high speed cell switching can be realized by a cell switch provided by the hardware inside a switch node, so that it is possible to realize an information transfer performance per unit time much superior than those of the existing communication networks.The ATM communication scheme can set up a plurality of logical connections (Virtual Connection: VC) in one physical transmission link by using a connection identifier information called VPI (Virtual Path Identifier) and VCI (Virtual Channel Identifier) to be provided in a header of a cell. At each switch node within the network, routes are set up in advance for each VC, and the switch node determines an output route for outputting the cell according the connection identifier VPI and VCI of the cell. VPI and VCI are uniquely assigned at each physical transmission link between the switch nodes, so that the switch node has a function for rewriting values of VPI and VCI of a passing cell.Up to now, the VC for which the quality is guaranteed in the ATM network has been either a CBR (Constant Bit Rate) connection or a VBR (Variable Bit Rate) connection. The CBR connection is a VC for transmitting the traffic in which the cell transmission rate (that is, a number of transmission cells per unit time, which is also referred to as a cell rate or a bandwidth) is constant and known in advance. The VBR connection is a VC for transmitting the traffic in which the cell transmission rate is not constant but some traffic characteristics such as a maximum value
+</DESCRIPTION>
+<CLAIMS>
+A packet transfer device, comprising:
+
+a buffer (10) for temporarily storing entered packets belonging to a plurality of flows;
+a control unit (12) for controlling the buffer (10); and
+at least one output port for transferring packets outputted from the buffer (10);
+characterized in that
+ the control unit (12) has management means for managing packets stored in the buffer (10) in terms of a plurality of groups, distribution means for distributing each packet entered at the buffer (10) into one of said plurality of groups, so that packets are distributed fairly among flows to which packets belong, such that each group contains packets of different flows that are selected as evenly as possible from the plurality of flows, and control means for commanding the buffer (10) to output packets belonging to one of said plurality of groups managed by the management means toward the output port.
+The device of claim 1, wherein the distribution means distributes each packet into one of said plurality of groups according to an identification information of a flow to which said each packet belongs, and at least one of a weight set for each flow and a length of said each packet.
+The device of claim 1, wherein said buffer is one of a plurality of input buffers (10) for temporarily storing packets belonging to a plurality of classes;
+
+said control unit (12) is for controlling said plurality of input buffers (10); and
+said output port is for transferring packets outputted from the input buffers (10);
+
+wherein each input buffer (10) has a plurality of packet storage means (13a, 13b, 13c) for temporarily storing entered packets class by class such that the entered packets of different classes are stored separately in each input buffer (10), and an output means for outputting packets of a selected class specified by the control unit (12) from the packet storage means (13a, 13b, 13c) toward the output port; and
+
+the control unit (12) determines the selected class of packets to be outputted from the input buffers (10) according to a packet storage state for each class of packets stored in the packet storage means (13a, 13b, 13c) of all the input buffers (10) as a whole for each class, and issues a command specifying the selected class to the input buffers (10) .
+The device of claim 3, wherein the packet storage means of each input buffer (10) is formed by a FIFO memory.
+The device of claim 3, wherein the packet storage state indicates a total number of packets in each class which are stored in the packet storage means (13a, 13b, 13c) of all the input buffers (10).
+The device of claim 3, further comprising:
+
+an output buffer (11) connected with the output port for temporarily storing packets outputted from the input buffers (10),
+
+wherein the output means of each input buffer (10) outputs packets of the selected classes toward the output
+ port according to a packet storage state in the output buffer (11).
+The device of claim 6, wherein the output buffer (11) provides a backpressure signal indicating the packet storage state in the output buffer (11) to the input buffers (10).
+The device of claim 3, wherein the output means of each input buffer (10) multiplexes packets outputted from the packet storage means (13a, 13b, 13c) and outputs multiplexed packets toward the output port, and the control unit (12) determines the selected class according to the packet storage state for each class of packets stored in the packet storage means (13a, 13b, 13c) of all the input buffers (10) as a whole for each class and a packet multiplexing state in the output means of all the input buffers (10) as a whole.
+The device of claim 8, wherein the output means of each input buffer (10) is formed by a FIFO memory.
+The device of claim 8, wherein the packet multiplexing state indicates a total number of packets multiplexed in the output means of all the input buffers (10).
+The device of claim 3, wherein the control unit (12) determines the selected class according to the packet storage state for each class of packets stored in the packet storage means (13a, 13b, 13c) of all the input buffers (10) as a whole for each class, and a total number of packets in each class which are actually transferred from the packet storage means (13a, 13b, 13c) to the output means in all the input buffers (10) as a whole.
+The device of claim 3, wherein each input buffer (10) selects packets to be outputted from the packet storage means (13a, 13b, 13c) so that packets are transferred fairly among as evenly as possible from virtual connections to which packets belong, within each class over the input buffers (10).
+The device of claim 1, wherein:
+
+said buffer is one of a plurality of input buffers (10) for temporarily storing packets;
+said control unit (12) is for controlling the input buffers (10); and
+said output port is for transferring packets outputted from the input buffers (10);
+
+wherein each input buffer (10) has a plurality of packet storage means (13a, 13b, 13c) for temporarily storing entered packets, selection means for selecting packets to be outputted from the packet storage means (13a, 13b, 13c), and an output means (14) for outputting packets selected by the selection means toward the output port; and
+
+the control unit (12) issues a command commanding a selection of packets by the selection means of the input buffers (10) according to an output state of packets previously selected by the selection means in all the input buffers (10) as a whole.
+The device of claim 13, wherein the selection means of each input buffer (10) selects packets to be outputted from the packet storage means (13a, 13b, 13c) so that packets are transferred fairly among as evenly as possible from virtual connections to which packets belong.
+The device of claim 13, wherein the output means (14) of the input buffers (10) has a set of output permitted packets from which an output of packets toward the output port is permitted, and the selection means of the input buffers (10) select a set of packets to be outputted by identical time which are entered into the set of output permitted packets according to the command issued by the control unit (12).
+A method of packet transfer in a packet transfer device formed by a buffer (10) for temporarily storing entered packets belonging to a plurality of flows, a control unit (12) for controlling the buffer (10), and at least one output port for transferring packets outputted from the buffer (10), the method 
+characterized by
+ comprising the steps of:
+
+managing packets stored in the buffer (10) in terms of a plurality of groups;
+distributing each packet entered at the buffer (10) into one of said plurality of groups, so that packets are distributed fairly among flows to which packets belong, such that each group contains packets of different flows that are selected as evenly as possible from the plurality of flows; and
+outputting packets belonging to one of said plurality of groups managed by the managing step from the buffer (10) toward the output port.
+The method of claim 16 for packet transfer in a packet transfer device wherein said buffer (10) is one of a plurality of input buffers (10) for temporarily storing packets belonging to a plurality of classes, said control unit (12) is for controlling the input buffers (10), and said output port is for transferring packets outputted from the
+ input buffers (10), and wherein the method comprises the steps of:
+
+at said step of managing, temporarily storing entered packets class by class at each input buffer (10) such that the entered packets of different classes are stored separately in each input buffer (10);
+at said step of distributing, determining a selected class of packets to be outputted from the input buffers (10) according to a packet storage state for each class of packets stored in all the input buffers (10) as a whole for each class, and issuing a command specifying the selected class from the control unit (12) to the input buffers (10); and
+at said step of outputting, outputting temporarily stored packets of the selected class specified by the command of the control unit (12) from each input buffer (10) toward the output port.
+The method of claim 16 for packet transfer in a packet transfer device wherein said buffer is one of a plurality of input buffers (10) for temporarily storing packets, said control unit (12) is for controlling the input buffers (10), and said output port is for transferring packets outputted from the input buffers (10), and wherein the method comprises the steps of:
+
+at said step of managing, temporarily storing entered packets at each input buffer (10);
+at said step of determining, selecting packets to be outputted from each input buffer (10) among temporarily stored packets, and issuing a command commanding a selection of packets by the selecting step from the control unit (12) to the input buffers (10), according to an output state of packets previously selected by the selecting step in all the
+ input buffers (10) as a whole; and
+at said step of outputting, outputting temporarily stored packets selected by the selecting step from each input buffer (10) toward the output port.
+</CLAIMS>
+</TEXT>
+</DOC>

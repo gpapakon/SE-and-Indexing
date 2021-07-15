@@ -1,0 +1,316 @@
+<DOC>
+<DOCNO>EP-0612017</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+A method and a computer system for storing terms in a data base.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1727	G06F1727	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F17	G06F17	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The invention concerns a method and a computer system 
+for storing terms in a data base, such as a thesaurus. 
+
+The invention particularly provides an index (10, 12) 
+for a terminological data structure (14). One example 
+
+for a terminological data structure is a thesaurus. A 
+thesaurus is a controlled vocabulary of semantically 
+
+related terms which usually cover a specific 
+application domain. The invention particularly provides 
+
+a device for terminological control and especially 
+supports translating the natural language used in 
+
+documents into a formalized, semantically precise 
+language. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+FAERBER FRANZ
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FAERBER, FRANZ
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The invention concerns a method for storing terms in a 
+data base, such as in an information retrieval system 
+or in a knowledge base, a method of partial match 
+retrieval of a term in a data base and a computer 
+system for storage of terms in a data base, such as a 
+thesaurus. From IBM Technical Disclosure Bulletin, September 1992, 
+page 81-82, algorithms for disambiguating word senses 
+in thesauri are known. The data base implementing a 
+dictionary-style thesaurus according to this document 
+consists of alphabetically arranged discrete entries. 
+Each entry consists of a head word, separated into 
+senses, and each sense is followed by a list of its 
+synonyms. The synonyms that appear in the list are not 
+indexed for their intended sense. Two algorithms are 
+devised to automatically index synonyms for their 
+intended senses. However, the index structure disclosed 
+in this document is not appropriate for large data 
+bases. From US-A-4 923 314 a thesaurus for electronic typewriter 
+with spelling dictionary which identifies words 
+from a dictionary memory using a special code is known. 
+The thesaurus is used for finding synonyms of words in 
+electronic typewriters which have electronic dictionaries 
+for storing words in a data base contained in an 
+electronic memory. Each word in the electronic dictionary 
+which appears in the thesaurus is identified by a 
+special code immediately following the word, so that  
+ 
+the dictionary can be scanned quickly to determine if a 
+given input word is in the thesaurus. If the word is in 
+the thesaurus the search for synonyms can proceed. 
+Again, this index structure is not satisfying in terms 
+of search time and storage space needed - especially 
+for a large data base. Further, the state of the art is insufficient with 
+respect to partial match retrieval. Partial match 
+retrieval is hardly possible with known indexing 
+techniques and takes a very long time. Therefore it is an object of the invention to provide 
+an improved method for storing terms in a data base, a 
+method of searching a term in a data base, a method of 
+partial match retrieval and a computer system for 
+storage of terms in a data base, such as a thesaurus. The object of the invention is solved by the features 
+laid down in the independent claims. Preferred embodiments 
+of the invention are laid down in the dependent 
+claims. The invention particularly provides an index for a 
+terminological data structure. One example for a 
+terminological data structure is a thesaurus. A thesaurus 
+is a controlled
+</DESCRIPTION>
+<CLAIMS>
+A method for storing terms T in a data base, such 
+as in an information retrieval system or in a 
+
+knowledge base, said method comprising the steps 
+of: 
+
+
+a) establishing an ordered sequence S of said 
+terms T, whereS = {T₁, T₂, ..., Tn}, 
+b) defining clusters sij of said sequence S, 
+wheresij = {Ti, Ti+1, ..., Tj}. 
+c) assigning a key kij to each of said clusters 
+sij, where said key kij is given by a 
+
+function f, wheref: kij = f(sij), 
+ 
+
+said function f yielding the same key kij for 
+each of said terms T comprised in said 
+
+cluster sij. 
+The method according to claim 1 further comprising 
+a step of assigning a table of relations R to at 
+
+least some of said terms T, whereRi = {ri1, ri2, ..., rim} 
+ 
+
+is the table of relations which is assigned to the 
+term Ti,
+
+ 
+at least some said relations r comprised in said 
+
+table of relations Ri defining a relationship 
+between said term Ti and another one of said terms 
+
+T comprised in said sequence S, so that preferably 
+a thesaurus is implemented thereby. 
+The method according to claim 1 or 2 further 
+comprising a step of assigning a key K to each of 
+
+said terms T, said key K preferably being the 
+offset of an address of the term T to which it is 
+
+assigned. 
+The method according to any one of the preceding 
+claims, wherein each of said terms T comprises a 
+
+sequence of symbols Ci 
+   (C₁, C₂, ..., Cp), 
+
+such as a sequence of characters, and each of said 
+clusters sij comprises only terms T having a 
+
+sub-sequence of said symbols 
+   (C₁, C₁), (C₁, C₂), (C₁, C₃), ..., (CQ, CQ) 
+
+in common, each of said sequences and said 
+sub-sequences comprising at least one symbol. 
+The method according to any one of the preceding 
+claims, wherein said key kij of said cluster sij 
+
+is defined as follows:kij = ASCII (C₁(T∈sij))*F + ASCII (C₂(T∈sij)), 
+ 
+
+where 
+   C₁(T∈sij) 
+
+is the first character of a term T which is 
+comprised in said cluster sij, 
+
+   C₂(T∈sij) 
+is the second character of a term T which is 
+
+comprised in said cluster sij, ASCII is a function 
+yielding the ASCII-code of said characters and F 
+
+is a factor, such as 256, so that said key kij 
+preferably is the offset of said cluster sij. 
+A method of searching a term T in a data base, 
+such as a thesaurus of an information retrieval 
+
+system or a knowledge base, said data base 
+comprising clusters sij of an ordered sequence S of 
+
+said terms T, whereS = {T₁, T₂, ..., Tn} and sij = {Ti, Ti+1, ..., Tj}, 
+ 
+
+and keys kij of each of said clusters sij, where 
+each of said keys kij is given by a function f, 
+
+wheref: kij = f (Sij), 
+ 
+
+said function f yielding the same key kij for each 
+of said terms T comprised in said cluster sij, 
+
+comprising the steps of: 
+a) obtaining the key kij of the cluster sij 
+which comprises the term T by evaluation of 
+
+the function f, 
+b) accessing said cluster sij via said key kij, 
+c) searching said term T within said cluster 
+sij, whereby said step of searching 
+
+preferably is a step of binary searching. 
+A method for storing terms T in a data base, such 
+as an information retrieval system or a knowledge 
+
+base, each of said terms T comprising a sequence 
+of symbols Ci 
+
+   (C₁, C₂, ..., Cp), 
+
+such as a sequence of characters, said method 
+comprising the steps of: 
+
+
+a) defining sets of symbols 
+(C₁, C₁), (C₁, C₂), (C₁, C₃), ..., (CQ, CQ), 
+b) establishing clusters sij, each cluster sij 
+comprising a sequence of terms T having a 
+
+certain set of symbols in common, 
+c) assigning a key kij to each of said clusters 
+sij, where said key kij is given by a function 
+
+f, wheref: kij = f(sij), 
+ 
+
+where said function f yields the same key kij 
+for each of said terms T comprised in said 
+
+clusters sij. 
+A method of partial match retrieval of a term T in 
+a data base, such as an information retrieval 
+
+system or a knowledge base, said term comprising a 
+sequence of symbols Ci 
+
+   (C₁, C₂, ..., Cp), 
+such as a sequence of characters, said data base 
+
+comprising clusters sij, each of said clusters sij 
+comprising a sequence of terms Ti having a certain 
+
+sequence of symbols 
+   (c₁, C₁), (C₁, C₂), (C₁, C₃),... or (CQ, CQ) 
+
+in common, a key kij preferably being assigned to 
+each of said clusters sij, said method comprising 
+
+the steps of: 
+
+a) defining a string of symbols 
+   (Ci, Ci+1, ... Cj), 
+
+such as a string of characters which is 
+comprised in the term or the terms T to be 
+
+retrieved, 
+b) identifying substrings in said string of 
+symbols 
+
+   (Ci, Ci+1, ... Cj),
+ 
+
+each of said substrings corresponding to one 
+of said sequences of symbols 
+
+(C₁, C₁), (C₁, C₂), (C₁, C₃),... or (CQ, CQ), 
+whereby a first class of clusters sij is 
+
+defined, 
+c) establishing the intersection of the terms T 
+comprised in the first class of clusters sij, 
+
+said intersection yielding a class of terms 
+T, 
+d) searching for terms T comprising said string 
+of symbols 
+
+   (Ci, Ci+1, ... Cj) 
+in said class of terms T, such as by a binary 
+
+search. 
+A computer system for storage of a data base 
+comprising terms T, such as a thesaurus, said 
+
+computer system comprising 
+first storage means for storage of clusters sij of 
+
+an ordered sequence S of said terms T, whereS = {T₁, T₂, ..., Tn} and sij = {Ti,Ti+1, ..., Tj}, 
+ 
+
+second storage means for storage of keys kij of 
+each of said clusters sij, where each of said keys 
+
+kij is given by the function f, wheref: kij = f(sij), 
+ 
+
+said function f yielding the same key kij for each 
+of said terms T comprised in said cluster sij. 
+The computer system according to claim 9, further 
+comprising third storage means for storage of 
+
+tables of relations R, where each of said tables 
+of relations R is assigned to a term T, whereRi = {ri1, ri2, ..., rim}, 
+
+ 
+at least some of said relations r comprised in 
+
+said table of relations defining a relationship 
+between the term Ti to which the table of 
+
+relations Ri is assigned and another one of said 
+terms T comprised in said sequence S. 
+</CLAIMS>
+</TEXT>
+</DOC>

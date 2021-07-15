@@ -1,0 +1,731 @@
+<DOC>
+<DOCNO>EP-0659016</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method and apparatus for video cut detection
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04N5253	H04N514	H04N726	H04N726	G11B2728	G11B2728	H04N514	H04N5253	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04N	H04N	H04N	H04N	G11B	G11B	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04N5	H04N5	H04N7	H04N7	G11B27	G11B27	H04N5	H04N5	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A buffer memory (11) buffers a sequence of image 
+data I₀, I₁, ... of respective frames while shifting them 
+
+step by step and discarding the least recent one of them 
+for each step. An inter-image distance calculating means 
+
+(12) calculates the distance d(t-i, t-j) between respective 
+pieces of image data held in the buffer memory (11) and 
+
+stores such distance values in a distance table part (13) in 
+a sequential order. A scene changing ratio calculating 
+
+part (14) calculates the scene changing ratio C(t-j
+c
+) at 
+time 
+t
+ while referring to the distance table part (13). A 
+decision part (15) compares the scene changing ratio C(t-j
+c
+) 
+with a predetermined threshold value to determine if the 
+
+image of a preceding frame j
+c
+-th from the time 
+t
+ is a cut 
+point. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+NIPPON TELEGRAPH 
+&
+ TELEPHONE
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+NIPPON TELEGRAPH AND TELEPHONE CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+TANIGUCHI YUKINOBU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TONOMURA YOSHINOBU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TANIGUCHI, YUKINOBU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TONOMURA, YOSHINOBU
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a method and
+apparatus for video cut detection and, more particularly,
+to a method and apparatus for detecting cut points (points
+at which scenes are switched) from a plurality of image
+data sequences.A point of switching a scene in video by a camera
+ON-OFF operation or cut break (including fade, wipe or the
+like) of video editing is commonly referred to as a cut
+point. Camera operations (pan, zoom and so forth) and
+object movements in video are not regarded as cuts. The
+detection of such video cut points is called a scene
+change detection, too, and various methods have been
+proposed.A typical method proposed so far is a method in
+which intensity differences between two temporally
+successive images It and It-1 in a sequence of captured
+images at their respectively corresponding pixels are
+calculated and when the sum of absolute values of the
+intensity differences over the entire frame (which sum is
+commonly called an inter-frame difference), represented by
+D(t), is larger than a given threshold value, t is
+regarded as a cut point (Otsuji, Tonomura and Ohba,
+"Motion Picture Browsing Using Intensity Information,"
+Technical Report of Institute of Electronics, Information
+and Communication Engineers of Japan, IE90-103, 1991) see in this respect also US-A-5 083 860. In
+this instance, a pixel hanging area, intensity histogram
+difference, block-wise color correlation, or χ2 test
+quantity may sometimes be used as D(t) in place of the
+inter-frame difference (Otsuji and Tonomura, "Studies of
+Automatic Video Cut Detection Method," Technical Report of 
+Institute of Television Engineers of Japan, Vol. 16, No.
+43, pp. 7-12). This method has a shortcoming of
+erroneously detecting a rapid object motion or flashlight
+in video as a cut.There has also been proposed a method in which
+the inter-frame difference D(t) is not processed directly
+with the threshold value but instead a value obtained by
+processing the inter-frame difference D(t) with various
+time filters is subjected to the threshold processing (K.
+Otsuji and Y. Tonomura, "Projection Detecting Filter for
+Video Cut Detection," Proc. of ACM Multimedia 93, 1993,
+pp. 251-257). This method is almost free from the problem
+of false detection of a rapid object motion or flashlight
+in video.The prior art possesses such problems as listed
+below.A first problem is the incapability of detecting
+temporally slow scene changes. The reason for this is
+that according to the conventional cut point detection
+method, the quantity representing a scene
+</DESCRIPTION>
+<CLAIMS>
+A video cut detection method for detecting a
+cut point from a video data sequence, comprising the steps
+
+of:
+
+(a) calculating the distance d(t-i, t-j) between
+image data of every pair of images I
+t-i
+ and I
+t-j
+ having a
+frame interval therebetween equal to or smaller than J in
+
+a sequence of latest J+1 frames of images It, I
+t-1
+, ...,
+I
+t-j
+ which have been supplied sequentially at current time
+point 
+t
+, and generating a distance table having a data of
+the distance d(t-i, t-j) at each position (i, j) of the
+
+table, J being a fixed integer equal to or greater than 3
+and i and j being all variable integers within the range
+
+of 0 ≤ i 
+<
+ j ≤ J;
+(b) calculating a scene changing ratio C(t-j
+c
+)
+for the range from the J-th preceding frame (t-J) to the
+
+current time point 
+t
+, on the basis of the inter-image
+distances held on said distance table, j
+c
+ being a
+predetermined constant integer in the range of 0 
+<
+ j
+c
+ ≤ J;
+and
+(c) comparing said scene changing ratio with a
+predetermined threshold value and, on the basis of the
+
+result of said comparison, deciding whether the image of
+said j
+c
+-th preceding frame is a cut point.
+The method of claim 1, wherein said step (a)
+includes a step of calculating, as a value corresponding
+
+to said inter-image distance d(t-i, t-j), a difference sum
+obtained by adding absolute values of intensity
+
+differences between pixels at corresponding positions
+(x, y) of images I
+t-i
+ and I
+t-j
+ over the entire areas of
+i-th and j-th frames preceding the current time point 
+t
+.
+The method of claim 1, wherein said step (a)
+includes a step of generating intensity histograms having 
+
+a predetermined number of classes for images I
+t-i
+ and I
+t-j
+
+of i-th and j-th frames preceding the current time point 
+t
+
+and calculating, as a value corresponding to said inter-image
+distance d(t-i, t-j), a difference sum obtained by
+
+adding absolute values of frequency differences between
+corresponding classes of said histograms.
+The method of claim 1, wherein said step (a)
+includes a step of calculating intensity differences
+
+between pixels at corresponding positions (x, y) of images
+I
+t-i
+ and I
+t-j
+ over the entire areas of i-th and j-th frames
+preceding the current time point 
+t
+ and providing a
+standard deviation of said intensity differences as a
+
+value corresponding to said inter-image distance
+d(t-i, t-j).
+The method of claim 1, wherein said step (a)
+includes a step of: calculating intensity differences
+
+between pixels at corresponding positions (x, y) of images
+I
+t-i
+ and I
+t-j
+ over the entire areas of i-th and j-th frames
+preceding the current time point 
+t
+, calculating a standard
+deviation of said intensity differences; counting the
+
+number of pixels having absolute values of said intensity
+differences larger than said standard deviation; and
+
+providing said count value as a value corresponding to
+said inter-image distance d(t-i, t-j).
+The method of claim 1, wherein said step (a)
+includes a step of: calculating, as first differences,
+
+intensity differences between pixels at corresponding
+positions (x, y) of the images I
+t-i
+ and I
+t-j
+ over the
+entire areas of i-th and j-th frames preceding the current
+
+time point 
+t
+; calculating, as second differences,
+intensity differences between pixels at corresponding
+
+positions (x, y) of images I
+t-i-m
+ and I
+t-j-m
+ over the
+entire areas of m-th frames preceding the images I
+t-i
+ and 
+I
+t-j
+; calculating a standard deviation of said second
+differences; counting the number of pixels having absolute
+
+values of said first differences larger than said standard
+deviation; and providing said count value as a value
+
+corresponding to said inter-image distance d(t-i, t-j).
+The method of claim 1, wherein said step (a)
+includes a step of: calculating intensity differences
+
+between pixels at corresponding positions (x, y) of images
+I
+t-i-k
+ and I
+t-j-k
+ over the entire areas of (k+i)-th and
+(k+j)-th frames preceding the current time point 
+t
+;
+calculating a standard deviation of said intensity
+
+differences repeatedly for k=1, ..., n; calculating a mean
+value T of the resulting n standard deviations, n being a
+
+predetermined integer equal to or greater than 1;
+calculating intensity differences between pixels at
+
+corresponding positions (x, y) of images I
+t-i
+ and I
+t-j
+;
+counting the number of pixels having absolute values of
+
+said intensity differences larger than said mean standard
+deviation T; and providing said count value as a value
+
+corresponding to said inter-image distance d(t-i, t-j).
+The method of claim 1, wherein said step (a)
+includes a step of: dividing an image I
+t-i
+ of an i-th
+frame preceding the current time point 
+t
+ into blocks each
+composed of p by q pixels; making a check to determine for
+
+each of said blocks if said image I
+t-j
+ has an area
+matching said block; counting the number of blocks which
+
+do not match any area in said image I
+t-j
+; and providing
+said count value as a value corresponding to said inter-image
+
+distance d(t-i, t-j).
+The method of claim 1, wherein said step (a)
+includes a step of shifting distance data at the positions
+
+(i, j) in said distance table generated at time point t-1
+to positions (i+1, j+1), calculating new distances 
+
+d(t, t-1), d(t, t-2), ..., d(t, t-J) as said distances at
+the current time point 
+t
+, and writing said calculated
+values into positions (0, 1), (0, 2) ..., (0, J) of said
+
+distance table, thereby generating said distance table at
+
+the time point 
+t
+.
+The method of claim 1, wherein the range
+over which to obtain said inter-image distance in said
+
+step (a) is limited to a range which satisfies j-i ≤ g, g
+being a predetermined constant positive integer smaller
+
+than J.
+The method of claim 10, wherein said step
+(a) includes a step of shifting distance data at the
+
+positions (i, j) in said distance table generated at a
+time point
+
+t-1 to positions (i+1, j+1), calculating new distances
+d(t, t-1), d(t, t-2) d(t, t-g) as said distances at
+
+the current time point 
+t
+, and writing said calculated
+values into positions (0, 1), (0, 2) ..., (0, g) of said
+
+distance table, thereby generating said distance table at
+the time point 
+t
+.
+The method of claim 11, wherein said step
+(b) includes a step in which, letting a first area be
+
+defined on said distance table by j
+c
+ ≤ j ≤ J, 0 ≤ i 
+<
+ j
+c
+
+and j-i ≤ g, letting the total sum of distances in said
+first area be represented by a(j
+c
+), letting a second area
+be defined on said distance table by 0 ≤ i 
+<
+ j ≤ j
+c
+-1, j-i
+≤ g, letting the total sum of distances in said second
+
+area be represented by b(j
+c
+), letting a third area be
+defined on said distance table by j
+c
+ ≤ i 
+<
+ j ≤ J, j-i ≤ g
+and letting the total sum of distances in said third area
+
+be represented by b'(j
+c
+), said scene changing ratio is
+calculated as follows:
+
+
+C(t-j
+c
+) = {a(j
+c
+) - βMAX[b(j
+c
+), b'(j
+c
+)]}/S
+ 
+where β is a predetermined coefficient for making the data
+
+numbers in said first area equivalent to the data number
+in one of said second and third areas corresponding to
+
+larger one of b(j
+c
+) and b'(j
+c
+) and S is the number of data
+in said first area.
+The method of claim 11, wherein said step
+(b) includes a step wherein, letting a first area be
+
+defined on said distance table by j
+c
+ ≤ j ≤ J, 0 ≤ i 
+<
+ j
+c
+
+and j-i ≤ g, letting the total sum of distance in said
+area be represented by a(j
+c
+), letting a second area be
+defined on said distance table by 0 ≤ i 
+<
+ j ≤ j
+c
+-1, j-i ≤
+g, letting the total sum of distances in said second area
+
+be represented by b(j
+c
+), letting a third area be defined
+on said distance table by j
+c
+ ≤ i 
+<
+ j ≤ J, j-i ≤ g and
+letting the total sum of distances in said third area be
+
+represented by b'(j
+c
+), said scene changing ratio is
+calculated as follows:
+
+
+C(t-j
+c
+) = {a(j
+c
+) - β[b(j
+c
+) + b'(j
+c
+)]}/S
+
+where β is a predetermined coefficient for making the data
+number in said first area equivalent to the data number in
+
+said second and third areas and S is the number of data in
+said first area.
+The method of claim 9, wherein said step (b)
+includes a step of calculating, as said scene changing
+
+ratio, the similarity between a predetermined template of
+the same size as that of said distance table for the
+
+detection of a cut of at least one desired kind and said
+distance table generated at the time point 
+t
+.
+The method of claim 14, wherein said
+similarity is a cross-correlation coefficient of said
+
+distance table and said template.
+A video cut detection apparatus which 
+detects a cut point from an image data sequence,
+
+comprising:
+
+buffer memory means for sequentially buffering
+image data of at least J+1 temporally successive frames;
+inter-image distance calculating means for
+calculating the distance d(t-i, t-j) between image data
+
+of every pair of images I
+t-i
+ and I
+t-j
+ in the range of 0 ≤ i
+
+<
+ j ≤ J in a sequence of latest J+1 frames of images I
+t
+,
+I
+t-1
+, ..., I
+t-J
+ which have been supplied at the current
+time point 
+t
+;
+distance table means for storing said inter-image
+distance calculated by said inter-image distance
+
+calculating means;
+scene changing ratio calculating means for
+calculating a scene changing ratio C(t-j
+c
+) for the range
+from the J-th preceding frame to the current time point 
+t
+
+on the basis of said distance table means, j
+c
+ being a
+predetermined constant integer which satisfies 0 
+<
+ j
+c
+ ≤ J;
+and
+decision means for comparing said calculated
+scene changing ratio with a predetermined threshold value
+
+and for deciding whether said frame (t-j
+c
+) is a cut point.
+The apparatus of claim 16, wherein said
+buffer memory means includes at least first through
+
+(J+1)th frame buffers for temporarily holding image data
+I
+t
+, I
+t-1
+, ..., I
+t-J
+ of at least J+1 frames ranging from a
+frame t to J-th preceding frame; said inter-image distance
+
+calculating means includes first through J-th inter-image
+distance calculating parts which are supplied with image
+
+data I
+t-1
+, I
+t-2
+, ..., I
+t-J
+ from said second through (J+1)th
+frame buffers, respectively, and supplied, in common, with
+
+image data I
+t
+ from said first frame buffer, and calculate
+distances d(t, t-1), ..., d(t, t-J) between said image 
+
+data I
+t
+ and said image data I
+t-1
+, ..., I
+t-J
+, respectively;
+and said distance table means includes means for
+
+generating said distance table means by shifting distance
+data at positions (i, j) on said table means to positions
+
+(i+1, j+1) and writing distance data into positions
+(0, 1), ..., (0, J) on said table means, respectively.
+The apparatus of claim 16, wherein said
+inter-image distance calculating means is means for
+
+calculating said inter-image distances in a further
+limited range which satisfies i-j ≤ g, g being a
+
+predetermined constant positive integer smaller than J.
+The apparatus of claim 17, wherein said
+distance table means includes means for generating said
+
+distance table means by shifting distance data at
+positions (i, j) in said distance table means generated at
+
+a time point t-1 to positions (i+1, j+1) and writing new
+inter-image distances d(t, t-1), d(t, t-2) d(t, t-g)
+
+calculated by said inter-image distance calculating means
+at the current time point 
+t
+ into positions (0, 1), (0, 2),
+..., (0, g) of said distance table means.
+The apparatus of claim 19, wherein said
+scene changing ratio calculating means is means whereby,
+
+letting a first area be defined on said distance table
+means by j
+c
+ ≤ j ≤ J, 0 ≤ i 
+<
+ j
+c
+ and j-i ≤ g, letting the
+total sum of distances in said first area be represented
+
+by a(j
+c
+), letting a second area be defined on said
+distance table means by 0 ≤ i 
+<
+ j ≤ j
+c
+-1, j-i ≤ g, letting
+the total sum of distances in said second area be
+
+represented by b(j
+c
+), letting a third area be defined on
+said distance table means by j
+c
+ ≤ i 
+<
+ j ≤ J, j-i ≤ g, and
+letting the total sum of distances in said third area be
+
+represented by b'(j
+c
+), said scene changing ratio is
+calculated as follows: 
+
+
+C(t-j
+c
+) = {a(j
+c
+) - βMAX[b(j
+c
+), b'(j
+c
+)]}/S
+
+where β is a predetermined coefficient for making the data
+numbers in said first area equivalent to the data number
+
+in one of said second and third areas corresponding to
+larger one of said b(j
+c
+) and b'(j
+c
+) and S is the number of
+data in said first area.
+The apparatus of claim 19, wherein said
+scene changing ratio calculating means is means whereby,
+
+letting a first area be defined on said distance table
+means by j
+c
+ ≤ j ≤ J, 0 ≤ i 
+<
+ j
+c
+ and j-i ≤ g, letting the
+total sum of distances in said first area be represented
+
+by a(j
+c
+), letting a second area be defined on said
+distance table means by 0 ≤ i 
+<
+ j ≤ j
+c
+-1, j-i ≤ g, letting
+the total sum of distances in said second area be
+
+represented by b(j
+c
+), letting a third area be defined on
+said distance table means by j
+c
+ ≤ i 
+<
+ j ≤ J, j-i ≤ g, and
+letting the total sum of distances in said third area be
+
+represented by b'(j
+c
+), said scene changing ratio is
+calculated as follows:
+
+
+C(t-j
+c
+) = {a(j
+c
+) - β[b(j
+c
+) + b'(j
+c
+)]}/S
+
+where β is a predetermined coefficient for making the data
+number in said first area equivalent to the data number in
+
+said second and third areas and S is the number of data in
+said first area.
+The apparatus of claim 16, wherein said
+scene changing ratio calculating means is means which has
+
+a predetermined template of the same size as that of said
+distance table means for the detection of a cut of at
+
+least one desired kind, for calculating, as said scene
+changing ratio, the similarity between said template and
+
+said distance table means generated at the time point 
+t
+.
+</CLAIMS>
+</TEXT>
+</DOC>

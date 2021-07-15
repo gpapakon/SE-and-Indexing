@@ -1,0 +1,368 @@
+<DOC>
+<DOCNO>EP-0642086</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Virtual address to physical address translation cache that supports multiple page sizes
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1210	G06F1210	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F12	G06F12	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method and apparatus for translating a virtual address to a physical 
+address. A virtual address to be translated has a virtual page offset and a virtual 
+
+page number. The virtual address to be translated addresses a page of memory. The 
+size of this page is unknown. There are L different possible page sizes where L is a 
+
+positive integer greater than one. Each of the L different page sizes is selected to be a 
+test page size and a test is performed. During the test, a pointer into a translation 
+
+storage buffer is calculated. The pointer is calculated from the virtual address to be 
+translated by assuming that the virtual address to be translated corresponds to a 
+
+mapping of the test page size. The pointer points to a candidate translation table 
+entry of the translation storage buffer. The candidate translation table entry has a 
+
+candidate tag and candidate data. The candidate tag identifies a particular virtual 
+address and the candidate data identifies a particular physical address corresponding 
+
+to the particular virtual address. A virtual address target tag is extracted from the 
+virtual address to be
+ translated. The virtual address target tag is calculated by 
+assuming that the virtual address to be translated corresponds to a mapping of the 
+
+test page size. The target tag and the candidate tag are then compared. If the target 
+tag matches the candidate tag, the candidate data is provided as the physical address 
+
+translation corresponding to the virtual address to be translated. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SUN MICROSYSTEMS INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SUN MICROSYSTEMS, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+ANDERSON GLEN R
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+CHESSIN STEPHEN A
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KHALIDI YOUSEF A
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KONG SHING IP
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NARAD CHARLES E
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TALLURI MADHUSUDHAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ANDERSON, GLEN R.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+CHESSIN, STEPHEN A.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KHALIDI, YOUSEF A.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KONG,SHING IP
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NARAD,CHARLES E.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TALLURI,MADHUSUDHAN
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to the field of computer systems. More
+specifically, the present invention relates to translation from a virtual address to a
+physical address in a virtual memory computer system.Virtual memory is a technique that allows an application to see the system as
+providing a large uniform primary memory, which in reality may be smaller, more
+fragmented, and/or partially simulated by secondary storage such as a hard disk.
+Applications access memory through virtual addresses, which are translated
+(mapped) by special hardware onto physical addresses. Paging and segmentation are
+two common implementations of virtual memory.When implementing virtual memory using the paging technique, the virtual
+address space is divided into a number of fixed-size blocks called pages, each of
+which can be mapped onto any of the similarly sized physical pages available on the
+system. Typically, special memory management hardware such as a memory
+management unit (MMU) or paged memory management unit (PMMU) performs
+the address translation from virtual addresses to physical addresses. In this type of
+memory management, any attempt to access data that is not present in physical
+(system) memory causes the PMMU to send an interrupt signal to the central
+processing unit (CPU); the operating system then transfers the data in from other
+storage (such as hard disk), without the application "knowing" about the transfer. In one virtual memory scheme, there is only one mapping from virtual
+memory space to physical memory space. In other implementations however, there
+can be several address spaces, each with its own mapping to the physical address
+space. Thus, a first process may refer to a given physical address using a first virtual
+address and a second process running on the same CPU, or on a different CPU in a
+multi-processor environment, will refer to the given physical address by a second
+virtual address. In such a case, the two virtual addresses corresponding to the same
+physical address are referred to as aliases.Some CPUs are able to operate using more than one size of virtual page. This
+permits the virtual page size used in a mapping to be selected to best meet the needs
+of the virtual address space being mapped. If one uses big pages, a large amount of
+virtual memory can be translated using a single entry in the MMU. Therefore,
+fewer resources are needed for the MMU thereby increasing performance. The use
+of big pages can, however, lead to memory fragmentation problems not encountered
+when small pages are
+</DESCRIPTION>
+<CLAIMS>
+A method for translating a virtual address to a physical address,
+including the steps of:
+
+
+receiving the virtual address (340), the virtual address having
+a virtual page offset (350) and a virtual page number (360), the virtual
+
+address being mapped by an unknown page size, the unknown page size
+being one of L different page sizes where L is a positive integer greater than
+
+one;
+then, for each of the L page sizes, selecting a different one of the L page
+sizes to be a test page size,
+
+
+(i) calculating a pointer into a translation storage buffer (400), the pointer being
+calculated from the virtual address by assuming that the virtual
+
+address corresponds to a mapping of the test page size,
+the pointer pointing to a candidate translation table entry of the
+
+translation storage buffer, the candidate translation table entry including a
+candidate tag and candidate data, the candidate tag identifying a particular
+
+virtual address and the candidate data identifying a particular physical address
+corresponding to the particular virtual address,
+(ii) extracting a virtual address target tag from the virtual
+address, the virtual address target tag being calculated by assuming that the
+
+virtual address corresponds to a mapping of the test page size,
+(iii) comparing the target tag to the candidate tag, and
+(iv) if the target tag matches the candidate tag, providing the
+candidate data as the physical address translation corresponding to the
+
+virtual address,
+
+the method being characterized in
+that the step of calculating the pointer includes the further steps of:
+
+
+providing the translation storage buffer stored in primary memory which includes parameter registers
+with at least one of the registers storing the L different page sizes and an Nth
+
+power of two translation table entries and each translation table entry is M
+words in size where N and M are positive integers,
+forming a translation storage buffer index (370) by extracting N least
+significant bits of the virtual page number of the first virtual address
+
+assuming the first virtual address is mapped using the test page size; and
+adding the product of the translation storage buffer index and M to a
+base address to form the pointer.
+The method as set forth in claim 1 characterized in that the pointer is a
+second virtual address.
+The method as set forth in claim 1 characterized in that the step of
+calculating the pointer includes the steps of:
+
+
+providing a translation storage buffer that includes sub translation
+storage buffers (710,750), each sub translation storage buffer corresponding to a
+
+page size and including a positive integral power of two translation table
+entries and each translation table entry is M words in size where M is a
+
+positive integer, and
+forming a translation storage buffer index by extracting N least
+significant bits of the virtual page number of the virtual address
+
+assuming the virtual address is mapped using the test page size, N is the
+base two logarithm of the number of translation table entries of the sub
+
+translation storage buffer corresponding to the test page size; and
+adding the product of the translation storage buffer index and M to a
+base address to form the pointer, the base address corresponding to the test page
+
+size, the base address being one of L base addresses.
+The method as set forth in claim 3, wherein multiple translation
+storage buffers are tested.
+The method as set forth in claim 1, characterized in that:
+
+a smallest page size is selected from among the L page sizes;
+the target tag is formed by extracting all but N least significant bits of
+the virtual page number of the virtual address assuming the virtual
+
+address is mapped using the smallest page size; and
+the candidate tag is formed by extracting all but N least significant bits
+of the virtual page number of the particular virtual address assuming the
+
+particular virtual address is mapped using the smallest page size.
+The method as set forth in claim 1, further comprising the step of
+signalling that a translation failed if the target tag has not matched the
+
+candidate tag after testing every page size.
+The method as set forth in claim 1, further comprising the step of
+calculating a first and a second pointers that includes the steps of:
+
+
+providing a translation storage buffer that includes sub translation
+storage buffers (710,750), each sub translation storage buffer corresponding to a
+
+page size of a first and a second page sizes and includes a positive integral
+power of two translation table entries and each translation table entry is M
+
+words in size where M is a positive integer, and
+forming a first translation storage buffer index (370) by extracting N1
+least significant bits of the virtual page number of the virtual address
+
+assuming the virtual address is mapped using the first page size where
+N1 is the base two logarithm of the number of translation table entries of the
+
+sub translation storage buffer corresponding to the first page size;
+adding the product of the first translation storage buffer
+index and M to a first base address to form the first pointer; 
+forming a second translation storage buffer index by extracting N2 least
+significant bits of the virtual page number of the virtual address
+
+assuming the virtual address is mapped using the second page size where
+N2 is the base two logarithm of the number of translation table entries of the
+
+sub translation storage buffer corresponding to the second page size; and
+adding the product of the second translation storage buffer index and M
+to a second base address to form the second pointer.
+The method as set forth in claim 7, wherein the first base address is
+equal to the second base address.
+The method as set forth in claim 7, characterized in that the first
+pointer is a second virtual address and the second pointer is a third virtual
+
+address.
+The method as set forth in claim 7, characterized in that the method
+includes:
+
+
+providing a translation storage buffer that includes an Nth power of
+two translation table entries where N is a positive integer;
+providing a first page size that is smaller than the second page size;
+providing a first target tag that is formed by extracting all but N least
+significant bits of the virtual page number of the virtual address
+
+assuming the virtual address is mapped using the first page size;
+providing a first candidate tag that is formed by extracting all but N
+least significant bits of the virtual page number of a first particular virtual
+
+address assuming the first particular virtual address is mapped using the first
+page size; 
+providing a second target tag that is formed by extracting all but N least
+significant bits of the virtual page number of the virtual address
+
+assuming the virtual address is mapped using the first page size; and
+providing a second candidate tag that is formed by extracting all but N
+least significant bits of the virtual page number of a second particular
+
+virtual address assuming the second particular virtual address is mapped
+using the first page size.
+The method as set forth in claim 7, further comprising the step of
+signalling that a translation failed if both the first target tag does not match
+
+the first candidate tag and the second target tag does not match the second
+candidate tag.
+The method as set forth in claim 7, characterized in that multiple
+translation storage buffers are tested.
+An apparatus for translating a virtual address to a physical address,
+the apparatus including:
+
+
+a receiver adapted to receive the virtual address (340), the virtual
+address comprising a virtual page offset (350) and a virtual page number (360),
+
+the virtual address being mapped by an unknown page size, the
+unknown page size being one of L different page sizes where L is a positive
+
+integer greater than one;
+means for selecting, for each of the L page sizes, a different
+one of the L page sizes to be a test page size,
+a calculator adapted to calculate a pointer into a translation storage
+buffer (400), 
+
+the calculator being coupled to the receiver, the pointer being calculated
+from the virtual address by assuming that the virtual address
+
+corresponds to a mapping of the test page size, the pointer pointing to
+
+a candidate translation table entry of the translation storage buffer, the
+candidate translation table entry comprising a candidate tag and
+
+candidate data, the candidate tag identifying a particular virtual
+address and the candidate data identifying a particular physical
+
+address corresponding to the particular virtual address;
+an extractor adapted to extract the virtual address target tag from
+the virtual address, the extractor coupled to the receiver, the virtual
+
+address target tag being calculated by assuming that the virtual address
+corresponds to a mapping of the test page size;
+a comparator coupled to the calculator and the extractor, the
+comparator adapted to compare the target tag to the candidate tag;
+a provider coupled to the comparator, the provider
+adapted to providing the candidate data as the physical address
+
+translation corresponding to the virtual address if the target tag
+matches the candidate tag, the apparatus being characterized by
+the translation storage buffer (400) being stored in primary memory and including
+parameter registers with at least one of the registers storing the L different
+
+page sizes and an Nth power of two translation table entries and each
+translation table entry being M words in size where N and M are positive integers,
+said calculator being adapted to form a translation storage buffer
+index (370) by extracting N least significant bits of the virtual page number
+
+of the virtual address assuming the virtual address is mapped using the test
+page size and being adapted to add the product of the translation storage
+
+buffer index and M to a base address to form the pointer.
+The apparatus as set forth in claim 13, characterized in that the pointer
+is a second virtual address.
+The apparatus as set forth in claim 13, characterized in that;
+
+the translation storage buffer is comprised of an Nth power of two
+translation table entries where N is a positive integer;
+a smallest page size is selected from among the L different page sizes; 
+the target tag is formed by extracting all but N least significant bits of
+the virtual page number of the virtual address assuming the virtual
+
+address is mapped using the smallest page size;
+the candidate tag is formed by extracting all but N least significant bits
+of the virtual page number of the particular virtual address assuming the
+
+particular virtual address is mapped using the smallest page size
+The apparatus as set forth in claim 13, characterized in that a signaller
+is coupled to the comparator, the signaller adapted to signalling that a
+
+translation failed if the target tag does not match the candidate tag.
+The apparatus as set forth in claim 13, characterized in that:
+
+the translation storage buffer includes sub translation storage buffers
+(710,750), each translation storage buffer corresponding to a page size and
+
+including a positive integral power of two translation table entries and each
+translation table entry is M words in size where M is a positive integer,
+an indexer adapted to form a translation storage buffer index (370) by
+extracting N least significant bits of the virtual page number of the
+
+virtual address assuming the virtual address is mapped using the
+test page size where N is the base two logarithm of the number of
+
+translation table entries of the sub translation storage buffer corresponding to
+the test page size,
+a pointer calculator adapted to add the product of the translation
+storage buffer index and M to a base address to form the pointer.
+</CLAIMS>
+</TEXT>
+</DOC>

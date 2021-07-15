@@ -1,0 +1,192 @@
+<DOC>
+<DOCNO>EP-0632627</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Communication device
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04L1256	H04L1256	H04L2906	H04L2906	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04L	H04L	H04L	H04L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04L12	H04L12	H04L29	H04L29	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A communication control section (14) is provided with a 
+plurality of receiving channels (RXDA1) and (RXDA2). An 
+
+address separated by an address separating section (30) 
+constituting the receiving channel (RXDA1) is compared with a 
+
+reference address (100) denoting a token, and if the separated 
+address corresponds thereto, an interrupt request is generated 
+
+by an interrupt processing section (38). An address separated 
+by an address separating section (34) constituting the 
+
+receiving channel (RXDA2) is compared with a reference address 
+(110) denoting the station number of that particular station, 
+
+and if the separated address corresponds thereto, the 
+interrupt request is similarly generated. When the interrupt 
+
+has been requested, the processing of a CPU (24) transfers 
+from the processing of a main routine by a main routine 
+
+processing section (44) to an interrupt processing by an 
+interrupt processing section (46). 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SHARP KK
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+TOYOTA MOTOR CO LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SHARP KABUSHIKI KAISHA
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+TOYOTA JIDOSHA KABUSHIKI KAISHA
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+ITO SAKAE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+OKAMURA NAOKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TAKANO HIDETOSHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TAKAO NORIYUKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ITO, SAKAE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+OKAMURA, NAOKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TAKANO, HIDETOSHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TAKAO, NORIYUKI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a communication device
+for use in communication between, for example, programmable
+controllers.As a technique for preventing transmitted data from
+colliding on a communication medium in a network constituting
+a plurality of communication devices (stations), there is, for
+example, control by a token. Fig. 5A shows one constitutional
+embodiment of a system using such control and Fig. 5B shows
+the constitution of frames in this system, while Fig. 6 shows
+frame formats of the token and data in this system.In the system shown in Fig. 5A, a plurality of stations
+10 to which station numbers 12, 13, 14 ... are attached are
+connected to a communication line 11. Each station 10
+acquires a data transmission right, when it has received the
+token addressed to itself from another station via the
+communication line 11. The station 10 which has acquired the
+data transmission right transmits the data through the 
+communication line 12 to other stations, and then transmits
+the token to the next station 10 via the communication line 12
+after the data transmission has finished. As is apparent from
+the foregoing, in the data transmission system using token
+passing, the token is circulated through the respective
+stations 10 to carry out acquisition and transfer of the
+transmission right, whereby the collision of the data on the
+communication line 11 can be prevented. A frame regarding the
+data which are transmitted among the respective stations 10 is
+usually called an LLC (logical link control) data frame, and
+another frame regarding the control of a medium (the
+communication line 11 ), such as the token, is called an MAC
+(media access control) frame.For example, when having received a frame shown in Fig. 5
+B a), the station 10 having the station number 12 acquires the
+token. As shown generically in Fig. 6 a), the frame regarding
+the token has flags (each 1 byte) regarding HDLC (high level
+data link control) procedure at the head and tail thereof, and
+it further contains a hexadecimal code (EX wherein X is
+optional) denoting the token, the station number of the
+destination station, the station number of the station from
+which the transmission is made, and CRC (cyclic redundancy
+check) code (each 1 byte). The frame shown in Fig. 5 B a),
+which station number 12 has received is, a frame regarding the
+token transmitted from the station number 11 to the station 
+number 12, and so the station number 12 acquires the token.
+The station number 12 which has acquired the token transmits
+the data in the
+</DESCRIPTION>
+<CLAIMS>
+A communication device (16) used as at least one of a plurality of stations constituting
+a communication network, the communication device (16) comprising:
+
+
+processing means (24) for conducting communication processing; and
+interrupt means (14) for requesting interrupt processing from the processing means (24);
+the interrupt means (14) including;
+a first communication channel (RXDA2), in connection with a communication medium
+(18), for judging whether or not a frame received through the communication medium (18) is a
+
+logical link control data frame for data transmission addressed to the communication device by
+comparing a destination address contained in the frame with a first reference address (110); and
+
+characterised by further comprising;
+a second communication channel (RXDA1), in connection with the communication
+medium (18), for judging whether or not the frame received through the communication medium
+
+(18) is a media access control frame for the maintenance and control of communication
+addressed to all stations including the communication device by comparing a destination address
+
+contained in the frame with a second reference address (100); and
+interrupt request means (38) for requesting, from the processing means (24), the
+interruption processing regarding the media access control frame in the case that the frame
+
+received through the communication medium (18) is judged to be the media access control frame
+by the second communication channel (RXDA1), or the interrupt processing regarding the logical
+
+link control data frame in the case that the frame received through the communication medium
+(18) is judged to be the logical link control data frame by the first 
+communication channel
+(RXDA2).
+The communication device (16) according to claim 1 wherein;
+
+the second communication channel (RXDA1) has means (30) for separating the
+destination address from the frame received through the communication medium (18), and means
+
+(32) for comparing the destination address with the second reference address (100) to judge 
+whether or not the frame received through the communication medium (18) is the media access
+
+control frame;
+the first communication channel (RXDA2) has means (34) for separating the destination
+address from the frame received through the communication medium (18), means (36) for
+
+comparing the destination address with the first reference address (110) to judge whether the
+frame received through the communication medium (18) is the logical link control data frame
+
+addressed to the communication device; and
+the processing means (24) has means (40) for setting a specific address indicating the
+media access control frame to the second reference address (100), and for setting a
+
+communication device address inherent in the communication device to the first reference address
+(110).
+The communication device according to claim 1 or 2 wherein the processing means (24)
+has:
+
+
+first processing routine means (44) for conducting processing inclusive of
+reception and transmission of commands and data between the processing means and an
+
+application device as well as the analysis of the commands and data;
+second processing routine means (46) for conducting reception processing inclusive of
+the extraction of the data from the frame received through the communication medium (18) and
+
+the processing of preparation for the next reception processing; and
+control means (44) for discontinuing the processing by the first processing routine
+means (44) and conducting the reception processing by the second processing routine means (46),
+
+when the interrupt processing is requested.
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,281 @@
+<DOC>
+<DOCNO>EP-0629945</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+System and method for emulating multi-tasking pipelines in a single tasking environment
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F946	G06F9455	G06F938	G06F9455	G06T120	G06T120	G06F946	G06F938	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06T	G06T	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	G06F9	G06F9	G06T1	G06T1	G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A control system emulates a multi-tasking environment using a single tasking 
+processor A number of predefined tasks are provided in a task library. When a host 
+
+application (120) needs processed data from a data source (12), the host application (120) 
+creates a pipeline (40) of initialized instantiations of one or more of the tasks (40A,40B,40C) 
+
+from the task library. When the host application (120) invokes the pipeline (40), the data 
+request is made from the host application (120) to a downstream-most section (40C) of the 
+
+pipeline. The data request ripples upstreamwardly to the upstream-most instantiation of one 
+of the tasks (40A) from the task library. The upstream-most instantiation of a task obtains data 
+
+from a data source (12) and returns it downstreamwardly to the host application (120), each 
+instantiation of a task from the task library further operating on the data. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+XEROX CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+XEROX CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+VENABLE DENIS A
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+VENABLE, DENIS A.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to processing data in a single-processing environment by
+emulating a multi-processing environment. In particular, this invention relates to an object-oriented
+system employing a library of predefined objects or data structures which can be
+linked between a host application and a data source to create a stream-oriented data
+processing structure emulating a UNIX®-like pipeline data structure.The use of data processing pipelines in true multi-processing environments is well
+known. Examples of known multi-processing environments include both multiple-processor
+systems and high level systems where a single processor is able to support true multiprocessing.
+The UNIX® operating system is often used in such multi-processing systems.In such multi-processing environments, data processing pipelines are extremely
+useful for processing large, highly structured data blocks, such as those associated with image
+processing, database processing, or spreadsheet processing. In such data blocks, various data
+processing operations must be performed on each data element of the data blocks. Further,
+the various data processing operations are performed in a specific order.In a multi-processing environment, data processing pipelines provide a very efficient
+method for processing the data blocks. In these data processing pipelines, each separate data
+processing operation is defined as a section of the pipeline. Each section is linked to one or
+both of the sections (the upstream and downstream sections) to which it is adjacent. The data
+processing operation thus form a chain of linked pipeline sections between a data source and a
+host application. In a computer having a number of independent processors, each pipeline
+section corresponds to one of the processors. In this case, each processor works independently,
+and the computer operating system controls the flow of data between processors and the
+memory allocation. While this efficiently processes the data, the overhead necessary to control
+the processors and the memory consumes a significant proportion of the system resources.Likewise, in a computer having a single processor which can simultaneously run a
+number of different independent processing operations, or processes, each pipeline section
+corresponds to one of the independently-running processes. In this case, the operating system
+allocates the run-time of each process, the flow of data between each process and memory and
+the memory allocation. The overhead necessary to control the computer in this
+</DESCRIPTION>
+<CLAIMS>
+A method for emulating multi-processing pipeline data processing using a single-processing
+processor, wherein a host application creates a pipeline of linked data processing tasks
+
+for supplying processed data to the host application, then requests data from the pipeline, comprising
+the steps of:
+
+
+running a host application on the single-processing processor;
+the host application creating a data processing pipeline of linked data processing tasks to
+supply the host application with processed data from a data source;
+the host application invoking the pipeline by requesting data from the pipeline; and
+deleting the pipeline when the host application no longer needs data from the pipeline;
+wherein the step of creating the pipeline comprises the steps of:
+
+
+(a) instantiating a first function selected from a plurality of predefined functions as a first
+task;
+(b) defining a link from the host application to the first task;
+(c) instantiating a second function selected from the plurality of predetermined functions
+as a second task;
+(d) defining a link from the first task to the second task and redefining the link from the
+host application to the second task;
+(e) repeating steps (c) and (d) for subsequent tasks, the host application being linked to
+a last instantiated task, each task being stored in a memory, each task controlling the processor
+
+when processing data;
+and wherein the step of invoking the pipeline comprises the steps of:
+
+(f) requesting data from the last task by the host application, each task in turn
+requesting data from an upstream task to which it is linked;
+(g) obtaining data by the first task from a data source;
+(h) processing data obtained in step (g);
+(i) returning the processed data to the next downstream task in the pipeline;
+(j) processing the data in the downstream task; and
+(k) repeating steps (i) and (j) until the data is returned to the host application;
+wherein steps (f)-(k) are repeated for each data request by the host application.
+A method of creating and operating a data processing pipeline of linked data
+processing tasks in a single application processing environment that simulates a data processing
+
+pipeline of a multiprocessing environment, the data processing pipeline receiving data from a data
+source, processing the received data, and providing processed data to the host application, the
+
+method comprising the steps of:
+
+running a host application on a single application processor; 
+creating a data processing pipeline of linked data processing tasks; and
+operating the data processing pipeline to provide processed data to the host application;
+wherein the step of creating the data processing pipeline comprises the steps of:
+
+instantiating a first data processing task for receiving data from a data source,
+processing the received data, and providing the processed data to one of a downstream task in the
+
+pipeline and the host application,
+determining if the data that will be provided by the first task requires additional
+processing before it can be used by the host application, and
+instantiating at least one additional data processing task for further processing the
+processed data provided by the first task when the processed data provided by the first task requires
+
+additional processing before it can be used by the host application, each at least one additional task
+being linked to at least one of an upstream task of the pipeline, a downstream task in the pipeline and
+
+the host application, the host application being linked to the last instantiated task,
+wherein the first data processing task and the at least one additional task are stored in a
+memory and each comprise:
+
+
+state defining means for defining the state of the task,
+at least one data processing channel,
+means for accessing a data processing function stored in a memory, and
+link means for linking the task to at least one of an upstream task in the pipeline, a
+downstream task in the pipeline and the host application; and
+wherein the step of operating the data processing pipeline comprises the steps of:
+
+requesting data from the last instantiated task by the host application, each task in
+the pipeline in turn requesting data from a next upstream task until the data request is received by the
+
+first task,
+receiving data from a data source in the first task,
+the first task providing data to one of a next downstream task in the pipeline and the
+host application,
+processing received data in at least one additional task, each at least one additional
+task providing processed data to one of a next downstream task in the pipeline and the host
+
+application when the at least one additional task has been instantiated, and
+receiving processed data at the host application from the last instantiated task:
+wherein each of the tasks of the pipeline control the single application processor to
+accomplish their data processing so that the data processing pipeline simulates a data processing
+
+pipeline of a multiprocessing environment.
+A control system for operating a single application processing computer to emulate a
+multi-application processing computer, comprising:
+
+
+a single application processing processor; 
+a memory;
+a host application comprising a first control means for operating the processor; and
+a data processing pipeline comprising a plurality of linked pipeline sections stored in the
+memory, each pipeline section comprising second control means operating the processor, each
+
+pipeline section further comprising a plurality of data buffers, data defining a current state of the
+pipeline section, a process pointer for linking the pipeline section to another pipeline section, and
+
+data defining a processing operation;
+wherein, when the host application requests data from the data processing pipeline, the
+data request is passed up the pipeline from section to section until the data request is passed to a
+
+first pipeline section, the first pipeline section receiving data from a data source, processing the data,
+and providing the processed data to an adjacent downstream pipeline section, and wherein each of
+
+the intermediate pipeline sections processes the provided data and provides the processed data to
+the adjacent downstream pipeline section until the processed data is provided to the host application;
+wherein each pipeline section controls the processor to accomplish its data processing so
+that the single application processing computer simulates a multi-application processing computer;
+
+and
+wherein the host application creates the data processing pipeline before requesting data
+from the pipeline by instantiating data processing functions to form a plurality of linked pipeline
+
+sections.
+A control means for pipelined data processing in a single application processing
+environment, comprising:
+
+
+a memory;
+a single application processing processor;
+function library means for storing data processing functions; and
+a controller for controlling the processor, the controller comprising:
+
+memory management means for allocating and deallocating memory blocks of the memory;
+host application means for operating the processor in a single application environment; and
+a data processing pipeline, the pipeline comprising a first task means and at least one
+additional task means for operating the processor to process data, the pipeline obtaining data from
+
+the data source, processing the obtained data, and providing processed data to the host application
+means, one end of the pipeline being linked to the host application means;
+wherein the host application means comprises:
+
+instantiating means for creating the data processing pipeline by instantiating the data
+processing functions stored in the function library means to form the plurality of linked task means,
+
+each task means of the pipeline being stored in a memory block of the memory, and
+invoking means for invoking the data processing pipeline after the instantiating means has
+
+created the pipeline by requesting data from the task means of the pipeline linked to the host 
+application means, each of the additional task means requesting data from an immediately upstream
+
+task of the pipeline until the request for data reaches the first task means of the pipeline, the first task
+means obtaining or generating data and passing the data to the immediately downstream task
+
+means, each of the additional task means processing the data and passing the processed data to an
+immediately downstream task means until the last task means processes the data and passes it to
+
+the host application means; and
+wherein each of the plurality of linked task means of the pipeline controls the processor to
+accomplish data processing and comprises:
+
+
+link means for linking at least two task means together,
+at least one channel means for passing data between linked task means,
+data processing means for processing data received via each at least one channel means,
+and
+task state means for controlling the task means;
+wherein the data processing pipeline is created by the host application means before the
+invoking means of the host application means invokes the data processing pipeline.
+The control means of claim 4, wherein the task means further comprises external
+port means for allowing external access to the task means.
+The control means of claim 4 or 5, wherein the task means further comprises data
+analyzing means for determining whether the data is suitable for processing by the task means.
+The control means of claim 6, wherein the task means further comprises
+reconfiguring means for reconfiguring the pipeline in response to a negative determination by the
+
+data analyzing means, the reconfiguring means preferably comprising means for instantiating
+additional functions stored in the function library means to form additional task means and inserting
+
+the additional task means into the pipeline so that the data received by each task means of the
+pipeline can be processed by the task means.
+The control means of claim 7, wherein the reconfiguring means initializes additional
+functions stored in the function library means to form additional task means and inserts the additional
+
+task means into the pipeline.
+The control means of any of claims 4 to 8, wherein a first task means (1) obtains
+data for the pipeline from an external data source, (2) generates data for the pipeline internally,
+
+and/or (3) obtains data for the pipeline from another pipeline. 
+The control means of any of claims 4 to 9, wherein
+
+the data processing pipeline alternatively comprises a most downstream task means, a most upstream
+task means, and at least one intermediate task means, each of the task means operating the
+
+processor to process data, each of the task means being stored in the memory, and
+the invoking means is alternatively adapted for requesting
+data from the most downstream task means in the pipeline, each intermediate task means requesting
+
+data from an immediately upstream task means until the data request reaches the most upstream
+task means, the most upstream task means responding to the data request by obtaining or
+
+generating data and passing it to an immediately downstream task means, each intermediate task
+means processing data passed to it and passing the processed data to an immediately downstream
+
+task means until the most downstream task means passes the processed data to the host
+application; and wherein each task means further comprises:
+
+
+error code generating means for indicating whether the task means has successfully
+obtained and processed the data; and
+wherein the instantiating means instantiates a data processing pipeline before the invoking
+means invokes the data processing pipeline.
+</CLAIMS>
+</TEXT>
+</DOC>

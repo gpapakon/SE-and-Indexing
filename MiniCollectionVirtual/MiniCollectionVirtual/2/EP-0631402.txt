@@ -1,0 +1,569 @@
+<DOC>
+<DOCNO>EP-0631402</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Variable rate coder.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T900	G06T900	H04B1404	H04B1404	H04N726	H04N726	H04N730	H04N730	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	H04B	H04B	H04N	H04N	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T9	G06T9	H04B14	H04B14	H04N7	H04N7	H04N7	H04N7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A coder for transforming an input signal into a low bit rate digital signal, 
+includes a plurality of coding means (101, 102, 10m) in each of which a 
+
+number of output bits can be variably set, and each of which can carry out a 
+predictive coding independently, and a plurality of prediction gain obtaining 
+
+means (321, 322, 32m, 331, 332, 33m) each for obtaining a prediction gain 
+in each of said plurality of coding means (101, 102, 10m). A bit rate 
+
+calculating means (360) determines a plurality of successive numbers as 
+said numbers of output bits of said plurality of coding means (101, 102, 
+
+10m), based on a required value of the signal-to-noise ratio of the coder and 
+said prediction gains in said plurality of coding means (101, 102, 10m). A 
+
+bit rate setting means (380, 156) sets said plurality of successive numbers in 
+said plurality of coding means (101, 102, 10m) as said number of output 
+
+bits, respectively, and an output selecting means (400, 500) selects an 
+output of one of said plurality of coding means (101, 102, 10m), as the 
+
+output of said coder, based on a predetermined standard. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+FUJITSU LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+FUJITSU LTD
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+ISEDA KOHEI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TOMITA YOSHIHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+UNAGAMI SHIGEYUKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ISEDA KOHEI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TOMITA YOSHIHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+UNAGAMI SHIGEYUKI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present application is divided from European Patent 
+Application 89 117 738.8. The present invention relates to a variable rate 
+coder for transforming an input signal into a low and 
+adaptively variable bit rate digital signal, comprising: 
+a plurality of coding circuits each comprising an output 
+quantizer having a different output bit rate, and 
+independently transforming the input signal into a 
+compressed digital signal. Generally, when a voice signal or a picture signal 
+is transmitted, the original input signal is coded at 
+the sender side by a coding method to reduce the bit 
+rate on the transmission line, and the coded signal is 
+received and decoded to regenerate the original signal 
+in the receiver side. In the above transmission using coding, in 
+addition to the requirement of a low bit rate, a 
+sufficient quality of the regenerated signal is required 
+according to the purpose of usage. In particular, in communication systems which 
+allow, variations of bit rate, such as a packet 
+communication system, it is desirable to code an input 
+signal to a least bit rate signal which maintains a 
+sufficient quality of the regenerated signal from the 
+view point of efficiency and quality. One attempt to realize the above-mentioned coding 
+wherein an input signal is coded to a least bit rate 
+signal which maintains a sufficient quality of the 
+regenerated signal, called a variable rate coder, is 
+described by T. Taniguchi, et al. in "ADPCM with a 
+Multiquantizer for speech Coding", IEEE Journal on 
+Selected Areas in Communications, Vol. 6, Feb. 1988, 
+pp.410-424.  The coder described in the above paper comprises a 
+plurality of ADPCM coder units, and the number of bits 
+of the quantizer output in each coder unit is different. Input signals are coded in parallel in the 
+plurality of coder units, the quality of the coding in 
+each coder unit is evaluated for each frame of data, and 
+the coder unit giving a lowest bit rate among the coder 
+units satisfying a predetermined quality requirement is 
+selected to be used for transmission. To carry out the above evaluation (determination 
+whether or not the output of each coder unit satisfies 
+the above predetermined requirement of quality), two 
+methods are described in the above paper. In the one method, a signal-to-noise ratio (SNR) 
+is obtained for each coder unit and each frame of data, 
+and the obtained SNR value is compared with a threshold 
+of the SNR corresponding to the above predetermined 
+quality requirement. In the coder carrying out a
+</DESCRIPTION>
+<CLAIMS>
+A coder for transforming an input signal into a low 
+bit rate digital signal, comprising: 
+
+   a plurality of coding means (101, 102, 10m) for 
+independently transforming said input signal into a 
+
+compressed digital signal; and 
+   an output selecting means (400, 500) for selecting an 
+
+output or one of said plurality of coding means (101, 102, 
+10m), as the output of said coder, based on a 
+
+predetermined standard, 
+   characterized by 
+
+   said coding means (101, 102, 10m) being ones in each 
+of which a number of output bits can be variably set, and 
+
+each of which can carry out a predictive coding 
+independently; 
+
+   a plurality of prediction gain obtaining means (321, 
+322, 32m, 331, 332, 33m) each for obtaining a prediction 
+
+gain in each of said plurality of coding means (101, 102, 
+10m); 
+
+   a bit rate calculating means (360) for determining a 
+plurality of successive numbers as said numbers of output 
+
+bits of said plurality of coding means (101, 102, 10m), 
+based on a required value of the signal-to-noise ratio of 
+
+the coder and said prediction gains in said plurality of 
+coding means (101, 102, 10m); and 
+
+   a bit rate setting means (380, 156) for setting said 
+plurality of successive numbers in said plurality of 
+
+coding means (101, 102, 10m) as said number of output 
+bits, respectively. 
+A coder according to claim 1, further comprising: 
+   a plurality of decoding means (201, 202, 20m) being 
+
+provided corresponding to said plurality of coding means 
+(101, 102, 10m) 
+
+   a plurality of error obtaining means (61, 62, 63, 65, 
+66, 67) being provided corresponding to said plurality of 
+
+decoding means (201, 202, 20m), and each obtaining an 
+error which is generated through a corresponding coding 
+
+means, based on said input signal and an output of a 
+corresponding decoding means; and 
+
+   a plurality of S/N obtaining means (21,22, 23) being 
+provided corresponding to said plurality of decoding means 
+
+(201, 202, 20m), and each obtaining a signal-to-noise 
+ratio, based on the power of said input signal and the 
+
+power of an output of a corresponding error obtaining 
+means; 
+
+   wherein said predetermined standard comprises a first 
+requirement that a signal-to-noise ratio in the 
+
+construction through a coding means and a corresponding 
+decoding means is not to be smaller than a predetermined 
+
+threshold, and a second requirement that an output having 
+a smallest number of output bits is to be selected among 
+
+the outputs of the coding means satisfying said first 
+requirement. 
+A coder according to claim 1, wherein: 
+   an analog to digital converter is provided in an input 
+
+stage, for converting said analog input signal to a 
+digital signal; and 
+
+   said bit rate calculating means (360) is arranged for 
+determining a plurality of sucecessive numbers as said 
+
+numbers of output bits of said plurality of coding means 
+(101, 102, 10m), additionally based on an ADC 
+
+signal-to-noise ratio determined by an input amplitude 
+
+range and resolution in said analog to digital converter. 
+A coder according to claim 3, wherein said 
+plurality of successive numbers are determined as 
+
+outputs of 2k+1 coding means (101, 102, 10m) having 
+number of output bits i-k to i+k with a center value of 
+
+the number of output bits i, where the number i is 
+determined by the equations, 
+
+i=(S/N-PG+10.8-20log₁₀AR)/6  
+when S/N ≦ SNI, and 
+
+i=(SNI-PG+10.8-20log₁₀AR)/6  
+ when S/N 
+
+≧ SNI, S/N is said required value of the signal-to-noise 
+ratio of the coder, SNI is said ADC signal-to-noise 
+
+ratio in said analog to digital converter, PG is said 
+prediction gain in each coding means, and AR is said 
+
+input amplitude range expressed by a root mean square of 
+the input signal level. 
+A coder according to claim 3 or 4, further 
+comprising:
+
+ 
+   a plurality of decoding means (201, 202, 20m) 
+
+being provided corresponding to said plurality of coding 
+means (101, 102, 10m); 
+
+   a plurality of error obtaining means (61, 62, 63, 
+65, 66, 67) being provided corresponding to said 
+
+plurality of decoding means (201, 202, 20m), and each 
+obtaining an error generated through a corresponding 
+
+coding means and a corresponding decoding means based on 
+said input signal and an output of a corresponding 
+
+decoding means; and 
+   a plurality of S/N obtaining means (21, 22, 23) 
+
+being provided corresponding to said plurality of 
+decoding means (201, 202, 20m), and each obtaining a 
+
+signal-to-noise ratio based on the power of said input 
+signal and the power of an output of a corresponding 
+
+error obtaining means; 
+   wherein said predetermined standard includes a 
+
+first requirement that a signal-to-noise ratio in the 
+construction through a coding means and a corresponding 
+
+decoding means is not to be smaller than a predetermined 
+threshold, and a second requirement that an output of a 
+
+coding means having a smallest number of output bits is 
+to be selected as the output of the coder among the 
+
+outputs of the coding means satisfying said first 
+requirement when the power of the input signal is 
+
+greater than a predetermined value; and said 
+predetermined standard further includes of a third 
+
+requirement that an error which is generated through a 
+coding means and a corresponding decoding means is to be 
+
+smaller than a predetermined maximum, and a fourth 
+requirement that an output of a coding means having a 
+
+smallest number of output bits is to be selected as the 
+output of the coder among the outputs of the coding 
+
+means satisfying said third requirement when said power 
+of the input signal is not greater than said 
+
+predetermined value. 
+A coder according to claim 5, wherein: 
+   said predetermined standard includes a fifth 
+
+requirement that said signal-to-noise ratio satisfies 
+said first requirement and said error satisfies said 
+
+second requirement, and a sixth requirement that an 
+output of a coding means having a smallest number of 
+
+output bits is to be selected as the output of the 
+coder, among the outputs of the coding means satisfying 
+
+said fifth requirement then said power of the input 
+signal is between said first and second predetermined 
+
+values. 
+A coder for transforming an input signal into 
+a low bit rate digital signal, comprising: 
+
+   a plurality of coding means (101, 102, 10m) in 
+each of which a number of output bits can be variably 
+
+set, and each of which can carry out a predictive coding 
+independently; 
+
+   a plurality of prediction gain obtaining means 
+(321, 322, 32m, 331, 332, 33m) each for obtaining a 
+
+prediction gain in each of said plurality of coding 
+means (101, 102, 10m); 
+
+   an bit rate calculating means (360) for 
+determining a plurality of successive numbers as said 
+
+numbers of output bits of said plurality of coding means 
+(101, 102, 10m), based on a required value of the 
+
+signal- to-noise ratio of the coder and said prediction 
+gains in said plurality of coding means (101, 102, 10m); 
+
+   a bit rate setting means (380, 156) for setting 
+said plurality of successive numbers in said plurality 
+
+of coding means (101, 102, 10m) as said number of output 
+bits, respectively; and
+
+ 
+   an output selecting means (400, 500) for selecting 
+
+an output of one of said plurality of coding means (101, 
+102, 10m), as the output of said coder, based on a 
+
+predetermined standard. 
+A coder according to claim 7, further 
+comprising: 
+
+   a plurality of decoding means (201, 202, 20m) 
+being provided corresponding to said plurality of coding 
+
+means (101, 102, 10m); 
+   a plurality of error obtaining means (61, 62, 63, 
+
+65, 66, 67) being provided corresponding to said 
+plurality of decoding means (201, 202, 20m), and each 
+
+obtaining an error which is generated through a 
+corresponding coding means and a corresponding decoding 
+
+means, based on said input signal and an output of a 
+corresponding decoding means; and 
+
+   a plurality of S/N obtaining means (21, 22, 23) 
+being provided corresponding to said plurality of 
+
+decoding means (201, 202, 20m), and each obtaining a 
+signal-to-noise ratio, based on the power of said input 
+
+signal and the power of an output of a corresponding 
+error obtaining means; 
+
+   wherein said predetermined standard comprises a 
+first requirement that a signal-to-noise ratio in the 
+
+construction through a coding means and a corresponding 
+decoding means is not to be smaller than a predetermined 
+
+threshold, and a second requirement that an output 
+having a smallest number of output bits is to be 
+
+selected among the outputs of the coding means 
+satisfying said first requirement. 
+A coder for transforming an analog input 
+signal into a low bit rate digital signal, comprising: 
+
+   an analog to digital converter provided in an 
+input stage, and converting said analog input signal to 
+
+a digital signal; 
+   a plurality of coding means (101, 102, 10m) in 
+
+each of which a number of output bits can be variably 
+ 
+
+set, and each of which can carry out a predictive coding 
+independently; 
+
+   a plurality of prediction gain obtaining means 
+(321, 322, 32m, 331, 332, 33m) each for obtaining a 
+
+prediction gain in each of said plurality of coding 
+means (101, 102, 10m); 
+
+   a bit rate calculating means (360) for determining 
+a plurality of successive numbers as said numbers of 
+
+output bits of said plurality of coding means (101, 102, 
+10m), based on a required value of the signal-to-noise 
+
+ratio of the coder, an ADC signal-to-noise ratio 
+determined by an input amplitude range and resolution in 
+
+said analog to digital converter, and said prediction 
+gains in the plurality of coding means (101, 102, 10m); 
+
+   a bit rate setting means (380, 156) for setting 
+said plurality of successive numbers in said plurality 
+
+of coding means (101, 102, 10m) as the number of output 
+bits, respectively; and 
+
+   an output selecting means (400, 500) for selecting 
+an output of one of said plurality of coding means (101, 
+
+102, 10m) as the output of said coder, based on a 
+predetermined standard. 
+A coder according to claim 9, wherein said 
+plurality of successive numbers are determined as 
+
+outputs of 2k+1 coding means (101, 102, 10m) having 
+number of output bits i-k to i+k with a center value of 
+
+the number of output bits i, where the number i is 
+determined by the equations, 
+
+i=(S/N-PG+10.8-20log₁₀AR)/6  
+when S/N ≦ SNI, and 
+
+i=(SNI-PG+10.8-20log₁₀AR)/6  
+ when S/N 
+
+≧ SNI, S/N is said required value of the signal-to-noise 
+ratio of the coder, SNI is said ADC signal-to-noise 
+
+ratio in said analog to digital converter, PG is said 
+prediction gain in each coding means, and AR is said 
+
+input amplitude range expressed by a root mean square of 
+the input signal level. 
+A coder according to claim 10, further 
+
+comprising:
+ 
+
+   a plurality of decoding means (201, 202, 20m) 
+being provided corresponding to said plurality of coding 
+
+means (101, 102, 10m); 
+   a plurality of error obtaining means (61, 62, 63, 
+
+65, 66, 67) being provided corresponding to said 
+plurality of decoding means (201, 202, 20m), and each 
+
+obtaining an error generated through a corresponding 
+coding means and a corresponding decoding means based on 
+
+said input signal and an output of a corresponding 
+decoding means; and 
+
+   a plurality of S/N obtaining means (21, 22, 23) 
+being provided corresponding to said plurality of 
+
+decoding means (201, 202, 20m), and each obtaining a 
+signal-to-noise ratio based on the power of said input 
+
+signal and the power of an output of a corresponding 
+error obtaining means; 
+
+   wherein said predetermined standard includes a 
+first requirement that a signal-to-noise ratio in the 
+
+construction through a coding means and a corresponding 
+decoding means is not to be smaller than a predetermined 
+
+threshold, and a second requirement that an output of a 
+coding means having a smallest number of output bits is 
+
+to be selected as the output of the coder among the 
+outputs of the coding means satisfying said first 
+
+requirement when the power of the input signal is 
+greater than a predetermined value; and said 
+
+predetermined standard further includes of a third 
+requirement that an error which is generated through a 
+
+coding means and a corresponding decoding means is to be 
+smaller than a predetermined maximum, and a fourth 
+
+requirement that an output of a coding means having a 
+smallest number of output bits is to be selected as the 
+
+output of the coder among the outputs of the coding 
+means satisfying said third requirement when said power 
+
+of the input signal is not greater than said 
+predetermined value. 
+A coder according to claim 10, further 
+comprising: 
+
+   a plurality of decoding means (201, 202, 20m) 
+being provided corresponding to said plurality of coding 
+
+means (101, 102, 10m); 
+   a plurality of error obtaining means (61, 62, 63, 
+
+65, 66, 67) being provided corresponding to said 
+plurality of decoding means (201, 202, 20m), and each 
+
+obtaining an error which is generated through a 
+corresponding coding means and a corresponding decoding 
+
+means, based on said input signal and an output of a 
+corresponding decoding means; and 
+
+   a plurality of S/N obtaining means (21, 22, 23) 
+being provided corresponding to said plurality of 
+
+decoding means (201, 202, 20m), and each obtaining a 
+signal-to-noise ratio based on the power of said input 
+
+signal and the power of an output of a corresponding 
+error obtaining means; 
+
+   wherein said predetermined standard includes a 
+first requirement that a signal-to-noise ratio in the 
+
+construction through a coding means and a corresponding 
+decoding means is not to be smaller than a predetermined 
+
+threshold, and a second requirement that an output of a 
+coding means having a smallest number of output bits is 
+
+to be selected as the output of the coder, among the 
+outputs of the coding means satisfying said first 
+
+requirement when the power of the input signal is 
+greater than a first predetermined value; said 
+
+predetermined standard includes a third requirement that 
+an error which is generated through a coding means and a 
+
+corresponding decoding means is to be smaller than a 
+predetermined maximum, and a fourth requirement that an 
+
+output of a coding means having a smallest number of 
+output bits is to be selected as the output of the 
+
+coder, among the outputs of the coding means satisfying 
+said third requirement when said power of the input 
+
+signal is not greater than a second predetermined value; 
+ 
+
+and said predetermined standard includes a fifth 
+requirement that said signal-to-noise ratio satisfies 
+
+said first requirement and said error satisfies said 
+second requirement, and a sixth requirement that an 
+
+output of a coding means having a smallest number of 
+output bits is to be selected as the output of the 
+
+coder, among the outputs of the coding means satisfying 
+said fifth requirement when said power of the input 
+
+signal is between said first and second predetermined 
+values. 
+</CLAIMS>
+</TEXT>
+</DOC>

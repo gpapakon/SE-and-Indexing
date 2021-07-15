@@ -1,0 +1,174 @@
+<DOC>
+<DOCNO>EP-0631233</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Failure recovery for a distributed processing shared resource control.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F946	G06F952	G06F1100	G06F1100	G06F1120	G06F1120	G06F1200	G06F1200	G06F1300	G06F1300	G06F1516	G06F1516	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	G06F11	G06F11	G06F11	G06F11	G06F12	G06F12	G06F13	G06F13	G06F15	G06F15	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Communicating the failure of a master process 
+controlling one or more shared resources to all processes 
+
+sharing the resources. A shared resource control file is 
+established that contains the identities of all sharing 
+
+processes. Master process failure triggers a race to 
+establish exclusive access over the shared control file. 
+
+The new master reads shadow address data from the old 
+shared control file, marks it as invalid and establishes a 
+
+new control file based on renewed registrations from 
+processes. The master process maintains the sharing 
+
+process list as process begin and end sharing. 
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+FORMAN IRA RICHARD
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MADDURI HARI HARANATH
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FORMAN, IRA RICHARD
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MADDURI, HARI HARANATH
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to the operation of 
+distributed processing computer systems. In particular it 
+relates to failure recovery in those systems that have a 
+plurality of processing nodes each one having access to a 
+number of shared resources controlled by a master process. 
+Still more particularly, the present invention relates to 
+the management shared access including the passing of a 
+token or write lock that grants permission to one of a 
+number of distributed processes allowing that process to 
+update a data item. Distributed computer systems are created by linking a 
+number of computer systems using a communications network. 
+Distributed systems frequently have the ability to share 
+data resident on an individual system. Sharing can take 
+many forms. Simple file sharing allows any of the 
+distributed processes to access file regardless of the 
+physical system on which they reside. Device sharing 
+similarly allows use of physical devices regardless of 
+location. Replicated data systems implement data sharing 
+by providing a replica copy of a data object to each 
+process using that data object. Replication reduces the 
+access time for each processor by eliminating the need to 
+send messages over the network to retrieve and supply the 
+necessary data. A replicated object is a logical unit of 
+data existing in one of the computer systems but physically 
+replicated to multiple distributed computer systems. 
+Replicated copies are typically maintained in the memories 
+of the distributed systems.  Replicated data objects also speed the update process 
+by allowing immediate local update of a data object. 
+Replication introduces a control problem, however, because 
+many copies of the data object exist. The distributed 
+system must have some means for controlling data update to 
+ensure that all copies of the data remain consistent. Prior art systems control data consistency by 
+establishing a master data object copy in one of the 
+distributed systems. The master copy is always assumed to 
+be valid. Data object update by a system other than that 
+of the master copy requires sending of the update request 
+to the master for update and propagation to all replicas. 
+This approach has the disadvantage of slowing local 
+response time as the master data object update and 
+propagation are performed. Another means for controlling replicated data is 
+described in the U.S. patent application Moving Write Lock 
+for Replicated Objects, filed on October 16, 1992 as Serial 
+Number 07/961,757. The apparatus and
+</DESCRIPTION>
+<CLAIMS>
+A method of managing recovery of a distributed 
+processing system in which shared resources are each 
+
+controlled by a master process, the distributed processing 
+system having a plurality of processors, each of said 
+
+processors having memory and each of said processors 
+interconnected to the other processors by means of a 
+
+communications network, the method comprising the steps 
+of: 
+
+   detecting failure of a master process for a shared 
+resource; 
+
+   requesting exclusive access to a control file; 
+   establishing exclusive access to said control file, if 
+
+said request is granted; 
+   determining from said control file the communications 
+
+addresses of all other processes accessing said shared 
+resource via the failed master process; 
+
+   sending a message to each of said other processes 
+indicating failure of said master process. 
+The method of claim 1, wherein the step of detecting 
+failure comprises the steps of: 
+
+   attempting to communicate with a master process for a 
+shared resource;
+
+ 
+   signalling failure of a master process if no respo
+nse 
+is received. 
+A system for failure recovery in a distributed 
+processing computer system in which shared resources are 
+
+each controlled by a master process selected among a 
+plurality of peer processes, said master process having 
+
+exclusive access to a shared resource control file for said 
+resource, each of said processes executing in a computer 
+
+system having a processor and memory, the system 
+comprising: 
+
+   means for detecting master failure by a shadow 
+process; 
+
+   means for requesting access to a resource control 
+file; 
+
+   means for establishing exclusive access if said 
+request is granted; 
+
+   reading means for reading communications addresses of 
+other processes accessing said shared resource; 
+
+   communications means for communicating master failure 
+and recovery to said other processes. 
+The system of claim 3 wherein said means for detecting 
+failure is a network operating system that informs 
+
+communicating processes of a failure of the other process. 
+The system of claim 3 wherein said means for detecting 
+ 
+
+failure comprises: 
+   communication means for communicating with said master 
+
+process; and 
+   means for detecting lack of communications response 
+
+from said master process. 
+</CLAIMS>
+</TEXT>
+</DOC>

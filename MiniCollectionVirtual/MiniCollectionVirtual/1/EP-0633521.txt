@@ -1,0 +1,179 @@
+<DOC>
+<DOCNO>EP-0633521</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Microprocessor including circuit for generating signal used for tracing executed instruction stream
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F926	G06F926	G06F930	G06F1576	G06F1136	G06F930	G06F932	G06F1578	G06F932	G06F1128	G06F946	G06F1136	G06F938	G06F948	G06F938	G06F1128	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	G06F9	G06F15	G06F11	G06F9	G06F9	G06F15	G06F9	G06F11	G06F9	G06F11	G06F9	G06F9	G06F9	G06F11	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Disclosed herein is a microprocessor which is constructed 
+to output outside a pipeline flash signal in response to a branch 
+
+caused by a conditional branch instruction being to be taken. 
+The microprocessor includes a decoder unit decoding and producing 
+
+decoded information of each of instructions to be executed, the 
+decoder unit further producing branch conduction information 
+
+designated by the conditional branch instruction, a latch 
+latching the decoded information in response to a write-enable 
+
+signal and outputting it in response to a read-cable signal, an 
+execution unit performing a data processing operation in response 
+
+to the decoded information from the latch and including a status 
+word register for temporarily storing an execution state thereof, 
+
+and a branch detection unit for a detecting whether or not a 
+branch is to be taken in response to the branch condition 
+
+information and the execution state and responding to the write-enable 
+signal to produce a detection signal when the branch is 
+
+detected to be taken, the pipeline flash signal being thereby 
+generated in response to the detection signal. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+NIPPON ELECTRIC CO
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+NEC CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+KURODA YASUAKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KURODA, YASUAKI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a microprocessor and, more
+particularly, to a microprocessor constructed in a pipelined
+manner and provided with a function of generating a signal used
+for tracing an instruction stream which is actually executed.Such a microprocessor according to the prior art has a
+circuit construction shown in Fig. 1, as disclosed in Japanese
+Laid-Open Application No. Sho 61-168046. The microprocessor
+shown in Fig. 1 includes an instruction execution unit 23 for
+executing a string of instructions, an instruction queue 15 for
+temporarily storing prefetched instructions to be executed, a
+signal line 100 supplied with a prefetch-invalidating signal from
+the outside, and a signal line 104 from which an instruction
+fetch request signal is outputted outside.In operation, when the instruction execution unit 23
+completes the current instruction, it requests through an
+instruction request signal 103 a queue controller 18 to transfer
+a next instruction. The controller 18 further receives the
+output signal of an AND gate 106 receiving a queue not-empty
+signal 101 from the queue 15 and an inverted signal of the signal
+100 by an inverter 107. The signal 101 takes an active high
+level when the queue 15 is not in an empty state but stores at
+least one instruction. So long as the signal 100 takes an
+inactive low level, the signal 101 is not masked and thus is
+transferred to the controller 18. Although not shown, the
+controller responds to the high level of the output of the AND 
+gate 106 to command to initiate an instruction prefetch
+operation. In response thereto, a prefetch unit (not shown)
+performs an instruction prefetch bus cycle on an external
+memory (not shown) during a bus being free to prefetch
+instructions. The instruction thus prefetched are stored into
+the queue 15 through a data bus 8 and a multiplexer 108. When
+the output signal of the AND gate 106 is changed to the low
+level by the low level of the signal 101, the controller 18
+generates the fetch signal 104 to make an access to the
+external memory to fetch instructions therefrom and transfer
+them to the unit 23. The controller 18 further responds to the
+instruction request signal 103 from the execution unit 23 to
+command the queue 15 to transfer the instruction stored
+therein to the unit 23.When the prefetch-invalidating signal 100 is forcibly held at
+an active high level by the external source (not shown), the
+output signal of the AND gate 106 is held at the low level
+irrespective of the level of the signal 101. This means that
+the
+</DESCRIPTION>
+<CLAIMS>
+A microprocessor comprising:
+
+an instruction decoder unit (12) receiving instructions and
+producing decoded instruction information of each of said
+
+instructions, said decoder unit further producing, when
+receiving a conditional branch instruction, branch condition.
+
+information designated by said conditional branch instruction;
+storage means (15), coupled to said instruction decoder unit
+(12), for temporarily storing said decoded instruction information
+
+in response to a write-enable signal and reading out
+said decoded instruction information therefrom in response to
+
+a read-enable signal;
+execution means (21), coupled to said storage means (15), for
+executing an instruction in response to the decoded instruction
+
+information read out from said storage means, said
+execution means having a program status word register for
+
+temporarily storing an execution state of said execution means; 
+a branch detection unit (14) detecting whether or not said
+branch condition information produced by said instruction
+
+decoder unit (12) corresponds to said execution state stored
+in said program status word register and responding to said
+
+write-enable signal to generate a detection signal when said
+branch condition information corresponds to said execution
+
+state such that said storing of said decoded instruction
+information in said storage means and said detecting by said
+
+branch detection unit (14) are synchronized by said write-enable
+signal; and
+an output buffer (4), coupled to said branch detection unit
+(14), for generating a pipeline-flush signal (1) in response
+
+to said detection signal and outputting to an exterior of said
+microprocessor.
+The microprocessor as claimed in claim 1, further comprising
+a flag hazard detector (60) generating flag hazard
+
+information when a content of said program status word
+register may be changed by an instruction which is executed
+
+before said conditional branch instruction and means
+responsive to said flag hazard information for suspending
+
+generation of said write-enable signal.
+The microprocessor as claimed in claim 2, wherein said flag
+hazard detector (60)
+
+
+generates said flag hazard information in response to the
+first decoded instruction information read out from said
+
+storage means and the second decoded instruction of an
+instruction which is being executed by said execution
+
+means (21), and
+detects whether or not at least one of said first or second
+instructions may change said content of said program
+
+status word register.
+The microprocesor as claimed in claim 1, further comprising
+means for generating an execution start signal in response to
+
+said read-enable signal, wherein said execution means (21)
+reads said decoded instruction from said storage means (15) in
+
+response to said read-enable signal, such that said execution
+means executes said instruction in synchronism with said
+
+generation of said execution start signal.
+</CLAIMS>
+</TEXT>
+</DOC>

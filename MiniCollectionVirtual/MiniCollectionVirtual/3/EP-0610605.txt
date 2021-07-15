@@ -1,0 +1,285 @@
+<DOC>
+<DOCNO>EP-0610605</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method of recognising an irradiation field
+</INVENTION-TITLE>
+<CLASSIFICATIONS>A61B600	G06T500	G06T760	G06T100	G06T500	G06T100	A61B600	G06T760	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>A61B	G06T	G06T	G06T	G06T	G06T	A61B	G06T	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>A61B6	G06T5	G06T7	G06T1	G06T5	G06T1	A61B6	G06T7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Radiologists may protect their subjects against unnecessary exposure 
+to X-rays by use of X-ray opaque material. The resulting image 
+
+contains relatively unexposed regions which comprise the shadow cast 
+by the X-ray opaque material. This invention discloses a method for 
+
+the automatic determination of the location of the boundary between 
+signal and shadow regions. Many hypotheses as to the location of 
+
+the boundary are generated and the final decision as to the correct 
+hypothesis is contingent on the results of a number of high-level 
+
+tests applied to each. 
+</ABSTRACT>
+<APPLICANTS>
+</APPLICANTS>
+<INVENTORS>
+</INVENTORS>
+<DESCRIPTION>
+The present invention is in the field of digital radiography. 
+The invention more specifically relates to a method of recognising 
+an irradiation field in a system wherein a radiation image is 
+recorded on a photostimulable phosphor screen by means of an 
+irradiation field stop (i.e. means for partially shielding against 
+irradiation). Radiologists may protect their subjects against unnecessary exposure 
+to X-rays by use of X-ray opaque ('collimation') material. The 
+material is placed in the path of the X-ray beam so as to shield 
+those areas of the patient which are not regarded as diagnostically 
+important. Besides reducing patient dose this technique has the 
+additional advantage of limiting the amount of scattered radiation 
+in the image field of interest. The regions of the resulting image 
+which comprise the shadow cast by the X-ray opaque material (shadow 
+regions, cfr. example in figure 1) are exposed only by scattered 
+radiation. In computer-assisted radiology, the X-ray image is digitised as a 
+two dimensional array of numbers, whose magnitude is related to the 
+intensity of X-rays arriving at the detector, via the patient. The 
+values in the array may be rescaled, prior to display or printing, 
+in order to maximise the visual contrast in the area of diagnostic 
+interest. Such rescaling depends, in part, on the intensity 
+histogram of the X-ray image. To achieve this function 
+automatically, best results are obtained if the 'shadow' cast by the 
+collimation material is excluded from consideration, since it cannot 
+contain any useful information, but would otherwise dominate the 
+lower end of the intensity histogram.  
+ The presence of the collimation shadow region can cause an 
+additional problem in the display of the image on film. Therein, 
+the shadow region is relatively bright, and if displayed unmodified, 
+may impair diagnosis of subtle lesions due to dazzle, especially if 
+the unexposed region is relatively large. The U.S. patent 4,952,807 by Adachi addresses the first problem, 
+wherein a method is disclosed for adjusting the image processing 
+conditions by selecting only those pixels which correspond to the 
+object or to the background, i.e. the 'signal' region, under the 
+assumption that the collimation material does not partly cover the 
+object, i.e. the shadow region does not touch the object of the 
+image, but rather its surrounding background. In many kinds of 
+examinations however, parts of the patient will be shielded from 
+exposure to avoid useless X-ray load, as is the case
+</DESCRIPTION>
+<CLAIMS>
+A method for the determination of the location of the 
+signal/shadow boundary in an X-ray image represented in a digital 
+
+signal representation comprising the steps of : 
+
+i) Extracting low-level primitives from the X-ray image {X(i,j)}, 
+ii) Forming a reduced number of intermediate-level primitives from 
+the low-level primitives, 
+iii) Building hypotheses being possible solutions regarding the location of the signal-shadow 
+boundary, from combinations of intermediate-level primitives, during 
+
+which each combination is subject to intermediate-level tests, 
+whereupon partial or complete hypotheses are rejected or accepted, 
+iv) Performing high-level verification tests on each hypothesis, 
+whereupon hypotheses are rejected, or accepted at some cost, said cost defining a ranking of the acceptability of a hypothesis, 
+v) Selecting the hypothesis with the least cost. 
+A method according to claim 1 wherein said low level primitives 
+are lines. 
+A method according to claim 2 wherein said lines are extracted by 
+performing on the digital signal representation the following steps: 
+
+
+subsampling, 
+performing edge detection on said subsampled image to produce the 
+following intrinsic images: 
+
+
+squared local gradient magnitude {G(i,j)}, 
+local edge orientation {O(i,j)}, 
+edge image {E(i,j)}, in which all pixels having a squared 
+gradient magnitude below a predetermined threshold value are 
+
+set to zero, and in which all edge pixels which do not affect 
+the local connectivity of other edge pixels have been removed 
+
+by a thinning operation, 
+label image {L(i,j)}, in which all mutually connected edge 
+pixels from the thinned edge image share a common, but 
+
+otherwise unique label, 
+local edge orientation image, obtained by linear regression 
+of connected edge pixels in a local neighbourhood,  
+
+ 
+vertex image {V(i,j)}, in which all edge pixels are 
+identified to be one of the following vertex types: isolated 
+
+point, terminal, edge point, T-junction, X-junction, curve 
+point, or corner, 
+segment image {S(i,j)}, in which all edge pixels of vertex 
+type 'edge point', as obtained from {V(i,j)}, are assigned the 
+
+label of the corresponding pixel in {L(i,j)}, and the other 
+pixels are zero, 
+extracting from {S(i,j)} pixels with identical labels, 
+creating line data structures for the purpose of representing 
+lines, said data structures comprising fields for representing other 
+
+line-specific data such as required by subsequent method steps and 
+tests, 
+storing each set of coordinates of identically labelled pixels 
+extracted from S{(i,j)} in a line data structure, 
+estimating for each of the line data structures the length of the 
+corresponding line, 
+eliminating line data structures corresponding to all lines having 
+a length smaller than some predetermined value from said line data 
+
+structures, 
+determining the normal radius and orientation of each line by 
+linear regression and recording those values in said line data 
+
+structures as attributes of the corresponding line, 
+eliminating all line data structures for which the conformity to a 
+straight line as determined by linear regression is below some 
+
+predetermined value, 
+linearly extrapolating each non-eliminated line from each end, 
+until it intersects either the image border or with an edge point as 
+
+determined by {S(i,j)} which does not belong to that line, and 
+recording in the line data structures the positions of both 
+
+intersection points as attributes of the corresponding line. 
+A method according to claim 3 wherein said identification of the 
+vertex type CORNER comprises 
+
+
+curvature determination of connected chains of edge-pixels 
+excluding pixels which are junctions or terminators, 
+local non-maximum suppression of the curvature values,  
+ 
+threshold of the remaining non-zero curvature values, accepting 
+only those points as corners whose value is above some threshold. 
+A method according to claim 3 wherein said identification of the 
+vertex type CURVE comprises 
+
+
+curvature determination of connected chains of edge-pixels 
+excluding pixels which are junctions or terminators, 
+threshold of the curvature values, accepting only those points as 
+curves whose value is above some threshold. 
+A method according to claim 3 wherein weighted linear regression 
+comprises: 
+
+
+calculation of weighted positional moments, upto second order, of 
+edge-pixels in each line data structure, wherein the weighting of 
+
+each pixel contribution at (i,j) is a function of the gradient 
+magnitude G(i,j), 
+use of the weighted moments to determine the parameters of the best 
+fit straight line so as to minimise the weighted sum of squared 
+
+errors (of pixel positions to the parameterised line). 
+A method according to claim 2 wherein said intermediate level 
+primitives are line groups obtained by a linear agglomerative 
+
+clustering process. 
+A method according to claim 7 wherein in the linear agglomerative 
+clustering process any two lines or two line groups, or a line and a 
+
+line group are merged into a single line group if: 
+
+their difference of orientation is less than some predetermined 
+value, 
+their distance of closest approach is less than some predetermined 
+value, 
+they have overlapping extrapolations 
+the outcome of the F-statistic based upon the analysis of variance 
+is such that the two considered pixel distributions most likely 
+
+belong to a single linear pixel distribution which constitutes the 
+merged cluster. 
+A method according to claim 7, where candidate hypotheses for the 
+signal/shadow boundary are formed from every possible line-group, 
+
+pair of line-groups, triplet of line groups, and quartet of line-groups, 
+including, in addition, the hypothesis that there is no 
+
+signal/shadow boundary. 
+A method according to claim 7, wherein said high-level 
+verification tests for the acceptability of a hypothetical 
+
+signal/shadow boundary, comprise any logical combinations of the 
+following tests for: 
+
+
+boundary closure, for which test to be passed, for the hypothesis 
+under consideration, the extrapolated line-groups must each 
+
+terminate on, or intersect with, another line-group in the same 
+hypothesis, or the edge of the image, 
+boundary shape, for which test to be passed, for the hypothesis 
+under consideration, is constrained to be rectangular, or nearly 
+
+rectangular, or in the case of there being less than four sides in 
+the hypothesis, the visible sides are constrained to be consistent 
+
+with a partially visible rectangular or nearly rectangular shape, 
+signal/shadow contrast, for which test to be passed, for the 
+hypothesis under consideration, is constrained to be largely 
+
+consistent with there being a lower level of exposure in the region 
+of {X(i,j)} corresponding to the shadow region, than the level of 
+
+exposure in the region of {X(i,j)} corresponding to the signal 
+region, 
+boundary location, for which test to be passed, for the hypothesis 
+under consideration, the centre of the image must be either 
+
+contained within the signal region, or must be close to a 
+signal/shadow boundary, 
+boundary alignment, for which test to be passed, for the hypothesis 
+under consideration, each visible side of the rectangle must be 
+
+parallel to a side of the image, 
+boundary symmetry, for which test to be passed, for the hypothesis 
+under consideration, there must be two or four visible sides, which 
+
+are aligned (as above), and approximately equidistant from the edge 
+of the image. 
+boundary completion, for which test to be passed, for the  
+ 
+
+hypothesis under consideration, the fraction of the boundary 
+perimeter length, for which there exists evidence from the low-level 
+
+primitives, must be greater than some threshold. 
+A method according to claim 2 wherein a cost is assigned to each 
+hypothesis, which cost is lowest if the hypothesis is that of a 
+
+rectangle with four sides visible, and which cost increases as the 
+number of visible sides of a rectangle in a hypothesis decreases, 
+
+and the cost is highest if the hypothesis has no visible sides. 
+A method according to claim 11, for further refining the cost of 
+each hypothesis, wherein the cost is increased according to the 
+
+fraction of the signal/shadow boundary which is not supported by 
+evidence from the low-level primitives. 
+A method according to any of the preceding claims wherein image 
+processing performed on said digital signal representation of said 
+
+X-ray image is limited to pixel values of said image within the 
+signal/shadow boundary. 
+In a method of reading a radiation image stored in a 
+photostimulable phosphor screen by scanning said screen with 
+
+stimulating irradiation, detecting light emitted upon stimulation 
+and converting the detected light into a digital signal 
+
+representation a method of determining a signal/shadow boundary 
+according to any of the preceding claims. 
+</CLAIMS>
+</TEXT>
+</DOC>

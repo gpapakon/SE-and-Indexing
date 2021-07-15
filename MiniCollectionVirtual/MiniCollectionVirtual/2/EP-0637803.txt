@@ -1,0 +1,704 @@
+<DOC>
+<DOCNO>EP-0637803</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method and device for adaptively estimating a transfer function of an unknown system
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1716	G06F1716	G06F1710	G06F1710	G05B1304	G05B1304	G05B2302	G05B2302	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G05B	G05B	G05B	G05B	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F17	G06F17	G06F17	G06F17	G05B13	G05B13	G05B23	G05B23	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+In an adaptive estimation of a transfer function 
+by a projection algorithm, a forward linear prediction 
+
+coefficient vector 
+a
+(k) of an input signal x(k), the sum 
+of forward a posteriori prediction-error squares F(k), a 
+
+backward linear prediction coefficient vector 
+b
+(k) of the 
+input signal x(k) and the sum of backward a posteriori 
+
+prediction-error squares B(k) are computed. Letting a 
+step size and a pre-filter deriving coefficient vector be 
+
+represented by µ and 
+f
+(k), respectively, a pre-filter 
+coefficient vector 
+g
+(k) is calculated by a recursion 
+formula for the pre-filter coefficient vector 
+g
+(h), which 
+
+is composed of the following first and second equations: 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+NIPPON TELEGRAPH 
+&
+ TELEPHONE
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+NIPPON TELEGRAPH AND TELEPHONE CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+HANEDA YOICHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KANEDA YUTAKA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KOJIMA JUNJI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MAKINO SHOJI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TANAKA MASASHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HANEDA, YOICHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KANEDA, YUTAKA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KOJIMA, JUNJI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MAKINO, SHOJI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TANAKA, MASASHI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a method for
+adaptively estimating, with a projection algorithm, a
+transfer function of an unknown system and its output in
+an acoustic canceller, active noise control or the like
+and an estimating device using such a method.In the following description, time will be
+represented by a discrete time k. For example, the
+amplitude of a signal x at time k will be expressed by
+x(k). Fig. 1 is a diagram for explaining the estimation
+of the transfer function of an unknown system. Reference
+numeral 11 denotes a transfer function estimation part and
+12 the unknown system, and reference character x(k)
+represents an input signal to the unknown system and y(k)
+an output signal therefrom. The transfer function h(k) of
+the unknown system is estimated using the input signal
+x(k) and the output signal y(k). Fig. 2 is a diagram for
+explaining an adaptive estimation of the transfer
+function. Reference numeral 21 denotes an estimated
+transfer function correcting vector calculation part, 22
+an estimated transfer function correction part and 23 a
+convolution part, these parts constituting an estimated
+signal generation part 20. The transfer function h(k) of
+the unknown system 12 is estimated as a transfer function
+h ∧(k) of an FIR filter of a tap number L which forms the
+convolution part 23. More specifically, coefficients
+h ∧1(k), ..., h ∧L(k) of the FIR filter are estimated. Let it
+be assumed that the "transfer function" and the "FIR
+filter coefficient" will hereinafter be construed as the
+same. For the sake of brevity, the filter coefficient is 
+represented as an estimated transfer function vector
+h ∧(k) defined by the following equation.
+h(k) = [h1(k), h2(k), ..., hL(k)]T
+where T represents a transpose.In Fig. 2, the input signal x(k) to the unknown
+system 12 is fed to the convolution part 23 and a
+calculation is performed to obtain the estimated transfer
+function vector h ∧(k) that minimizes an expected value
+which is the square of an error signal e(k) available from
+a subtractor 24 which detects a difference between an
+output y ∧(k) from the convolution part 23 given by the
+following equation (2) and the output y(k) from the
+unknown system 12.
+y(k) = h(k)Tx(k)x(k) = [x(k), x(k-1), ..., x(k-L+1)]T
+where y ∧(k) is an estimated value of the output from
+the unknown system, which is close to the value of the
+output y(k) when the estimated transfer function
+h ∧(k) is close to an unknown characteristic.In practice, the transfer function of an unknown
+system often varies with time as in the
+</DESCRIPTION>
+<CLAIMS>
+A method of adaptively estimating the transfer function of an unknown technical system by
+use of a projection algorithm, said method comprising:
+
+
+(i) applying an input physical signal x(k) to said unknown system (12), k representing a discrete
+time;
+(ii) detecting an output physical signal y(k) from said unknown system (12);
+(iii) estimating the transfer function using said input signal x(k) and said output signal
+y(k) and generating an output signal y ∧(k) of an estimated system having said estimated transfer
+
+function h ∧(k), wherein said estimated system is implemented as a digital filter of tap number L;
+(iv) obtaining, as an error signal 
+e(k)=y(k)-
+y
+(k)
+, the difference between the output
+signal y ∧(k) of said estimated system and the output signal y(k) of said unknown system (12);
+(v) calculating a correcting vector δh ∧(k) for the estimated transfer function from input
+signal vectors x(k), x(k-1), ..., 
+x(k-p + 1)
+ and error signals e(k), e(k-1), ... , 
+e(k-p + 1)
+, where p is
+an integer equal to or greater than 2 and x(k) is defined as 
+x(k)=[x(k), x(k-1),..., x(k-L+ 1)]
+T
+; and
+(vi) using said correcting vector δh ∧(k) and a predetermined correcting step size µ to
+repeatedly correct said estimated transfer function h ∧(k) at each time k by the following equation:
+
+
+h
+(k+1) = 
+h
+(k) + µδ
+h
+(k)
+
+so that said error signal e(k) approaches zero;
+characterized in that
+ step (v) comprises the steps of:
+
+(v-1) calculating a pre-filter coefficient vector g(k) by solving the following simultaneous
+linear equation with p unknowns:
+
+
+R
+p
+(k)g(k)=e(k),
+
+wherein e(k) represents the vector of said error signal e(k) and is defined as
+
+e(k)=[e(k), (1-µ)e(k-1),..., (1-µ)
+p-1
+e(k-p+1)]
+T
+, and
+
+R
+p
+(k) is a covariance matrix of said input signal x(k) defined as
+
+R
+p
+(k) = [x(k), x(k-1),..., x(k-p + 1)]
+T
+ [x(k), x(k-1),..., x(k-p + 1)]; and
+(v-2) using said pre-filter coefficient vector 9(k) to calculate said correcting vector δh ∧(k)
+by the following equation:
+
+
+δ
+h
+(k) =[x(k), x(k-1), ..., x(k-p+1)]g(k),
+
+wherein x(k) represents the vector of said input signal x(k);
+
+wherein step (v-1) comprises the steps of:
+(v-1-a) calculating a forward linear prediction coefficient vector a(k) of said input signal
+x(k), the sum of its a posteriori prediction-error squares F(k), a backward linear prediction
+
+coefficient vector b(k) of said input signal x(k) and the sum of its a posteriori prediction-error
+squares B(k), and
+(v-1-b) letting a pre-filter deriving coefficient vector be represented by f(k), obtaining
+said pre-filter coefficient vector g(k) by a recursion formula composed of the following first and
+
+second equations:
+A method of adaptively estimating the transfer function of an unknown technical system by
+use of a projection algorithm, said method comprising:
+
+
+(i) applying an input physical signal x(k) to said unknown system (12), k representing a discrete
+time;
+(ii) detecting an output physical signal y(k) from said unknown system (12);
+(iii) estimating the transfer function using said input signal x(k) and said output signal
+y(k) and generating an output signal y ∧(k) of an estimated system having said estimated transfer
+
+function h ∧(k), wherein said estimated system is implemented as a digital filter of tap number L;
+(iv) obtaining, as an error signal 
+e(k)=y(k)-
+y
+(k)
+, the difference between the output
+signal y ∧(k) of said estimated system and the output signal y(k) of said unknown system (12);
+(v) repeating the calculation of the estimated transfer function at each time k so that
+said error signal e(k) approaches zero;
+characterized in that
+
+step (v) comprises steps of:
+
+(v-1) calculating a pre-filter coefficient vector g(k) by solving the following simultaneous
+linear equation with p unknowns:
+
+
+R
+p
+(k)g(k)=e(k),
+
+wherein e(k) represents the vector of said error signal e(k) and is defined as
+
+e(k)=[e(k), (1-µ)e(k-1),..., (1-µ)
+p-1
+e(k-p+1)]
+T
+, and
+
+R
+p
+(k) is a covariance matrix of said input signal x(k) defined as
+
+R
+p
+(k) = [x(k), x(k-1),..., x(k-p+1)]
+T
+ [x(k), x(k-1),..., x(k-p+1)];
+(v-2) smoothing pre-filter coefficients g
+i
+(k) which are elements of said pre-filter
+coefficient vector g(k) by the following equations:
+
+
+s
+i
+(k)=s
+i-1
+(k-1)+µg
+i
+(k)   for 2≤i≤p
+
+=µg
+1
+(k)   for i=1
+
+to obtain a smoothing coefficient s
+i
+(k);
+(v-3) obtaining an approximate estimated transfer function z(k + 1) as an approximation
+of said estimated transfer function using the smoothing coefficient s
+p
+(k) based on the following
+equation
+
+
+z(k + 1)=z(k) + s
+p
+(k)x(k-p + 1);
+(v-4) calculating the convolution x(k)
+T
+z(k) of said approximate estimated transfer
+function z(k) with an input signal vector x(k) defined as 
+x(k)=[x(k), x(k-1),..., x(k-L + 1)]
+T
+;
+(v-5) calculating the inner product 
+s
+p-1
+(k-1)
+T
+r
+p-1
+(k)
+, setting the vector of said smoothing
+coefficient s
+i
+(k) and a correlation vector r
+p-1
+(k) of said input signal to
+
+s
+p-1
+(k-1)=[s
+1
+(k-1), s
+2
+(k-1), ..., s
+p-1
+(k-1)]
+T
+,
+
+and
+
+r
+p-1
+(k)=[x(k)
+T
+x(k-1), x(k)
+T
+x(k-2), ..., x(k)
+T
+x(k-p+1)]
+T
+,
+
+respectively; and
+(v-6) obtaining the sum of said convolution result x(k)
+T
+z(k) and said inner product as
+said estimated output signal y ∧(k).
+The method of claim 2, wherein step (v-1) comprises:
+
+(a) calculating a forward linear prediction coefficient vector a(k) of said input signal x(k),
+the sum of its a posteriori prediction-error squares F(k), a backward linear prediction coefficient
+
+vector b(k) of said input signal x(k) and the sum of its a posteriori prediction-error squares B(k),
+and
+(b) letting a pre-filter deriving coefficient vector be represented by f(k), obtaining said
+pre-filter coefficient vector g(k) by a recursion formula composed of the following first and
+
+second equations:
+
+The method of claim 1 or 3, wherein, letting the last element of said pre-filter
+coefficient vector g(k-1) be represented by g
+p
+(k-1), said pre-filter coefficient vector g(k) is
+calculated using the following equation which is a modified version of said second equation:
+
+
+The method of claim 1 or 3, wherein, letting predetermined two non-negative
+numbers be represented by δ
+F
+(k) and δ
+B
+(k-1), said pre-filter coefficient vector g(k) is calculated by
+the following equations which are modified versions of said first and second equations:
+
+
+The method of claim 2 or 3 wherein step (v-5) comprises calculating said correlation
+vector r
+p-1
+(k) of said input signal x(k) by
+
+r
+p-1
+(k) = r
+p-1
+(k-1)-x(k-L)x
+p-1
+(k-L)+x(k)x
+p-1
+(k)
+
+where x
+p-1
+(k) represents the vector of said input signal x(k) expressed as:
+
+x
+p-1
+(k) = [x(k-1), x(k-2), ..., x(k-p+1)]
+T
+.
+A device for adaptive estimation of the transfer function of an unknown technical system by
+use of a projection algorithm, said device comprising:
+
+
+means for applying an input physical signal x(k) to said unknown system (121, k representing a
+discrete time;
+means for detecting an output physical signal y(k) from said unknown system (12);
+means (11) for estimating the transfer function using said input signal x(k) and said
+output signal y(k) and generating an output signal y ∧(k) of an estimated system (23) having said
+
+estimated transfer function h ∧(k), wherein said estimated system is implemented as a digital filter
+of tap number L; 
+means (24) for obtaining, as an error signal 
+e(k)=y(k)-
+y
+(k)
+, the difference between the
+output signal y ∧(k) of said estimated system and the output signal y(k) of said unknown system
+
+(12);
+means (21) for calculating a correcting vector δh ∧(k) for the estimated transfer function
+from input signal vectors x(k), x(k-1), ... , 
+x(k-p+1)
+ and error signals e(k), e(k-1), ... , 
+e(k-p+1)
+,
+where p is an integer equal to or greater than 2 and x(k) is defined as 
+x(k)=[x(k), x(k-1),..., x(k-
+L+1)]
+T
+; and
+means (22) for repeatedly correcting, at each time k using said correcting vector δh ∧(k)
+and a predetermined correcting step size µ, said estimated transfer function h ∧(k) by the
+
+following equation:
+
+
+h
+(k+1) = 
+h
+(k) + µδ
+h
+(k)
+
+so that said error signal e(k) approaches zero;
+characterized in that
+ said means (21) for calculating the correcting vector δh ∧(k)
+comprises:
+
+
+means (31) for calculating a pre-filter coefficient vector g(k) by solving the following
+simultaneous linear equation with p unknowns:
+
+
+R
+p
+(k)g(k)=e(k),
+
+wherein e(k) represents the vector of said error signal elk) and is defined as
+
+e(k)=[e(k), (1-µ)e(k-1),..., (1-µ)
+p-1
+e(k-p+1)]
+T
+, and
+
+R
+p
+(k) is a covariance matrix of said input signal x(k) defined as
+
+R
+p
+(k)=[x(k), x(k-1),..., x(k-p+1)]
+T
+ [x(k), x(k-1),..., x(k-p+1)]; and
+means (32) for calculating, using said pre-filter coefficient vector g(k), said correcting
+vector δh ∧(k) by the following equation:
+
+
+δ
+h
+(k) =[x(k), x(k-1), ..., x(k-p+1)]g(k),
+
+where x(k) represents the vector of said input signal x(k); and
+
+said means (31) for calculating said pre-filter coefficient vector g(k) comprises:
+means (41) for calculating a forward linear prediction coefficient vector a(k) of said
+input signal x(k), the sum of its a posteriori prediction-error squares F(k), a backward linear
+
+prediction coefficient vector b(k) of said input signal x(k) and the sum of its a posteriori
+prediction-error squares B(k), and
+means (42, 43, 44) for obtaining said pre-filter coefficient vector g(k) by a recursion
+formula composed of the following first and second equations:
+
+
+
+where f(k) represents a pre-filter deriving coefficient vector.
+A device for adaptive estimation of the transfer function of an unknown technical system by
+use of a projection algorithm, said device comprising:
+
+
+means for applying an input physical signal x(k) to said unknown system (12), k representing a
+discrete time; 
+means for detecting an output technical signal g(k) from said unknown system (12);
+means (11) for estimating the transfer function using said input signal x(k) and said
+output signal y(k) and generating an output signal y ∧(k) of an estimated system (23) having said
+
+estimated transfer function h ∧(k), wherein said estimated system is implemented as a digital filter
+of tap number L;
+means (24) for obtaining, as an error signal 
+e(k) = y(k)-
+y
+(k)
+, the difference between the
+output signal y ∧(k) of said estimated system and the output signal y(k) of said unknown system
+
+(12); and
+means (20) for calculating the estimated transfer function at each time k so that said
+error signal e(k) approaches zero;
+characterized in that
+ said means (20) for calculating the estimated transfer function
+comprises:
+
+
+means (31) for calculating a pre-filter coefficient vector g(k) by solving the following
+simultaneous linear equation with p unknowns:
+
+
+R
+p
+(k)g(k) = e(k),
+
+wherein e(k) represents the vector of said error signal e(k) and is defined as
+
+e(k)=[e(k), (1-µ)e(k-1),..., (1-µ)
+p-1
+e(k-p+1)]
+T
+, and
+
+R
+p
+(k) is a covariance matrix of said input signal x(k) defined as
+
+R
+p
+(k) = [x(k), x(k-1),..., x(k-p + 1)]
+T
+ [x(k), x(k-1),..., x(k-p+1)];
+means (51) for smoothing pre-filter coefficients g
+i
+(k), which are elements of said pre-filter
+coefficient vector g(k), by the following equations:
+
+
+s
+i
+(k)=s
+i-1
+(k-1)+µg
+i
+(k)   for 2≤i≤p
+
+= µg
+1
+(k)   for i=1
+
+to obtain a smoothing coefficient s
+i
+(k); and
+means (55) for obtaining an approximate estimated transfer function z(k + 1) as an
+approximation of said estimated transfer function using the smoothing coefficient s
+p
+(k) based on
+the following equation
+
+
+z(k + 1) = z(k) + s
+p
+(k)x(k-p + 1); and
+said estimated system (23) comprises:
+means (54) for calculating the convolution x(k)
+T
+z(k) of said approximate estimated
+transfer function z(k) with an input signal vector x(k) defined as 
+x(k)=[x(k), x(k-1),..., x(k-
+
+L+1)]
+T
+;
+means (53) for calculating the inner product 
+s
+p-1
+(k-1)
+T
+r
+p-1
+(k)
+, setting the vector of said
+smoothing coefficient s
+i
+(k) and a correlation vector r
+p-1
+(k) of said input signal to
+
+s
+p-1
+(k-1)=[s
+1
+(k-1), s
+2
+(k-1), ..., s
+p-1
+(k-1)]
+T
+
+and
+
+r
+p-1
+(k)=[x(k)
+T
+x(k-1), x(k)
+T
+x(k-2), ..., x(k)
+T
+x(k-p + 1)]
+T
+
+respectively; and
+means (57) for obtaining the sum of said convolution result x(k)
+T
+z(k) and said inner
+product as said estimated output signal y ∧(k).
+The device of claim 8, wherein said means (31) for solving said simultaneous linear
+equation with p unknowns comprises:
+
+
+means (41) for calculating a forward linear prediction coefficient vector a(k) of said
+input signal x(k), the sum of its a posteriori prediction-error squares F(k), a backward linear 
+
+prediction coefficient vector b(k) of said input signal x(k) and the sum of its a posteriori
+prediction-error squares B(k), and
+means (42, 43, 44) for obtaining said pre-filter coefficient vector g(k) by a recursion
+formula composed of the following first and second equations:
+
+
+
+where f(k) represents a pre-filter deriving coefficient vector.
+The device of claim 8 or 9, wherein said inner product calculating means includes
+correlation calculating means for calculating said correlation vector r
+p-1
+(k) of said input signal x(k)
+by
+
+
+r
+p-1
+(k) = r
+p-1
+(k-1)-x(k-L)x
+p-1
+(k-L) + x(k)x
+p-1
+(k),
+
+where x
+p-1
+(k) represents the vector of said input signal x(k) expressed as:
+
+x
+p-1
+(k) = [x(k-1), x(k-2), ..., x(k-p+1)]
+T
+.
+The device of claim 7 or 9, wherein said pre-filter deriving coefficient vector
+correcting means is means which, letting the last element of said pre-filter coefficient vector g(k-1)
+
+be represented by g
+p
+(k-1), calculates said pre-filter coefficient vector g(k) by the following
+equation which is a modified version of said second equation:
+
+
+The device of claim 7 or 9, wherein, letting predetermined non-negative numbers be
+represented by δ
+F
+(k) and δ
+B
+(k-1), respectively, said pre-filter coefficient vector correcting means
+and said pre-filter deriving coefficient vector correcting means calculate said pre-filter coefficient
+
+vector g(k) by the following equations, respectively, which are modified versions of said first and
+second equations:
+
+
+The device of claim 7 or 10, further comprising subtracting means for providing, as
+said error signal e(k), the difference y(k)-y ∧(k) between said output signal y(k) of said unknown
+
+system (12) and said estimated signal y ∧(k) which is the output of said estimated system.
+</CLAIMS>
+</TEXT>
+</DOC>

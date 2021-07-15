@@ -1,0 +1,367 @@
+<DOC>
+<DOCNO>WO-1996019882</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+MULTIMEDIA MULTIPLEXING DEVICE AND METHOD USING DYNAMIC PACKET SEGMENTATION
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04J324	H04J324	H04L2906	H04L2906	H04N752	H04N758	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04J	H04J	H04L	H04L	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04J3	H04J3	H04L29	H04L29	H04N7	H04N7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The present invention provides a method (900) and device (100) in multimedia communication systems for efficiently segmenting information bitstreams from multiple media sources into variable length packets, and multiplexing and sending the packets to a shared communication link with low delay and low overhead. The packet segmentation and multiplexing are performed dynamically based on fullness of a set of information buffers that contain the information bitstreams to be transmitted, and delay-sensitivity of each information bitstream. The multi-discipline queuing scheme has been developed in this invention to control the dynamic packet segmenting and multiplexing process.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MOTOROLA INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MOTOROLA INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+NG DENNIS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YANG JIAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YONG MEI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NG, DENNIS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YANG, JIAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YONG, MEI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+ MULTIMEDIA MULTIPLEXING DEVICE AND METHOD USING DYNAMIC PACKET SEGMENTATIONField of InventionThis invention relates generally to multimedia communications and more particularly to multimedia multiplexing.BackgroundRecent advances in telecommunications and Digital Signal Processing (DSP), technologies, have created a growing demand for multimedia communication products for both business and home use. Multimedia communications often involve the simultaneous transmission of audio, video and data, such as graphics, fax or computer data, through an available shared communication link. To make efficient use of the available communication link, a number of techniques are required. For example, compression algorithms for compressing various media types are needed to reduce the bandwidth needed to transmit them. In addition, an efficient and flexible multiplexing method is needed to provide an acceptable quality of service, i.e., low multiplexing overhead and queuing delay, for each media type.In traditional circuit-switched networks, different signals are multiplexed together using time division multiplexing (TDM). In TDM, a fixed bandwidth is typically allocated to each media for the duration of a call, and there is little flexibility to take advantage of the bursty nature of data, video and audio information. 
+
+ To gain more flexibility and efficiency, packet multiplexing techniques have been proposed. Packet multiplexing has been widely adopted in ATM networks. In packet multiplexing, each information bitstream is segmented into packets, and packets from different bitstreams are multiplexed and sequentially transmitted over a communication channel. Each packet typically contains a header field and a payload field. A packet header contains a packet identifier which is used for recovering each individual information bitstream from a multiplexed packet sequence. The payload field of a packet may optionally contain some media-specific adaptation information in addition to actual information bits. Packets may be of fixed-length or of variable- length. Fixed-length packets used in ATM have the following advantages: fast segmentation and reassembly, no need for delineation flags, and easy synchronization. However, fixed-size packets are not suitable for use on low-speed links, because of efficiency and delay considerations. Variable-length packets simplify the implementation of the adaptation layers and allow a flexible design to trade-off delay against efficiency. Thus, variable-length packets are more appealing
+</DESCRIPTION>
+<CLAIMS>
+1. A multimedia multiplexing device in a multimedia communication system for segmenting and multiplexing bitstreams from different media sources into variable length packets, said device comprising: 1 A) a plurality of information buffers for receiving bitstreams from different media sources and temporarily buffering these bitstreams;
+1 B) a dynamic priority-based packet segmentation and multiplexing unit having a multi-discipline queuing scheme; operably coupled to the plurality of information buffers and to an output channel, for selecting and segmenting information bitstreams into variable length packets , wherein said packet size is dynamically adjusted based at least on a fullness of each of the information buffers and a bit-rate of the output channel, and transmitting the packets to an output channel.
+2. The multimedia multiplexing device of claim 1 wherein at least one of 2A-2B:
+2A) the dynamic priority-based packet segmentation and multiplexing unit having a multi-discipline queuing scheme comprises:
+2A1 ) a buffer monitor, operably coupled to the plurality of information buffers, for monitoring the fullness of each information buffer and sending a packet-transmission request to a queuing and segmentation controller when an information buffer has one packet's worth of information bits ready to be sent;
+2A2) the queuing and segmentation controller, operably coupled to the buffer monitor, to the output channel, and to a packet generator, for receiving packet-transmission request(s) from the buffer monitor, for receiving channel bit-rate information from the output channel, for receiving an end of 
+
+
+packet indication from a packet generator, and for modifying a service buffer of a server in accordance with a selected queuing discipline;
+2A3) the server, operably coupled to the queuing and segmentation controller and to the plurality of information buffers, for receiving a command from the queuing and segmentation controller and for receiving a bitstream from a selected information buffer and passing the selected bitstream to a packet generator; and 2A4) the packet generator, operably coupled to receive a bitstream from the server, for forming packets and sending packets to the output channel and informing the queuing and segmentation controller each time a packet is sent; and where selected, 2A5) wherein, in the multi-discipline queuing scheme, where there are N buffers, represented as Bi , B2,..., and BN , for storing source bitstream 1 , 2,..., and N respectively, a priority of each buffer is the same as the priority of the corresponding bitstream, the buffers are served according to one of 2A5a-2A5c: 2A5a) a Head of Line Priority for Variable
+Length Packet Segmentation, HOLP-VLP, queuing discipline;
+2A5b) a Weighted Round Robin for Variable
+Length Packet Segmentation, WRR-VLP, queuing discipline; and
+2A5c) a predetermined combination of the HOLP-VLP and WRR-VLP queuing disciplines, and where further selected, at least one of 2A6a-2A6c:
+2A6a) the HOLP-VLP queuing discipline is utilized to treat priority groups that all have different priorities and includes the steps of 2A6a1-2A6A2: 2A6a1 ) where buffer i, i an index of the buffer, is currently being served, continuing, by a server, to serve buffer i until one of the following two events happens: 
+
+
+ 2A6a1 A) at least one packet from a higher priority buffer is ready to be sent;
+2A6a1 B) an insufficient number of bits are available in buffer i; and 2A6a2) upon one of A1 -A2 occuring, stopping serving buffer i, by the server, after completely sending a packet currently being sent and then switching to serve a next highest priority buffer that has packet(s) ready to be sent;
+2A6b) the WRR-VLP queuing discipline is utilized to treat bitstreams that all have an equal priority and includes the steps of:
+2A6b1 ) serving, by the server, in a pre-selected partition period, Tp , each buffer in a same priority group cyclically in a predetermined order and for a period, Tj, i an index of the buffer, where the period Tj is one of 2A6b1A-2A6b1 B:
+2A6b1 A) aj
+*
+Tp , where aj is the bandwidth- weighting factor used for bitstream i; and
+2A6b1 B) shortening Tj where one of 2A61b1 B1 - 2A61 b1 B2: 2A61 b1 B1 ) where insufficient bits are in buffer i; and
+2A61 b1 B2) where a packet from a higher priority buffer is ready to be sent; and
+2A6b1 B) extending Tj where buffer i still has bits to be sent, but all other buffers in a same priority group are unready to send bits, where an upper bound of a partition period Tp is determined by one of 2A6b1 B1 -2A6b1 B2:
+2A6b1 B1 ) a predetermined maximum queuing delay requirement for each bitstream in the priority group and a lower bound of Tp is determined by the packetization efficiency requirement; and
+2A6b1 B2) Tp is adjusted dynamically; 
+
+
+where, when a particular buffer is allocated a period of aj
+*
+Tp to send a packet, but the packet is interrupted by a packet- transmission request from a higher priority buffer, then a remaining credit is given to the same buffer when the priority group is served again in a following time; and
+2A6c) a packet from bitstream i and generated at time t contains a number of raw information bits denoted as Sj(t) , excluding packet header, flags and any stuffing bits, where Sj(t) is computed as follows:
+if (Qj(t) 
+<
+ Sj 
+i n
+)
+Si(t) = 0 else Sj(t) 
+
+
+ , Qj(t)
++
+Qi(tjtp-t), Bj(t,tj
+tp
+)}
+where Sj
+mi n
+ and Sj
+max
+, with 0 
+<
+ Sj
+min
+ 
+<
+= Sj
+max
+, are respectively a minimum and maximum number of raw information bits in a packet for bitstream i, Qj(t) a number of raw information bits available in buffer i at time t, Qj(tjtp-t) a number of raw information bits entering buffer i between time t and tjtp, and Bj(t.tjtp) a maximum number of bits, that can be sent during a time when said buffer is being continuously served, subtracted by any overhead bits, denoted Oj(t), for the packet, where tjtp is an interrupt time at which transmission of the current packet must be stopped, and, where selected, where a fixed number of information bits in each packet is sent, Sj
+m m
+ = Sj
+max
+, and where selected, one of:
+2A6c1 ) wherein the minimum and maximum number of raw information bits are pre-determined based on efficiency and memory requirements for a given application; and 
+
+
+ 26
+Page missing upon filing 
+
+3. A multimedia multiplexing device in a multimedia communication system for segmenting and multiplexing bitstreams from different media sources into variable length packets, said device comprising: 3A) a plurality of information buffers for receiving bitstreams from the different media sources and temporarily buffering the bitstreams;
+3B) a dynamic priority-based packet segmentation and multiplexing unit having a multi-discipline queuing scheme, operably coupled to the plurality of information buffers and to an output channel, for:
+3B1 ) dynamically adjusting sizes of packets for the bitstreams based on a fullness of each of the plurality of information buffers and an available bit-rate of the output channel; and
+3B2) multiplexing the packets in an order based on the multi-discipline queuing scheme that assigns a higher priority to delay-sensitive source(s) than to delay-insensitive source(s) and provides an effective bandwidth sharing among a plurality of sources. 
+
+4. The multimedia multiplexing device of claim 3 wherein at least one of 4A-4C:
+4A) the dynamic priority-based packet segmentation and multiplexing unit comprises : 4A1 ) a buffer monitor, operably coupled to the plurality of information buffers, for monitoring the fullness of each information buffer and sending a packet-transmission request to a queuing and segmentation controller when an information buffer has one packet worth of information bits ready to be sent;
+4A2) the queuing and segmentation controller, operably coupled to the buffer monitor, to the output channel, and to a packet generator, for receiving packet-transmission request(s) from the buffer monitor, for receiving channel bit-rate information from the output channel, for receiving an end of packet indication from a packet generator, and for modifying a service buffer of a server in accordance with a selected queuing discipline;
+4A3) the server, operably coupled to the queuing and segmentation controller and to the plurality of information buffers, for receiving a command from the queuing and segmentation controller and for receiving a bitstream from a selected information buffer and passing the selected bitstream to a packet generator; and 4A4) the packet generator, operably coupled to receive a bitstream from the server, for forming packets and sending packets to the output channel and informing the queuing and segmentation controller each time a packet is sent;
+4B) the multi-discipline queuing scheme includes prioritizing bitstreams from different sources based on delay tolerances, where a least delay-tolerant bitstream is given the highest priority, a most delay-tolerant bitstream is given the 
+
+
+lowest priority, and bitstreams that have an equal delay tolerance are given a same priority and are grouped into a single priority group, and where selected, wherein a bandwidth- weighting factor aj for bitstream i, i an index of the bitstream, is assigned for each bitstream as a fraction of bandwidth allocated to the bitstream i out of the total bandwidth allocated to the priority group containing bitstream i; and
+4C) wherein, in the multi-discipline queuing scheme, where there are N buffers, represented as Bi , B2,..., and BN , for storing source bitstream 1 , 2,..., and N respectively, a priority of each buffer is the same as the priority of the corresponding bitstream, the buffers are served according to one of 4C1-4C3:
+4C1 ) a Head of Line Priority for Variable Length Packet Segmentation, HOLP-VLP, queuing discipline;
+4C2) a Weighted Round Robin for Variable Length Packet Segmentation, WRR-VLP, queuing discipline; and
+4C3) a predetermined combination of the HOLP-VLP and WRR-VLP queuing disciplines, and where selected at least one of 4C3a-4C3c:
+4C3a) a HOLP-VLP queuing discipline is utilized to treat priority groups that all have different priorities and includes the steps of:
+4C3a1 ) where buffer i, i an index of the buffer, is currently being served, continuing, by a server, to serve buffer i until one of the following two events happens:
+4C3a1 A) at least one packet from a higher priority buffer is ready to be sent;
+4C3a1 B) an insufficient number of bits are available in buffer i;
+4C3a2) upon one of A1 -A2 occuring, stopping serving buffer i, by the server, after completely sending 
+
+
+a packet currently being sent and then switching to serve a next highest priority buffer that has packet(s) ready to be sent;
+4C3b) a WRR-VLP queuing discipline is utilized to treat bitstreams that all have an equal priority and includes the steps:
+4C3b1 ) serving, by the server, in a pre¬ selected partition period, Tp, each buffer in a same priority group cyclically in a predetermined order and for a period, Tj, i an index of the buffer, where the period Tj is one of 4C3b1 A-4C3b1 C: 4C3b1 A1 ) aj
+*
+Tp, where aj is the bandwidth weighting factor used for bitstream i; and
+4C3b1A2) shortening Tj where one of A2a-A2b:
+4C3b1 A2a) where insufficient bits is in buffer i; and 4C3b1 A2a) where a packet from a higher priority buffer is ready to be sent; and
+4C3b1 C) extending Tj where buffer i still has bits to be sent, but all other buffers in a same priority group are unready to send bits, where an upper bound of a partition period Tp is determined by one of 4C3b1 C1-4C3b1 C2:
+4C3b1 C1 ) a predetermined maximum queuing delay requirement for each bitstream in the priority group and a lower bound of Tp is determined by the packetization efficiency requirement; and 4C3b1 C2) Tp is adjusted dynamically;
+where, when a particular buffer is allocated a period of ai
+*
+Tp to send a packet, but the packet is interrupted by a packet- transmission request from a higher priority buffer, then a remaining credit is given to a same buffer when the priority group is served again in a following time; and 
+
+
+ 4C3c) a packet from bitstream i and generated at time t contains the number of raw information bits denoted as Sj(t), excluding packet header, flags and any stuffing bits, where Sj(t) is computed as follows:
+if (Qj(t) 
+<
+ Sj
+m in
+)
+Sj(t) = 0 else
+S j(t) = min { Sjmax, Qj(t)+Qj(tjtp-t), Bj(t.tjtp)}
+where Sj
+min
+ and Sj
+m
+a
+χ
+, with 0 
+<
+ Sj
+min
+ 
+<
+= Sj
+m
+a
+χ
+, are respectively a minimum and maximum number of raw information bits in a packet for bitstream i, Qj(t) a number of raw information bits available in buffer i at time t, Qj(tjtp-t) a number of raw information bits entering buffer i between time t and tjtp, and Bi(t.tjtp) a maximum number of bits, that can be sent during a time when said buffer is being continuously served, subtracted by any overhead bits, denoted Oj(t), for the packet, where tjtp is the interrupt time at which transmission of the current packet must be stopped, and, where selected, where a fixed number of information bits in each packet is sent, Sj
+m i n
+ = Sj
+m ax
+, and where selected one of 4C3c1-4C3c2:
+4C3c1 ) wherein the minimum and maximum number of raw information bits are pre-determined based on efficiency and memory requirements for a given application; and
+4C3c2) wherein flags and stuffing bits for a packet are generated by a hardware HDLC controller, and the available bandwidth Bi(t,tjt ) is estimated as a channel bit-rate multiplied by a buffer serving time, t-tjtp, and then is subtracted by overhead corrections due to an underestimate of overhead of packets sent previously, where a correction for a packet is computed as T
+*
+R-S, where: 
+
+
+ 4C3c2A) T represents a time difference between an acknowledgment to the packet and that of an immediately preceeding packet;
+4C3c2B) R represents the channel bit-rate; and 4C3c2)C) S represents a number of known information bits in the packet.
+5. A multimedia multiplexing method for a multimedia communication system for segmenting and multiplexing bitstreams from different media sources into variable length packets, said method comprising the steps of:
+5A) receiving bitstreams from different media sources and temporarily buffering the bitstreams in a plurality of information buffers; 5B) utilizing a dynamic priority-based packet segmentation and multiplexing unit having a multi-discipline queuing scheme for:
+5B1 ) dynamically adjusting sizes of packets for the information bitstreams based on a fullness of each of the plurality of information buffers and an available bit-rate of the output channel and
+5B2) multiplexing the packets in an order based on the multi-discipline queuing scheme that assigns a higher priority to delay-sensitive source(s) than to delay-insensitive source(s) and provides an effective bandwidth sharing among a plurality of sources.
+6. The method of claim 5 wherein at least one of 6A-6C:
+6A) the dynamic priority-based packet segmentation and multiplexing unit having a multi-discipline queuing scheme utilizes the steps of: 
+
+
+ 6A1 ) monitoring, by a buffer monitor, the fullness of each information buffer and sending a packet-transmission request to a queuing and segmentation controller when an information buffer has one packet worth of information bits ready to be sent;
+6A2) utilizing a queuing and segmentation controller for receiving packet transmission request(s) from the buffer monitor, for receiving channel bit-rate information from an output channel, for receiving an end of packet indication from a packet generator, and for modifying a service buffer of a server in accordance with a selected queuing discipline;
+6A3) utilizing a server for receiving a command from the queuing and segmentation controller and for receiving a bitstream from a selected information buffer and passing the selected bitstream to a packet generator; and
+6A4) utilizing a packet generator for forming packets and sending the packets to the output channel and informing the queuing and segmentation controller each time a packet is sent; 6B) the multi-discipline queuing scheme includes prioritizing bitstreams from different sources based on delay tolerances, where a least delay-tolerant bitstream is given the highest priority, a most delay-tolerant bitstream is given the lowest priority, and bitstreams that have an equal delay tolerance are given a same priority and are grouped into a single priority group, and where selected, wherein a bandwidth- weighting factor aj for a bitstream i, i an index of the bitstream, is assigned for each bitstream as a fraction of bandwidth allocated to the bitstream i out of the total bandwidth allocated to the priority group containing bitstream i; and 6C) wherein, in the multi-discipline queuing scheme, where there are N buffers, represented as Bi , B2,..-
+>
+ and BN , for storing source bitstream 1 , 2,..., and N respectively, a priority of each 
+
+
+buffer is the same as the priority of the corresponding bitstream, the buffers are served according to one of 6C1-6C3:
+6C1 ) a Head of Line Priority for Variable Length Packet Segmentation, HOLP-VLP, queuing discipline; 6C2) a Weighted Round Robin for Variable Length
+Packet Segmentation, WRR-VLP, queuing discipline; and
+6C3) a predeterimined combination of the HOLP-VLP and WRR-VLP queuing disciplines; and where selected, at least one of 6C3a-6C3d: 6C3a) wherein the HOLP-VLP queuing discipline is utilized to treat priority groups that all have different priorities and includes the steps:
+6C3a1 ) where buffer i, i an index of the buffer, is currently being served, continuing, by a server, to serve buffer i until one of the following two events happens:
+6C3a1 A) at least one packet from a higher priority buffer is ready to be sent;
+6C3a1 B) an insufficient number of bits are available to in buffer i; 6C3a2) upon one of the events occuring, stopping serving buffer i, by the server, after completely sending a packet currently being sent and then switching to serve a next highest priority buffer that has packet(s) ready to be sent; 6C3b) wherein, the WRR-VLP queuing discipline is utilized to treat bitstreams that all have an equal priority and includes the steps:
+6C3b1 ) serving, by the server, in a pre-selected partition period, Tp , each buffer in a same priority group cyclically in a predetermined order and for a period, Tj, i an index of the buffer, where the period Tj is one of 6C3b1A-6C3b1 C: 
+
+
+
+ 6C3b1 A) aj
+*
+T
+p
+ , where aj is the bandwidth weighting factor used for bitstream i; and
+6C3b1 B) shortening Tj where one of
+6C3b1 B1 -6C3b1 B2: 6C3b1 B1) where insufficient bits are in buffer i; and
+6C3b1 B1) where a packet from a higher priority buffer is ready to be sent; and
+6C3b1 C) extending Tj where buffer i still has bits to be sent, but all other buffers in a same priority group are unready to send bits, where an upper bound of a partition period Tp is determined by one of 6C3b1 C1-6C3b1 C2:
+6C3b1 C1 ) a predetermined maximum queuing delay requirement for each bitstream in the priority group and a lower bound of Tp is determined by the packetization efficiency requirement; and
+6C3b1 C2) Tp is adjusted dynamically;
+where, when a particular buffer is allocated a period of aj
+*
+Tp to send a packet, but the packet is interrupted by a packet- transmission request from a higher priority buffer, then the remaining credit is given to the same buffer when the priority group is served again in a following time;
+6C3c) wherein a packet from bitstream i and generated at time t contains a number of raw information bits denoted as Sj(t), excluding packet header, flags and any stuffing bits, where Sj(t) is computed as follows:
+
+ Sj(t) 
+•
+= 0 else
+Sj(t) 
+
+
+ Qj(t)+Qj(tjtp-t), Bj(t,tj
+tp
+)} 
+
+
+where Si
+min
+ and Sj
+max
+, with 0 
+<
+ Sj 
+i n
+ 
+<
+-= Sj
+m x
+, are respectively a minimum and maximum number of raw information bits in a packet for bitstream i, Qj(t) number of raw information bits available in buffer i at time t, Qj(tjtp-t) a number of raw information bits entering buffer i between time t and tjtp, and Bj(t.tjtp) a maximum number of bits, that can be sent during a time when said buffer is being continuously served, subtracted by any overhead bits, denoted Oj(t), for the packet, where tjtp is the interrupt time at which transmission of the current packet must be stopped, and, where selected, where a fixed number of information bits in each packet is sent, Sj
+mm
+ = Sj
+max
+, and where selected, at least one of 6C3c1-6C3c2:
+6C3c1 ) wherein the minimum and maximum number of raw information bits are pre-determined based on efficiency and memory requirements for a given application; and where further selected, wherein flags and stuffing bits for a packet are generated by a hardware HDLC controller, and the available bandwidth Bj(t,tjt
+p
+) is estimated as a channel bit-rate multiplied by a buffer serving time, t-tjt
+p
+, and then is subtracted by the overhead corrections due to an underestimate of overhead of packets sent previously, where a correction for a packet is computed as T
+*
+R-S, where:
+6C3c1 A) T represents a time difference between an acknowledgment to the packet and that of an immediately preceeding packet;
+6C3cB) R represents the channel bit-rate; and 6C3cC) S represents a number of known information bits in the packet; and 6C3d) the multi-discipline queuing scheme includes, where a real-time audio bitstream, denoted as bitstream 1 , a real-time video bitstream, denoted as bitstream 2, a real-time data 
+
+
+bitstream, denoted as bitstream 3, and a non-real-time data bitstream, denoted as a bitstream 4, are multiplexed together, making priority assignments with P1 
+>
+ P2 
+•
+= P3 
+>
+ P4, where Pi is a priority associated with bitstream i, and i = 1 , 2, 3, 4, assigning bitstream 2 and 3 in a same priority group, denoted as PG2, that are multiplexed according to the WRR-VLP queuing discipline, and then multiplexing bitstream 1 , PG2, and bitstream 4 according to the HOLP-VLP queuing discipline. 
+
+7. Data Communications Equipment/Data Terminal Equipment having a multimedia multiplexing device in a multimedia communication system for segmenting and multiplexing bitstreams from different media sources into variable length packets, said multimedia multiplexing device comprising:
+7A) a plurality of information buffers for receiving bitstreams from the different media sources and temporarily buffering the bitstreams;
+7B) a dynamic priority-based packet segmentation and multiplexing unit having a multi-discipline queuing scheme, operably coupled to the plurality of information buffers and to an output channel, for:
+7B1 ) dynamically adjusting sizes of packets for the bitstreams based on a fullness of each of the plurality of information buffers and an available bit-rate of the output channel; and
+7B2) multiplexing the packets in an order based on the multi-discipline queuing scheme that assigns a higher priority to delay-sensitive source(s) than to delay-insensitive source(s) and provides an effective bandwidth sharing among a plurality of sources.
+8. The Data Communications Equipment/Data Terminal Equipment of claim 7 wherein the dynamic priority-based packet segmentation and multiplexing unit comprises:
+8A) a buffer monitor, operably coupled to the plurality of information buffers, for monitoring the fullness of each information buffer and sending a packet-transmission request to a queuing and segmentation controller when an information buffer has one packet worth of information bits ready to be sent;
+8B) the queuing and segmentation controller, operably coupled to the buffer monitor, to the output channel, and to a 
+
+
+packet generator, for receiving packet-transmission request(s) from the buffer monitor, for receiving channel bit-rate information from the output channel, for receiving an end of packet indication from a packet generator, and for modifying a service buffer of a server in accordance with a selected queuing discipline;
+8C) the server, operably coupled to the queuing and segmentation controller and to the plurality of information buffers, for receiving a command from the queuing and segmentation controller and for receiving a bitstream from a selected information buffer and passing the selected bitstream to a packet generator; and
+8D) the packet generator, operably coupled to receive a bitstream from the server, for forming packets and sending packets to the output channel and informing the queuing and segmentation controller each time a packet is sent.
+9. The Data Communications Equipment/Data Terminal Equipment of claim 7 wherein the multi-discipline queuing scheme includes prioritizing bitstreams from different sources based on delay tolerances, where a least delay-tolerant bitstream is given the highest priority, a most delay-tolerant bitstream is given the lowest priority, and bitstreams that have an equal delay tolerance are given a same priority and are grouped into a single priority group, and where selected, wherein a bandwidth-weighting factor aj for bitstream i, i an index of the bitstream, is assigned for each bitstream as a fraction of bandwidth allocated to the bitstream i out of the total bandwidth allocated to the priority group containing bitstream i.
+1 0. The Data Communications Equipment/Data Terminal Equipment of claim 7 wherein, in the multi-discipline queuing 
+
+
+
+scheme, where there are N buffers, represented as Bi , B2,..., and
+BN . for storing source bitstream 1 , 2 and N respectively, a priority of each buffer is the same as the priority of the corresponding bitstream, the buffers are served according to one of 10A-10C:
+10A) a Head of Line Priority for Variable Length Packet Segmentation, HOLP-VLP, queuing discipline;
+1 0B) a Weighted Round Robin for Variable Length Packet Segmentation, WRR-VLP, queuing discipline; and 10C) a predetermined combination of the HOLP-VLP and
+WRR-VLP queuing disciplines, and where selected, at least one of 10C1 -10C3:
+10C1 ) wherein, the HOLP-VLP queuing discipline is utilized to treat priority groups that all have different priorities and includes the steps of:
+10C1 A) where buffer i, i an index of the buffer, is currently being served, continuing, by a server, to serve buffer i until one of the following two events happens:
+10C1 A1 ) at least one packet from a higher priority buffer is ready to be sent;
+10C1A2) an insufficient number of bits are available in buffer i;
+10C1 B) upon one of 1 0C1 A1 -1 0C 1 A2 occuring, stopping serving buffer i, by the server, after completely sending a packet currently being sent and then switching to serve a next highest priority buffer that has packet(s) ready to be sent;
+10C2) wherein, the WRR-VLP queuing discipline is utilized to treat bitstreams that all have an equal priority and includes the steps:
+10C2A) serving, by the server, in a pre-selected partition period, Tp , each buffer in a same priority group 
+
+
+cyclically in a predetermined order and for a period, Tj, i an index of the buffer, where the period Tj is one of 10C2A1 -10C2A3:
+10C2A1 ) aj
+*
+Tp, where aj is the bandwidth weighting factor used for bitstream i; and 1 0C2A2) shortening Tj where one of
+10C2A2a-10C2A2b:
+10C2A2a) where insufficient bits is in buffer i; and
+10C2A2D) where a packet from a higher priority buffer is ready to be sent; and
+1 0C2A3) extending Tj where buffer i still has bits to be sent, but all other buffers in a same priority group are unready to send bits, where an upper bound of a partition period Tp is determined by one of 10C2A3a-10C2A3b: 1 0C2A3a) a predetermined maximum queuing delay requirement for each bitstream in the priority group and a lower bound of Tp is determined by the packetization efficiency requirement; and
+10C2A3b) Tp is adjusted dynamically;
+where, when a particular buffer is allocated a period of aj
+*
+Tp to send a packet, but the packet is interrupted by a packet- transmission request from a higher priority buffer, then a remaining credit is given to a same buffer when the priority group is served again in a following time; and
+10C3) wherein a packet from bitstream i and generated at time t contains the number of raw information bits denoted as Sj(t), excluding packet header, flags and any stuffing bits, where Sj(t) is computed as follows:
+if (Qj(t) 
+<
+ Sjmin ) Sj(t) = 0 
+
+
+else
+Sj(t) = min { Sjmax, Qi(t)+Qj(tjtp-t), Bj(t,tj
+tp
+)}
+where Si
+min
+ and Sj
+m
+ax, vvith 0 
+<
+ Si
+min
+ 
+<
+= Sj
+m
+ax, 
+are
+ respectively a minimum and maximum number of raw information bits in a packet for bitstream i, Qj(t) a number of raw information bits available in buffer i at time t, Qj(tjtp-t) a number of raw information bits entering buffer i between time t and tjtp, and Bi(t,tjtp) a maximum number of bits, that can be sent during a time when said buffer is being continuously served, subtracted by any overhead bits, denoted Oj(t), for the packet, where tjtp is the interrupt time at which transmission of the current packet must be stopped, and, where selected, where a fixed number of information bits in each packet is sent, Sj
+m m
+ = Sj
+max
+, and where selected, at least one of 10C3a-10C3b:
+10C3a) wherein the minimum and maximum number of raw information bits are pre-determined based on efficiency and memory requirements for a given application; and
+10C3b) wherein flags and stuffing bits for a packet are generated by a hardware HDLC controller, and the available bandwidth Bj(t,tjt
+p
+) is estimated as a channel bit-rate multiplied by a buffer serving time, t-tjtp, and then is subtracted by the overhead corrections due to an underestimate of overhead of packets sent previously, where a correction for a packet is computed as T
+*
+R-S, where:
+10C3b1 ) T represents a time difference between an acknowledgment to the packet and that of an immediately preceeding packet;
+10C3b2) R represents the channel bit-rate; and 10C3b3) S represents a number of known information bits in the packet. 
+
+</CLAIMS>
+</TEXT>
+</DOC>

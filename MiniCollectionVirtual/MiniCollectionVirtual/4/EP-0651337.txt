@@ -1,0 +1,451 @@
+<DOC>
+<DOCNO>EP-0651337</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+OBJECT RECOGNIZING METHOD, ITS APPARATUS, AND IMAGE PROCESSING METHOD AND ITS APPARATUS.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06K964	G06K964	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06K	G06K	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06K9	G06K9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The image signals output from a television camera (1) which represent an object are sent to a preprocessing circuit (3), binary 
+coded and blocked (resolution lowering). Then, in a circuit (4), image data in the area to be correlated are extracted from the 
+
+preprocessed data. The extracted image data are transformed into data of polar coordinates by a polar coordinate transformation 
+circuit (6) which includes a look-up table. Based upon the transformed image data, a gray-level map is formed including diametric 
+
+patterns for every given angles. This gray-level map is sequentially compared with the diametric pattern in a circuit (7), at the 
+reference angle of a reference image by a fuzzy pattern matching method for every given angles in order to fetch the correlation 
+
+reference angle which agrees with the reference angle. By a judging circuit (9), the objective image and reference image are processed 
+by the fuzzy pattern matching in the angular relationship where the fiducial angle is equal to the correlation reference 
+
+angle, thus outputting a signal representing the result of the object recognizing judgment and corresponding to the degree of 
+matching. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+OMRON TATEISI ELECTRONICS CO
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+OMRON CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+ARAO MASAKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YOTSUI GENKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ARAO, MASAKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YOTSUI, GENKI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to a method and apparatus 
+for identifying (or recognizing) objects. More 
+particularly, the invention relates to a method and 
+apparatus for pattern matching in which information 
+representing an object image obtained by image capture 
+is compared with image information representing a 
+reference pattern and degree of agreement or degree of 
+similarity between these items of information is 
+obtained for the purpose of checking fingerprints, 
+recognizing characters or patterns, etc. The invention further relates to an image 
+processing method and apparatus used for the purpose of 
+the above-mentioned object recognition. Pattern matching involves creating binary image 
+data by applying binarization processing to image data 
+representing an unknown object of interest, comparing 
+the binary image data and image data representing a 
+reference pattern prepared in advance, calculating 
+degree of agreement between these items of data and 
+judging that an unknown image is identical with the 
+reference pattern in a case where the degree of 
+agreement is high. This makes it possible to check  
+ 
+fingerprints, recognizing characters and marks, etc. 
+Template matching also is available as a technique for 
+determining degree of agreement. In a case where the orientation of an object of 
+interest is stipulated at all times, comparing the image 
+of the object of interest and the reference pattern is 
+comparatively easy. However, in cases where the 
+orientation (angle or direction of placement) has not 
+been stipulated (is unknown), it is required that a 
+large number of reference patterns having a variety of 
+orientations be prepared in advance. If reference 
+patterns are created while shifting the angle thereof 5° 
+at a time, it will be necessary to previously create, 
+and store in memory, 72 reference patterns of differing 
+angles for one single pattern. This not only 
+necessitates a very large memory capacity but also 
+results in a longer processing time attendant upon the 
+increase in the number of reference patterns to be 
+checked. Even if a large number of reference patterns having 
+different angles are created in advance, the angular 
+position of the object image will not necessarily agree 
+with the angular position of any of the reference 
+patterns prepared. There is the possibility that in 
+case of non-agreement, a judgment to the effect that the 
+object image and a reference pattern differ will be 
+rendered even if they are identical. In a case where the image of the object of interest 
+</DESCRIPTION>
+<CLAIMS>
+A method of identifying objects comprising the steps 
+of: 
+
+   imaging an object by an image sensing unit; 
+   transforming an object image signal obtained by 
+
+imaging to an image signal in polar coordinates using, 
+as the origin, a point having a predetermined property 
+
+in the object image represented by the object image 
+signal; 
+
+   successively collating a diametric pattern of the 
+object image, after its transformation to polar 
+
+coordinates, at every one of prescribed angles of the 
+object image with a diametric pattern of a reference 
+
+image at a reference angle of the reference image 
+created and transformed to polar coordinates in advance, 
+
+thereby finding a collation reference angle of the 
+object image that agrees with the reference angle of the 
+
+reference image; and 
+   mutually collating the object image and the 
+
+reference image in an angular relationship in which the 
+reference angle and the collation reference angle agree 
+
+and outputting a signal representing results of an 
+object identification decision in dependence upon degree 
+
+of agreement. 
+A method of identifying objects according to claim 
+1, wherein processing for finding the collation 
+
+reference angle of the object image and object-identification 
+decision processing is executed on the 
+
+ 
+basis of a feature quantity extracted from the object 
+
+image signal. 
+A method of identifying objects according to claim 
+1, wherein the collation reference angle is found by 
+
+previously creating a reasoning rule relating to the 
+diametric pattern of the reference image at the 
+
+reference angle thereof, and successively applying 
+diametric-pattern data in the object image to this 
+
+reasoning rule. 
+A method of identifying objects according to claim 
+1, further comprising the steps of creating a gray-level 
+
+map at each of said prescribed angles from the object 
+image signal, and finding the collation reference angle 
+
+using this gray-level map. 
+A method of identifying objects according to claim 
+4, wherein object-identification decision processing is 
+
+executed using said gray-level map. 
+A method of identifying objects according to claim 
+1, wherein the collation of the object image and the 
+
+reference image is performed by fuzzy pattern matching. 
+A method of identifying objects according to claim 
+1, further comprising the steps of extracting an area in 
+
+which collation is to be performed from the object image 
+signal, and performing a transformation to polar 
+
+coordinates with regard to an image signal contained in 
+the area extracted. 
+A method of identifying objects according to claim 
+7, wherein the object image signal is lowered in 
+
+ 
+resolution in the extracting of the area in which 
+
+collation is to be performed. 
+A method of identifying objects according to claim 
+7, wherein the origin for the transformation to polar 
+
+coordinates is the center of a circular area. 
+A method of identifying objects according to claim 
+7, wherein the origin for the transformation to polar 
+
+coordinates is a corner of a square area. 
+An image processing method comprising the steps of: 
+   transforming given object image data to object 
+
+image data in polar coordinates using, as the origin, a 
+point having a predetermined property in an object image 
+
+represented by the object image data; 
+   successively collating a diametric pattern of the 
+
+object image, after its transformation to polar 
+coordinates, at every one of prescribed angles of the 
+
+object image with a diametric pattern of a reference 
+image at a reference angle of the reference image 
+
+created and transformed to polar coordinates in advance, 
+thereby finding a collation reference angle of the 
+
+object image that agrees with the reference angle of the 
+reference image; and 
+
+   mutually collating the object image and the 
+reference image in an angular relationship in which the 
+
+reference angle and the collation reference angle agree 
+and outputting a signal representing degree of 
+
+agreement. 
+An image processing method according to claim 11, 
+ 
+
+wherein the processing for finding the collation 
+reference angle of the object image and object-identification 
+
+decision processing is executed on the 
+basis of a feature quantity extracted from the object 
+
+image data. 
+An image processing method according to claim 11, 
+wherein the collation reference angle is found by 
+
+previously creating a reasoning rule relating to the 
+diametric pattern of the reference image at the 
+
+reference angle thereof, and successively applying 
+diametric-pattern data in the object image to this 
+
+reasoning rule. 
+An image processing method according to claim 11, 
+further comprising the steps of creating a gray-level 
+
+map at each of said prescribed angles from the object 
+
+image data, and finding the collation reference angle 
+using this gray-level map. 
+An image processing method according to claim 14, 
+wherein object-identification decision processing is 
+
+executed using said gray-level map. 
+An image processing method according to claim 11, 
+wherein the collation of the object image and the 
+
+reference image is performed by fuzzy pattern matching. 
+An image processing method according to claim 11, 
+further comprising the steps of extracting an area in 
+
+which collation is to be performed from the object image 
+data, and performing a transformation to polar 
+
+coordinates with regard to an image data contained in 
+ 
+
+the area extracted. 
+An image processing method according to claim 17, 
+wherein the object image data is lowered in resolution 
+
+in the extracting of the area in which collation is to 
+be performed. 
+An image processing method according to claim 17, 
+wherein the origin for the transformation to polar 
+
+coordinates is the center of a circular area. 
+An image processing method according to claim 17, 
+wherein the origin for the transformation to polar 
+
+coordinates is a corner of a square area. 
+An object identification apparatus comprising; 
+   an image sensing unit for imaging an object and 
+
+outputting an object image signal representing the 
+object; 
+
+   a polar-coordinate transformation circuit for 
+transforming the object image signal outputted by the 
+
+image sensing unit to an object image signal in polar 
+coordinates using, as an origin, a point having a 
+
+predetermined property in the object image represented 
+by the object image signal; 
+
+   means for successively collating a diametric 
+pattern of the object image, after its transformation to 
+
+polar coordinates, at every one of prescribed angles of 
+the object image with a diametric pattern of a reference 
+
+image at a reference angle of the reference image 
+created and transformed to polar coordinates in advance, 
+
+thereby retrieving a collation reference angle of the 
+ 
+
+object image that agrees with the reference angle of the 
+reference image; and 
+
+   decision means for mutually collating the object 
+image and the reference image in an angular relationship 
+
+in which the reference angle and the collation reference 
+angle agree and outputting a signal representing results 
+
+of an object identification decision in dependence upon 
+degree of agreement. 
+An object identification apparatus according to 
+claim 21, wherein said polar-coordinate transformation 
+
+circuit includes a read-only memory in which data 
+representing correlation between polar coordinates and 
+
+rectangular coordinates is stored in advance. 
+An object identification apparatus according to 
+claim 21, wherein said retrieval means retrieves the 
+
+collation reference angle by previously creating a 
+reasoning rule relating to the diametric pattern of the 
+
+reference image at the reference angle thereof, and 
+successively applying diametric-pattern data in the 
+
+object image to this reasoning rule. 
+An object identification apparatus according to 
+claim 21, wherein said decision means performs the 
+
+collation of the object image and the reference image by 
+fuzzy pattern matching. 
+An object identification apparatus according to 
+claim 21, further comprising area extracting circuit 
+
+means for extracting an area in which collation is to be 
+performed from the object image signal provided by said 
+
+ 
+image sensing unit, wherein an image signal contained in 
+
+an area extracted by said area extracting circuit means 
+is applied to said polar-coordinate transformation 
+
+circuit. 
+An object identification apparatus according to 
+claim 25, further comprising preprocessing circuit means 
+
+for lowering in resolution the object image signal 
+provided by the image sensing unit and applying the 
+
+image signal of lowered resolution to said area 
+extracting circuit means. 
+An object identification apparatus according to 
+claim 25, wherein the origin for the transformation to 
+
+polar coordinates in said polar-coordinate 
+transformation circuit is the center of a circular area. 
+An object identification apparatus according to 
+claim 25, wherein the origin for the transformation to 
+
+polar coordinates in said polar-coordinate 
+transformation circuit is a corner of a square area. 
+An image processing apparatus comprising: 
+   a polar-coordinate transformation circuit for 
+
+transforming given object image data to object image 
+data in polar coordinates using, as an origin, a point 
+
+having a predetermined property in the object image 
+represented by the object image data; 
+
+   means for successively collating a diametric 
+pattern of the object image, after its transformation to 
+
+polar coordinates, at every one of prescribed angles of 
+the object image with a diametric pattern of a reference 
+
+ 
+image at a reference angle of the reference image 
+
+created and transformed to polar coordinates in advance, 
+thereby retrieving a collation reference angle of the 
+
+object image that agrees with the reference angle of the 
+reference image; and 
+
+   decision means for mutually collating the object 
+image and the reference image in an angular relationship 
+
+in which the reference angle and the collation reference 
+angle agree and outputting a signal representing degree 
+
+of agreement. 
+An image processing apparatus according to claim 
+29, wherein said polar-coordinate transformation circuit 
+
+includes a read-only memory in which data representing 
+correlation between polar coordinates and rectangular 
+
+coordinates is stored in advance. 
+An image processing apparatus according to claim 
+29, wherein said retrieval means retrieves the collation 
+
+reference angle by previously creating a reasoning rule 
+relating to the diametric pattern of the reference image 
+
+at the reference angle thereof, and successively 
+applying diametric-pattern data in the object image to 
+
+this reasoning rule. 
+An image processing apparatus according to claim 
+29, wherein said decision means performs the collation 
+
+of the object image and the reference image by fuzzy 
+pattern matching. 
+An image processing apparatus according to claim 
+29, further comprising area extracting circuit means for 
+
+ 
+extracting an area in which collation is to be performed 
+
+from given object image data, wherein image data 
+contained in an area extracted by said area extracting 
+
+circuit means is applied to said polar-coordinate 
+transformation circuit. 
+An image processing apparatus according to claim 
+33, further comprising preprocessing circuit means for 
+
+lowering in resolution the given object image data and 
+applying the image data of lowered resolution to said 
+
+area extracting circuit means. 
+An image processing apparatus according to claim 
+33, wherein the origin for the transformation to polar 
+
+coordinates in said polar-coordinate transformation 
+circuit is the center of a circular area. 
+An image processing apparatus according to claim 
+33, wherein the origin for the transformation to polar 
+
+coordinates in said polar-coordinate transformation 
+circuit is a corner of a square area. 
+</CLAIMS>
+</TEXT>
+</DOC>

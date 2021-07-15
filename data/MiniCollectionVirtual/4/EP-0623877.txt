@@ -1,0 +1,174 @@
+<DOC>
+<DOCNO>EP-0623877</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+System and method for storing persistent and non-persistent queued data
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F946	G06F1202	G06F1202	G06F946	G06F1114	G06F506	G06F1100	G06F506	G06F1100	G06F1114	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F12	G06F12	G06F9	G06F11	G06F5	G06F11	G06F5	G06F11	G06F11	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Disclosed is a method for the storage of data which is required to 
+survive a system failure (persistent data) and data which is not required 
+
+to survive a system failure (non-persistent data) on a single queue. 
+Individual pages of memory are allocated to the storage of non-persistent 
+
+data only or persistent data only. Details of changes made to persistent 
+data only are recorded in a log. In the event of a system failure, the 
+
+queue can have the persistent data only recovered by checking individual 
+pages, without the necessity of scanning individual entries within those 
+
+pages. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+DIEVENDORFF RICHARD
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MOHAN CHANDRASEKARAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DIEVENDORFF, RICHARD
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MOHAN, CHANDRASEKARAN
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The invention relates to communications between programs running on
+data processing systems, in particular to communications using messaging and
+queuing and more specifically to storing persistent and non-persistent data.Business application data processing frequently involves a group of
+related programs, each of which handles a single, well defined component of
+the whole application. Often, the programs that make up a business
+application run in a single operating system environment such as AIX or OS/2
+(AIX and OS/2 are trademarks of IBM Corp.) on a single processor. Sometimes
+they run in multiple, unlike environments, though still on a single
+processor.Many businesses go a step further and distribute programs around a
+data processing network, rather than run them all on one processor. For
+example, a single application could be distributed between an AIX/6000
+environment on a RISC System/6000 processor and an OS/400 environment on an
+AS/400 processor. (RISC System/6000, OS/400, AS/400 and AIX/6000 are
+trademarks of IBM Corp).There are many advantages in this approach, most of which are related
+to making better use of resources. It is often a good idea to put a program
+near to the data it is processing, so that network traffic is kept to a
+minimum. Load balancing - rescheduling and relocating the workload to
+complete it as efficiently as possible is another sound reason for
+distributing an application. Moving an application from one large machine
+to several smaller machines can also sometimes be a valid reason.When a single application is distributed, whether to unlike
+environments on a single processor or to different nodes of a network, a way
+of enabling each one of the group of related programs forming part of the
+application to communicate with each other is needed. This can be
+challenging even when all of the parts are from a single supplier, when
+there are no variations in the operating systems that are used, when
+programs are written in a single language and when there is a single 
+communications protocol. When not all of these factors apply, the
+difficulties in establishing communications between the parts of the
+application become much greater.Additionally, one program may only be able to execute while another
+waits to execute. Even though they may take turns to execute, both programs
+have to be available to take part in any communications. This conflicts
+with the desire to be able to run related programs independently of each
+other.Three ways in which parts of an application may communicate
+</DESCRIPTION>
+<CLAIMS>
+A method for the storage of persistent and non-persistent data
+arranged as a single queue comprising the steps of:
+
+
+receiving persistent and non-persistent data to be stored in the
+queue;
+marking the data in time sequence order;
+storing said persistent data in a first set of pages and said non-persistent
+data in a second set of pages in said queue;
+on receiving a request for removal of data from said queue,
+checking both said first and second sets of pages to determine the time
+
+sequence order of data items; and
+removing the data in time sequence order.
+A method as claimed in claim 1 including the steps of:
+
+allocating storage for said first and second sets of pages;
+creating first and second lists of pages corresponding to said
+first and second sets of pages; and
+updating said first and second lists after said steps of storing or
+removing data.
+A method as claimed in any preceding claim further comprising the
+steps of:
+
+
+creating a log to enable recovery in the event of failure and
+restart of the queue; and
+when receiving and when removing persistent data to be stored in
+and to be removed from the queue, respectively, making entries in said
+
+log of changes to the persistent data only.
+A method as claimed in any preceding claim further comprising the
+steps of: 
+
+
+before the step of receiving data, creating a table indicating
+which pages available in storage are free, which are allocated for
+
+persistent data and which are allocated for non-persistent data;
+after said steps of receiving data and removing data, updating said
+table; and
+in the event of a failure and restart of the queue, scanning and
+updating said table to indicate that all pages containing non-persistent
+
+data are free.
+A data processing system for the storage of persistent and non-persistent
+data in a single queue comprising:
+
+
+a data manager for allocating one or more pages of storage (710,
+720, 730) for storing persistent data and for allocating one or more
+
+pages of storage (710, 720, 730) for storing non-persistent data;
+means (600) for pointing (620, 622) to the pages (710, 720, 730)
+storing persistent data and to the pages (710, 720, 730) storing non-persistent
+
+data, thereby to define a queue;
+connection management means (350) for receiving persistent and non-persistent
+data to be stored and for receiving requests for the removal
+
+of data;
+message management means (310) for storing the received persistent
+and non-persistent data in respective pages of said queue (600) and for
+
+marking said data as it is stored in time sequence order; and
+means, responsive to receipt of a request for removal of data from
+said queue, for checking both said first and second sets of pages to
+
+determine the time sequence order of data items for processing.
+A system as claimed in claim 5 further comprising:
+
+log means (320) comprising entries made when persistent data is
+received or removed from the queue; and
+recovery management means (340) for restoring the contents of the
+queue in the event of a system failure by reference to said log means (320).
+A system as claimed in either claim 5 or claim 6 further
+comprising:
+
+
+a table having an entry for each page (710, 720, 730) of storage,
+the entry indicating whether said page of storage is free, allocated to
+
+persistent data or allocated to non-persistent data;
+and wherein, in the event of a failure and restart of the queue,
+the recovery management means (340) scans and changes all entries in the
+
+table which indicate that a page of storage is allocated to non-persistent
+data to indicate that those pages of storage are free.
+</CLAIMS>
+</TEXT>
+</DOC>

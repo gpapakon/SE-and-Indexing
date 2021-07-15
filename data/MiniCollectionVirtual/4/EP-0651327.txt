@@ -1,0 +1,192 @@
+<DOC>
+<DOCNO>EP-0651327</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Recompilation of computer programs for enhanced optimization.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F945	G06F945	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An optimising compiler for producing executable programs from code, 
+high level languages compiles the code whilst generating data from which 
+
+a callgraph may be constructed, and then recompiles the procedures 
+identified in the callgraph in an order which reverses the topology of 
+
+the callgraph while monitoring usage of hardware registers. Procedures 
+which are rarely or never called, or result in termination of the 
+
+program, are identified, and are modified if needed so that if called, 
+registers which they may modify are saved prior to execution of the 
+
+procedure and subsequently restored if necessary, so that in a calling 
+procedure, subsequently recompiled, no account need be taken of possible 
+
+register usage by the called procedure. This makes additional registers 
+available to the calling procedure, and enables register storing and 
+
+restoring which must otherwise be associated with the callsite to be 
+eliminated. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+GILLES DAVID M
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GILLES DAVID M
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to the compiling of source code of 
+computer programs written in high level languages in order to generate 
+object code suitable for execution on a target computer. High level language statements are translated during compilation 
+into procedures capable of implementing the statement, but since these 
+procedures must be capable of functioning in any environment in which 
+this language statement may occur, the code produced tends to include a 
+high degree of redundancy and compromise unless subject to optimization. 
+The term procedure as used in this specification should be regarded as 
+including routines and functions which will result in a procedure call 
+from a call site when compiled. Optimization is a generic term utilized for modifications applied 
+to source code, object code, or any intermediate code featuring in a 
+compilation, in order to increase the efficiency of the compiling 
+process. Efficiency in this context may refer to improving the speed of 
+execution of the final object code, reducing object code size or 
+improving compilation speed to improve productivity during program 
+development, bearing in mind that repeated recompilations will gradually 
+be necessary during such development. Optimization may take place at various stages during the 
+compilation process, but techniques fall broadly into two categories - 
+front end, during which the source or intermediate code is modified so as 
+to eliminate redundancies and unused code, and so as to favour the 
+generation of more efficient object code, and back end, in which object 
+code generated is modified, usually in the latter case to improve 
+execution speed. Central processing units utilized in general purpose programmable 
+computers make extensive use of hardware registers to hold data items 
+utilized during program execution, thus avoiding the overhead associated 
+with memory references, and effective management of such registers forms 
+a major aspect of compiler optimization, although the number, size and 
+restrictions of use of such registers may vary widely from processor to 
+processor. Some general principles relating to such management are 
+discussed in an article "Effective Register Management During Code  
+ 
+Generation", K.M. Gilbert, 
+IBM Technical 
+Disclosure Bulletin, January 
+1973, pages 2640 to 2645. Optimization techniques in compilers for 
+reduced instruction set (RISC) computers are discussed in an article 
+"Advanced Compiler Technology for the RISC 
+System/6000 
+Architecture", by 
+O'Brien et
+</DESCRIPTION>
+<CLAIMS>
+A method for compiling a computer program from code modules of a 
+high or intermediate level language, to provide object code executable on 
+
+a target computer having hardware registers available for the storage of 
+data used by the program during execution, the method comprising: 
+
+   compiling the code modules; 
+   processing data, produced during at least one of compiling of the 
+
+code modules, and execution of an executable program produced by linking 
+of the modules, to produce a call graph of procedures comprised by the 
+
+program, and to identify target procedures in the category of at least 
+one of procedures rarely or never called during normal execution of the 
+
+program and procedures which never return from a call; 
+   recompiling the procedures, recompilation of an identified target 
+
+procedure, other than a non-returning procedure, being with the inclusion 
+of code at the entry of the procedure to save all hardware registers 
+
+modifiable thereby, and with the inclusion of code at the exit from the 
+procedure to restore the saved registers. 
+A method, as claimed in claim 1, wherein identified target 
+procedures comprise procedures whose call results in an exit from the 
+
+program. 
+A method, as claimed in claim 1, wherein the data processed 
+comprises data generated by running a profiler on an executable program 
+
+produced by linking of the compiled modules, and the target procedures 
+comprises procedures identified by the profiler as rarely if ever called. 
+A method, as claimed in claim 1, wherein the target procedures 
+comprise procedures selected by an operator on the basis of the produced 
+
+data. 
+A method, as claimed in any preceding claim wherein the 
+introduction of register saving and restoring code into a target 
+
+procedure is performed by adding prologue and epilogue code to the code 
+of the original procedure including the register saving and restoring 
+
+code. 
+A method, as claimed in any preceding claim, wherein the procedures 
+are recompiled in reverse order to that in which they are called as shown 
+
+by the call graph, and recompilation of target procedures precedes 
+recompilation of procedures containing call sites for the target 
+
+procedures. 
+Apparatus for compiling a computer program from code modules in a 
+computer language to produce an executable program, the apparatus 
+
+comprising a programmable computer having a user interface, and data and 
+program storage, the program storage holding a compiler program suite for 
+
+execution on the computer, the compiler program suite comprising a 
+
+compiler program module and a compiler loop module, 
+   wherein the compiler program module additionally to compiling code 
+
+modules configures the computer to generate data relating to each source 
+code module compiled including data identifying each procedure therein, 
+
+callsites within each procedure and register usage, 
+   wherein the compiler loop module additionally comprises means to 
+
+accept the data generated by the compiler program module to construct 
+therefrom callgraph data, and comprises means to modify procedures 
+
+contained in the code modules, means to recompile those procedures while 
+storing in data memory storage details of hardware register usage, and 
+
+means to link the recompiled code modules into an executable program, and 
+   wherein the means to modify procedures contained in the code 
+
+modules comprises means to permit identification of target procedures 
+that will rarely or never used during normal execution of the executable 
+
+program, and means to modify returning procedures by the insertion of 
+code necessary to save and restore registers which may be modified by the 
+
+registers concerned, whereby a subsequently recompiled procedure 
+containing a callsite of a modified procedure may be compiled without 
+
+regard for hardware register modifications by the called procedure. 
+Apparatus, as claimed in claim 7, wherein the means to recompile 
+the procedures contained in the code modules is adapted to recompile 
+
+those procedures in an order reversing topography defined by the 
+callgraph data. 
+Apparatus, as claimed in claim 7 or claim 8, wherein the means to 
+permit identification of target procedures comprises a profiler. 
+Apparatus, as claimed in any of claims 7 to 9, wherein the means to 
+permit identification of target procedures comprises means recognize 
+
+procedures which lead only to termination of the program. 
+</CLAIMS>
+</TEXT>
+</DOC>

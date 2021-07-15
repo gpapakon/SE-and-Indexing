@@ -1,0 +1,589 @@
+<DOC>
+<DOCNO>EP-0652521</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Rapid data retrieval from a physically addressed data storage structure using memory page crossing predictive annotations
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1208	G06F1210	G06F1210	G06F1208	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F12	G06F12	G06F12	G06F12	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+In a computer system having a number of page partitioned and 
+virtually addressed address spaces, a physically addressed data storage structure 
+
+and its complementary selection data storage structure is provided with a 
+complementary memory page crossing prediction storage structure, a latch, and a 
+
+comparator. The memory page crossing prediction storage structure is used to 
+store a number of memory page crossing predictive annotations corresponding to 
+
+the contents of the data and selection data storage structures. Each memory page 
+crossing predictive annotation predicts whether the current access crosses into a 
+
+new memory page. The latch is used to successively record a first portion of each 
+accessing physical address translated from a corresponding portion of each 
+
+accessing virtual address. The recorded first portion of the physical address of the 
+immediately preceding access is used to select data currently being read out of the 
+
+storage structures, if the memory page crossing predictive annotation currently 
+being read out predicts no memory page crossing. The comparator is used to 
+
+determine whether the first portions of the physical addresses of the current and 
+immediately preceding accesses are equal, if the first portion of the physical 
+
+address of the immediately preceding access is used to select data for the current 
+access. Remedial actions including invalidating the selected data and correcting 
+
+the incorrect memory page crossing predictive annotation are taken, if the two 
+physical address portions are determined to be unequal. As a result, most of the 
+
+data retrievals are made without having to wait for the first portions of the accessing 
+physical addresses to be translated, thereby improving the performance of 
+
+retrieving data from the physically addressed data storage structure. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SUN MICROSYSTEMS INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SUN MICROSYSTEMS, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+YUNG ROBERT
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YUNG, ROBERT
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to the field of computer systems, in
+particular, data retrieval techniques in computer systems. More specifically, the
+present invention relates to data retrieval from a physically addressed data
+storage structure, e.g. a physically addressed set associative instruction cache.In order to expedite the availability of data and improve the overall
+system performance, there are many situations where a plurality of data vectors
+and their corresponding selection vectors are stored in an organized manner in
+complementary storage structures. A data vector is a collection of multiple data
+blocks, where each data block is in turn a collection of multiple data elements. A
+selection vector is a collection of corresponding selection elements. Such
+storage structures may be found in many general as well as special purpose
+computers regardless of their architectures. Perhaps the most well known
+example of such storage structures is a set associative cache. Another example
+is a multi-bank memory system. A not as well known example is a branch
+prediction table.Additionally, to further expedite the availability of data and improve
+the overall system performance, many systems that support virtual addressing
+have taken the approach of accessing these storage structures with virtual 
+addresses. Such an approach has the advantage of not having to wait for the
+virtual addresses to be translated into physical addresses. However, as the
+number of virtual address spaces supported increases, experience has shown
+that the overhead incurred during address space switching begins to outweigh
+the benefits of accessing these storage structures with virtual addressing. Thus,
+some virtual addressing systems that support large number of virtual address
+spaces have switched back to accessing these storage structures with physical
+addresses. Of course, the disadvantage is that the accesses cannot be
+completed until the virtual addresses are translated.However, for storage structures whose sizes are larger than the
+memory page sizes of the systems and having a "sequential" access tendency,
+the translated portions of the accessing physical addresses tend to remain
+unchanged between successive accesses. Thus, it is desirable to exploit these
+characteristics and improve the performance of retrieving data from these storage
+structures. As will be disclosed, the present invention provides a method and
+apparatus for rapidly retrieving data from physically addressed data storage
+structures using memory page crossing
+</DESCRIPTION>
+<CLAIMS>
+A method for rapidly retrieving data from a data storage
+structure in a computer system comprising a data storage structure (24)
+
+having a plurality of data vectors, said data storage structure being
+physically addressed with physical addresses (PA) of a physical address
+
+space partitioned into a plurality of address pages, and each of said
+plurality of data vectors having a plurality of data blocks, wherein a
+
+currently addressed one of said plurality of data vectors is retrieved
+during a current access based on a first portion (PA LSB) of a current physical
+
+address of the current access, said method characterised by the steps
+of:
+
+
+a) storing a plurality of description vectors (26)
+corresponding to said plurality of data vectors in a description
+
+storage structure, the description storage structure being physically
+addressed with said physical addresses (PA LSB) also, each of said plurality of
+
+description vectors comprising a plurality of description vectors
+comprising a plurality of descriptors corresponding to said plurality
+
+of data blocks;
+b) storing a plurality of predictive annotations (Px)
+corresponding to said plurality of data vectors in a predictive
+
+annotation storage structure (28), the predictive annotation storage
+structure being physically addressed with said physical addresses
+
+also (PA LSB), each of said plurality of predictive annotations predicting
+whether a net access will cross into a new address page;
+c) retrieving a corresponding one of said plurality of
+descriptors and a corresponding one of said plurality of predictive
+
+annotations concurrently with the current retrieval of the currently
+addressed data vector based on the first portion (PA LSB) of the current
+
+physical address during the current access; and
+d) selecting a data block from the currently retrieved
+data vector based on either a second portion (PA MSB) of the current physical
+
+address of the current access or a second portion (PA' MSB) of a prior physical
+address of a prior access, depending on whether a retrieved predictive
+
+annotation (Px) predicts address page crossing (Px=1) or not (Px=0), the retrieved 
+predictive annotation being retrieved during either the current or an
+
+earlier access, and whether the retrieved predictive annotation of the
+current access or the retrieved predictive annotation of an earlier
+
+access, including which particular earlier access is to be used for
+the data block selection, is predetermined.
+The method as set forth in claim 1, wherein said method is
+further characterised by the steps of:
+
+
+e) conditionally determining (64) whether the second portions of
+the current (PA MSB) and the prior physical addresses (PA' MSB) of the current and the
+
+recorded preceding accesses are identical, in accordance to the
+predictive annotation retrieved for the prior access; and
+f) when step (e) is performed, conditionally correcting (66, 68) the
+predictive annotation retrieved for the prior access in said
+
+predictive annotation storage structure in accordance to the
+conditional determination result.
+The method as set forth in claim 1, wherein said description
+and said predictive annotation storage structures are logical subsets
+
+of a merged description and predictive annotation storage structure;
+and
+
+
+each of said plurality of description vectors and the
+corresponding predictive annotation are logical subsets of a merged
+
+description and predictive annotation vector.
+The method as set forth in claim 1, wherein said physical
+address space partitioned into a plurality of address pages is a
+
+memory space partitioned into a plurality of memory pages;
+
+said data storage structure is a cache array of a n-way set
+associative instruction cache, said plurality of data vectors being
+
+instruction cache lines, said plurality of data blocks being
+instruction blocks, n being an integer greater than or equal to one;
+said description storage structure used in said step a) is a
+cache tag array of said n-way set associative instruction cache, said
+
+plurality of description vectors being cache tag entries, said
+plurality of descriptors being address tags with associated control
+
+information; and 
+the first and second portions of the physical addresses are
+lower and higher ordered bits of the physical addresses respectively.
+The method as set forth in claim 4, wherein said instruction
+block selection in said step d) is performed using the second portion
+
+of the prior physical address (PA' MSB) of the prior access if the retrieved
+predictive annotation used predicts no memory page crossing (Px=0), and
+
+
+said instruction block selection in said step d) is performed
+using the second portion of the current physical address (PA MSB) of the
+
+current access if the retrieved predictive annotation used predicts
+memory page crossing (Px=1).
+The method as set forth in claim 5, wherein said determination
+in said step e) is performed if the memory page crossing predictive
+
+annotation retrieved for the immediately preceding access predicts no
+memory page crossing.
+The method as set forth in claim 6, wherein said correction in
+said step f) is performed if the second portions of the physical
+
+addresses of the current and the recorded preceding accesses are
+determined to be not identical; and
+
+
+the memory page crossing predictive annotation of the
+immediately preceding access in said physically addressed memory page
+
+crossing predictive annotation array is corrected to predict memory
+page crossing.
+The method as set forth in claim 7, wherein each of said
+
+memory pages has a memory page size, and said physically addressed
+instruction cache has a cache size that is greater than said memory
+
+page size.
+The method as set forth in claim 1, wherein the retrieved
+predictive annotation used for data block selection is predetermined
+
+to be the retrieved predictive annotation of the current access. 
+The method as set forth in claim 1, wherein said prior physical
+address of step (d) is an immediately preceding physical address;
+
+
+said prior access of step (d) is an immediately preceding
+access;
+said data block selection of step (d) is performed using
+either the second portion of the current physical address of the
+
+current access or the second portion of the immediately preceding
+physical address of the immediately preceding access, depending on 
+
+whether the retrieved predictive annotation (Px) used for data block
+selection predicts address page crossing (Px=1) or not (Px=0); and
+said method further comprises the step of (e) latching the
+second portion of the immediately preceding physical address of the
+
+immediately preceding access during the immediately preceding access,
+said step (e) being performed prior to said steps (c) and (d).
+The method as set forth in claim 1, wherein said prior
+physical address is a prior physical address of a prior access where
+
+the last misprediction occurred;
+
+said prior access is the prior access where the last
+misprediction occurred;
+said data block selection in said step (d) is performed using
+either the second portion (PA MSB) of the current physical address of the
+
+current access or the second portion (PA' MSB) of the prior physical address of
+the prior access where the last misprediction occurred, depending on
+
+whether said retrieved predictive annotation used predicts address
+page crossing or not; and said method further comprises the step of
+
+(e) latching the second portion of the physical address of the prior
+access where the last misprediction occurred when the last
+
+misprediction was detected, said step (e) being performed prior to
+said steps (c) and (d).
+The method as set forth in claim 1, wherein the retrieved
+predictive annotation used for data block selection is predetermined
+
+to be the retrieved predictive annotation of an earlier access, and
+the earlier access is predetermined to be an access immediately
+
+preceding the current access; and
+
+the method further comprises the step of (e) latching the
+retrieved predictive annotation of the immediately preceding access
+
+during the immediately preceding access, said step (e) being performed
+before said steps (c) and (d).
+The method as set forth in claim 1, wherein the retrieved
+predictive annotation used for data block selection is predetermined
+
+to be the retrieved predictive annotation of the current access. 
+An apparatus for rapidly retrieving data from a physically
+addressed data storage structure in a computer system having a first 
+
+storage unit (24) for storing a data storage structure having a plurality
+of data vectors, said data storage structure being physically
+
+addressed with physical addresses (PA) of a physical address space
+partitioned into a plurality of address pages, and each of said
+
+plurality of data vectors having a plurality of data blocks, wherein
+said first storage unit outputs a currently addressed one of said data
+
+vectors during a current access in response to a first portion of a
+current physical address (PA LSB) of the current access, said apparatus
+
+characterised by:
+
+a) a second storage unit (26) for storing a plurality of
+description vectors corresponding to said vectors in a description
+
+storage structure, the description storage structure being physically
+addressed with said physical addresses (PA LSB) also, and each of said
+
+plurality of description vectors comprising a plurality of descriptors
+corresponding to said plurality of data blocks, wherein said second
+
+storage unit outputs a corresponding one of said plurality of
+descriptor vectors concurrently with the outputting of the currently
+
+addressed data vector by said first storage unit in response to the
+first portion of the current physical address;
+b) a third storage unit (38) for storing a plurality of
+predictive annotations corresponding to said plurality of data vectors
+
+of a predictive annotation storage structure corresponding to said
+data storage structure, said predictive annotation storage structure
+
+being physically addressed with said physical addresses also (PA LSB), and each
+of said plurality of predictive annotations predicting whether a next
+
+access will cross into a new address page, wherein said third Storage
+unit outputs a corresponding one of said plurality of predictive
+
+annotations concurrently with the outputting of the currently
+addressed data vector output by said first storage unit in response to
+
+the first portion of the current physical address; and
+c) selection circuitry (30, 31, 40a) coupled to said first, second and
+third storage units for selecting a data block from the currently
+
+retrieved data vector based on either second portion (PA MSB) of the current
+physical address of the current access or a second portion (PA' MSB) of a prior
+
+physical address of a prior access annotation retrieved for the
+immediately preceding access.
+The apparatus as set forth in claim 14, wherein said apparatus
+is further characterised by:
+
+
+d) validation circuitry (50) coupled to said third storage unit (38)
+for conditionally determining whether the second portions of the
+
+current and the prior physical addresses are identical, whenever the
+retrieved predictive annotation used for data block selection predicts
+
+address page crossing, and when said determination is performed,
+conditionally correcting the predictive annotation in said predictive
+
+annotation storage structure from which the retrieved predictive
+annotation used for data block selection was output if the
+
+determination result is not identical.
+The apparatus as set forth in claim 14, wherein said second
+and third storage units are the same storage unit storing a merged
+
+description and predictive annotation storage structure, said
+description and said predictive annotation storage structures being
+
+logical subsets of said merged description and predictive annotation
+storage structure; and
+
+
+each of said plurality of description vectors and the
+corresponding predictive annotations are logical subsets of a merged
+
+description and predictive annotation vector.
+The apparatus as set forth in claim 14 wherein said physical
+address space partitioned into a plurality of address pages is a
+
+memory space partitioned into a plurality of memory pages;
+
+said data storage structure is a cache array of a n-way set
+associative instruction cache, where n is an integer greater than or
+
+equal to one, said plurality of data vectors being instruction cache
+lines, said plurality of data blocks being instruction blocks;
+said description storage structure is a cache tag array of
+said n-way set associative instruction cache, said plurality of
+
+description vectors being cache tag entries, said plurality of
+descriptors being address tags with associated control information;
+
+and
+the first and second portions of the physical addresses are
+lower and higher ordered bits of the phy
+sical addresses respectively.
+The apparatus as set forth in claim 17, wherein said selection
+circuitry selects said instruction block using the second portion of
+
+the prior physical address of the prior access if the retrieved
+predictive annotation used predicts no memory page crossing; and
+
+
+said selection circuitry selects said instruction block using
+the second portion of the current physical address of the current
+
+access if the retrieved predictive annotation used predicts memory
+page crossing.
+The apparatus as set forth in claim 18, wherein said
+validation circuitry makes said determination if the memory page
+
+crossing predictive annotation retrieved for the immediately preceding
+access predicts no memory page crossing.
+The apparatus as set forth in claim 19, wherein said
+validation circuitry corrects said predictive annotation if the second
+
+portions of the physical addresses of the current and the recorded
+preceding accesses are determined to be not identical; and
+
+
+said validation circuitry corrects the memory page crossing
+predictive annotation of the immediately receding access in said
+
+physically addressed memory page crossing predictive annotation array
+to predict memory page crossing.
+The apparatus as set forth in claim 20, wherein each of said
+memory pages has a memory page size and said physically addressed
+
+instruction cache has a cache size that is greater than said memory
+page size. 
+The apparatus as set forth in claim 14, wherein said prior
+physical address is an immediately preceding physical address;
+
+
+said prior access is an immediately preceding access;
+said apparatus further comprises
+
+a multiplexer (40a) coupled to the selection circuitry (30, 31, 40a) for providing
+either the second portion (PA MSB) of the current physical address of the
+
+current access or the second portion (PA' MSB) of the immediately preceding
+physical address of the immediately preceding access to the selection
+
+circuitry, depending on whether the retrieved predictive annotation (Px)
+used for data block selection predicts address page crossing (Px=1) or
+
+not (Px=0);
+and
+a latch (42b) coupled to the multiplexer (40a) for latching the
+second portion of the immediately preceding physical address of the
+
+immediately preceding access during the immediately preceding access
+and providing the latched second portion of the immediately preceding
+
+physical address of the immediately preceding access to the
+multiplexer during the current access.
+The apparatus as set forth in claim 14, wherein said prior
+physical address is a prior physical address of a prior access where a
+
+last misprediction occurred;
+
+said prior access is the prior access where the last
+misprediction occurred;
+said apparatus further comprises
+
+a multiplexer (40a) coupled to said selection circuitry (30, 31, 40a) for
+providing either the second portion of the current physical address of
+
+the current access or the second portion of the prior physical address
+of the prior access where the last misprediction occurred to said
+
+selection circuitry, depending on whether said retrieved predictive
+annotation used predicts address page crossing or not;
+a latch (42b) coupled to the multiplexer for latching the second
+portion of the physical address of the prior access where the last
+
+misprediction occurred when the last misprediction was detected, and
+providing the latched second portion of the physical address of the
+
+prior access where the last misprediction occurred to the multiplexer
+during the current access.
+The apparatus as set forth in claim 14 wherein the retrieved
+predictive annotation used for data block selection is predetermined
+
+to be the retrieved predictive annotation of an earlier access, and
+the earlier access is predetermined to be an access immediately
+
+preceding the current access;
+and
+
+
+the apparatus further comprises a latch (42a) coupled to the third
+storage unit (38) and multiplexer (40a) for latching the retrieved predictive
+
+annotation of the immediately preceding access during the immediately
+preceding access, and outputting the latched predictive annotation to
+
+control the multiplexor during the current access.
+A method for rapidly retrieving data from a physically
+addressed data storage structure in a computer system having a
+
+physically addressed data storage structure having a plurality of data
+vectors (24), each of said data vectors having a plurality of data blocks,
+
+and each of said data vectors being retrieved during a current access
+based on a first portion of a current physical address, said method
+
+characterised by the steps of:
+
+a) storing a plurality of selection data vectors (26)
+corresponding to said data vectors in a physically addressed selection
+
+data storage structure corresponding to said data storage structure,
+each of said selection data vectors comprising a plurality of
+
+selection data corresponding to said data blocks, and retrieving one
+of said selection data vectors concurrently with said data vector
+
+being retrieved based on the first portion (PA LSB) of the current physical
+address during the current access;
+b) storing a plurality of predictive annotations (38)
+corresponding to said data vectors in a physically addressed
+
+predictive annotation storage structure corresponding to said data
+storage structure, each of said predictive annotations predicting
+
+whether a current access will cross into a new memory page, and
+retrieving one of said predictive annotations concurrently with said
+
+data vector being retrieved based on the first portion (PA LSB) of the current
+physical address during the current access; and
+c) selecting a data block from said currently retrieved data
+vector based on said selection data vector currently being retrieved
+
+and a selected one of a second portion (PA MSB) of the current Physical address
+of the current access and a second portion (PA' MSB) of an immediately preceding
+
+physical address of an immediately preceding access, in accordance to
+the predictive annotation (Px) currently being retrieved.
+A computer system having a data storage unit for storing a
+physically addressed data storage structure (24) having a plurality of data
+
+vectors, each of said data vectors having a plurality of data blocks, 
+and each of said data vectors being retrieved during a current access
+
+based on a first portion (PA LSB) of a current physical address, an apparatus
+for rapidly retrieving data from said physically addressed data
+
+storage structure, said apparatus characterised by
+
+a) a selection data storage unit (26) for storing a plurality of
+selection data vectors corresponding to said data vectors in a
+
+physically addressed selection data storage structure corresponding to
+said data storage structure, each of said selection data vectors
+
+comprising a plurality of selection data corresponding to said data
+blocks, and retrieving one of said selection data vectors concurrently
+
+with said data vector being retrieved based on the first portion (PA LSB) of
+the current physical address during the current access;
+b) a predictive annotation storage unit (38) for storing a
+plurality of predictive annotations corresponding to said data vectors
+
+of a physically addressed predictive annotation storage structure
+
+corresponding to said data storage structure, each of said predictive
+annotations predicting whether a current access will cross into a new
+
+memory page, and retrieving one of said predictive annotations
+concurrently with said data vector being retrieved based on the first
+
+portion (PA LSB) of the current physical address during the current access; and
+c) selection circuitry (30, 31, 40a) coupled to said data storage unit and
+said selection data storage unit for selecting a data block from said
+
+currently retrieved data vector based on said selection data vector
+currently being retrieved and a selected one of a second portion (PA MSB) of
+
+the current physical address of the current access and a second
+portion (PA' MSB) of an immediately preceding physical address of an immediately
+
+preceding access, in accordance to the predictive annotation (Px) currently
+being retrieved.
+</CLAIMS>
+</TEXT>
+</DOC>

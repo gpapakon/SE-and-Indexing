@@ -1,0 +1,356 @@
+<DOC>
+<DOCNO>EP-0645912</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Communication network access method and system
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1300	G06F1300	G06F2120	G06F2120	H04L932	H04L932	H04L936	H04L936	H04L1224	H04L1224	H04L2906	H04L2906	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	H04L	H04L	H04L	H04L	H04L	H04L	H04L	H04L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F13	G06F13	G06F21	G06F21	H04L9	H04L9	H04L9	H04L9	H04L12	H04L12	H04L29	H04L29	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A network management frame contains a clear text (unencrypted)
+management command field and a security field. The management
+
+frame is sent to a data communications network by an authorized
+managing entity (manager) (13). The management frame is addressed to a
+
+managing agent (agent) (14,15). The security field includes two sub fields. The
+first sub field is a clear text time stamp. The second sub field includes
+
+this same time stamp value concatenated with a checksum that is calculated
+by the manager for the specific clear text management command
+
+contained within the management frame. The concatenated
+value is then encrypted under a secret cryptographic key that is shared
+
+by the manager and the agent. The agent receives the management
+frame, calculates a checksum of the clear text management command,
+
+and appends this checksum to the clear text time stamp as contained
+in the received management frame. This value is then encrypted using
+
+the shared cryptographic code. If the result matches the second sub
+field of the received management command, integrity of the received
+
+management command is assured. Next, the clear text value of time
+stamp contained within the received management command is checked
+
+against a common clock within the agent. If the value of this time
+stamp falls within a predetermined time window, the authenticity of
+
+the received management command has been verified.
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+AUGUSTINE KURT ERNEST
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NEELEY JAMES EDWARD SR
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+STROLE NORMAN CLARK
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+AUGUSTINE, KURT ERNEST
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NEELEY, JAMES EDWARD SR
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+STROLE, NORMAN CLARK
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention pertains to the field of data communications networks 
+and, more specifically, to means for determining the integrity and the 
+authenticity of command frames, management frames, and the like, that 
+are issued from a network node by an authorized managing entity or 
+network manager. As computer systems become geographically distributed, availability 
+of the computer network becomes a major concern to all network customers. 
+For example, disruption of a single network device can cause 
+a tremendous loss in productivity by the network's customers. Network 
+devices, such as concentrators, bridges, routers, gateways and servers, 
+are increasingly being managed from remote network stations via 
+network command fields that are contained in network management 
+frames. Authenticity of the origin of management frames and the integrity 
+of the management frames themselves are critical to maintaining 
+high availability of the network. One unauthorized network 
+command has the potential to disrupt thousands of network users and 
+cause an unacceptable degradation in network performance or, in the 
+worst case, prevent access to some, or all, network services including, 
+for example, server and host access. An unauthorized management 
+frame can be issued accidentally or maliciously. Thus, in all cases, it 
+is desirable to check the integrity and authenticity of the network command 
+frames. The prior art describes various means for determining the integrity and 
+authenticity of requests or commands that are issued from a network 
+node by a network user.  The article entitled "Secure Communication Using Remote Procedure 
+Calls, ACM Transactions On Computer Systems, Vol. 3, No. 1, February 
+1985, pages 1-14, describes an end-to-end secure protocol. An 
+authenticator is based upon the time at which the authenticator was 
+formed. This is done in order to limit the lifetime of an authenticator 
+to a few hours. The use of time stamping in a packet network is known. U.S. Patent 
+4,894,823 is exemplary. U.S. Patent 5,113,499, incorporated herein by reference for the purpose 
+of indicating the background of the invention and as illustrative of the 
+state of the art, describes a telecommunications access management 
+system having authorization, validation and password features. U.S. Patent 5,048,087, incorporated herein by reference for the purpose 
+of indicating the background of the invention and as illustrative of the 
+state of the art, describes end- to-end encryption for a packet based 
+network and, more
+</DESCRIPTION>
+<CLAIMS>
+In a communication network, a method for managing the network 
+comprising the steps of; 
+
+
+A - issuing a management frame to said network, said management 
+frame containing a network management command and a security 
+
+field, said security field comprising two sub fields, one of which is a 
+time stamp of recent origin, and the other of which is an encryption of 
+
+a function that is based upon said time stamp and said management 
+command, said function being encrypted using a cryptographic key, 
+B - receiving said management frame from said network, 
+C - reading said management command and said time stamp as 
+contained in said received management frame, 
+D - encrypting said function that is based upon said time stamp and 
+said management command as contained in said received management 
+
+frame using said cryptographic key, and 
+E - determining if the result of encrypting step D corresponds to 
+said second sub field in said received management frame. 
+The method of claim 1 characterized in that: 
+
+The management frame and the management command are 
+respectively an action frame and an action command. 
+The time stamp of steps A, C and D is taken when the 
+action command is issued to the network. 
+The function of step A based upon said time stamp and 
+said action command is calculated as follows: 
+
+the action command is picked and a checksum is 
+calculated using a given checksum algorithm; 
+
+then, said time stamp is concatenated to said checksum. 
+The method of claim 1 or claim 2 including the step of:
+ 
+
+   F - executing said management command when step E determines 
+that the result of encrypting step D corresponds to said second sub 
+
+field in said received management frame. 
+The method of claim 3 including the step of; 
+   G - determining if said time stamp in said received management 
+
+frame is of recent origin, and 
+   wherein step F executes said management command when step E 
+
+determines that the result of encrypting step D corresponds to said 
+second sub field in said received management frame, and step G determines 
+
+that said time stamp in said received management frame is 
+of recent origin. 
+The method of claim 4 wherein said step F determines if said time 
+stamp in said received management frame falls within a time window 
+
+that is determined as a function of the time of execution of step B. 
+The method of claim 5 wherein said management command is 
+unencrypted, and wherein said time stamp is unencrypted. 
+In an information transfer network having a plurality of stations that 
+are operable to communicate with each other over said network, communication 
+
+apparatus for the secure transmission of a data frame to 
+said network by one station and the reception of said data frame from 
+
+said network by a another station, said apparatus comprising; 
+   a common clock and common encryption means at each of said 
+
+stations, 
+   first means at said one station operable to form said data frame as 
+
+a first data field comprising information to be transmitted to said another 
+station, a second data field comprising a common clock value at 
+
+ 
+said one station at the time of said transmission, and a third data field 
+
+comprising an encryption of a function that is dependent upon said first 
+and second data fields, said encryption being performed using said 
+
+common encryption means, 
+   second means at said one station operable to transmit said formed 
+
+data frame to said network, 
+   third means at said another station operable to receive said data 
+
+frame from said network, 
+   fourth means at said another station operable to encrypt said first 
+
+and second data fields of said received data frame using said common 
+encryption means, and 
+
+   fifth means at said another station operable to compare said encryption 
+of said first and second fields of said received data frame to 
+
+said third data field of said received data frame. 
+The apparatus of claim 7 including; 
+   sixth means at said another station responsive to said fifth means 
+
+and operable to accept said received data frame when said encryption 
+of said first and second fields of said received data frame corresponds 
+
+to said third field of said received data frame. 
+The apparatus of claim 8 including; 
+   seventh means at said another station operable to compare said 
+
+first data field of said received data frame with the value of said common 
+clock at said another station at the time said received data frame 
+
+is received from said network, and wherein 
+   said sixth means at said another station is responsive to said fifth 
+
+means and to said seventh means, and said sixth means operating to 
+accept said received data frame when said encryption of said first and 
+
+ 
+second fields of said received data frame corresponds to said third 
+
+field of said received data frame, and when said comparison of said 
+common clock at said another station at the time said received data 
+
+frame is received from said network indicates that said data frame is 
+of recent origin. 
+The apparatus of claim 9 including; 
+   eighth means responsive to said seventh means and operable to 
+
+accept said received data frame only when said common clock at said 
+another station at the time said received data frame is received from 
+
+said network substantially corresponds to the first data field of said 
+received data frame. 
+The apparatus of claim 10 having a common checksum algorithm 
+at each of said stations, and wherein said function that is dependent 
+
+upon said first and second data fields comprises a checksum of a concatenation 
+of said first and second data fields, said checksum being 
+
+calculated using said common checksum algorithm. 
+The apparatus of claim 11 including; 
+   sixth means at said another station responsive to sa
+id fifth means 
+and operable to accept said received data frame when said encryption 
+
+of said first and second fields of said received data frame corresponds 
+to said third field of said received data frame. 
+The apparatus of claim 12 including; 
+   seventh means at said another station operable to compare said 
+
+first data field of said received data frame with the value of said common 
+clock at said another station at the time said received data frame 
+
+is received from said network, and wherein 
+   said sixth means at said another station is responsive to said fifth 
+
+means and to said seventh means, and said sixth means operating to 
+ 
+
+accept said received data frame when said encryption of said first and 
+second fields of said received data frame corresponds to said third 
+
+field of said received data frame, and when said comparison of said 
+common clock at said another station at the time said received data 
+
+frame is received from said network indicates that said data frame is 
+of recent origin. 
+The apparatus of claim 13 including; 
+   eighth means responsive to said seventh means and operable to 
+
+accept said received data frame only when said common clock at said 
+another station at the time said received data frame is received from 
+
+said network substantially corresponds to the first data field of said 
+received data frame. 
+For use in an information transfer network having a plurality of 
+stations that communicate with one another over said network, said 
+
+communication comprising the transmission of a data frame to said 
+network by one station and the reception of said data frame from said 
+
+network by a receiving station, a method for verifying a data frame 
+characterized in that it comprises the steps of; 
+
+   providing a common clock and common encryption means at each 
+of said stations, 
+
+   providing first means at said one station operable to form said data 
+frame as a first data field comprising information to be transmitted to 
+
+said receiving station, a second data field comprising said common 
+clock value at said one station at the time of said transmission, and a 
+
+third data field comprising an encryption of a function that is dependent 
+upon said first and second data fields, said encryption being performed 
+
+using said common encryption means, 
+   providing second means at said one station operable to transmit 
+
+said formed data frame to said network,
+ 
+
+   providing third means at said receiving station operable to receive 
+said formed data frame from said network, 
+
+   providing fourth means at said receiving station operable to encrypt 
+said first and second data fields of said received data frame using 
+
+said common encryption means, and 
+   providing fifth means at said receiving station operable to compare 
+
+said encryption of said first and second fields of said received data 
+frame to said third data field of said received data frame. 
+The method of claim 15 including the step of; 
+   providing sixth means at said receiving station responsive to said 
+
+fifth means and operable to accept said received data frame when said 
+encryption of said first and second fields of said received data frame 
+
+is substantially identical to said third field of said received data frame. 
+The method of claim 16 including the step of; 
+   providing seventh means at said receiving station operable to 
+
+compare said first data field of said received data frame with the value 
+of said common clock at said receiving station at the time said received 
+
+data frame is received from said network, and wherein said sixth 
+means is responsive to said fifth means and to said seventh means and 
+
+is operable to accept said received data frame when said encryption 
+of said first and second fields of said received data frame is substantially 
+
+identical to said third field of said received data frame, and when 
+said first data field of said received data frame generally compares 
+
+with the value of said common clock at said receiving station at the 
+time said received data frame is received from said network. 
+The method of claim 17 including the step of; 
+   providing a common checksum algorithm at each of said stations, 
+
+and wherein said function that is dependent upon said first and second 
+ 
+
+data fields is a checksum of a concatenation of said first and second 
+data fields, said checksum being calculated using said common 
+
+checksum algorithm. 
+</CLAIMS>
+</TEXT>
+</DOC>

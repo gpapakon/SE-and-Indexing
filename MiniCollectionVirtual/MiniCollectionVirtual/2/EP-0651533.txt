@@ -1,0 +1,389 @@
+<DOC>
+<DOCNO>EP-0651533</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method and apparatus for privacy and authentication in a mobile wireless network
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04L932	H04L908	H04L932	H04K100	H04L928	H04L930	G06F2120	H04K100	H04L908	G06F2120	H04W1200	H04W1206	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04L	H04L	H04L	H04K	H04L	H04L	G06F	H04K	H04L	G06F	H04W	H04W	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04L9	H04L9	H04L9	H04K1	H04L9	H04L9	G06F21	H04K1	H04L9	G06F21	H04W12	H04W12	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method and apparatus is disclosed for providing a secure 
+wireless communication link between a mobile nomadic device and a base 
+
+computing unit. A mobile sends a host certificate (Cert_Mobile) to the base 
+along with a randomly chosen challenge value (CH1) and a list of supported 
+
+shared key algorithms ("SKCS"). The base determines if the Cert_Mobile is 
+valid. If the Cert_Mobile is not valid, then the base unit rejects the 
+
+connection attempt. The base then sends a Cert_Base, random number (RN1) 
+encrypted in mobile's public key and an identifier for the chosen SKCS to the 
+
+mobile. The base saves the RN1 value and adds the CH1 value and the 
+chosen SKCS to messages sent to the base. The mobile unit then validates the 
+
+Cert_Base, and if the certificate is valid, the mobile verifies under the public 
+key of the base (Pub_Base) the signature on the message. The signature is 
+
+verified by taking the base message and appending it to CH1 and the list of 
+shared key algorithms that the mobile provided in the first message. If the 
+
+base signature is not valid, then the communication attempt is aborted. In 
+the event that the base signature is valid, the mobile determines the value of 
+
+RN1 by decrypting Pub_Mobile, RN1 under the private key of the mobile. 
+The mobile then generates RN2 and the session key, and encrypts RN2 under 
+
+the Pub_Base. The mobile sends the encrypted RN2 and E(Pub_Mobile, RN1) 
+to the base. The base
+ then verifies the mobile signature using the 
+Pub_Mobile obtained from the Cert_Mobile. If the mobile signature is 
+
+verified, the base decrypts E(Pub_Base, RN2) using its private key. The base 
+then determines the session key. The mobile and base may then enter a data 
+
+transfer phase using encrypted data which is decrypted using the session key 
+which is RN1 ⊕ RN2. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+</APPLICANTS>
+<INVENTORS>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to methods and apparatus for providing privacy
+and authentication in a wireless network. More particularly, the present invention
+provides a system using both public key and shared key encryption techniques for
+communications between wireless mobile devices and a base station.The advent of portable personal computers and workstations has expanded the
+concept of networks to include mobile devices. These mobile devices may be moved
+between global networks as well as within local networks. For example, a user of a
+portable notebook computing device may physically carry his computer from Palo
+Alto, California to Bangkok, Thailand. If the computer must interact and
+communicate with other computers coupled to a network, issues of network security
+naturally arise.European Patent No. 0 535 863 to American Telephone & Telegraph
+Company ("ATT") describes a mechanism for establishing private and authenticated
+communications between parties who share only a relatively insecure secret by using
+an approach in which a portion of one or more of the messages of a public key
+distribution system are encrypted with the shared secret as the encryption key. In this
+regard, ATT is similar to a turbo system, but is distinguished that the software is not
+merely a random number, but a portion of a message of the public key distribution
+system. However, the techniques described by ATT are generally ineffective for
+providing privacy and authentication in a wireless network. In particular, of the user's computer communicates over a wireless link, for
+example with a local base station or through a direct satellite link from Bangkok to
+the United States, wireless security, privacy and authentication becomes important.
+The wireless medium introduces new opportunities for allowing eavesdropping of
+wireless data communications. Anyone with the appropriate type of wireless receiver
+may eavesdrop, and this kind of eavesdropping is virtually undetectable.
+Furthermore, since the wireless medium cannot be contained by the usual physical
+constraints of walls and doors, active intrusions through the wireless medium are also
+easier to accomplish.IEEE Global Telecommunications Conference, Countdown to the New
+Millennium, Beller, M.J. et al.: PRIVACY AND AUTHENTICATION ON A
+PORTABLE COMMUNICATIONS SYSTEM, Phoenix, vol. 3 of 3, 2 December
+1991, pp. 1922-1927, XP000313732 ("IEEE") discusses technical options for
+accomplishing the goals authentication (insuring services not obtained fraudulently)
+and the privacy of
+</DESCRIPTION>
+<CLAIMS>
+A method for providing secure communications between a first data
+processing device (100) and a second data processing device (105), 
+characterized by
+
+the steps of:
+
+(a) said first data processing device (100) transmitting a first message including: a
+Mobile Certificate (Cert_Mobile) including a mobile public key (Pub_Mobile), a
+
+chosen challenge value (CHI), and a list of supported shared key algorithms (SKCS),
+to said second data processing device (105);
+(b) said second data processing device (105) receiving said first message and
+verifying a first signature of a first certificate authority (CA), said second data
+
+processing device (105) validating said received Cert_Mobile, and if said
+Cert_Mobile is valid, said second data processing device (105) transmitting a second
+
+message including: a Base Certificate (Cert_Base) including a base public key
+(Pub_Base), a second digital signature, a random number (RN1), and an identifier of
+
+one of said SKCS chosen from said list of supported shared key algorithms, to said
+first data processing device (100);
+(c) said first data processing device (100) receiving said second message and
+validating said Cert_Base and if said Cert_Base is valid, said first data processing
+
+device (100) validating said second signature of said Cert_Base using said Pub_Base,
+such that if said second signature is valid, said first data processing device (100)
+
+determining the value of RN1 by decrypting the value of E (Pub_Mobile, RN1) using
+a private key of said first data processing device (100) (Priv_Mobile);
+(d) said first data processing device (100) generating a value RN2 and a first
+session key having the value (RN1 ⊕ RN2), said first data processing device (00)
+
+encrypting the value of RN2 using said base public key (Pub_Base), and sending a
+third message to said second data processing device (105) including said encrypted
+
+RN2 and the value of E(Pub_Mobile, RN1) along with a digital signature
+corresponding to said first data processing device (100);
+(e) said second data processing device (105) receiving said third message and
+verifying said digital signature of said first data processing device (100) using
+
+Pub_Mobile obtained from said Cert_Mobile and if said signature of said first data 
+processing device (100) is verified, said second data processing device (105)
+
+decrypting the value of E (Pub_Base, RN2) using a private key of said second data
+processing device (105) (Priv_Base), said second data processing device (105) using
+
+said first session key having the value of (RN1 ⊕ RN2);
+(f) said first and second data processing devices (100, 105) transferring data using
+encrypted data which is decrypted using said first session key.
+The method as defined by Claim 1 wherein said Cert_Mobile comprises the
+expression:
+
+
+Signed (Priv_CA, Certificate contents).
+The method as defined by Claim 2 wherein said Certificate contents
+comprises;
+
+{Serial Number, Validity Period, Machine Name, Machine Public Key, CA name}.
+The method as claimed by Claim 3 wherein said MD is signed by said CA by
+encrypting said MD under said private key of said CA, such that the content of said
+
+Cert_Mobile are authenticated.
+The method as defined by Claim 4 wherein said CH1 comprises a randomly
+generated number.
+The method as defined by Claim 5 wherein said step of validating said
+received Cert_Mobile of step (b) includes the steps of:
+
+
+said second data processing device (105) independently computing said MD
+function on the contents of Cert_Mobile;
+said second data processing device (105) comparing said independently
+computed MD function with the decryption under said public key of said CA of said
+
+MD signed by said CA in Step (b) of Claim 1, such that if said MDI match said
+Cert_Mobile is valid.
+The method as defined by Claim 6 wherein said RN1 value is encrypted using
+said Pub_Mobile of said first data processing device (100).
+The method as defined by Claim 7 wherein said second data processing device
+(105) stores said RN1 value, and includes said CH1 value and said identifier of said
+
+chosen SKCS in messages between said second and said first data processing devices.
+The method as defined by Claim 8 wherein said second message comprises the
+expression:
+
+
+{Cert_Base, E(Pub_Mobile, RN1), Chosen SKCS,
+
+Sig(Priv_Base, {E(Pub Mobile, RN1), Chosen SKCS, CH1, List of SKCSs})}.
+The method as defined by Claim 9 wherein said second digital signature is
+verified in Step (b) of Claim 1 by appending said second message to CH1 and said list
+
+of SKCSs.
+The method as defined by Claim 10 wherein said value RN2 comprises a
+random number.
+The method as defined by Claim 11 wherein said third message comprises the
+expression:
+
+
+{E(Pub_Base, RN2), Sig{Priv_Mobile, {E(Pub_Base, RN2), E (Pub_Mobile,
+RN1)}}}.
+The method as defined by Claim 12 wherein said CHI value comprises a
+128 bit number.
+The method as defined by Claim 12 further including a key change method to
+define a New Key, comprising the steps of:
+
+
+(a) said second data processing device (105) sending a fourth message
+comprising:
+
+
+Signed(Priv_Base, {E(Pub_Mobile New_RN1), E(Pub_Mobile RN1)});
+(b) said first data processing device (100) receiving said fourth message and send
+a fifth message to said second data processing device (105) comprising;
+
+
+Signed(Priv_Mobile, {E(Pub_Base, New RN2), E(Pub_Base; RN2)});
+
+   wherein the value of RN2 ⊕ RN1 is used as the New Key.
+The method as defined by Claim 12 further including a key change method to
+define a New Key, comprising the steps of:
+
+
+(a) said first data processing device (100) sending a fourth message to said second
+data processing device (105) comprising the expression:
+
+
+Signed(Priv_Mobile, {E(Pub_Base, New_RN2), E(Pub_Base, RN2)});
+(b) said second data processing device (105) receiving said fourth message and
+sending a fifth message to said first data processing device (100) comprising the
+
+expression:
+
+Signed(Priv_Base, {E(Pub_Mobile, New_RN1), E(Pub_Mobile; RN1)});
+
+   wherein the value of RN2 ⊕ RN1 is used as the New Key.
+The method as defined by Claim 1 further including a plurality of CAs, and
+wherein said second message is defined by the expression:
+
+
+{Cert_Path List of CRLs, E(Pub_Mobile, RN1), Chosen SKCS,
+
+Sig(Priv_Base, {E(Pub) Mobile, RN1), Chosen SKCS, CH1, List of SKCSs})}
+
+   and wherein:
+
+CRL comprises a certificate revocation list for each of said CAs.
+An apparatus for use in a network including a first data processing device
+(100) in communication with a second data processing device (105), the apparatus for
+
+providing a secure data transfer between said first data processing device and said
+second data processing device (105), the apparatus 
+characterized by
+:
+
+a first message generation and transmission/receiving circuit coupled to said
+first data processing device for transmitting a first message including: a Mobile
+
+Certificate (Cert_Mobile) having a mobile public key (Pub_Mobile), a chosen
+challenge value (CH1), and list of supported shared key algorithms (SKCS), to said
+
+second data processing device (105), 
+second message generation and transmission/receiving circuit coupled to said
+second data processing device (105) for receiving said first message, said second data
+
+processing device (105) validating said received Cert_Mobile, and if said
+Cert_Mobile is valid, said second data processing device (105) being adapted to transmit a second
+
+message including: a Base Certificate (Cert_Base) including a base public key
+(Pub_Base), a second digital signature, a random number (RN1), and an identifier of
+
+one of said SKCS chosen from said list of supported shared key algorithms, to said
+first data processing device (100);
+said first data processing device (100) being adapted to receive said second message using
+said first message and transmission/receiving means and to validate said Cert Base,
+
+and if said Cert_Base is valid, said first data processing device (100) validating said
+second signature of said message using said Pub_Base, such that if said second
+
+signature is valid, said first data processing device (100) is adapted to determine the value of RN1
+by decrypting the value of E(Pub_Mobile, RN1) using a private key of said first data
+
+processing device (100) (Priv_Mobile);
+said first data processing device (100) being adapted to generate a value RN2 and first session
+key having the value (RN1 ⊕ RN2), said first data processing device (100) being adapted to encrypt
+
+the value of RN2 using said base public key (Pub_Base), and to send a third message
+to said second data processing device (105) including said encrypted RN2 and value
+
+of E(Pub_Mobile RN1) along with a digital signature corresponding to said first data
+processing device (100);
+said second data processing device (105) being adapted to receive said third message using
+said second message and transmission/receiving means and to verify said digital
+
+signature of said first data processing device (100) using Pub_Mobile obtained from
+said Cert_Mobile, and if said signature of said first data processing device (100) is
+
+E(Pub_Base, RN2) using a private key of said second data processing device (105)
+(Priv_Base), said second data processing device (105) using said first session key
+
+having the value of (RN1 ⊕ RN2);
+said first and second data processing devices (105) being adapted to transfer data using
+encrypted data which is decrypted using said first session key.
+The apparatus as defined by Claim 17 wherein said Cert_Mobile comprises
+the expression:
+
+
+Signed(Priv_CA, Certificate contents).
+The apparatus as defined by Claim 18 wherein said Certificate contents
+comprises:
+
+
+{Serial Number, Validity Period, Machine Name, Machine Public Key, CA name}.
+The apparatus as defined by Claim 19 wherein said MD is signed by said CA
+by encrypting said MD under said private key of said CA, such that the content of
+
+said Cert_Mobile are authenticated.
+The apparatus as defined by Claim 20 wherein said CH1 comprises a
+randomly generated number.
+The apparatus as defined by Claim 21 wherein the validation of said
+received Cert_Mobile is determined by:
+
+
+said second data processing device (105) being adapted to independently compute said MD
+function of the contents of Cert_Mobile;
+said second data processing device (105) being adapted to compare said independently
+computed MD function with the decryption under said public key of said CA of said
+
+MD signed by said CA, such that if said MDs match said Cert_Mobile is valid.
+The apparatus as defined by Claim 22 wherein said RN1 value is encrypted
+using said Pub_Mobile of said first data processing device.
+The apparatus as defined by Claim 23 wherein said second data processing
+device (105) is adapted to store said RN1 value, and to include said CH1 value and said identifier of
+
+said chosen SKCS in messages between said second and said first data processing
+devices (100). 
+The apparatus as defined by Claim 24 wherein said second message comprises
+the expression:
+
+
+{Cert_Base, E(Pub_Mobile, RN1), Chosen SKCS,
+
+Sig(Priv_Base, {E(Pub_Mobile, RN1), Chosen SKCS, CH1, List of SKCSs})}.
+The apparatus as defined by Claim 25 wherein said second digital signature is
+verified by appending said second message to CH1 and said list of SKCSs.
+The apparatus as defined by Claim 26 wherein said value RN2 comprises a
+random number.
+The apparatus as defined by Claim 27 wherein said third message comprises
+the expression:
+
+
+{E(Pub_Base, RN2), Sign{Priv_Mobile, {E(Pub_Base, RN2), E(Pub_Mobile,
+RN1)}}}.
+The apparatus as defined by Claim 28 wherein said CH1 value comprises as
+128 bit number.
+The apparatus as defined by Claim 29 wherein a New Key may be defined:
+
+said second data processing device (105) being adapted to use said second message and
+transmission/receiving means being adapted to send a fourth message comprising:
+
+
+Signed(Priv_Base, {E(Pub_Mobile, New_RN1), E(Pub_Mobile, RN1)}) to said first
+
+data processing device (100);
+said first data processing device (100) being adapted to use said first message and
+transmission/receiving means being adapted to receive said fourth message and to send a fifth message
+
+to said second data processing device 105 comprising
+Signed(Priv_Mobile, {E(Pub_Base New_RN2), E(Pub_Base, RN2)});
+
+   wherein the value of RN2 ⊕ RN1 is used as the New Key.
+The apparatus as defined by Claim 30 wherein a New Key may be defined: 
+
+said first data processing devices (100) being adapted to use said first message and
+transmission/receiving means being adapted to send a fourth message to said second data processing
+
+device (105) comprising the expression:
+
+Signed(Priv_Mobile, {E(Pub_Base New_RN2), E(Pub_Base RN2)});
+said second data processing device 105 being adapted to receive said fouth message using
+said second message and transmission/receiving means being adapted to send a fifth message to
+
+said first data processing device 100 comprising the expression:
+
+Signed (Priv_Base, {E(Pub_Mobile, New_RN1), E (Pub_Mobile, RN1)});
+
+   wherein the value of RN2 ⊕ RN1 is used as the New Key.
+The apparatus as defined by Claim 17 further includes a plurality of CAs, and
+wherein said second message is defined by the expression:
+
+
+{Cert_Path, List of CRLs, E(Pub_Mobile, RN1), Chosen SKCS,
+
+Sig(Priv_Base, {E(Pub_Mobile, RN1), Chosen SKCS, CH1, List of SKCSs})}
+
+   and wherein
+
+CRL comprises a certificate revocation list for each of said CAs.
+</CLAIMS>
+</TEXT>
+</DOC>

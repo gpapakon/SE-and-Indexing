@@ -1,0 +1,390 @@
+<DOC>
+<DOCNO>EP-0618553</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Data cryptographic process in an IC card, keys generation, certificates calculation and its linked authentification process and IC cards using these processes
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G07F710	H04L908	G07F710	H04L908	H04L932	H04L932	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G07F	H04L	G07F	H04L	H04L	H04L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G07F7	H04L9	G07F7	H04L9	H04L9	H04L9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The invention relates to a process for encrypting data in a microprocessor card. The card contains a set of selectable encryption keys (CSO, ..., CSn). The formula (K1,K2,A,M) -
+>
+ F(K1,K2,A,M) = R = E((E(M,K1)
+&
+f(A)),K2
+>
+ is applied, where: E(x,y) designates a stored cryptographic algorithm operating in a specific domain {0,1}
+<
+a
+>
+,  M denotes a datum to be encrypted fed to the microprocessor card, K1 and K2 designate two encryption keys, primary and secondary respectively, which are different or identical and are selected from the said set of keys (CSO, ..., CSn) with the aid of external selection data, A designates a datum representing the nature or origin of the encryption to be performed, f(A) designates a function for transforming the datum A such that f(A) belongs to {0,1}
+<
+a
+>
+, and 
+&
+ designates a Boolean function such as the "Exclusive Or" function.   
+<
+IMAGE
+>
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+GRP DES CARTES BANCAIRES CB
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+GROUPEMENT DES CARTES BANCAIRES "CB"
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BRACHET CLAUDE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WOILLEZ CHRISTINE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BRACHET, CLAUDE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WOILLEZ, CHRISTINE
+</INVENTOR-NAME>
+</INVENTORS>
+<CLAIMS>
+A method of generating encrypted information (R) in a microprocessor
+card, said card having a non-volatile data memory
+
+containing a set of selectable encryption keys (CS0, ..., CSn), the
+method being characterized in that the following encrypting formula F
+
+is applied:
+
+(K1,K2,A,M) → F(K1,K2,A,M) = R = E((E(M,K1)
+&
+f(A)),K2)
+
+where:
+
+E(x,y) designates a cryptographic algorithm stored in a non-volatile
+memory of the microprocessor card, applied to data 
+x
+ and 
+y
+
+belonging to the specific domain of said algorithm, and designated by
+{0,1}
+a
+;
+M designates input information to be encrypted, belonging to
+the domain {0,1}
+a
+, applied to the microprocessor card;
+K1 and K2 designate two encryption keys, respectively a primary
+key and a secondary key, which may be different or identical, and
+
+which are selected from said set of keys (CS0, ..., CSn) in said non-volatile
+data memory by application of external key selection
+
+information to the card, said selected keys belonging to the domain
+{0,1}
+a
+;
+A designates information representative of the nature or the
+origin of the encryption to be performed, applied directly to the
+
+microprocessor card or localized in said card by an input address
+(AC);
+f(A) designates a function for transforming the information A
+such that f(A) belongs to {0,1}
+a
+; and
+&
+ designates a Boolean function.
+A method according to claim 1, characterized in that said Boolean
+function is the "exclusive or" function (⊕).
+A method according to claim 2, characterized in that the
+information M to be encrypted is constituted by concatenating a data
+
+item (NISO) and said address AC, and in that the function f(A)
+designates the information A contained at address AC optionally
+
+padded out by at least one predetermined bit to agree with the domain
+{0,1}
+a
+. 
+A method of generating in the clear a plurality of keys
+diversified from an invariable secret item of information and a
+
+plurality of diversifiers, each making it possible to generate a
+respective diversified key, characterized in that the method of claim
+
+1, 2, or 3 is performed in repeated manner, in which the selected
+keys K1 and K2 constitute said secret information and the input
+
+information M constitutes said diversifier.
+A method according to claim 4, characterized in that the
+information A is also involved in the encrypting as information
+
+characteristic of an issuer of said diversified keys.
+A method according to claim 4 or 5, for generating a plurality of
+daughter keys for a plurality of daughter microprocessor cards from a
+
+root key contained in the microprocessor card, constituting a root
+card, characterized in that M is constituted by fixed information
+
+contained in each daughter card and specific thereto which is applied
+to said root card, and in that following each stage of encryption,
+
+the result R of the encryption is written in each daughter card.
+A method according to claim 6, characterized in that M is
+constituted on each occasion by a standardized identification number
+
+(NISO) of the respective daughter card.
+A method according to claim 7, for generating a plurality of
+diversified keys in each daughter card, for interbank use,
+
+characterized in that the root card contains in its set of encryption
+keys, at least one obligatory root key (CR0), together with at least
+
+three data words situated at predetermined addresses (ACR0, ACB,
+ACO), and in that, for each daughter card:
+
+
+the following encryption steps are performed in the root
+card:
+
+
+CT0 = E((E(NISO+ACR0,CR0)⊕[ACR0]),CR0)
+CB = E((E(NISO+ACB,CR0)⊕[ACB]),CR0)
+CO = E((E(NISO+ACO,CR0)⊕[ACO]),CR0)
+
+where: 
+
+CRO designates the obligatory root key of the root card;
+the + symbol designates binary concatenation;
+NISO designates the standardized identification number of the
+daughter card in question;
+[AC...] designates a data item obtained by padding out the
+
+contents of the address AC... with a plurality of predetermined bits;
+CT0 designates an obligatory interbank key;
+CB designates an obligatory bank key;
+CO designates an obligatory opening key; and
+said keys CT0, CB, and CO are written in said daughter card
+
+from said root card.
+A method according to claim 8, characterized in that said root
+card also contains in its set of keys at least one optional key (CRx)
+
+and at least one associated data word situated at a predetermined
+address (ACRx) in the memory of said root card, further characterized
+
+in that, to generate in each daughter card at least one optional key
+(CTx):
+
+
+the following encryption formula is applied in the root card:
+
+CTx = E((E(NISO+ACRx,CRx)⊕[ACRx],CRx)
+
+where:
+
+CRx designates an optional root key;
+the + symbol designates binary concatenation;
+NISO designates the standardized identification number of the
+daughter card in question;
+[ACRx] designates a data obtained by padding out the contents
+
+of the address ACRx with a plurality of predetermined bits; and
+said keys CTx are written in said daughter card from said
+root card.
+A method of computing a certificate in a microprocessor card,
+characterized in that the method of claim 1 or 2 is implemented, in
+
+which:
+
+K1 and K2 constitute keys enabling the microprocessor card to
+be characterized;
+A is read from the memory of the microprocessor card from a
+predetermined address applied to said card; and 
+M constitutes a random;
+
+the result R of encryption constituting said certificate.
+A method according to claim 10, applied to a microprocessor bank
+card for establishing a certificate associated with a transaction,
+
+characterized in that A constitutes an item of transaction data
+stored in said bank card and M is an item of information selected
+
+from the group comprising the date, the time, and identity
+information concerning the trader and/or the trader's payment
+
+terminal.
+A method of authenticating a microprocessor card by means of a
+body issuing said card, characterized in that the method of computing
+
+a certificate (R) of claim 10 is implemented in said card, with a
+random M coming from said issuing body and known thereto, and in that
+
+in the issuing body, said certificate is compared with an expected
+value.
+An authentication method according to claim 12, applied to a bank
+card, characterized in that the information A is constituted by a
+
+data item stored in said card at a predetermined address and
+identifying the body issuing it.
+A method according to claim 2 or 3, characterized in that the
+algorithm E(x,y) is reversible.
+A method of generating a plurality of diversified daughter keys
+(Kd) in encrypted form for a plurality of daughter microprocessor
+
+cards from a root key (Kr) contained in a root microprocessor card,
+characterized by implementing the following steps for each daughter
+
+card:
+
+the encryption method of claim 14 is executed in the root
+card in two successive stages:
+
+
+implementing the formula:
+
+Kd = E(N,Kr)⊕f(Ag)
+
+where:
+
+Kr is the root key; 
+N is a data item contained in the daughter card and specific to
+the daughter card in question, as transmitted to the root card;
+Ag is a data item contained in the root card and specific to
+the type of daughter key to be generated;
+E(x,y) and f(...) have the same meaning as in claim 1;
+Kd is the daughter key;
+implementing the formula:
+
+Ckd = E(Kd,Kc)
+
+where:
+
+Kc is a common transport key, contained in the root card and in
+each of the daughter cards of said root card;
+CKd is an encrypted version of said daughter key;
+said encrypted version CKd of the daughter key is transmitted
+to the daughter card from the root card;
+the following decryption formula is implemented in the
+daughter card:
+
+
+Kd = D(CKd,Kc)
+
+where:
+
+   D(x,y) is the reciprocal algorithm to E(x,y), operating in the
+same domain, thereby reconstituting the key Kd in said daughter card;
+
+and
+the daughter key Kd is written in the daughter card.
+A method enabling a daughter card to authenticate the
+presentation of a diversified key (Kd) by a root card to said
+
+daughter card, characterized by the following stages:
+
+the following formula is implemented in said root card:
+
+Kd = E(N,Kr)⊕f(Ag)
+
+where:
+
+Kr is a root key;
+N is a data item contained in the daughter card and specific to
+the daughter card in question, which is transmitted to the root card;
+Ag is a data item contained in the root card and specific to
+the type of daughter key to be generated;
+E(x,y) and f(...) have the same meaning as in claim 1; and
+Kd is the daughter key;
+the method according to claim 14 is implemented in the root
+card in the following form:
+
+
+MS = E((E(Rand,Kd)⊕f(Av)),Kc)
+
+where:
+
+Kc is a common transport key, contained in the root card and in
+each of the daughter cards of said root card;
+Av is a data item specific to the daughter card under
+consideration, contained therein and transmitted to the root card;
+Rand is a random supplied to the root card by the daughter card
+in question; and
+MS is a message encrypting said daughter key Kd;
+said message MS is transmitted to the daughter card from the
+root card;
+the following decryption formula is implemented in the
+daughter card:
+
+
+Rand' = D((D(MS,Kc)⊕f(Av)),Kd)
+
+where:
+
+   D(x,y) is the algorithm reciprocal to E(x,y), operating in the
+same domain; and
+it is checked in the daughter card that the generated data
+item Rand and the computed data item Rand' are identical.
+A secure method of authenticating a daughter card by a root card,
+characterized by the following stages:
+
+
+the following formula is implemented in the root card:
+
+Kdr = E(N,Kr)⊕f(Ag)
+
+where:
+
+Kr is a root key;
+N is a data item contained in the daughter card, specific to
+the daughter card in question, and transmitted to the root card;
+Ag is a data item contained in the root card and specific to
+the type of daughter key to be generated;
+E(x,y) and f(...) have the same meaning as in claim 1; and
+Kdr is the reconstitution of an expected daughter key;
+the method according to claim 14 is implemented in the
+daughter card 
+in the following form:
+
+MS = D((D(Rand,Kdf)⊕f(Av)),Kc)
+ 
+where:
+
+
+D(x,y) is the algorithm reciprocal to E(x,y) operating in the
+same domain, Kc is a common transport key contained in the root card
+
+and in each of the daughter cards of said root card;
+Av is a data item specific to the daughter card under
+consideration, contained therein, and transmitted to the root card;
+Rand is a random supplied by the root card to the daughter card
+in question;
+Kdf is a daughter key read in the daughter card; and
+MS is an encrypted message;
+said message MS is transmitted to the root card from the
+daughter card;
+the following decryption formula is implemented in the root
+card:
+
+
+Rand' = E((E(MS,Kc)⊕f(Av))Kdr)
+
+and
+the root card checks that the generated data item Rand is
+identical with the computed data item Rand', and thus that the
+
+daughter key Kdf is identical with the expected daughter key Kdr.
+A microprocessor card, characterized in that it contains
+encryption means in a read only memory for implementing the
+
+encryption method used in any preceding claim.
+</CLAIMS>
+</TEXT>
+</DOC>

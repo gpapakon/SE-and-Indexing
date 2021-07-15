@@ -1,0 +1,309 @@
+<DOC>
+<DOCNO>EP-0647919</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method and apparatus for correcting motion vectors
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04N544	H04N726	G06T720	H04N736	H04N726	H04N764	G06T720	H04N514	H04N736	H04N514	H04N764	H04N544	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04N	H04N	G06T	H04N	H04N	H04N	G06T	H04N	H04N	H04N	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04N5	H04N7	G06T7	H04N7	H04N7	H04N7	G06T7	H04N5	H04N7	H04N5	H04N7	H04N5	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Block matching is well known as a robust and intuitively simple method of motion 
+estimation for television pictures. The method works well when there is large or 
+
+varied detail in each block, but can give incorrect results if the information in a 
+block consists of a periodic structure. The problem is fundamental to the fact that 
+
+typical television field rates constitute severe temporal undersampling, leading to 
+aliasing and therefor
+e ambiguity in determining exactly what is present in the 
+original moving image sequence. If the goal of the motion estimation is to provide 
+
+a prediction, for example in coding applications, the problem of periodic structures 
+is usually unimportant because a good prediction can be obtained even using the 
+
+'wrong' motion vector. However, when the application is temporal interpolation, 
+for example 50Hz to 100Hz upconversion, the effect on the interpolated picture of 
+
+an erroneous vector in a periodic structure can be severe, often leading to a complete 
+phase reversal of the information in the interpolated field. 
+
+According to the invention, the motion vectors resulting from block matching are 
+corrected for periodic structures by taking a more reliable vector from the edge of 
+
+a moving object containing the periodic structure. This is done by calculating and 
+comparing different error combinations. The invention requires very little additional 
+
+processing after the block matching itself. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+THOMSON MULTIMEDIA SA
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+THOMSON MULTIMEDIA
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BOLENDER NADINE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HACKETT ANDREW
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KERDRANVAT MICHEL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KNEE MICHAEL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BOLENDER, NADINE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HACKETT, ANDREW
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KERDRANVAT, MICHEL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KNEE, MICHAEL
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a method and to an apparatus
+for correcting motion vectors.Block matching is well known as a robust and intuitively
+simple method of motion estimation for television pictures.
+The method works well when there is large or varied
+detail in each block, but can give incorrect results
+if the information in a block consists of a periodic
+structure, for example railings or Venetian blinds. The
+problem is fundamental to the fact that typical television
+field rates of 50Hz or 60Hz constitute severe temporal
+undersampling, leading to aliasing and therefore ambiguity
+in determining exactly what is present in the
+original moving image sequence. If the goal of the motion
+estimation is to provide a prediction, for example in
+coding applications, the problem of periodic structures
+is usually unimportant because a good prediction can be
+obtained even using the 'wrong' motion vector. However,
+when the application is temporal interpolation, for example
+50Hz to 100Hz upconversion, the effect on the interpolated
+picture of an erroneous vector in a periodic
+structure can be severe, often leading to a complete
+phase reversal of the information in the interpolated
+field.
+US-A-5025495 discloses a standards converter wherein in order
+to select a correct motion vector in case of multiple
+block matching error minima the size of the matching block
+is increased. It is also evaluated whether the difference
+between the minimum and a next block matching error minimum
+exceeds a certain percentage of the difference between the
+minimum and the block matching error maximum.
+In EP-A-0466981 subblocks and vector component median filtering 
+are considered in order to obtain more reliable motion
+vectors, i.e. a smooth vector field.It is one object of the invention to disclose a method for
+correcting motion vectors in case of periodic structures in
+the picture. This object is reached by the method disclosed
+in claim 1.It is a further object of the invention to disclose an apparatus
+which utilises the inventive method. This object is
+reached by the apparatus disclosed in claim 5.According to the invention, the motion vectors resulting
+from block matching are corrected for periodic structures
+by taking a more reliable vector from the edge of a moving
+object containing the periodic structure. The invention
+requires very little additional processing after the
+block matching itself. The invention consists of two
+parts: detection of periodic structures and correction of
+motion vectors if a periodic structure is
+</DESCRIPTION>
+<CLAIMS>
+Method for correcting motion vectors which are related to
+pixel blocks into which the pictures of a video signal
+
+are partitioned, wherein error values (ERR) are evaluated
+which are related to a matching of said pixel blocks between
+
+different pictures of said video signal,
+and wherein for a current pixel block in addition to a
+
+basic minimum matching error (E1) corresponding to a
+first matching position a next minimum matching error
+
+(E3) corresponding to a second matching position which is
+not adjacent to said first matching position is determined,
+characterised
+ in that the second matching position is located
+
+within a given pixel row (HOR) or pixel column, respectively,
+containing the pixel corresponding
+
+to said first matching position,
+
+and that said next minimum matching error is compared
+(COM3) with a preselected first threshold, resulting in a
+
+periodic structure decision if said next minimum matching
+error is less then said first threshold;
+
+and that, when a periodic structure in the picture content
+is detected, the motion vector corresponding to said
+
+first matching position is replaced by the motion vector
+from the block to the left or from the block above,
+
+whichever yields a smaller matching error for the current
+block, or is replaced by a motion vector which is the
+
+mean of these both vectors, or is replaced by a motion
+vector from any other block adjacent to the current
+
+block.
+Method according to claim 1, wherein a periodic structure
+in the picture content is determined only when the maximum
+
+matching error in the given row or column, respectively,
+exceeds a second threshold. 
+Method according to claim 1 or 2, wherein said first
+and/or said second threshold is scaled in relation to the
+
+dynamic range of the block, in particular to the maximum
+matching error belonging to a current pixel block or to a
+
+pixel block shifted according to the first matching position.
+Method according to any of claims 1 to 3, wherein:
+basic minimum matching error E
+1
+ = E(X,Y);
+maximum matching error E
+2
+ = max
+x,y
+ {E(x,y)};
+
+row or column minimum matching error
+
+E
+3
+ = min
+x(x ≠ X-1, X, X+1)
+ {E(x,Y)};
+
+row or column maximum matching error
+
+E
+4
+ = max
+x
+ {E(x,Y)},
+
+and the block is periodic if, and only if,
+
+E
+3
+-E
+1
+ 
+<
+ E
+2
+/4 and E
+4
+-E
+1
+ ≥ E
+2
+/2,
+
+wherein the motion vector range is [-M,+M] horizontally
+
+and [-N,+N] vertically and the chosen motion
+
+vector related to said first matching position is
+equal to (X,Y) and the errors for candidate motion
+
+vectors are E(x,y), x = -M,...,+M, y = -N,...,+N.
+Method according to any of claims 1 to 4, wherein the replacement
+motion vector is accepted only if its corresponding
+
+error in the current block is below a certain
+threshold.
+Apparatus for correcting motion vectors which are related
+to pixel blocks into which the pictures of a video signal
+
+are partitioned, including evaluating means for evaluating error
+values (ERR) which are related to a matching of said
+
+pixel blocks between different pictures of said video
+signal, wherein first minimum value means (MIN1, OED1)
+
+calculate from said error values (ERR) a basic minimum
+matching error (E1) corresponding to a first matching position, 
+
+
+characterised
+ by:
+
+second minimum value means (SW3, MIN3, OED3) which calculate
+a next minimum matching error (E3) corresponding to
+
+a second matching position which is not adjacent to said
+first matching position, that calculation being carried
+
+out within a given pixel row (HOR) or pixel column, respectively,
+containing the pixel corresponding
+
+to said first matching position,
+first maximum value means (MAX2, OED2) which calculate
+from said error values (ERR) a maximum matching error
+
+(E2) from which two threshold values are derived (DIV3,
+DIV4), using errors involved in the calculation of said
+
+basic minimum matching error, which in particular belong
+to the current block or to a block shifted according to
+
+said first matching position;
+second maximum value means (SW4, MAX4, OED4) which calculate
+from said error values (ERR) a maximum matching error
+
+(E4) in said given pixel row or column, respectively;
+first comparing means (SUB3, COM3) which compare the difference
+values between the outputs of said second and
+
+said first minimum value means with a first of said
+thresholds, resulting in first periodic structure decision
+
+if said next minimum matching error is less then
+said first threshold;
+second comparing means (SUB4, COM4) which compare the
+difference values between the outputs of said second
+
+maximum and said first minimum value means with a second
+of said thresholds, resulting in second periodic structure
+
+decision if said next minimum matching error is
+greater than or equal to said second threshold;
+combining means (CB) which form a final periodic structure
+decision (PER) from said first and said second periodic
+
+structure decision; 
+vector replacement means (LA, MUX2) which replace, when
+said final periodic structure decision (PER) indicates
+
+that a periodic structure in the picture content is detected,
+the current motion vector corresponding to said
+
+basic minimum matching error (E1) by the motion vector
+from the block to the left or from the block above,
+
+whichever yields using comparing means (COMUL) a smaller
+matching error for the current block, or by a motion vector
+
+which is the mean of these both vectors, or by a motion
+vector from any other block adjacent to the current
+
+block.
+</CLAIMS>
+</TEXT>
+</DOC>

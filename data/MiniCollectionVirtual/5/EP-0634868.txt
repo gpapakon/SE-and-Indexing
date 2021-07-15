@@ -1,0 +1,591 @@
+<DOC>
+<DOCNO>EP-0634868</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+IMAGE SIGNAL ENCODING METHOD, IMAGE SIGNAL ENCODER, IMAGE SIGNAL DECODING METHOD, IMAGE SIGNAL DECODER, AND IMAGE SIGNAL RECORDING MEDIUM.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T900	G06T900	H04N5783	H04N5783	H04N584	H04N585	H04N5926	H04N5926	H04N726	H04N726	H04N750	H04N750	H04N752	H04N752	H04N754	H04N9804	H04N9804	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T9	G06T9	H04N5	H04N5	H04N5	H04N5	H04N5	H04N5	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	H04N9	H04N9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+When a moving image is encoded, a region for effecting intro-coding is dispersed into part of a screen unit but 
+not into the whole screen such as a frame or a field. Further, a flag representing its structure is added. The structure of 
+
+encoded image data is modified for high speed reproduction in accordance with the data of the flag, and is transmitted 
+or recorded. When the encoded data is decoded, the region for which decentralized intra-coding is effected is decoded 
+
+by using the multiplexed flag, and smooth and high speed normal or reverse reproduction is made. Accordingly, the 
+present invention can accomplish an encoder, a recorder, a device for recording/transmission formatting (bit stream 
+
+syntax) and reproduction, and a decoder in order to smoothly reproduce a moving image data at a high speed either 
+in normal or reverse mode. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SONY CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SONY CORP
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+SUZUKI TERUHIKO SONY CORPORATI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YAGASAKI YOICHI SONY CORPORATI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YONEMITSU JUN SONY CORPORATION
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SUZUKI TERUHIKO SONY CORPORATI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YAGASAKI YOICHI SONY CORPORATI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YONEMITSU JUN SONY CORPORATION
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to an encoding method, 
+a decoding method, an encoding apparatus, a decoding 
+apparatus, a recording medium, and a recording, reproducing, 
+and decoding apparatus which are suitable for data compression 
+of moving images. Since moving image data contain an extremely large 
+amount of information, there have heretofore been required 
+recording mediums which allow a very high continuous transmission 
+speed in order to record and reproduce the moving image 
+data. At present, NTSC television video signals, for example, 
+are recorded on and reproduced from magnetic tapes and 
+optical discs. To record a video signal on a smaller-size recording 
+medium having a smaller recording capacity for a longer period 
+of time, it is necessary to employ a system for encoding the 
+video signal highly efficiently and decoding a read video 
+signal highly efficiently. To meet such a requirement, there 
+have been proposed highly efficient encoding systems which 
+rely upon the correlation of video signals. One of such 
+proposed systems is an MPEG (Moving Picture Experts Group)  
+ 
+system. According to the MPEG system, the difference between 
+image frames of a video signal is produced to reduce the 
+redundancy in the time-axis direction, and thereafter the 
+video signal is processed by an orthogonal transform process 
+such as a discrete cosine transform (DCT) process to reduce 
+the redundancy in the spatial-axis directions. The video 
+signal is thus encoded highly efficiently and recorded on a 
+given recording medium. A recording medium on which a highly efficiently 
+encoded video signal is recorded can be played back by decoding 
+a reproduced signal efficiently according to inverse orthogonal 
+transform or the like to reproduce the video signal. High-speed playback of a recording medium on which a 
+highly efficiently encoded video signal is recorded can be 
+effected by decoding the video signal at intervals of several 
+frames and outputting the decoded signal at the same speed as 
+the speed of normal reproduction. In the encoding according to the MPEG system, one 
+video sequence is divided into a frame group (GOP), e.g., a 
+unit of 12 frames. Each of the frames may be classified into 
+one of three types according to a predictive process.
+ 
+   I: Intra-coded frame (I picture);
+ 
+   P: Frame with motion predicted from a past frame (P 
+picture); and
+ 
+   B: Frame with motion predicted from past and future 
+frames (B picture). A conventional GOP arrangement is shown in FIG. 26  
+ 
+of the accompanying
+</DESCRIPTION>
+<CLAIMS>
+An image signal encoding method of encoding an 
+image signal, characterized in that one image is divided and 
+
+encoded into a plurality of slices, and intra slice information 
+indicative of a structure of intra-frame coded macroblocks 
+
+in the slices is added to a header. 
+An image signal encoding method characterized in 
+that said header comprises a slice header having a sync code. 
+An image signal encoding method characterized in 
+that said slices are assigned such that the start of the 
+
+slices is an intra-frame coded macroblock. 
+An image signal encoding method characterized in 
+that said slices are assigned and encoded to slices in which 
+
+all macroblocks are intra-frame coded and other slices, and 
+said intra slice information indicative of whether all the 
+
+macroblocks in the slices are intra-frame coded or not is 
+added to said header. 
+An image signal encoding method characterized in 
+that intra-frame coded regions are scattered and encoded so 
+
+that at least some of the intra-frame coded regions are different 
+from each other with respect to a plurality of images. 
+An image signal encoding method characterized in 
+that encoded data of the intra-frame coded macroblocks in the 
+
+slices are moved immediately after a slice header. 
+An image signal encoding method characterized in 
+that encoded data of the intra-frame coded macroblocks in the 
+
+slices are moved immediately after a GOP header. 
+An image signal encoding method characterized in 
+ 
+
+that motion compensation is carried out in a limited range 
+corresponding to the intra-frame coded regions to encode said 
+
+plurality of images. 
+An image signal encoding apparatus for encoding 
+an image signal, characterized by encoding means for dividing 
+
+and encoding one image into a plurality of slices, and adding 
+means for adding intra slice information indicative of a 
+
+structure of intra-frame coded macroblocks in the slices to a 
+header. 
+An image signal encoding apparatus characterized 
+in that said header comprises a slice header having a sync 
+
+code. 
+An image signal encoding apparatus characterized 
+in that said encoding means assigns said slices such that the 
+
+start of the slices is an intra-frame coded macroblock. 
+An image signal encoding apparatus characterized 
+in that said encoding means assign and encode said slices to 
+
+slices in which all macroblocks are intra-frame coded and 
+other
+ slices, and said adding means adds said intra slice 
+information indicative of whether all the macroblocks in the 
+
+slices are intra-frame coded or not said header. 
+An image signal encoding apparatus characterized 
+in that said encoding means scatters and encodes said intra-frame 
+
+coded regions so that at least some of the intra-frame 
+coded regions are different from each other. 
+An image signal encoding apparatus characterized 
+by order changing means for moving encoded data of the intra-frame 
+
+coded macroblocks in the slices immediately after a 
+ 
+
+slice header. 
+An image signal encoding apparatus characterized 
+in by order changing means for moving encoded data of the 
+
+intra-frame coded macroblocks in the slices immediately after 
+a GOP header. 
+An image signal encoding apparatus characterized 
+in that said encoding means carries out motion compensation in 
+
+a limited range corresponding to the intra-frame coded regions 
+to encode said plurality of images. 
+An image signal decoding method of decoding an 
+encoded image signal, characterized in that intra slice information 
+
+indicative of a structure of intra-frame coded macroblocks 
+in each of slices is decoded from a predetermined 
+
+header of an encoded image signal, and the intra-frame coded 
+macroblocks are extracted from said encoded image signal based 
+
+on the decoded intra slice information. 
+An image signal decoding method characterized in 
+that said header comprises a slice header having a sync code, 
+
+and the start of each of the slices is determined by detecting 
+said sync code. 
+An image signal decoding method characterized in 
+that said encoded image signal is reproduced at a variable 
+
+speed from a recording medium, and the extracted intra-frame 
+coded macroblocks are decoded to generate an image which is 
+
+reproduced at a variable speed. 
+An image signal decoding method characterized in 
+that macroblocks other than the decoded macroblocks are copied 
+
+and decoded from a past decoded image which is referred to for 
+ 
+
+thereby generating the image which is reproduced at a variable 
+speed. 
+An image signal decoding method characterized in 
+that the decoded macroblocks are written over a past decoded 
+
+image which is referred to for thereby generating the image 
+which is reproduced at a variable speed. 
+An image signal decoding method of decoding an 
+encoded image signal, characterized in that an encoded image 
+
+signal is reproduced at a normal speed from a recording 
+medium, intra slice information indicative of a structure of 
+
+intra-frame coded macroblocks in each of slices is decoded 
+from a predetermined header of the reproduced encoded image 
+
+signal, the order of encoded data of the intra-frame coded 
+macroblocks are changed to an order with which the image signal 
+
+has been encoded, based on the decoded intra slice information, 
+and the encoded image signal which has been changed in 
+
+order is decoded to generate a normally reproduced image. 
+An image signal decoding method characterized in 
+that said encoded image signal is a signal in which the 
+
+encoded data of the intra-frame coded macroblocks in the 
+slices are moved immediately after a slice header. 
+An image signal decoding method characterized in 
+that said encoded image signal is a signal in which the 
+
+encoded data of the intra-frame coded macroblocks in a GOP are 
+moved immediately after a GOP header. 
+An image signal decoding apparatus for decoding 
+an encoded image signal, characterized by means for decoding 
+
+intra slice information indicative of a structure of intra-frame 
+ 
+
+coded macroblocks in each of slices from a predetermined 
+header of an encoded image signal, and extracting means for 
+
+extracting the intra-frame coded macroblocks from said encoded 
+image signal based on the decoded intra slice information. 
+An image signal decoding apparatus characterized 
+in that said header comprises a slice header having a sync 
+
+code, and characterized by means for detecting said sync code. 
+An image signal decoding apparatus characterized 
+by means for reproducing said encoded image signal at a 
+
+variable speed from a recording medium, and decoding means for 
+decoding the intra-frame coded macroblocks extracted by said 
+
+extracting means to generate an image which is reproduced at a 
+variable speed. 
+An image signal decoding apparatus characterized 
+in that said decoding means copies and decodes macroblocks 
+
+other than the decoded macroblocks from a past decoded image 
+which is referred to for thereby generating the image which is 
+
+reproduced at a variable speed. 
+An image signal decoding apparatus characterized 
+in that said decoding means writes the decoded macroblocks 
+
+over a past decoded image which is referred to for thereby 
+generating the image which is reproduced at a variable speed. 
+An image signal decoding apparatus for decoding 
+an encoded image signal, characterized by reproducing means 
+
+for reproducing an encoded image signal at a normal speed from 
+a recording medium, means for decoding intra slice information 
+
+indicative of a structure of intra-frame coded macroblocks in 
+each of slices from a predetermined header of the reproduced 
+
+ 
+encoded image signal, order changing means for changing the 
+
+order of encoded data of the intra-frame coded macroblocks to 
+an order with which the image signal has been encoded, based 
+
+on the decoded intra slice information, and means for decoding 
+the encoded image signal which has been changed in order to 
+
+generate a normally reproduced image. 
+An image signal decoding apparatus characterized 
+in that said encoded image signal is a signal in which the 
+
+encoded data of the intra-frame coded macroblocks in the 
+slices are moved immediately after a slice header. 
+An image signal decoding apparatus characterized 
+in that said encoded image signal is a signal in which the 
+
+encoded data of the intra-frame coded macroblocks in a GOP are 
+moved immediately after a GOP header. 
+An image signal recording medium with an encoded 
+image signal recorded, characterized in that one image is 
+
+divided and encoded into a plurality of slices, intra slice 
+information indicative of a structure of intra-frame coded 
+
+macroblocks in the slices is added to a header to generate an 
+encoded bit stream, and the encoded bit stream is recorded on 
+
+a recording medium. 
+Amended claims
+An image signal encoding method of encoding an 
+image signal, characterized in that one image is divided and 
+
+encoded into a plurality of slices, and intra slice information 
+indicative of a structure of intra-frame coded macroblocks 
+
+in the slices is added to a header. 
+(Amended) An image signal encoding method according 
+to claim 1, characterized in that said header comprises 
+
+a slice header having a sync code. 
+(Amended) An image signal encoding method according 
+to claim 1, characterized in that said slices are assigned 
+
+such that the start of the slices is an intra-frame 
+coded macroblock. 
+(Amended) An image signal encoding method according 
+to claim 1, cha
+racterized in that said slices are assigned 
+and encoded to slices in which all macroblocks are intra-frame 
+
+coded and other slices, and said intra slice information 
+indicative of whether all the macroblocks in the slices 
+
+are intra-frame coded or not is added to said header. 
+(Amended) An image signal encoding method according 
+to claim 1, characterized in that intra-frame coded 
+
+regions are scattered and encoded so that at least some of the 
+intra-frame coded regions are different from each other with 
+
+respect to a plurality of images. 
+(Amended) An image signal encoding method according 
+to claim 2, characterized in that encoded data of the 
+
+intra-frame coded macroblocks in the slices are moved immediately 
+after a 
+
+ 
+slice header. 
+(Amended) An image signal encoding method according 
+to claim 2, characterized in that encoded data of the 
+
+intra-frame coded macroblocks in the slices are moved immediately 
+after a GOP header. 
+(Amended) An image signal encoding method according 
+to claim 5, characterized in that motion compensation 
+
+is carried out in a limited range corresponding to the intra-frame 
+coded regions to encode said plurality of images. 
+An image signal encoding apparatus for encoding 
+an image signal, characterized by encoding means for dividing 
+
+and encoding one image into a plurality of slices, and adding 
+means for adding intra slice information indicative of a 
+
+structure of intra-frame coded macroblocks in the slices to a 
+header. 
+(Amended) An image signal encoding apparatus 
+according to claim 9, characterized in that said header comprises 
+
+a slice header having a sync code. 
+(Amended) An image signal encoding apparatus 
+according to claim 9, characterized in that said encoding 
+
+means assigns said slices such that the start of the slices is 
+an intra-frame coded macroblock. 
+(Amended) An image signal encoding apparatus 
+according to claim 9, characterized in that said encoding 
+
+means assign and encode said slices to slices in which all 
+macroblocks are intra-frame coded and other slices, and said 
+
+adding means adds said intra slice information indicative of 
+whether all the 
+
+ 
+macroblocks in the slices are intra-frame coded or not said 
+
+header. 
+(Amended) An image signal encoding apparatus 
+according to claim 9, characterized in that said encoding 
+
+means scatters and encodes said intra-frame coded regions so 
+that at least some of the intra-frame coded regions are different 
+
+from each other. 
+(Amended) An image signal encoding apparatus 
+according to claim 10, characterized by order changing means 
+
+for moving encoded data of the intra-frame coded macroblocks 
+in the slices immediately after a slice header. 
+(Amended) An image signal encoding apparatus 
+according to claim 10, characterized in by order changing 
+
+means for moving encoded data of the intra-frame coded macroblocks 
+in the slices immediately after a GOP header. 
+(Amended) An image signal encoding apparatus 
+according to claim 13, characterized in that said encoding 
+
+means carries out motion compensation in a limited range corresponding 
+to the intra-frame coded regions to encode said 
+
+plurality of images. 
+An image signal decoding method of decoding an 
+encoded image signal, characterized in that intra slice information 
+
+indicative of a structure of intra-frame coded macroblocks 
+in each of slices is decoded from a predetermined 
+
+header of an encoded image signal, and the intra-frame coded 
+macroblocks are extracted from said encoded image signal based 
+
+on the decoded 
+intra slice information. 
+(Amended) An image signal decoding method according 
+ 
+
+to claim 17, characterized in that said header comprises 
+a slice header having a sync code, and the start of 
+
+each of the slices is determined by detecting said sync code. 
+(Amended) An image signal decoding method according 
+to claim 17, characterized in that said encoded image 
+
+signal is reproduced at a variable speed from a recording 
+medium, and the extracted intra-frame coded macroblocks are 
+
+decoded to generate an image which is reproduced at a variable 
+speed. 
+(Amended) An image signal decoding method according 
+to claim 19, characterized in that macroblocks other 
+
+than the decoded macroblocks are copied and decoded from a 
+past decoded image which is referred to for thereby generating 
+
+the image which is reproduced at a variable speed. 
+(Amended) An image signal decoding method according 
+to claim 19, characterized in that the decoded macroblocks 
+
+are written over a past decoded image which is referred 
+to for thereby generating the image which is reproduced 
+
+at a variable speed. 
+An image signal decoding method of decoding an 
+encoded image signal, characterized in that an encoded image 
+
+signal is reproduced at a normal speed from a recording 
+medium, intra slice information indicative of a structure of 
+
+intra-frame coded macroblocks in each of slices is decoded 
+from a predetermined header of the reproduced encoded image 
+
+signal, the 
+order of encoded data of the intra-frame coded macroblocks are 
+
+ 
+changed to an order with which the image signal has been 
+
+encoded, based on the decoded intra slice information, and the 
+encoded image signal which has been changed in order is 
+
+decoded to generate a normally reproduced image. 
+(Amended) An image signal decoding method according 
+to claim 22, characterized in that said encoded image 
+
+signal is a signal in which the encoded data of the intra-frame 
+coded macroblocks in the slices are moved immediately 
+
+after a slice header. 
+(Amended) An image signal decoding method according 
+to claim 22, characterized in that said encoded image 
+
+signal is a signal in which the encoded data of the intra-frame 
+coded macroblocks in a GOP are moved immediately after a 
+
+GOP header. 
+An image signal decoding apparatus for decoding 
+an encoded image signal, characterized by means for decoding 
+
+intra slice information indicative of a structure of intra-frame 
+coded macroblocks in each of slices from a predetermined 
+
+header of an encoded image signal, and extracting means for 
+extracting the intra-frame coded macroblocks from said encoded 
+
+image signal based on the decoded intra slice information. 
+(Amended) An image signal decoding apparatus 
+according to claim 25, characterized in that said header comprises 
+
+a slice header having a sync code, and characterized by 
+means for detecting said sync code. 
+(Amended) An image signal decoding apparatus 
+according to claim 25, characterized by means for reproducing 
+
+ 
+said encoded image signal at a variable speed from a recording 
+
+medium, and decoding means for decoding the intra-frame coded 
+macroblocks extracted by said extracting means to generate an 
+
+image which is reproduced at a variable speed. 
+(Amended) An image signal decoding apparatus 
+according to claim 27, characterized in that said decoding 
+
+means copies and decodes macroblocks other than the decoded 
+macroblocks from a past decoded image which is referred to for 
+
+thereby generating the image which is reproduced at a variable 
+speed. 
+(Amended) An image signal decoding apparatus 
+according to claim 27, characterized in that said decoding 
+
+means writes the decoded macroblocks over a past decoded image 
+which is referred to for thereby generating the image which is 
+
+reproduced at a variable speed. 
+An image signal decoding apparatus for decoding 
+an encoded image signal, characterized by reproducing means 
+
+for reproducing an encoded image signal at a normal speed from 
+a recording medium, means for decoding intra slice information 
+
+indicative of a structure of intra-frame coded macroblocks in 
+
+each of slices from a predetermined header of the reproduced 
+encoded image signal, order changing means for changing the 
+
+order of encoded data of the intra-frame coded macroblocks to 
+an order with which the image signal has been encoded, based 
+
+on the decoded intra slice information, and means for decoding 
+the encoded image signal which has been changed in order to 
+
+generate 
+ 
+
+a normally reproduced image. 
+(Amended) An image signal decoding apparatus 
+according to claim 30, characterized in that said encoded image 
+
+signal is a signal in which the encoded data of the intra-frame 
+coded macroblocks in the slices are moved immediately 
+
+after a slice header. 
+(Amended) An image signal decoding apparatus 
+according to claim 30, characterized in that said encoded image 
+
+signal is a signal in which the encoded data of the intra-frame 
+coded macroblocks in a GOP are moved immediately after a 
+
+GOP header. 
+An image signal recording medium with an encoded 
+image signal recorded, characterized in that one image is 
+
+divided and encoded into a plurality of slices, intra slice 
+information indicative of a structure of intra-frame coded 
+
+macroblocks in the slices is added to a header to generate an 
+encoded bit stream, and the encoded bit stream is recorded on 
+
+a recording medium. 
+</CLAIMS>
+</TEXT>
+</DOC>

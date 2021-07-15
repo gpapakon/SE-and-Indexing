@@ -1,0 +1,262 @@
+<DOC>
+<DOCNO>EP-0627682</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Floating-point processor for a high performance three dimensional graphics accelerator
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T1500	G06T120	G06F930	G06F930	G06F938	G06F938	G06T120	G06T1500	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	G06F	G06F	G06F	G06F	G06T	G06T	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T15	G06T1	G06F9	G06F9	G06F9	G06F9	G06T1	G06T15	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A floating-point processor for a high performance three dimensional 
+graphics accelerator in a computer system is disclosed. The floating-point 
+
+processor implements specialized graphics micro instructions. The specialized 
+graphics micro instructions include a swap micro instruction which causes a 
+
+hardware remapping of general purpose register groups to sort triangle vertices. 
+The specialized graphics micro instructions also include specialized conditional 
+
+branches for three dimensional geometry. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SUN MICROSYSTEMS INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SUN MICROSYSTEMS, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+DEERING MICHAEL F
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DEERING, MICHAEL F.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to the field of computer graphics systems. More
+particularly, this invention relates to a floating-point processor for a high
+performance three dimensional graphics accelerator in a computer system.A three dimensional graphics accelerator is a specialized graphics
+rendering subsystem for a computer system. Typically, an application program
+executing on a host processor of the computer system generates three
+dimensional geometry input data that defines three dimensional graphics
+elements for display on a display device. The application program transfers the
+geometry input data from the host processor to the graphics accelerator.
+Thereafter, the graphics accelerator renders the corresponding graphics elements
+on the display device.In prior graphics accelerators, the three dimensional graphics functions of
+transformation, clip test, face determination, lighting, clipping, and screen space
+conversion are often performed by commercially available digital signal
+processing (DSP) chips. However, such DSP chips are not optimized for three
+dimensional computer graphics.For example, the fast access internal registers provided in a typical DSP
+chip are too few in number to accommodate the inner loops of most three 
+dimensional graphics processing algorithms. As a consequence, on-chip data
+caches are employed to compensate for the limited number of internal registers.
+Moreover, DSP chips require an assortment of support chips to function in a
+multiprocessing environment. Unfortunately, the addition of the support chips
+increases printed circuit board area for the graphics accelerator, increases system
+power consumption, increases heat generation, and increases system cost.As another example, three dimensional graphics functions often require
+sorting of three dimensional vertices according some criteria. A graphics
+accelerator employing DSP chips performs such sorting by physically
+transferring vertex data between internal registers or data cache locations.
+Unfortunately, the physical transfer of the vertex data is time consuming and
+causes a decrease in system performance.As a further example, the DSP chip in prior systems typically must
+perform input/output tasks for accessing geometry input parameters and
+delivering transformed results. The DSP chip performs the input/output tasks in
+addition to the graphics function tasks. Unfortunately, the time spent by the DSP
+chip on the parameter input/output tasks is taken away from the graphics
+function tasks, thereby decreasing graphics processing
+</DESCRIPTION>
+<CLAIMS>
+A floating-point processor (40) for a graphics accelerator (24), comprising:
+
+an input circuit (141) receiving a reformatted geometry packet specifying a
+set of triangle vertex values and buffering said reformatted geometry packet;
+a register file circuit (142) having a general purpose register file to store
+information used to assemble a draw packet, said register file circuit (142)
+
+coupled to said input circuit (141) and storing a first vertex value, a second
+vertex value, and a third vertex value from said set of triangle vertex values in
+
+respectively a first register group, a second register group, and a third register group;
+a control sequencer (144) coupled to said input circuit (141) and said
+register file circuit (142) to assemble said draw packet by reading a plurality of
+
+specialized graphics micro instructions from a control store (149) and executing
+said plurality of specialized graphics micro instructions using a set of function
+
+units (143); and
+an output circuit (145) to receive said draw packet from said control
+sequencer (144), buffer said draw packet, and output said draw packet, said
+
+output circuit (145) coupled to said register file circuit
+(142), and said control sequencer (144);
+
+   characterized in that said set of micro instructions for sorting a set of
+triangle vertex values comprises a floating-point compare micro instruction
+
+and a swap micro instruction, wherein said swap micro instruction reorders said 
+first register group, said second register group, and said third register group of said
+
+general purpose register file (142) according to a series of result flags set by said
+floating-point compare micro instruction, such that said triangle vertex values
+
+stored in said first, said second, and said third register groups are sorted in a
+predefined order.
+The floating-point processor (40) of claim 1, wherein said series of result flags
+comprises:
+
+
+a first bit flag that is set if a first Y coordinate value is greater than a second
+Y coordinate of said set of triangle vertex values;
+a second bit flag that is set if said first Y coordinate value is greater than a
+third Y coordinate of said set of triangle vertex values; and
+a third bit flag that is set if said second Y coordinate value is greater than
+said third Y coordinate of said set of triangle vertex values.
+The floating-point processor (40) of claim 1, wherein said swap micro
+instruction reorders said first register group, said second register group, and
+
+said third register group of said general purpose register file by use of a register
+map that is loaded with the state of said series of result flags to produce one of
+
+six possible orderings of said first register group, said second register group, and
+said third register group.
+The floating-point processor (40) of claim 1, wherein said input circuit (141)
+further comprises a multiple buffer input register file. 
+The floating-point processor (40) of claim 1, wherein said output circuit further
+comprises a multiple buffer output register file.
+The floating-point processor (40) of claim 1, wherein said set of function units
+(143) includes a floating-point multiplier circuit (200), a floating point
+
+arithmetic logic unit circuit (206), a reciprocal circuit (202), a reciprocal square-root
+circuit, and an integer arithmetic logic unit circuit (204).
+The floating-point processor (40) of claim 1, wherein said general purpose
+register file (142) includes a predetermined number of general purpose
+
+registers, such that said predetermined number of general purpose registers
+provides storage for the inner loops of three dimensional graphics processing algorithms.
+The floating-point processor (40) of claim 1, wherein said plurality of
+specialized graphics micro instructions further includes a clip test micro
+
+instruction (Fig. 7b), said clip test micro instruction (Fig. 7b) compares a point to
+one or two clip planes according to a clip-mode bit of a state-bits register, and
+
+shifts one or two result bits into a clip bits register.
+The floating-point processor (40) of claim 8, wherein said plurality of
+specialized graphics micro instructions further includes a plurality of geometry
+
+conditional branch instructions (Fig. 11b), each of said plurality of geometry
+conditional branch instructions (Fig. 11b) determines a branch condition
+
+according to the clip bits register. 
+The floating-point processor (40) of claim 9, wherein said plurality of
+specialized graphics micro instructions further includes a micro instruction for
+
+converting a floating-point value to an integer value (Fig. 8b), a micro
+instruction for converting said integer value to said floating-point value (Fig.
+
+8b), and a micro instruction for determining an absolute value of a data value
+(Fig. 8b).
+The floating-point processor (40) of claim 10, wherein said plurality of
+specialized graphics micro instructions further includes a floating-point
+
+reciprocal micro instruction (Fig. 9).
+The floating-point processor (40) of claim 11, wherein said plurality of
+specialized graphics micro instructions further includes a block load instruction
+
+(Fig. 10b) and a block store instruction (Fig. 10d) for performing data block
+transfers between said control store (149) and said general purpose register file
+
+(142).
+A method for performing floating-point processing functions for a graphics
+accelerator (24), comprising the steps of:
+
+
+receiving in an input circuit (141) a reformatted geometry packet
+specifying a set of triangle vertex values over a command to floating-point bus
+
+(82) from a command preprocessor (30); 
+storing a first vertex value, a second vertex value, and a third vertex value
+from said set of triangle vertex values in respectively a first register group, a second register
+
+group, and a third register group of said general purpose register file (142);
+generating a draw packet by reading a plurality of specialized graphics
+micro instructions from a control store (149) and executing the specialized
+
+graphics micro instructions using a set of function units (143) and a general
+purpose register file (142); and
+broadcasting from an output circuit (145) the draw packet over a command-to-draw
+bus (80) to a plurality of draw processors (50-54);
+
+   characterized in that the specialized graphics micro instructions comprise
+a floating-point compare micro instruction and a swap micro instruction, and
+
+the generating a draw packet comprises the further steps of:
+
+comparing said first vertex value, said second vertex value, and said third
+vertex value to set a series of result flags; and
+swapping said first register group, said second register group, and said
+third register group such that said triangle vertex values stored in said first
+
+register group, said second register group, and said third register group are
+sorted in a predefined order according to said series of result flags.
+The method of claim 13, wherein said comparing further comprises the steps
+of: 
+
+
+setting a first bit flag if a first Y coordinate value is greater than a second Y
+coordinate of said set of triangle vertex values;
+setting a second bit flag if said first Y coordinate value is greater than a
+third Y coordinate of said set of triangle vertex values; and
+setting a third bit flag if said second Y coordinate value is greater than said
+third Y coordinate of said set of triangle vertex values.
+The method of claim 13, wherein said swapping comprises remapping by use of
+a register map that is loaded with the state of said series of result flags to
+
+produce one of six possible orderings of said first register group, said second
+register group, and said third register group.
+The method of claim 13, wherein said input circuit (141) further comprises a
+multiple buffer input register file.
+The method of claim 13, wherein said output circuit (145) further comprises a
+multiple buffer output register file.
+The method of claim 13, wherein the function units (143) comprise a floating-point
+multiplier circuit (200), a floating point arithmetic logic unit circuit (206),
+
+a reciprocal circuit (202), a reciprocal square-root circuit, and an integer
+arithmetic logic unit circuit (204).
+The method of claim 13, wherein the general purpose register file (142)
+comprises a predetermined number of general purpose registers, such that the 
+
+predetermined number of general purpose registers provides data storage for the inner
+loops of three dimensional graphics processing algorithms.
+The method of claim 13, wherein the specialized graphics micro instructions
+further comprise a clip test micro instruction (Fig. 7b), the clip test micro
+
+instruction (Fig. 7b) comparing a point to one or two clip planes according to a
+clip-mode bit of a state-bits register, and shifting one or two result bits into a
+
+clip bits register.
+The method of claim 20, wherein the specialized graphics micro instructions
+further comprise a plurality of geometry conditional branch instructions (Fig.
+
+11b), each geometry conditional branch instruction (Fig. 11b) determining a
+branch condition according to the clip bits register.
+The method of claim 21, wherein the specialized graphics micro instructions
+further comprise a micro instruction for converting a floating-point value to
+
+an integer value (Fig. 8b), a micro instruction for converting the integer value
+to the floating-point value (Fig. 8b), and a micro instruction for determining an
+
+absolute value of a data value (Fig. 8b).
+The method of claim 22, wherein the specialized graphics micro instructions
+further comprise a floating-point reciprocal micro instruction (Fig. 9).
+The method of claim 23, wherein the specialized graphics micro instructions
+further comprise a block load instruction (Fig. 10b) and a block store instruction 
+
+(Fig. 10d) for performing data block transfers between the control store (149) and
+the general purpose register file (142).
+</CLAIMS>
+</TEXT>
+</DOC>

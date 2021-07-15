@@ -1,0 +1,278 @@
+<DOC>
+<DOCNO>EP-0615345</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+METHOD AND SYSTEM FOR DATA COMPRESSION.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F306	G06F306	G06F500	G06F500	G06T900	G06T900	H03M730	H03M730	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06T	G06T	H03M	H03M	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F3	G06F3	G06F5	G06F5	G06T9	G06T9	H03M7	H03M7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method and system for compressing a stream of 
+bytes in a compression system. The compression system has a 
+
+search data structure containing slots for identifying the 
+position of occurrences of byte sequences in an input stream. 
+
+A byte sequence is retrieved from the input stream. The 
+method then determines whether the search data structure 
+
+contains a slot identifying the position of a byte sequence 
+that matches the retrieved byte sequence. If the search data 
+
+structure contains a slot which identifies a matching byte 
+sequence, then the contents of a search data structure slot 
+
+containing the match is replaced with the position of the 
+retrieved byte sequence. If the search data structure does 
+
+not contain a slot identifying a matching byte sequence, then 
+a slot is selected using a least recently updated slot 
+
+algorithm. The contents of this least recently updated slot 
+are then replaced with the position of the retrieved byte 
+
+sequence. When a matching byte sequence is determined, an 
+indicator of the position identified in the slot before 
+
+replacement is output. If no matching byte sequence is 
+determined, then a byte of the retrieved byte sequence is 
+
+output. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MICROSOFT CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MICROSOFT CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+RASHID RICHARD F
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SLIVKA BENJAMIN W
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+RASHID, RICHARD F.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SLIVKA, BENJAMIN W.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates generally to a method and 
+system for data compression, and more particularly to a 
+method and system for compressing data using LZ77-based 
+compression. A variety of data compression algorithms derive 
+from work published in Ziv, Jacob and Lempel, Abraham, "A 
+Universal Algorithm for Sequential Data Compression," IEEE 
+Transactions on Information Theory 23(3):337-343, May 
+1977. These algorithms are commonly referred to as LZ77 
+compression schemes. LZ77 compression schemes are based 
+on the principle that repeated strings of characters can 
+be replaced by a pointer to the earlier occurrence of the 
+string. A pointer is typically represented by an 
+indication of the position of the earlier occurrence 
+(typically an offset from the start of the repeated 
+string) and the number of characters that match (the 
+length). The pointers are typically represented as 
+<offset, length> pairs. For example, the following string
+ 
+   "abcdabcdacdacdacdaeaaaaaa"
+ 
+may be represented in compressed form by the following
+ 
+   "abcd<4,5><3,9>ea<1,5>"
+ 
+Since the characters "abcd" do not match any previous 
+character, they are encoded as a raw encoding. The pair 
+<4,5> indicates that the string starting at an offset of 4 
+and extending for 5 characters is repeated "abcda". The 
+pair <3,9> indicates that the string starting at an offset 
+of 3 and extending for 9 characters is repeated. Compression is achieved by representing the 
+repeated strings as a pointer with fewer bits than it 
+would take to repeat the string. Typically, a single byte  
+ 
+is not represented as a pointer. Rather, single bytes are 
+output with a tag bit indicating single byte encoding 
+followed by the byte. The pointers are differentiated 
+from a single byte encoding by different tag bit value 
+followed by the offset and length. The offset and length 
+can be encoded in a variety of ways. The efficiency of a compression technique can be 
+measured by the time it takes to compress data and the 
+time it takes to decompress the data. Another measure of 
+efficiency is the amount of actual data compression that 
+occurs. Generally, time of compression and amount of 
+compression are inversely proportional. Various 
+compression techniques have been developed in attempts to 
+reach an optimal balance between time and amount of 
+compression for a given situation. The book "Text 
+Compression" by Bell, Cleary, and Witten, published by 
+Prentice Hall, provides an overview of various text 
+compression techniques and is hereby incorporated by 
+refer
+</DESCRIPTION>
+<CLAIMS>
+A method of compressing a stream of bytes in a 
+compression system, each byte having a position within the 
+
+stream, the compression system having a search data structure 
+with slots for identifying the position of occurrences of byte 
+
+sequences, the method comprising the steps of: 
+   retrieving a byte sequence from the stream; 
+
+   determining whether the search data structure 
+contains a slot identifying the position of a byte sequence 
+
+that matches the retrieved byte sequence; 
+   when the search data structure contains such a slot, 
+
+replacing the position contained in the slot with the position 
+of the retrieved byte sequence; and 
+
+   when the search data structure does not contain such 
+a slot, selecting a least recently updated slot and replacing 
+
+the position contained in the selected slot with the position 
+of the retrieved byte sequence. 
+The method of claim 1 wherein the search data 
+structure comprises a table containing an entry for each byte 
+
+value, each entry having a plurality of slots, and wherein the 
+step of determining further includes the steps of: 
+
+   selecting an entry corresponding to one of the byte 
+values in the retrieved byte sequence; and 
+
+   searching the slots of the selected entry to 
+determine whether the byte sequence identified by the slot 
+
+matches the retrieved byte sequence. 
+The method of claim 2 wherein the compression 
+system includes a least recently updated data structure, the 
+
+least recently updated data structure having an entry 
+corresponding to each entry of the table, and including the 
+
+additional step of when the search data structure does not 
+contain such a slot, updating the corresponding entry of the 
+
+least recently updated data structure to identify the least 
+recently updated slot. 
+The method of claim 1 including the steps of: 
+   when the search data structure contains such a slot, 
+
+outputting an indicator of the position identified in the 
+slot; and 
+
+   when the search data structure does not contains 
+such a slot, outputting a byte of the retrieved byte sequence. 
+A method in a compression system of compressing 
+a stream of bytes, each byte having a position within the 
+
+stream, the compression system having a search data structure 
+with slots for identifying the position of occurrences of byte 
+
+sequences, the method comprising the steps of: 
+   retrieving a byte sequence from the stream; 
+
+   determining whether the search data structure 
+contains a slot identifying the position of a byte sequence 
+
+that matches the retrieved byte sequence; and 
+   when the search data structure contains such a slot, 
+
+when the offset between the position contained 
+in the slot and the position of the retrieved byte sequence is 
+
+greater than a maximum allowable offset, selecting a least 
+recently updated slot and replacing the position contained in 
+
+the selected slot with the position of the retrieved byte 
+sequence; and 
+
+   when the offset between the position contained 
+in the slot and the position of the retrieved byte sequence is 
+
+not greater than a maximum allowable offset, replacing the 
+position contained in the identifying slot with the position 
+
+of the retrieved byte sequence. 
+The method of claim 5 including the step of 
+when the search data structure does not contain such a slot, 
+
+selecting a least recently updated slot and replacing the 
+position contained in the selected slot with the position of 
+
+the retrieved byte sequence. 
+The method of claim 5 or 6 including the steps 
+of: 
+
+   when replacing the position contained in the 
+selected slot, outputting a byte of the retrieved byte 
+
+sequence; and 
+   when replacing the position contained in the 
+
+identifying slot, outputting an indicator of the position 
+identified in the slot before being replaced. 
+A method in a data compression system for 
+identifying a previously occurring matching string in an input 
+
+stream, the previously occurring strings being identified by 
+an identifier, the method comprising the steps of: 
+
+   determining whether an identifier identifies a 
+previously occurring string that matches a current string; 
+
+   when an identifier of a matching string is found, 
+replacing the identifier with an identifier of the current 
+
+string; and 
+   when an identifier of a matching string is not 
+
+found, replacing an identifier identifying a least recently 
+occurring string with an identifier of the current string. 
+The method of claim 8 wherein the string 
+comprises a plurality of characters, wherein the step of 
+
+determining includes the step of searching a search direct 
+access table for an identifier, the direct access table having 
+
+a search entry for each possible character, each search entry 
+having a plurality of slots, each slot having an identifier, 
+
+and wherein the steps of replacing replace an identifier in a 
+slots of the search direct access table. 
+The method of claim 9 including the step of 
+maintaining a least recently updated (LRU) direct access table 
+
+with an LRU entry contains an indicator of the least recently 
+updated slot in the corresponding search entry. 
+The method of claim 1 wherein the step of 
+selecting a least recently updated slot is performed by 
+
+selecting the slot with the smallest position value. 
+The method of claim 2 wherein the number of 
+slots comprising each entry is determined by the expected 
+
+frequency that the byte value used to determine the selection 
+of an entry will occur in a stream of bytes. 
+The method of claim 2 wherein the number of 
+slots comprising each entry is eight. 
+The method of claim 2 wherein the step of 
+selecting an entry corresponding to one of the byte values is 
+
+performed using the first byte in the retrieved byte sequence 
+as an index corresponding to an entry and the step of 
+
+searching the slots is performed using the second byte in the 
+retrieved byte sequence as an index corresponding to a slot. 
+</CLAIMS>
+</TEXT>
+</DOC>

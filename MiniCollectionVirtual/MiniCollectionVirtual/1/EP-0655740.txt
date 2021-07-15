@@ -1,0 +1,313 @@
+<DOC>
+<DOCNO>EP-0655740</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+RECORDING MEDIUM MANAGEMENT METHOD
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G11B700	G11B2711	G11B700	G06F1730	G11B2012	G11B7007	G11B2010	G11B1100	G11B2732	G11B2711	G11B2732	G11B27031	G06F1730	G11B7007	G11B2010	G11B2012	G11B11105	G11B27034	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G11B	G11B	G11B	G06F	G11B	G11B	G11B	G11B	G11B	G11B	G11B	G11B	G06F	G11B	G11B	G11B	G11B	G11B	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G11B7	G11B27	G11B7	G06F17	G11B20	G11B7	G11B20	G11B11	G11B27	G11B27	G11B27	G11B27	G06F17	G11B7	G11B20	G11B20	G11B11	G11B27	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+This invention relates to a recording medium 
+management method, and digital data for computer 
+
+processing are stored on a magnetooptic disk that is 
+usually used to record compressed digital audio data. 
+
+When computer data are recorded to clusters (16-27) 
+of a data recording area, the range of the clusters 
+
+(16-27) is secured as a usable range in a management 
+table (parts table) of U-TOC. On the parts table (02h), 
+
+a segment using is recorded using the cluster (16) as 
+a start address and the cluster (27) as an end address. 
+
+To manage the recording state of the computer data, 
+FAT (File Allocation Table) is separately prepared 
+
+to manage the recording state of the clusters (16-27). 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SONY CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SONY CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+IGARASHI TATSUYA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TERANISHI KATSUYUKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+IGARASHI, TATSUYA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TERANISHI, KATSUYUKI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to a recording medium management
+method suitable when used in the case of recording digital
+data to be processed by computer onto a magneto-optical disc
+on which digital audio data is primarily recorded in
+compressed manner, or reproducing it from such a magneto-optical
+disc, and to a system and to a recording medium
+using said method.For managing the recording of digital data on a recording
+medium, it is known to provide a TOC (table of contents)
+area, forming a type of first table - see for example EP-A2-0
+448 378, forming the preamble part of claim 1.Recently, mini-discs (MD) (Tradename) using magneto-optical
+disc as recording medium, and adapted for compressing
+digital audio data to record compressed data thereonto and
+expanding such compressed data to reproduce therefrom data
+corresponding to original data have been being popularized.
+Fig. 29 shows a recording format in this mini-disc. As shown
+in this figure, one circumference of the mini-disc is
+divided into a plurality of sectors. One cluster is
+constituted by 36 sectors, and compressed digital audio data
+is recorded with this cluster being as unit.In the case of mini-disc for recording, the leading three 
+sectors of one cluster (= 36 sectors) is caused to serve as a
+link sector, and the next one sector is caused to serve as sub
+data sector. To this sub data sector, sub data except for audio
+data is allocated. The link sector is caused to serve as an area
+for connecting clusters before and after, and audio data is
+recorded only in 32 sectors except for the link sector and the
+sub data sector.On the other hand, in mini-disks dedicated to reproduction,
+data are continuously recorded (are not discretely recorded), and
+three sectors of the link area therefore become unnecessary.
+Accordingly, in this case, these three sectors are caused to also
+serve as sub data sector.One sector consists of 2352 bytes (2332 bytes for data), and
+11 sound groups are allocated to two successive sectors. One
+sound group consists of 424 bytes, and audio data of the left
+channel and the right channel are allocated thereto by 512
+samples (11.61 ms) in total. Recording of digital audio data is
+carried out with the sound group being as unit.It is conceivable to use such mini-disc as, e.g., storage
+unit of computer. In this case, in order to carry out management
+of data of computer as file, since cluster (36 sectors) is too
+large as unit, it is preferable to have ability of recording data
+in a unit (e.g., sector unit) smaller than cluster. However, as
+de
+</DESCRIPTION>
+<CLAIMS>
+A recording medium management method for carrying out the management of
+recording digital data with respect to a recording medium (1),
+
+   wherein the management of the recording of digital data onto said recording
+medium where recording is carried out in first data recording units (CLUSTER) is
+
+carried out in accordance with a first table (MANAGEMENT TABLE),
+characterized in that
+a designated area of said recording medium (1) which undergo management in
+accordance with said first table is to be recording by digital data in second data
+
+recording units (BLOCK),
+the management of the recording of digital data onto said recording medium (1) in
+said designated area where recording is carried out in second data units is carried out
+
+in accordance with a second table (PAT; BITMAP), and
+data corresponding to the respective second data recording units are formed in said
+second table and said second table includes information indicating whether or not
+
+digital data have already been recorded in the corresponding second data recording
+units of said recording medium (1).
+The recording medium management method as set forth in claim 1,
+
+wherein the second data recording unit (BLOCK) is smaller than the first data
+recording unit (CLUSTER).
+The recording medium management method as set forth in claim 1 or 2,
+
+wherein said first data recording unit is a cluster and said second data recording unit is
+a block.
+The recording medium management method as set forth in claim 1,
+
+wherein the second data recording unit is of the same size as that of the first data
+recording unit.
+The recording medium management method as set forth in any one of claims 1 to 4,
+
+wherein the first table is recorded in U-TOC or TOC of the recording medium (1), and
+
+wherein the second table is recorded in the area caused to undergo management by the
+second table of the recording medium (1). 
+The recording medium management method as set forth in claim 5,
+
+wherein a pointer indicating the recording position of the second table (FAT; BITMAP)
+is recorded in said U-TOC or TOC.
+The recording medium management method as set forth in any one of claims 1 to 6,
+
+wherein different kinds of digital data are respectively recorded in the area caused to
+undergo management by the first table and in the area caused to undergo management
+
+by the second table.
+The recording medium management method as set forth in claim 7,
+
+wherein audio digital data is recorded in the area caused to undergo management only
+by the first table, and
+
+wherein digital data processed by computer is recorded into the area caused to undergo
+management by the second table.
+The recording medium management method as set forth in any one of claims 1 to 8,
+
+wherein data corresponding to the respective second dta recording units (BLOCK) are
+formed in the second table (FAT; BITMAP).
+The recording medium management method as set forth in claim 9,
+
+wherein data corresponding to the respective second data recording units include
+
+information indicating that digital data has been already used in the corresponding
+second data recording units of the recording medium (1).
+The recording medium management method as set forth in claim 9,
+
+wherein data corresponding to the respective second data recording units include
+information indicating that the corresponding second data recording units of the
+
+recording medium (1) are disabled.
+The recording medium management method as set forth in claim 9,
+
+wherein data corresponding to the respective second data recording units include
+information indicating that the corresponding second data recording units of the
+
+recording medium (1) are defective.
+The recording medium management method as set forth in claim 10, 11 or 12,
+
+wherein link information within the second table is further recorded in the second table. 
+The recording medium management method as set forth in any one of claims 1 to
+13, wherein in the case where an unrecorded area is insufficient in any one of the area
+
+where recording is carried out in first data recording units and the area where recording
+is carried out in second data recording units, the respective other area is changed to said
+
+one area on the first or second table, respectively.
+The recording medium management method as set forth in claim 5,
+
+wherein the U-TOC or TOC is recorded in a fixed area of the recording medium (1).
+The recording medium management method as set forth in claim 5,
+
+wherein said second table is bitmap.
+The recording medium management method as set forth in claim 5,
+
+wherein information indicating position of the second table is recorded immediately
+before the second table.
+The recording medium management method according to anyone of the preceding
+claims, which comprises furthermore the steps of:
+
+
+detecting (S31) an empty area of the recording medium (1) from data of said
+first table;
+recording, into the first table, data indicating that the empty area is caused to
+serve as tracks for digital data; and
+preparing (S33) said second table indicating use state of data of the recording
+medium (1) at the leading portion of the empty area caused to serve as the tracks for
+
+digital data.
+The recording medium management method according to claim 18, wherein
+whether or not any track for digital data already exists is judged from data of said first
+
+table.
+The recording medium management method according to claim 18,
+
+wherein information indicating position of the second table is recorded immediately
+before said second table.
+The recording medium management method according to claim 18,
+
+wherein the second table is bitmap, the bitmap including information indicating that the
+second data recording unit is available. 
+The recording medium management method according to claim 18, wherein the
+second table is bitmap, the bitmap including information indicating that the second data
+
+recording unit has been already used.
+The recording medium management method according to claim 18, wherein the
+second table is bitmap, the bitmap including information indicating that the second data
+
+recording unit is defective.
+The recording medium management method according to claim 18, wherein the
+second table is bitmap, the bitmap including information indicating that the second data
+
+recording unit is disabled.
+The recording medium management method according to anyone of the preceding
+claims,
+
+the method furthermore comprising the steps of:
+
+reading out, on the basis of data of said first table, said second table from tracks
+for digital data of the recording medium (1);
+detecting (S42) information indicating an available block from the second table;
+recording digital data in blocks of the tracks for digital data corresponding to the
+information indicating said available block;
+
+and
+rewriting (S47) the information indicating said available block of the second
+table into information indicating an disabled block.
+The recording medium management method according to claim 25,
+
+wherein in the case where the information indicating an available block is not included
+in the second table,
+
+the method comprises the steps of:
+
+detecting (S43) an empty area of the recording medium (1) from data of the first
+table;
+recording, into the first table, data indicating that the empty area is caused to be
+tracks for digital data; and
+recording (S47) information indicating an available block into the area for data
+of the second table corresponding to the block of the empty area caused to be the tracks
+
+for digital data.
+The recording medium management method according to claim 25,
+the method comprising the steps of: 
+
+
+reading out, on the basis of the first table, information indicating position of the
+second table recorded immediately before the second table;
+reading out the second table on the basis of information indicating the position
+of the second table.
+The recording medium management method according to claim 24,
+the method furthermore comprising the steps of:
+
+
+reading out digital data of first data recording units caused to undergo
+management by said first table from the recording medium (1);
+storing the digital data of the first data recording units into a memory (16);
+updating at least one portion of the digital data of the first data recording units
+stored in said memory (16) by new digital data every second unit less than the first unit,
+
+which is caused to undergo management by said second table; and
+recording new digital data of the first units including the new digital data stored
+in said memory (16) onto the recording medium (1).
+A system for recording and/or reproducing digital data onto and from a recording
+medium (1) respectively, according to the method according to anyone of claims 1 to
+
+28, comprising:
+
+recording means (3-6) for recording : a first table (MANAGEMENT TABLE) for managing digital data recorded in a
+designated area in first data recording units (CLUSTER);
+
+a second table (PAT; BITMAP) for managing digital data in said designated area
+which are recorded in second data recording units (BLOCK) and including
+
+information whether or not digital data have already been recorded in the
+corresponding second data recording units; and the digital data onto the recording medium
+
+(1);
+reproducing means (3-6) for reproducing said first table, said second table and said digital data recorded on the
+recording medium (1);
+memory means (16, 17) for storing said first table and said second table; and
+control means (11, 12) for controlling the recording and/or reproducing means
+(3-6), according to said first and second tables.
+A recording medium having recorded thereon : a first table (MANAGEMENT TABLE) for managing digital data recorded in a
+designated area in first data recording units (CLUSTER);
+
+a second table (PAT; BITMAP) for managing digital data in said designated area
+which are recorded in second data recording units (BLOCK) and including
+
+information whether or not digital data have already been recorded in the
+corresponding second data recording units; and digital data all recorded in accordance
+
+with the management method according to anyone of claims 1 to 28.
+</CLAIMS>
+</TEXT>
+</DOC>

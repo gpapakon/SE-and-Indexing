@@ -1,0 +1,65 @@
+<DOC>
+<DOCNO>EP-0632945</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+PACKET REASSEMBLY METHOD AND APPARATUS.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04L1256	H04L1256	H04L1266	H04L1266	H04L2906	H04L2906	H04L2908	H04L2908	H04Q722	H04Q722	H04Q724	H04Q724	H04Q726	H04Q726	H04Q730	H04Q730	H04Q738	H04Q738	H04Q1104	H04Q1104	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04L	H04L	H04L	H04L	H04L	H04L	H04L	H04L	H04Q	H04Q	H04Q	H04Q	H04Q	H04Q	H04Q	H04Q	H04Q	H04Q	H04Q	H04Q	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04L12	H04L12	H04L12	H04L12	H04L29	H04L29	H04L29	H04L29	H04Q7	H04Q7	H04Q7	H04Q7	H04Q7	H04Q7	H04Q7	H04Q7	H04Q7	H04Q7	H04Q11	H04Q11	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A packet switching system (100) employs packet reassembly hardware (214) in a packet switch (140) to improve overall system throughput during the handling of transmission packets (310) that require reassembly. In this manner, reassembly is accomplished with minimal processor (110) intervention and without having to duplicate the message data portion (312) of a transmission packet (310) into a different memory location prior to retransmission.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MOTOROLA INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MOTOROLA, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BUCHHOLZ DALE R
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MCGRATH JAMES
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WHITE RICHARD E
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BUCHHOLZ, DALE, R.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MCGRATH, JAMES
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WHITE, RICHARD, E.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+ PACKET REASSEMBLY METHOD AND APPARATUSField of the InventionThis invention is generally directed to a packet switching system in which data is transmitted by packets and is more specifically directed to a method and apparatus for referencing, storing and reassembling data, segregated into smaller packets, back into an original configuration.Background of the inventionPacket data networks convey information from an originating device to a specified addressee by incorporating the information into packets. Each packet contains a preamble (control data) and information (message data). The preamble typically includes packet network control data, synchronization information and addressee destination information. The information portion contains the originating device's message.The packet originated by the originator is typically not directly received by the addressee. The packet may be relayed by several intermediate stations before reaching the final addressee destination. As the transmission speeds of packet networks increase, it becomes increasingly important for relay stations to be able to efficiently handle and process packets.In a direct method for handling packets, received packets are stored in a memory location. The destination of the packet contained at the preamble is checked as well as other packet network control information. Correct receipt or validation of the control information and the packet data information is checked. Assuming no errors are detected, a new packet corresponding to the received packet is created and stored in a 
+
+different memory location for retransmission. At the appropriate time, the reconstituted packet is retransmitted by the relay station towards its final destination.Packets are handled in a different manner in an Ethernet local area network. A buffer ring structure comprised of a series of contiguous fixed length byte buffers are utilized for storage of received packets. The beginning and end location of the stored packet is identified by addresses held in a page start and a page stop register. Successive buffers in the ring are utilized to store the packet. Multiple packets can be consecutively stored in the ring structure. The packets are normally removed from the receive buffer ring in FIFO order and are reconstituted in memory separate from this ring, prior to retransmission. Each of these steps are typically performed under the direction of the system's central processor.On occasion the information (message data) portion of a data packet originated by an
+</DESCRIPTION>
+<CLAIMS>
+Claims
+1. A packet switching system including a microprocessor controller coupled to a data network for performing transmission control of data packets, and a packet switch coupled between the controller and a data packet source to perform data packet switching, said packet switch comprising: means for receiving a packet from said data packet source, each packet having a control data portion and a message data portion; means, coupled to the receiving means, for determining whether the received packet is one of a plurality of associated packet fragments, based upon control data status; and means, coupled to the determining means, for combining the message data portions of said plurality of associated packet fragments into a data packet with minimal microprocessor intervention. 
+
+2. The packet switch of claim 1 further comprising means, coupled to the determining means, for initializing packet fragment reassembly.
+3. The packet switch according to claim 2 wherein the initialization means further comprises: means for identifying the data packet to which the received packet fragment is associated; means for assigning a packet control block to that data packet; means tor creating a bit map for tracking the reception of each packet fragment associated with that data packet; and means for informing the microprocessor that reassembly has begun.
+4. The packet switch according to claim 1 wherein the combining means further comprises means for assigning a data buffer to each received packet; means for storing the message data portion of a packet requiring reassembly in the assigned data buffer; means for storing a pointer to the assigned data buffer in the packet control block; and means for storing at least some of the control data portion of a packet requiring reassembly in a location within a packet control block.
+5. The packet switch according to claim 3 wherein the bit map is updated upon the reception of a packet and stored in a data memory location, as a function of a control memory pointer.
+6. The packet switch of claim 1 further comprising means, coupled to the combining means, for transmitting a reassembled data packet without duplicating the message data portion of each associated packet fragment into a different memory location. 
+
+
+7. The packet switch of daim 1 wherein the combining means further comprises means for reassembling the message data portions of a plurality of associated packets fragments assodated with a plurality of different data packets, simultaneously; and means for reassembling the message data portions of a plurality of associated packets fragments from a plurality of different packet source devices, simultaneously.
+8. The packet switch of daim 1 further comprising means for informing the processor when a first packet fragment associated with a data packet requiring reassembly is received; means for determining when all packet fragments assodated with that data packet are received; and means, coupled to the determining means, for informing the processor when reassembly is complete, thereby providing data packet reassembly with minimal processor intervention.
+9. The packet switch of daim 1 further comprising: means, coupled to the determining means, using packet level block addressing for defining selected locations within data memory for storing the message data portion of a packet not requiring reassembly; and means, coupled to the defining means, for retransmitting only the message data stored at said selected memory locations, without performing an intermediate step of duplicating the stored message data into a different memory location. 
+
+10. A processor controlled packet switching system wherein data is communicated by data packets between a data network and data packet source devices via a packet switch comprising: means for receiving a plurality of packets from a plurality of source devices, each packet having a message data portion and a control data portion; means, coupled to the receiving means, for determining which of the received packets are assodated with a data packet requiring reassembly, as a function of received packet information; means, coupled to the determining means, tor combining the message data portions of those packets that require reassembly; means, coupled to the combining means for informing the processor upon receipt of a first packet assodated with the data packet requiring reassembly; means, coupled to the combining means for informing the processor upon receipt of a last packet assodated with the data packet requiring reassembly, thereby providing data packet reassembly with minimal processor intervention; means, coupled to the determining means, for storing at least a portion of those packets that do not require reassembly; and means, coupled to the reassembly means and the storage means, for retransmitting reassembled data packets as well as packets that do not require reassembly, without performing a data duplication step. 
+
+</CLAIMS>
+</TEXT>
+</DOC>

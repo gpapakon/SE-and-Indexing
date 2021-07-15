@@ -1,0 +1,308 @@
+<DOC>
+<DOCNO>EP-0638891</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Data transfer control device.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1336	G06F1336	G06F1338	G06F1338	G06T1100	G06T1100	G09G536	G09G539	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06T	G06T	G09G	G09G	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F13	G06F13	G06F13	G06F13	G06T11	G06T11	G09G5	G09G5	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Data transfer efficiency is improved by making a bus transfer 
+protocol programmable and by providing on a bus of a predetermined bit 
+
+width a plurality of data with a bit value smaller that the bit width in 
+one cycle under a programmed operation. A draw control chip (10) and 
+
+video chips (V1 - V4) are provided. They are connected by a 64-bit data 
+bus (20), a 4-bit program signal line (22), and a 1-bit ready signal line 
+
+(24). The video chip (V1) comprises a decoder (DEC1), a program buffer 
+address register (PBAR), a sequencer (SEQ), a program buffer (PB), a 
+
+decoder (DEC2), an address control unit (54), a selector (SEL), and 
+various registers. The video chip (V1) and the video buffer (APA1) are 
+
+connected by the data bus (20). 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+TAKAYANAGI KAZUNORI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WATANABE SHINPEI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TAKAYANAGI, KAZUNORI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WATANABE, SHINPEI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to a data transfer control device, and more 
+particularly to a data transfer control device for improving the 
+efficiency of data transfer between bus-coupled chips. Personal computers and workstations have recently been provided 
+with a display device which can simultaneously display multiple colors at 
+a high resolution. Such a display device can provide representation of a 
+structure of CAD and computer graphics in full color. Such a display device generally has an all point addressable (APA) 
+video buffer, and a function for rewriting the content of display by 
+writing data as pixel values in this APA video buffer. Typically, pixel operations for display include BITBLT (moving 
+pixel values in a specific area to another area) as well as operations on 
+a pixel basis (for example, changing color values). On the other hand, methods attaching color codes to pixels 
+typically include the following two methods. The first method is to 
+assign, for example, bits at coordinates (X, Y) on each plane of an image 
+memory to corresponding pixels at coordinates (X, Y) of a screen over 
+multiple planes of the image memory. According to this method, assuming 
+that the data constituting one pixel consists of eight bits, eight memory 
+planes are prepared. Then, each plane is separately connected with a 
+video processing unit (device) for processing bit data. That is, the 
+first method is just arranged so that one pixel passes through eight 
+planes (plane method). Although the second method is similar to the first method in that a 
+plurality of memories are prepared, each of which is separately connected 
+to a video processing unit, eight-bit data constituting one pixel resides 
+on a memory directly connected to the video processing unit (packed color 
+method). In accordance with the first method, the operating BITBLT completes 
+the operation in individual memory planes only, and does not require data 
+transfer over different video chips through the bus, allowing high speed 
+processing. However, if it is intended to perform processing for pixel  
+ 
+values, independent processing is not sufficient any longer, and 
+processing becomes necessary so that the bit values are sent to a 
+separate processing unit from each memory plane through the bus by 
+operating the individual video chips. The bytes collected here are 
+subject to predetermined processing, and the bit values are again 
+allocated through the reversed path, thus significantly lowering the 
+processing speed. In accordance with the second
+</DESCRIPTION>
+<CLAIMS>
+Apparatus for controlling data transfer between chips via a bus 
+comprising: 
+
+   a data bus of the width of a plurality of bits for connecting a 
+first chip and a plurality of second chips so as to allow transfer of 
+
+data between said first chip and said plurality of second chips; 
+   a signal line for connecting said first chip and said plurality of 
+
+second chips so as to allow transfer of signals of predetermined bit 
+values between said first chip and said plurality of second chips; 
+
+   a plurality of registers associated respectively with said 
+plurality of second chips, each of said first registers storing a code 
+
+which controls a data transfer operation of said data bus; 
+   selecting means for selecting one of said registers based on a bit 
+
+value of a signal transferred by said signal line; and 
+   control means for controlling the data transfer operation of said 
+
+data bus based on said code stored in said register selected by said 
+selector means. 
+Apparatus as claimed in claim 1 wherein the control means controls 
+the data transfer operation by repeating, for a predetermined number of 
+
+times, processing based on said code stored on said register selected by 
+said selecting means. 
+Apparatus for controlling data transfer between chips via a bus 
+comprising: 
+
+   a data bus of the width of a plurality of bits for connecting a 
+first chip and a plurality of second chips so as to allow transfer of 
+
+data between said first chip and said plurality of second chips; 
+   a signal line for connecting said first chip and said plurality of 
+
+second chips so as to allow transfer of signals of predetermined bit 
+values between said first chip and said plurality of second chips;
+
+ 
+   a plurality of first registers associated respectively with said 
+
+plurality of second chips, each of said first registers storing a code 
+which controls the data transfer operation of said data bus; 
+
+   a plurality of second registers associated respectively with said 
+plurality of second chips, each of said second re
+gisters being address 
+assigned based on the bit width of signals transferred by said signal 
+
+line, and storing data addressable to each of said first registers; and 
+   controls means for controlling the data transfer operation of said 
+
+data bus based on said code stored in said first register addressed by 
+addressable data stored in the second register. 
+Apparatus for controlling data transfer between chips via a bus 
+comprising: 
+
+   a data bus of a plurality of bit widths for connecting a first chip 
+and a plurality of second chips so as to allow transfer of data between 
+
+said first chip and said plurality of second chips; 
+   a signal line for connecting said first chips and the plurality of 
+
+second chips so as to allow transfer between said first chip and said 
+plurality of second chips of signals of predetermined bit values; 
+
+   a plurality of registers associated respectively with said 
+plurality of second chips, each of said registers storing a code which 
+
+controls the data transfer operation of said data bus; 
+   selecting means for selecting one of said registers based on a bit 
+
+value of signal transferred by said signal line; and 
+   control means for controlling the data transfer operation between 
+
+said plurality of second chips based on said code stored in said register 
+selected by said selecting means and also for controlling the transfer 
+
+between said first chip and said second chips. 
+Apparatus for controlling data transfer between chips via a bus 
+comprising:
+
+ 
+   a data bus of plurality of bit widths for connecting a first chip 
+
+and said plurality of second chips so as to allow the transfer of data 
+between said first chip and said plurality of second chips; 
+
+   a signal line for connecting said first chips and said plurality of 
+second chips so as to allow transfer between said first chip and said 
+
+plurality of second chips of signals of predetermined bit values; 
+   a plurality of registers associated respectively with said 
+
+plurality of second chips, each of said registers storing a code which 
+controls a data transfer operation of said data bus; 
+
+   selecting means for selecting one of said registers based on a bit 
+value of signal transferred by the signal line; and 
+
+   controlling means for controlling said second chips based on said 
+codes stored in said register selected by said selecting means such that 
+
+a predetermined second chip can transmit and receive data of 
+predetermined bit of the data transmitted through said data bus. 
+Apparatus as claimed in any preceding claim further comprising 
+means for sequentially accessing said plurality of registers according to 
+
+said address such that said plurality of registers are made separately 
+addressable, and said code is allowed to be sequentially decoded. 
+Apparatus as claimed in any preceding claim wherein each of said 
+plurality of second chips is a video chip performing write of read 
+
+processing in or from a video buffer for holding pixel draw data. 
+Apparatus as claimed in Claim 7, wherein the video buffer for 
+holding the pixel draw data holds data for drawing one-pixel in a memory 
+
+connected in series by the video processing unit. 
+A computer system including apparatus for controlling data transfer 
+between chips via bus as claimed in any of claims 1 to 8. 
+A method for controlling data transfer between chips comprising: 
+   providing a data bus of the width of a plurality of bits for 
+
+connecting a first chip and a plurality of second chips so as to allow 
+ 
+
+transfer of data between said first chip and said plurality of second 
+chips; 
+
+   connecting said first chip and said plurality of second chips, by a 
+signal line, so as to allow transfer of signals of predetermined bit 
+
+values between said first chip and said plurality of second chips; 
+   providing a plurality of registers associated respectively with 
+
+said plurality of second chips, each of said registers storing a code 
+which controls a data transfer operation of said data bus; 
+
+   selecting one of said registers based on a bit value of a signal 
+transferred by said signal line; and 
+
+   controlling the data transfer operation of said data bus based on 
+said code stored in said register selected by said selector means. 
+A method for controlling data transfer between chips comprising: 
+   providing a data bus of the width of a plurality of bits for 
+
+connecting a first chip and a plurality of second chips so as to allow 
+transfer of data between said first chip and said plurality of second 
+
+chips; 
+   providing a plurality of first registers associated respectively 
+
+with said plurality of second chips, each of said first registers storing 
+a code which controls the data transfer operation of said data bus; 
+
+   providing a plurality of second registers associated respectively 
+with said plurality of second chips, each of said second registers being 
+
+address assigned based on the bit width of signals transferred by said 
+signal line, and storing data addressable to each of said first 
+
+registers; and 
+   controlling the data transfer operation of said data bus on said 
+
+code stored in said first register addressed by addressable data stored 
+in the second register. 
+A method for controlling data transfer between chips comprising:
+ 
+
+   providing a data bus of a plurality of bit widths for connecting a 
+first chip and a plurality of second chips so as to allow transfer of 
+
+data between said first chip and said plurality of second chips; 
+   connecting said first chips and the plurality of second chips, by a 
+
+signal line, so as to allow transfer between said first chip and said 
+plurality of second chips of signals of predetermined bit values; 
+
+   providing a plurality of registers associated respectively with 
+said plurality of second chips, each of said registers storing a code 
+
+which controls the data transfer operation of said data bus; 
+   selecting one of said registers based on a bit value of signal 
+
+transferred by said signal line; and 
+   controlling the data transfer operation between said plurality of 
+
+second chips based on said code stored in said register selected by said 
+selecting means and also for controlling the transfer between said first 
+
+chip and said second chips. 
+A method for controlling data transfer between chips, comprising: 
+   providing a data bus of a plurality of bit widths for connecting a 
+
+first chip and a plurality of second chips so as to allow the transfer of 
+data between said first chip and said plurality of second chips; 
+
+   connecting said first chips and said plurality of second chips, by 
+a signal line, so as to allow transfer between said first chip and said 
+
+plurality of second chips of signals of predetermined bit values; 
+   providing a plurality of registers associated respectively with 
+
+said plurality of second chips, each of said registers storing a code 
+which controls a data transfer operation of said data bus; 
+
+   selecting one of said registers based on a bit value of signal 
+transferred by the signal line; and 
+
+   controlling said second chips based on said codes stored in said 
+register selected by said selecting means such that a predetermined 
+
+ 
+second chip can transmit and receive data of predetermined bit of the 
+
+data transmitted through said data bus. 
+</CLAIMS>
+</TEXT>
+</DOC>

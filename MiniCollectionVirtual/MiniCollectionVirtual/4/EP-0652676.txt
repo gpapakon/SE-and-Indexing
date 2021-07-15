@@ -1,0 +1,497 @@
+<DOC>
+<DOCNO>EP-0652676</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Apparatus and method for compressing a digital motion picture signal.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04N514	H04N514	H04N726	H04N726	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04N	H04N	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04N5	H04N5	H04N7	H04N7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+In a picture encoding apparatus, detection of a moving vector of half-pixel 
+precision is executed by using a single clock without increasing the number of frame 
+
+memories. 
+Time-series input pixel data is transformed into parallel pixel data; the parallel 
+pixel data obtained through the transformation is interpolated to thereby generate 
+
+interpolating data on each pixel in an area specified by a moving vector of one-pixel 
+precision. The interpolation data is output in parallel as pixel data on a plurality of 
+
+interpolation block areas (B1, B2) obtained by displacing by 1/2 pixel the block area 
+(B1, B2) specified by the moving vector at one-pixel unit, thereby making it possible to 
+
+quickly obtain interpolation data solely on a region around the area specified by the 
+moving vector at one-pixel unit. 
+With this arrangement, interpolation can be executed with a substantially 
+simplified construction as compared to the prior art, making it possible to easily detect 
+
+a moving vector of half-pixel precision without increasing the number of frame 
+memories of clock frequency. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SONY CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SONY CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+TSUKAGOSHI IKUO C O SONY CORPO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TSUKAGOSHI, IKUO, C/O SONY CORPORATION
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to an apparatus for compressing a digital motion 
+picture signal in which the efficiency of the compression is increased to 
+reduce the quantity of data to be transmitted. Conventional techniques for compressing a digital motion picture 
+signal obtain a motion vector before quantizing the digital motion picture 
+signal and quantize the motion picture signal in response to the motion 
+vector. Compressors that compress a digital motion picture signal in 
+response to a motion vector are disclosed in such patents as United States 
+patent nos. 4,982,285, 4,985,768, and 4,985,768. Generally, a motion picture signal has a high correlation between 
+portions of the motion picture signal representing two consecutive frames, 
+except when scene changes occur. Thus a motion picture signal can be 
+compressed by determining the differences in the pixel data between 
+consecutive frames of the motion picture signal, and then quantizing these 
+differences. However, if the picture includes moving portions, the quantity of 
+difference data can be large. For this reason, a method called block matching 
+is preferably used. Figs. 1A to 1C are diagrams explaining the principles of block 
+matching. The nth frame (Figure 1A) and the n+1th frame (Figure 1B) are  
+ 
+compared. In these frames, the image portion labelled "tree" is almost 
+unchanged between the frames. Therefore, the error resulting from replacing 
+the image portion "tree" in the n+1th frame (Figure 1B) with the image 
+portion "tree" of the nth frame (Figure 1A) is rarely perceptible. On the other hand, the image portion "car" in the n+1th frame cannot 
+similarly be replaced by the image portion "car" in the nth frame. The image 
+portion "car" in the n+1th frame (Figure 1B) has moved significantly relative 
+to the image portion "car" in the nth frame (Figure 1A). This change of 
+position of the image portion "car" is shown with solid lines and dotted lines 
+in the n+1th frame of Figure 1B. There is almost no change in the image portion "car" itself between 
+the nth frame (Figure 1A) and the n+1th frame (Figure 1B), so the image 
+portion "car" can therefore be considered to be same in both frames. The 
+block containing the image portion "car" in the nth frame (Figure 1A) has 
+moved horizontally to the position of the block containing the image portion 
+"car" in the n+1th frame (Figure 1B). Thus, the quantity of data required to 
+represent the motion picture can then be reduced by analyzing the picture into 
+blocks, and expressing the amount and
+</DESCRIPTION>
+<CLAIMS>
+Apparatus (1) for generating a motion vector for use in compressing a digital 
+motion picture signal, the motion picture signal including a current picture and a 
+
+reference picture, each picture including plural pixel data for pixels horizontally 
+arrayed in lines, the lines being vertically arrayed, the apparatus comprising: 
+
+   means (16) for obtaining a primary motion vector with one pixel precision 
+between a picture block of the current picture and a designated block of the reference 
+
+picture; 
+   parellelizing means (24) for converting the pixel data of the reference picture 
+
+into parallel pixel data; 
+   search area selecting means for selecting the parallel pixel data of a search area 
+
+of the reference picture in response to the primary motion vector, the search area 
+surrounding and including the designated block; 
+
+   interpolating means (26) for generating parallel half-pixel data from the parallel 
+pixel data of the search area by interpolation in plural parallel paths, for selecting 
+
+plural sets of parallel half-pixel data from the parallel half-pixel 
+data generated in the 
+
+plural parallel paths, and for serializing the sets of parallel half-pixel 
+data to provide 
+
+plural parallel matching blocks of half-pixel data, the matching blocks having shifts 
+relative to the designated block of -½, 0, and +½ pixel, horizontally and vertically; 
+
+   means for identifying a one of the plural matching blocks most closely matching 
+the picture block as a reference block; and 
+
+   motion vector calculating means (28) for calculating the motion vector with 
+half-pixel precision from the primary motion vector and the shift of the reference 
+
+block. 
+The apparatus of claim 1, wherein the means for obtaining a 
+primary motion vector includes means for performing block matching 
+
+between the picture block and the reference picture to obtain the designated 
+block. 
+The apparatus of claim 1 or 2, wherein the parallelizing means (24) includes: 
+   two prallel FIFO memories (31, 32) each having an output connected to one 
+
+half of a common double-width data bus (8); 
+   write clock means for alternately clocking the FIFO memories to write 
+
+alternate ones of the plural pixel data of the reference picture into each of the 
+FIFO memories; and 
+
+   read clock means for simultaneously clocking the FIFO memories to 
+simultaneously read pairs of the plural pixel data onto the common double-width 
+
+data bus as parallel pixel data. 
+The apparatus of any of claims 1 to 3, wherein the search area selecting means 
+includes: 
+
+   memory means for storing the parallel pixel data, each of the parallel 
+pixel data being stored at one storage address; and 
+
+   means for generating a block of addresses in response to the primary 
+motion vector, the block of addresses indicating the storage addresses of the 
+
+parallel pixel data of the search area; and 
+   means for reading the parallel pixel data of the search area from the 
+
+memory means in response to the block of addresses. 
+The apparatus of claim 4, wherein: 
+   the primary motion vector indicates a designated pixel in the reference 
+
+picture; and 
+   the means for generating a block of addresses generates a block of 
+
+addresses indicating the storage addresses of the parallel pixel data 
+corresponding to a block of 10 × 10 pixels extending from -1 to plus 8 pixels 
+
+horizontally and vertically relative to the designated pixel. 
+The apparatus of claim 5, wherein the designated block is a block 
+of 8 × 8 pixels extending from 0 to plus 7 pixels horizontally and vertically 
+
+relative to the designated pixel. 
+The apparatus of claim 5, wherein the parallel pixel data of the 
+search area consists of 50 parallel pixel data. 
+The apparatus of any of claims 1 to 7, wherein the interpolating means (26) 
+comprises: 
+
+   means for dividing the parallel pixel data into high-order bits and low-order 
+bits; 
+
+   means (35, 36, 37, 38) for delaying the high-order bits and low-order 
+bits by a 
+
+time corresponding to one pixel; 
+   means for delaying the parallel pixel data by a time corresponding to 
+
+a line of the search area; 
+   means (42), including plural parallel paths, for generating sets of half-pixel 
+
+data by interpolation between high-order bits and delayed low-order 
+bits, by 
+
+interpolation between high-order bits and delayed parallel pixel data; and by 
+interpolation between low-order bits and parallel pixel data. 
+The apparatus of claim 8, wherein the interpolating means 
+additionally includes selecting means, including plural parallel paths, for 
+
+selecting, from the sets of half-pixel data, half pixel data for each of the 
+plural parallel matching blocks. 
+The apparatus of claim 8 or 9, wherein the interpolating 
+
+means additionally includes means for generating additional sets of half-pixel 
+data by interpolation between the sets of half-pixel data 
+The apparatus of any of claims 1 to 10, wherein the interpolating means (26) 
+comprises: 
+
+   means for dividing the parallel pixel data into high-order bits and low order bits; 
+   pixel delay means (35-38) for delaying the low-order bits by a time corresponding 
+
+to one pixel, 
+   means (42) for performing first horizontal interpolation by summing the high-order 
+
+bits and the low-order bits of each of the parallel pixel data to provide first half-pixel 
+data; 
+
+   means (42) for performing second horizontal interpolation by adding the low order 
+bits of each of the parallel pixel data from the pixel delay means to the high order bits of 
+
+each of the parallel pixel data to provide second half-pixel data. 
+The apparatus of claim 11, wherein the interpolating means (26) 
+additionally comprises: 
+
+   first selecting means for selecting, from the first half-pixel data, high-order 
+bits of parallel half-pixel data of one of the plural matching blocks 
+
+shifted, relative to the designated block, in a first horizontal direction; 
+   second selecting means for selecting, from the first half-pixel data, 
+
+high-order bits of parallel half-pixel data of one of the plural matching blocks 
+shifted, relative to the designated block, in a second horizontal direction, 
+
+opposite the first horizontal direction; 
+   third selecting means for selecting, from the second half-pixel data, 
+
+low-order bits of parallel half-pixel data of the one of the plural matching 
+blocks shifted, relative to the designated block, in the first horizontal 
+
+direction; and 
+   fourth selecting means for selecting, from the second half-pixel 
+
+data, 
+low-order bits of parallel half-pixel data of the one of the plural matching 
+
+blocks shifted, relative to the designated block, in the second horizontal 
+direction. 
+The apparatus of claim 12, wherein the interpolating means (26) 
+additionally comprises means for serializing the high-order bits and the low-order 
+
+bits of the parallel half-pixel data to provide the half-pixel data of one 
+of the plural matching blocks. 
+The apparatus of any of claims 11 to 13, wherein the means for performing 
+first horizontal interpolation and the means for performing second horizontal interpolation 
+
+are in independent parallel paths. 
+The apparatus of any of claims 11 to 14, wherein the interpolating 
+means (26) additionally comprises: 
+
+   first line delay means for delaying the first half-pixel data by a time 
+corresponding to a line of search area; 
+
+   second line delay means for delaying the second half-pixel data by a 
+time corresponding to a line of search area; 
+
+   means for performing first horizontal and vertical interpolation by 
+adding each of the delayed first half-pixel data from the first line delay 
+
+means to each of the first half-pixel data to provide third half-pixel 
+data; and 
+
+   means for performing second horizontal and vertical interpolation by 
+adding each of the delayed second half-pixel data from the second line delay 
+
+means to each of the second half-pixel data to provide fourth half-pixel 
+data. 
+The apparatus of claim 15, wherein the interpolating means (26) 
+additionally comprises: 
+
+   fifth selecting means for selecting, from the third half-pixel data, high-order 
+bits of parallel half-pixel data of one of the plural matching blocks 
+
+shifted, relative to the designated block, in the first horizontal direction, and 
+in a first vertical direction; 
+
+   sixth selecting means for selecting, from the third half-pixel data, 
+high-order bits of parallel half-pixel data of one of the plural matching blocks 
+
+shifted, relative to the designated block, in the second horizontal direction, 
+and in the first vertical direction; 
+
+   seventh selecting means for selecting, from the fourth half-pixel 
+data, 
+
+low-order bits of parallel half-pixel data of the one of the plural matching 
+blocks shifted, relative to the designated block, in the first horizontal 
+
+direction and in the first vertical direction; and 
+   eighth selecting means for selecting, from the fourth half-pixel 
+
+data, 
+low-order bits of parallel half-pixel data of the one of the plural matching 
+
+blocks shifted, relative to the designated block, in the second horizontal 
+direction and in the first vertical direction. 
+The apparatus of claim 16, wherein the interpolating means (26) 
+additionally comprises means for serializing the high-order bits and the low-order 
+
+bits of the parallel half-pixel data to provide the half-pixel data of one 
+of the plural matching blocks. 
+The apparatus of claim 15, wherein the means for performing first 
+horizontal and vertical interpolation and the means for performing second 
+
+horizontal and vertical interpolation are in independent parallel paths. 
+The apparatus of claim 15, wherein the interpolating means (26) 
+additionally comprises: 
+
+   third line delay means for further delaying the first half-pixel 
+data 
+
+from the first line delay means by a time corresponding to a line of search 
+area; 
+
+   fourth line delay means for further delaying the second half-pixel 
+from 
+
+the second line delay means by a time corresponding to a line of search area; 
+   means for performing third horizontal and vertical interpolation by 
+
+adding each of the first half-pixel data from the third line delay means to 
+each of the first half-pixel data from the first line delay means to provide 
+
+fifth half-pixel data; and 
+   means for performing fourth horizontal and vertical interpolation by 
+
+adding each of the second half-pixel data from the fourth line delay means to 
+each of the second half-pixel data from the second delay line means to 
+
+provide sixth half-pixel data. 
+The apparatus of claim 19, wherein the interpolating means (26) 
+additionally comprises: 
+
+   ninth selecting means for selecting, from the fifth half-pixel data, 
+high-order bits of parallel half-pixel data of one of the plural matching blocks 
+
+shifted, relative to the designated block, in the first horizontal direction, and 
+in a second vertical direction, opposite the first vertical direction; 
+
+   tenth selecting means for selecting, from the fifth half-pixel data, 
+high-order bits of parallel half-pixel data of one of the plural matching blocks 
+
+shifted, relative to the designated block, in the second horizontal direction, 
+and in the second vertical direction; 
+
+   eleventh selecting means for selecting, from the sixth half-pixel 
+data, 
+
+low-order bits of parallel half-pixel data of the one of the plural matching 
+blocks shifted, relative to the designated block, in the first horizontal 
+
+direction and in the second vertical direction; and 
+   twelfth selecting means for selecting, from the sixth half-pixel 
+
+data, 
+low-order bits of parallel half-pixel data of the one of the plural matching 
+
+blocks shifted, relative to the designated block, in the second horizontal 
+direction and in the second vertical direction. 
+The apparatus of claim 20, wherein the interpolating means (26) 
+additionally comprises means for serializing the high-order bits and the low-order 
+
+bits of the parallel half-pixel data to provide the half-pixel data of one 
+of the plural matching blocks. 
+The apparatus of claim 19, wherein the means for performing first 
+horizontal and vertical interpolation and the means for performing second 
+
+horizontal and vertical interpolation are in independent parallel paths. 
+The apparatus of claim 1, wherein the interpolating means (26) 
+additionally comprises: 
+
+   fifth line delay means for delaying the parallel pixel data by a time 
+corresponding to a line of search area; 
+
+   means for performing first vertical interpolation by summing the high-order 
+bits of each of the parallel pixel data from the fifth line delay means 
+
+and the high-order bits of each of the parallel pixel data to provide seventh 
+half-pixel data; 
+
+   means for performing second vertical interpolation by adding the low-order 
+bits of each of the parallel pixel data from the fifth line delay means to 
+
+the low-order bits of each of the parallel pixel data to provide eighth half-pixel 
+data. 
+The apparatus of claim 23, wherein the interpolating means (26) 
+additionally comprises: 
+
+   thirteenth selecting means for selecting, from the seventh half-pixel 
+data, high-order bits of parallel half-pixel data of one of the plural matching 
+
+blocks shifted, relative to the designated block, in a first vertical direction; 
+   fourteenth selecting means for selecting, from the eighth half-pixel 
+
+data, low-order bits of parallel half-pixel data of the one of the plural 
+matching blocks shifted, relative to the designated block, in the first vertical 
+
+direction. 
+The apparatus of claim 24, wherein the interpolating means (26) 
+additionally comprises means for serializing the high-order bits and the low-order 
+
+bits of the parallel half-pixel data to provide the half-pixel data of one 
+of the plural matching blocks. 
+The apparatus of claim 23, wherein the means for performing first 
+vertical interpolation and the means for performing second vertical 
+
+interpolation are in parallel independent paths. 
+The apparatus of claim 23, wherein the interpolating means (26) 
+additionally comprises: 
+
+   sixth line delay means for delaying the parallel pixel data from the 
+fifth line delay means by a time corresponding to a line of search area; 
+
+   means for performing third vertical interpolation by summing the 
+high-order bits of each of the parallel pixel data from the sixth line delay 
+
+means and the high-order bits of each of the parallel pixel data from the fifth 
+line delay means to provide ninth half-pixel data; 
+
+   means for performing fourth vertical interpolation by adding the low-order 
+bits of each of the parallel pixel data from the sixth line delay means to 
+
+the low-order bits of each of the parallel pixel data from the fifth line delay 
+means to provide tenth half-pixel data. 
+The apparatus of claim 27, wherein the interpolating means (26) 
+additionally comprises: 
+
+   fifteenth selecting means for selecting, from the ninth half-pixel 
+data, 
+
+high-order bits of parallel half-pixel data of one of the plural matching blocks 
+shifted, relative to the designated block, in a second vertical direction, 
+
+opposite the first vertical direction; 
+   sixteenth selecting means for selecting, from the tenth half-pixel 
+
+data, 
+low-order bits of parallel half-pixel data of the one of the plural matching 
+
+blocks shifted, relative to the designated block, in the second vertical 
+direction. 
+The apparatus of claim 28, wherein the interpolating means (26) 
+additionally comprises means for serializing the high-order bits and the low-order 
+
+bits of the parallel half-pixel data to provide the half-pixel data of one 
+of the plural matching blocks. 
+The apparatus of claim 27, wherein the means for performing third 
+vertical interpolation and the means for performing fourth vertical 
+
+interpolation are in parallel independent paths. 
+The apparatus of any of claims 1 to 30, wherein the interpolating means (26) 
+additionally comprises means for selecting, from the parallel pixel data of the 
+
+search area, the parallel pixel data of the designated block; and 
+   means for serializing the parallel pixel data of the designated block to 
+
+provide an additional matching block. 
+The apparatus of claim 31, wherein the means for identifying one 
+of the plural matching blocks includes: 
+
+   means for deriving a block of differences between the picture block 
+and each matching block; 
+
+   means for generating an difference absolute value sum for each block 
+of differences; and 
+
+   means for generating a selection signal identifying the one of the 
+block of differences having a least difference absolute value sum. 
+The apparatus of claim 32, wherein the means for identifying 
+additionally comprises first selecting means, responsive to the selection 
+
+signal, for selecting the matching block corresponding to the block of 
+differences having the least absolute value sum as a reference block. 
+The apparatus of claim 32, wherein the means for identifying 
+additionally comprises second selecting means, responsive to the selection 
+
+signal, for selecting the block of differences having the least difference 
+absolute value sum as a difference block. 
+The apparatus of claim 34, wherein the apparatus is additionally for 
+compressing the digital motion picture signal, and additionally comprises: 
+
+   means (5) for orthogonally transforming the diffence block to provide 
+transform coefficients; and 
+
+   means (6) for quantizing the transform coefficients. 
+The apparatus of any of claims 31 to 35 wherein the motion vector 
+calculating means includes: 
+
+   means for determining a secondary motion vector from the selection signal; and 
+   means for synthesizing the secondary motion vector with the primary motion 
+
+vector to provide the motion vector with half-pixel precision. 
+</CLAIMS>
+</TEXT>
+</DOC>

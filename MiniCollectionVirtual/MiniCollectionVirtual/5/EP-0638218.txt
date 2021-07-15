@@ -1,0 +1,293 @@
+<DOC>
+<DOCNO>EP-0638218</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+METHODS FOR PREVENTING ROUNDING ERRORS WHEN TRANSFORM COEFFICIENTS REPRESENTING A MOTION PICTURE SIGNAL ARE INVERSELY TRANSFORMED
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1714	H03M730	H04N730	H04N750	H04N730	H04N764	H04N592	G06F1714	H04N141	H03M730	G06T900	G06T900	H04N726	H04N764	H04N726	H04N141	H04N750	H04N592	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	H03M	H04N	H04N	H04N	H04N	H04N	G06F	H04N	H03M	G06T	G06T	H04N	H04N	H04N	H04N	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F17	H03M7	H04N7	H04N7	H04N7	H04N7	H04N5	G06F17	H04N1	H03M7	G06T9	G06T9	H04N7	H04N7	H04N7	H04N1	H04N7	H04N5	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Mismatch error occur in the local decoder of a MPEG-standard compressor for a motion picture signal, and in an MPEG-standard expander for a compressed motion picture signal. This is because of the lack of a standard for rounding results of 
+<
+*
+>
+.5 (
+<
+*
+>
+ is an integer) obtained when a set of transform coefficients resulting from compressing the motion picture signal is inversely orthogonally transformed. The invention prevents mismatch errors by preprocessing the set of transform coefficients prior to the inverse othogonal transform (15). The transform coefficients in the set are summed (23A) and the parity (odd or even) of the sum is judged (21). When the parity of the sum is judged to be even, the parity of one of the transform coefficients in the set is inverted (28) to provide a parity-inverted transform coefficient. This makes the parity of the sum odd. Then, when the set of transform coefficients indluding the parity-inverted transform coefficient is inversely orthogonally transformed (15), none of the results of the orthogonal transform will have a value of 
+<
+*
+>
+.5.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SONY CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SONY CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+OKAZAKI TORU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SUDO TATSUYA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SUZUKI TERUHIKO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YAGASAKI YOICHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+OKAZAKI, TORU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SUDO, TATSUYA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SUZUKI, TERUHIKO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YAGASAKI, YOICHI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+Orthogonal transforms are used in various applications in diverse digital signal processing
+systems. Orthogonal transforms permit signal processing to be carried out in the frequency domain.
+The Fast Fourier Transform (FFT) and the Discrete Cosine Transform (DCT), etc. are widely known types
+of orthogonal transform. An orthogonal transform analyzes, for example, a fragment of a signal in
+the time domain into frequency components (varying depending upon the orthogonal transform function
+applied) indicating the spectrum (i.e., the distribution of energy versus frequency) of the original
+signal fragment in the time domain. By processing in various ways tue frequency components (commonly
+called transform coefficients) resulting from orthogonally transforming the signal fragment,
+redundancy in the original signal fragment can be reduced. In other words, by orthogonally
+transforming the original signal fragment, and processing the resulting transform coefficients, the
+original signal fragment can be represented using fewer bits than were used to represent the original
+signal fragment. Moreover, by inversely orthogonally transforming the transform coefficients, the
+original signal fragment in the time domain can be recovered.Apparatus for compressing a motion picture signal and for expanding a compressed motion
+picture signal are common examples of digital signal processing systems that use orthogonal transform
+processing.It is known that the signal power of signals having a high correlation is concentrated at
+lower frequencies in the frequency domain. As the concentration of signal power on a specific
+coordinate axis (e.g., the frequency axis) increases, signal redundancy can be progressively reduced, 
+and the signal can be compressed more efficiently.Since a motion picture signal is generally highly correlated, both spatially, and in time,
+orthogonal transform processing can be applied to concentrate the signal power on a specific
+coordinate axis, and the motion picture signal can be compressed with high efficiency.Hitherto, an extremely large amount of information has been required to represent a motion
+picture, using, for example, an NTSC-standard video signal. Because of this, recording a motion
+picture signal has required a recording medium with a very high storage capacity if the medium is to
+provide an acceptably-long recording time. Moreover, the information rate at which the motion picture
+signal is recorded on and reproduced from such a medium has been very high. Physically large magnetic
+tapes or
+</DESCRIPTION>
+<CLAIMS>
+A method of processing a set of transform coefficients,
+each of the transform coefficients having parity, to provide an
+
+error-immune set of transform coefficients for processing by an
+inverse orthogonal transform, the error-immune set of transform
+
+coefficients being immune to rounding errors when subject to
+the inverse orthogonal transform, the method comprising the
+
+steps of:
+
+summing (23A) the transform coefficients to provide a
+sum, the sum having parity;
+judging (21) the parity of the sum;
+when the parity of the sum is even, inverting (28) the
+parity of at least one of the transform coefficients to provide
+
+a parity-inverted transform coefficient such that the parity-inverted
+transform coefficient would make the parity of the sum
+
+odd; and
+providing the transform coefficients including the
+parity-inverted transform coefficient as the error-immune set.
+A method according to claim 1, wherein:
+
+the method is for processing transform coefficients
+resulting from a two-dimensional discrete cosine
+
+transform (11);
+the set of transform coefficients includes a transform
+coefficient representing a DC component; and
+in the step of inverting (28) the parity of one of the
+transform coefficients, the parity of one of the transform
+
+coefficients other than the transform coefficient representing
+the DC component is inverted.
+A method according to claim 2, wherein:
+
+the set of transform coefficients also includes a
+transform coefficient representing a highest-frequency
+
+component; and
+in the step of inverting (28) the parity of one of the
+
+transform coefficients, the parity of the transform coefficient
+representing the highest-frequency component is inverted.
+A method according to claim 3, wherein:
+
+each transform coefficient in the set is represented by a
+binary number having a least-significant bit; and
+in the step of inverting (28) the parity of one of the
+transform coefficients, the least significant bit of the one
+
+of the transform coefficients is inverted (S3 Fig. 9).
+The method of claim 2, wherein:
+
+each transform coefficient in the set has a polarity; and
+the step of inverting the parity of one of the transform
+coefficients includes the steps of:
+determining (S3 Fig. 14) the polarity of one of the
+transform coefficients,
+when the polarity is negative, adding (S6 Fig. 14) a
+predetermined odd value of the one of the transform
+
+coefficients, and
+when the polarity is positive, subtracting (S4 Fig. 14)
+the predetermined odd value from the one of the transform
+
+coefficients.
+A method according to claim 2, wherein:
+
+the method additionally includes the step of receiving
+the transform coefficients in the set in serial order, the
+
+transform coefficients including a last-received transform
+coefficient; and
+in the step of inverting (28) the parity of one of the
+transform coefficients, the parity of the last-received
+
+transform coefficient is inverted.
+A method according to any one of the preceding claims,
+wherein the transform coefficients in the set all have a value
+
+other than zero.
+A method according to any one of the preceding claims,
+wherein:
+
+
+each transform coefficient in the set is represented by a
+binary number having a least-significant bit; and
+in the step of summing the transform coefficients, only
+the least-significant bit of each transform coefficient is 
+
+summed (29, 30, 24).
+A method according to any one of the preceding claims,
+additionally comprising the step of selecting the transform
+
+coefficients in the set from a block of transform
+coefficients.
+A process for inversely orthogonally transforming a set
+of transform coefficients without incurring rounding errors,
+
+each of the transform coefficients being represented by a
+binary number having a least-significant bit, the process
+
+comprising the method of claim 7 wherein:
+
+the step of summing comprises determining the least-significant
+bit of each of the transform coefficients; and
+
+counting the transform coefficients having a least-significant
+bit of one to provide a count;
+the step of judging comprises judging when the count is
+an even number; and
+the step of inverting comprises, changing one of the
+transform coefficients to provide a changed transform
+
+coefficient, the changed transform coefficient making the
+count an odd number; the process further comprising the step
+
+of
+inversely orthogonally transforming the set of transform
+coefficients including the changed transform coefficient.
+A process of compressing a motion picture signal to
+provide a compressed motion picture signal, the process
+
+comprising the steps of:
+
+applying prediction coding and orthogonal transform
+processing to blocks of the motion picture signal to provide
+
+blocks of transform coefficients wherefrom the compressed
+motion picture signal is derived; and
+sum oddifying the blocks of the transform coefficients,
+by applying the method of any one of claims 1 to 9, prior to
+
+applying inverse orthogonal transform processing and
+prediction decoding to the blocks of transform coefficients to
+
+provide blocks of a reconstructed picture for use as a
+reference picture in prediction coding other pictures of the
+
+motion picture signal.
+A process for compressing a motion picture signal to
+provide a compressed motion picture signal, the process
+
+comprising the steps of:
+
+detecting (6) motion between blocks of a picture of the
+motion picture signal and blocks of a reconstructed picture
+
+signal serving as a reference picture;
+applying (7) motion compensation to the reference picture
+in response to the detected motion to derive matching blocks
+
+of the reference picture;
+using the matching blocks of the reference picture to
+apply predictive coding to the blocks of the motion picture
+
+signal to provide block of differences;
+orthogonally transforming (11) the blocks of differences
+to provide blocks of transform coefficients;
+deriving the compressed signal from the blocks of
+transform coefficients by applying quantizing (12) and
+
+variable-length coding (17);
+prior to applying inverse orthogonal transform processing
+to the blocks of transform coefficients to provide blocks of
+
+restored differences, sum oddifying each block of transform
+coefficients to prevent rounding errors in the inverse
+
+orthogonal transform processing by applying the method of any
+one of claims 1 to 9; and
+applying prediction decoding to the blocks of restored
+differences to provide picture blocks of a reconstructed
+
+picture for use as reference picture in applying predictive
+coding to other pictures of the motion picture signal.
+A process according to claim 11 or 12, wherein:
+
+the process is additionally for recording the compressed
+motion picture signal on a recording medium; and
+
+the process additionally comprises the steps of:
+
+providing a recording medium,
+deriving a recording signal from the compressed motion
+picture signal, and
+recording the recording signal on the recording medium.
+A process according to claim 11 or 12, wherein:
+
+the process is additionally for transmitting the 
+compressed motion picture signal via a transmission medium;
+
+and
+
+the process additionally comprises the steps of:
+
+providing a transmission medium,
+deriving a transmission signal from the compressed motion
+picture signal, and
+feeding the transmission signal into the transmission
+medium.
+</CLAIMS>
+</TEXT>
+</DOC>

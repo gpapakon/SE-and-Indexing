@@ -1,0 +1,253 @@
+<DOC>
+<DOCNO>EP-0652511</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Apparatus and method for generating a program for parallel processing
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F944	G06F944	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+In a printer driver 11, a source code for an image processing 
+procedure called out by an application program is generated. 
+
+A grain size detection process 48 counts the number of 
+procedures which have been called out and a parallelization 
+
+position detection process 49 checks whether each procedure 
+called out is attended with pixel generation or not and 
+
+whether the procedure depends on the preceding procedure or 
+not. While calling-out of procedures not dependent on the 
+
+preceding procedure is continued, source codes for those 
+procedures are accumulated in a buffer 60. Whenever a 
+
+procedure attended with pixel generation is called out, the 
+printer driver 11 outputs a set of source codes accumulated 
+
+in the buffer 60 in a description of a complex sentence 
+indicating a parallel processing unit in accordance with the 
+
+grammar of a parallel sentence structure as long as the 
+aforementioned count value reaches the grain size of a 
+
+preliminarily set unit of parallel processing. Accordingly, 
+a source code containing parallel executable portions is 
+
+outputted in accordance with the grammar of page description 
+language. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SEIKO EPSON CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SEIKO EPSON CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+NAGASAKA FUMIO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NAKAMURA ERI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NAGASAKA, FUMIO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NAKAMURA, ERI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a program generating apparatus
+as well as a method for generating a source code expressing a
+series of image processing procedures for image formation.Parallel processing is a technique for improving
+processing speed. The following two steps are necessary for
+carrying out parallel processing.
+(1) A step of extracting parallel executable portions
+and parallel inexecutable portions from the contents of an
+intended process and transmitting the portions to a processing
+system using expressions identifiable to the processing system.(2) A step of performing parallel execution by using
+a plurality of processor resources or the like.Automatic generation of programming language source
+code, which is carried out in the present invention, is a
+technique used in step (1).Techniques for automatic mechanical generation of a
+source code have been heretofore widely applied to the field of
+scientific and technical calculation. For example, there is a
+technique of "decomposing multiplexed DO loops to generate
+parallel executable source codes" which has been mainly used
+for matrix calculation or the like with a parallel FORTRAN
+compiler or the like as a processing system. Japanese Patent  
+Unexamined Publication Nos. Hei-3-188529 and Hei-2-132525
+disclose inventions relating to generation of an efficient
+parallelization source code in accordance with the
+characteristic of programming language, as for example, the
+handling of common variables.In automatic generation of a source code for a parallel
+processing program, it is necessary to ensure that there is no
+difference between a result of parallel execution and a result
+of sequential execution.EP-A-0 400 328 to Hitachi discloses a program parallelising apparatus for generating from
+a source program an object program which can be executed in parallel by a plurality of
+processors. To this end, the apparatus divides the source program into tasks, determines
+the task processing times and the inter-task relations, and then generates groups of tasks
+to be executed by the respective processors.The article "An empirical study of automatic restructuring of non-numerical programs for
+parallel processors" by G Lee et al., IEEE Transactions on Computers C-34, No. 10,
+pages 927-933, IEEE Press, NY, USA, 1985, deals with source code transformations
+which exposes the inherent parallelism of a program by reorganizing and removing
+dependencies.The article "Mapping signal processing algorithms onto a multi-processor network" by A
+Goddard et al., Signal
+</DESCRIPTION>
+<CLAIMS>
+A Method for generating source code of a parallel page description
+language comprising image processing procedures and
+
+predicates defining sets of image processing procedures
+forming parallel processing units,
+
+each parallel processing unit to the distributed to another
+processor device and executed parallely as far as possible, wherein said source code
+
+is adapted to be compiled to object code executable on a
+machine, said method comprising the steps of:
+
+
+inputting page description language source code
+comprising a series of image processing procedures;
+detecting a set of independently executable image
+processing procedures executable independently from
+
+each other as a sub-series in said series of image processing
+procedures;
+determining the number of image processing procedures
+in said set of independently executable image
+
+processing procedures;
+determining whether said number of independent by executable image
+processing procedures exceeds a predetermined number;
+whenever said number of independent image processing
+procedures exceeds said predetermined number, including
+
+said predicates in said series of image processing
+procedures expressing that said set of independently
+
+executable image processing procedures forms a parallel
+processing unit.
+The method according to claim 1, wherein said independently
+executable image processing procedures are image processing
+
+procedures not dependent on preceding image processing
+procedures.
+The method according to claim 1 or 2, further comprising a
+step for detecting image processing procedures atten
+ded with
+pixel generation from said series of image processing
+
+procedures, and wherein in said step of detecting the set of
+independently executable image processing procedures said set
+
+is determined such that at least one of said image processing
+procedures attended with said pixel generation is contained
+
+in said set of independently executable image processing
+procedures.
+The method according to claim 1, wherein said predetermined
+number is a grain size number (m/n) defined by the number
+
+(m) of image processing procedures in said source code and a number
+(n) of processors enabled to be used in parallel processing.
+The method according to claim 4, wherein said grain size
+number (m/n) is determined as said number of procedures (m)
+
+divided by said number (n) of processors;
+The method according to claim 4 or 5, further comprising a
+step for detecting image processing procedures attended with
+
+pixel generation from said series of image processing
+procedures, and wherein said number (m) of image processing
+
+procedures is determined by counting the image processing
+procedures attended with pixel generation contained in said
+
+series of image processing procedures. 
+An Apparatus for generating source code of a parallel page description
+language comprising image processing procedures and
+
+predicates defining sets of image processing procedures
+forming parallel processing units,
+
+each parallel processing unit to the distributed to another
+processor device and executed parallely as far as possible, wherein said source code
+
+is adapted to be compiled to object code executable on a
+machine, said apparatus comprising:
+
+
+means for inputting page description language source
+code comprising a series of image processing
+
+procedures;
+means for detecting a set of independently executable
+image processing procedures executable independently
+
+from each other as a sub-series in said series of image processing
+procedures;
+means for determining the number of image processing
+procedures in said set of independently executable
+
+image processing procedures;
+means for determining whether said number of
+independent by executable image processing procedures exceeds a
+
+predetermined number;
+means for including said predicates in said series of
+image processing procedures expressing that said set of
+
+independently executable image processing procedures
+forms a parallel processing unit, whenever said number
+
+of independent image processing procedures exceeds said
+predetermined number.
+The apparatus according to claim 7, wherein said
+independently executable image processing procedures are
+
+image processing procedures not dependent on preceding image
+processing procedures. 
+The apparatus according to claim 7 or 8, further comprising
+means for detecting image processing procedures attended with
+
+pixel generation from said series of image processing
+procedures, and wherein in said means for detecting the set
+
+of independently executable image processing procedures said
+set is determined such that at least one of said image
+
+processing procedure attended with said pixel generation is
+contained in said set of independently executable image
+
+processing procedures.
+The apparatus according to claim 7, wherein said
+predetermined number is a grain size number (m/n) defined by
+
+the number (m) of image processing procedures in said source code
+and a number (n) of processors enabled to be used in parallel
+
+processing.
+The apparatus according to claim 10, wherein said grain size
+number (m/n) is determined as said number of procedures (m)
+
+divided by said number (n) of processors;
+The apparatus according to claim 10 or 11, further comprising
+a means for detecting image processing procedures attended
+
+with pixel generation in said series of image processing
+procedures, and wherein said number (m) of image processing
+
+procedures is determined by counting the image processing
+procedures attended with pixel generation contained in said
+
+series of image processing procedures.
+</CLAIMS>
+</TEXT>
+</DOC>

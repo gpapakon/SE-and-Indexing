@@ -1,0 +1,206 @@
+<DOC>
+<DOCNO>EP-0640921</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+High speed cache miss prediction method and apparatus
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1208	G06F1208	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F12	G06F12	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+In a data processing system which employs a cache memory feature, a 
+method and exemplary special purpose apparatus for practicing the method are 
+
+disclosed to lower the cache miss ratio for called operands. Recent cache misses 
+are stored in a first in, first out miss stack, and the stored addresses are searched 
+
+for displacement patterns thereamong. Any detected pattern is then employed to 
+predict a succeeding cache miss by prefetching from main memory the signal 
+
+identified by the predictive address. The apparatus for performing this task is 
+preferably hard wired for speed purposes and includes subtraction circuits for 
+
+evaluating variously displaced addresses in the miss stack and comparator circuits 
+for determining if the outputs from at least two subtraction circuits are the same 
+
+indicating a pattern yielding information which can be combined with an address 
+in the stack to develop a predictive address. The efficiency of the method and 
+
+apparatus is improved by providing pattern detection logic circuitry for searching 
+for a plurality of patterns simultaneously and priority logic circuitry which 
+
+establishes precedence in the event that more than one pattern is sensed with a 
+given set of recent cache misses. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+BULL HN INFORMATION SYST
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+BULL HN INFORMATION SYSTEMS INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+RYAN CHARLES P
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+RYAN, CHARLES P.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to the art of data processing system central processors
+which include a cache memory feature and, more particularly, to a method and
+apparatus for selectively very rapidly predicting memory cache misses for operand
+calls to a cache and using this information to transfer data from a main memory to
+cache memory to thereby raise the cache hit ratio.The technique of employing a high speed cache memory intermediate a
+processor and a main memory to hold a dynamic subset of the information in the
+main memory in order to speed up system operation is well known in the art.
+Briefly, the cache holds a dynamically variable collection of main memory
+information fragments selected and updated such that there is a good chance that
+the fragments will include instructions and/or data required by the processor in
+upcoming operations. If there is a cache "hit" on a given operation, the
+information is available to the processor much faster than if the main memory had to
+be accessed to obtain the same information. Consequently, in many high
+performance data processing systems, the "cache miss ratio" is one of the major
+limitations on the system execution rate, and it should therefore be kept as low as
+possible.The key to obtaining a low cache miss ratio is obviously one of carefully
+selecting the information to be placed in the cache from main memory at any given
+instant. There are several techniques for selecting blocks of instructions for
+transitory residence in the cache, and the more or less linear use of instructions in
+programming renders these techniques statistically effective. However, the 
+selection of operand information to be resident in cache memory at a given instant
+has been much less effective and has been generally limited to transferring one or
+more contiguous blocks including a cache miss address. This approach only
+slightly lowers the cache miss ratio and is also an ineffective use of cache
+capacity.Thus, those skilled in the art will understand that it would be highly
+desirable to provide means for selecting operand information for transitory storage
+in a cache memory in such a manner as to significantly lower the cache miss ratio.
+That end was accomplished in accordance with the invention disclosed and
+claimed in United States Patent Application Serial No. 07/364,943 filed June 12,
+1989, for METHOD AND APPARATUS FOR PREDICTING ADDRESS OF A
+SUBSEQUENT CACHE REQUEST UPON ANALYZING ADDRESS
+PATTERNS STORED IN SEPARATE MISS STACK by Charles P. Ryan, now
+United States Patent No.
+</DESCRIPTION>
+<CLAIMS>
+Apparatus in a data processing system for developing a predictive
+address for prefetching data, each said data being identified by an
+
+address from a main memory (13) into a cache memory (12)
+comprising:
+
+
+a first-in/first-out (FIFO) stack (60-65) for storing a
+plurality of cache miss addresses representing successive
+
+cache misses;
+at least first and second pairs of subtraction circuits
+(66/67, 69/70) being coupled to receive a unique pair of
+
+addresses (CCMA/CMAA, CMAA/CCMB; CCMA/CMAB, CMAB/CMAD) from
+said FIFO stack (60-65) and to issue the difference value representing
+
+the displacement between said addresses;
+at least first and second comparator circuits (68, 71)
+each being coupled to receive a pair of the said difference
+
+values from a corresponding pair of said subtraction circuits
+(66/67, 69/70) and issuing a prefetch enable signal upon the
+
+presence of a match condition in said comparator circuits (68, 71)
+by ORing (78) the comparator circuit outputs;
+predictive address development means (77) adapted to combine
+a cache miss address from the FIFO stack (6o-65) and one
+
+of said difference values outputted by one of said subtraction
+circuits (66/67, 69/70) to obtain a predictive address;
+
+characterized by:
+a priority encoder (76) adapted to respond to the simultaneous
+presence of a plurality of match conditions to provide
+
+control signals for selecting just one of said difference
+values, which when combined in said predictive address developmens
+
+means (77) with a cache miss address from said FIFO 
+stack (60-65) produces the desired predictive address;
+and a switch (75) receiving from each pair of said subtraction
+circuits (66/67, 69/70) the said difference values
+
+and said control signals from said priority encoder (76)
+which enable the selection of that one of the difference
+
+values which develops the highest priority predictive address.
+Apparatus according to claim 1, characterized in that
+the current cache miss address is supplied to one input of
+
+said predictive address development means (77) where it is
+added to the said selected one of said difference values
+
+supplied by the said switch (75).
+A method for predicting subsequent cache request addresses
+from historic cache miss addresses in a data processing system
+
+incorporating a cache memory (12) and a main memory (13) with
+a FIFO stack (60-65) for storing a plurality of cache miss
+
+addresses (A-F) and with an established predetermined precedence
+among a plurality of address patterns which may be matched
+
+during system operation; and during system operation, performing
+the steps as follows:
+
+
+A) Waiting for a cache miss resulting from the absence in the
+cache of called data requested of the cache;
+B) when a cache miss occurs, placing the address of the absent
+called data onto the top of the FIFO stack (60-65);
+C) filling the FIFO stack (60-65) with the addresses of any following
+cache misses, thereby shifting any previous cache miss
+
+addresses stepwise from top to bottom of this FIFO stack (60-65);
+D) after each step examining the FIFO stack (60-65) for the presence
+of a plurality of address patterns with said established predetermined
+
+precedence;
+E) if a plurality of predetermined address patterns is not
+matched, returing to step A);
+F) if a predetermined address pattern is matched, the predictive
+address is calculated from the current cache miss 
+
+address (CCMA) plus the difference between said CCMA address
+and the address (CMAA) stored in the top register (60) of
+
+said FIFO stack (60-65);
+
+characterized by the following additional steps in order to
+develop the highest priority predictive address involving all
+
+historic cache miss addresses stored in said FIFO stack (60-65):
+
+calculating in at least first and second pairs of subtraction
+circuits (66/67, 69/70) the difference values representing
+
+the displacement between unique pairs of addresses
+(CCMA/CMAA, CMAA/CCMB; CCMA/CMAB, CMAB/CMAD) from said FIFO
+
+stack (60-65); and
+selecting by an electronic switch means (75) a unique
+address difference from each pair of subtraction circuits
+
+in response to a matching signal supplied by a priority encoder
+(76) which receives matching signals from comparison circuits
+
+(68, 71, 74) which compare the calculated differences from
+each pair of said subtraction circuits (66/67, 69/70), to the effect that
+
+the highest priority predictive address is calculated by
+adding a predetermined cache miss address and the selected
+
+difference value in a predictive address development means (77).
+</CLAIMS>
+</TEXT>
+</DOC>

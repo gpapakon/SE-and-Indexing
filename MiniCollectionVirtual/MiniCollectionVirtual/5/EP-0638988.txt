@@ -1,0 +1,240 @@
+<DOC>
+<DOCNO>EP-0638988</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+SELF-TUNING-TRACKING CONTROLLER FOR PERMANENT-MAGNET SYNCHRONOUS MOTORS.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H02P600	H02P600	H02P606	H02P620	H02P2300	H02P2300	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H02P	H02P	H02P	H02P	H02P	H02P	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H02P6	H02P6	H02P6	H02P6	H02P23	H02P23	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A self-tuning tracking controller for permanent-magnet synchronous motors is 
+disclosed, providing for velocity or position trajectory tracking even when both the 
+
+electrical and mechanical parameters of the motor, amplifier, and load are initially 
+unknown. A time-scale simplification of a full-order mathematical model of the 
+
+motor leads to a discrete-time design model that is reduced-order and that evolves in 
+a mechanical time-scale which is substantially slower than the electrical time-scale, 
+
+permitting implementation of the self-tuning tracking controller with a lower 
+sampling frequency (and at a lower cost) than is typically expected. A piecewise-linear 
+
+parameterization of the motor torque-angle characteristic functions allows for 
+identification of higher-order harmonics with a degree of accuracy which is selectable 
+
+by the user, without requiring more computation than traditional single-term 
+sinusoidal descriptions. Excellent performance is achieved, even with very poor 
+
+initial motor parameter knowledge. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+GEORGIA TECH RES INST
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+GEORGIA TECH RESEARCH CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+SHOUSE. KENNETH R.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TAYLOR, DAVID G.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates generally to adaptive control of motors and more 
+specifically to self-tuning control of permanent-magnet synchronous motors. Electric motors convert electrical energy into mechanical energy and come in 
+a variety of forms and sizes depending on the specific application for which the motor 
+is used. Electric motors use a magnetic field to form an energy link between an 
+electrical system and a mechanical system. The magnetic field of a motor contributes 
+to the production of mechanical output torque and induces voltages (counter emf) in 
+coils of wire in the motor. In a permanent-magnet motor, the magnetic field is 
+produced in part by permanent magnets mounted on a rotor (the rotating part of the 
+motor). The stator (the stationary part of the motor) is typically wound so as to 
+provide three sets of poles out of phase by (separated by) 120°. Permanent-magnet 
+motors constructed in this fashion are generally referred to as synchronous if, when 
+powered by three-phase alternating current, the motor operates in synchronism with 
+the excitation frequency. Permanent-magnet synchronous motors are particularly 
+appropriate for motion control applications because of their potentially very high 
+torque-to-weight ratios, cheaper production costs, and superior thermal properties. 
+Accordingly, permanent-magnet synchronous motors have found ready application in 
+a wide range of environments from small computer disc drives to medium sized 
+direct-drive robots. Because permanent-magnet synchronous motors are inherently nonlinear they 
+are more difficult to control than their linear counterparts such as, for example, 
+mechanically commutated DC motors. Only with the advent of modem nonlinear 
+control techniques (and fast microprocessors to implement them) has this difficulty 
+been overcome. However, a significant problem remains, in that the new control 
+techniques normally require accurate prior knowledge of motor parameters, 
+parameters that are either difficult to measure or change with time, or both. 
+Generally, motion control systems include a controller, a motor, a load, and sensors. 
+Traditional closed-loop control techniques compare a feedback signal representing 
+the measured or sensed motor output to an input command (representing the desired  
+ 
+motor output), then adjust the excitation applied to the motor to minimize the 
+difference between the input command and the feedback signal. This approach works 
+well only when possible system disturbances have been foreseen and modeled,
+</DESCRIPTION>
+<CLAIMS>
+A method for controlling the velocity or position of a permanent-magnet 
+synchronous motor, the motor of the type having windings on the stator and 
+
+permanent magnets on the rotor, to follow a desired position trajectory or a desired 
+velocity trajectory, comprising the steps of: 
+
+
+(a) selecting initial electrical parameter estimates and initial mechanical 
+parameter estimates of the motor; 
+(b) applying a voltage to the stator windings so as to command the motor to 
+follow the desired position trajectory or desired velocity trajectory using the initial 
+
+estimates of the electrical and mechanical parameters of the motor in a simplified 
+mathematical model of the motor including a piecewise approximation for torque-angle 
+
+characteristic functions of the motor; 
+(c) determining rotor position, rotor velocity, and currents in the stator 
+windings; 
+(d) comparing the rotor position or the rotor velocity to the desired rotor 
+position or the desired rotor velocity, respectively, so as to obtain a position error 
+
+signal or a velocity error signal; 
+(e) computing updated electrical parameter estimates and updated 
+mechanical parameter estimates of the motor; 
+(f) determining an updated simplified mathematical model of the motor 
+using the updated electrical parameter estimates and mechanical parameter estimates 
+
+of the motor; 
+(g) applying a voltage to the stator windings so as to command the motor to 
+follow the desired position or desired velocity trajectory using the updated simplified 
+
+mathematical model of the motor; and 
+(h) repeating steps (c) through (g). 
+The method as recited in Claim 1, wherein the simplified mathematical model 
+of the motor includes a piecewise-linear approximation of the torque-angle 
+
+characteristics of the motor. 
+The method as recited in Claim 1, wherein the simplified mathematical model 
+of the motor includes a piecewise-polynomial approximation of the torque-angle 
+
+characteristics of the motor. 
+The method as recited in Claim 1, wherein the simplified mathematical model 
+of the motor further includes a piecewise approximation of the motor load. 
+The method as recited in Claim 1, wherein the step of determining rotor 
+position, rotor velocity, and currents in the stator windings comprises determining the 
+
+rotor velocity based upon numerical differentiation of a signal representing the rotor 
+position. 
+The method as recited in Claim 1, wherein the windings on the stator have a 
+stator phase self-inductance which is negligibly small. 
+The method as recited in Claim 1, wherein the simplified mathematical model 
+of the motor comprises a discrete-time, reduced-order model based substantially 
+
+completely on two mechanical states, the mechanical states being rotor position and 
+rotor velocity. 
+The method as recited in Claim 1, wherein the step of computing updated 
+electrical parameter estimates comprises using a previous amplifier input, the stator 
+
+currents, the rotor position, and the rotor velocity to compute the electrical parameter 
+estimates according to the following equation: 
+
+
+The method as recited in Claim 1, wherein the step of computing updated 
+mechanical parameter estimates comprises using a previous amplifier input, a present 
+
+and previous rotor position measurement, a present and previous rotor velocity 
+measurement, and the updated electrical parameter estimates to compute the updated 
+
+mechanical parameter estimates according to the following equation: 
+
+The method as recited in Claim 1, wherein the step of determining an updated 
+simplified mathematical model of the motor further is carried out using the updated 
+
+electrical parameter estimates and the updated mechanical parameter estimates. 
+A method for controlling the velocity or position of a permanent-magnet 
+synchronous motor, the motor of the type having a stator with windings and a rotor 
+
+with permanent magnets, the motor having associated therewith at least two electrical 
+states, such as stator phase currents, and at least two mechanical states, such as rotor 
+
+position and rotor velocity, comprising the step of: 
+
+(a) applying a voltage to the motor according to a reduced-order 
+mathematical model of the motor based substantially exclusively on the mechanical 
+
+states. 
+The method as claimed in Claim 11 further comprising the steps of: 
+
+(b) determining rotor position, rotor velocity, and currents in the stator 
+windings; 
+(c) comparing the rotor position or the rotor velocity to the desired rotor 
+position or the desired rotor velocity, respectively, so as to obtain a position error 
+
+signal or a velocity error signal; 
+(d) computing electrical parameter estimates and mechanical parameter 
+estimates of the motor; 
+(e) determining an updated reduced-order mathematical model of the motor 
+using the computed electrical parameter estimates and mechanical parameter 
+
+estimates of the motor; 
+(f) applying a voltage to the stator windings so as to command the motor to 
+follow the desired position or desired velocity trajectory using the updated reduced-order 
+
+mathematical model of the motor; and 
+(g) repeating steps (b) through (f). 
+The method as claimed in Claim 11 wherein the reduced-order mathematical 
+model of the motor includes a piecewise approximation for the torque-angle 
+
+characteristic functions of the motor. 
+The method as recited in Claim 11, wherein the reduced-order mathematical 
+model of the motor includes a piecewise-linear approximation of the torque-angle 
+
+characteristics of the motor. 
+The method as recited in Claim 11, wherein the reduced-order mathematical 
+model of the motor includes a piecewise-polynomial approximation o
+f the torque-angle 
+characteristics of the motor. 
+A method for controlling the position and/or velocity of a permanent-magnet 
+synchronous motor, the motor of the type having a stator with windings and a rotor 
+
+with permanent magnets, to follow a desired position trajectory and/or a desired 
+velocity trajectory, comprising the steps of: 
+
+
+(a) selecting initial parameter estimates of the characteristics of the motor; 
+(b) applying a voltage to the stator windings so as to command the motor to 
+follow the desired position trajectory and/or the desired velocity trajectory using the 
+
+initial parameter estimates of the characteristics of the motor in a reduced-order 
+mathematical model of the motor including a piecewise-linear approximation for a 
+
+torque-angle characteristic function of the motor; 
+(c) determining rotor position and/or rotor velocity; 
+(d) comparing the rotor position and/or the rotor velocity to the desired 
+rotor position and/or the desired rotor velocity, respectively, so as to obtain a position 
+
+error signal and/or a velocity error signal; 
+(e) Computing updated parameter estimates of the characteristics of the 
+motor; 
+(f) determining an updated mathematical model of the motor using the 
+position error signal and/or the velocity error signal and the updated parameter 
+
+estimates of the characteristics of the motor; 
+(g) applying a voltage to the stator windings so as to command the motor to 
+follow the desired position and/or velocity trajectory using the updated mathematical 
+
+model of the motor; and 
+(h) repeating steps (c) through (g). 
+The method as recited in Claim 16, wherein the mathematical model of the 
+motor comprises a discrete-time, reduced-order model in which the mechanical states 
+
+of the motor evolve substantially slower than the electrical states of the motor. 
+The method as recited in Claim 16, wherein the reduced-order mathematical 
+model of the motor is based substantially exclusively on mechanical states of the 
+
+motor. 
+</CLAIMS>
+</TEXT>
+</DOC>

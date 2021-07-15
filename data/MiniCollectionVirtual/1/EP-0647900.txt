@@ -1,0 +1,253 @@
+<DOC>
+<DOCNO>EP-0647900</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Parameter storage space allocation
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F945	G06F945	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A high-level-language compiler allocates memory space for parameters 
+detected in a source program in descending order of size and appearance, 
+
+thus requiring less padding to ensure correct alignment of individual 
+data items than if the allocation were based solely on the order of 
+
+appearance. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+NIPPON ELECTRIC CO
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+NEC CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+ISHIDA KYOKO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ISHIDA, KYOKO
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a language
+processing system and a language processing method
+therefor. More specifically, the invention relates to
+a language processing system and a language processing
+method for coding process of a high level language as a
+program language of a microprocessor.In general, a machine language program
+instructing operation of the computer is described by a
+string of figures, such as binary number or hexadecimal
+number and so forth. Since the machine language
+program described by the string of figures is too
+difficult to understand, a programmer typically
+prepares a program (hereinafter referred to as "source
+program") by a high level language employing expression
+easier for the programmer to understand and then
+translates the source program into the machine language
+program. Then, the machine language program is loaded
+to the computer for execution. A compiler is one of a
+language processing system performing this translation.In the conventional language processing, data
+assignment of external parameter information is
+typically performed in the order of appearance of those 
+external parameter information. For instance, in the
+example of a source program described by C-language
+shown in Fig. 20, the external parameter information in
+the program are "c1", "i", "c2", "l" in order of
+appearing. Then, the data assignment is performed in
+the order of "c1", "i", "c2", "l". Here, "c1" and "c2"
+are external parameter information having 1 byte of
+data length, "i" is external parameter information
+having 2 bytes of data length and "l" is external
+parameter information having 4 bytes of data length.
+In Fig. 20, "char", "int", "long" are identifiers
+respectively indicating attributes of data.Also, Fig. 10 is an imaginary illustration
+showing manner of assignment of "c1", "i", "c2", "l" in
+data regions. In Fig. 10, when "c1" is assigned to an
+address from 100C, "i" is assigned to an address from
+100B, "c2" is assigned to an address from 1009 and "l"
+is assigned to the address from 1008.However, in certain architecture of the
+computer, it is possible that the data assigned in the
+odd number address cannot be accessed or that while the
+data in the odd number address can be accessed, the
+access speed for the data in the even number address is
+higher than that in the odd number address. In such
+case, in order to make all data accessible and to
+speed-up access for permitting higher speed execution
+of the program, a process called as "alignment" is 
+performed.The alignment is a restriction
+</DESCRIPTION>
+<CLAIMS>
+A language processing system comprising:
+
+parsing means (104) for inputting a source
+program described by a high-level language, making
+
+analysis and generating an intermediate code file on
+the basis of the results of analysis;
+code generating means (105) for generating an
+object program corresponding to said source program
+
+analyzed by said parsing means, characterized in that
+said code generating means (105) including
+
+parameter analyzing means (108) for
+making analysis of the data length of parameter
+
+information contained in said source program;
+and
+parameter assigning means (108) for
+assigning parameter information to a
+
+predetermined data region in descending order
+depending upon said data length.
+A language processing system as set forth in
+claim 1, which further comprises parameter information
+
+storage means (109) for storing said parameter
+information and the data length analyzed by said data
+
+analyzing means.
+A language processing system as set forth in 
+claim 1, which further comprises parameter information
+
+storage means (109) for storing said parameter
+information and the data length analyzed by said data
+
+analyzing means in mutually associated position,
+wherein when the data length of said
+
+parameter information analyzed by said parameter
+analyzing means (108) is the maximum, said parameter
+
+information is assigned to said data region by said
+parameter assigning means (108) in the order of
+
+appearance, and
+when the data length of said parameter
+
+information analyzed by said parameter analyzing means
+(108) is not the maximum, said parameter information
+
+storage means (109) stores said parameter information
+
+and said data length in the order of appearance.
+A language processing system as set forth in
+claim 3, wherein said parameter information storage
+
+means (109) classifies said parameter information
+depending upon the data length and stores in the order
+
+of appearance.
+A language processing system as set forth in
+claim 3, wherein said parameter information storage
+
+means (109) stores sets of the parameter names of said
+parameter information and the data lengths in the order
+
+of appearance. 
+A language processing system as set forth in
+claim 1, wherein when the data length of said parameter
+
+information is powers of 2, said parameter assigning
+means (108) assigns said parameter information in said
+
+data region in the descending order depending upon the
+data length. 
+A language processing system as set forth in claim 1,
+wherein said code generating means (505) further including
+
+
+assigning order analyzing means (510) for making
+analysis of order for assigning the parameter
+
+information in a predetermined data region with
+reference to the data length of the parameter
+
+information analyzed by said parameter analyzing means
+and outputting an assignment order information;
+parameter assigning means (508) for assigning
+parameter information to said predetermined data
+
+region according to said assignment order information.
+A language processing system as set forth in
+claim 7, wherein said parameter information is argument
+
+of a function described in said source program.
+A language processing system as set forth in
+claim 7, which further comprises parameter information
+
+storage means (509) for storing said parameter
+information and the data length and said assignment
+
+order information.
+A language processing system as set forth in
+claim 7, wherein said assignment order analyzing means
+
+(510) makes analysis of the assignment order of said
+parameter information in such a manner that parameter
+
+information is assigned to said data region in
+descending order depending upon said data length and in
+
+the order of appearance.
+A language processing system as set forth in
+claim 1, which further comprises parameter information
+
+storage means (510) for storing said parameter
+information, the data length and said assignment order 
+
+information,
+
+   wherein said assignment order analyzing means
+(510) makes analysis of the assignment order of said
+
+parameter information in such a manner that parameter
+information is assigned to said data region in
+
+descending order depending upon said data length and in
+the order of appearance, and stores the data length and
+
+the assignment order information in said parameter
+information storage means (510) in the order of
+
+appearance.
+A language processing system as set forth in
+claim 1, which further comprises parameter information
+
+storage means (510) for storing said parameter
+information, the data length and said assignment order
+
+information,
+
+   wherein said assignment order analyzing means
+(508) makes analysis of the assignment order of said
+
+parameter information in such a manner that parameter
+information is assigned to said data region in
+
+descending order depending upon said data length and in
+the order of appearance, and stores the data length and
+
+the assignment order information in said parameter
+information storage means (510) in the order of
+
+appearance, and
+
+   wherein said parameter assigning means (508)
+assigns said parameter information to said data region 
+
+according to said assignment order information with
+reference to said assignment order information of said
+
+parameter information stored in said parameter
+information storage means (510) in the order of
+
+appearance.
+</CLAIMS>
+</TEXT>
+</DOC>

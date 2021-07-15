@@ -1,0 +1,166 @@
+<DOC>
+<DOCNO>EP-0658256</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+HIGH PERFORMANCE MANTISSA DIVIDER
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F7535	G06F748	G06F752	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F7	G06F7	G06F7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A high performance floating point mantissa divider employs SRT division, a Radix-4 redundant digit set and the principles of carry-save addition. At each step in the division, the upper few most significant bits of the partial remainder and the divisor are inspected via a look-up table to select the appropriate quotient digits. The quotient digits are represented in a Radix-4 redundant digit set, and the look-up table is generated using SRT division principles. The selected quotient digit is used to control a multiplexor which selects the selected multiple of the divisor. This value is substracted from the partial remainder via a carry-save adder to form the new partial remainder. As the quotient digits are generated, they are placed in two shift registers, one for the sum digits and one for carry digits. When the division is complete, the shift registers are added to give the final quotient mantissa. A combination of a carry save adder and carry lookahead adder reduce the practical implementation to only 8 logic levels.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+CRAY RESEARCH INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+CRAY RESEARCH, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+SMITH JAMES E
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SMITH, JAMES, E.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The invention relates generally to the field of
+computational units for high speed computing systems,
+and more specifically to a high performance floating
+point mantissa divider implemented using radix four SRT
+division.Digital computers are designed to perform a variety
+of arithmetic instructions on binary numerical data.
+Within the central processing unit (CPU) of these
+digital computers resides a major subdivision called the
+arithmetic logic unit (ALU). The ALU is used to perform
+a variety of data processing and arithmetic operations
+under the control of the CPU. Of particular
+significance to the present invention is the
+architecture, design, and method used for performing
+floating point division.As is well known in the field, floating point
+division is performed by separating the sign, exponent,
+and mantissa bits of the dividend and divisor, and
+performing the necessary operations on each
+corresponding set of bits. The sign bit operation
+entails taking the exclusive-OR of the dividend sign bit
+and the divisor sign bit to obtain the quotient sign
+bit. The exponent operation involves the subtraction of
+the divisor exponent from the dividend exponent to
+obtain the quotient exponent. Obtaining the quotient
+mantissa requires a more complex algorithm and
+architecture, and is the factor which greatly limits the
+speed in which a divide can be performed. The divisor
+mantissa must be repeatedly subtracted from the dividend
+or partial remainder until the desired precision is
+reached, which then terminates the operation. Depending
+on the precision desired and the algorithm used, the 
+mantissa division operation can take up a significant
+amount of processing time.Divide operations are slow because division
+typically involves the trial and error determination of
+quotient digits. The simplest binary implementation,
+restoring division, must methodically determine quotient
+values, one bit at a time. This is done by first
+positioning the divisor with respect to the dividend and
+performing a subtraction to calculate a partial
+remainder. If the partial remainder is zero or
+positive, a quotient digit of 1 is determined, the next
+of the divisor is appended onto the partial remainder as
+the least significant bit, the divisor is shifted and
+another subtraction is performed. However if the
+partial remainder is negative, a quotient bit of 0 is
+determined, and the dividend must be "restored" by
+adding back the divisor to the partial remainder. This
+"restoring" results in a significant reduction in
+performance.Another drawback
+</DESCRIPTION>
+<CLAIMS>
+An apparatus for performing mantissa division for use in a floating point
+divider [100]
+, comprising
+
+first register means |214,218| for storing a plurality of the least
+significant bits of a partial remainder and for sourcing a previous sum/carry
+
+partial remainder;
+second register means [210] for storing a plurality of the most
+
+significant bits of the partial remainder, and for sourcing a previous assimilated
+partial remainder;
+multiplexor means [206], coupled to receive a divisor [202]
+ and coupled
+to receive a predicted next quotient from a quotient select means [234]
+ for
+selecting a divisor multiple and producing therefrom a selected divisor multiple;
+first adder means [226] coupled to receive the previous sum/carry partial
+
+remainder and coupled to receive the selected divisor multiple, said first adder
+means for adding the previous sum/carry partial remainder and the selected
+
+divisor multiple and producing therefrom a next sum/carry partial remainder;
+second adder means [222] coupled to receive a plurality of the bits of
+
+the previous sum/carry partial remainder, coupled to receive a plurality of the
+bits of the previous assimilated partial remainder, and coupled to receive a
+
+plurality of the bits of the selected divisor multiple, said second adder means
+for adding a plurality of the upper bits of the selected divisor multiple to a
+
+plurality of the upper bits of the previous assimilated partial remainder and to a
+plurality of the upper bits of the previous sum/carry partial remainder and
+
+producing therefrom a next assimilated partial remainder;
+third adder means [230] coupled to receive the previous assimilated
+
+partial remainder and coupled to receive a plurality of the bits of the selected
+divisor multiple, said third adder means for adding a plurality of the upper bits
+
+of the selected divisor multiple to a plurality of the upper bits of the previous
+assimilated partial remainder and producing therefrom a plurality of the upper
+
+bits of a next partial remainder; and
+the quotient select means [234] adapted to produce the predicted next
+
+quotient under control of the plurality of the upper bits of the next partial 
+remainder and coupled to receive a plurality of the most
+
+significant bits of the divisor, and having an output
+operatively coupled to an input of said multiplexor
+
+means.
+An apparatus according to claim 1 wherein said first
+adder means includes a carry save adder [226]
+.
+An apparatus according to claim 2 wherein said carry
+save adder [226]
+ is arranged to carry two adjacent
+bits of the previous sum/carry partial remainder and of
+
+the selected divisor multiple to form two sum bits and
+a single carry bit of the partial remainder to produce
+
+therefrom a partial remainder in sum and carry form.
+An apparatus according to claim 1, 2 or 3 wherein
+said second and third adder means each include a carry
+
+lookahead adder [222,230].
+An apparatus according to any one of the preceding
+claims further including:
+
+   quotient register means for storing the predicted
+next quotient in sum [240]
+ and carry [244] form.
+An apparatus of claim 5 further including quotient
+adder means, connected to receive the predicted next
+
+quotient in sum and carry form, for adding quotient sums 
+and quotient carries and producing therefrom a quotient
+
+in assimilated form.
+A floating point divider comprising an apparatus in
+accordance with any one of the preceding claims.
+</CLAIMS>
+</TEXT>
+</DOC>

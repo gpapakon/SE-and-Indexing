@@ -1,0 +1,286 @@
+<DOC>
+<DOCNO>EP-0644482</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Dispatch of instructions to multiple execution units
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F938	G06F938	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A multiple execution unit processing system is provided wherein 
+each execution unit 17, 19 has an associated instruction buffer 2, 4 and 
+
+all instruction are executed in order. The first execution unit (unit 0) 
+will always contain the oldest instruction and the second unit (unit 1) 
+
+the newest. Processor instructions, such as load, store, add and the 
+like are provided to each of the instruction buffers (0,1) from an 
+
+instruction cache buffer. The first instruction (oldest) is placed in 
+buffer 0 and the next (second) instruction is stored in buffer 1. It is 
+
+determined during the decode stage whether the instructions are dependent 
+on an immediately preceding instruction. If both instructions are 
+
+independent of other instructions, then they can execute in parallel. 
+However, if the second instruction is dependent on the first, then 
+
+(subsequent to the first instruction being executed) it is laterally 
+shifted to the first instruction buffer. Instructions are also defined 
+
+as being dependent on an unavailable resource. In most cases these 
+"unavailable" instructions are allowed to be executed in parallel on the 
+
+execution units. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+INTERNAT BUSINESS MACHINES BR
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES
+<
+BR
+>
+CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+RAY DAVID SCOTT
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+THATCHER LARRY EDWARD
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WARREN HENRY STANLEY JR
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+RAY, DAVID SCOTT
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+THATCHER, LARRY EDWARD
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WARREN, HENRY STANLEY, JR.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates generally to the dispatch of
+instructions in a processing system having multiple execution units.It is currently known to have processing systems with multiple
+execution units therein. A great majority of the conventional systems
+include multiple special purpose execution units for performing such
+operations as add, store, load, subtract, multiply, branch, and the like.
+In order to solve the problems associated with instruction dependencies,
+conventional systems place the specific instructions in a buffer
+associated with the corresponding special purpose execution unit. For
+example, a load operation will be placed in a buffer associated with the
+load unit, and so on. If instruction dependencies are present
+conventional systems merely hold the later instruction, which depends on
+the outcome of a previous instruction. Once the previous instruction has
+executed the later dependent instruction is allowed to execute on the
+specific execution unit. It should be noted that in conventional systems
+shifting of instructions may occur between various buffers associated
+with various execution units, but this shifting depends on the
+relationship between the type of instruction and the particular execution
+unit which can execute that type of instruction. That is, a load
+instruction may be shifted to a buffer associated with the load execution
+unit. Also, these prior art multiple execution unit systems generally
+execute instruction in an out of order sequence.U.S. patent 5,133,077 shows multiple distinct execution, each
+having responsibility for specific types of instructions. Therefore,
+each instruction must be stored in a specific buffer that is associated
+with one of the execution units, based on the type of instruction. These
+instructions cannot be shifted to another buffer associated with another
+execution unit, because they are specific to a certain type of execution
+unit. Thus, when instruction dependencies are discovered this system has
+no alternative but to hold the later dependent instruction until the
+previous instruction, which the held instruction is dependent upon, has
+completed execution.U.S. 4,837,678 discusses a system having an instruction sequencer
+including a shifting circuit that receives instructions and shifts them 
+based on the type of instruction and which execution unit is required to
+execute the instruction (column 11, lines 8-30).U.S. 4,847,755 is a processing system having a plurality of
+processor elements which analyzes instructions stream and adds
+intelligenc
+</DESCRIPTION>
+<CLAIMS>
+A computer processing system including a first (17) and second (19)
+execution unit, including:
+
+
+first (2) and second (4) instruction buffers associated with said
+first (17) and second (19) execution units for providing instructions
+
+thereto; and
+means for interpreting whether instructions in said first and
+second instruction buffers are independent instructions or data dependent
+
+instructions;
+
+   
+characterised in that
+ the system includes:
+
+means for concurrently providing an instruction in said first
+instruction buffer (2) and an instruction in said second instruction
+
+buffer (4) to said first (17) and second (19) execution units,
+respectively, when said instructions in said first and second instruction
+
+buffers are determined to be independent; and
+means for providing an instruction in said first instruction buffer
+(2) to said first execution unit (17) and moving an instruction from said
+
+second instruction buffer (4) to said first instruction buffer (2) when
+said instructions in said first and second instruction buffers are
+
+determined to be data dependent instructions.
+A system according to claim 1 wherein said data dependent
+instructions comprise dependent instructions which are dependent on the
+
+immediately preceding instruction, or unavailable instructions which are
+dependent on an instruction other than the immediately preceding
+
+instruction or on the availability of a value in a resource, in
+predetermined cases said unavailable instructions being treated a
+s
+independent instructions.
+A system according to claim 1 or claim 2, wherein one of the
+execution units (17, 19) includes a three port adder (25) such that
+
+instructions used to add values stored in three distinct storage
+locations are defined as independent instructions.
+A system according to any of claims 1 to 3, further comprising:
+
+means for providing a single successive instruction to said second
+instruction buffer (4) subsequent to an instruction in said second
+
+instruction buffer being moved by the shift means to said first
+instruction buffer (2), and for providing successive instructions to each 
+
+of said first (2) and second (4) instruction buffers when said
+instructions in said first and second instruction buffers are shifted in
+
+parallel to said first (17) and second (19) execution units.
+A method of operating a computer processing system including a
+first (17) and second (19) execution unit, the method including the steps
+
+of:
+
+employing first (2) and second (4) instruction buffers associated
+with said first (17) and second (19) execution units to provide
+
+instructions thereto; and
+interpreting whether instructions in said first and second
+instruction buffers are independent instructions or data dependent
+
+instructions;
+
+   
+characterised in that
+ the method includes the steps of:
+
+concurrently providing an instruction in said first instruction
+buffer (2) and an instruction in said second instruction buffer (4) to
+
+said first (17) and second (19) execution units, respectively, when said
+instructions in said first and second instruction buffers are determined
+
+to be independent; and
+providing an instruction in said first instruction buffer (2) to
+said first execution unit (17) and moving an instruction from said second
+
+instruction buffer (4) to said first instruction buffer (2) when said
+instructions in said first and second instruction buffers are determined
+
+to be data dependent instructions.
+A method according to claim 5 wherein said data dependent
+instructions comprise dependent instructions which are dependent on the
+
+immediately preceding instruction, or unavailable instructions which are
+dependent on an instruction other than the immediately preceding
+
+instruction or on the availability of a value in a resource, in
+predetermined cases said unavailable instructions being treated as
+
+independent instructions.
+A method according to claim 5 or claim 6, wherein one of the
+execution units (17, 19) is provided with a three port adder (25) such
+
+that instructions used to add values stored in three distinct storage
+locations are defined as independent instructions.
+A method according any of claims 5 to 7 further comprising the step
+of, when independent instructions are present in both the first and
+
+second instruction buffers, shifting said independent instructions in 
+parallel from said first and second instruction buffers to said
+
+respective first and second execution units.
+A method according to any of claims 6 to 8, further comprising the
+step of, when unavailable instructions are present in both the first and
+
+second instruction buffers, shifting said unavailable instructions in
+parallel from said first and second instruction buffers to said
+
+respective first and second execution units.
+A method according to any of claims 6 to 9 further comprising the
+steps of, when an unavailable instruction is present in the first
+
+instruction buffer and a dependent instruction in the second instruction
+buffer:
+
+
+shifting said unavailable instruction in said first instruction
+buffer to said first execution unit; and
+moving said dependent instruction in said second instruction buffer
+to said first instruction buffer.
+A method according to any of claims 6 to 10 further comprising the
+step of, when an unavailable instruction is present in the first
+
+instruction buffer and an independent instruction in the second
+instruction buffer, shifting in parallel said unavailable instruction in
+
+said first instruction buffer and said independent instruction in said
+second instruction buffer to said respective first and second execution
+
+units.
+A method according to any of claims 6 to 11 further comprising the
+steps of, when an independent instruction is present in the first
+
+instruction buffer and an unavailable instruction in the second
+instruction buffer:
+
+
+shifting said independent instruction in said first instruction
+buffer to said first execution unit; and
+moving said unavailable instruction in said second instruction
+buffer to said first instruction buffer.
+A method according to any of claims 6 to 12, further comprising the
+steps of, when an independent instruction is present in the first
+
+instruction buffer and a dependent instruction in the second instruction
+buffer:
+
+
+shifting said independent instruction in said first instruction
+buffer to said first execution unit; and 
+moving said dependent instruction in said second instruction buffer
+to said first instruction buffer.
+A method according to any of claims 6 to 13 further comprising the
+steps of:
+
+
+providing a single successive instruction to said second
+instruction buffer (4) subsequent to said instruction in said second
+
+instruction buffer (4) being moved to said first instruction buffer (2);
+and
+providing successive instructions to each of said first (2) and
+second (4) instruction buffers when said instructions in said first and
+
+second instruction buffers are shifted in parallel to said first (17) and
+second (19) execution units.
+</CLAIMS>
+</TEXT>
+</DOC>

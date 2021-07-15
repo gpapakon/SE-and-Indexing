@@ -1,0 +1,271 @@
+<DOC>
+<DOCNO>EP-0614301</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Message packet transmitter.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04L1256	H04L1256	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04L	H04L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04L12	H04L12	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A message packet transmitter for transmitting a packet of 
+electronic data signals onto a communication network without 
+
+interruption. A first-in, first-out electronic memory has a 
+transmit state in which an electronic data signal stored therein 
+
+is output. The electronic memory has an idle state in which 
+electronic data signals stored therein are not output. A 
+
+message packet-in-transit identification circuit generates a 
+packet-in-transit signal after the electronic memory outputs the 
+
+first electronic data signal in a message packet. A 
+no-packet-in-transit signal is generated after the electronic 
+
+memory outputs the last electronic data signal in 
+the message packet. A state controller maintains the electronic 
+
+memory in the transmit state when the electronic memory stores 
+at least a portion of a message packet, when the state 
+
+controller receives a packet-in-transit signal, and when the 
+state controller receives an interrupt-pending signal. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+FITCH BLAKE G
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GIAMPAPA MARK EDWIN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+JOSEPH DOUGLAS J
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FITCH, BLAKE G.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GIAMPAPA, MARK EDWIN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+JOSEPH, DOUGLAS J.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The invention relates to electronic message packet transmitters, 
+such as for transmitting a packet of electronic data signals 
+onto a communication network. In a packet-switched communication network, a path from a 
+message source to a message destination is generated in the 
+network for each message packet being transmitted. Each segment 
+of the communication path (connecting adjacent switches in the 
+communication network) is opened by the transmission of the 
+first data signal in the packet onto the segment. Each 
+communication path segment is closed by the receipt of the last 
+data signal in the packet by a device at the receiving end of 
+the segment. When a segment of the communication path for a 
+message packet is open, no other message can travel over that 
+path segment. When the message transmitter stalls after transmitting only a 
+portion of the data signals in a message packet onto the 
+communication network, the data signals on the network continue 
+to travel through the network to the message destination, 
+thereby opening additional communication path segments. However, since the last data signal in the packet has not yet 
+been transmitted onto the communication network, none of the 
+opened path segments are closed. Consequently, the number of 
+path segments opened by the message packet can become large (for 
+example, larger than the number of data signals in the message 
+packet). Moreover, since the path segments opened by the 
+message packet cannot be used by other messages, communication 
+network utilization can be seriously degraded. In the worst  
+ 
+case, a deadlock may arise between two or more partially 
+transmitted messages, preventing their complete transmission. It is an object of the invention to provide an electronic 
+message transmitter which transmits complete message packets 
+without stalling after a portion of the message packet is 
+transmitted onto the communication network. It is another object of the invention to provide an electronic 
+message transmitter which will not start to transmit a message 
+packet onto a communication network while an interrupt is 
+pending. A message packet transmitter according to the present invention, 
+comprises a first-in, first-out electronic memory for storing a 
+plurality of electronic data signals forming at least a portion 
+of at least one message packet. Each message packet comprises a 
+first electronic data signal and a last electronic data signal. 
+The electronic memory has a message data input for receiving 
+electronic data signals,
+</DESCRIPTION>
+<CLAIMS>
+A message packet transmitter comprising: 
+a first-in, first-out electronic memory for storing a 
+
+plurality of electronic data signals forming at least a 
+portion of at least one message packet, each message packet 
+
+comprising a first electronic data signal and a last 
+electronic data signal, said electronic memory having a 
+
+message data input for receiving electronic data signals, 
+and having a message data output for outputting electronic 
+
+data signals, said electronic memory having a transmit 
+state in which an electronic data signal stored therein is 
+
+output at the message data output, said electronic memory 
+having an idle state in which electronic data signals 
+
+stored therein are not output at the message data output; 
+message packet-in-transit identification circuit for 
+
+generating a packet-in-transit signal after the electronic 
+memory outputs the first electronic data signal in a 
+
+message packet, said packet-in-transit identification 
+circuit generating a no-packet-in-transit signal after the 
+
+electronic memory outputs the last electronic data signal 
+in the message pac
+ket; and a state controller having an 
+interrupt input for receiving an interrupt-pending signal 
+
+and having a transmit-status input for receiving a 
+packet-in-transit signal, said state controller maintaining 
+
+the electronic memory in the transmit state when the 
+electronic memory stores at least a portion of a message 
+
+packet, the transmit-status input of the state controller 
+receives a packet-in-transit signal, and the interrupt 
+
+input of the state controller receives an interrupt-pending 
+signal. 
+A message packet transmitter as claimed in claim 1, 
+characterized in that:
+
+ 
+the first-in, first-out electronic memory generates a 
+
+packet-in-memory signal when the first-in, first-out 
+electronic memory contains at least a portion of at least 
+
+one message packet; and 
+the state controller has a memory-content-status input for 
+
+receiving a packet-in-memory signal. 
+A message packet transmitter as claimed in claim 2, 
+characterized in that the state controller switches the 
+
+electronic memory from the idle state to the transmit state 
+when the memory-content-status input of the state 
+
+controller receives a packet-in-memory signal, the 
+transmit-status input of the state controller receives a 
+
+packet-in-transit signal, and the interrupt input of the 
+state controller receives an interrupt-pending signal. 
+A message packet transmitter as claimed in claim 3, 
+characterized in that the state controller maintains the 
+
+electronic memory in the transmit state when the 
+memory-content-status input of the state controller 
+
+receives a packet-in-memory signal, the transmit-status 
+input of the state controller receives a packet-in-transit 
+
+signal, and the interrupt input of the state controller 
+receives a no-interrupt-pending signal. 
+A message packet transmitter as claimed in claim 4, 
+characterized in that the state controller switches the 
+
+electronic memory from the transmit state to the idle state 
+when the transmit-status input of the state controller 
+
+receives a no-packet-in-transit signal, and the interrupt 
+input of the state controller receives an interrupt-pending 
+
+signal. 
+A message packet transmitter as claimed in claim 5, 
+characterized in that the state controller switches the 
+
+electronic memory from the transmit state to the idle state 
+ 
+
+when the transmit-status input of the state controller 
+receives a no-packet-in-transit signal, and the interrupt 
+
+input of the state controller receives a 
+no-interrupt-pending signal. 
+A message packet transmitter as claimed in claim 6, 
+characterized in that the state controller maintains the 
+
+electronic memory in the idle state when the electronic 
+memory is in the idle state, the transmit-status input of 
+
+the state controller receives a no-packet-in-transit 
+signal, and the interrupt input of the state controller 
+
+receives an interrupt-pending signal. 
+A message packet transmitter as claimed in claim 7, 
+characterized in that the state controller switches the 
+
+electronic memory from the idle state to the transmit state 
+when the memory-content-status input of the state 
+
+controller receives a packet-in-memory signal, and the 
+interrupt input of the state controller receives a 
+
+no-interrupt-pending signal. 
+A message packet transmitter as claimed in Claim 8, further 
+comprising: 
+
+a data source having a first state for providing a series 
+of electronic data signals to the message data input of the 
+
+electronic memory, and having a second state for not 
+providing electronic data signals to the message data input 
+
+of the electronic memory; and 
+characterized in that the state controller switches the 
+
+data source from the first state to the second state when 
+the interrupt input of the state controller receives an 
+
+interrupt-pending signal and the transmit-status input of 
+the state controller receives a no-packet-in-transit 
+
+signal. 
+A message packet transmitter as claimed in claim 9, 
+characterized in that the state controller maintains the 
+
+data source in the first state when the data source is in 
+the first state and the transmit-status input of the state 
+
+controller receives a packet-in-transit signal and the 
+interrupt input of the state controller receives an 
+
+interrupt signal. 
+A message packet transmitter as claimed in claim 10, 
+characterized in that: 
+
+the first electronic data signal in each message packet 
+comprises a length signal representing the number of 
+
+electronic data signals in the message packet; and 
+the message packet-in-transit identification circuit 
+
+comprises a packet-in-transit counter for generating a 
+packet-in-transit signal representing the number of 
+
+electronic data signals in the message packet which have 
+not been output by the electronic memory. 
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,315 @@
+<DOC>
+<DOCNO>EP-0652559</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Data readout system for optical disk
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G11B2010	G11B7005	G11B1100	G11B11105	G11B700	G11B2012	G11B2012	G11B700	G11B2010	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G11B	G11B	G11B	G11B	G11B	G11B	G11B	G11B	G11B	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G11B20	G11B7	G11B11	G11B11	G11B7	G11B20	G11B20	G11B7	G11B20	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A system reproduces data from an optical disk
+(1) in which a signal obtained by encoding recording
+
+data in accordance with a recording rule including a
+rule corresponding to a partial response class I
+
+characteristic has been recorded. The system includes
+an optical head (2) for reproducing a signal from the
+
+optical disk, an analog-to-digital converter (13) for
+sampling the signal reproduced by the optical head (2)
+
+at predetermined timing and for outputting sampling
+data, a determination unit (51-55, 57) for determining,
+
+based on the sampling data from the analog-to-digital
+converter, a transition state of data to be reproduced
+
+in accordance with a transmission line characteristic
+of the reproduction system for the optical disk, and a
+
+data decision unit (56, 58-62) for deciding maximum
+likelihood reproduction data at present timing based on
+
+the determination result obtained by the determination
+unit.
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+FUJITSU LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+FUJITSU LIMITED
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+IZUMI HARUHIKO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TAGUCHI MASAKAZU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+IZUMI, HARUHIKO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TAGUCHI, MASAKAZU
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention generally relates to a data readout system applied to optical disk units, such as magento-optical disk units, and more particularly to a data readout system for reproducing, in accordance with a maximum likelihood data detection method, data from an optical disk in which data has been recorded based on a partial response characteristic.Due to large capacity, changeability, high reliability and the like, popularization of magneto-optic disk units is accelerated so that units capable of recording and reproducing image data and units capable of recording codes for computers have been proposed.A recording system of a conventional optical disk unit is essentially formed as shown in Fig. 1. Referring to Fig. 1, there are provided an optical disk 1, an optical head 2, a data output unit 3, a modulator 4 and a laser driving unit 5. Data from the data output unit 3 is modulated by the modulator 4, and the modulated signal is supplied to the laser driving unit 5. The laser driving unit 5 then drives a laser diode (LD) in the optical head 2 based on the modulated signal, so that data is recorded in the optical disk 1. In a recording process, data, a laser driving signal and pits formed on the optical disk are shown, for example, in Fig. 2. That is, pits are formed at positions at which the laser diode is turned on in accordance with the recording data. In addition, in a case where a magentooptical disk is used, magnetic domains are formed as pits on the magneto-optical disk.A reproduction system is essentially formed as shown in Fig. 3. Referring to Fig. 3, there are provided the optical disk 1, the optical head 2, an amplifier 6, a filter/equalizer 7, a peak detector 8, a phase locked loop (PLL) circuit 9 and a demodulator 10. The laser diode in the optical head 2 is turned on with a power Pr so that a laser beam is irradiated on the optical disk 1. Based on a reflected beam obtained from the optical disk 1, a reproduction signal as shown in Fig. 4 is obtained. The reproduction signal passes through the amplifier 6, and waveform shaping of the reproduction signal is carried out by an automatic gain controller (AGC), a low-pass filter (LPF) and an equalizer (Eq). After this, the reproduction signal is supplied to the peak detector 8. The peak detector 8 differentiates the reproduction signal, detects zero-cross points of the differential signal so as to detect peak points of the reproduction signal. The peak detector 8 then outputs a pulse signal referred to as row data. The row data is
+</DESCRIPTION>
+<CLAIMS>
+A system for reproducing data corresponding to leading edges and trailing edges of marks on an optical disk (1) in which an encoded signal obtained by encoding recording data in accordance with a recording rule of a partial response characteristic has been recorded, said system comprising:
+
+signal reproducing means (2, 6, 7) for reproducing a signal, corresponding to the encoded signal obtained by encoding recording data in accordance with the recording rule of the partial response characteristic, from said optical disk (1);
+clock signal generating means (18, 17, 30) for generating a clock signal;
+sampling means (13) for sampling a reproduced signal which is the signal from said signal reproduction means (2, 6, 7) in synchronism with the clock signal from said clock signal generating means (18, 17, 30) and for outputting sampling data y
+k
+ of said leading and trailing edges; and
+maximum likelihood data detecting means (14) for deciding, based on the sampling data y
+k
+ from said sampling means (13) and the clock signal from said clock signal generating means (18, 17, 30), maximum likelihood detection data to be reproduced; and
+merge detecting means (144) for detecting a change in merge state M
+k
+ of the sampling data y
+k
+ and calculating leading edge data def
+k
+ and trailing edge data der
+k
+;
+phase error detecting means (145) for detecting a phase error dT
+k
+ between the phase of the clock signal and each point to be sampled in the reproduced signal; and
+phase control means (35) for performing a control operation for controlling the clock signal supplied from said clock generating means (30) to said sampling means (13) and maximum likelihood data detecting means (14) based
+ on the phase error dT
+k
+ detected by said phase error detecting means (145) so that the phase error is cancelled; wherein
+merge determination means (141) is provided for determining said merge state M
+k
+, having one of the following values: 0,1 called "+merge", 1,0 called "-merge", and 0,0 called "no merge", from a difference Z
+k
+ = y
+k
+ - Δ
+k
+ where Δ
+k
+ is a reference value, and supplying said merge state M
+k
+ to said merge detecting means (144);
+center value calculation means (142) is provided for calculating a moving average C
+kave
+ of center values obtained at successive timings, said center values being calculated by said center value calculation means from the sampling data y
+k
+ and said difference Z
+k
+ calculated by said merge determination means (141);
+reference value calculation means (143) is provided for calculating said reference value at the next timing as one of: 
+Δ
+k
++
+1
+=
+2
+C
+k
+ave
+−
+y
+k
+−
+1
+  
+in the case of
+ 
+"
+−
+merge
+"
+Δ
+k
++
+1
+=
+2
+C
+k
+ave
+−
+Δ
+k
+  
+in the case of
+ 
+"
+no merge
+"
+Δ
+k
++
+1
+=
+2
+C
+k
+ave
+−
+y
+k
++
+1
+  
+in the case of
+ 
+"
++
+merge
+"
+;
+said merge detecting means (144) calculates said leading edge data def
+k
+ and said trailing edge data der
+k
+ in accordance with the following formulae: 
+d
+e
+f
+k
+=
+a
+k
+1
+.
+a
+k
+2
+‾
+.
+m
+k
+1
+‾
+.
+m
+k
+2
+d
+e
+r
+k
+=
+a
+k
+1
+‾
+.
+a
+k
+2
+.
+m
+k
+1
+.
+m
+k
+2
+‾
+where said merge state M
+k
+ = (m
+k1
+, m
+k2
+) and a variable A
+k
+ =(a
+k1
+, a
+k2
+) referring to the merge state at the preceding timing is set in said merge detecting means (144) such that A
+k
+ = M
+k-1
+ when said merge state changes between "+merge" and "-merge" or vice-versa and A
+k
+ = A
+k-1
+ in the case of the "no merge" state or when there is no change between "+merge" and "-merge" states; and wherein
+said phase error detecting means (145) detects said phase error dT
+k
+ by calculating, every time new leading edge data def
+k
+ and trailing edge data der
+k
+ are output by said merge detecting means (144) at a clock timing k, leading edge phase error data dTf
+k
+ in accordance with the following formula: 
+d
+T
+f
+k
+=
+(
+C
+k
+−
+1
+ave
+−
+y
+k
+−
+1
+)
+.
+d
+e
+f
+k
+
+and by calculating trailing edge phase error data dTr
+k
+ in accordance with the following formula:
+dTr
+k
+=
+(
+y
+k
+-
+1
+-
+c
+k
+-
+lave
+)
+.
+der
+k
+ whereby the leading edge phase error data dTf
+k
+ corresponds to a difference between the center value of the reproduction signal and the sampling data at each leading edge point, and the trailing edge phase error data dTr
+k
+ corresponds to a difference between the center value of the reproduction signal and the sampling data at each trailing edge point, and said phase detecting means obtains the phase error dT
+k
+ = dTf
+k
+ + dTr
+k
+.
+The system as claimed in claim 1, wherein said phase error detecting means (145) has error calculation means (1454, 1455) for calculating said leading edge phase error data dTf
+k
+ and said trailing edge phase error data dTr
+k
+.
+The system as claimed in claim 1, wherein said clock signal generating means (18, 17, 30) has means for generating the clock signal based on the reproduced signal from said signal reproducing means (2, 6, 7).
+</CLAIMS>
+</TEXT>
+</DOC>

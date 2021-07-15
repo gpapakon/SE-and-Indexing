@@ -1,0 +1,563 @@
+<DOC>
+<DOCNO>EP-0650131</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Computer method and storage structure for storing and accessing multidimensional data.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1200	G06F1200	G06F1730	G06F1730	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F12	G06F12	G06F17	G06F17	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A computer method and storage structure for storing 
+and accessing multidimensional data is provided. A tree 
+
+manager provided by the present invention stores data such as 
+pointers, variable length data records, other B-trees, and 
+
+directories, in a Multidimensional B-tree (MDB-tree). An 
+MDB-tree has an imbedded "parent-child" structure which allows 
+
+subtrees to be stored within nodes. The subtrees contain 
+subnodes, which, in turn, may contain subtrees. The nodes are 
+
+indexed by a primary key value while the subnodes in a subtree 
+are indexed by secondary key values. Nodes of a MDB-tree 
+
+contain a key value table, a subnode table, and a data area. 
+When the tree manager attempts to store a unit of data on a 
+
+page and the unit of data is too large for the page, the tree 
+manager attempts to split a node currently stored on the page 
+
+(or the unit of data being inserted) into a subnode and a 
+subtree. The subtree is then stored on a new page. If the 
+
+unit of data cannot be split into a subnode and a subtree, 
+then one or more of the node currently stored on the page are 
+
+moved to a new page. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MICROSOFT CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MICROSOFT CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+JOSE IAN CHARLES
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+REITER ALLEN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+JOSE, IAN CHARLES
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+REITER, ALLEN
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates generally to a computer 
+method and storage structure for storing and accessing 
+data, and more particularly, to a computer method and 
+storage structure for storing and accessing 
+multidimensional data. Conventional storage structures, such as the 
+well known B-tree, are used to quickly locate specific 
+units of data (such as data records in a database) stored 
+on a secondary storage device. A B-tree provides a means 
+of clustering pointers to units of data, so that the units 
+can be quickly located. The pointers are typically small 
+and have a fixed length. Figure 1 is a block diagram of a conventional 
+B-tree 100 storing a database index. The B-tree 100 has a 
+root node 101, internal nodes 102, 103, 104, and leaf 
+nodes 105, 106, 107, 108, 109, 110, 111, 112, 113. The 
+root node 101 is the node at the top of the tree 100, the 
+leaf nodes 105, 106, 107, 108, 109, 110, 111, 112 and 113 
+are those at the bottom of the tree, and the internal 
+nodes 102, 103 and 104 are all of the nodes in between the 
+root node and the leaf nodes. The root node 101 contains one or more key 
+values and two or more pointers to internal nodes 102, 103 
+and 104. Each internal node 102, 103 and 104 contains one 
+or more key values and two or more pointers to lower level 
+internal nodes or leaf nodes 105, 106, 107, 108, 109, 110, 
+111, 112 and 113. Each leaf node 105, 106, 107, 108, 109, 
+110, 111, 112 and 113 contains key values and pointers to  
+ 
+units of data indexed by the key values. For example, the 
+leaf node 107 contains a key value "40" and a pointer 118 
+to a data record 119 that corresponds to the key value 
+"40." All of the leaf nodes are at the same depth in a 
+B-tree. Nodes are considered parent nodes to nodes to 
+which they point in the next lower level, which are 
+considered child nodes. Leaf nodes have no child nodes. 
+For example, the internal node 102 is a child node to the 
+root node 101, and a parent node to the leaf nodes 105, 
+106, 107. Each key value indicates the highest indexed key 
+value held in a node in the sub-tree for which the node is 
+the parent node. Generally, for any non-leaf node x, if 
+node x contains n[x] key values, then node x also contains 
+n[x]+1 pointers to child nodes. The key values in node x 
+are used as dividing points to separate the range of key 
+values handled by node x into n[x]+1 subranges. Each 
+subrange is handled by one child of node x. This proposition can be illustrated by way of 
+example. In Figure 1, the internal node 102 contains two 
+key
+</DESCRIPTION>
+<CLAIMS>
+A method in a computer system for storing a 
+unit of data on a storage device, the method comprising the 
+
+steps of: 
+   storing a first node entry having a first associated 
+
+node identifier on the storage device as part of a tree data 
+structure that indexes a group of data, the first node entry 
+
+comprising a field for storing key values, a field for storing 
+identifying information for subnodes, and a first data area 
+
+for storing units of data; and 
+   storing the unit of data in the first data area. 
+The method recited in claim 1, further 
+comprising the steps of: 
+
+   storing a second node entry on the storage device as 
+part of the tree data structure; and 
+
+   storing identifying information for the second node 
+entry in the field for storing identifying information for 
+
+subnodes in the first node entry. 
+The method recited in claim 2 wherein the step 
+of storing the second node entry on the storage device as part 
+
+of the tree data structure further comprises the step of 
+storing the second node entry, comprising only data and having 
+
+no key values and no identifying information for subnodes, on 
+the storage device as part of the tree structure. 
+The method recited in claim 2 wherein the step 
+of storing the second node entry on the storage device as part 
+
+of the tree data structure further comprises the step of 
+storing the second node entry, comprising a field storing key 
+
+values, a field storing identifying information for subnodes 
+and a data area for storing units of data, on the storage 
+
+device as part of the tree structure. 
+The method recited in claim 2, further 
+comprising the step of storing a subtree of data in the tree 
+
+structure on the storage device and said step of storing the 
+second node entry further comprising the step of storing a 
+
+pointer node as the second node entry in the storage device as 
+part of the tree structure, said pointer node holding a 
+
+pointer to the subtree of data. 
+The method of claim 1, further comprising the 
+steps of: 
+
+   storing a parent node entry for the first node entry 
+in the tree data structure, the parent node entry having a 
+
+second node identifier associated with it and comprising a 
+field for storing key values, a field for storing identifying 
+
+information for subnodes, and a data area for storing units of 
+data, the unit of data having a key value; 
+
+   storing the key value of the unit of data in the 
+field for storing key values in the parent node entry; and 
+
+   storing the first node identifier in the field for 
+storing identifying information for subnodes in the parent 
+
+node entry. 
+A method in a computer system for storing a 
+unit of data on a storage device, the method comprising the 
+
+steps of: 
+   providing a first node entry having a first 
+
+associated node identifier on the storage device as part of a 
+tree data structure that indexes a group of data, the first 
+
+node entry comprising a field for storing key values and a 
+field for storage identifying information for subnodes, and a 
+
+first data area for storing units of data; 
+   receiving a request to store the unit of data on the 
+
+storage device; 
+   determining whether the unit of data can be stored 
+
+in the first data area;
+ 
+
+   when it is determined that the unit of data cannot 
+be stored in the first data area, 
+
+   creating a new node entry on the storage 
+device, the new node entry having a new node 
+
+identifier and comprising a new key value table, a 
+new subnode table, and a new data area, 
+
+   storing the unit of data in the new data 
+area, 
+
+   creating a pointer node entry on the 
+storage device, the pointer node entry having a 
+
+pointer node identifier, 
+   storing the new node identifier in the 
+
+pointer node entry, and 
+   storing the pointer node identifier in the 
+
+first subnode table; and 
+   when it is determined that the unit of data can be 
+
+stored in the first data area, storing the unit of data in the 
+first data area. 
+A method in a computer system for storing a 
+selected unit of data having an associated key value and a 
+
+size on a storage device, the method comprising the steps of: 
+   storing a plurality of node entry groups on the 
+
+storage device, each node entry group comprising one or more 
+node entries and having an amount of available space, each 
+
+node entry having a unique node identifier and comprising a 
+key value table, a subnode table, and a data area for storing 
+
+units of data; 
+   based upon the key value of the unit of data, 
+
+determining in which of the plurality of node entry groups the 
+selected unit of data should be stored; 
+
+   based upon the size of the unit of data and the 
+amount of available space in the determined node entry group, 
+
+determining whether the selected unit of data can be stored in 
+
+the determined node entry group;
+ 
+
+   when the amount of available space in the determined 
+node entry group is smaller than the size of the unit of data, 
+
+creating a new node entry group on the storage device, the new 
+node entry group containing a new node entry having a new node 
+
+identifier and comprising a new key value table, a new subnode 
+table, and a new data area; 
+
+   storing the unit of data in the new data area; and 
+   storing the new node identifier of the new node 
+
+entry in the subnode table of the determined node entry. 
+The method of claim 8 wherein the step of 
+determining in which one of the node entries the selected unit 
+
+of data should be stored includes the step of comparing the 
+key value of the selected unit of data to the key values 
+
+stored in each node entry. 
+The method of claim 8 wherein the determined 
+node entry is contained within a fixed-size page having an 
+
+amount of available space, wherein the selected unit of data 
+has a size, and wherein the step of determining whether the 
+
+selected unit of data can be stored in the determined node 
+entry includes comparing the size of the selected unit of data 
+
+to the amount of available space in the page. 
+A method in a computer system for storing a 
+selected data unit on a storage device, the storage device 
+
+logically divided into a plurality of fixed-size blocks, each 
+block comprising a block header, an array of tags, and a 
+
+plurality of node entries, each node entry comprising a key 
+value table, a subnode table, and a data table, the method 
+
+comprising the steps of: 
+   assigning a key value to the selected data unit; 
+
+   based upon the assigned key value, determining in 
+which node entry the selected data unit should be stored; 
+
+   determining whether the selected data unit can be 
+stored in the block which contains the determined node entry;
+
+ 
+   when the selected data unit can be stored in the 
+
+block which contains the determined node entry, determining 
+whether the selected data unit can be stored in the determined 
+
+node entry; 
+   when the selected data unit can be stored in the 
+
+determined node entry, storing the selected data unit in the 
+determined node entry; 
+
+   when the selected data unit cannot be stored in the 
+determined node entry but can be stored in the block which 
+
+contains the determined node entry, 
+   creating a new node entry and storing the 
+
+selected data unit in the new node entry, 
+   storing the node identifier of the new 
+
+node entry in the subnode table of the determined 
+node entry, and 
+
+   storing the key value of the selected data 
+unit in the key value table of the determined node 
+
+entry; and 
+   when the selected data unit cannot be stored in the 
+
+determined node entry and cannot be stored in the block which 
+contains the determined node entry, 
+
+   requesting allocation of a new block, 
+   creating a new node entry and storing the 
+
+selected data unit in the new node entry, 
+   storing a pointer node in the block which 
+
+contains the determined node entry and storing the 
+node identifier of the new node entry in the pointer 
+
+node, 
+   storing the node identifier of the pointer 
+
+node in the subnode table of the determined node 
+entry, and 
+
+   storing the key value of the selected data 
+unit in the key value table of the determined node 
+
+entry. 
+A computer system for storing a unit of data on 
+a storage device, the computer system comprising: 
+
+   a node storage mechanism for storing a node entry on 
+the storage device as part of a tree data structure that 
+
+indexes a group of data, the node entry having a first node 
+identifier associated with it and comprising a first key value 
+
+table for storing key values, a first subnode table for 
+storing node identifiers of subnodes, and a first data area 
+
+for storing units of data; and 
+   a data storage mechanism for storing the unit of 
+
+data in the first data area. 
+The computer system of claim 12, the node entry 
+having a parent node entry in the tree data structure, the 
+
+parent node entry having a second node identifier associated 
+with it and comprising a second key value table for storing 
+
+key values, a second subnode table for storing node 
+identifiers of subnodes, and a second data area for storing 
+
+units of data, the unit of data having a key value, 
+additionally comprising: 
+
+   a key storage mechanism for storing the key value of 
+the unit of data in the second key value table; and 
+
+   a subnode storage mechanism for storing the first 
+node identifier in the second subnode table. 
+The computer system of claim 13 additionally 
+comprising: 
+
+   a mechanism for determining whether the unit of data 
+can be stored in the first data area; 
+
+   when it is determined that the unit of data cannot 
+be stored in the first data area, 
+
+   a node creator mechanism for creating a 
+new node entry on the storage device, the new node 
+
+entry having a new node identifier and comprising a 
+new key value table, a new subnode table, and a new 
+
+data area,
+ 
+
+   a second data storage mechanism for 
+storing the unit of data in the new data area, 
+
+   a pointer node creator mechanism for 
+creating a pointer node entry on the storage device, 
+
+the pointer node entry having a pointer node 
+identifier, 
+
+   a second node storage mechanism for 
+storing the new node identifier in the pointer node 
+
+entry, and 
+   a pointer node storage mechanism for 
+
+storing the pointer node identifier in the first 
+subnode table; and 
+
+   when it is determined that the unit of data can be 
+stored in the first data area, a third data storage mechanism 
+
+for storing the unit of data in the first data area. 
+A computer system for storing a selected unit 
+of data on a storage device, the selected unit of data having 
+
+an associated key value and a size, the storage device storing 
+a plurality of node entry groups (pages), each node entry 
+
+group (page) comprising one or more node entries and having an 
+amount of available space, each node entry having a unique 
+
+node identifier and comprising a key value table, a subnode 
+table, and a data area for storing units of data, comprising: 
+
+   means for determining in which of the plurality of 
+node entry groups (pages) the selected unit of data should be 
+
+stored based upon the key value of the unit of data; 
+   means for determining whether the selected unit of 
+
+data can be stored in the determined node entry group (page) 
+based upon the size of the unit of data and the amount of 
+
+available space in the determined node entry group (page); 
+   means for creating a new node entry group (page) on 
+
+the storage device when the amount of available space in the 
+determined node entry group is smaller than the size of the 
+
+unit of data, the new node entry group (page) containing a new 
+ 
+
+node entry having a new node identifier and comprising a new 
+key value table, a new subnode table, and a new data area; 
+
+   means for storing the unit of data in the new data 
+area; and 
+
+   means for storing the new node identifier of the new 
+node entry in the subnode table of the determined node entry. 
+The computer system of claim 15 wherein the 
+means for determining in which one of the node entries the 
+
+selected unit of data should be stored includes means for 
+comparing the key value of the selected unit of data to the 
+
+key values stored in each node entry. 
+The computer system of claim 15 wherein the 
+determined node entry is contained within a fixed-size page 
+
+having an amount of available space, wherein the selected unit 
+of data
+ has a size, and wherein the means for determining 
+whether the selected unit of data can be stored in the 
+
+determined node entry includes comparing the size of the 
+selected unit of data to the amount of available space in the 
+
+page. 
+A computer system for storing a selected data 
+unit on a storage device, the storage device logically divided 
+
+into a plurality of fixed-size blocks, each block comprising a 
+block header, an array of tags, and a plurality of node 
+
+entries, each node entry comprising a key value table, a 
+subnode table, and a data table, comprising: 
+
+   means for assigning a key value to the selected data 
+unit; 
+
+   means for determining in which node entry the 
+selected data unit should be stored based upon the assigned 
+
+key value; 
+   means for determining whether the selected data unit 
+
+can be stored in the block which contains the determined node 
+entry;
+
+ 
+   means for determining whether the selected data unit 
+
+can be stored in the determined node entry when the selected 
+data unit can be stored in the block which contains the 
+
+determined node entry; 
+   means for storing the selected data unit in the 
+
+determined node entry when the selected data unit can be 
+stored in the determined node entry,; 
+
+   when the selected data unit cannot be stored in the 
+determined node entry but can be stored in the block which 
+
+contains the determined node entry, 
+   means for creating a new node entry and 
+
+storing the selected data unit in the new node 
+entry, 
+
+   means for storing the node identifier of 
+the new node entry in the subnode table of the 
+
+determined node entry, and 
+   means for storing the key value of the 
+
+selected data unit in the key value table of the 
+determined node entry; and 
+
+   when the selected data unit cannot be stored in the 
+determined node entry and cannot be stored in the block which 
+
+contains the determined node entry, 
+   means for requesting allocation of a new 
+
+block, 
+   means for creating a new node entry and 
+
+storing the selected data unit in the new node 
+entry, 
+
+   means for storing a pointer node in the 
+block which contains the determined node entry and 
+
+storing the node identifier of the new node entry in 
+the pointer node, 
+
+   means for storing the node identifier of 
+the pointer node in the subnode table of the 
+
+determined node entry, and 
+   means for storing the key value of the selected data 
+
+unit in the key value table of the determined node entry. 
+</CLAIMS>
+</TEXT>
+</DOC>

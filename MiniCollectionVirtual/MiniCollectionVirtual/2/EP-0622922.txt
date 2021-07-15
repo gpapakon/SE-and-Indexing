@@ -1,0 +1,542 @@
+<DOC>
+<DOCNO>EP-0622922</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method and device of multicasting data in a communications system
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04L1218	G06F15177	G06F1300	G06F1300	G06F1516	G06F1516	H04L1218	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04L	G06F	G06F	G06F	G06F	G06F	H04L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04L12	G06F15	G06F13	G06F13	G06F15	G06F15	H04L12	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A communications system comprises a memory which is shared 
+by a plurality of users, each one receiving and transmitting 
+
+messages to each other. In the present system, a 
+message is composed of a plurality of data buffers stored 
+
+in the memory and each data buffer is controlled and 
+mapped to a unique direct control block (DCB) which stores 
+
+the characteristics of said data buffer. The chaining of 
+the DCB forms the whole message which may be multicast to 
+
+a plurality of users. Therefore, in order to improve the 
+performance of such communications system, one may duplicate 
+
+the message as many times as necessary without re-writing 
+the data in the personal storage of each user by 
+
+using an indirect control block (ICB) which represents the 
+message duplicated. Each ICB stores the characteristics of 
+
+the message duplicated and points to a DCB. A field in the 
+DCB enables to count the number of duplication of the 
+
+message. The DCB and ICB stores different fields which are 
+required in order to perform the operations of lease control 
+
+block from the free queues, the operations of message 
+enqueue in the user queue, the operations of message 
+
+dequeue from the user queue, and the operations of message 
+release to the free queues. Two separate free queues FDCBQ 
+
+and FICBQ chaining the free DCB and ICB are provided and 
+are controlled by two control blocks FDQCB and FIQCB. 
+The present apparatus and method may also be used for 
+multicasting
+ data buffer which composes a message by adding 
+new fields in the ICB. In this case, the message to be  
+
+ 
+multicast may have a content different from the original 
+
+one, which requires therefore that to each ICB correspond 
+a unique DCB. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BASSO CLAUDE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+CALVIGNAC JEAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GALAND CLAUDE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GIROIRD DIDIER
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+VERPLANKEN FABRICE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BASSO, CLAUDE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+CALVIGNAC, JEAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GALAND, CLAUDE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GIROIRD, DIDIER
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+VERPLANKEN, FABRICE
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a method and a device of
+multicasting data or messages to a plurality of users
+which are connected to a shared memory in a communications
+system.In a communications controller to which are connected a
+plurality of users, the data or messages broadcasts require
+that the data be duplicated as many times as there
+are users to which the data or the messages are to be
+transferred. Two main drawbacks spring from this problem
+of multicasting.Firstly, in a data store in which to each user corresponds
+its own memory space, re-writing a message many times in
+each memory space for different users affects the performance
+of the machine because of the writing delays.Secondly, the storage of the messages in the data store
+for different users represents a waste of memory space.Therefore, it is necessary to provide a device and a method
+which enable to improve the performance of multicasting
+a message by avoiding to execute useless operations of rewriting
+and re-deleting the memory space of each user.In a communications network, the control systems located
+at the network node have to service more and more users
+through high speed links. A system provided with the capability
+of servicing high speed communication links thanks 
+to a high speed adapter is described in the Patent Application
+EP A 244 544. The system comprises a central control
+unit running a network control program which assigns
+buffers of the central control unit memory to the user
+links. The high speed adapter is provided with buffering
+means into which the data portion of the received frames
+are assembled to be stored into the memory of the central
+control unit through a direct memory access path. The
+performance of such a system is limited by the fact that
+the messages have to be managed by the microcode and that
+the message exchanges require the intervention of the
+central control unit.A mechanism for transferring messages between source and
+destination users through a shared memory has also been
+disclosed in the European application whose publication
+number is EP A1 365 731. The invention provides a mechanism
+implemented in a communication network node, and
+enables messages to be exchanged between the adapters
+connected to the same shared memory and wherein the exchanges
+do not require any intervention of a costly central
+control unit, which is a major improvement in the
+exchange mechanism. Even though its implementation enables
+short messages to be exchanged without any risk of overrun,
+the throughput of the line
+</DESCRIPTION>
+<CLAIMS>
+A method of multicasting messages to a plurality of
+destination users (152, 154) in a communications system
+
+comprising a memory (100) shared by said destination users
+and accessed by said users through a data store bus (101),
+
+said memory (100) being organized in a plurality of data
+buffers controlled by a plurality of control blocks,
+
+wherein each message to be multicast is composed of
+chained data buffers, and wherein to each destination user
+
+is associated a user queue which stores the control blocks
+of the messages of said user, said user queue being controlled
+
+by a user queue control block,
+
+said method of multicasting messages comprising the steps
+of:
+
+
+(a) organizing said plurality of control blocks in a plurality
+of direct control blocks (DCB, figure 3-A) wherein
+
+each said direct control block is associated to a data
+buffer the address of which has a predetermined relationship
+
+with the address of the corresponding direct control
+block,
+(b) building a free direct control block queue (FDCBQ)
+which stores the addresses of all free direct control
+
+blocks and chaining said free direct control blocks, said
+queue being controlled by a free direct queue control
+
+block (FDQCB) which stores the addresses of the first and
+the last free direct control blocks respectively in a head
+
+(H) field and a tail (T) field,
+(c) organizing said plurality of control blocks in a plurality
+of indirect control blocks (ICB, figure 3-B) to
+
+enable the multicast function to be performed message by
+message, 
+(d) building a free indirect control block queue (FICBQ)
+which stores the addresses of all the free indirect control
+
+blocks and chaining said free indirect control
+blocks, said queue being controlled by a free indirect
+
+queue control block (FIQCB) which stores the addresses of
+the first and the last free indirect control blocks respectively
+
+in its head (H) field and its tail (T) field,
+(e) leasing a necessary number of free direct control
+blocks from said free direct control block queue (FDCBQ),
+
+each free direct control block being associated to a free
+data buffer, in order to store the message received in
+
+said data buffers,
+(f) storing in said free direct control blocks the information
+relative to the associated data buffers which constitute
+
+the original message,
+(g) enqueueing said message in the message queue of a
+selected user by enqueueing the associated direct control
+
+blocks in said user queue,
+(h) leasing successively a free indirect control block
+from the free indirect control block queue (FICBQ) to
+
+store the information relative to the message to be
+multicast in each of said indirect control blocks for each
+
+multicasting operations,
+(i) storing the information relative to the message to be
+multicast in each one of said free indirect control
+
+blocks, each indirect control block pointing to the direct
+control block corresponding to the first data buffer of
+
+the original message, each one of said indirect control
+blocks representing a duplicated message, and 
+(j) enqueueing said indirect control block in the message
+queue of each user to which the message has to be transmitted,
+
+for each one of the multicasting operations.
+The method of multicasting messages of claim 1 wherein
+the step of leasing an indirect control block comprises
+
+the steps of:
+
+(a) selecting one of the two free queues (free indirect
+control block queue FICBQ or free direct control block
+
+FDCBQ),
+(b) reading the head field of the selected free queue
+which indicates the address of a free direct control block
+
+a free indirect control block,
+(c) reading the address of the next free direct control
+block or free indirect control block indicated by said
+
+direct or indirect control block, and
+(d) writing the address of said next free direct control
+block or indirect control block in the head field of said
+
+selected free queue, and
+(e) storing a special code ('FF') in a duplication field
+of said direct control block or indirect control block
+
+leased to specify that said control block is to be used as
+an indirect control block, wherein in case a direct control
+
+block is selected because the free indirect control
+block queue is empty, the corresponding data buffer is
+
+voided.
+The method of claim 1 or 2 wherein the step of
+enqueueing an indirect control block in a message queue of
+
+a user comprises the steps of:
+
+(a) storing in said indirect control block the address 
+reference of the direct control block corresponding to the
+
+first data buffer of said original message,
+(b) incrementing the number contained in the duplication
+field in said direct control block,
+(c) reading the tail field of the user queue control block
+which indicates the address of a direct control block
+
+corresponding to the last data buffer or an indirect control
+block, already enqueued in said user queue,
+(d) writing the address of said indirect control block to
+enqueue in said tail field, and
+(e) writing the address of the new indirect control block
+to enqueue in the previous direct or indirect control
+
+block already enqueued in said user queue.
+The method of claim 3 further comprises the step of
+releasing after dequeueing from a user queue an original
+
+message which corresponds to a plurality of direct control
+blocks, or a duplicated message which corresponds to a
+
+unique indirect control block to move them back to the
+free direct control block queue or the free indirect control
+
+block queue, said release operation comprising the
+steps of:
+
+
+(a) reading (70) the duplication field,
+(b) checking (71) if said duplication field stores the
+special code ('FF'),
+(c) if the special code is detected, which means that it
+is an indirect control block, then:
+
+
+releasing said indirect control block:
+
+by reading the tail field of the FIQCB which indicates 
+the address of the last free indirect control block,
+by writing the address of the new indirect control block
+in the tail field, and
+by also writing the address of said new indirect control
+block in the last ICB enabling to point said last ICB to
+
+the new ICB, and
+reading (74) the duplication number of the direct control
+block which is associated to said new indirect control
+
+block,
+(d) otherwise, if the duplication number does not store
+the special code ('FF'), which means that it is a DCB,
+
+then decrementing (75) the duplication number,
+(e) checking (76) if the duplication number is equal to
+zero,
+(f) if it is not equal to zero, which means that the message
+has been multicast to other users and is still necessary,
+
+then ending the release operation,
+(g) otherwise, releasing (77) said plurality of DCBs which
+correspond to said message to release:
+
+
+by reading the tail field of the FDQCB which indicates
+the address of the last free direct control block,
+by writing the address of the last direct control block
+of said plurality of DCBs to release in the tail field,
+
+and 
+by writing in the last free direct control block already
+enqueued in the FDCBQ the address of the first DCB of said
+
+plurality of DCBs to release.
+An apparatus for multicasting messages to a plurality
+of destination users (152, 154) in a communications system
+
+comprising a memory (100) shared by said destination users
+and accessed by said users through a data store bus (101),
+
+said memory (100) being organized in a plurality of data
+buffers controlled by a plurality of control blocks,
+
+wherein each message to be transmitted being composed of
+chained data buffers, and wherein to each destination user
+
+is associated a user queue which stores the control blocks
+of the messages of said user, said user queue being controlled
+
+by a user queue control block,
+
+said apparatus is characterized in that the plurality of
+control blocks comprises:
+
+
+a plurality of direct control blocks (DCB, figure 3-A)
+wherein each said direct control block is associated to a
+
+data buffer the address of which has a predetermined relationship
+with the address of the corresponding direct
+
+control block,
+a free direct control block queue (FDCBQ) which stores
+the addresses of all the free direct control blocks and
+
+chaining said free DCBs, said queue being controlled by a
+free direct queue control block (FDQCB) which stores the
+
+addresses of the first and the last free direct control
+blocks respectively in its head (H) field and its tail (T)
+
+field,
+a plurality of indirect control blocks (ICB, figure 3-B)
+to enable the multicast function to be performed message
+
+by message, and 
+a free indirect control block queue (FICBQ) which stores
+the addresses of all the free indirect control blocks and
+
+chaining said free indirect control blocks, said queue
+being controlled by a free indirect queue control block
+
+(FIQCB) which stores the addresses of the first and the
+last free indirect control blocks respectively in its head
+
+(H) field and its tail (T) field.
+The apparatus of claim 5 wherein each direct control
+block comprises at least:
+
+
+means (Duplication number, DCB) for storing the number
+of message duplicated,
+means (byte count) for storing the number of bytes used
+in the data buffer corresponding to said direct control
+
+block,
+means (NBA) for storing the address of the next data
+buffer,
+means (LBA) for storing the address of the last data
+buffer of the message, and
+means (NMA) for storing the address of the next message,
+if there is any, otherwise for storing a special code to
+
+indicate that it is the last message.
+The apparatus of claim 5 or 6 wherein each said indirect
+control block comprises at least:
+
+
+means (Duplication number, ICB) for storing a special
+code to indicate that it is used in connection with one of
+
+said direct control block as a control block of the message
+duplicated, 
+means (byte count) for storing the number of bytes used
+in the data buffer corresponding to said direct control
+
+block,
+means (NBA) for storing the address of the next data
+buffer,
+means (MCCB pointer) for storing the address of one of
+said direct control block corresponding to the original
+
+message, and
+means (NMA) for storing the address of the next message,
+if there is any, otherwise for storing a special code to
+
+indicate that it the last message.
+The apparatus of claims 5 to 7 wherein each said direct
+control block and indirect control block further comprise:
+
+
+means (offset) for indicating the beginning of the data
+in the data buffer, and
+means (TMC) for storing the number of bytes used in the
+data buffers of the message.
+The apparatus of claim 5 wherein said plurality of
+indirect control block is modified to enable the multicast
+
+function to be performed data buffer by data buffer,
+wherein each indirect control block (extended ICB fig. 10-B)
+
+points to each direct control block of the corresponding
+message.
+The apparatus of claim 9 wherein each said direct
+control block comprises at least:
+
+
+means (Duplication number, fig. 10-A) for storing the number
+of message duplicated, 
+means (byte count) for storing the number of bytes used
+in the data buffer corresponding to said direct control
+
+block,
+means (NBA) for storing the address of the next data
+buffer,
+means (LBA) for storing the address of the last data
+buffer of the message,
+means (NMA) for storing the address of the next message,
+if there is any, otherwise for storing a special code to
+
+indicate that it is the last message,
+means (offset) for indicating the beginning of the data
+in the data buffer, and
+means (TMC) for storing the number of bytes used in the
+data buffers of the message.
+The apparatus of claim 9 or 10 wherein each said extended
+indirect control block comprises at
+
+least:
+
+means (Duplication number, fig. 10-B) for storing a special
+code to indicate that it is used in connection with one of
+
+said first means as a control block of the data buffer
+duplicated,
+means (byte count) for storing the number of bytes used
+in the data buffer corresponding to said direct control
+
+block,
+means (NBA) for storing the address of the next data
+buffer, 
+means (BCCB pointer) for storing the address of one of
+said direct control blocks, said direct control block
+
+corresponding to the original data buffer creating therefore
+duplicated messages with modified contents,
+means (NMA) for storing the address of the next message,
+if there is any, otherwise for storing a special code to
+
+indicate that it is the last message,
+means (LBA) for storing the address of the last data
+buffer of the message,
+means (offset) for indicating the beginning of the data
+in the data buffer, and
+means (TMC) for storing the number of bytes used in the
+data buffers of the message.
+The apparatus of claims 5 to 11 to be used in a communications
+system which further comprises:
+
+
+an arbitration means (110) for arbitrating the accesses
+of the bus (101) to the memory (100),
+a local store (120) for a microprocessor (130) being
+controlled by an operation control means (140),
+at least one data store interface DSI (150) to interface
+destination users (152, 153),
+separate means (CBS) (160) for storing direct and indirect
+control blocks and wherein said direct control blocks
+
+are associated to data buffers in said memory (100) and
+connected to said microprocessor and to each data store
+
+interface (150) in order to enable the access to said
+direct or direct control blocks independently from data
+
+buffers, 
+a second bus (103) connecting said separate means (160)
+to each data store interface and to said operation control
+
+means for transmitting the direct and indirect control
+blocks to said separated means,
+an arbiter (140) connected to said second bus (103) for
+arbitrating the accesses to said second bus (103) by said
+
+separated means, said data store interfaces and said operation
+control means (140), and
+order processing means (GOM) dedicated to each DSI to
+process the operations enqueue, dequeue, lease and release
+
+of the direct and indirect control blocks requested by the
+destination users.
+</CLAIMS>
+</TEXT>
+</DOC>

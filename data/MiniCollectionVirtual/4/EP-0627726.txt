@@ -1,0 +1,624 @@
+<DOC>
+<DOCNO>EP-0627726</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Pattern recognition with a tree structure used for reference pattern feature vectors or for HMM
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G10L1514	G10L1502	G10L1510	G10L1500	G10L1528	G10L1506	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G10L	G10L	G10L	G10L	G10L	G10L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G10L15	G10L15	G10L15	G10L15	G10L15	G10L15	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Preferably using frame vectors, a reference 
+memory (13) keeps feature vectors of a set as a tree 
+
+comprising a root node, leaf nodes farthest from the root 
+node, and intermediate nodes with the frame vectors 
+
+assigned respectively to the leaf nodes. A calculator 
+(17) calculates cluster distances between each feature 
+
+vector of an input pattern and a subset assigned among 
+the set to each daughter node of a mother node which is 
+
+first the root node. From the intermediate nodes with 
+the mother node successively selected along each branch 
+
+of the tree, a selector (19) selects at least one 
+daughter node that gives a shortest possible cluster 
+
+distance. Controlling the calculator and the selector to 
+use the cluster distances starting at each node selected 
+
+nearest to the root node and proceeding along the 
+branches to one of the leaf nodes that are used as 
+
+daughter nodes of mother nodes selected nearest to the 
+leaf nodes, a pattern distance calculator (15, 23) 
+
+calculates pattern distances between the input pattern 
+and reference patterns represented by the set. If the 
+
+branches do not reach such leaf nodes, the cluster 
+distances are used to the mother node last selected. 
+
+Frame distributions of HMM may be used instead of the 
+frame vectors. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+NIPPON ELECTRIC CO
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+NEC CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+WATANABE TAKAO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WATANABE, TAKAO
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to recognition of an input
+pattern which is typically representative of either
+discrete words or connected words. More particularly,
+this invention relates to a pattern recognition method
+and to a pattern recognition device.Various discrete or connected word recognition
+devices are in practical use. Among such pattern
+recognition devices, representative are one using a
+dynamic programming (DP) algorithm and one in which
+continuous mixture density hidden Markov models (HMM) are
+used.According to the dynamic programming algorithm,
+best match is located
+between an input pattern
+represented by a time sequence of input pattern feature
+vectors and a plurality of reference patterns, each
+represented by a stored sequence of reference pattern
+feature vectors. The best match is decided by finding a
+shortest one of pattern distances or a greatest one of
+pattern similarities between the input pattern and the
+reference patterns. On finding either the shortest 
+pattern distance or the greatest pattern similarity, a
+time axis of the input pattern time sequence and each of
+similar axes of the reference pattern sequences are
+mapped each on another by a warping function. Details of
+the dynamic programming algorithm are described in the
+Japanese language (transliterated according to ISO 3602)
+by Nakagawa-Seiiti in a book entitled "Kakuritu Moderu ni
+yoru Onsei Ninsiki" (Speech Recognition by Probability
+Models) and published 1988 by the Institute of
+Electronics, Information, and Communication Engineers of
+Japan.Briefly describing, the dynamic programming
+algorithm proceeds in principle as follows in the manner
+described on pages 18 to 20 of the Nakagawa book. An
+input pattern X and a reference pattern B are represented
+by:
+X = x1, x2, ..., xt, ..., xT
+and
+B = b1, b2, ..., bj, ..., bJ,
+where xt represents an input pattern feature vector at an
+input pattern time instant t, bj representing a reference
+pattern feature vector at a reference pattern time
+instant j, T representing an input pattern length, J
+representing a reference pattern length.In general, such reference patterns have
+different reference pattern lengths. The input pattern
+length is different from the reference pattern lengths.
+In order to calculate the pattern distance between the
+input pattern and each reference pattern which is time 
+sequentially used at consecutive reference pattern time
+instants, time correspondence must be established between
+the input and the reference pattern time instants. Each
+reference pattern time instant j is
+</DESCRIPTION>
+<CLAIMS>
+A pattern recognition method for locating an
+input pattern among a plurality of reference patterns
+
+represented by a set of characteristic data, comprising
+the steps of:
+
+   representing said input pattern as a time
+sequence of input pattern feature vectors;
+
+   representing said set of characteristic data as a
+tree structure comprising a root node representing on a
+
+root stage said set, a plurality of leaf nodes
+representing individually said characteristic data on a
+
+leaf stage farthest from said root stage, and a plurality
+of intermediate nodes representing subsets of said set on
+
+at least one intermediate stage between said root and
+said leaf stages, said subsets and the characteristic
+
+data represented by said leaf node being used as cluster
+data, respectively;
+
+   calculating cluster similarity measures between
+each input pattern feature vector and specific data
+
+represented among cluster data by specified nodes
+specified among said intermediate and said leaf nodes on
+
+a single specified stage;
+
+   selecting at least one selected node among
+daughter nodes of a mother node, said selected node
+
+representing ones of said cluster data for which an
+extremum of said cluster similarity measures is
+
+calculated, said daughter nodes being on a stage next 
+farther from said root stage than a stage of said mother
+
+node;
+
+   controlling said calculating step to specify said
+specified stage consecutively towards said leaf stage
+
+from a stage nearest to said root stage in said at least
+one intermediate stage with said specified nodes given
+
+first by the daughter nodes of said root node and
+subsequently by the daughter nodes of each of said at
+
+least one selected node;
+
+   controlling said selecting step to select said
+selected node from said intermediate nodes;
+
+   calculating pattern similarity measures between
+said input pattern and said reference patterns with each
+
+pattern similarity measure calculated by using said
+cluster similarity measures along a path from each of
+
+said at least one selected node selected with said root
+node used as the mother node and along branches branched
+
+from said path to ones of said leaf nodes when said ones
+of leaf nodes are used as the daughter nodes of each of
+
+said at least one selected node selected ultimately in
+each branch from said intermediate nodes; and
+
+   locating said input pattern as one of said
+reference patterns for which an extremum of said pattern
+
+similarity measures is calculated.
+A pattern recognition method as claimed in
+Claim 1, wherein said pattern similarity measure
+
+calculating step calculates each pattern similarity 
+measure by using said cluster similarity measures along
+
+the branches to said at least one selected node when said
+ones of leaf nodes are not used as the daughter nodes of
+
+the mother node selected among said intermediate nodes.
+A pattern recognition method as claimed in
+Claim 2, wherein said cluster similarity measure
+
+calculating step does not calculate said cluster
+similarity measures between each input pattern feature
+
+vector and the cluster data represented by one of the
+
+specified nodes that is on the stage nearest to said root
+stage in said at least one intermediate stage and is not
+
+selected as said selected node.
+A method as claimed in any one of Claims 1
+to 3, wherein said characteristic data are reference
+
+pattern feature vectors, said cluster data being cluster
+vectors, said cluster similarity measure being cluster
+
+distances, the extremum of said cluster similarity
+measures being a shortest one of said cluster distances,
+
+said specific data being specific vectors, said pattern
+similarity measures being pattern distance, the extremum
+
+of said pattern similarity measures being a shortest one
+of said pattern distance.
+A method as claimed in any one of Claims 1
+to 4, wherein said characteristic data are element
+
+distributions of continuous mixture density hidden Markov
+models, said cluster data being cluster distributions,
+
+said cluster similarity measures being cluster 
+likelihoods, the extremum of said cluster similarity
+
+measures being a greatest one of said cluster
+likelihoods, said specific data being specific
+
+distribution, said pattern similarity measures being
+pattern likelihoods, the extremum of said pattern
+
+similarity measures being a greatest one of said pattern
+likelihoods. 
+A pattern recognition device for locating an
+input pattern among a plurality of reference patterns
+
+represented by a set of reference pattern feature
+vectors, comprising an input pattern buffer (11) for a
+
+time sequence of input pattern feature vectors
+representative of said input pattern and locating means
+
+(25) for locating said input pattern as one of said
+reference patterns for which a shortest one of pattern
+
+distances are calculated between said input pattern and
+said reference patterns and characterised by:
+
+   reference pattern memory means (13) for storing
+said reference pattern feature vectors in a tree
+
+structure comprising a root node (N1) representing on a
+stage said set, a plurality of leaf nodes (F1-F27)
+
+representing individually said reference pattern feature
+vectors on a leaf stage farthest from said root stage,
+
+and a plurality of intermediate nodes (N11-N13,
+N111-N113, N121-N123, N131-N133) representing subsets of
+
+said set on at least one intermediate stage between said
+root and said leaf stages, with said subsets and the
+
+reference pattern feature vectors represented by said
+leaf nodes used as cluster vectors, respectively;
+
+   cluster distance calculating means (17) for
+calculating cluster distances between each input pattern
+
+feature vector and specified vectors represented among
+said cluster vectors by specified nodes (N11-N13,
+
+N111-N113 and N121-N123, or F1-F6 and F10-F15) specified
+among said intermediate and said leaf nodes on a single 
+
+specified stage;
+
+   selecting means (19) for selecting at least one
+selected node (N11 and N12, N111 and N112, or N121 and
+
+N122) among daughter nodes (N11-N13, N111-N113, or
+N121-N123) of a mother node, said selected node
+
+representing ones of said cluster vectors for which a
+shortest one of said cluster distances is calculated,
+
+said daughter nodes being on a stage next farther from
+said root stage than a stage of said mother node; and
+
+   pattern distance calculating means (15, 23) for
+controlling said cluster distance calculating means (17)
+
+and said selecting means (19) to specify said specified
+stage consecutively towards said leaf stage from a stage
+
+nearest to said root stage in said at least one
+intermediate stage with said specified nodes given first
+
+by the daughter nodes (N11-N13) of said root node and
+subsequently by the daughter nodes (N111-N113, N121-N123)
+
+of each of said at least one selected node and to select
+said selected node (N11 and N12, N111 and N112, or N121
+
+and N122) from said intermediate nodes and for
+calculating each of said pattern distances by using said
+
+cluster distances along a path from each (N11 or N12) of
+said at least one selected node selected with said root
+
+node used as the mother node and along branches branched
+from said path to ones (F1-F6 or F10-F15) of said leaf
+
+nodes when said ones of leaf nodes are used as the
+daughter nodes of said at least one selected node
+
+selected ultimately in each branch from said intermediate 
+nodes.
+A pattern recognition device as claimed in
+Claim 6, characterised in that said pattern distance
+
+calculating means (15, 23) calculates each pattern
+distance by using said cluster distances along said
+
+branches to said at least one selected node (N111 and
+N112 or N121 and N122) when said ones (F7-F9 or F16-F19)
+
+are not used as the daughter nodes (F1-F6 or F10-F15) of
+the mother node (N111, N112, N121, or N122) selected
+
+among said intermediate nodes.
+A pattern recognition device as claimed in
+Claim 7, characterised in that said cluster distance
+
+calculating means (17) does not calculate said cluster
+distances between each input pattern feature vector and
+
+the cluster vectors represented by one (N13) of the
+specified nodes (N11-N13) that is on the stage nearest to
+
+said root stage in said at least one intermediate stage
+and is not selected as said selected node (N11 or N12).
+A device as claimed in Claims 6, 7 or 8,
+
+   characterised in that said pattern distance
+calculating means (15, 23) comprises:
+
+   frame distance calculating means (15) for
+controlling said cluster distance calculating means (17)
+
+and said selecting means (19) to specify said specified
+stage consecutively towards said leaf stage from the
+
+stage nearest to said root stage in said at least one
+intermediate stage with said specified nodes (N11-N13,
+
+N111-N113 and N121-N123, or F1-F6 and F10-F15) given 
+first by the daughter nodes (N11-N13) of said root node
+
+and subsequently by the daughter nodes (N111-N113 or
+N121-N123) of each (N11 or N12) of said at least one
+
+selected node selected with said root node used as the
+mother node and to select said selected node (N11 and
+
+N12, N111 and N112, or N121 and N122) from said
+intermediate nodes and for calculating frame distances
+
+between each input pattern feature vector and said
+cluster vectors with said cluster distances used along a
+
+path from each of said at least one selected node
+selected with said root node used as the mother node and
+
+along branches branched from said path to ones of said
+leaf nodes when said ones of leaf nodes are used as the
+
+daughter nodes of said at least one selected node
+selected ultimately in each branch from said intermediate
+
+nodes; and
+
+   calculating means (23) for calculating said
+pattern distances by using said frame distances.
+A device as claimed in any one of Claims 6
+to 9, said at least one intermediate stage comprising
+
+a first plurality of intermediate stages, characterised
+in that said reference pattern memory means (13)
+
+comprises:
+
+   frame vector tree memorizing means (29) for
+storing said tree structure;
+
+   clustering vector memory means (31) preliminarily
+loaded with said set of clustering vectors;
+ 
+   cluster vector calculating means (35) for
+
+clustering said clustering vectors into a second
+plurality of cluster groups with clusters of said cluster
+
+groups represented by said cluster vectors, respectively,
+said second plurality being equal to said first plurality
+
+less one; and
+
+   control means (33) for making in said frame
+vector tree memory means (29) the intermediate nodes of
+
+said intermediate stages and said leaf nodes represent
+said cluster vectors with said cluster groups
+
+successively assigned to said intermediate stages except
+for one of said intermediate stages that is nearest to
+
+said root stage.
+A pattern recognition device for locating an
+input pattern among a plurality of reference patterns
+
+represented by a set of element distributions of
+continuous mix
+ture density hidden Markov models,
+comprising an input pattern buffer for a time sequence of
+
+input pattern feature vectors representative of said
+input pattern and locating means (25) for locating said
+
+input pattern as one of said reference patterns for which
+a greatest one of pattern likelihoods is calculated
+
+between said input pattern and said reference patterns
+and characterised by:
+
+   reference pattern memory means (13) for storing
+said element distributions in a tree structure comprising
+
+a root node (N1) representing on a root stage said set, a
+plurality of leaf nodes (F1-F27) representing 
+
+individually said element distributions on a leaf stages
+farthest from said root stage, and a plurality of
+
+intermediate nodes (N11-N13, N111-N113, N121-N123,
+N131-N133) representing subsets of said set on at least
+
+one intermediate stage between said root and said leaf
+stages, with said subsets and the element distributions
+
+represented by said leaf nodes used as cluster
+distributions, respectively;
+
+   cluster likelihood calculating means (39) for
+calculating cluster likelihoods between each input
+
+pattern feature vector and specified distributions
+represented among said cluster distributions by specified
+
+nodes (N11-N13, N111-N113 and N121-N123, or F1-F6 and
+F10-F15) specified among said intermediate and said leaf
+
+nodes on a single specified stage;
+
+   selecting means (19) for selecting at least one
+selected node (N11 and N12, N111 and N112, or N121 and
+
+N122) among daughter nodes (N11-N13, N111-N113, or
+N121-N123) of a mother node, said selected node
+
+representing ones of said cluster distributions for which
+a greatest one of said cluster likelihoods is calculated,
+
+said daughter nodes being on a stage next farther from
+said root stage than a stage of said mother node; and
+
+   pattern likelihood calculating means (37, 41) for
+controlling said cluster likelihood calculating means
+
+(39) and said selecting means (19) to specify said
+specified stage towards said leaf stage from a stage
+
+nearest to said root stage in said at least one 
+intermediate stage with said specified nodes given first
+
+by the daughter nodes (N11-N13) of said root node and
+subsequently by the daughter nodes (N111-N113, N121-N123)
+
+of each of said at least one selected node and to select
+said selected node (N11 and N12, N111 and N112, or N121
+
+and N122) from said intermediate nodes and for
+calculating each of said pattern likelihoods by using
+
+said cluster likelihood along a path from each (N11 or
+N12) of said at least one selected node selected with
+
+said root node used as the mother node and along branches
+branched from said path to ones (F1-F6 or F10-F15) of
+
+said leaf nodes when said ones of leaf nodes are used as
+the daughter nodes of said at least one selected node
+
+selected ultimately in each branch from said intermediate
+nodes.
+A pattern recognition device as claimed in
+Claim 11, characterised in that said pattern likelihood
+
+calculating means (37, 41) calculates each pattern
+likelihood by using said cluster likelihood along said
+
+branches to said at least one selected node (N111 and
+N112 or N121 and N122) when said ones (F7-F9 or F16-F18)
+
+are not used as the daughter nodes (F1-F6 or F10-F15) of
+the mother node (N111, N112, N121, or N122) selected
+
+among said intermediate nodes.
+A pattern recognition device as claimed in
+Claim 12, characterised in that said cluster likelihood
+
+calculating means (39) does not calculate said cluster
+likelihoods between each input pattern feature vector and 
+
+the cluster distributions represented by one (N13) of the
+specified nodes (N11-N13) that is on the stage nearest to
+
+said root stage and is not selected as said selected node
+(N12 or N13).
+A device as claimed in Claims 11, 12 or 13,
+
+   characterised in that said pattern likelihood
+calculating means (37, 41) comprises:
+
+   frame likelihood calculating means (37) for
+controlling said cluster likelihood calculating means
+
+(39) and said selecting means (19) to specify said
+specified stage consecutively towards said leaf stage
+
+from the stage nearest to said root stage in said at
+least one intermediate stage with said specified nodes
+
+(N11-N13, N111-N113 and N121-N123, or F1-F6 and F10-F15)
+given first by the daughter nodes (N11-N13) of said root
+
+node and subsequently by the daughter nodes (N111-N113 or
+N121-N123) of each (N11 or N12) of said at least one
+
+selected node selected with said root node used as the
+mother node and to select said selected node (N11 and
+
+N12, N111 and N112, or N121 and N122) from said
+intermediate nodes and for calculating frame likelihoods
+
+between each input pattern feature vector and said
+cluster distributions with said cluster likelihoods used
+
+along a path from each of said at least one selected node
+selected with said root node as the mother node and along
+
+branches branched from said path to ones of said leaf
+nodes when said ones of leaf nodes are used as the
+
+daughter nodes of said at least one selected node 
+selected ultimately in each branch from said intermediate
+
+nodes; and
+
+   calculating means (41) for calculating said
+pattern likelihoods by using said frame likelihoods.
+A device as claimed in any one of Claims 11
+to 14, said at least one intermediate stage comprising
+
+a first plurality of intermediate stages, characterised
+in that said reference pattern memory means (13)
+
+comprises:
+
+   frame distribution tree memory means (43) for
+storing said tree structure;
+
+   clustering distribution memory means (45)
+preliminarily loaded with said set as clustering
+
+distributions;
+
+   cluster distribution calculating means (49) for
+clustering said clustering distributions into a second
+
+plurality of cluster groups with clusters of said cluster
+groups represented
+
+by said cluster distributions, respectively, said second
+plurality being equal to said first plurality less one;
+
+and
+
+   control means (47) for making in said frame
+distribution tree memory means (43) the intermediate
+
+nodes of said intermediate stages and said leaf nodes
+represent said cluster distributions with said cluster
+
+groups successively assigned to said intermediate stages
+except for one of said intermediate stages that is
+
+nearest to said root stage.
+</CLAIMS>
+</TEXT>
+</DOC>

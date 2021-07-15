@@ -1,0 +1,569 @@
+<DOC>
+<DOCNO>EP-0648352</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+SYSTEM AND METHOD FOR DYNAMIC RUN-TIME BINDING OF SOFTWARE MODULES IN A COMPUTER SYSTEM
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F940	G06F9445	G06F940	G06F9445	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A linked procedure call mechanism for replacing an old software unit (102) with a new software unit (104) without disturbing the ongoing activities of the overall system. The linked procedure call mechanism includes a trader (80) which directs the system execution processes towards either the old software unit (102) or the new software unit (104), depending on when the process was created. Processes created prior to initiation of replacement will continue to use the old software unit (102), while processes created after the initiation of replacement may be directed to use the new software unit (104). When the activities within the old software unit (102) have ended, the replacement is complete and the old software unit (102) can be removed from memory.
+ 
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+ERICSSON TELEFON AB L M
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+TELEFONAKTIEBOLAGET LM ERICSSON
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+LUNDIN LARS KENNETH
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MARKSTROEM ULF KURT HAAKAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LUNDIN, LARS, KENNETH
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MARKSTROEM, ULF, KURT, HAAKAN
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+A portion of the disclosure of this patent
+document contains material which is subject to
+copyright protection. The copyright owner has no
+objection to the facsimile reproduction by anyone of
+the patent document or the patent disclosure, as it
+appears in the patent and trademark office, patent file
+or records, but otherwise reserves all copyrights
+whatsoever.The invention relates to the modification of
+software, and in particular, to the replacement of
+software in an operating computer system having both
+old and new versions of modified software coexisting in
+the computer and simultaneously executable therein. The system of the present invention, a linked
+procedure call mechanism for dynamically binding
+separately and simultaneously executable versions of
+software during operation of a computing system to
+allow transparent, uninterrupted updating of software,
+can best be understood by reference to the larger
+problem of incorporating modified software into an
+operating computer system. One aspect of computer
+software is that it must be periodically updated with
+revisions, additions and/or deletions in order to
+continue to provide adequate functionality to the user,
+to optimize the software and to correct errors and
+discrepancies that arise throughout the life of the
+software. As new features are added to software, it is
+desirable to replace the old software with the new
+versions as early and as easily as possible in order to
+provide the user with the features of the new software.In certain types of computing systems, such as
+stand-alone or batch processing systems, changing
+software from one version to another presents few
+obstacles. Typically, the computer system is merely
+shut down during a period of the day when there is
+little activity and maintenance personnel are readily
+available. The old software is then simply removed and
+replaced by the newer version of the software.
+Thereafter, the computing system is restarted and all
+future data processing is done with the new version of
+the software. This procedure, of course, assumes that
+the new software has been adequately tested and
+debugged on an offline system to the point that the
+software personnel and the operational management are
+confident that it will adequately perform the functions
+for which it is intended without undue interruptions 
+that may require halting and then re-starting the
+entire computing system.In other types of computing systems, such as
+modern stored program control (SPC) telecommunications
+exchange systems (commonly referred to
+</DESCRIPTION>
+<CLAIMS>
+A method of dynamically binding a first
+software module (84) with a second software module
+
+(86) in a computing system having a shared memory, a
+kernel (82), the first software module and the second
+
+software module respectively contained within a first
+software application program and a second software
+
+application program, the method comprising the steps
+of:
+
+
+implementing a linked procedure call mechanism
+for routing signals or messages between said first and
+
+second software modules, said linked procedure call
+mechanism being associated with a trader function (80)
+
+that includes a database of information regarding all
+interfaces accessible to said linked procedure call
+
+mechanism at loadtime, said trader function further
+being part of the kernel of the computing system;
+providing a client interface, said client
+interface capable of accessing said trader function to
+
+retrieve binding information needed for operative
+communications with other modules;
+providing a server interface, said server
+interface capable of accessing said trader function to
+
+retrieve binding information needed for operative
+communications with other modules;
+inserting said client interface into said first
+software module;
+inserting said server interface into said second
+software module;
+loading said first software module into said
+shared memory of said computing system, said first
+
+software module including said client interface; 
+loading said second software module into said
+shared memory of said computing system, said second
+
+software module including said server interface, and
+said second software module being loaded
+
+asynchronously and independently of said first
+software module;
+inserting the memory address of said server
+interface into said trader function;
+activating said client interface by executing
+said first software module;
+activating said server interface by retrieving a
+specific implementation of a signaling protocol from
+
+said trader function using said isolated client
+interface; and
+substituting said server interface in said first
+software module in place of said activated client
+
+interface, during execution of said first software
+module, thereby dynamically binding said first and
+
+second software modules.
+The method of claim 1 further comprising the
+step of:
+
+
+generating said client interface and said server
+interface from a common interface specification that
+
+is communicated to said trader function at or prior to
+loadtime.
+The method of claim 2 further comprising the
+step of:
+
+
+creating said common interface specification that
+is communicated to said trader function at or prior to 
+
+loadtime using an object-oriented interface
+description language.
+The method of claim 3 wherein said step of
+generating said client interface and said server
+
+interface from a common interface specification that
+is communicated to said trader function at or prior to
+
+loadtime further comprises the step of:
+
+generating, with an off-line stub generation
+tool, one or more client objects and one or more
+
+server objects from said common interface
+specification, said off-line stub generation tool
+
+being capable of using said common interface
+specification to automatically generate code for
+
+providing coordination between said one or more client
+objects and said one or more server objects.
+The method of claim 4 wherein said step of
+generating, with an off-line stub generation tool, one
+
+or more client objects and one or more server objects
+from said common interface specification that is
+
+communicated to said trader function at or prior to
+loadtime further comprises the steps of:
+
+
+generating a client file containing at least one
+client object; and
+generating a server file containing at least one
+server object.
+The method of claim 5 wherein said step of
+generating a client file containing at least one
+
+client object further comprises the step of: 
+
+generating a client file containing one client
+object which can communicate in conformity with said
+
+common interface specification with an associated
+server object in said generated server file containing
+
+at least one server object.
+The method of claim 3 wherein said step of
+creating a common interface specification that is
+
+communicated to said trader function at or prior to
+loadtime using an object-oriented interface
+
+description language further comprises the step of:
+
+creating said common interface specification that
+is communicated to said trader function at or prior to
+
+loadtime from said base interface, said common
+interface specification inheriting one or more
+
+specified methods of said base interface.
+The method of claim 3 wherein said step of
+creating said common interface specification that is
+
+communicated to said trader function at or prior to
+loadtime using an object-oriented interface
+
+description language further comprises the steps of:
+
+naming said common interface specification;
+identifying one or more interfaces used as bases
+for said named common interface specification;
+creating at least one constructor, said
+constructor specifying the preferred technique for
+
+creating instances of objects invoking other objects
+using said named common interface specification; and
+creating at least one method-specification for
+performing functions of said named common interface 
+
+specification, said method-specification including a
+
+method name, arguments, return type and exceptions.
+The method of claim 3 wherein said step of
+providing a client interface further comprises the
+
+step of:
+
+providing a client object, said client object
+being capable of accessing said trader function.
+The method of claim 3 wherein said step of
+providing a server interface further comprises the
+
+step of:
+
+providing a server object, said server object
+being capable of accessing said trader function.
+The method of claim 10 further comprising
+the steps of:
+
+
+loading, into said computing system, a third
+software application containing a third software
+
+module, said third software module including server
+objects that can interchangeably communicate with said
+
+server objects inserted into said second software
+module; and
+inserting the location of said server objects
+contained within said third software module into said
+
+trader function.
+The method of claim 11 further comprising
+the step of:
+
+
+routing signals or messages originating from a
+process that was created prior to loading of said
+
+third software module, to said second software module 
+by retrieving a specific implementation of a
+
+signaling protocol based on said common interface
+specification from said trader function within said
+
+kernel.
+The method of claim 11 further comprising
+the step of:
+
+
+routing signals or messages originating from a
+process that was created subsequent to loading of said
+
+third software module, to said third software module
+by retrieving a specific implementation of a signaling
+
+protocol based on said common interface specification
+from said trader function within said kernel.
+The method of claim 1 wherein said database
+of information regarding all interfaces accessible to
+
+said linked procedure call mechanism that is included
+in said trader function further includes the load
+
+addresses of each of said interfaces.
+The method of claim 14 further comprising
+the step of:
+
+
+generating a unique number which identifies both
+said client interface and said server interface.
+The method of claim 15 further comprising
+the steps of:
+
+
+inserting said generated unique number into said
+trader function; and
+inserting the memory address of said server
+interface into said trader function.
+A system for dynamically binding a first
+software module (84) with a second software module
+
+(86) in a computing system having a shared memory, a
+kernel (82), the first software module and the second
+
+software module respectively contained within a first
+software application program and a second software
+
+application program, the system comprising:
+
+means for implementing a linked procedure call
+mechanism for routing signals or messages between said
+
+first and second software modules, said linked
+procedure call mechanism being associated with a
+
+trader function (80) that includes a database of
+information regarding all interfaces accessible to
+
+said linked procedure call mechanism at loadtime, said
+trader function further being part of the kernel of
+
+the computing system;
+means for providing a client interface, said
+client interface capable of accessing said trader
+
+function to retrieve binding information needed for
+operative communications with other modules;
+means for providing a server interface, said
+server interface capable of accessing said trader
+
+function to retrieve binding information needed for
+operative communications with other modules;
+means for inserting said client interface into
+said first software module;
+means for inserting said server interface into
+said second software module;
+means for loading said first software module into
+said shared memory of said computing system, said
+
+first software module including said client interface; 
+means for loading said second software module
+into said shared memory of said computing system, said
+
+second software module including said server
+interface, and said second software module being
+
+loaded asynchronously and independently of said first
+software module;
+means for inserting the memory address of said
+server interface into said trader function;
+means for activating said client interface by
+executing said first software module;
+means for activating said server interface by
+retrieving a specific implementation of a signaling
+
+protocol from said trader function using said isolated
+client interface; and
+means for substituting said server interface in
+said first software module in place of said activated
+
+client interface, during execution of said first
+software module, thereby dynamically binding said
+
+first and second software modules.
+The system of claim 17 further comprising:
+
+means for generating said client interface and
+said server interface from a common interface
+
+specification that is communicated to said trader
+function at or prior to loadtime.
+The system of claim 18 further comprising:
+
+means for creating said common interface
+specification that is communicated to said trader
+
+function at or prior to loadtime using an object-oriented
+interface description language.
+The system of claim 19 wherein said means
+for generating said client interface and said server
+
+interface from a common interface specification that
+is communicated to said trader function at or prior to
+
+loadtime further comprises:
+
+means for generating, with an off-line stub
+generation tool, one or more client objects and one or
+
+more server objects from said common interface
+specification, said off-line stub generation tool
+
+being capable of using said common interface
+specification to automatically generate code for
+
+providing coordination between said one or more client
+objects and said one or more server objects.
+The system of claim 20 wherein said means
+for generating, with an off-line stub generation tool,
+
+one or more client objects and one or more server
+objects from said common interface specification that
+
+is communicated to said trader function at or prior to
+loadtime further comprises:
+
+
+means for generating a client file containing at
+least one client object; and
+means for generating a server file containing at
+least one server object.
+The system of claim 21 wherein said means
+for generating a client file containing at least one
+
+client object further comprises:
+
+means for generating a client file containing one
+client object which can communicate in conformity with
+
+said common interface specification with an associated 
+server object in said generated server file containing
+
+at least one server object.
+The system of claim 19 wherein said means
+for creating a common int
+erface specification that is
+communicated to said trader function at or prior to
+
+loadtime using an object-oriented interface
+description language further comprises:
+
+
+means for creating said common interface
+specification that is communicated to said trader
+
+function at or prior to loadtime from said base
+interface, said common interface specification
+
+inheriting one or more specified methods of said base
+interface.
+The system of claim 19 wherein said means
+for creating said common interface specification that
+
+is communicated to said trader function at or prior to
+loadtime using an object-oriented interface
+
+description language further comprises:
+
+a name for said common interface specification;
+means for identifying one or more interfaces used
+as bases for said named common interface
+
+specification;
+means for creating at least one constructor, said
+constructor specifying the preferred technique for
+
+creating instances of objects invoking other objects
+using said named common interface specification; and
+means for creating at least one method-specification
+for performing functions of said named
+
+common interface specification, said method-specification 
+including a method name, arguments,
+
+return type and exceptions.
+The system of claim 19 wherein said means
+for providing a client interface further comprises:
+
+
+means for providing a client object, said client
+object being capable of accessing said trader
+
+function.
+The system of claim 19 wherein said means
+for providing a server interface further comprises:
+
+
+means for providing a server object, said server
+object being capable of accessing said trader
+
+function.
+The system of claim 26 further comprising:
+
+means for loading, into said computing system, a
+third software application containing a third software
+
+module, said third software module including server
+objects that can interchangeably communicate with said
+
+server objects inserted into said second software
+module; and
+means for inserting the location of said server
+objects contained within said third software module
+
+into said trader function.
+The system of claim 27 further comprising:
+
+means for routing signals or messages originating
+from a process that was created prior to loading of
+
+said third software module, to said second software
+module by retrieving a specific implementation of a
+
+signaling protocol based on said common interface 
+specification from said trader function within said
+
+kernel.
+The system of claim 27 further comprising:
+
+means for routing signals or messages originating
+from a process that was created subsequent to loading
+
+of said third software module, to said third software
+module by retrieving a specific implementation of a
+
+signaling protocol based on said common interface
+specification from said trader function within said
+
+kernel.
+The system of claim 17 wherein said database
+of information regarding all interfaces accessible to
+
+said linked procedure call mechanism that is included
+in said trader function further includes the load
+
+addresses of each of said interfaces.
+The system of claim 30 further comprising:
+
+generating a unique number which identifies both
+said client interface and said server interface.
+The system of claim 31 further comprising:
+
+inserting said generated unique number into said
+trader function; and
+inserting the memory address of said server
+interface into said trader function.
+</CLAIMS>
+</TEXT>
+</DOC>

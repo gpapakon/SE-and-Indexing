@@ -1,0 +1,311 @@
+<DOC>
+<DOCNO>EP-0642093</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method, system and apparatus for automatically designing a multiplier circuit and multiplier circuit designed by performing said method
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1750	G06F748	G06F7533	G06F1750	G06F7508	G06F752	G06F748	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F17	G06F7	G06F7	G06F17	G06F7	G06F7	G06F7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+With respect to each bit of a multiplier factor, it is 
+judged whether or not the multiplicand is a variable or a 
+
+constant. If the multiplier factor is a constant, it is 
+
+judged whether or not a bit of concern in the multiplier 
+factor has the value of 1. Only if the bit of concern in the 
+
+multiplier factor is 1, there is generated a circuit for 
+outputting, as a partial product, a signal indicating a 
+
+multiplicand. The signal indicating the multiplicand is then 
+shifted by one bit so that the resulting signal is newly set 
+
+as the signal indicating the multiplicand. By repeatedly 
+executing the foregoing process with respect to all the bits 
+
+of the multiplier factor, a circuit for calculating a partial 
+product with respect to each bit of the multiplier factor is 
+
+generated. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC IND CO LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC INDUSTRIAL CO., LTD.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+NISHIYAMA TAMOTSU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TSUBATA SHINTARO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NISHIYAMA, TAMOTSU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TSUBATA, SHINTARO
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a method, system, and apparatus for automatically designing a logic circuit, particularly a multiplier or a logic circuit including a multiplier, and to a multiplier.Conventional multipliers for performing multiplication with digital information are often used not only as single, independent LSIs but also as elements to be mounted in such LSIs as DSP (digital signal processor). However, as the bit width is increased in multiplication and their applications are more diversified, multipliers of this type are required to have reduced circuit size and chip area as well as to operate at higher speed. To meet the requirements, circuit systems using various multiplication methods have been proposed.For example, a multiplication method using the Booth's 2-bit recode system, which is one of the highest-speed multiplication methods, is disclosed in "Nikkei Electronics" (May 29, pp.76-89(1978)). The multiplication method uses the following algorithm in order to increase the speed of multiplication.If an n-bit multiplicand X is to be multiplied by an m-bit multiplier factor Y, e.g., the multiplier factor Y is represented by two's complements as follows: Y=−ys∗2m−1+∑i=1m−1(yi∗2i−1)=∑i=0q−1{(y2i+y2i+1−2y2i+2)∗22i}
+where ym = ys, q = m/2 if m is an even number or q = (m-1)/2 if m is an odd number, and y0 = 0 (y is a value given for convenience).Hence, the product P of X and Y becomes P=X∗Y=∑i=0q−1{(y2i+y2i+1−2y2i+2)∗X∗22i}Here, since the values of y2i, y2i+1, and y2i+2 are 0 or 1, (y2i+y2i+1-2y2i+2) becomes 0, ±1, or ±2, so that each of their partial products becomes a value obtained by multiplying 0, ± X, or ±2X by 22i.Table 1y2i+2y2i+1y2i(y2i+y2i+1-2y2i+2)0000001+1010+1011+2100-2101-1110-11110Here, a circuit for generating the partial products can be composed of a shifter primarily for shifting the multiplicand ±X by one bit till it is doubled and a shifter for shifting a mantissa (0, ± X or ± 2X) by two bits till it is raised to the power of 22i (weighing).As for the number of logic stages in a circuit for calculating the total sum of the partial products, since the number of the partial products becomes q = m/2 (m is an even number) or q = (m-1)/2 (m is an odd number), it becomes approximately log2m-1 (m is an even number) or log2(m-1)-1 (m is an odd number) when a 2-input adder is connected so as to form a binary tree.As an example of high-speed multipliers not using the Booth's 2-bit recode system, Japanese Patent Publication no. 03-017737 discloses a multiplier using redundant
+</DESCRIPTION>
+<CLAIMS>
+A method of automatically designing a logic circuit for generating information on the logic circuit for calculating the product of a multiplier factor A and a multiplicand X, comprising the steps of:
+
+(a) determining (143, 272) two constants A1 and A2 so that the difference (A1-A2) between the constants A1 and A2 equals the multiplier factor A, and the total number of bits having the value of 1 in the constants A1 and A2 is smaller than the number of bits having the value 1 in the multiplier factor A;
+(b) generating (231, 273) information on a first partial-product generating circuit for receiving the constant A1 and the multiplicand X and outputting their partial products;
+(c) generating (212, 232, 275) information on a second partial-product generating circuit for receiving the constant A2 and the multiplicand X and outputting their partial products;
+(d) generating (214, 233, 276) information on a logic NOT circuit for receiving the output signals from said second partial-product generating circuit and outputting the logic NOT signals thereof; and
+(e) generating (216, 234-236, 277-279) information on a sum circuit for receiving the output signals from said first partial-product generating circuit and the output signals from said logic NOT circuit, calculating the sum thereof, and outputting the sum as the product of the multiplier factor A and the multiplicand X.
+The method of automatically designing a logic circuit according to claim 1, wherein:
+
+step (a) further comprises determining the two constants A1 and A2 so that the sum of the number of the bits having the value of 1 in the constant A1 and the number of the bits having the value of 1 in the constant A2 is minimized; and
+the sum circuit used in step (e) is a partial-product-sum circuit.
+The method of automatically designing a logic circuit according to claim 1, wherein the step (e) has the steps of:
+
+(e-1) generating information on a partial-product adding circuit for receiving the output signals from said first partial-product generating circuit and the output signals from said logic NOT circuit and outputting the addition results as a specified number of partial products; and
+(e-2) generating information on a final sum circuit for receiving the output signals from said partial-product adding circuit and a correction signal, calculating the sum thereof, and outputting the sum as the product of the multiplier factor A and the multiplicand X.
+The method of automatically designing a logic circuit according to claim 3, wherein:
+
+step (a) further comprises determining the two constants A1 and A2 so that the sum of the number of the bits having the value of 1 in the constant A1 and the number of the bits having the value of 1 in the constant A2 is minimized.
+The method of automatically designing a logic circuit according to claim 1, wherein the step (e) has the steps of:
+
+(e-1) with respect to each group consisting of n partial products obtained by evenly dividing a plurality of partial products,
+(e-1-1) generating information on an adding circuit for receiving the n partial products in a group of concern and outputting the sum of said n partial products as m (
+<
+ n) partial products and
+
+with respect to all said plurality of partial products,
+
+(e-1-2) after repeatedly executing the step (e-1-1), newly setting all the partial products that are the outputs of the adding circuit generated in the step (e-1-1) and those partial products of said plurality of partial products which were not received by the adding circuit generated in the step (e-1-1) as the plurality of partial products to be processed in the step (e-1-1),
+ the steps (e-1-1) and (e-1-2) being repeatedly executed so as to generate information on a partial-product adding circuit for outputting m partial products; and
+(e-2) generating information on a final sum circuit for receiving the output signals from said partial-product adding circuit and a correction signal, calculating the sum thereof, and outputting the sum as the product of the multiplier factor A and the multiplicand X.
+The method of automatically designing a logic circuit according to claim 5, wherein:
+
+step (a) further comprises determining the two constants A1 and A2 so that the sum of the number of the bits having the value of 1 in the constant A1 and the number of the bits having the value of 1 in the constant A2 is minimized.
+The method of automatically designing a logic circuit according to claim 1, wherein the step (e) has the steps of:
+
+(e-1) judging whether the sum of the number of the bits having the value of 1 in the constant A1 and the number of the bits having the value of 1 in the constant A2 is equal to or larger than a specified number;
+(e-2) if the sum of the number of the bits having the value of 1 in the constant A1 and the number of the bits having the value of 1 in the constant A2 is equal to said specified number, generating information on a final sum circuit for receiving the output signals from said first partial-product generating circuit, the output signals from said logic NOT circuit, and a correction signal, calculating the sum thereof, and outputting the sum as the product of the multiplier factor A and the multiplicand X; and
+(e-3) if the sum of the number of the bits having the value of 1 in the constant A1 and the number of the bits having the value of 1 in the constant A2 is larger than said specified number,
+(e-3-1) generating information on a partial-product adding circuit for receiving the output signals from said first partial-product generating circuit and the output signals from said logic NOT circuit and
+ outputting the addition results as said specified number of partial products and
+(e-3-2) generating information on a final sum circuit for receiving the output signals from said partial-product adding circuit and the correction signal, calculating the sum thereof, and outputting the sum as the product of the multiplier factor A and the multiplicand X.
+The method of automatically designing a logic circuit according to claim 7, wherein:
+
+step (a) further comprises determining the two constants A1 and A2 so that the sum of the number of the bits having the value of 1 in the constant A1 and the number of the bits having the value of 1 in the constant A2 is minimized.
+The method of automatically designing a logic circuit according to claim 1, wherein the step (e) has the steps of:
+
+(e-1) judging whether the sum of the number of the bits having the value of 1 in the constant A1 and the number of the bits having the value of 1 in the constant A2 is 1, 2, or larger than 2;
+(e-2) if the sum of the number of the bits having the value of 1 in the constant A1 and the number of the bits having the value of 1 in the constant A2 is 1, generating information on a circuit for outputting the output signals from said first partial-product generating circuit as the product of the multiplier factor A and the multiplicand X;
+(e-3) if the sum of the number of the bits having the value of 1 in the constant A1 and the number of the bits having the value of 1 in the constant A2 is 2, generating information on a final sum circuit for receiving the output signals from said first partial-product generating circuit, the output signals from said logic NOT circuit, and a correction signal, calculating the sum thereof, and outputting the sum as the product of the multiplier factor A and the multiplicand X; and
+(e-4) if the sum of the number of the bits having the value of 1 in the constant A1 and the number of the bits having the value of 1 in the constant A2 is larger than 2,
+(e-4-1) generating information on a partial-product adding circuit, composed of carry-save adders arranged in a tree structure, for receiving the output signals from said first partial-product generating circuit and the output signals from said logic NOT circuit and outputting the addition results as two partial products, and
+(e-4-2) generating information on a final sum circuit for receiving the output signals from said partial-product adding circuit and a correction signal, calculating the sum thereof, and outputting the sum as the product of the multiplier factor A and the multiplicand X.
+The method of automatically designing a logic circuit according to claim 9, wherein:
+
+step (a) further comprises determining the two constants A1 and A2 so that the sum of the number of the bits having the value of 1 in the constant A1 and the number of the bits having the value of 1 in the constant A2 is minimized.
+The method of automatically designing a logic circuit according to claim 1, wherein:
+
+step (b) comprises:
+
+with respect to each bit of the constant A1,
+
+(b-1) judging whether or not the value of a bit of concern in the constant A1 is 1,
+(b-2) if the value of said bit in the constant A1 is 1, generating information on a circuit for outputting a signal indicating the multiplicand X as a partial product, and
+(b-3) after executing the steps (b-1) and (b-2), generating information on a first shift circuit for shifting the signal indicating the multiplicand X by one bit and newly setting the output signal from said first shift circuit as the signal indicating the multiplicand X to be used in the steps (b-1) and (b-2),
+the steps (b-1) to (b-3) being repeatedly executed with respect to all the bits of the constant A1 so as to generate the first partial-product generating circuit; and
+step (c) comprises:
+
+with respect to each bit of the constant A2,
+
+(c-1) judging whether or not the value of a bit of concern in the constant A2 is 1,
+(c-2) if the value of said bit in the constant A2 is 1, generating information on a circuit for outputting the signal indicating the multiplicand X as a partial product, and
+(c-3) after executing the steps (c-1) and (c-2), generating information on a second shift circuit for shifting the signal indicating the multiplicand X by one bit and newly setting the output signal from said second shift circuit as the signal indicating the multiplicand X to be used in the steps (c-1) and (c-2),
+the steps (c-1) to (c-3) being repeatedly executed with respect to all the bits of the constant A2 so as to generate the second partial-product generating circuit.
+The method of automatically designing a logic circuit according to claim 11, wherein:
+
+step (a) further comprises determining the two constants A1 and A2 so that the sum of the number of the bits having the value of 1 in the constant A1 and the number of the bits having the value of 1 in the constant A2 is minimized.
+The method of automatically designing a logic circuit according to claim 1, further comprising the steps of:
+
+(f) judging (274) whether or not the constant A1 is equal to the multiplier factor A, and/or whether or not A2 is 0; and wherein:
+
+if the constant A1 is equal to the multiplier factor A or the constant A2 is 0, the steps (b) and (e) are executed, the sum circuit in said step (e) receiving the output signals from said first partial product generating circuit; and
+if the constant A1 is not equal to the multiplier factor A and/or the constant A2 is not 0, the steps (b), (c), (d) and (e) are executed.
+The method of automatically designing a logic circuit according to claim 13, wherein:
+
+step (a) further comprises determining the two constants A1 and A2 so that the sum of the number of the bits having the value of 1 in the constant A1 and the number of the bits having the value of 1 in the constant A2 is minimized.
+The method of automatically designing a logic circuit according to claim 13, wherein:
+
+the constant A2 used in the step (a) is the sum (A21 +A22) of constants A21 and A22;
+in the step (f), it is judged whether or not the constant A1 is equal to the multiplier factor A, or whether or not each of the constants A21 and A22 is 0;
+inputs of the second partial-product generating circuit in the step (c) are the constant A21, A22 and the multiplicand X;
+if the constant A1 is equal to the multiplier factor A and/or both of the constant A21 and A22 is 0, the steps (b) and (c) are executed, the sum circuit in the step (b) receiving the output signals from a first partial-product generating circuit; and
+if the constant A1 is not equal to the multiplier factor A and/or each of the constants A21 and A22 is not 0, the steps (b), (c), (d) and (e) are executed.
+The method of automatically designing a logic circuit according to claim 15, wherein:
+
+the step (a) further comprises determining the three constants A1, A21 and A22 so that the sum of the number of the bits having the value of 1 in the constant A1, the number of the bits having the value of 1 in the constant A21, and the number of the bits having the value of 1 in the constant A22 is minimized.
+The method of automatically designing a logic circuit according to claim 15, wherein:
+
+with respect to each bit of the constant A1, the step (b) has the steps of:
+(b-1) judging whether or not the value of the bit of concern of the constant A1 is 1;
+(b-2) if the value of said bit in the constant A1 is 1, generating information on a circuit for outputting the signal indicating the multiplicand X as a partial product; and
+(b-3) after executing the steps (b-1) and (b-2), generating information on a second shift circuit for shifting the signal indicating the multiplicand X by one bit and newly setting the output signal from said second shift circuit as the signal indicating the multiplicand X to be used in the steps (b-1) and (b-2),
+with respect to all the bits of the constant A1, the steps (b-1) to (b-3) being repeatedly executed so as to generate the first partial-product generating circuit, and
+with respect to each bit of the constants A21 and A22, the step (c) has the steps of:
+
+(c-1) judging whether or not the value of a bit of concern of the constants A21 and A22 is 1;
+(c-2) if the value of said bit in the constants A21 and A22 is 1, generating information on a circuit for outputting the signal indicating the multiplicand X as a partial product;
+(c-3) after executing the steps (c-1) and (c-2), generating information on a third shift circuit for shifting the signal indicating the multiplicand X by one bit and newly setting the output signal from said third shift circuit as the signal indicating the multiplicand X to be used in the steps (c-1) and (c-2),
+with respect to all the bits of the constants A21 and A22, the steps (e-1) to (e-3) being repeatedly executed so as to generate the second partial-product generating circuit.
+The method of automatically designing a logic circuit according claim 17, wherein:
+the step (a) further comprises determining the three constants A1, A21 and A22 so that the sum of the number of the bits having the value of 1 in the constant A1, the number of the bits having the value of 1 in the constant A21. and the number of the bits having the value of 1 in the constant A22 is minimized.
+The method of automatically designing a logic circuit according to claim 15, wherein:
+
+with respect to each group consisting of n partial products which was obtained by evenly dividing a plurality of second partial products composed of the output signals from said first partial-product generating circuit, the output signals from said first logic NOT circuit, and the first correction signal, the step (e) has the steps of:
+
+(e-1) generating information on an adding circuit for receiving the n partial products in a group of concern and outputting the sum of said n partial products as m (
+<
+ n) partial products; and
+with respect to all said plurality of first partial products,
+
+(e-2) after repeatedly executing the step (e-1), newly setting all the partial products that are the outputs of the adding circuit generated in the step (e-1) and those partial products of said plurality of second partial products which were not received by the adding circuit generated in the step (e-1) as the plurality of second partial products to be processed in the step (e-1),
+the steps (e-1) and (e-2) being repeatedly executed so as to generate information on the second partial-product-sum circuit.
+The method of automatically designing a logic circuit according to claim 19, wherein:
+
+the step (a) further comprises determining the three constants A1, A21 and A22 so that the sum of the number of the bits having the value of 1 in the constant A1, the number of the bits having the value of 1 in the constant A21, and the number of the bits having the value of 1 in the constant A22 is minimized.
+The method of automatically designing a logic circuit according to claim 15, further comprising the steps of:
+
+(g) judging whether or not the constant A21 is equal to the logic NOT of the multiplier factor A and the constant A22 is 1; and
+(h) if the constant A21 is equal to the logic NOT of the multiplier A and the constant A22 is 1,
+(h-1) generating information on a fourth partial-product generating circuit for receiving the constant A21 and the multiplicand X and outputting their partial products,
+(h-2) generating information on a partial-product adding circuit for receiving all the output signals from said fourth partial-product generating circuit and a signal indicating the multiplicand X and outputting the addition results as partial products,
+(h-3) generating information on a second logic NOT circuit for receiving the output signals from said partial-product adding circuit and outputting the logic NOT signals thereof,
+(h-4) producing a second correction signal from the multiplicand X, and
+(h-5) generating information on a final sum circuit for receiving said second correction signal and the output signals from said second logic NOT circuit, calculating the sum thereof, and outputting the sum as the product of the multiplier factor A and the multiplicand X.
+The method of automatically designing a logic circuit according to claim 21, further comprising the steps of:
+
+the step (a) further comprises determining the three constants A1, A21 and A22 so that the sum of the number of the bits having the value of 1 in the constant A1, the number of the bits having the value of 1 in the constant A21, and the number of the bits having the value of 1 in the constant A22 is minimized.
+The method of automatically designing a logic circuit according to claim 21, wherein:
+
+with respect to each bit of the constant A1, the step (b) has the steps of:
+(b-1) judging whether or not the value of a bit of concern in the constants A1 is 1;
+(b-2) if the value of said bit in the constant A1 is 1, generating information on a circuit for outputting the signal indicating the multiplicand X as a partial product; and
+(b-3) after executing the steps (b-1) and (b-2), generating information on a second shift circuit for shifting the signal indicating the multiplicand X by one bit and newly setting the output signal from said second shift circuit as the signal indicating the multiplicand X to be used in the steps (b-1) and (b-2),
+with respect to all the bits of the constant A1, the steps (b-1) to (b-2) being repeatedly executed so as to generate the second partial-product generating circuit; and
+with respect to each bit of the constants A21 and A22, the step (c) has the steps of:
+
+(c-1) judging whether or not the value of a bit of concern in the constants A21 and A22 is 1;
+(c-2) if the value of said bit in the constants A21 and A22 is 1, generating information on a circuit for outputting the signal indicating the multiplicand X as a partial product;
+(c-3) after executing the steps (c-1) and (c-2), generating information on a third shift circuit for shifting the signal indicating the multiplicand X by one bit and newly setting the output signal of said third shift circuit as the signal indicating the multiplicand X to be used in the steps (c-1) and (c-2),
+with respect to all the bits of the constants A21 and A22, the steps (c-1) to (c-3) being repeatedly executed so as to generate the third partial-product generating circuit, and
+with respect to each bit of the constant A21, the step of (h-1) has the steps of:
+(h-1-1) judging whether or not the value of a bit of concern in the constant A21 is 1;
+(h-1-2) if the value of said bit in the constant A21 is 1, generating information on a circuit for outputting the signal indicating the multiplicand X as a partial product; and
+(h-1-3) after executing the steps (h-1-1) and (h-1-2), generating information on a fourth shift circuit for shifting the signal indicating the multiplicand X by one bit and newly setting the output of said fourth shift circuit as the signal indicating the multiplicand X to be used in the steps (h-1-1) and (h-1-2),
+with respect to all the bits of the constant A21, the steps (h-1-1) to (h-1-3) being repeatedly executed so as to generate the fourth partial-product generating circuit.
+The method of automatically designing a logic circuit according to claim 23, further comprising the steps of:
+
+the step (a) further comprises determining the three constants A1, A21 and A22 so that the sum of the number of the bits having the value of 1 in the constant A1, the number of the bits having the value of 1 in the constant A21, and the number of the bits having the value of 1 in the constant A22 is minimized.
+The method of automatically designing a logic circuit according to claim 21, wherein
+
+with respect to each group consisting of n partial products which was obtained by evenly dividing a plurality of second partial products composed of the output signals from said first partial-product generating circuit, the output signals from said first logic NOT circuit, and the first correction signal, the step (e) has the steps of:
+
+(e-1) generating information on an adding circuit for receiving the n partial products in a group of concern and outputting the sum of said n partial products as m (
+<
+ n) partial products; and
+
+with respect to all said plurality of second partial products,
+
+(e-2) after repeatedly executing the step (e-1), newly setting all the partial products that are the outputs of the adding circuit generated in the step (e-1) and those partial products of said plurality of second partial products which were not received by the adding circuit generated in the step (e-1) as the plurality of second partial products to be processed in the step (e-1),
+
+the steps (e-1) and (e-2) being repeatedly executed so as to generate information on the second partial-product-sum circuit, and
+
+with respect to each group consisting of n partial products which was obtained by evenly dividing a plurality of third partial products composed of the output signals from said fourth partial-product generating circuit and the signal indicating the multiplicand X, the step (h-2) has the steps of:
+(h-2-1) generating information on an adding circuit for receiving the n partial products in a group of concern and outputting the sum of said n partial products as m (
+<
+ n) partial products; and
+
+with respect to all said plurality of third partial products,
+(h-2-2) after repeatedly executing the step (h-2-1), newly setting all the partial products that are the outputs of the adding circuit generated in the step (h-2-1) and those partial products of said plurality of third partial products which were not received by the adding circuit generated in the step (h-2-1) as the plurality of third partial products to be processed in the step (h-2-1),
+
+the steps (h-2-1) and (h-2-2) being repeatedly executed so as to generate information on the partial-product adding circuit.
+The method of automatically designing a logic circuit according to claim 25, wherein:
+the step (a) further comprises determining the three constants A1, A21 and A22 so that the sum of the number of the bits having the value of 1 in the constant A1, the number of the bits having the value of 1 in the constant A21, and the number of the bits having the value of 1 in the constant A22 is minimized.
+The method of automatically designing a logic circuit according to claim 1, further comprising the steps of:
+
+(f) judging (144) which is the smaller of the number of the bits having the value of 1 in the multiplier factor A and the sum of the numbers of the bits having the value of 1 in the constants A1 and A2;
+(g) generating (151) information on a third partial-product generating circuit for receiving the multiplier factor A and the multiplicand X and outputting the products of the individual bits in the multiplier factor A and the multiplicand X as partial products, and
+(h) generating (153-154) information on a first partial-product-sum circuit for receiving all the output signals from said third partial-product generating circuit, calculating the sum thereof, and outputting the sum as the product of the multiplier factor A and the multiplicand X; and wherein:
+
+if the number of the bits having the value of 1 in the multiplier factor A is the smaller, the steps (g) and (h) are executed;
+if the sum of the numbers of the bits having the value of 1 in the constants A1 and A2 is smaller, the steps (b), (c), (d) and (e) are executed; and
+the circuit used in the step (e) is a second partial-product-sum circuit.
+The method of automatically designing a logic circuit according to claim 1, further comprising the steps of:
+
+(f) judging (144, 145, 147) which is the smallest of the number of the bits having the value of 1 in the multiplier factor A, the sum of the numbers of the bits having the value of 1 in the constants A1 and A2 and the sum of the numbers of the bits having the value of 0 in the multiplier factor A and 2;
+(g) generating (151) information on a third partial-product generating circuit for receiving the multiplier factor A and the multiplicand X and outputting the
+ products of the individual bits in the multiplier factor A and the multiplicand X as partial products;
+(h) generating (153-154) information on a first partial-product-sum circuit for receiving all the output signals from said third partial-product generating circuit, calculating the sum thereof, and outputting the sum as the product of the multiplier factor A and the multiplicand X;
+(i) producing (211), form the multiplier A, the logic NOT signal thereof;
+(j) generating (212) information on a fourth partial-product generating circuit for receiving said logic NOT signal of the multiplier factor A and the multiplicand X and outputting the products of the individual bits in said logic NOT signal of the multiplier factor A and the multiplicand X as partial products;
+(k) generating (213) information on a partial-product adding circuit for receiving all the output signals from said fourth partial-product generating circuit and a signal indicating the multiplicand X and outputting the addition results as partial products;
+(I) generating (214) information on a second logic NOT circuit for receiving the output signals from said partial-product adding circuit and outputting the logic NOT signals thereof;
+(m) producing (215) a second correction signal from the multiplicand X;
+(n) generating (216) information on a final sum circuit for receiving said second correction signal and the output signals from said second logic NOT circuit, calculating the sum thereof, and outputting the sum as the product of the multiplier factor A and the multiplicand X; and wherein:
+
+the sum circuit used in the step (e) is a second partial-product-sum circuit;
+if the number of the bits having the value of 1 in the multiplier factor A is the smallest, the steps (g) and (h) are executed;
+if the sum of the numbers of the bits having the value of 1 in the constants A1 and A2 is smallest, the steps (b), (c), (d) and (e) are executed; and
+if the sum of the numbers of the bits having the value of 0 in the multiplier factor A and 2 is smallest, the steps (i), (j), (k), (I), (m) and (n) are executed.
+The method of automatically designing a logic circuit according to claim 1, further comprising the steps of:
+
+(f) producing (211) the logic NOT signal of the constant multiplier factor A from the multiplier factor A;
+(g) producing (215) a correction signal from the multiplicand X;
+(h) generating (213) information on a partial-product adding circuit for receiving the output signals from said second partial-product generating circuit and a signal indicting the multiplicand X and outputting the addition results as partial products; and wherein:
+
+the constant A2 used in the step (c) is the logic NOT signal of the constant multiplier factor A,
+the output signals from said second partial-product generating circuit used in the step (d) are the output signals from said partial-product adding circuit,
+the sum circuit used in the step (e) is a final sum circuit, and
+the output signals from the first partial-product generating circuit used in the step (e) is said correction signal.
+The method of automatically designing a logic circuit according to claim 29, wherein step (c) comprises:
+
+with respect to each bit of the logic NOT signal of the multiplier factor A,
+
+(c-1) judging whether or not the value of a bit of concern in the logic NOT signal of said multiplier factor A is 1;
+(c-2) if the value of said bit in the logic NOT signal of said multiplier factor A is 1, generating information on a circuit for outputting a signal indicating the multiplicand X as a partial product; and
+(c-3) after executing the steps (c-1) and (c-2), generating information on a shift circuit for shifting the signal indicating the multiplicand X by one bit and
+ newly setting the output signal from said shift circuit as the multiplicand X to be used in the steps (c-1) and (c-2);
+
+the steps (c-1) to (c-3) being repeatedly executed with respect to all the bits of the logic NOT signal of said multiplier factor A so as to generate information on a fourth partial-product generating circuit.
+The method of automatically designing a logic circuit according to claim 30, wherein step (h) comprises:
+
+with respect to each group consisting of n input signals obtained by evenly dividing a plurality of input signals composed of all the output signals from the fourth partial-product generating circuit and the signal indicating the multiplicand X,
+
+(h-1) generating information on an adding circuit for receiving the n input signals in a group of concern and outputting the sum of said n input signals as m (
+<
+ n) signals; and
+with respect to all said input signals,
+
+(h-2) after repeatedly executing the step (h-1), newly setting all the output signals from said adding circuit generated in the step (h-1) and those input signals of said plurality of input signals which were not received by the adding circuit generated in the step (h-1) as the plurality of input signals to be processed in the step (h-1),
+the steps (h-1) and (h-2) being repeatedly executed so as to generate information on a partial-product adding circuit.
+A system for automatically designing a logic circuit, comprising:
+
+an input means (11) for receiving various information;
+a storage means (14) for storing the various information being processed;
+a processing means (12) for producing information on the logic circuit for calculating the product of a multiplier factor and the multiplicand inputted from said input means; and
+an output means (13) for outputting the information on the logic circuit produced by said processing means, wherein
+said processing means is adapted to execute the steps of one of claims 1 to 31.
+An apparatus for automatically designing a logic circuit having the multiplying function for calculating the product of a multiplier factor and a multiplicand, comprising means (2600-2685) for performing the method of one of claims 1 to 31.
+A multiplier for outputting a product using a multiplier factor A, the multiplier being a logic circuit automatically designed by performing the method of one of claim 1 to 31.
+</CLAIMS>
+</TEXT>
+</DOC>

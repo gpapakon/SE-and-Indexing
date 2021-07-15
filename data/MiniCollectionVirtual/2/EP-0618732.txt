@@ -1,0 +1,428 @@
+<DOC>
+<DOCNO>EP-0618732</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+An image and code data compression apparatus
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04N1415	H04N730	H04N141	H04N141	H04N726	H04N730	H04N726	H04N1415	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04N1	H04N7	H04N1	H04N1	H04N7	H04N7	H04N7	H04N1	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An image and code data compression apparatus (1) 
+for compressing the image data and further compressing the 
+
+code data which are compressed from the image data, the 
+apparatus includes: a dividing unit (10) for receiving the 
+
+image data and dividing them into a plurality of image data 
+blocks; a transformation unit (11, 12) operatively 
+
+connected to the dividing unit (10) for performing an 
+orthogonal transformation to the image data block and 
+
+calculating transformation co-efficients for every 
+frequency component; a quantizing unit (13, 14) 
+
+operatively connected to the transformation unit (11, 12) 
+for quantizing the transformation co-efficients which are 
+
+calculated by the transformation unit (11, 12) by using a 
+quantized threshold value (Quv) which is set commonly to 
+
+all image data, and calculating the quantized orthogonal 
+transformation co-efficients; a coding unit (15) 
+
+operatively connected to the quantizing unit (13, 14) for 
+
+performing the variable length coding process for the 
+quantized transformation co-efficients which are calculated 
+
+by the quantizing unit (13, 14) and outputting the code 
+data which are compressed from the image data; a detecting 
+
+unit (16) operatively connected to at least one of above 
+units (10 to 15) for detecting the complexity of the image 
+
+data block; and a deleting unit (17) operatively connected 
+to at least one of above units (10 to 15) and the detecting 
+
+unit (16) for deleting the block image data having high 
+complexity detected by the detecting unit. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+FUJITSU LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+FUJITSU LIMITED
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+MORIHARA TAKASHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NODA TSUGIO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SHIMIZU MASAYOSHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MORIHARA, TAKASHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NODA, TSUGIO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SHIMIZU, MASAYOSHI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to an image and
+code data compression apparatus formed of an image data
+compression apparatus and a code data compression
+apparatus. More particularly, the image data compression
+apparatus is provided for compressing the image data in
+accordance with an orthogonal transformation and
+obtaining code data after compression of the image data,
+and the code data compression apparatus is provided for
+further compressing the code data in accordance with the
+orthogonal transformation and obtaining re-compressed
+code data after compression of the code data.The image and code data compression apparatus
+according to the present invention can realize a high
+data compression rate in accordance with an algorithm for
+a compression method which is defined by JPEG (Joint
+Photographic Experts Group).As a method for compressing image and code data
+using an orthogonal transformation, an algorithm for
+compression was standardized by JPEG which was jointly
+organized by the International Standardization
+Organization (i.e., ISO) and the Comite Consultatif
+International Telegraphique et Telephonique (i.e.,
+CCITT).Such an algorithm is described, for example, in
+"JPEG, DIS 10918 DIGITAL COMPRESSION AND CODING OF
+CONTINUOUS-TONE STILL IMAGES, PART I REQUIREMENTS AND
+GUIDELINES". According to this document, image data are
+divided into a plurality of image data blocks, and each
+image data block is processed in accordance with a known
+DCT (Discrete Cosine Transformation) to calculate a DCT
+coefficient (below, transformation coefficient). 
+Further, the calculated transformation coefficients are
+quantized to obtain quantized transformation coefficients.
+Still further, the quantized transformation coefficients
+are processed in order from a low frequency to a high
+frequency in accordance with a variable length coding
+process to realize compression of the image data.In this case, the variable length coding process is
+performed for data which sums up the number of the
+quantized transformation coefficients having nonzero value
+and the number of the quantized transformation coefficients
+continuing just before the nonzero value.When improving the above conventional method of image
+data compression which complies with the JPEG standard;
+basically, it is necessary to ensure the code data which
+can decode the image data by using a standardized decoding
+algorithm to realize an improved image data compression
+method.The object of the invention is to provide an image and
+code data compression apparatus enabling high
+</DESCRIPTION>
+<CLAIMS>
+An image data compression apparatus for
+compressing image data, said apparatus comprising:
+
+
+a dividing means (10) for dividing image data into a
+plurality of image data blocks;
+a transformation means (11) operatively connected to
+the
+ dividing means for performing an orthogonal
+transformation to each image data block and calculating
+
+transformation coefficients for every frequency component;
+a quantizing means (13) operatively connected to the
+transformation means for quantizing the transformation
+
+coefficients calculated by the transformation means using
+a quantized threshold value which is set commonly for all
+
+image data, and calculating the quantized orthogonal
+transformation coefficients; and,
+a coding means (15) operatively connected to the
+quantizing means for performing a variable length coding
+
+process for the quantized transformation coefficients
+calculated by the quantizing means (13), and outputting
+
+code data which is compressed compared to the image data,
+is characterised in that the apparatus further comprises:
+a detecting means (16) operatively connected to at
+least one of the transformation means, quantizing means
+
+(13) and coding means (15) for determining the complexity
+of each image data block; and
+a deleting means (17) operatively connected to at
+least one of the transformation means (11), quantizing
+
+means (13) and coding means (15) and the detecting means
+(16) for deleting part of the image data block which it is
+
+determined by the detecting means to have a high
+complexity.
+An image data compression apparatus as claimed
+in claim 1, wherein said deleting means deletes a part of
+
+the image data block dependent upon the transformation
+coefficients calculated by the transformation means.
+An image data compression apparatus as claimed
+in claim 2, wherein said deleting means deletes a part of 
+
+the image data block dependent upon the transformation
+coefficients by stopping the orthogonal transformation
+
+processes executed by the transformation means.
+An image data compression apparatus as claimed
+in claim 3, wherein said deleting means does not select the
+
+transformation coefficients by uniformly deleting the
+transformation coefficients having a high frequency
+
+component, and selects the transformation coefficients
+having the high frequency component in accordance with a
+
+predetermined reference.
+An image data compression apparatus as claimed in
+claim 2, wherein said deleting means deletes a part of the
+
+image data block by selecting the transformation
+coefficients indicating a large absolute value among the
+
+transformation coefficients calculated by the
+transformation means.
+An image data compression apparatus as claimed
+in claim 5, wherein said deleting means always selects the
+
+transformation coefficients having a direct current
+component and a predetermined low frequency component.
+An image data compression apparatus as claimed
+in claim 1, wherein said deleting means deletes a part of
+
+the image data block dependent upon the quantized
+transformation coefficients calculated by the quantized
+
+transformation means.
+An image data compression apparatus as claimed in
+claim 7, wherein said deleting means deletes a part of the
+
+image data block dependent upon the quantized
+transformation coefficients by stopping the quantizing
+
+processes executed by the quantizing means.
+An image data compression apparatus as claimed in
+claim 8, wherein said deleting means does not select the
+
+quantized transformation coefficients by uniformly deleting
+the quantized transformation coefficients having a high
+
+frequency component, and selects the quantized
+transformation coefficients having a high frequency
+
+component in accordance with a predetermined reference. 
+An image data compression apparatus as claimed
+in claim 7, wherein said deleting means deletes a part of
+
+the image data block by selecting the transformation
+coefficients indicating a large absolute value among the
+
+quantized transformation coefficients calculated by the
+quantizing means.
+An image data compression apparatus as claimed
+in claim 10, wherein said deleting means always selects the
+
+quantized transformation coefficients having a direct
+current component and a predetermined low frequency
+
+component.
+An image data compression apparatus as claimed
+in claim 1, wherein said deleting means deletes a part of
+
+the image data block dependent upon the code data generated
+by the coding means.
+An image data compression apparatus as claimed
+in claim 12, wherein said deleting means deletes the image
+
+data block dependent upon the code data by stopping the
+coding processes executed by the coding means.
+An image data compression apparatus as claimed
+in claim 13, wherein said deleting means does not select
+
+the code data by uniformly deleting the code data having a
+high frequency component, and selects the code data having
+
+a high frequency component in accordance with a
+predetermined reference.
+An image data compression apparatus as claimed
+in claim 1, wherein said detecting means counts the number
+
+of the transformation coefficients in which the absolute
+value of the transformation coefficient exceed a threshold
+
+value which is set corresponding to the transformation
+coefficients, and detects the complicated image data when
+
+the counted value exceeds a predetermined reference value.
+An image data compression apparatus as claimed
+in claim 1, wherein said detecting means calculates a sum
+
+of n-th power (n being a rational number) of the absolute 
+value of the transformation coefficient, and detects the
+
+complicated image data when the calculated value exceeds a
+predetermined reference value.
+An image data compression apparatus as claimed
+in claim 1, wherein said detecting means counts the
+
+quantized transformation coefficients in which absolute
+values of the quantized transformation coefficient exceed
+
+a threshold value which is set corresponding to the
+quantized transformation coefficients, and detects
+
+complicated image data when the counted value exceeds a
+predetermined reference value.
+An image data compression apparatus as claimed in
+claim 1, wherein said detecting means calculates a sum of
+
+n-th power (n being a rational number) of the absolute
+value of the quantized transformation coefficient, and
+
+detects the complicated image data when the calculated
+value exceeds a predetermined reference value.
+An image data compression apparatus as claimed
+in claim 1, wherein said detecting means detects
+
+complicated image data when a sum of the code length of the
+code data is larger than a predetermined reference value.
+An image data compression apparatus as claimed
+in claim 15, wherein said detecting means uses the absolute
+
+values weighted by the frequency when summing the absolute
+values.
+A code data compression apparatus for
+compressing the code data of an image data compression
+
+apparatus, said apparatus comprising: a detecting means
+(40) for receiving the code data and determining the
+
+complexity of the image data block; and a deleting means
+(41) for receiving the code data and deleting a part of the
+
+block image data determined as having a high complexity by
+the detecting means.
+A code data compression apparatus as claimed in
+claim 21, wherein said deleting means (41) retains valid
+
+code data which is contained in the predetermined code 
+amount in which the di
+rect current component is defined as
+a start point.
+A code data compression apparatus as claimed in
+claim 21, wherein said deleting means does not uniformly
+
+delete the high frequency components of the code data, and
+retains the valid code data having a high frequency
+
+component in accordance with a predetermined reference.
+A code data compression apparatus for
+compressing code data of an image data compression
+
+apparatus, said apparatus comprising: a detecting means
+(40) for receiving the code data and determining the
+
+complexity of the image data block; a restoring means (42)
+for receiving the code data and restoring the quantized
+
+transformation coefficients to the image data block having
+high complexity detected by the detecting means (40); a
+
+selecting means (43) operatively connected to the restoring
+means (42) for selecting the quantized transformation
+
+coefficients which are restored by the restoring means
+(42) ; and re-coding means (44) operatively connected to the
+
+selecting means (43) for performing a variable length
+coding process to the quantized transformation coefficients
+
+selected by the selecting means (43).
+A code data compression apparatus as claimed in
+claim 24, wherein said selecting means (43) selects the
+
+quantized transformation coefficient having a large
+absolute value within the quantized transformation
+
+coefficients which are restored by the restoring means.
+A code data compression apparatus as claimed in
+claim 25, wherein said selecting means (43) always selects
+
+the quantized transformation coefficient having a direct
+current component and a predetermined low frequency
+
+component.
+A code data compression apparatus for
+compressing code data of an image data compression
+
+apparatus, said apparatus comprising: a detecting means
+(40) for receiving the code data and determining the
+
+complexity of the image data block; a restoring means (45) 
+for receiving the code data and restoring the
+
+transformation coefficients to the image data block having
+high complexity as determined by the detecting means (40)
+
+by using a quantized threshold value which is set commonly
+to all image data; a selecting means (46) operatively
+
+connected to the restoring means (45) for selecting the
+transformation coefficients which are restored by the
+
+restoring means (45); re-quantizing means (47) operatively
+connected to the selecting means (46) for quantizing the
+
+transformation coefficients selected by the selecting means
+(46) by using the quantized threshold value set commonly to
+
+all image data; and re-coding means (48) operatively
+connected to the re-quantizing means (47) for performing a
+
+variable length coding process to the quantized
+transformation coefficients which are calculated by the
+
+re-quantizing means.
+A code data compression apparatus as claimed in
+claim 27, wherein said selecting means selects the
+
+transformation coefficients having large absolute values
+within the transformation coefficients which are restored
+
+by the restoring means.
+A code data compression apparatus as claimed in
+claim 28, wherein said selecting means always selects the
+
+transformation coefficients having direct current
+components and the predetermined low frequency components.
+A code data compression apparatus as claimed in
+claim 21, wherein said detecting means detects the
+
+complicated image when a sum of the code length of the code
+data is larger than the predetermined reference value.
+A code data compression apparatus as claimed in
+claim 21, wherein said detecting means detects the
+
+complicated image when the number of the quantized
+transformation coefficients indicating a nonzero value,
+
+which is defined by the code data, is larger than the
+predetermined reference value.
+</CLAIMS>
+</TEXT>
+</DOC>

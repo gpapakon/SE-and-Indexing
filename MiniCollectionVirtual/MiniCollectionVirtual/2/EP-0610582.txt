@@ -1,0 +1,293 @@
+<DOC>
+<DOCNO>EP-0610582</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+SELECTABLE CHECKING OF MESSAGE DESTINATIONS IN A SWITCHED PARALLEL NETWORK.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1300	G06F1300	G06F1516	G06F15173	H04L1218	H04L1218	H04L1256	H04L1256	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	H04L	H04L	H04L	H04L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F13	G06F13	G06F15	G06F15	H04L12	H04L12	H04L12	H04L12	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method and hardware apparatus provide a fault tolerant and 
+flexible multi-stage network addressing scheme for transmitting 
+
+a message with a header containing control bits for selecting 
+from various destination checking functions to be performed. 
+
+Upon arrival of the message at a node, destination checking is 
+performed or not in response to the message's header. If 
+
+destination checking is not performed, or if destination 
+checking is performed and indicates that the node is the desired 
+
+destination for the message, the message is accepted. If 
+destination checking is performed and indicates that the node is 
+
+not the desired destination for the message, the message is 
+rejected. Destination checking is disabled during address 
+
+assignment, broadcasting and multi-casting, and replaced with 
+one's complement-based verification of the sending node. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+FEENEY JAMES WILLIAM
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+JABUSCH JOHN DAVID
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LUSCH ROBERT FRANCIS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+OLNOWICH HOWARD THOMAS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FEENEY, JAMES WILLIAM
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+JABUSCH, JOHN DAVID
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LUSCH, ROBERT FRANCIS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+OLNOWICH, HOWARD THOMAS
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to communications in data processing 
+systems, and more particularly to checking the destinations of 
+messages sent between devices of such systems. Multi-stage switching networks are gaining acceptance as a means 
+for interconnecting multiple nodes within modern digital 
+computing systems. In particular, in parallel systems it is 
+common to use a multi-staged switching network to interconnect 
+"n" system devices at "n" respective nodes, where "n" can be 
+several, hundreds or thousands of processors or combinations of 
+processors and other system elements. Failures within multi-stage networks can lead to the misrouting 
+of messages through the network such that one or more messages 
+get routed to the wrong destination nodes of the network. For 
+instance, if a message is destined to go to node 10 and a 
+network failure causes that message to be routed to node 22, 
+rather than node 10, this is a serious failure. Protection 
+mechanisms, such as destination checking, are needed to prevent 
+such misroutings from occurring. A further problem is that at times during initialization and 
+node number assignment it is important to override the 
+destination checking mechanism because the network does not have 
+enough information at this time to support destination checking. Yet other problems occur during normal multicast and broadcast 
+operations throughout the network, where a single message will  
+ 
+normally be delivered to multiple nodes. In this case, the 
+protection mechanisms should function differently and not 
+restrict a message to arriving at one and only one node. It is 
+also important to check that a multicast or broadcast message 
+goes to the correct nodes. The state-of-the-art alternates to network addressing do not 
+include fault tolerance, initialization features, or determining 
+if a message goes to the right plurality of nodes during 
+multicast or broadcast operations. A typical example is 
+addressing over the Ethernet network. Ethernet is the name 
+given to a popular local area network invented at Xerox 
+Corporation in the early 1970s and discussed in detail in the 
+text book, "Internetworking with TCP/IP - Principles, Protocols, 
+and Architecture", by Douglas E. Comer and published by 
+Prentice Hall, Englewood Cliffs, NJ. Ethernet differs from the 
+multi-stage network of this invention in that it has only one 
+path through the network, and that the path can support only one 
+message at a time. In contrast, a multi-stage network of "n" 
+nodes has at least "n" paths through
+</DESCRIPTION>
+<CLAIMS>
+A method for communicating a message over a network having 
+at least two nodes, the method comprising the steps of: 
+
+a first node placing an indicator in the message for 
+selecting destination checking; 
+
+the first node sending the message to at least one 
+receiving node; 
+
+said at least one receiving node receiving the message; 
+said at least one receiving node determining whether to 
+
+perform destination checking based upon the indicator for 
+selecting destination checking; 
+
+said at least one receiving node performing destination 
+checking if it has determined to do so; 
+
+said at least one receiving node accepting the message if 
+either destination checking was performed and said at least 
+
+one receiving node is a destination of the message, or 
+destination checking was determined not to be performed; 
+
+and 
+said at least one receiving node not accepting the message 
+
+if destination checking was performed and said at least one 
+receiving node is not a destination of the message. 
+The method of claim 1, wherein the indicator for selecting 
+destination checking comprises a destination checking 
+
+enable (DCE) bit; and 
+wherein the step of determining whether to perform 
+
+destination checking includes determining whether the DCE 
+bit is enabled or disabled. 
+The method of claim 1, wherein the message further includes 
+a destination ID number for identifying the destination of 
+
+the message, and wherein the step of performing destination 
+checking includes comparing the destination ID number to a 
+
+node ID number of said at least one receiving node. 
+The method of claim 1, wherein the first node further 
+places information in the message for performing the 
+
+destination checking. 
+The method of claim 4, wherein the information for 
+performing destination checking comprises a broadcast 
+
+command (BC) bit for indicating whether there are at least 
+2 destinations of the message. 
+The method of claim 5, wherein the information for 
+performing destination checking includes a multicast group 
+
+code for identifying the destinations of the message; and 
+wherein the step of performing destination checking 
+
+includes comparing the multicast group code to a node ID 
+number of said at least one receiving node. 
+A method for communicating a message over a network having 
+at least two nodes, the method comprising the steps of: 
+
+a first node placing in the message an indicator for 
+selecting destination checking, such as a destination 
+
+checking enable (DCE) bit and a destination ID number, and 
+for performing destination checking, such as a broadcast 
+
+command (BC) bit and a multicast group code, said indicator 
+for performing destination checking indicating whether 
+
+there are at least two destinations of the message and 
+identifying the destinations of the message, respectively; 
+
+the first node sending the message to at least one 
+receiving node; 
+
+said at least one receiving node receiving the message;
+ 
+
+said at least one receiving node examining whether the DCE 
+bit is enabled or disabled to determine whether to perform 
+
+destination checking; 
+said at least one receiving node performing destination 
+
+checking if it has determined to do so, the destination 
+checking including comparing the destination ID number to a 
+
+node ID number of said at least one receiving node, if the 
+BC bit does not indicate there are at least two 
+
+destinations of the message, or comparing the multicast 
+group code to a node ID number of said at least one 
+
+receiving node, if the BC bit indicates there are at least 
+two destinations of the message; and 
+
+said at least one receiving node accepting the message if 
+either destination checking was performed and said at least 
+
+one receiving node is a destination of the message, or 
+destination checking was determined not to be performed. 
+An apparatus for receiving a message and performing 
+destination checking, comprising: 
+
+means for receiving a message, the message including an 
+indicator for selecting destination checking; 
+
+determining means responsive to the indicator for selecting 
+destination checking, for 
+determining whether destination 
+checking is to be performed, for selectively performing 
+
+destination checking, and for indicating acceptance, 
+nonacceptance, or rejection of the message; 
+
+means for accepting the message, if either the checking 
+means indicates acceptance of the message or the 
+
+determining means determines not to perform destination 
+checking; and 
+
+means for rejecting the message if the checking means 
+indicates rejection. 
+The apparatus as claimed in claim 8, wherein the means for 
+receiving the message comprises an asynchronous, low 
+
+latency data recovery apparatus, a clock generator, and 
+storage. 
+The apparatus as claimed in claim 8, wherein the means for 
+receiving a message comprises a byte-wide data reassembler, 
+
+a four-phase clock generator, and a register. 
+The apparatus as claimed in claim 8, wherein the checking 
+means comprises an AND gate and a comparator. 
+The apparatus as claimed in claim 8, wherein the 
+determining means comprises a comparator, an AND gate, 
+
+inverters, and a node number register. 
+The apparatus as claimed in claim 8, wherein the means for 
+accepting the message comprises a node number register and 
+
+a node processor. 
+The apparatus as claimed in claim 8, wherein the means for 
+rejecting the message comprises a comparator, an AND gate, 
+
+an OR gate, and an inverter. 
+An apparatus for receiving a message and selectively 
+performing destination checking, comprising: 
+
+a message recovery assembler including a data recovery 
+apparatus for receiving the message and a register for 
+
+storing the message, the stored message including a 
+destination checking selection indicator; 
+
+a message destination check circuit including a selector 
+circuit for determining whether to perform destination 
+
+checking in response to the destination checking selection 
+indicator of the stored message, and a message destination 
+
+compare circuit for comparing a destination node ID of the 
+stored message with an ID of a node containing this 
+
+ 
+apparatus and producing an indication of whether to accept, 
+
+not accept, or reject the message; 
+a node message loader for accepting the message in response 
+
+to the accept indication from the message destination check 
+circuit; and 
+
+a message reject line for rejecting the message in response 
+to the reject indication from the message destination check 
+
+circuit. 
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,673 @@
+<DOC>
+<DOCNO>EP-0653135</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+SYSTEM AND METHOD FOR CALL-BY-CALL SOURCE ROUTING WITH RULE-BASED FALLBACKS
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04Q366	H04M700	H04Q364	H04M300	H04M700	H04M300	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04Q	H04M	H04Q	H04M	H04M	H04M	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04Q3	H04M7	H04Q3	H04M3	H04M7	H04M3	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A fallback strategy for a system (700) and method (200) is provided for rerouting a call that fails to be established utilizing a first set of constraints in a communication network system. This strategy enables the communication network system to utilize a look-around-first type of preemption that avoids unnecessary preemption and provides alternate routing for a call according to predetermined constraints selected by a user.
+ 
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MOTOROLA INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MOTOROLA INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+HLUCHYJ MICHAEL G
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HUMBLET PIERRE A
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LEE WHAY CHIOU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HLUCHYJ, MICHAEL, G.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HUMBLET, PIERRE, A.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LEE, WHAY, CHIOU
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention is generally directed to routing strategy
+in a communication network system, and is more specifically
+directed to identifying alternative acceptable paths for
+integrated traffic types.Data communication systems have utilized digital
+transmission systems since the 1960s. Digital data
+transmission has evolved to a system in which portions of data
+are transferred discretely in the form of packets over links of
+a communication network system to reach a desired receiver.
+For communication network systems supporting integrated
+traffic types, especially systems that are subject to diverse
+quality-of-service requirements, routing of packetized data
+requires a strategic approach. Routing is the mechanism
+through which a path is derived for establishing
+communication between a source and a destination in a
+network (see document EP-A-372270).With increasing demand for a wide spectrum of network
+services, routing strategies must accommodate various
+quality-of-service constraints: performance constraints (e.g.,
+throughput, delay, cost, etc.), resource constraints (e.g.,
+transmission medium, channel security, etc.), and priority
+constraints (e.g., establishment priority, retention priority,
+etc.). A dynamic network status creates further routing
+problems. There exists no efficient algorithm to solve a
+multicriteria shortest-path problem with a general utility
+function including, for example, delay and cost. However, if a
+linear utility function (e.g., a weighted sum of delay and cost)
+is assumed, the problem reduces to a single-criterion
+shortest-path problem with linearly combined link attribute
+values. If the assumption is that the "optimal" path must be a
+nondominated (Pareto) path, then one can first generate the set
+of nondominated paths so that the utility function can be
+applied to each nondominated path to determine the optimal
+path. A number of methods have been shown for generating
+these paths for a shortest-path problem with two objective
+functions.A shortest-path problem subject to path constraints is
+known to be computationally intractable. Although one
+approach, wherein a pseudopolynomial-time algorithm
+determines whether a path meets the path constraints (i.e., the
+algorithm solves the problem in polynomial time if the link
+metrics have a small range of values), and another approach,
+wherein an objective function is defined which evaluates how
+well a path meets the path constraints, have been proposed,
+both approaches have not seemed to be particularly efficient in
+practice.A routing
+</DESCRIPTION>
+<CLAIMS>
+A method for routing a call in a communication
+network, comprising the steps of 1A-1C:
+
+
+(1A) selecting a constrained routing for the call;
+(1B) determining an optimal feasible path, and, where the
+optimal feasible path is available, the network's implementing
+
+the optimal feasible path; and
+(1C) implementing a fallback strategy upon one of:
+
+(1C1) determining that the optimal feasible path is
+unavailable under the selected constraints, and
+(1C2) the network's being unsuccessful in implementing
+the optimal feasible path for routing the call
+
+wherein at least one of 1D-1G:
+(1D) the constrained routing comprises a routing in
+accordance with at least one of: path constraints and network
+
+constraints,
+(1E) the constrained routing is determined by a
+connection state and at least a first quality-of-service
+
+requirement for the call,
+
+   and, where selected for 1D-1E, further including
+that available connection states include: a connection
+
+establishment state operably coupled to a data transfer state,
+the data transfer state being operably coupled to a connection
+
+reestablishment state and to a connection release state, such
+that steps for permitting call preemption include:
+
+
+(1E1) assigning a priority number to each call in
+accordance with a connection state of the call; and
+(1E2) where the priority number of a (preempting)
+call is higher than a priority of a call to be preempted,
+
+allowing the preempting call to preempt the preempted call,
+and wherein, for 1E2, at least one of 1E2a-1E2b: 
+
+
+(1E2a) for preemption to provide path
+determination, a preempted call is in the data transfer state
+
+and the preempting call is in one of: the connection
+establishment state and the connection reestablishment state,
+
+and
+(1E2b) for preemption due to resource
+contention while resources are being allocated to a new
+
+connection, the preempted call is in any one of the connection
+states,
+(1F) determining the optimal feasible path, and, where
+the optimal feasible path is available, the network's
+
+implementing the optimal feasible path, includes 1F1-1F3:
+
+(1F1) determining network resources (NR) required
+for the optimal feasible path from a source to a destination
+
+for the call in the communication network;
+(1F2) determining the availability for
+implementing the call using the NR; and
+(1F3) where available, allocating the NR for routing
+the call,
+
+and
+(1G) the fallback routing strategy includes:
+
+   utilizing information derived from determining the optimal
+feasible path to determine fallback routing availability such
+
+that,
+
+(1G1) where fallback routing is available,
+recycling to selecting a constrained routing for the call (step
+
+1A); and
+(1G2) where fallback routing is unavailable,
+blocking the call.
+The method of claim 1 wherein the communication
+network is an integrated traffic-type communication network
+
+subject to diverse quality-of-service requirements, 
+
+and, where selected, wherein the quality-of-service
+requirements are ranked according to a predetermined level of
+
+importance of the resource constraints,
+such that, where selected, for multiple objective
+functions, the routing criteria are ranked according to a
+
+predetermined level of importance, and the ordered routing
+criteria are utilized for determining the constrained routing.
+The method of claim 1 wherein the constrained routing is
+determined in accordance with a predetermined routing policy
+
+and a predetermined quality-of-service,
+
+wherein, where selected, the predetermined routing
+policy and a predetermined quality-of-service include at least
+
+three elements: link constraint(s), path constraint(s), and
+objective function(s),
+such that, where selected, at least one of 3A-3B:
+
+(3A) the objective function is one of: delay and
+cost, and
+(3B) for determining an optimal feasible path,
+
+(3B1) where NR for a path of the call are
+indicated to be available and all path constraints are satisfied,
+
+the path is feasible;
+(3B2) among all feasible paths, a feasible
+path that minimizes a selected objective function is the
+
+optimal feasible path;
+(3B3) where for one of 3B3a-3B3b:
+
+(3B3a) at least one network resource
+along a path for the call is indicated to be unavailable under
+
+the, selected constraints, and
+(3B3b) at least one path constraint is
+unmet,
+
+   the path is infeasible; and
+(3B4) where for one of 3B4a-3B4b: 
+
+(3B4a) all paths for the call are infeasible, and
+(3B4b) the path that minimizes the
+selected objective function has at least one unmet path
+
+constraint,
+
+   an optimal feasible path is unavailable.
+A method for routing a call in a communication
+network, the method comprising the steps of 4A-4F:
+
+
+(4A) selecting a constrained routing for the call;
+(4B) determining an optimal feasible path and, where
+available, implementing the optimal feasible path for the call;
+(4C) where the optimal feasible path is unavailable,
+determining whether fallback routing is available for the call
+
+and
+
+(4C1) where fallback routing is available, selecting a
+fallback routing and recycling to the step of choosing a
+
+constrained routing for the call (step 4A); and
+(4C2) where fallback routing is unavailable, blocking
+transmission of the call;
+(4D) where the optimal feasible path is available, the
+network's attempting to allocate network resources along the
+
+optimal feasible path;
+(4E) where the resource allocation attempt is
+unsuccessful, blocking transmission of the call; and
+(4F) where the resource allocation attempt is successful,
+establishing the call
+
+wherein at least one of 4G-4L:
+(4G) the constrained routing comprises a routing in
+accordance with at least one of: path constraints and network
+
+constraints,
+(4H) the communication network is an integrated
+traffic-type communication network subject to diverse
+
+quality-of-service requirements,
+
+   and wherein, where selected, the quality-of-service
+requirements are ranked according to a predetermined
+
+level of importance of constraints,
+(4I) the constrained routing is determined in accordance
+with a predetermined routing policy and a predetermined
+
+quality-of-service,
+
+   and wherein, where selected, the predetermined
+routing policy and a predetermined quality-of-service include 
+
+at least three elements: link constraint(s), path constraint(s),
+and objective function(s),
+
+   such that, where selected, at least one of 4I1-4I3:
+
+(4I1) the objective function is one of: delay
+and cost,
+(4I2) one of 4I2a-4I2d:
+
+(4I2a) where NR for a path of the call
+are indicated to be available and all path constraints are
+
+satisfied, the path is feasible;
+(4I2b) among all feasible paths, a
+feasible path that minimizes a selected objective function is
+
+the optimal feasible path;
+(4I2c) where for one of 4I2c1-4I2c2:
+
+(4I2c1) at least one network
+resource along a path for the call is indicated to be unavailable
+
+under the selected constraints, and
+(412c2) at least one path
+constraint is unmet,
+
+   the path is infeasible; and
+(4I2d) where for one of 4I2d1-4I2d2:
+
+(4I2d1) all paths for the
+call are infeasible, and
+(4I2d2) the path that
+minimizes the selected objective function has at least one
+
+unmet path constraint,
+
+   an optimal feasible path is
+unavailable, and
+(4I3) for multiple objective functions, the
+routing criteria are ranked according to a predetermined level
+
+of importance, and the ordered routing criteria are utilized for
+determining the constrained routing,
+(4J) wherein the constrained routing is determined by a
+connection state and at least a first quality-of-service
+
+requirement for the call, and, where selected, further
+including that available connection states include: a 
+
+connection establishment state operably coupled to a data
+transfer state, the data transfer state being operably coupled
+
+to a connection reestablishment state and to a connection
+release state, such that steps for permitting call preemption
+
+include 4J1-4J2:
+
+(4J1) assigning a priority number to each call in
+accordance with a connection state of the call; and
+(4J2) where the priority number of a (preempting)
+call is higher than a priority of a call to be preempted,
+
+allowing the preempting call to preempt the preempted call,
+wherein at least one of 4J2a-4J2b:
+
+
+(4J2a) for preemption to provide path
+determination, a preempted call is in the data transfer state
+
+and the preempting call is in one of: the connection
+establishment state and the connection reestablishment state,
+
+and
+(4J2b) for preemption due to resource
+contention while resources are being allocated to a new
+
+connection, the preempted call is in any one of the connection
+states,
+(4K) determining an optimal feasible path, and, where
+available, implementing the optimal feasible path for the call
+
+includes 4K1-4K2:
+
+(4K1) determining an optimal feasible path from a
+source to a destination for the call in the communication
+
+network; and
+(4K2) determining availability of network
+resources along the optimal feasible path, and
+(4L) selecting a fallback routing includes utilizing
+information derived from determining the optimal feasible
+
+path to determine the fallback routing.
+A system for routing a call in a communication
+network, comprising:
+
+
+(5A) routing means for selecting a constrained routing for
+the call;
+(5B) optimal feasible path determining means, operably
+coupled to the routing means, for determining an optimal
+
+feasible path, availability of implementing the optimal
+feasible path, and, where available, for sending a signal to a
+
+network means, thereby causing the network means to
+implement the optimal feasible path; and
+(5C) fallback strategy means, operably coupled to the
+optimal feasible path determining means and the network
+
+means, for implementing a fallback strategy where one of:
+
+(5C1) the optimal feasible path is unavailable, and
+(5C2) the network is unsuccessful in implementing the
+optimal. feasible path for routing the call
+
+wherein at least one of 5D-5J:
+(5D) the constrained routing comprises a routing in
+accordance with at least one of: path constraints and network
+
+constraints,
+(5E) the communication network is an integrated
+traffic-type communication network subject to diverse
+
+quality-of-service requirements, and, where selected, wherein
+the quality-of-service requirements are ranked according to a
+
+predetermined level of importance of constraints,
+(5F) the constrained routing is in accordance with a
+predetermined routing policy and a predetermined quality-of-service,
+
+and, where selected, wherein the predetermined
+routing policy and a predetermined quality-of-service include
+
+at least three elements: link constraint(s), path constraint(s),
+and objective function(s),
+
+   such that, where selected, at least one of 5F1-5F3:
+
+(5F1) the objective function is one of: delay and
+cost, 
+(5F2) the optimal feasible path determining means
+provides 5C2a-5c2d:
+
+
+(5F2a) where NR for a path of the call are
+indicated to be available and all path constraints are satisfied,
+
+the path is feasible;
+(5F2b) among all feasible paths, a feasible
+path that minimizes a selected objective function is the
+
+optimal feasible path;
+(5F2c) where for one of 5F2c1-5F2c2:
+
+(5F2c1) at least one network resource
+along a path for the call is indicated to be unavailable under
+
+the selected constraints, and
+(5F2c2) at least one path constraint is
+unmet,
+
+   the path is infeasible; and
+(5F2d) where for one of 5F2d1-5F2d2:
+
+(5F2d1) all paths for the call are
+infeasible, and
+(5F2d2) the path that minimizes the
+selected objective function has at least one unmet path
+
+constraint,
+
+   an optimal feasible path is unavailable,
+and
+(5F3) for multiple objective functions, the routing
+criteria are ranked according to a predetermined level of
+
+importance, and the ordered routing criteria are utilized for
+determining the constrained routing,
+(5G) the constrained routing is determined by a
+connection state and at least a first quality-of-service
+
+requirement for the call, and, where selected, further
+including that available connection states include: a
+
+connection establishment state operably coupled to a data
+transfer state, the data transfer state being operably coupled
+
+to a connection reestablishment state and to a connection
+release state, further including means for permitting call 
+
+preemption, where the preemption permitting means include
+5G1-5G2:
+
+
+(5G1) means for assigning a priority number to
+each call in accordance with a connection state of the call; and
+(5G2) means for, where the priority number of a
+(preempting) call is higher than a priority of a call to be
+
+preempted, allowing the preempting call to preempt the
+preempted call, including at least one of 5G2a-5G2b:
+
+   (5G2a) means for preemption to provide path
+determination where a preempted call is in the data transfer
+
+state and the preempting call is in one of: the connection
+establishment state and the connection reestablishment state,
+
+and
+
+(5G2b) means for preemption due to resource
+contention while resources are being allocated to a new
+
+connection where the preempted call is in any one of the
+connection states,
+(5H) means for determining an optimal feasible path,
+availability of implementing the optimal feasible path, and,
+
+where available, the network means for implementing the
+optimal feasible path include 5H1-5H3:
+
+
+(5H1) means for determining network resources
+(NR) required for the optimal feasible path from the source to
+
+the destination for the call in the communication network;
+(5H2) means for determining availability for
+implementing the optimal feasible path; and
+(5H3) means for routing the call using the NR,
+(51) the means for implementing the fallback routing
+
+strategy includes means for utilizing information derived from
+determining the optimal feasible path to determine fallback
+
+routing availability and includes,
+(5I1) where fallback routing is available, means for
+recycling to means for selecting a constrained routing for the
+
+call (5A); and 
+(5I2) where fallback routing is unavailable,
+blocking means for blocking the call,
+
+and
+(5J) where the network means is unsuccessful in
+utilizing the optimal feasible path for routing the call, the
+
+network means sends a signal to the fallback strategy means
+to cause the fallback strategy means to implement a fallback
+
+strategy.
+A communication network system for routing an
+integrated traffic-type call in a communication network,
+
+comprising:
+
+(6A) a requested resource constraint determiner,
+operably coupled to receive a call, for providing at least one
+
+of: a first output and a second output, wherein the first output
+is a reoptimized call and the second output is an established
+
+call, for implementing requested resource constraints with
+non-preemptiveness and minimized cost for the call to provide
+
+the established/reoptimized call,
+(6B) a first acceptable resource constraint determiner,
+operably coupled to receive the call, to receive the second
+
+output (established call) of the requested resource constraint
+determiner, for, where the reoptimized call is unsuccessful,
+
+implementing acceptable resource constraints with non-preemptiveness
+and minimized cost to provide a nonpreemptive
+
+output and a first preemptive output,
+(6C) a second acceptable resource constraint
+determiner, operably coupled to receive the first non-preemptive
+
+output, for implementing acceptable resource
+constraints with non-preemptiveness and minimized delay to
+
+provide a non-preemptive delay-minimized output,
+(6D) a third acceptable resource constraint determiner,
+operably coupled to receive the first preemptive output, for,
+
+where step 9B is unsuccessful, implementing acceptable
+resource constraints with preemptiveness and minimized cost
+
+to provide a second preemptive cost-minimized output, and
+(6E) a fourth acceptable resource constraint determiner
+with preemptiveness, operably coupled to receive the second
+
+preemptive cost-minimized output, for implementing
+acceptable resource constraints with preemptiveness and
+
+minimizing delay to provide a preemptive delay-minimized
+output.
+A method for routing a call in a communication network
+system, wherein "_-_ " represents two letters separated by a
+
+dash, the letters being selected from X and I to represent
+exclusion (X) and inclusion (I) from/with 
+requested
+ resource
+constraints (first letter) and 
+acceptable
+ resource constraints
+(second letter), respectively, the method comprising the steps
+
+of:
+
+(7A) the network system's determining how many
+resource attribute values are specified as required by the user;
+(7B) where one 
+required
+ resource attribute value is
+specified by a user for a given resource attribute, the network
+
+system's assigning I-I to the 
+required
+ resource attribute value
+and X-X to all other resource attribute values belonging to the
+
+same resource attribute;
+(7C) where greater than one 
+required
+ resource attribute
+value is specified for a given resource attribute, the network
+
+system's classifying the selection as an invalid configuration;
+(7D) where the number of 
+required
+ resource attribute
+values for a given resource attribute is zero, the network
+
+system's determining how many resource attribute values are
+
+preferred;
+(7E) where one or more resource attribute values for a
+given resource attribute are 
+preferred,
+ the 
+preferred
+ resource
+attribute values being assigned I-I, any 
+don't_care
+ resource
+attribute values (X-I) being assigned X-I, and any 
+don't_use
+
+resource attribute values being assigned X-X;
+(7F) where the number of 
+required
+ resource attribute
+values for a given resource attribute is zero and where the
+
+number of 
+preferred
+ resource attribute values for the same
+resource attribute is zero, the network system's determining
+
+how many 
+don't_care
+ resource attribute values are specified;
+(7G) where one or more resource attribute values are
+specified as 
+don't_care,
+ the 
+don't_care
+ resource attribute
+values being assigned I-I, and any 
+don't_use
+ resource
+attribute values being assigned X-X; and 
+(7H) where the number of 
+required
+ resource attribute
+values for a given resource attribute is zero, where the
+
+number of 
+preferred
+ resource attribute values for the same
+resource attribute is zero, and where the number of 
+don't
+_
+care
+
+resource attribute values for the same resource attribute is
+zero, the network system's classifying the selection as an
+
+invalid configuration.
+</CLAIMS>
+</TEXT>
+</DOC>

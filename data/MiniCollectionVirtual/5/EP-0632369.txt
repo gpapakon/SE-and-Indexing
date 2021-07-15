@@ -1,0 +1,296 @@
+<DOC>
+<DOCNO>EP-0632369</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+CORDIC algorithms and architectures.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F748	G06F7544	H03C300	H03C340	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	H03C	H03C	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F7	G06F7	H03C3	H03C3	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A CORDIC arrangement to rotate an input vector (x
+in
+,y
+in
+) over 
+an angle α to an output vector (x
+out
+,y
+out
+), the coordinates being 
+represented by floating-point numbers with respective mantissas 
+
+(m
+x
+,m
+y
+) and respective angle exponents (e
+x
+,e
+y
+) comprising: 
+
+a pre-rotation unit (1) receiving the input vector (x
+in
+,y
+in
+) 
+to rotate the input vector (x
+in
+,y
+in
+) over an angle β
+pre
+; 
+a core (2) connected to the pre-rotation unit 1 and carrying 
+out a vectoring operation or a rotation operation in dependence 
+
+on a mode signal (mode); 
+a post-rotation unit (4) connected to the core (2) to carry 
+out a post-rotation in dependence on the mode signal (mode); 
+a rotation handler (3) receiving the mode signal (mode) and 
+connected to both the pre-rotation unit (1) and to the post-rotation 
+
+unit (3) in order to control their operation. 
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+STICHTING TECH WETENSCHAPP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+STICHTING VOOR DE TECHNISCHE WETENSCHAPPEN
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+DEPRETTERE EDMOND FERDINAND AN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HEKSTRA GERBEN JOHAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DEPRETTERE, EDMOND FERDINAND ANDRIES
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HEKSTRA, GERBEN JOHAN
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to CORDIC algorithms and architectures. 
+The CORDIC (COordinate Rotation DIgital Computer) algorithm 
+was presented by Volder, "The CORDIC trigonometric computing 
+technique", IRE Transactions on electronic computers, pages 330-334, 
+September 1959, as an elegant and cost-effective method to 
+perform rotations on vectors in the 2-D plane. Walther, "A unified 
+algorithm for elementary functions", Proceedings of the AFIPS 
+Spring Joint Computer Conference, pages 379-385, 1971, extended the 
+algorithm to rotations in circular, linear and hyperbolic coordinate 
+systems. Since then, many implementations of the CORDIC have 
+been made, both for fixed-point and floating-point with respect to 
+the input. CORDIC computing techniques are widely used in e.g. navigation 
+where course angles have to be corrected and distance-to-destination 
+relationships in great circle steering have to be solved. 
+However, the magnitude and phase of a complex number may also be 
+approximated by a CORDIC, EP-A-0.365.226. Also, a CORDIC may be an 
+element in a filter arrangement to detect phase differences, EP-A-0.481.543. 
+A digital receiver comprising a CORDIC is described in 
+EP-A-0.486.095. Generally spoken, a CORDIC may be used in any technical 
+field in which an input vector has to be rotated to an output 
+vector. The main drawback in the computations with floating-point 
+data with the classic CORDIC algorithm lies with the inherent 
+fixed-point resolution of the angle. The accuracy, especially when 
+calculating angles close to or smaller than the angle resolution, 
+becomes unacceptable. Therefore, in applications using a CORDIC 
+there is a need to enhance the accuracy of the output data of the 
+CORDIC in order not to loose any precision by the use of CORDIC's. The object of the present invention is to provide CORDIC 
+architectures and algorithms that overcome the problems of the 
+prior art. In accordance with the present invention the object is 
+obtained by a CORDIC arrangement to rotate an input vector (xin, 
+yin) over an angle α to an output vector (xout, yout), characterized 
+in that xin, yin, xout, yout are represented by floating-point numbers  
+ 
+with respective mantissas (mx, my) and respective angle exponents 
+(ex, ey) and the CORDIC arrangement comprises: 
+(a) a pre-rotation unit receiving the input vector (xin, yin) to 
+rotate the input vector (xin, yin) over an angle βpre to give 
+a vector (xpre, ypre); (b) a core receiving the vector (xpre, ypre) from the pre-rotation 
+unit to rotate
+</DESCRIPTION>
+<CLAIMS>
+A CORDIC arrangement to rotate an input vector (xin,yin) 
+over an angle α to an output vector (xout, yout), characterized in 
+
+that xin, yin, xout, yout are represented by floating-point numbers 
+with respective mantissas (mx, my) and respective angle exponents 
+
+(ex, ey) and the CORDIC arrangement comprises: 
+
+(a) a pre-rotation unit (1) receiving the input vector (xin, yin) 
+to rotate the input vector (xin, yin) over an angle βpre to 
+
+give a vector (xpre, ypre); 
+(b) a core (2) receiving the vector (xpre, ypre) from the pre-rotation 
+unit (1) to rotate the vector (xpre, ypre) over an 
+
+angle γ to give a vector (xcore, ycore), where the angle γ, 
+depending on a signal mode supplied by an operator, is either 
+
+supplied by the operator as γin or computed and output as 
+γout; 
+(c) a rotation handler (3) receiving the angle βpre from the pre-rotation 
+unit (1) and the signal mode supplied by an operator, 
+
+and a possible angle βin supplied by the operator to 
+compute angles βpost, βout in dependence thereon; 
+(d) a post-rotation unit (4) receiving the vector (xcore, ycore) 
+from the core (2) and receiving the angle βpost from the rotation 
+
+handler (3) to rotate the vector (xcore, ycore) over the 
+angle βpost to give the output vector (xout, yout); 
+ 
+wherein 
+
+
+(a) the floating-point angle α is represented by a tuple (β, γ), 
+β being the sum of βpre and βpost, and γ being represented by 
+
+a tuple (ξ, ζ), of which ξ is an angle exponent and ζ is an 
+angle mantissa; 
+(b) α equals the sum of β and γ. 
+A CORDIC arrangement according to claim 1 characterized in 
+that the core (2) comprises: 
+
+
+(a) an exponent handler (21) receiving the exponents (ex,pre, 
+ey,pre) of the vector (xpre, ypre) and computing a CORDIC table 
+
+selector Ξ, and alignment factors ay,pre, ax,core and ay,core, 
+exponents (ex,core, ey,core) of the vector (xcore, ycore) and, 
+
+depending on the signal mode, either receiving from the operator 
+ 
+
+an angle exponent ξin or computing an angle exponent 
+ξout; 
+(b) an instruction sequencer (22) receiving the cordic table 
+selector Ξ from the exponent handler (21) and producing a 
+
+sequence of instructions I; 
+(c) an instruction execution unit (23) receiving the mantissas 
+(mx,pre, my,pre) of the vector (xpre, ypre), receiving the alignment 
+
+factors ay,pre, ax,core and ay,core from the exponent 
+handler (21) and receiving the sequence of instructions I 
+
+supplied by the instruction sequencer (22) and, depending on 
+the signal mode, either receiving an angle mantissa ζin supplied 
+
+by the operator or computing an angle mantissa ζout 
+producing mantissas (mx,core, my,core) of the vector (xcore, 
+
+ycore). 
+A CORDIC arrangement according to claim 1 characterized in 
+that the core (2) compris
+es: 
+
+(a) an exponent handler (24) receiving the exponents (ex,pre, 
+ey,pre) of the vector (xpre, ypre) and computing a CORDIC table 
+
+selector Ξ, alignment factors ay,coarse, ay,fine, ay,fixed, 
+ay,fixed, exponents (ex,coarse, ey,coarse) of a vector (xcoarse, 
+
+ycoarse) and, depending on the signal mode, either receiving 
+from the operator an angle exponent ξin or computing an angle 
+
+exponent ξout; 
+(b) a coarse core (25) receiving the mantissas (mx,pre, my,pre) of 
+the vector (xpre, ypre) and receiving the alignment factor 
+
+ay,coarse from the exponent handler (24) and, depending on the 
+signal mode, receiving a coarse angle mantissa ζin,coarse supplied 
+
+by the operator, or producing ζout,coarse, to compute 
+mantissas (mx,coarse, my,coarse) of the vector (xcoarse, ycoarse); 
+(c) a fine core (26) receiving the mantissas (mx,coarse, my,coarse) 
+from the coarse core (25) and receiving the alignment factors 
+
+ay,fine, ay,fixed and ay,fixed from the exponent handler (24) and, 
+depending upon the signal mode, receiving a fine angle 
+
+mantissa ζin,fine supplied by the operator, or producing 
+ζout,fine, to compute the mantissas (mx,core, my,core) of the 
+
+vector (xcore, ycore); 
+ 
+wherein the angle mantissa ζ is represented by a tuple (ζcoarse, 
+
+ 
+ζfine) and, depending on the signal mode, is either input by the 
+
+operator as ζin or computed and output as ζout. 
+A CORDIC method to rotate an input vector (xin, yin) 
+received from an input means over an angle α to an output vector 
+
+(xout, yout) to be supplied to an output means, characterized in 
+that xin, yin, xout, yout are represented by floating-point numbers 
+
+with respective mantissas (mx, my) and respective angle exponents 
+(ex, ey) comprising: 
+
+
+(a) a pre-rotation of the input vector (xin, yin) over an angle 
+βpre to give a vector (xpre, ypre) in accordance with formulas 
+
+(12-16); 
+(b) a core rotation or a vectoring operation by rotating the 
+vector (xpre, ypre) over an angle γ to give a vector (xcore, 
+
+ycore), in accordance with formulas (18-26); 
+(c) calculation of angles βpost and βout in accordance with formula 
+(27); 
+(d) a post-rotation of the vector (xcore, ycore) over the angle 
+βpost to give the output vector (xout, yout) in accordance with 
+
+formulas (28, 29). 
+A CORDIC method according to claim 4 characterized in that 
+step 4(b) comprises the steps of 
+
+
+(a) computing exponents (ex,core, ey,core), an angle exponent ξ, a 
+CORDIC table selector Ξ, and alignment factors ay,pre, ax,core, 
+
+ay,core, in accordance with formulas (18, 19, 37-39); 
+(b) selection of a sequence of instructions I determined by the 
+CORDIC table selector Ξ, to perform 
+
+
+i. loading of initial values 
+ii. mantissa alignment 
+iii. scaling of the mantissas 
+iv. performing micro-rotations 
+(c) execution of the sequence of instructions I to carry out a 
+rotation or vectoring operation on the vector (xpre, ypre) 
+
+over the angle γ to give the vector (xcore, ycore) in accordance 
+with formulas (40-44). 
+A CORDIC method according to claim 4 characterized in that 
+ 
+
+step 4(b) comprises the steps of 
+
+(a) computing exponents (ex,core, ey,core), an angle exponent ξ, a 
+CORDIC table selector Ξ, and alignment factors ay,coarse, 
+
+ay,fine, ax,fixed, ay,fixed, in accordance with formulas (18, 19, 
+46-50, 54, 55); 
+(b) carrying out alignment and scaling of the mantissas in 
+accordance with formulas (57, 59); 
+(c) carrying out coarse micro-rotations in accordance with formulas 
+(56-62); 
+(d) carrying out further alignment of the mantissas in accordance 
+with formula (64); 
+(e) carrying out fine micro-rotations in accordance with formulas 
+(63-67). 
+</CLAIMS>
+</TEXT>
+</DOC>

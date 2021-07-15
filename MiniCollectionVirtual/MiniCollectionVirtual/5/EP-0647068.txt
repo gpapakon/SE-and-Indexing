@@ -1,0 +1,698 @@
+<DOC>
+<DOCNO>EP-0647068</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Device and method for controlling coding.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T900	G06T900	H04N726	H04N726	H04N732	H04N732	H04N746	H04N746	H04N750	H04N750	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T9	G06T9	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A coding rate upper limit value storing unit (403) and a coding 
+rate lower limit value storing unit store (404) a pair of a preset 
+
+quantization accuracy and an upper limit value and a lower 
+limit value on a coding rate corresponding to the preset 
+
+quantization accuracy respectively. A coding rate calculating 
+unit (402) calculates a coding rate based on a code amount generated 
+
+for a frame which was coded the last time. A first comparator (405) 
+and a second comparator (406) compare a coding rate calculated by the 
+
+coding rate calculating unit (402) with an upper limit value and a 
+lower limit value on a coding rate corresponding to a 
+
+quantization accuracy with which a frame was coded the last 
+time respectively. If the coding rate from the coding rate 
+
+calculating unit is greater than the upper limit value or is 
+smaller than the lower limit value, a quantization accuracy 
+
+which is more accurate or less accurate than the quantization 
+accuracy with which a frame was coded the last time is selected 
+
+from quantization accuracies respectively. If a quantization 
+accuracy is in a range between the lower limit value and the 
+
+upper limit value, the range including the lower limit value 
+and the upper limit value, the quantization accuracy with which 
+
+a frame was coded the last time is selected. A quantization 
+accuracy directing unit (407) outputs the thus selected quantization 
+
+accuracy to a quantizing unit (223), and the quantizing unit performs 
+coding with the received quantization accuracy. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC IND CO LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC INDUSTRIAL CO., LTD.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+KUROBE AKIO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KUROBE, AKIO
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a device and a method for 
+controlling coding of a picture for a teleconference, a visual 
+telephone, and the like. Conventionally, CCITT (Comite Consultatif International 
+Telegraph et Telephone) advice H.261 is employed as an image 
+coding (compressing) method for communicating moving pictures 
+at a low rate of 64Kbps. FIG. 1 is a block diagram depicting 
+the configuration of a coding device which implements the 
+coding method H. 261. The coding device in FIG. 1 comprises 
+a preparatory processing unit 1, a coding unit 2, a smoothing 
+buffer 3, and a transmission controller 5. The preparatory processing unit 1 comprises an A/D 
+converter 11, an NTSC/CIF converter 12, and a preparatory 
+processing filter 13. The A/D converter 11 separates Y and C 
+signals from NTSC signal, and A/D converts the Y and C signals. 
+The NTSC/ CIF converter 12 converts the NTSC signal into CIF 
+(Common Intermediate Format) which represents an intermediate 
+format. The preparatory processing filter 13 eliminates noise. 
+The intermediate format CIF is a common format which overcomes 
+a regional difference in television system so that every cordic 
+can communicate with each other. The coding unit 2 comprises 
+a coding sub unit 22, a coding controller 210 for controlling  
+ 
+the coding sub unit 22. The coding sub unit 22 comprises a 
+movement compensation frame predicting unit 221, a DCT 
+(Discrete Cosine Transform) 222, a quantizing unit 223, a first 
+variable length coding sub unit 224, a second variable length 
+coding sub unit 225, and a multiplexer 226. The movement compensation frame predicting unit 221 
+compensates movement in a range of 16x16 pixels, and calculates 
+a prediction error between a frame which was coded the last 
+time and a frame to be coded next. The DCT 222 DCT converts 
+the prediction error signal so that spatial coordinate data is 
+converted into frequency coordinate data. Note that a block 
+unit of the prediction error signal to be converted by the DCT 
+222 includes 8x8 pixels. The quantizing unit 223 quantizes a 
+conversion coefficient from the DCT 222. The first variable 
+length coding sub unit 224 codes the quantized conversion 
+coefficient into Huffman code. The second variable length 
+coding sub unit 225 converts a movement vector which was 
+employed in movement compensation into Huffman code. The 
+multiplexer 226 multiplexes main information which is the coded 
+result from the first variable length coding sub unit 224 and 
+sub information which is the coded result
+</DESCRIPTION>
+<CLAIMS>
+A coding device for coding moving pictures to be 
+transmitted by a transmission path of a preset transmission 
+
+speed as setting a pair of a quantization accuracy and a coding 
+rate appropriately, the quantization accuracy by which coding 
+
+distortion to space domain is measured and the coding rate 
+being a function of the quantization accuracy by which coding 
+
+distortion to time domain due to frame dropping is measured 
+so that an optimal balance of the coding distortion in a 
+
+display picture to time and space domains in visual terms is 
+achieved, such coding device comprising: 
+
+   a coding means for coding a moving picture signal according 
+to input order; 
+
+   a quantization accuracy holding means for holding a 
+quantization accuracy with which a latest frame is coded; 
+
+   a coding rate calculating means for calculating a coding 
+rate for a frame which was coded; 
+
+   an optimal coding rate upper limit storing means for 
+
+storing a preset upper limit value on an optimal coding rate 
+which corresponds to a preset quantization accuracy; 
+
+   an optimal coding rate lower limit storing means for 
+storing a preset lower limit value on an optimal coding rate 
+
+which corresponds to a preset quantization accuracy; 
+   a first comparing means for comparing a coding rate for the 
+
+latest frame calculated by the coding rate calculating means 
+with the upper limit value an optimal coding rate which 
+
+ 
+corresponds to the quantization accuracy held by the 
+
+quantization accuracy holding means; 
+   a second comparing means for comparing a coding rate for 
+
+the latest frame calculated by the coding rate calculating 
+means with the lower limit value on an optimal coding rate 
+
+which corresponds to the quantization accuracy held by the 
+quantization accuracy holding means; 
+
+   a quantization accuracy storing means for storing a 
+plurality of quantization accuracies which are set beforehand; 
+
+   a quantization accuracy selecting means for selecting a 
+quantization accuracy which is more accurate than the 
+
+quantization accuracy with which the latest frame is coded when 
+the coding rate for the latest frame is greater than the upper 
+
+limit value on an optimal coding rate, for selecting a 
+quantization accuracy which is less accurate than the 
+
+quantization accuracy with which the latest frame is coded when 
+the coding rate for the latest frame is smaller than the lower 
+
+limit value on an optimal coding rate from the plurality of 
+coding accuracies stored in the quantization accuracy storing 
+
+means, and for selecting the quantization accuracy with which 
+the latest frame is coded when the coding rate for the latest 
+
+frame is in a range between the lower limit value and the upper 
+limit value, the range including both the lower limit value and 
+
+the upper limit value; and 
+   a coding control means for controlling the coding means to 
+
+operate next coding with the quantization accuracy selected by 
+ 
+
+the quantization accuracy selecting means. 
+The coding device of Claim 1 further comprises a code 
+amount detecting means for detecting a code amount which is 
+
+generated when the latest frame is coded, wherein the coding 
+rate calculating means calculates a coding rate based on an 
+
+expression which is (coding rate)=(standard transmission speed 
+of transmission path)/(code amount). 
+The coding device of Claim 2 further comprises a 
+transmitting means for transmitting the coded frame to 
+
+reception side by the transmission path, and re-transmits 
+transmission information which generates a transmission error 
+
+in responding to a request from the reception side according 
+to an ARQ (Automatic-Repeat-Request); 
+
+   a frame dropping time calculating means for calculating a 
+frame dropping time which starts when the coding means starts 
+
+coding and ends when the coding means starts another coding; 
+   an actual transmission code amount detecting means for 
+
+detecting an actual transmission code amount which could be 
+transmitted without an error within the frame dropping time 
+
+calculated by the frame dropping time calculating means; and 
+   an actual transmission speed calculating means for 
+
+calculating an actual transmission speed based on the frame 
+dropping time calculated by the frame dropping time calculating 
+
+means and the actual transmission code amount calculated by 
+ 
+
+the actual transmission code amount calculating means, wherein 
+the coding rate calculating means calculates a coding rate 
+
+based on the actual transmission speed calculated by the actual 
+transmission speed calculating means and the code amount which 
+
+is generated when the latest frame is coded. 
+The coding device of Claim 3 further comprises a buffer 
+for storing the coded frames in order and outputting them 
+
+according to a First-In-First-Out manner; 
+   a code amount predicting means for predicting a code amount 
+
+which will be generated when the coding means codes one frame; 
+   a remaining storage capacity detecting means for detecting 
+
+a remaining storage capacity of the buffer; and 
+   a coding instructing means for instructing standby of the 
+
+coding means if the code amount predicted by the code amount 
+predicting means is larger than the remaining storage capacity 
+
+of the buffer detected by the remaining storage capacity 
+detecting means; otherwise, instructing coding of the coding 
+
+means. 
+The coding device of Claim 4, wherein the code amount 
+predicting means comprises a frame difference calculating unit 
+
+for calculating a frame difference between a frame to be coded 
+and a reference frame which is determined according to the 
+
+frame to be coded, the frame difference representing a simple 
+difference in picture information of a block located at the 
+
+ 
+same location; 
+
+   a DCT (Discrete Cosine Transform) means for DCT converting 
+the frame difference according to DCT; 
+
+   an invalid block calculating means for setting a first 
+level of quantization as a threshold value, and summing an 
+
+invalid block where every DCT coefficient obtained by the DCT 
+means is smaller than the threshold value; 
+
+   a valid block calculating means for calculating a total 
+number of a valid block by subtracting the invalid block from 
+
+all the blocks included in a frame to be coded; 
+   a proportional constant calculating unit for calculating 
+
+a proportional constant between the code amount detected by 
+the code amount detecting means and the valid block number 
+
+relating to the latest frame calculated by the valid block 
+calculating means; and 
+
+   a predicted code amount calculating unit for calculating 
+a predicted code amount by multiplying the valid block number 
+
+relating to the frame to be coded by the proportional constant 
+calculated by the proportional constant calculating unit. 
+The coding device of Claim 2 further comprises a buffer 
+for storing the coded frames in order and outputting them 
+
+according to a First-In-First-Out manner; 
+   a code amount predicting means for predicting a code amount 
+
+which will be generated when the coding means codes one frame; 
+   a remaining storage capacity detecting means for detecting 
+
+ 
+a remaining storage capacity of the buffer; and 
+
+   a coding instructing means for instructing standby of the 
+coding means if the code amount predicted by the code amount 
+
+predicting means is larger than the remaining storage capacity 
+of the buffer detected by the remaining storage capacity 
+
+detecting means; otherwise, instructing coding of the coding 
+means. 
+The coding device of Claim 6, wherein the code amount 
+predicting means comprises a frame difference calculating unit 
+
+for calculating a frame difference between a frame to be coded 
+and a reference frame which is determined according to the 
+
+frame to be coded, the frame difference representing a simple 
+difference in picture information of a block located at the 
+
+same location; 
+   a DCT (Discrete Cosine Transform) means for DCT converting 
+
+the frame difference according to DCT; 
+   an invalid block calculating means for setting a first 
+
+level of quantization as a threshold value, and summing an 
+invalid block where every DCT coefficient obtained by the DCT 
+
+means is smaller than the threshold value; 
+   a valid block calculating means for calculating a total 
+
+number of a valid block by subtracting the invalid block from 
+all the blocks included in a frame to be coded; 
+
+   a proportional constant calculating unit for calculating 
+a proportional constant between the code amount detected by 
+
+ 
+the code amount detecting means and the valid block number 
+
+relating to the latest frame calculated by the valid block 
+calculating means; and 
+
+   a predicted code amount calculating unit for calculating 
+a pre
+dicted code amount by multiplying the valid block number 
+relating to the frame to be coded by the proportional constant 
+
+calculated by the proportional constant calculating unit. 
+A coding device for coding to compress a moving picture 
+signal for a frame, and outputting the coded frame to a 
+
+transmission path via a buffer, the coding device comprising: 
+   a coding means for coding the inputted moving picture 
+
+signal for a frame; 
+   a code amount predicting means for predicting a code amount 
+
+which will be generated when the coding means codes one frame; 
+   a remaining storage capacity detecting means for detecting 
+
+a remaining storage capacity of the buffer; and 
+   a coding instructing means for instructing standby of the 
+
+coding means if the code amount predicted by the code amount 
+predicting means is larger than the remaining storage capacity 
+
+of the buffer detected by the remaining storage capacity 
+detecting means; otherwise, instructing coding of the coding 
+
+means. 
+The coding device of Claim 8, wherein the code amount 
+predicting means comprises a frame difference calculating unit 
+
+ 
+for calculating a frame difference between a frame to be coded 
+
+and a reference frame which is determined according to the 
+frame to be coded, the frame difference representing a simple 
+
+difference in picture information of a block located at the 
+same location; 
+
+   a DCT (Discrete Cosine Transform) means for DCT converting 
+the frame difference according to DCT; 
+
+   an invalid block calculating means for setting a first 
+level of quantization as a threshold value, and summing an 
+
+invalid block where every DCT coefficient obtained by the DCT 
+means is smaller than the threshold value; 
+
+   a valid block calculating means for calculating a total 
+number of a valid block by subtracting the invalid block from 
+
+all the blocks included in a frame to be coded; 
+   a proportional constant calculating unit for calculating 
+
+a proportional constant between the code amount detected by 
+the code amount detecting means and the valid block number 
+
+relating to the latest frame calculated by the valid block 
+calculating means; and 
+
+   a predicted code amount calculating unit for calculating 
+a predicted code amount by multiplying the valid block number 
+
+relating to the frame to be coded by the proportional constant 
+calculated by the proportional constant calculating unit. 
+A coding device for setting a collection of optimal 
+operation points each accomplishing an optimal assignment of 
+
+ 
+coding distortion in a display picture to human eyes on two 
+
+dimensional coordinates which comprises a coordinate axis 
+representing an amount of time distortion and a coordinate axis 
+
+representing an amount of spatial distortion, both the time 
+distortion and the spatial distortion being determined 
+
+according to a parameter being a quantization accuracy, and 
+employing an operation point which is an intersected point of 
+
+a characteristic curve on the two dimensional coordinates 
+obtained by coding a single frame with various quantization 
+
+accuracies and the collection of optimal operation points in 
+order to code the same frame, such coding device comprising: 
+
+   a coding means for coding an inputted moving picture 
+signal; 
+
+   a transmitting means for transmitting the coded frame to 
+reception side via a transmission path, and re-transmitting 
+
+transmission information which generates a transmission error 
+according to an ARQ (Automatic-Repeat-Request) in responding 
+
+to a request from the reception side; 
+   a frame dropping time calculating means for calculating 
+
+a frame dropping time which starts when the coding means starts 
+coding and ends when the coding means starts next coding; 
+
+   an actual transmission code amount detecting means for 
+detecting an actual transmission code amount which could be 
+
+transmitted safely by the transmitting means within the frame 
+dropping time calculated by the frame dropping time calculating 
+
+means;
+ 
+
+   an untrasmitted code amount calculating means for 
+calculating an untransmitted code amount which could have been 
+
+transmitted within the frame dropping time if a transmission 
+speed had not been decreased due to re-transmission based on 
+
+the frame dropping time, the actual transmission code amount, 
+and a standard transmission speed of the transmission path; 
+
+   an objective function storing means for storing pairs each 
+including an S/N ratio and a coding rate which represent each 
+
+optimal operation point on the two dimensional coordinates; 
+   a code amount predicting means for predicting a code amount 
+
+which will be generated when coding is completed according to 
+a code amount which is detected when a frame to be coded is 
+
+DCT converted (Discrete Concise Transform); 
+   a coding rate calculating means for calculating a coding 
+
+rate based on an expression (coding rate)=(standard 
+transmission speed of transmission path)/(actual code amount) 
+
+in which the actual code amount is obtained by adding the 
+untransmitted code amount which is calculated by the 
+
+untransmitted code amount calculating means within the frame 
+dropping time which continues until coding of a frame to be 
+
+coded next starts to the predicted code amount from the code 
+amount predicting means; 
+
+   an S/N ratio calculating means for calculating an S/N ratio 
+based on a DCT coefficient histogram immediately after the 
+
+frame to be coded is DCT converted; 
+   a characteristic function calculating means for calculating 
+
+ 
+a characteristic function according to the coding rate 
+
+calculated by the coding rate calculating means and the S/N 
+ratio calculated by the S/N ratio calculating means; 
+
+   an optimal operation point calculating means for 
+calculating an optimal operation point which is an intersected 
+
+point of the objective function stored in the objective 
+function storing means and the characteristic function 
+
+calculated by the characteristic function calculating means; 
+   a quantization accuracy calculating means for calculating 
+
+a quantization accuracy of the optimal operation point 
+calculated by the optimal operation point calculating means; 
+
+and 
+   a coding control means for instructing coding with the 
+
+quantization accuracy of the optimal operation point calculated 
+by the quantization accuracy calculating means. 
+A coding method for coding moving pictures to be 
+transmitted by a transmission path of a preset transmission 
+
+speed as setting a pair of a quantization accuracy and a coding 
+rate appropriately, the quantization accuracy by which coding 
+
+distortion to space domain is measured and the coding rate 
+being a function of the quantization accuracy by which coding 
+
+distortion to time domain due to frame dropping is measured 
+so that an optimal balance of the coding distortion in a 
+
+display picture to time and space domains to human eyes is 
+achieved, such coding method comprising:
+
+ 
+   a first step of coding with a first quantization accuracy; 
+
+   a second step of comparing a first coding rate which is 
+obtained by coding at the first step with an upper limit value 
+
+and a lower limit value on an optimal coding rate which are 
+determined according to the first quantization accuracy and the 
+
+first coding rate beforehand; and 
+   a third step of setting as a quantization accuracy for next 
+
+coding a second quantization accuracy which is more accurate 
+than the first quantization accuracy if the first coding rate 
+
+is greater than the upper limit value, a third quantization 
+accuracy which is less accurate than the first quantization 
+
+accuracy if the first coding rate is smaller than the upper 
+limit value, and the first quantization accuracy if the first 
+
+coding rate is in a range between the lower limit value and the 
+upper limit value, the range including both the lower limit 
+
+value and the upper limit value. 
+The coding method of Claim 11, wherein the second step 
+comprises: 
+
+   a code amount detecting step of detecting a code amount 
+
+which is generated when a frame is coded with the first 
+quantization accuracy; and 
+
+   a coding rate calculating step of calculating a coding rate 
+by dividing a standard transmission speed of the transmission 
+
+path by the detected code amount. 
+The coding method of Claim 11, wherein the second step 
+comprises: 
+
+   a code amount detecting step of detecting a code amount 
+which is generated when a frame is coded with the first 
+
+quantization accuracy; 
+   an average transmission speed calculating step of 
+
+calculating an average transmission speed during a period which 
+begins when coding with the first quantization accuracy starts 
+
+and continues until a preset standby time is over; and 
+   a coding rate calculating step of calculating a coding rate 
+
+by dividing the calculated average transmission speed by the 
+detected code amount. 
+The coding method of Claim 11, wherein the second step 
+comprises: 
+
+   a code amount detecting step of detecting a code amount 
+which is generated when a frame is coded with the first 
+
+quantization accuracy; 
+   an actual transmission code amount detecting step of 
+
+detecting an actual transmission code amount which could be 
+transmitted without an error during a period which begins when 
+
+coding with the first quantization accuracy starts and 
+continues until a preset standby time is over; 
+
+   a standard transmission code amount calculating step of 
+calculating a standard transmission code amount which should 
+
+have been transmitted within the standby period by multiplying 
+ 
+
+the standard speed of the transmission path by the standby 
+time; 
+
+   an untrasmitted code amount calculating step of 
+calculating an untransmitted code amount which could have been 
+
+transmitted within the standby period if a transmission speed 
+had not been decreased by subtracting the actual code amount 
+
+which could be transmitted safely within the standby period 
+from the code amount which were planned to be transmitted 
+
+within the standby time; 
+   a corrected code amount calculating step of calculating a 
+
+corrected code amount by adding the untransmitted code amount 
+to the detected code amount; and 
+
+   a coding rate calculating step of calculating a coding rate 
+by dividing the standard speed of the transmission path by the 
+
+corrected code amount. 
+A coding method for coding to compress a moving picture 
+signal for a frame, and outputting the coded frame to a 
+
+transmission path via a buffer, the coding method comprising: 
+   a coding step of coding the inputted moving picture signal 
+
+for a frame; 
+   a buffer outputting step of outputting the coded frame to 
+
+a buffer; 
+   a transmission path outputting step of outputting code 
+
+information within the buffer to the transmission path; 
+   an inputting step of inputting a next frame;
+
+ 
+   a code amount predicting step of predicting a code amount 
+
+which will be generated when the inputted frame is coded; 
+   a remaining storage capacity detecting step of detecting 
+
+a remaining storage capacity of the buffer; 
+   a comparing step of comparing the detected remaining 
+
+storage capacity of the buffer with the predicted code amount; 
+and 
+
+   a coding control step of instructing coding when the 
+remaining storage capacity of the buffer is the predicted code 
+
+amount or greater, otherwise instructing staying in standby 
+until the next frame is inputted. 
+The coding method of Claim 15, wherein the coding step 
+comprises: 
+
+   a code amount detecting step of detecting a code amount 
+which is generated when a frame is coded; and 
+
+   a proportional constant calculating step of calculating a 
+proportional constant by dividing the detected code amount by 
+
+a valid block number of the coded frame, and the code amount 
+predicting step comprises: 
+
+   a frame difference value calculating step of calculating 
+a simple difference between the inputted frame and a reference 
+
+frame which is employed in prediction coding; 
+   a DCT (Discrete Cosine Transform) step of DCT converting 
+
+the calculated difference; 
+   an invalid block calculating step of comparing a DCT 
+
+ 
+coefficient obtained by the DCT with a threshold value which 
+
+is a first level of quantization, and summing an invalid block 
+where every DCT coefficient is smaller than the threshold 
+
+value; 
+   a valid block calculating step of summing the valid block 
+
+by subtracting the invalid block from all the blocks for the 
+inputted frame; and 
+
+   a code amount predicting step of predicting a code amount 
+by multiplying the valid block number by the proportional 
+
+constant. 
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,361 @@
+<DOC>
+<DOCNO>EP-0658257</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+COMMUNICATIONS CONTROL UNIT AND INFORMATION TRANSMISSION PROCESS
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1110	H04L100	G06F1120	G06F15177	G06F1300	G06F1120	G06F1516	G06F1300	G06F1118	H04L100	G06F1118	G06F1110	G06F1100	G06F1108	G06F1108	G06F1100	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	H04L	G06F	G06F	G06F	G06F	G06F	G06F	G06F	H04L	G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F11	H04L1	G06F11	G06F15	G06F13	G06F11	G06F15	G06F13	G06F11	H04L1	G06F11	G06F11	G06F11	G06F11	G06F11	G06F11	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A communications control unit and a process for transmitting information within a distributed real-time computer architecture, consisting of a plurality of error-tolerant units in which the information to be transmitted consists of a control field (K), a data field (D) and a CRC (cyclic-redundancy check) field (CRC). The CRC field consists of standard information from the concatenation of the control field (K), the data field (D) and a local internal status of a transmitting communications control unit. The local internal status of such a control unit is provided by the combination of the overall time with a peer field in which to each error-tolerant unit is allocated a given bit, the TRUE status of which indicates correct operation and the FALSE status of which indicates an error status, so that a receiving communications control unit can, by testing an incoming item of data, recognise both incorrect information and a difference between the internal statuses of the transmitting and receiving communications control unit.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+FAULT TOLERANT SYSTEMS
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+FAULT TOLERANT SYSTEMS
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+KOPETZ HERMANN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KOPETZ, HERMANN
+</INVENTOR-NAME>
+</INVENTORS>
+<CLAIMS>
+Method for the transmission of messages within a distributed real-time computer architecture 
+with a global time base, comprising a plurality of fault-tolerant units (FTE
+1
+, FTE
+2
+, FTE
+3
+, FTE
+4
+) 
+where each fault-tolerant unit FTE) contains at least one fail-silent computer (AC
+1a,
+ AC
+1b
+, SC
+1
+, 
+AC
+2a
+, AC
+2b
+, SC
+2,
+ AC
+3a
+, AC
+3b
+, SC
+3
+, AC
+4a
+, AC
+4b
+, SC
+4
+) and where each computer has a 
+communication control unit (KE
+1a
+, KE
+1b
+, KE
+1c
+, KE
+2a
+, KE
+2b
+, KE
+2c,
+ KE
+3a
+, KE
+3b
+, KE
+3c
+, 
+KE
+4a
+, KE
+4b
+, KE
+4c
+) with at least one communication port, whereby each fault-tolerant unit 
+(FTE
+1
+, FTE
+2
+, FTE
+3
+, FTE
+4
+) is connected to every other fault-tolerant unit (FTE
+1
+, FTE
+2
+, FTE
+3
+, 
+FTE
+4
+) by at least one communication channel (KK
+1
+, KK
+2
+) and where the access to the 
+communication channel (KK
+1
+, KK
+2
+) is determined by a cyclic time division multiple access 
+scheme, which is derived from a global time base, 
+characterized in that
+ the messages to be sent 
+comprise a control field (K), a data field (D) and a CRC (Cyclic Redundancy Check) field (CRC), 
+
+where the contents of the CRC field of normal messages, which are identified by a specified bit (I) 
+of the control field (K), are calculated over the concatenation of the control field (K), the data 
+
+field (D) and the local internal state of a sending communication control unit, and where the local 
+internal state of such a communication control unit is composed of the concatenation of the 
+
+current global time with a membership field, in which each fault-tolerant unit (FTE
+1
+, FTE
+2
+, FTE
+3
+, 
+FTE
+4
+) is represented by a specified bit, the value TRUE of which means that said fault-tolerant 
+unit is operating and the value FALSE means that said fault-tolerant unit is faulty, in order that the 
+
+receiving communication control unit can, by checking the incoming messages, detect a mutilated 
+message as well as a deviation of the internal state of the receiving from the internal state of the 
+
+sending communication control unit. 
+The method of claim 1, 
+characterized in that
+ the receiving communication control unit marks 
+a fault-tolerant unit (FTE
+1
+, FTE
+2
+, FTE
+3
+, FTE
+4
+) as faulty by setting the corresponding bit in its 
+membership field to FALSE, if none of the expected messages with a correct CRC field (CRC) has 
+
+been received in the timeslots that have been assigned to this sending unit. 
+The method of claim 1 or 2, 
+characterized in that
+ the control field (K) contains as the first bit 
+an initialization bit (I) to specify whether the message is an initialization message or a normal 
+
+message.  
+ 
+The method of claim 3, 
+characterized in that
+ the control field (K) contains additionally a 
+number of acknowledgment bits (Q), by means of which the correct receipt of one or more of the 
+
+preceding messages is acknowledged, in order that each receiving communication control unit can 
+determine by checking the control field of an incoming message, whether all its communication 
+
+ports have been operational and whether it is a member of the majority of the set of operating 
+communication control units by comparing the number of correctly received messages with the 
+
+number of messages that were discarded because of failed CRC checks. 
+The method according to claim 3 or 4, 
+characterized in that
+ the control field (K) contains 
+additionally a number of mode change bits (B). 
+The method according to any of the claims 1 to 5, 
+characterized in that
+ the local internal state, 
+which is included in the calculation of the CRC field of normal messages, and which is checked by 
+
+the receiver, contains additionally a mode field. 
+The method according to any of the claims 1 to 6, 
+characterized in that
+ the message name is 
+derived from the a priori determined point in time of sending and receiving the message, thus 
+
+eliminating the need to carry a message-name field in the message. 
+The method according to any of the claims 1 to 7, 
+characterized in that
+ the global timebase is 
+established in a distributed manner in each communication control unit and where the differences 
+
+between the states of the clocks in the fault-tolerant units (FTE
+1
+, FTE
+2
+, FTE
+3
+, FTE
+4
+) are 
+determined on the basis of the a priori known points in time of sending a message and the locally 
+
+measured points in time of receiving a message. 
+Communication control unit for the transmission of messages within a distributed real-time 
+computer architecture with a global time base, comprising a plurality of fault-tolerant units (FTE
+1
+, 
+FTE
+2
+, FTE
+3
+, FTE
+4
+) where each fault-tolerant unit (FTE) contains at least one fail-silent computer 
+(AC
+1a
+, AC
+1b
+, SC
+1
+, AC
+2a
+, AC
+2b
+, SC
+2,
+ AC
+3a
+, AC
+3b
+, SC
+3
+, AC
+4a
+, AC
+4b
+, SC
+4
+) and where each 
+computer has a communication control unit (KE
+1a
+, KE
+1b
+, K
+1c
+, KE
+2a
+, KE
+2b,
+ KE
+2c,
+ KE
+3a
+, 
+KE
+3b
+, KE
+3c
+, KE
+4a
+, KE
+4b
+, KE
+4c
+) with at least one communication port, whereby each fault-tolerant 
+unit (FTE
+1
+, FTE
+2
+, FTE
+3
+, FTE
+4
+) is connected to a communication channel (KK
+1
+, KK
+2
+)  
+ 
+
+with every other fault-tolerant unit (FTE
+1
+, FTE
+2
+, FTE
+3
+, FTE
+4
+) and where the access to the 
+communication channel (KK
+1
+, KK
+2
+) is determined by a cyclic time division multiple access 
+scheme which is derived from a global time base, 
+characterized in that
+ the communication 
+control unit is realized as single chip control unit or as part of a single chip microcomputer and 
+
+where the communication control unit is provided to construct the messages to be transmitted 
+from a control field (K), a data field (D) and a CRC (Cyclic Redundancy Check) field (CRC), 
+
+where the contents of the CRC field of normal messages, which are identified by a specified bit (I) 
+of the control field (K), are calculated over the concatenation of the control field (K), the data 
+
+field (D) and the local internal state of a sending communication control unit and where the 
+communication control unit of this single chip microcomputer maintains a local internal state of 
+
+the communication control unit that is composed from the concatenation of the current global time 
+with a membership field, in which each fault-tolerant unit (FTE
+1
+, FTE
+2
+, FTE
+3
+, FTE
+4
+) is 
+represented by a specified bit, which value TRUE means that said fault-tolerant unit is operating 
+
+and the value FALSE means that said fault-tolerant unit is faulty, in order that the receiving 
+communication control unit can, by checking the incoming messages, detect a mutilated message 
+
+as well as a deviation of the internal state of the receiving from the internal state of the sending 
+communication control unit. 
+A communication control unit according to claim 9, 
+characterized in that
+ it contains two 
+counters, one for counting the received messages with a correct CRC field and another one for 
+
+counting the received messages with an erroneous CRC field. 
+A communication control unit according to claim 9 or 10, 
+characterized in that
+ it contains a 
+logic to realize a mode change as soon as a message from another fault-tolerant unit (FTE
+1
+, 
+FTE
+2
+, FTE 
+3
+, FTE
+4
+) is received in which a bit in the mode field is set. 
+A communication control unit according to any one of the claims 9 to 11, 
+characterized in 
+that
+ it contains a logic to measure the difference between the a priori known point in time of 
+expected arrival of a message and the actual point in time of receiving this message. 
+</CLAIMS>
+</TEXT>
+</DOC>

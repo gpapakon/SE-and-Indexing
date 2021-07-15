@@ -1,0 +1,338 @@
+<DOC>
+<DOCNO>EP-0635961</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Message header classifier.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04L2906	H04L2906	H04Q300	H04Q300	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04L	H04L	H04Q	H04Q	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04L29	H04L29	H04Q3	H04Q3	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The classifier device disclosed herein analyzes message 
+headers of the type which comprise a sequence of bit groups 
+
+presented successively. The device employs a read/write memory 
+for storing at a multiplicity of addresses, an alterable parse 
+
+graph of instructions. The parse graph instructions include node 
+instructions which comprise opcodes in association with 
+
+respective next address characterizing data and terminator 
+instructions which comprise identifying data for previously 
+
+characterized header types. A logical processor responds to a 
+node instruction read from memory either by initiating another 
+
+memory read at a next address which, given the current state of 
+the processor, is determinable from the current node instruction 
+
+and the current header bit group or by outputting data indicating 
+recognition failure if no next address is determinable. The 
+
+logical processor responds to a terminator instruction by 
+outputting respective header identifying data. Accordingly, for 
+
+a previously characterized header type, a corresponding pattern 
+of node instruction and a terminator instruction can be written 
+
+into memory thereby enabling the device to identify the 
+respective header type in a time which is essentially 
+
+proportional to the length of the header and thus also to the 
+time of presentation of the header. The parse graph can be 
+
+updated dynamically during the operation of the classifier. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+BOLT BERANEK 
+&
+ NEWMAN
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+BOLT BERANEK AND NEWMAN INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+CROWTHER WILLIAM R
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LACKEY STANLEY AMES
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LEVIN PHILIP C
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TAPPAN DANIEL C
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+CROWTHER, WILLIAM R.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LACKEY, STANLEY AMES
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LEVIN, PHILIP C.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TAPPAN, DANIEL C.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates generally to packet switched 
+message handling systems and, more particularly, to a device for 
+quickly classifying previously characterized message headers. There is increasing interest in providing communications 
+between disparate computer systems and even between networks of 
+differing characteristics. Further, with the availability of 
+very high bandwidth trunk lines, e.g., using fiber optic cables, 
+there is increasing interest in combining traffic from a great 
+variety of sources for transmission through a single trunk line. 
+For wide area networks, packet switching technology is widely 
+used where information to be transmitted is broken into packets 
+of data which are proceeded by headers containing information 
+useful in routing. The header may also identify the source and 
+the destination. Whether truly packet switched or not, most 
+digital communication systems employ message formats in which 
+there is an identifying header of some sort. For large and complex networks, one standard which is being 
+adopted is that of an asynchronous transfer mode (ATM) switch 
+which operates to transfer data cells of standard characteristics 
+between links in a network. Within an ATM network, routing is 
+typically provided by setting up a path between a source and 
+destination and then including, in the headers for the  
+ 
+standardized cells or packets, data which identifies that path to 
+the various switches along the route. However, at various 
+points, a relatively standardized ATM network must interface with 
+disparate systems and convert the message formats of the 
+disparate systems into the standard ATM cell format. A typical 
+situation where this type of interfacing is necessary is at a so-called 
+bridge where a ATM network interfaces with a local area 
+network, e.g., an ethernet or a token ring network. The job of 
+the bridge is essentially to examine all of the traffic on the 
+local area network and, if the destination of a given packet is 
+across the ATM network, i.e., outside the respective local area 
+network, the bridge transfers that message into the ATM network. 
+This process is often referred to as forwarding. Heretofore, the analysis of message headers to determine 
+appropriate action has been provided by writing a conventional 
+computer program to run on a high speed, but essentially 
+conventional, general purpose processor. The program operates to 
+dissect and test the components of the message header and thereby 
+determine its content. If such a generalized
+</DESCRIPTION>
+<CLAIMS>
+In a device for directing selected messages to a 
+selected one of a plurality of output paths in accordance with 
+
+the contents of a message header which comprises a sequence of 
+bit groups presented successively, apparatus for 
+
+classifying headers; said apparatus comprising: 
+memory for storing, at a multiplicity of addresses, node 
+
+instructions which comprise opcodes in association with 
+respective next address characterizing data and terminator 
+
+instructions which comprise identifying data for different header 
+types; 
+
+logic means responsive to a node instruction read from memory for 
+initiating a memory read at a next address determinable from the 
+
+current node instruction and a current header bit group, said 
+logic means being responsive to a terminator instruction for 
+
+outputting respective header identifying data 
+whereby, for each header type, a corresponding pattern of node 
+
+instructions and a terminator instruction can be written into 
+said memory, thereby enabling said apparatus to identify the 
+
+respective header. 
+Apparatus as set forth in claim 1 wherein neither said 
+node instruction nor said terminator instructions cause writing 
+
+of data into said memory. 
+Apparatus as set forth in claim 1 wherein said logic 
+means does not write data to said memory. 
+In a device for directing selected messages to a 
+selected one of a plurality of output paths in accordance with 
+
+the contents of a message header which comprises a sequence of 
+bit groups presented successively, apparatus for 
+
+classifying headers; said apparatus comprising: 
+memory for storing, at a multiplicity of addresses, node 
+
+instructions which comprise opcodes in association with 
+respective next address characterizing data and terminator 
+
+instructions which comprise identifying data for different header 
+types; 
+
+logic means responsive to a node instruction read from memory for 
+initiating a memory read at a next address which, given the 
+
+current state of the logic means, is determinable from only the 
+current node instruction and a current header bit group, said 
+
+logic means being responsive to a terminator instruction for 
+outputting respective header identifying data 
+
+whereby, for each header type, a corresponding pattern of node 
+instructions and a terminator instruction can be written into 
+
+said memory, thereby enabling said apparatus to identify the 
+respective header. 
+Apparatus as set forth in claim 4 wherein said node 
+instructions include a jump to subroutine instruction which 
+
+causes a memory read at a next address determinable from the 
+instruction and wherein said logic means includes a register for 
+
+retaining data identifying the address of the jump to subroutine 
+instruction. 
+Apparatus as set forth in claim 5 wherein said node 
+instructions include a return from subroutine instruction which 
+
+causes a memory read at a next address which is offset from the 
+address of the jump to subroutine instruction by a preselectable 
+
+offset. 
+In a packet switched device for directing 
+selected digital messages to a selected one of a plurality of 
+
+output paths in accordance with the contents of a message header 
+which comprises a sequence of bit groups presented successively, 
+
+apparatus for classifying previously characterized 
+headers; said apparatus comprising: 
+
+memory for storing, at a multiplicity of addresses, node 
+instructions which comprise opcodes in association with 
+
+respective next address characterizing data and terminator 
+instructions which comprise identifying data for previously 
+
+characterized header types; 
+logic means responsive to a node instruction read from memory for 
+
+initiating a memory read at a next address which, given the 
+current state of the logic means, is determinable from only the 
+
+current node instruction and a current header bit group or for 
+outputting data indicating recognition failure if no next address 
+
+is determinable, said logic means being responsive to a 
+terminator instruction for outputting the respective header 
+
+identifying data 
+whereby, for each previously characterized header type, a 
+
+corresponding pattern of node instructions and a terminator 
+instruction can be written into said memory, thereby enabling 
+
+said apparatus to identify the respective header. 
+Apparatus as set forth in claim 4 wherein said node 
+instructions include a jump to subroutine instruction which 
+
+causes a memory read at a next address determinable from the 
+instruction and wherein said logic means includes a register for 
+
+retaining data identifying the address of the jump to subroutine 
+ 
+
+instruction. 
+Apparatus as set forth in claim 8 wherein said jump to 
+subroutine instruction inhibits output of recognition failure 
+
+data. 
+Apparatus as set forth in claim 8 wherein said node 
+instructions include a return from subroutine instruction which 
+
+causes a memory read at a next address which is offset from the 
+address of the jump to subroutine instruction by a preselectable 
+
+offset. 
+Apparatus as set forth in claim 7 wherein said node 
+instructions include a compare for equality instruction which 
+
+first masks a header bit group with a preselected mask value and 
+generates a next instruction address if a match is obtained with 
+
+a preselected compare value. 
+Apparatus as set forth in claim 7 wherein said node 
+instructions include a multiple compare instruction in which a 
+
+succession of header bit groups are compared with respective mask 
+values and a next instruction address is generated if all matches 
+
+are obtained. 
+Apparatus as set forth in claim 7 wherein said node 
+instructions include a range instruction which generates a next 
+
+instruction address if a header bit group falls within a given 
+range of values. 
+Apparatus as set forth in claim 7 wherein said node 
+instructions includes a case instruction which generates a next 
+
+instruction address which is a function of the value of the 
+current header bit group. 
+Apparatus as set forth in claim 14 wherein said case 
+instruction includes a value which is logically ORed with the 
+
+current header bit group. 
+In a device for selecting digital messages for further 
+processing in accordance with the contents of a message header 
+
+which comprises a sequence of bit groups presented successively, 
+apparatus for classifying previously characterized 
+
+headers; said apparatus comprising: 
+a register for storing a plurality of said bit groups; 
+
+memory for storing, at a multiplicity of addresses, node 
+instructions which comprise opcodes in association with 
+
+respective next address characterizing data and terminator 
+instructions which comprise identifying data for previously 
+
+characterized header types; 
+logic means which reads bit groups from said register and 
+
+instructions from said memory and is responsive to a node 
+instruction read from memory for initiating a memory read at a 
+
+next address which, given the current state of the logic means, 
+is determinable from only the current node instruction and the 
+
+current header bit group, said logic means being responsive to a 
+terminator instruction for outputting the respective header 
+
+identifying data
+ 
+
+whereby, for each header type, a corresponding pattern of node 
+instructions and a terminator instruction can be written into 
+
+said memory, thereby enabling said apparatus to output the 
+respective header identifying data. 
+Apparatus as set forth in claim 16 wherein said node 
+instructions include a skip instruction which cause said logic 
+
+means to pass by a selected number of said bit groups in reading 
+from said register. 
+Apparatus as set forth in claim 16 wherein said node 
+instructions include jump instructions which generate next 
+
+address values independently of bit group values. 
+Apparatus as set forth in claim 16 wherein neither said 
+node instruction nor said terminator instructions cause writing 
+
+of data into said memory. 
+Apparatus as set forth in claim 16 wherein said logic 
+means does not write data to said memory. 
+</CLAIMS>
+</TEXT>
+</DOC>

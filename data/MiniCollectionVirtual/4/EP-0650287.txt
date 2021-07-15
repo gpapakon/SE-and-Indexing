@@ -1,0 +1,598 @@
+<DOC>
+<DOCNO>EP-0650287</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Image processing method and apparatus
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04N140	G06T500	G06T500	H04N1393	H04N140	H04N1393	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04N	G06T	G06T	H04N	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04N1	G06T5	G06T5	H04N1	H04N1	H04N1	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+In variably magnifying and outputting an image, proper 
+variable magnification processing is performed with respect 
+
+to a character/line draw component and a pseudo-halftone 
+component, respectively. A binary image acquired by a 
+
+binary image acquiring unit is supplied to an image area 
+separating unit, in which the binary image is separated 
+
+into a character/line draw area and a pseudo-halftone area. 
+An image in the character/line draw area is supplied to an 
+
+outline variable magnification unit, which performs 
+extraction of outline vector data, smoothing processing 
+
+thereof, and reproduction processing of a binary image. An 
+image in the pseudo-halftone area is supplied to a pseudo-halftone 
+
+image variable magnification unit, in which the 
+image is subjected to multivalue conversio
+n processing in 
+units of pixels, variable magnification processing by 
+
+thinning or interpolation of pixels, and binarization 
+again. A synthesizing unit synthesizes binary images 
+
+output from these variable magnification unit and outputs 
+the synthesized image to a binary image output unit. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+CANON KK
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+CANON KABUSHIKI KAISHA
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+ISHIDA YOSHIHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KOGA SHINICHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SHIGEEDA NOBUYUKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ISHIDA, YOSHIHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KOGA, SHINICHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SHIGEEDA, NOBUYUKI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The invention relates to image processing apparatus and the
+corresponding method, which extracts the contours of a bitmap
+image such as a binary image and executes an image
+processing.From EP-A-0 407 213 is known an image processing apparatus
+comprising an image area discriminating circuit for discriminating
+the attribute of an image, such as whether it
+is a character line image or a dot image or whether or not
+it is an isolated point noise and outputting a discrimination
+result, an enlargement/reduction processing circuit
+for performing enlargement/reduction processing on an image
+and a filtering circuit for controlling the spatial frequency
+response of an image in accordance of a discrimination
+signal.From JP-A-110 66 71 is known an image processing apparatus
+for improving a variable magnification image quality by inputting
+a variable magnification output for a halftone image
+in the case of a halftone and a variable magnification
+output for a binary image in the case of a binary image
+based on an identification result of the image.It is the object of the invention to propose an improved
+image processing apparatus and an improved image processing
+method.This object is achieved by the features mentioned in the
+independent claims.The invention is further developed by the features mentioned
+in the subclaims. Fig. 1 is a block diagram showing the arrangement of an
+image processing apparatus according to the first
+embodiment of the present invention;Fig. 2 is a block diagram showing the arrangement of an
+image area separating unit in Fig. 1;Fig. 3 is a view for explaining processing
+performed by an isolated pixel determining unit of the
+image area separating unit;Fig. 4 is a view showing an area to be referred to by
+the isolated pixel determining unit;Fig. 5 is a view for explaining the contents of
+processing performed by a periodicity determining unit of
+the image area separating unit;Fig. 6 is a view for explaining processing performed by
+a high-frequency component determining unit of the image
+area separating unit;Fig. 7 is a block diagram showing the arrangement of a
+data holding unit of the image area separating unit;Fig. 8 is a block diagram showing the arrangement of a
+pseudo-halftone image variable magnification unit in Fig.
+1; Fig. 9 is a view for explaining inverse quantization
+processing in the pseudo-halftone image variable
+magnification unit;Fig. 10 is a block diagram showing the arrangement of
+an outline variable magnification unit in Fig. 1;Fig. 11 is a block diagram showing the arrangement
+of
+</DESCRIPTION>
+<CLAIMS>
+An image processing apparatus comprising
+
+   input means (11) for inputting a binary image data,
+
+   outline variable magnification means (13) for
+extracting outline vectors along edge of a black image
+
+portion from a binary image, variably magnifying the
+extracted outline vectors according to a variable
+
+magnification ratio, and generating a variably magnified
+image on the basis of the variable magnified outline
+
+vectors,
+
+   pseudo-halftone variable magnification means (14),
+different from said outline variable magnification means,
+
+for variably magnifying a binary image,
+
+   image data separating means (12) for, if determining
+that a pixel of interest in a binary image inputted by said
+
+input means is black and is in a character/line draw area,
+distributing data of the pixel of interest to said outline
+
+variable magnification means as a black pixel, while if
+determining that the pixel of interest is black and is in a
+
+pseudo-halftone area, distributing data of the pixel of
+interest to said pseudo-halftone variable magnification
+
+means as a black pixel, while if determining that the pixel
+of interest is white, distributing data of the pixel of
+
+interest to said outline variable magnification means and
+said pseudo-halftone variable magnification means as a
+
+white pixel,
+
+   synthesizing means (15) for synthesizing image data
+generated by said outline variable magnification means and
+
+image data generated by said pseudo-halftone variable
+magnification means. 
+The apparatus according to claim 1, wherein said
+outline variable magnification means and said pseudo-halftone
+
+variable magnification means have variable
+magnifications set therein.
+The apparatus according to claim 1, wherein said image
+data separating means includes ,
+
+   isolated area determining means (41) for determining
+whether a target pixel is in an isolated pixel area,
+
+   periodicity determining means (42) for determining
+whether a halftone pixel is present in a target pixel and
+
+   the same binary density appears at a predetermined pixel
+period, and
+
+   high-frequency component determining means (43) for
+determining whether a change in density frequently occurs
+
+between adjacent pixels, and
+
+   determines, on the basis of determination results
+obtained by said isolated area determining means, said
+
+periodicity determining means, and said high-frequency
+component determining means, whether a target pixel is in a
+
+character/line draw area or a pseudo-halftone area, and
+separates an image area on the basis of the determination
+
+result.
+The apparatus according to claim 1, wherein said
+outline variable magnification means includes
+
+   contour vector extracting means (131) for extracting
+contour vector data along an edge of a provided binary
+
+image,
+
+   smoothing means (132) for smoothing the extracted
+contour vector data, and
+
+   means (133) for performing variable magnification
+processing of coordinate data constituting the smoothed
+
+vector data, drawing contours on the basis of the
+coordinate data after the variable magnification 
+
+processing, and filling an area surrounded by the contours
+with dots.
+The apparatus according to claim 1, wherein said
+pseudo-halftone variable magnification means includes
+
+   multivalue conversion means (60) for converting a
+target binary pixel of a provided binary image into
+
+multivalue pixel data on the basis of the target pixel and
+a binary pixel group adjacent to the target pixel,
+
+   variable magnification means (70) for variably
+magnifying the multivalue pixel data obtained by said
+
+multivalue conversion means, and
+
+   binarization means (80) for binarizing the variably
+magnified multivalue pixel data with a pseudo-gradation
+
+expression again.
+The apparatus according to claim 1, further comprising
+output means (16) for outputting the binary image
+
+synthesized by said synthesizing means.
+The apparatus according to claim 6, wherein said output
+means is a printer.
+The apparatus according to claim 6, wherein said output
+means is communication means for coding the binary image
+
+synthesized by said synthesizing means and outputting the
+coded image via a line.
+The apparatus according to claim 1, further comprising
+
+   image area determining means (3002) for determining
+whether each pixel of a binary image belongs to a
+
+character/line draw area or a pseudo-halftone area, wherein
+
+   said synthesizing means selects and synthesizes images
+respectively magnified by said outline variable
+
+magnification means and pseudo-halftone variable 
+magnification means in accordance with a determination
+
+result obtained by said image area determining means.
+The apparatus according to claim 9, further comprising
+limiting means for limiting black pixels of an image
+
+determined as a character/line draw area by said image area
+determining means to black pixels including a
+
+character/line draw component and pixels adjacent thereto.
+The apparatus according to claim 1 or 9, wherein said
+outline variable magnification means and pseudo-halftone
+
+variable magnification means perform variable magnification
+processing at an arbitrary magnification.
+The apparatus according to claim 9, wherein said image
+area determining means includes
+
+   isolated pixel determining means for determining
+whether a target pixel is an isolated pixel,
+
+   isolated pixel area determining means for determining
+whether the target pixel is in an isolated pixel area,
+
+   periodicity determining means for determining whether
+pixel values of pixels adjacent to the target pixel become
+
+the same at a predetermined pixel period, and
+
+   high-frequency determining means for determining
+whether a change in density frequency occurs between
+
+adjacent pixels, and
+
+   determines, on the basis of determination results
+respectively obtained by said isolated pixel determining
+
+means, said isolated pixel area determining means, said
+periodicity determining means, and said high-frequency
+
+component determining means, whether the target pixel is in
+a character/line draw area or a pseudo-halftone area.
+The apparatus according to claim 4, wherein said
+smoothing means changes a degree of smoothing in accordance 
+
+with a length of each contour vector extracted by said
+contour vector extracting means.
+The apparatus according to claim 9, wherein said
+synthesizing means selects and synthesizes each pair of
+
+pixels respectively magnified by said outline variable
+magnification means and said pseudo-halftone variable
+
+magnification means by using an output from said image area
+determining means.
+The apparatus according to claim 9, wherein said
+synthesizing means comprises third variable magnification
+
+means for magnifying an output from said image area
+determining means at the same magnification as that set in
+
+said outline variable magnification means and said pseudo-halftone
+variable magnification means.
+An image processing method comprising
+
+   inputting a binary image data,
+
+   extracting outline vectors along edge of a black image
+portion from a binary image, variably magnifying the
+
+extracted outline vectors according to a variable
+magnification ratio, and generating a variably magnified
+
+image on the basis of the variable magnified outline
+vectors by outline variable magnification means,
+
+   variably magnifying a binary image by pseudo-halftone
+variable magnification means, different from said outline
+
+variable magnification means;
+
+   distributing data of the pixel of interest to said
+outline variable magnification means as a black pixel, if
+
+determining that a pixel of interest in a binary image
+inputted by said input means is black and is in a
+
+character/line draw area,
+
+   distributing data of the pixel of interest to said
+pseudo-halftone variable magnification means as a black 
+
+pixel, if determining that the pixel of interest is black
+and is in a pseudo-halftone area,
+
+   distributing data of the pixel of interest to said
+outline variable magnification means and said pseudo-halftone
+
+variable magnification means as a white pixel, if
+determining that the pixel of interest is white, by image
+
+data separating means,
+
+   synthesizing image data generated by said outline
+variable magnification means and image data generated by
+
+said pseudo-halftone variable magnification means by
+synthesizing means.
+The method according to claim 16, wherein the image
+data separating step includes
+
+   the isolated area determining step of determining
+whether a target pixel is in an isolated pixel area,
+
+   the periodicity determining step of determining
+whether a halftone pixel is present in a target pixel and
+
+   the same binary density appears at a predetermined pixel
+period, and
+
+   the high-frequency component determining step of
+determining whether a change in density frequently occurs
+
+between adjacent pixels, and
+
+   determines, on the basis of determination results
+obtained in the isolated area determining step, the
+
+periodicity determining step, and the high-frequency
+component determining step, whether a target pixel is in a
+
+character/line draw area or a pseudo-halftone area, and
+separates an image area on the basis of the determination
+
+result.
+The method according to claim 16, wherein the outline
+variable magnification step includes
+
+   the contour vector extracting step of extracting
+contour vector
+ data along an edge of a provided binary
+image,
+ 
+   the smoothing step of smoothing the extracted contour
+
+vector data, and
+
+   the step of performing variable magnification
+processing of coordinate data constituting the smoothed
+
+vector data, drawing contours on the basis of the
+coordinate data after the variable magnification
+
+processing, and filling an area surrounded by the contours
+with dots.
+The method according to claim 16, wherein the pseudo-halftone
+variable magnification step includes
+
+   the multivalue conversion step of converting a target
+binary pixel of a provided binary image into multivalue
+
+pixel data on the basis of the target pixel and a binary
+pixel group adjacent to the target pixel,
+
+   the variable magnification step of variably magnifying
+the multivalue pixel data obtained in the multivalue
+
+conversion step, and
+
+   the binarization step of binarizing the variably
+magnified multivalue pixel data with a pseudo-gradation
+
+expression again.
+The method according to claim 16, further comprising
+an output step of outputting the binary image synthesized
+
+in the synthesizing step.
+The method according to claim 20, wherein the output
+step includes the step of outputting a synthesized image to
+
+a printer.
+The method according to claim 20, wherein the output
+step includes the step of coding the binary image
+
+synthesized in the synthesizing step to output the coded
+image to predetermined communication means via a line.
+The method according to claim 16, comprising
+ 
+   determining whether each pixel of a binary image
+
+belongs to a character/line draw area or a pseudo-halftone
+area, wherein
+
+   said step of synthesizing uses the result obtained in
+the image area determining step.
+The method according to claim 23, wherein the black
+pixels, of the image, which are to be variably magnified in
+
+the outline variable magnification step are limited to a
+black pixel determined as a pixel in a character/line draw
+
+area by using the result in the image area determining
+step, and black pixels adjacent the black pixel.
+The method according to claim 23, wherein a
+magnification in each of the magnification steps can be set
+
+to be an arbitrary value.
+The method according to claim 23, wherein the image
+area determining step includes
+
+   the isolated central pixel determining step of
+determining whether a target pixel is an isolated pixel,
+
+   the isolated pixel area determining step of
+determining whether the target pixel is in an isolated
+
+pixel area,
+
+   the periodicity determining step of determining
+whether pixel values become the same at a predetermined
+
+pixel period, and
+
+   the high-frequency component determining step of
+determining whether a change in density frequency occurs
+
+between adjacent pixels, and determines, on the basis of
+determination results respectively obtained in the isolated
+
+central pixel determining step, the isolated pixel area
+determining step, the periodicity determining step, and the
+
+high-frequency component determining step, whether the
+target pixel is in a character/line draw area or a pseudo-halftone
+
+area. 
+The method according to claim 18, wherein the
+smoothing step includes changing a degree of smoothing in
+
+accordance with a length of each contour vector extracted
+in the contour vector extracting step.
+The method according to claim 23, wherein the
+synthesizing step includes selecting and synthesizing each
+
+pair of pixels respectively magnified in the magnification
+steps by using the result obtained in the image area
+
+determining step.
+The method according to claim 23, wherein the
+synthesizing step comprises the third variable
+
+magnification step of magnifying a result obtained in the
+image area determining step at the same magnification as
+
+that set in the first and second variable magnification
+steps.
+A computer readable storage medium storing codes,
+comprising
+
+   a program code for inputting a binary image data,
+
+   a program code for an outline variable magnification
+step for extracting outline vectors along edge of a black
+
+image portion from a binary image, variably magnifying the
+extracted outline vectors according to a variable
+
+magnification ratio, and generating a variably magnified
+image on the basis of the variable magnified outline
+
+vectors,
+
+   a program code for a pseudo-halftone variable
+magnification step, different from said outline variable
+
+magnification step for variably magnifying a binary image,
+
+   a program code for an image data separating step for,
+if determining that a pixel of interest in a binary image
+
+is black and is in a character/line draw area, distributing
+data of the pixel of interest to said outline variable 
+
+magnification step as a black pixel, while if determining
+that the pixel of interest is black and is in a pseudo-halftone
+
+area, distributing data of the pixel of interest
+to said pseudo-halftone variable magnification step as a
+
+black pixel, while if determining that the pixel of
+interest is white, distributing data of the pixel of
+
+interest to said outline variable magnification step and
+said pseudo-halftone variable magnification step as a white
+
+pixel,
+
+   a program code for a synthesizing step for
+synthesizing image data generated by said outline variable
+
+magnification step and image data generated by said pseudo-halftone
+variable magnification step.
+A computer program product stored in a computer,
+comprising
+
+   a program code for inputting a binary image data,
+
+   a program code for an outline variable magnification
+step for extracting outline vectors along edge of a black
+
+image portion from a binary image, variably magnifying the
+extracted outline vectors according to a variable
+
+magnification ratio, and generating a variably magnified
+image on the basis of the variable magnified outline
+
+vectors,
+
+   a program code for a pseudo-halftone variable
+magnification step, different from said outline variable
+
+magnification step for variably magnifying a binary image,
+
+   a program code for an image data separating step for,
+if determining that a pixel of interest in a binary image
+
+is black and is in a character/line draw area, distributing
+data of the pixel of interest to said outline variable
+
+magnification step as a black pixel, while if determining
+that the pixel of interest is black and is in a pseudo-halftone
+
+area, distributing data of the pixel of interest
+to said pseudo-halftone variable magnification step as a
+
+black pixel, while if determining that the pixel of 
+interest is white, distributing data of the pixel of
+
+interest to said outline variable magnification step and
+said pseudo-halftone variable magnification step as a white
+
+pixel,
+
+   a program code for a synthesizing step for
+synthesizing image data generated by said outline variable
+
+magnification step and image data generated by said pseudo-halftone
+variable magnification step.
+</CLAIMS>
+</TEXT>
+</DOC>

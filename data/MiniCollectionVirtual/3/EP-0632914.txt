@@ -1,0 +1,474 @@
+<DOC>
+<DOCNO>EP-0632914</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+METHOD AND APPARATUS FOR ADAPTIVELY INTERPOLATING A DIGITAL IMAGE
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1717	G06F1717	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F17	G06F17	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Digital image processing apparatus for interpolating a digital input image into an interpolated output image, in one embodiment of the invention, comprises an input buffer (12) for accommodating pixel data of the input image and a coefficient buffer (14) for storing precalculated interpolation weighting coefficients prior to real time image interpolation. The coefficient buffer (14) comprises a first memory segment (22) for containing a set of precalculated sharp interpolating weighting coefficients obtained by using a sharp interpolating algorithm, a second memory segment (24) for containing a set of precalculated soft weighting coefficients obtained by using a soft interpolating algorithm and a third memory segment (26) for containing a set of precalculated weighting coefficients representative of a predetermined characteristic of the input image, such as contrast or density. The processing apparatus further comprises interpolation logic (16) for calculating a sharp interpolated output image pixel, a soft interpolated output image pixel, and a value for the image characteristic, using the input pixel data and the precalculated weighting coefficients, and an algorithm implementation controller (18) for calculating a resultant output pixel by combining the sharp and soft interpolated pixel values as a function of the image characteristic.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+CYMBOLIC SCIENCES INTERNATIONA
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+CYMBOLIC SCIENCES INTERNATIONAL, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+HRYTZAK RANDAL K
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+REED ALASTAIR M
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HRYTZAK, RANDAL, K.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+REED, ALASTAIR, M.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to a method of adaptively 
+processing a digital input image into an interpolate 
+digital output image, depending on image content, and an 
+apparatus for carrying out the method. A major problem with any interpolation algorithm 
+which produces a sharp result, i.e. cubic or higher 
+polynomial, or a digital filter design, is that 
+objectionable 'ringing', overshoot and undershoot will 
+occur on high contrast edges in the image. Some degree of 
+overshoot and undershoot is required on lower contrast 
+edges to produce a visually pleasing result but this will 
+produce objectionable 'ringing' on a high contrast edge. The 'ringing' can be reduced by various methods. 
+For example, a digital filter design using linear 
+programming can be used to obtain a compromise between a 
+sharp cut-off filter, to obtain a sharp image, and a 
+certain amount of 'ringing'. However, since it is a 
+compromise, reducing ringing on a high contrast edge will 
+lead to subjectively less pleasing results in lower 
+contrast areas of an image, i.e. the image will be less 
+sharp overall. Methods by which different interpolation 
+algorithms can be used during an interpolation process 
+have been suggested. For example, EP-A-0 070 677 
+describes interpolation hardware including a manually 
+operated switch for switching between different available 
+interpolation algorithms depending on the kind of image to  
+ 
+be interpolated. EP-A-0 431 133 describes a 
+system which incorporates a control unit which monitors 
+the content of the input data and switches between 
+interpolation kernels in an attempt to provide optimum 
+interpolation for different types of image content. With 
+this method, certain corrective measures need to be taken 
+in order to compensate for the use of either the one or 
+the other algorithm. WO-A-91 03795 describes a method for segmenting 
+an image into "edge" and "smooth" regions and then 
+selectively blurring the smooth areas while leaving the 
+edges untouched. EP-A-0 449 259 describes a method for 
+adaptively sharpening an image depending on local image 
+characteristics. However, neither provides for an 
+interpolation method for resizing an image or a method of 
+smoothly transforming between two algorithms by gradually 
+selecting the "sharp" or "soft" result depending on local 
+image characteristics. It is an object of the present invention to 
+provide a continuum of interpolated output images ranging 
+from relatively sharp at one end of the continuum to 
+relatively soft at the other end so that the
+</DESCRIPTION>
+<CLAIMS>
+A method of processing a digital input image into an 
+interpolated digital output image, comprising the 
+
+steps of: 
+
+(a) obtaining input pixel data of said input image; 
+(b) selecting a local position within said input 
+image for interpolation; 
+(c) calculating a first interpolated output image 
+pixel at a predetermined pixel position in said 
+
+output image using a first interpolating 
+algorithm; 
+(d) calculating a second interpolated output image 
+pixel at said predetermined pixel position in 
+
+said output image using a second interpolating 
+algorithm; 
+(e) calculating an input image characteristic value 
+using said input pixel data and a set of 
+
+weighting coefficients representative of a 
+predetermined characteristic of said input 
+
+image; and 
+(f) calculating a resultant output image pixel at 
+said predetermined pixel position in said 
+
+output image by combining said first and said 
+second interpolated output image pixels as a 
+
+function of said input image characteristic 
+value. 
+The method according to claim 1, wherein said input 
+image characteristic value is derived from a portion 
+
+of said input pixel data which is representative of 
+said local position. 
+A method according to claim 1, wherein said first 
+interpolated output image pixel is obtained by the 
+
+application of a first interpolation algorithm  
+ 
+
+producing a relatively sharp result and said second 
+interpolated output image pixel is obtained by the 
+
+application or a second interpolation algorithm 
+producing a relatively soft result. 
+The method according to claim 3, wherein said sharp 
+and said soft interpolated output image pixels are 
+
+obtained by the application of precalculated 
+weighting coefficients obtained from said first and 
+
+second interpolation algorithms, respectively. 
+The method according to claim 1, further comprising 
+the steps of: 
+
+
+obtaining a third interpolated output image pixel at 
+said predetermined pixel position in said output 
+
+image; 
+deriving a further input image characteristic value 
+from said input image pixel data; and 
+calculating a further resultant output image pixel at 
+said predetermined pixel position in said output 
+
+image by combining said first resultant output image 
+pixel and said third interpolated output image pixel 
+
+as a function of said further input image 
+characteristic value. 
+The method according to claim 5, wherein said 
+resultant output image pixel is calculated according 
+
+to the algorithm: 
+
+P = SX + (1 - S)Y 
+ 
+where  
+
+ 
+
+P represents said resultant output image pixel; 
+X represents said first interpolated output image 
+pixel; 
+Y represents said second interpolated output image 
+pixel; and 
+S represents a scaling factor, with a value of from 0 
+
+to 1, derived from said input image characteristic 
+value, 
+ 
+and wherein
+ 
+said further resultant output image pixel is 
+
+calculated by using the algorithm: 
+
+P' = S'W + (1 - S')P 
+ 
+where P' represents said further resultant output 
+
+image pixel; W represents said third interpolated 
+output image pixel and S' represents a further 
+
+scaling factor with a value from 0 to 1, derived from 
+said further input image characteristic value. 
+The method according to claim 1, wherein said first 
+and said second interpolated output image pixels are 
+
+each obtained by selection from a set of 
+precalculated first and second interpolated output 
+
+image pixels, respectively. 
+The method according to claim 3, wherein said 
+resultant output image pixel is calculated according 
+
+to the algorithm: 
+
+P = SX + (1 - S)Y 
+  
+ 
+
+where 
+
+P represents said resultant output image pixel; 
+X represents said first or sharp interpolated output 
+image pixel; 
+Y represents said second or soft interpolated output 
+image pixel; and 
+S represents a scaling factor, with a value of from 0 
+to 1, derived from said input image characteristic 
+
+value. 
+The method according to claim 8, wherein said input 
+image is a colored image comprising a number of basic 
+
+colors and further comprising the step of providing a 
+mul=idimensional lookup table, the number of 
+
+dimensions corresponding with said number of basic 
+colors, said lookup table mapping input image 
+
+characteristic values for each one of said basic 
+colors to a corresponding value for said scaling 
+
+factor. 
+The method according to claim 9, wherein said number 
+of basic colors is three. 
+The method according to claim 9, wherein said number 
+of basic colors is four. 
+The method according to claim 8, wherein said scaling 
+factor S is derived from two separate input image 
+
+characteristic values.  
+ 
+The method according to claim 12, wherein said two 
+separate input image characteristic values comprise 
+
+input image contrast and input image density at said 
+local position in said input image. 
+The method according to claim 13, wherein said input 
+image contrast is generated from said input image 
+
+data by convolving a set of contrast weighting 
+coefficients with said input image data. 
+The method according to claim 14, wherein said input 
+image density is taken to be proportional to said 
+
+relatively soft interpolated output image pixel. 
+The method according to claim 14, wherein said input 
+image density is derived from said input image data. 
+The method according to claim 12, further comprising 
+the step of providing lookup tables mapping said 
+
+input image characteristic values to corresponding 
+values for said scaling factor. 
+The method according to claim 17, wherein said lookup 
+tables comprise two one-dimensional lookup tables 
+
+mapping input image contrast and density, 
+respectively, to corresponding intermediate values 
+
+for said scaling factor and the method further 
+comprises the step of multiplying said intermediate 
+
+values together to produce said scaling factor. 
+The method according to claim 1, wherein said input 
+image characteristic value comprises input image 
+
+contrast.  
+ 
+The method according to claim 1, wherein said input 
+image characteristic value comprises input image 
+
+density. 
+The method according to claim 1, further comprising 
+the step of deriving a second image characteristic 
+
+value from said input pixel data and calculating 
+said resultant output pixel by combining said first 
+
+and second output image pixels as a function of said 
+first and second image characteristic values. 
+The method according to claim 21, wherein said first 
+and second characteristic values comprise values 
+
+representing image contrast and density, 
+respectively. 
+The method according to claim 1, further comprising 
+the steps of locating a second local position within 
+
+said input image; repeating the steps (c) to (f) to 
+obtain a further resultant output image pixel; and 
+
+repeating said steps for further local positions 
+until a complete interpolated output image of a 
+
+required size is produced. 
+Digital image processing apparatus for interpolating 
+a digital input image into an interpolated output 
+
+image, comprising: 
+
+an input buffer (12) for accommodating pixel data of 
+said input image; 
+a coefficient buffer (14) for storing pre-calculated 
+interpolation weighting coefficients prior to real 
+
+time image interpolation and comprising a first 
+memory segment (22) for containing a first set of 
+
+pre-calculated interpolating weighting coefficients  
+ 
+
+obtained by using a first interpolating algorithm; a 
+second memory segment (24) for containing a second 
+
+set of pre-calculated weighting coefficients 
+obtained by using a second interpolating algorithm; 
+
+and a third memory segment (26) for containing a set 
+of pre-calculated weighting coefficients 
+
+representative of a predetermined characteristic of 
+said input image; and 
+image convolution and interpolation means (16, 18) 
+for calculating a first interpolated output image 
+
+pixel using said input pixel data and said first set 
+of weighting coefficients and for calculating a 
+
+second interpolated output image pixel using said 
+input pixel data and said second set of weighting 
+
+coefficients and for calculating a value for said 
+image characteristic using said input pixel data and 
+
+said image characteristic weighting coefficients and 
+for calculating a resultant output pixel by 
+
+combining said first and second output image pixels 
+as a function of said characteristic value. 
+The apparatus according to claim 24, wherein said 
+coefficient buffer further comprises a fourth memory 
+
+segment (28) for containing precalculated 
+interpolation coefficients for effecting constant 
+
+interpolation coefficients for effecting constant 
+image size interpolation. 
+The apparatus according to claim 24, wherein said 
+first interpolated output image pixel is obtained by 
+
+the application of said first interpolation 
+algorithm producing a relatively sharp result and 
+
+said second interpolated output image pixel is 
+obtained by the application of said second  
+
+ 
+interpolation algorithm producing a relatively soft 
+
+result. 
+The apparatus according to claim 26, wherein said 
+resultant output image pixel is calculated according 
+
+to the algorithm: 
+
+P = SX + (1 - S)Y 
+ 
+where 
+
+
+P represents said resultant output image pixel; 
+X represents said first or sharp interpolated output 
+image pixel; 
+Y represents said second or soft interpolated output 
+image pixel; and 
+S represents a scaling factor, with a value of from 
+0 to 1, derived from said input image chara
+cteristic 
+value. 
+The apparatus according to claim 27, wherein said 
+means for deriving an input image characteristic is 
+
+adapted to derive values for image contrast and 
+image density. 
+The apparatus according to claim 28, further 
+comprising lookup tables (20) for obtaining said 
+
+scaling factor S as a function of said image 
+contrast and image density values. 
+The apparatus according to claim 29, further 
+comprising a coefficient buffer containing a set of  
+
+ 
+contrast detector mask coefficients for deriving 
+
+said image contrast value. 
+The apparatus according to claim 24, further 
+comprising means for obtaining a third interpolated 
+
+output image pixel at said predetermined pixel 
+position in said output image; 
+
+
+means for deriving a further input image 
+characteristic value from said input image pixel 
+
+data; and 
+means for calculating a further resultant output 
+image pixel at said predetermined pixel position in 
+
+said output image by combining said first resultant 
+output image pixel and said third interpolated 
+
+output image pixel as a function of said further 
+input image characteristic value. 
+The apparatus according to claim 31, wherein said 
+resultant output image pixel is calculated according 
+
+to the algorithm: 
+
+P = SX + (1 - S)Y 
+ 
+where 
+
+
+P represents said resultant output image pixel; 
+X represents said first interpolated output image 
+pixel; 
+Y represents said second interpolated output image 
+pixel; and  
+
+ 
+S represents a scaling factor, with a value of from 
+0 to 1, derived from said input image characteristic 
+
+value, 
+ 
+and wherein
+ 
+said further resultant output image pixel is 
+
+calculated by using the algorithm: 
+
+P' = S'W + (1 - S')P 
+ 
+where P' represents said further resultant output 
+
+image pixel; W represents said third interpolated 
+output image pixel and S' represents a further 
+
+scaling factor with a value from 0 to 1, derived 
+from said further input image characteristic value. 
+The apparatus according to claim 24, further 
+comprising a buffer containing a set of said first 
+
+interpolated output image pixels and a set of said 
+second interpolated output image pixels for 
+
+accessing by said means for obtaining first and 
+second interpolated output image pixels to select 
+
+one value from each one of said sets. 
+</CLAIMS>
+</TEXT>
+</DOC>

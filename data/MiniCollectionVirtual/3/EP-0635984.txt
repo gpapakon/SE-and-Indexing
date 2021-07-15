@@ -1,0 +1,166 @@
+<DOC>
+<DOCNO>EP-0635984</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+ADCT compression with minimum compression ratio
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04N141	H03M730	G06T900	H04N730	H04N730	H04N141	H03M730	G06T900	H04N726	H04N726	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04N	H03M	G06T	H04N	H04N	H04N	H03M	G06T	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04N1	H03M7	G06T9	H04N7	H04N7	H04N1	H03M7	G06T9	H04N7	H04N7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method of compressing an original document image in a manner assuring a 
+minimum compression ratio includes the steps: a) storing to a tile memory a portion of the 
+
+document image; b) from the document image portion stored in tile memory, using the 
+discrete cosine transform a basis function (DCT), forming a frequency space representation of 
+
+the image at a transformer; c) retrieving a set of stored values referred to as a Q-Table, d) 
+dividing each of the Q-Table values into the DCT value, and returning the integer portion of 
+
+the value as the quantized DCT value; e) encoding the quantized DCT values using a statistical 
+encoding method; f) determining whether the data block size is larger than desired, and if not, 
+
+passing the data block to an output; g) otherwise, reducing a least one high frequency 
+component of the frequency space representation of the document image and and repeating 
+
+steps e) - g) until the size of the data block is acceptable. In accordance with another aspect of 
+the invention, the steps of f and g may be expressed as: f) counting the number of bits 
+
+representing the compressed tile of image data; g) comparing the count to a reference; h) if 
+the count is less than the reference, passing the compressed tile to an output; i) if the count is 
+
+greater than the reference, modifying the quantized DCT values, and repeating steps e)-i). 
+
+</ABSTRACT>
+<APPLICANTS>
+</APPLICANTS>
+<INVENTORS>
+</INVENTORS>
+<DESCRIPTION>
+The present invention is directed to a method of compressing images in accordance
+with the currently proposed Joint Photographic Expert Group (JPEG) adaptive discrete cosine
+transform (ADCT) standard, and more particularly, a method of assuring an adequate ratio of
+compression of those images by a slight modification of the compression step.Data compression is required in data handling processes, where too much data is
+present for practical applications using the data. Commonly, compression is used in
+communication links, where the time to transmit is long, or where bandwidth is limited.
+Another use for compression is in data storage, where the amount of media space on which the
+data is stored can be substantially reduced with compression. Yet another application is a
+digital copier or a multi-function device (MFD) where an intermediate storage for collation,
+reprint or any other digital copier/MFD functions is desired. Generally speaking, scanned
+images, i.e., electronic representations of hard copy documents, are commonly large, and thus
+are desirable candidates for compression.Many different compression techniques exist, and many are proprietary to individual
+users. However, standards are desirable whenever intercommunication between devices will
+be practiced. Particularly with the advent of proliferating network communication, where
+formerly dissimilar devices are required to communicate, a common standard will be required.
+An example is the current desirability of FAX machines to be able to communicate with
+printers. Currently, compression standards are generally distinct for different devices.Three major schemes for image compression are currently being studied by
+international standardization groups. A first, for facsimile type image transmission, which is
+primarily binary, is under study by the JBIG (Joint Binary Image Group) committee, a second for
+TV and film, a standard is worked on by the MPEG (Motion Pictures Expert Group). For non-moving
+general images, i.e., still images which are more general than the ones covered by JBIG,
+the JPEG is seeking to develop a device independent compression standard, using an adaptive
+discrete cosine transform scheme.ADCT (described for example, by W H. Chen and C. H. Smith, in "Adaptive Coding of
+Monochrome and Color Images", IEEE Trans. Comm., vol COM-25, pp. 1285-1292, November
+1977), as the method disseminated by the JPEG committee will be called in this application, is a
+lossy system which reduces data redundancies based on pixel to pixel correlations.
+</DESCRIPTION>
+<CLAIMS>
+A method of compressing a document image in a manner assuring a minimum
+compression ratio thereof, wherein the document image is expressed in terms of pixels, each
+
+pixel representing a discrete area ot the document image having a digital value representing
+reflectance varying between a minimum and maximum value, the method including the steps
+
+of:
+
+a) storing to a tile memory a block of pixels of the document image;
+b) retrieving to a transformer, the block of pixels stored in tile memory, said
+transformer forming a frequency space representation of the block of pixels including a set of
+
+frequency coefficients representing amplitudes of the document image at increasing
+frequencies of the document image;
+c) retrieving from a memory a set of stored values referred to as a Q-Table to a
+dividing circuit;
+d) at the dividing circuit, operatively connected to the transformer and receiving the
+set of frequency coefficients therefrom, dividing each of said Q-Table values into a
+
+corresponding frequency coefficient, and returning an integer portion of a result as a
+quantized frequency coefficient;
+e) at an encoder, receiving the quantized frequency coefficients from the dividing
+circuit and using a statistical encoding method, providing an encoded set of frequency
+
+coefficients;
+f) determining whether an encoded set of frequency coefficients has a size in terms
+of storage space required larger than desired, and if not, passing the set of frequency
+
+coefficients to an output;
+g) if the encoded set of frequency coefficients has a size interim of required storage
+space larger than desired, selectively reducing a selected frequency component of the
+
+frequency space representation of the document image block; and
+h) iteratively repeating steps e)-g).
+A method of compressing a document image in a manner assuring a minimum
+compression ratio thereof, wherein the document image is expressed in terms of pixels, each
+
+pixel representing a discrete area of the document image having a digital value representing
+reflectance varying between a minimum and maximum value, the method including the steps
+
+of:
+
+a) storing to a tile memory a block of pixels of the document image;
+b) retrieving to a transformer, the block of pixels stored in tile memory, said
+transformer forming a frequency space representation of the block of pixels including a set of 
+
+frequency coefficients representing amplitudes of the document image at increasing
+frequencies of the document image;
+c) retrieving from a memory a set of stored values referred to as a Q-Table to a
+dividing circuit;
+d) at the dividing circuit, operatively connected to the transformer and receiving the
+set of frequency coefficients therefrom, dividing each of said Q-Table values into a
+
+corresponding frequency coefficient, and returning an integer portion of a result as a
+quantized frequency coefficient;
+e) at an encoder, receiving the quantized frequency coefficients from the dividing
+circuit and using a statistical encoding method, providing an encoded set of frequency
+
+coefficients;
+f) determining from device requirements a maximum size of the encoded set of
+frequency coefficients in terms of a maximum number of bits of memory;
+g) at a counter, receiving the encoded set of frequency coefficients and counting the
+number of bits representing that block of pixels;
+h) if the number of counted bits is less than the maximum number of bits of memory,
+directing the encoded set of frequency coefficients to an output;
+g) if the number of bits exceeds the maximum number of bits of memory, reducing
+at least one high frequency component of the frequency space representation of the
+
+document image; and
+h) iteratively repeating steps e)-g) until the set of frequency coefficients is passed to
+an output.
+The method as defined in claim 1 or 2, wherein the block of pixels of the document
+image represents an M pixel by M pixel area of the image.
+The method as defined in claim 1, 2 or 3, wherein the frequency space
+representation utilizes a discrete cosine transform as a basis function.
+The method as defined in any of claims 1 to 4, wherein the statistical encoding
+method used is the Huffman encoding method.
+The method as defined in any of the preceding claims, wherein the desired size in
+terms of storage space of the encoded set of frequency coefficients is determined by reference
+
+to an external buffer size. 
+The method as defined in any of the preceding claims, wherein the desired size in
+terms of storage space of the encoded set of frequency coefficients is given in terms of bits of
+
+information.
+The method as defined in any of the preceding claims, wherein the document image
+digital reflectance value represents a component value of a predefined color space.
+The method as defined in any of the preceding claims, wherein the selective
+reduction operation of one high frequency component is replaced by resetting said
+
+component to zero.
+The method as defined in any of the preceding claims, wherein the determination
+whether an encoded set of frequency coefficients has a size in terms of storage space required
+
+larger than desired is made using size requirements dependent on an average compression
+rate of a plurality of compressed pixel blocks.
+</CLAIMS>
+</TEXT>
+</DOC>

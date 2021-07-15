@@ -1,0 +1,158 @@
+<DOC>
+<DOCNO>EP-0636979</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Information processing system
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F132	G06F1200	G06F1114	G06F1114	G06F1216	G06F1216	G06F100	G06F1200	G06F100	G06F132	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F1	G06F12	G06F11	G06F11	G06F12	G06F12	G06F1	G06F12	G06F1	G06F1	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Provided is an information processing system which prevents data 
+destruction resulting from the replacement of a floppy disk during a low 
+
+power-consumption mode in which a floppy disk controller and a floppy 
+disk drive are powered off. 
+In the process of returning from hibernation mode to a normal operation 
+mode, an I/O address showing a change line status register of the floppy 
+
+disk controller is set to a stored register of the trap logic (status 
+173). When the process returns to the normal operation mode and then an 
+
+access to the first status register is trapped, a change line status 
+flag value is rewritten (status 174). The OS/driver responds to the 
+
+faked status and invalidates the floppy disk allocation information in 
+the main memory. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+KAWAMURA TATEO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SHIMOTONO SUSUMU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KAWAMURA, TATEO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SHIMOTONO, SUSUMU
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to information processing systems that
+operate with a low power consumption, and more particularly to a
+portable information processing system such as a notebook computer.As a result of recent technological innovation, small-size and lightweight
+portable computers have become common. When such portable
+computers are used outdoors, electric power is supplied to them with
+batteries. However batteries mounted on portable computers are
+restricted to small-size batteries. Thus the period for which personal
+computers can be operated without recharging the batteries is short.
+Consequently various kinds of facilities or devices are provided for
+reducing the consumption of power in many portable computers.A suspend/resume function is one of such facilities. When the
+suspend/resume function operates, the computer enters into a suspend
+mode. This may be in response to a situation such as one in which the
+activity of I/O device is not detected for a certain time. In the
+suspend mode all tasks are suspended, and the main memory saves data
+required later for resuming the tasks. In the suspend mode, the main
+memory and the video memory (VRAM) are powered on, but CPU or the like
+are powered off. However, portable computers have a drawback in that
+the power of batteries are consumed when the suspend mode continues for
+a very long time with only the support of the suspend/resume function.
+This can result in the contents of the memory and the VRAM being erased.Therefore portable computers which are supported with hibernation mode,
+such as the LTE Lite/25 manufactured by Compaq Company (Compaq and LTE
+are registered trademarks of Compaq Computer Corporation) have been
+proposed and marketed. When hibernation mode is enabled, the computer
+enters a low battery-use state. Otherwise, when the suspend mode
+continues for a certain time, the computers enter hibernation mode after 
+saving onto the hard disk all the data required later for resuming the
+task. In hibernation mode, the whole system, including the memory and
+the VRAM, is powered off. When users power on the system later, the
+data stored in the hard disk is restored in the memory and the VRAM and
+the tasks which had been suspended are automatically resumed. The
+series of operation accompanying power-on is also referred to as wake-up.Conventional information systems have a drawback in that if a floppy
+disk is exchanged during suspend or hibernation mode in which a floppy
+disk controller (FDC) and a floppy disk drive (FDD) are power off, and
+th
+</DESCRIPTION>
+<CLAIMS>
+An information processing system including a CPU, a main memory,
+a floppy disk controller (FDC), and a floppy disk drive (FDD), means
+
+being provided between said FDC and said FDD for monitoring
+attachment/detachment of a floppy disk (FD) to/from said FDD, the status of
+
+said monitoring means being reflected by a flag value in a status
+register in said FDC, the flag status being used to determine the
+
+validity of file allocation information that has been stored via said FDC
+to said main memory, said information processing system comprising:
+
+
+(a) a means for entering a low power-consumption mode by turning off
+the power to said FDC and FDD upon the occurrence of a first
+
+predetermined condition;
+(b) a means for entering a normal operation mode, during which said FDC
+and FDD are powered on, upon the occurrence of a second predetermined
+
+condition;
+(c) a means for emulating a predetermined flag status at the first
+access after the transition from said low power-consumption mode to said
+
+normal operation mode;
+(d) means, responsive to said emulated flag status, for invalidating
+said stored file allocation information; and
+(e) means for reading new file allocation information from a floppy
+disk (FD).
+An information processing system according to claim 1, wherein said
+means for emulating (c) comprises:
+
+
+a trap logic for monitoring an access to an I/O address set in a
+stored register;
+a means for setting an I/O address showing said status register in
+said trap logic register;
+a means for rewriting said flag value when said access to first
+status register is trapped by said trap logic upon return to said normal
+
+operation mode; and 
+a means for clearing the register of said trap logic so that the
+access to said status register after the second time is not trapped.
+An information processing system according to claim 1 wherein said
+means for emulating (c) comprises:
+
+
+a register to which a specific I/O address is allocated;
+a logic gate in which one input is connected to said means for
+monitoring the other input is connected to a specific bit of the register
+
+in a specific I/O address and the output is supplied to said status flag;
+a means for setting, on returning to the above normal operation
+mode, a value in a register of the above specific I/O address so that a
+
+value showing that the above file allocation information is invalid can
+be set to the above flag; and
+a means for clearing a register of the above specific I/O address
+in response to the above setting of the status register.
+An information system according to any one of claims 1 to 3,
+wherein said low power-consumption mode is a hibernation mode in which
+
+said main memory is powered off.
+An information system according to any one of claims 1 to 3,
+wherein said low power-consumption mode is a suspend mode in which said
+
+main memory is not powered off.
+</CLAIMS>
+</TEXT>
+</DOC>

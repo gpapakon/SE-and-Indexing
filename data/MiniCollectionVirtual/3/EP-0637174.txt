@@ -1,0 +1,684 @@
+<DOC>
+<DOCNO>EP-0637174</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Digital data transmission method and apparatus
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04N764	H04N752	H04N764	H04N754	H04N752	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04N	H04N	H04N	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04N7	H04N7	H04N7	H04N7	H04N7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method for transmitting pieces of synchronized picture 
+data having the same data length of which each include a 
+
+synchronizing signal, an identifying code, pieces of 
+compressed picture data having different data lengths and an 
+
+error correcting code in that order is disclosed. To correctly 
+decode each of the compressed picture data, it is required to 
+
+start an decoding operation from a head address of each of the 
+compressed picture signal. Therefore, in cases where a head 
+
+address of a piece of compressed picture data exists in a 
+piece of synchronized, an existence information flag for 
+
+informing the existence of the head address, an address 
+
+pointer for indicating an address of the head address, and a 
+block number for indicating a position of the compressed 
+
+picture data having the head address are added just after the 
+identifying code to correctly decode the compressed picture 
+
+data and other pieces of following compressed picture data in 
+the synchronized picture data. In contrast, in cases where any 
+
+head address does not exists, a no-existence information flag 
+for informing the no-existence of the head address is merely 
+
+added just after the identifying code. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+VICTOR COMPANY OF JAPAN
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+VICTOR COMPANY OF JAPAN, LIMITED
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+HIGURASHI SEIJI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+OHISHI TAKEO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HIGURASHI, SEIJI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+OHISHI, TAKEO
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to digital data
+transmission method and apparatus for transmitting a band-compressed
+digital signal such as a picture signal or an audio
+signal to record and reproduce the digital signal.A digital data transmission apparatus has been utilized
+to transmit a band-compressed digital information signal such
+as a picture signal or an audio signal. Fig. 1 is a block
+diagram of a conventional digital data transmission apparatus.
+As shown in Fig. 1, a conventional digital data transmission
+apparatus 11 comprises a transmitting system 12 for processing
+a digital picture signal representing a digital information
+signal, a transmission path 13 for transmitting the digital
+picture signal processed in the system 12, and a receiving
+system 14 for processing the digital picture signal 
+transmitting through the transmission path 13. The processing
+in the transmitting system 12 and the processing in the
+receiving system 14 are complementary to each other.A digital picture signal designating a frame of picture
+data Dp is input to a signal dividing section 15 of the system
+12. Thereafter, as shown in Fig. 2(a), the digital picture
+signal is divided into pieces of partial picture data DPi (i=
+1,2, --, the same shall apply hereinafter). The partial
+picture data DPi are respectively composed of 64 pixels (8
+pixels in a lateral direction × 8 pixels in a longitudinal
+direction) to be orthogonally converted and are allocated in a
+plurality of encoded blocks BEi. Thereafter, the partial
+picture data DPi are transferred to an orthogonal converting
+section 16 and are orthogonally converted into pieces of
+converted picture data in each of the encoded blocks. For
+example, a discrete cosine transformation is performed for
+each of the partial picture data DPi. In this case, energy is
+concentrated on lower frequency components of the converted
+picture data according to statistical properties of the
+picture signal. Thereafter, the converted picture data are
+transferred to a quantizing and variable-length encoding
+section 17.In the section 17, the converted picture data are
+adaptively quantized to produce pieces of quantized data
+according to a predicted dynamic range and a predicted length 
+of data obtained by quantizing and encoding the converted
+picture data in variable-length. Thereafter, the quantized
+data are encoded in variable-length and are encoded in run-length
+in the section 17. Therefore, a total length of the
+converted picture data is reduced in the section 17. In other
+words, the converted
+</DESCRIPTION>
+<CLAIMS>
+A digital data transmission method, comprising the
+steps of:
+
+
+coding pieces of partial information data (DPi) having the
+same data length to produce pieces of compressed information
+
+data (DCi) having different data lengths; and
+allocating the pieces of compressed information data (DCi)
+to a plurality of synchronizing blocks (BSi) having the same
+
+synchronizing data length to produce a piece of synchronized
+information data (DSi) arranged in each of the synchronizing
+
+blocks, the pieces of synchronized information data having the
+same data length, and each piece of synchronized information
+
+data being composed of one or more pieces of compressed
+information data or a rear part of one piece of compressed
+
+information data,
+characterized in that
+ the digital data transmission method
+further comprises the steps of:
+
+
+judging whether or not a head address (AHj) of one piece of
+compressed information data existing in one synchronizing
+
+block exists in the synchronizing block for each of the
+synchronizing blocks, the synchronizing block in which a head
+
+address (AHj) of a particular piece of compressed information
+data exists being called a first particular synchronizing
+
+block, and the synchronizing block in which a head address
+(AHj) of any piece of compressed information data does not
+
+exist being called a second particular synchronizing block;
+arranging a piece of existence information (Fe) indicating
+the existence of the head address of the particular piece of 
+
+compressed information data in each first particular
+synchronizing block to produce a first particular piece of
+
+synchronized information data (DS'i), in which the existence
+information and one or more pieces of compressed information
+
+data including the particular piece of compressed information
+data are arranged, in each first particular synchronizing
+
+block;
+arranging a piece of no-existence information (Fn)
+indicating no-existence of the head address of any piece of
+
+compressed information data in each second particular
+synchronizing block to produce a second particular piece of
+
+synchronized information data (DS'i), in which the no-existence
+information and a rear part of one piece of compressed
+
+information data are arranged, in each second particular
+synchronizing block; and
+transmitting the first particular pieces of synchronized
+information data of the first particular synchronizing blocks
+
+and the second particular pieces of synchronized information
+
+data of the second particular synchronizing blocks.
+A digital data transmission method according to
+claim 1, further comprising the step of:
+
+
+arranging a compressed data number code (NCj) indicating
+the number of pieces of compressed information data in each of
+
+the first particular synchronizing blocks.
+A digital data transmission method according to
+claim 1, further comprising the steps of:
+
+
+reproducing the first particular piece of synchronized
+information data (DS'i) of each first particular synchronizing
+
+block;
+recognizing the existence of the particular piece of 
+compressed information data of one first particular
+
+synchronizing block according to the existence information of
+the first particular synchronizing block for each first
+
+particular synchronizing block;
+recognizing the data position of the particular piece of
+compressed information data of one first particular
+
+synchronizing block according to the positional information of
+the first particular synchronizing block for each first
+
+particular synchronizing block;
+recognizing the particular position of the head address of
+the particular piece of compressed information data in the
+
+first particular piece of synchronized information data of one
+first particular synchronizing block according to the address
+
+pointing information of the first particular synchronizing
+block for each first particular synchronizing block; and
+decoding the pieces of compressed information data
+including the particular piece of compressed information data
+
+arranged in one first particular synchronizing block from the
+head address of the particular piece of compressed information
+
+data.
+A digital data transmission method according to
+claim 1, further comprising the steps of:
+
+
+reproducing the second particular piece of synchronized
+information data (DS'i) of each second particular synchronizing
+
+block;
+recognizing the existence of the rear part of the piece of
+compressed information data of one second particular
+
+synchronizing block according to the no-existence information
+of the second particular synchronizing block for each second
+
+particular synchronizing block; and
+decoding the rear part of the piece of compressed 
+information data of one second particular synchronizing block
+
+after a head part of the piece of compressed information data
+arranged in a first particular synchronizing block transmitted
+
+previous to the second particular synchronizing block is
+decoded.
+A digital data transmission method according to
+claim 1, further comprising the step of:
+
+
+classifying each piece of compressed information data into
+a piece of important compressed data (DIi) and a piece of
+
+ordinary compressed data (DOi) subsequent to the important
+compressed data;
+arranging one or more pieces of important compressed data
+(DIi) of one or more pieces of compressed information data of
+
+one first particular synchronizing block at an important
+synchronizing area (AISI) for each first particular
+
+synchronizing block; and
+arranging one or more pieces of ordinary compressed data
+(Doi) of one or more pieces of compressed information data of
+
+one first particular synchronizing block at an ordinary
+synchronizing area (AOSi) placed just after the important
+
+synchronizing area to arrange the first particular piece of
+synchronized information data (DS'i), in which the existence
+
+information, the pieces of important compressed data and the
+pieces of ordinary compressed data are arranged in that order,
+
+in each first particular synchronizing block.
+A digital data transmission method according to
+claim 5, further comprising the step of:
+
+
+arranging both a piece of address pointing information (PAi)
+indicating a particular position of a head address of the
+
+pieces of important compressed data and a piece of positional 
+information (NBi) indicating a data position of the pieces of
+
+important compressed data at an area placed before the
+important synchronizing area for each first particular
+
+synchronizing block.
+A digital data transmission method according to
+claim 5, further comprising the step of:
+
+
+arranging an ending code to indicate an end of the
+important synchronizing area at an end of the important
+
+synchronizing area.
+A digital data transmission method according to
+claim 5, further comprising the step of:
+
+
+arranging a compressed data number code (NCj), which
+indicates the number of pieces of important compressed data,
+
+in each first particular synchronizing block.
+A digital data transmission method according to
+claim 5, further comprising the step of:
+
+
+arranging an additional error correcting code (ECi) to
+delete a transmission error undesirably occurring in the
+
+pieces of important compressed data after the pieces of
+important compressed data for each first particular
+
+synchronizing block.
+A digital data transmission method according to
+claim 5, further comprising the steps of:
+
+
+reproducing the pieces of important compressed data for
+each first particular piece of synchronized information data;
+
+and
+decoding the pieces of important compressed data of the
+first particular synchronizing blocks to reproduce a frame of 
+
+picture.
+A digital data transmission method according to
+claim 6, further comprising the steps of:
+
+
+reproducing each first particular piece of synchronized
+information data in which the existence information, the
+
+address pointing information, the positional information, the
+pieces of important compressed data and the pieces of ordinary
+
+compressed data are arranged;
+recognizing the existence of the important compressed data
+of one first particular synchronizing block according to the
+
+existence information of the first particular synchronizing
+block for each first particular synchronizing block;
+recognizing the data position of the pieces of important
+compressed data of one first particular synchronizing block
+
+according to the positional information of the first
+particular synchronizing block for each first particular
+
+synchronizing block;
+recognizing the particular position of the head address of
+the pieces of important compressed data of one first
+
+particular synchronizing block according to the address
+pointing information of the first particular synchronizing
+
+block for each first particular synchronizing block; and
+decoding the pieces of important compressed data of one
+first particular synchronizing block from the head address of
+
+the pieces of important compressed data according to the data
+position of the pieces of important compressed data and the
+
+particular position of the head address of the pieces of
+important compressed data for each first particular
+
+synchronizing block.
+A digital data transmission apparatus, 
+comprising:
+
+
+coding means (15;16;17) for coding pieces of partial
+information data having the same data length to produce pieces
+
+of compressed information data having different data lengths;
+
+and
+allocating means (17) for allocating the pieces of
+compressed information data coded by the coding means to a
+
+plurality of synchronizing blocks having the same
+synchronizing data length to produce a piece of synchronized
+
+information data arranged in each of the synchronizing blocks,
+the pieces of synchronized information data having the same
+
+data length, and each piece of synchronized information data
+being composed of one or more pieces of compressed information
+
+data or a rear part of one piece of compressed information
+data,
+characterized in that
+ the digital data transmission
+apparatus further comprises:
+
+
+starting position detecting means (34,44) for checking
+whether or not a head address of one piece of compressed
+
+information data allocated by the allocating means exists in
+each synchronizing block as a decoding starting position,
+
+calling the synchronizing block, in which a head address of a
+particular piece of compressed information data exists, a
+
+first particular synchronizing block, calling the synchronizing
+block, in which a head address of any piece of compressed
+
+information data does not exist, a second particular
+synchronizing block, producing a piece of existence information
+
+(Fe) indicating the existence of the head address of the
+particular piece of compressed information data for each first
+
+particular synchronizing block, and producing a piece of no-existence
+information (Fn) indicating no-existence of a head
+
+address of any piece of compressed information data for each 
+second particular synchronizing block;
+synchronized information data storing means (37,48,49) for
+storing the pieces of synchronized information data allocated
+
+by the allocating means;
+existence information storing means (38,46) for storing the
+existence information produced by the starting position
+
+detecting means for each first particular synchronizing block
+and storing the no-existence information produced by the
+
+starting position detecting means for each second particular
+synchronizing block; and
+data and information reading control means (39,50) for
+reading out the existence information of each first particular
+
+synchronizing block and the no-existence information of each
+second particular synchronizing block from the existence
+
+information storing means, reading out the piece of
+synchronized information data from the synchronized
+
+information data storing means, arranging the existence
+information of each first particular synchronizing block with
+
+the synchronized information data corresponding to the first
+particular synchronizing block to produce a first particular
+
+piece of synchronized information data for each first
+particular synchronizing block, arranging the no-existence
+
+information of each second particular synchronizing block with
+the synchronized information data corresponding to the second
+
+particular synchronizing block to produce a second particular
+piece of synchronized information data for each second
+
+particular synchronizing block, and transmitting the first
+particular pieces of synchronized information data of the
+
+first particular synchronizing blocks and the second
+particular pieces of synchronized information data of the
+
+second particular synchronizing block one after another.
+A digital data transmission apparatus according
+to claim 12, further comprising:
+
+
+memory writing control means (47) for classifying each
+piece of compressed information data into a piece of important
+
+compressed data (DIi) and a piece of ordinary compressed data
+(DOi) subsequent to the important compressed data,
+
+the synchronized information data storing means comprises:
+
+second storing means (48) for storing one or more pieces of
+important compressed data of one or more pieces of compressed
+
+information data classified by the memory writing control
+means for each first particular synchronizing block defined by
+
+the starting position detecting means;
+third storing means (49) for storing one or more pieces of
+ordinary compressed data of one or more pieces of compressed
+
+information data classified by the memory writing control
+means for each first particular synchronizing block defined by
+
+the starting position detecting means and storing a rear part
+of a piece of compressed information data for each second
+
+particular synchronizing block defined by the starting position
+detecting means, and
+
+the data and information reading control means (39,50)
+comprises:
+
+
+memory reading control means (50) for reading out the
+existence information of each first particular synchronizing
+
+block and the no-existence information of each second
+particular synchronizing block from the existence information
+
+storing means, reading out the pieces of important compressed
+data of each first particular synchronizing block from the
+
+second storing means, reading out the pieces of ordinary
+compressed data of each first particular synchronizing block
+
+and the rear part of the piece of compressed information data
+of each second particular synchronizing block from the third 
+
+storing means, arranging the existence information, the pieces
+of important compressed data and the pieces of ordinary
+
+compressed data in each first particular synchronizing block
+in that order to produce one first particular piece of
+
+synchronized information data for each first particular
+synchronizing block, arranging the no-existence information
+
+and the rear part of the piece of compressed information data
+in each second particular synchronizing block in that order to
+
+produce one second particular piece of synchronized
+information data for each second particular synchronizing
+
+block, and transmitting the first particular pieces of
+synchronized information data of the first particular
+
+synchronizing blocks and the second particular pieces of
+synchronized information data of the second particular
+
+synchronizing blocks one after another.
+A digital data transmission method according to
+claim 1, further comprising the step of:
+
+
+arranging both a piece of address pointing information
+(PAi) indicating a particular position of the head address of
+
+the particular piece of compressed information data and a
+piece of positional information (NBi) indicating a data
+
+position of the particular piece of compressed information
+data in each first particular synchronizing block, one first
+
+particular piece of synchronized information data (DS'i), in
+which the existence information, the address pointing
+
+information, the positional information and one or more pieces
+of compressed information data including the particular piece
+
+of compressed information data are arranged, being arranged in
+each first particular synchronizing block.
+A digital data transmission method according to 
+claim 1, further comprising the step of:
+
+
+adding a synchronizing signal (SSi) and an error correcting
+code (ECi) to each of the synchronizing blocks.
+A digital data transmission method according to
+claim 1, further comprising the steps of:
+
+
+judging whether the existence information or the no-existence
+information exists in a current piece of
+
+synchronized information data currently transmitted as one
+first particular piece of synchronized information data or one
+
+second particular piece of synchronized information data;
+decoding the pieces of compressed information data
+including the particular piece of compressed information data
+
+in the current piece of synchronized information data from the
+head address of the particular piece of compressed information
+
+data in cases where the existence information exists in the
+
+current piece of synchronized information data; and
+decoding the rear part of the piece of compressed
+information data existing in the current piece of synchronized
+
+information data after a head part of the piece of compressed
+information data transmitted previous to the current piece of
+
+synchronized information data is decoded in cases where the
+no-existence information exists in the current piece of
+
+synchronized information data.
+A digital data transmission method according to
+claim 5, further comprising the steps of:
+
+
+arranging a synchronizing signal (SSi) at a synchronizing
+signal area of each synchronizing block, the synchronizing
+
+signal area being placed just before an existence information
+area of the piece of existence information for each first
+
+particular synchronizing block, and the synchronizing signal 
+area being placed just before a no-existence information area
+
+of the piece of no-existence information for each second
+particular synchronizing block;
+placing the important synchronizing area just after the
+existence information area of the existence information for
+
+each first particular synchronizing block;
+placing the ordinary synchronizing area just after the
+important synchronizing area for each first particular
+
+synchronizing block; and
+placing the rear part of one piece of compressed
+information data of one second particular synchronizing block
+
+at a data area just after the no-existence information area
+for each second particular synchronizing block.
+A digital data transmission method according to
+claim 6, further comprising the step of:
+
+
+placing the address pointing information and the positional
+information between the existence information and the
+
+important compressed data.
+A digital data transmission method according to
+claim 5, further comprising the step of:
+
+
+adding an error correcting code (ECi) to each synchronizing
+block.
+A digital data transmission apparatus according to
+claim 12 in which a synchronizing signal (SSi) is arranged in
+
+each synchronizing block by the allocating means, both a piece
+of address pointing information indicating a particular
+
+position of the head address of the particular piece of
+compressed information data and a piece of positional
+
+information indicating a data position of the particular piece 
+of compressed information data are produced by the starting
+
+position detecting means for each first particular
+synchronizing block, and the address pointing information and
+
+the positional information being arranged in each first
+particular synchronizing block by the data and information
+
+reading control means.
+A digital data transmission apparatus according to
+claim 13 in which a synchronizing signal (SSi) is arranged in
+
+each synchronizing block by the allocating means, both a piece
+of address pointing information indicating a particular
+
+position of the head address of the particular piece of
+compressed information data and a piece of positional
+
+information indicating a data position of the particular piece
+of compressed information data are produced by the starting
+
+position detecting means for each first particular
+synchronizing block, the synchronizing signal, the group of
+
+address pointing information and positional information, the
+existence information, the pieces of important compressed data
+
+and the pieces of ordinary compressed data are arranged in
+each first particular synchronizing block in that order by the
+
+memory reading control means, and the synchronizing signal,
+the no-existence information and the rear part of the piece of
+
+compressed information data are arranged in each second
+particular synchronizing block in that order by the memory
+
+reading control means.
+</CLAIMS>
+</TEXT>
+</DOC>

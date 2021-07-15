@@ -1,0 +1,152 @@
+<DOC>
+<DOCNO>EP-0633525</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method for compilation of programming languages
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F945	G06F945	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A language processing method targeted at 
+hardware having a data space greater than the data width 
+
+of an architecture is improved in that address 
+calculation of an array element is performed efficiently 
+
+and the size of an object is reduced while the execution 
+performance of the object is enhanced. A command which 
+
+designates a maximum size of an array is inputted, and 
+it is analyzed whether or not the designated size is 
+
+equal to or smaller than a fixed size (step 301). When 
+a result of the analysis is equal to or smaller than the 
+
+fixed size, a subscript of the array is taken out first 
+(step 306). An offset is calculated from contents of 
+
+the subscript thus taken out and the data width of the 
+array element (step 309), and an address of the array 
+
+element is calculated from the offset thus calculated 
+and the top address of the array (step 310). 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+NIPPON ELECTRIC CO
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+NEC CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+ISOZAKI HIROKO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ISOZAKI, HIROKO
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to a language processing
+method, and particularly to a language processing method
+used to compile a source program described in a language
+having an array structure such as the C language into
+object modules.Files produced by compilation of a source
+program inputted by a language processing program are
+called object modules (hereinafter referred to as
+objects). Generally, for software processed by a
+language processing program, the speed is required as
+its execution performance. In order to realize a high
+speed execution performance, it is necessary that the
+sizes of the objects which are results of execution of
+language processing be small and that the execution of
+the objects is fast. Meanwhile, as the scale of
+software increases, the data space of hardware tends to
+expand.In a conventional language processing method, as 
+the expansion of the data space proceeds, the address
+calculation for calculating the position of an array
+element in the data space is performed in conformity
+with the size of the data space. If it is assumed that
+the data space is 4 gigabytes (= 232 bytes), then
+representation of an address in the data space requires
+32 bits = 4 bytes. A method of conventional address
+calculation of an array element will be described with
+reference to FIG. 9 based on such assumption.In a process for calculating an offset of an
+element of an array from the top of the array, a
+subscript of the array is taken out (step 901). Then,
+the contents of the subscript are extended to 4 bytes
+(step 902). Then, the contents (4 bytes) of the
+subscript after the extension are multiplied by a data
+width of elements of the array to calculate an offset
+(step 903). An offset is calculated by the steps
+described just above.Subsequently, the address of the array element
+is calculated by taking out a top address of the array
+(step 904) and adding the array top address thus taken
+out to the offset calculated as above (step 905).A language program produces an object in
+accordance with the calculation method described above. 
+The reason why the contents of a subscript are extended
+to 4 bytes at step 902 is such as follows. Generally in
+a high level language, external reference of a variable
+is permitted in order to allow a link of a plurality of
+modules. However, if external reference of an array is
+permitted similarly, then the size of the array becomes
+indefinite. Therefore, taking the possibility into
+consideration that the maximum value of an offset to be
+obtained may have an equal size to that
+</DESCRIPTION>
+<CLAIMS>
+A computer language compilation method to be executed in a data space with a corresponding
+required address size which includes the steps of:
+
+
+inputting source program information,
+analyzing the thus inputted source program information to produce object
+information,
+calculating the address of an array element of an array to be processed upon
+production of the object information, and
+outputting the object information thus produced,
+
+characterized in that the step of calculating the address of an array
+element comprises the steps of:
+inputting a command which designates a maximum size of the array and
+analyzing whether or not the designated size is equal to or smaller than a fixed size so that the array
+
+requires a smaller address size than said required address size (step 301);
+selecting, based on said analysis of the designated array size:
+
+if the designated state is equal to or smaller than said fixed size, a first
+array address calculation operation comprising the steps of:
+
+
+taking out the subscript of said array element of the array (step 306);
+calculating an offset from contents of the subscript thus taken out
+and the data width of the array element (step 309) by means of operations of said smaller size; and
+calculating an address of the array element from the offset thus
+calculated and the top address of the array (step 310), or
+if the designated size is larger than said fixed size, a second array
+address calculation operation comprising the steps of:
+
+
+taking out the subscript of said array element of the array (step 311);
+extending the contents of the subscript thus taken out to said required address size (step 312);
+calculating an offset from contents of the subscript thus taken out
+and the data width of the array element (step 313); and
+calculating an address of the array element from the offset thus
+calculated and the top address of the array (step 315).
+A language processing method as set forth in 
+claim 1, characterized in that the command of
+
+designating a maximum size of the array is inputted from
+other than the source program information.
+A language processing method as set forth in
+claim 1, characterized in that the command of
+
+designating a maximum size of the array is inputted from
+within the source program information.
+</CLAIMS>
+</TEXT>
+</DOC>

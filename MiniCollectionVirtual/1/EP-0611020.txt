@@ -1,0 +1,228 @@
+<DOC>
+<DOCNO>EP-0611020</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Image generator
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G09B902	G06T1500	G06T1500	G09B930	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G09B	G06T	G06T	G09B	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G09B9	G06T15	G06T15	G09B9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An apparatus for generating an image to be displayed on a display 
+screen from data defining a model including a plurality of opaque and 
+
+translucent features. The image is intended to represent a view of the model 
+from a predetermined eyepoint and is made up from an array of screen space 
+
+pixels to be displayed by a raster scanning process. Each pixel is of uniform 
+colour and intensity, and the pixels together define an image area. The image 
+
+area is divided into an array of sub-areas each of which covers at least one 
+pixel. For each feature in the model that is potentially visible from the 
+
+eyepoint, a test is conducted to determine which of the sub-areas is at least 
+partially covered by that feature. A list of feature identifiers is produced in 
+
+respect of each sub-area, the list for any one sub-area identifying features 
+which at least partially cover that sub-area. The position in screen space of 
+
+at least one sampling point within each sub-area is determined. For each 
+sub-area in turn, and for each sampling point a test is conducted to determine 
+
+which of the features in that sub-area's list cover that sampling point. For 
+each feature which covers a sampling point, a function of the distance from 
+
+the eyepoint to that feature at the sampling point is determined. Feature 
+describing data is stored for each sampling point within a sub-area, the stored 
+
+data being indicative of at least the distance of the opaque feature which 
+covers the sampling point and is nearest to the eyepoint and the distance and 
+
+translucency of at least one nearer translucent feature which covers the 
+sampling point. An output is produced for each sampling point within a 
+
+sub-area, the sampling point output corresponding to the combined effects of 
+the features identified by the store
+d data. An output for each pixel within a 
+sub-area is produced, the pixel output corresponding to the combined effects 
+
+of the sampling point outputs for all sampling points which contribute to that 
+pixel, and the pixel outputs are displayed. 
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+THOMSON TRAINING 
+&
+ SIMULATION
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+THOMSON TRAINING 
+&
+ SIMULATION LIMITED
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BAKER STEPHEN JOHN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+COWDREY DENNIS ALAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+OLIVE GRAHAM JOHN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WOOD KARL JOSEPH
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BAKER, STEPHEN JOHN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+COWDREY, DENNIS ALAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+OLIVE, GRAHAM JOHN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WOOD, KARL JOSEPH
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to an image generator, and in particular
+to a computer image generator suitable for generating information in real
+time from which an image can be derived for display in for example a flight
+simulator.Real time image generators for flight simulators are used to generate
+images which are presented to pilots who are positioned in a mock aircraft
+cockpit. In early systems, a visual environment was created using film or
+video images obtained from a servo-driven camera that was manoeuvred
+above a model of the terrain over which movement was to be simulated.
+These approaches were widely used but were found to be incapable of
+producing realistic scenes with true perspective from a wide range of
+eyepoints. In order to overcome these limitations, image generators
+producing computer generated imagery were introduced, the first
+commercially successful systems appearing in the early 1970s. Such systems
+are now used almost exclusively in flight simulator application, and are
+usually referred to as CIG (Computer Image Generation) systems.In a CIG system, the intended viewer of the image produced by the
+system, i.e. the simulator pilot, looks out through an imaginary window into
+a three dimensional (3-D) world defined by information stored as geometrical
+and other characteristic attribute data. A line drawn from the eyepoint
+through the window intersects a point in the 3-D world. The colour and
+intensity of that point must be "painted" on the window at the point of
+intersection of that line with the window. The displayed image is made up
+from a series of picture elements (pixels) each of which is of uniform colour
+and intensity, the colour and intensity of each pixel being a function of the
+position of the eyepoint relative to the 3-D world which the stored data 
+represents. In a real time display where hundreds of thousands of pixels must
+be updated sufficiently quickly to avoid jumping of the image, it is necessary
+to perform many millions of calculations per second to maintain image
+fidelity. In most simulator systems producing a wide angle display the image
+is made up from three juxtaposed images each derived from a common
+database but generated by a respective processing channel. The computational
+load is thus shared between the three channels. We are concerned herein
+with the processes within a single channel only and therefore the
+interrelationship between associated channels will not be discussed.A review of the problems confronted in real time CIG systems and
+various approaches
+</DESCRIPTION>
+<CLAIMS>
+An apparatus for scan converting data describing a plurality of features to enable the
+display of an image of a world space model defined by those features, each feature having a
+
+boundary defined by a plurality of straight edges, and each edge being defined by a line
+equation in screen space co-ordinates formulated so as to form a closed set of connected
+
+vectors, the apparatus comprising means for dividing the screen into a plurality of sub-areas,
+and means for analyzing the coverage of any one sub-area by any one feature, wherein the
+
+coverage analyzing means comprises:
+
+a. means for calculating the perpendicular distance (d) from a reference point of said
+one sub-area to each edge of the said one feature,
+
+said apparatus being characterized in that said analyzing means further comprises:
+b. means for calculating a limiting distance (dcrit) from the reference point for each
+edge, the limiting distance (dcrit) being such that if a feature edge is at a perpendicular distane (d) from
+
+the reference point which is greater than the respective limiting distance (dcrit) that edge cannot
+cross the sub-area,
+c. means for comparing each calculated perpendicular distance (d) with the
+respective limiting distance (dcrit), and
+d. means for assessing coverage of the sub-area by a feature on the basis of a
+logical combination of the results of the comparisons between each calculated perpendicular
+
+distance (d) and the respective limiting distance (dcrit).
+An apparatus according to Claim 1, wherein each sub-area is rectangular and
+means are provided to calculate a limiting distance for each edge of a feature with
+
+respect to each corner of the sub-area, the limiting distance being the perpendicular
+distance from the centre of the sub-area to a line drawn parallel to a respective
+
+feature edge and passing through the respective sub-area corner.
+An apparatus according to Claim 2, wherein the edges of features are defined
+by line equations of the form:
+
+
+d = e.x + f.y + g
+ 
+and means are provided to calculate the perpendicular distance from the sub-area
+
+centre to a feature edge by substituting in the line equation the coordinates in screen
+space of the sub-area centre.
+An apparatus according to Claim 3, wherein the limiting distance to a feature
+edge is derived from:
+
+
+limiting distance = |e.a| + |f.b|
+
+where |e.a| is the modulus of e.a, and a and b are respectively the half width and
+half height in screen space of the sub-area.
+An apparatus according to Claim 4, comprising means for normalizing the
+coefficients of the line equation of a feature edge by dividing the coefficients by n
+
+where:
+
+n = sqrt[(x2-x1)
+2
++(y2-y1)
+2
+]
+
+and (x1,y1) and (x2,y2) are the screen space coordinates of vertices of the feature
+located on the edge described by the line equation,
+
+   the apparatus further comprising means for substituting the coordinates of the
+sub-area centre in the normalized line equation to directly yield the distance from the
+
+sub-area centre to the feature edge described by the line equation.
+An apparatus according to Claim 5, comprising means for initializing a line
+equation E(x,y) describing a feature edge to yield two edge functions:
+
+
+F(x,y) = E(x,y) + dcrit
+G(x,y) = E(x,y) - dcrit
+
+where dcrit is the limiting distance calculated for the edge described by the line
+equation E(x,y),
+
+   and means for calculating the sign of the two initialized edge functions to
+determine whether or not the line equation crosses the sub-area.
+An apparatus according to Claim 3, 4, 5 or 6, comprising means for
+producing in respect of each feature edge a first outcode if the calculated
+
+perpendicular distance is less than minus the limiting distance, a second outcode if 
+the calculated perpendicular distance is greater than or equal to minus the limiting
+
+distance and less than or equal to the limiting distance, means for producing a third
+outcode if the calculated perpendicular distance is greater than the limiting distance,
+
+and means for combining the outcodes for all the edges of a feature to determine
+whether or not that feature at least partially covers the sub-area.
+An apparatus according to Claim 7, wherein the outcodes comprise two bits
+and the combining means comprises a pair of AND gates, one AND gate receiving
+
+the first bit of each outcode and the other AND gate receiving the second bit of each
+outcode, the AND gates producing a two bit output indicative of whether or not the
+
+sub-area is at least partially covered by the feature.
+</CLAIMS>
+</TEXT>
+</DOC>

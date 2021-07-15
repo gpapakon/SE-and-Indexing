@@ -1,0 +1,220 @@
+<DOC>
+<DOCNO>EP-0637798</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Deadlock analysis method in an operating system
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1128	G06F1128	G06F946	G06F952	G06F946	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F11	G06F11	G06F9	G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+This deadlock analysis method in an operating system of a machine uses a process which consists in searching out, for every working unit disabled in a lock, that working unit which holds this lock, and when the working unit is itself on standby in a lock, in retracing the sequence so as to find a cycle. Remarkably, when the machine includes a symmetric multiprocessor and is operating in a UNIX environment, this method makes iterative use of a specific function which makes it possible to go from a working unit and from the set of processors to any type of locks (on active or passive standby) by traversing the working units one after the other so as to reconstruct element by element a deadlock and hence a cycle. It also makes it possible, when a virtual memory is used and when all the useful information does not reside in physical memory, to help a user to arrange the set of sequences provided by the said method so as to reconstruct the cycle determining the deadlock.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+BULL SA
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+BULL S.A.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+DUBOURREAU JEAN-PAUL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+JACQUIN THIERRY
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DUBOURREAU, JEAN-PAUL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+JACQUIN, THIERRY
+</INVENTOR-NAME>
+</INVENTORS>
+<CLAIMS>
+Method for analysing deadlocks in an operating system
+of a machine comprising a set of processors forming a
+
+symmetrical multiprocessor executing a program in a UNIX
+environment, each of the processors executing a program
+
+instruction sequence fraction constituting an execution
+unit, characterised in that the method executes iteratively
+
+a specific function in order to establish at least one arc
+of a dependence graph connecting an execution unit of one
+
+of the processors of the symmetrical multiprocessor to any
+type of lock, and in that the method comprises:
+
+
+a search and an identification on all the processors
+of the symmetrical multiprocessor of an execution unit on
+
+stand-by locked on a lock or waiting for a holding signal
+of an element of the machine,
+a search and identification of the holding execution
+unit that holds the lock or the holding signal of the
+
+element of the machine, and
+when the holding execution unit is itself on
+stand-by on another lock, repetition of the previous steps
+
+of the method through a chain of arcs connecting together
+the execution units and the locks so as to go up the chain
+
+of dependence, until a cycle is identified, in which steps
+the specific function makes it possible to reconstitute,
+
+element by element, a deadlock and therefore a dependence
+cycle.
+Method for analysing deadlocks according to Claim
+1, characterised in that, when the machine also comprises a
+
+virtual memory, this meaning that all the necessary
+information for detecting the cycle is not located in the
+
+physical memory, and in that, after having detected all the
+dependence chains between lock and execution units, the
+
+information relating to an execution stack of the processor
+associated with each execution unit and the indication of
+
+the content of the virtual memory are also supplied, this
+information then allowing a user to arrange manually the
+
+set of chains so as to reconstitute a dependence cycle in
+order to determine the deadlock.
+Method for analysing deadlocks according to Claim 2,
+characterised in that the specific function is implemented
+
+by a diagnostic device according to the following steps:
+
+1. searching in the physical memory of the machine
+for the current node from a list by the diagnostic device
+
+
+(S'4.A) if the current node is an execution unit, go
+to step 2,
+(S'4.B) if the current node is a lock, the lock is
+held by a holding execution unit and an arc is created
+
+(S'4.C, S'4.D) on the list to connect the lock held to that
+holding execution unit,
+if the current node is neither an execution unit nor
+a lock the method is in an impasse, from which it can be
+
+removed by applying a part of traditional deadlock-analysis
+methods (S6.A, S6.B, S6.C);
+2. if the current node on the list of the
+device is an execution unit, identify by searching in the
+
+physical memory whether the current unit is on stand-by
+(S'5),
+
+
+if yes, go to step 3 (S'6.A)
+if no, go to step 4 (S'7);
+3. if the current execution unit is on stand-by,
+identify in the physical memory, whether the event awaited
+
+by the current execution unit is a lock:
+
+if yes, draw an arc on the list towards the lock
+awaited (S'6.B) and go back to step 1,
+if no, the waiting is due to another event, add
+(S'6.D) then a node of a neutral type to the list of the
+
+diagnostic device, and draw on the list an arc towards this
+new node if it does not already exist (S'6.E or S'6.F),
+
+then a part of traditional deadlock analysis methods is
+applied (S5.A) ;
+4. if the execution unit is active for any processor
+
+of the machine, go to step 5 (S'8.A), unless all the
+processors have been scanned by the present method, the
+
+execution unit is then awaiting a processor resource, and
+the dependence cycle is necessarily elsewhere if it exists,
+
+so that the current execution unit has no dependence;
+5. if the execution unit is active for any processor
+of the machine as determined by the analysis of the
+
+physical memory, then the execution stack of the current
+processor is scanned (S'8.B) until the last execution
+
+context, and if this execution context is that of the
+current execution unit, go to step 6 (S'9), otherwise go to 
+
+step 4 and search on another processor, until the last
+processor;
+6. if the processor on which the current execution
+unit is active has been found, search (S'10.A) in the
+
+physical memory for whether the execution stack is awaiting
+a lock, and any execution context of the execution stack of
+
+the processor, go to step 7; and
+7. if the execution stack associated with the
+current execution context is awaiting a lock, draw (S'10.B)
+
+an arc in the list of the diagnostic device, if it does not
+already exist, of the current execution unit towards the
+
+lock requested by the current call, and if not (S'10.C), if
+there is a subsequent execution context, apply thereto
+
+steps 6 and 7, even if there are no subsequent contexts,
+the current execution unit is not locked by a lock and the
+
+method is in an impasse from which it can be removed by
+applying a part of the known traditional deadlock analysis
+
+methods (S6).
+Method for analysing deadlocks according to Claim 3,
+characterised in that, when the dependence cycle cannot be
+
+reconstituted because of the fact that all the necessary
+information is not in the physical memory, after having
+
+detected all the dependence chains between execution units
+and locks, in a first iteration, the list of the execution
+
+units and the locks with their dependences is displayed so
+as to be used by the user, in particular, the execution
+
+stack of the processor associated with all the execution
+units encountered in this list is decoded, then in a second
+
+iteration the known methods mentioned in step 7 are
+applied. 
+Method according to one of the preceding claims,
+characterised in that a development tool having access to
+
+the whole physical memory is used so as to have access to
+the information contained in the memory, the information
+
+contained in the memory making it possible to implement the
+method.
+Method according to one of the preceding claims,
+characterised in that an analysis tool for emptying memory
+
+is used for taking an image of the memory of the machine,
+the information contained in the memory allowing the method
+
+to be implemented.
+Method according to one of the preceding claims,
+characterised in that the element of the machine is an
+
+interrupt processor and the holding signal is an interrupt
+signal.
+Use of the method according to one of the preceding
+claims in order to implement the analysis of deadlocks in
+
+an operating system between process and resource.
+</CLAIMS>
+</TEXT>
+</DOC>

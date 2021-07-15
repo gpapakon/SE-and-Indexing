@@ -1,0 +1,246 @@
+<DOC>
+<DOCNO>EP-0613087</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Apparatus and method for achieving high-speed data read access to memory
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1202	G06F1202	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F12	G06F12	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An apparatus and method for controlling data read access 
+to memory, in response to an access request sent through a 
+
+system bus. 
+The apparatus includes a data storage device for 
+preserving data corresponding to a predetermined address;
+
+ 
+   a judging device for judging whether an access address 
+
+indicated by the access request matches the predetermined 
+address; and a control device for making the data storage means 
+
+output data preserved therein to the system bus when the access 
+address has been judged to match the predetermined address, and 
+
+for making the data storage means hold data corresponding to 
+a next address subsequent to the access address when the access 
+
+address has been judged not to match the predetermined address. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC IND CO LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC INDUSTRIAL CO., LTD.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+KITAMURA TOMOHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+OCHIAI TOSHIYUKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SEKIBE TSUTOMU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KITAMURA, TOMOHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+OCHIAI, TOSHIYUKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SEKIBE, TSUTOMU
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to an apparatus and method
+for achieving a high-speed data read access to contiguous
+areas in memory such as frame buffers, without
+employing burst transmission techniques.Cache memory has been commonly used in order to achieve
+high-speed data read access to memory. Cache memory was
+originally supplied to main memory to speed up its low access
+rate by the use of cache, but has recently been supplied, as
+disk cache memory, to secondary memory such as hard disk.However, some memory or memory areas are not cachable
+depending on their usage. For example, a frame buffer which
+stores display data or image data to be displayed on a display
+device is not cachable because the contents of these data are
+directly displayed on the display device.FIG. 1 shows the construction of a typical conventional
+apparatus for achieving high-speed data read access to
+noncachable memory.In the illustration, the typical conventional apparatus
+61 is provided with a bus address and control signal decoder
+611, a memory address and control signal generator 612, a 
+memory data controller 613, and a bus data controller 614,
+thereby controlling data access from a processor (not shown)
+to memory 62 via a system bus 60.The bus address and control signal decoder 611
+(hereinafter referred to as BA decoder 611) decodes the address
+and size of data sent through the system bus 60.The memory address and control signal generator 612
+(hereinafter referred to as MA generator 612) generates a row
+address and a column address, based on the results found out
+by the BA decoder 611, thereby sending it to the memory 62.The memory data controller 613 (hereinafter referred to
+as MD controller 613) controls data input/output operations
+between the BD controller 614 and the memory 62.The bus data controller 614 (hereinafter referred to as
+BD controller 614) controls data input/output operations
+between the MD controller 613 and the system bus 60.The apparatus 61 provided with these components operates
+as follows.FIG. 2 shows a time chart depicting a data readout
+operation carried out by the apparatus 61.Receiving signals indicating the address and size
+of data to be accessed through the system bus 60, the BA
+decoder 611 decodes the signals. The MA generator 612
+generates a row address and a column address, based on the
+results decoded by the BA decoder 611, thereby starting to
+access the memory 62. After a certain period of access time, 
+data read out from the memory 62 are sent out to the system
+bus 60 through the MD
+</DESCRIPTION>
+<CLAIMS>
+An apparatus for controlling high-speed data read access, without employing burst
+transmission techniques, to contiguous areas in a memory (62) such as a frame
+
+memory or a VRAM, in response to an access request sent through a system bus (60), the
+apparatus comprising:
+
+
+a data storage means (45) for preserving data corresponding to a predetermined
+address;
+a judging means (42) for judging whether an access address indicated by said access
+request matches the predetermined address; and
+for making said data storage means (45) output data preserved
+therein to the system bus (60) when said access address has been judged to match the
+
+predetermined address, and for making said data storage means (45) hold data corresponding
+to a next address subsequent to said access address when said access address has been judged
+
+not to match the predetermined address,
+said judging means (42) comprising:
+
+an address storage means (53) for preserving an address indicating said data latched
+by said data storage means (45);
+
+   wherein the judging means (42) further comprises:
+
+a validity judging means (54) for judging whether the data preserved in said data
+storage means (45) are valid or invalid;
+a match judging means (55) for judging whether said access address matches the address
+preserved in said address storage means (53) and for judging that said access address does not
+
+match the address preserved in said address storage means (53), when said validity judging
+means (54) has judged the data to be invalid; and 
+characterised in that
+ the judging means (42) comprises
+a data size judging means (56) for detecting whether the access data has a smaller
+data width than said memory (62) and does not include a final position of the data width of
+
+said memory (62) and for informing an address generation means (51) of a result detected
+by said data size judging means (56),
+and 
+in that
+ said judging means (42) comprises:
+
+said address generation means (51) for generating said next address when said access
+address has been judged to match the address preserved in said address storage means (53),
+
+for generating said access address and said next address in sequence and forwarding to said
+judging means (42) when said access address has been judged not to match the address
+
+preserved in said address storage means (53), and for suspending generation of said next
+address when the result detected by said data size judging means (56) has been received and
+a latch control means (58) for, when data corresponding to said next address has been
+read out from said memory (62), making said data storage means (45) latch said data.
+The apparatus of claim 1, wherein said memory (62) is a frame memory for storing
+image data and said next address indicates data subsequent to data corresponding to said
+
+access address, said data indicated by said next address having a same data width as said
+memory (62).
+The apparatus of claim 1, wherein said data storage means (45) comprises:
+
+a data latch means (71) for latching said data outputted from said memory (62); and
+a selection means (72) for selecting said data latched by said data latch means (71)
+when said access address has been judged to match the predetermined address and for
+
+selecting data outputted from said memory (62) when said access address has been judged not
+to match the predetermined address, thereby forwarding selected data to the system bus (60).
+The apparatus of claim 1, wherein said address generation means (51) comprises:
+
+a first incrementer (81) for incrementing said access address;
+a first selector (82) for selecting an output of said first incrementer (81) when said
+access address has been judged to match the address preserved in said address storage means
+
+(53) and selecting said high order address when said access address has been judged not to
+match the address preserved in said address storage means (53);
+a latch circuit (83) for latching an output of said first selector (82);
+a second incrementer (84) for incrementing the output of said first selector (82); and 
+a second selector (85) for selecting an output of said latch circuit (83) when said
+access address has been judged to match the address preserved in said address storage means
+
+(53) and for selecting said output of said latch circuit (83) and then selecting an output of said
+second incrementer (84), thereby outputting said output of said second incrementer (84) as an
+
+access address to said memory (62) when said access address has been judged not to match
+the address preserved in said address storage means (53).
+In combination, the apparatus of claim 1 and a memory (62).
+The combination of claim 5, wherein said memory (62) is a frame memory for storing
+image data.
+A method for controlling data read access in an apparatus according to claim 1, said
+method comprising:
+
+
+judging whether said access address matches the predetermined address in response
+to the access request;
+when said access address has been judged to match the predetermined address:
+
+outputting the data held in said data storage means (45) to the system bus (60);
+reading the data stored at said next address of the memory (62); and
+storing the read data to said data storage means (45);
+when said access address has been judged not to match the predetermined address:
+
+reading the data stored at the access address of the memory (62);
+outputting said data corresponding to said access address;
+reading the data stored at said next address of the memory (62); and
+storing said data of said next address to said data storage means (45),
+
+   wherein said judging step comprises:
+
+preserving an address indicating said data latched by said data storage means; 
+judging whether the data preserved in said data storage means (45) are valid or
+invalid;
+judging whether said access address matches the address preserved in said address
+storage means (53); and
+judging whether said access address does not match the address preserved in said
+address storage means (53), when said validity judging means (54) has judged the data to be
+
+invalid; and
+characterised in that
+ the judging step further comprises
+
+detecting whether the access data has a smaller data width than said memory (62) and
+does not include a final position of the data width of said memory (62) and informing said
+
+address generation means (51) of a result so detected;
+and 
+in that
+ said control step comprises:
+
+generating said next address when said access address has been judged to match the
+address preserved in said address storage means (53);
+generating said access address and said next address in sequence and forwarding the
+same to said judging means (42) when said access address has been judged not to match the
+
+address preserved in said address storage means (53);
+suspending generation of said next address when the result detected by said data size
+judging means (56) has been received; and
+making said data storage means (45) latch said data, when data corresponding to said
+next address has been read out from said memory (62).
+The method of claim 7, wherein said memory (62) is a frame memory for storing
+image data.
+The method of claim 8, wherein said next address indicates data subsequent to data
+corresponding to said access address, said data indicated by said next address having a same
+
+data width as said memory (62).
+</CLAIMS>
+</TEXT>
+</DOC>

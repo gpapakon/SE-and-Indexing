@@ -1,0 +1,271 @@
+<DOC>
+<DOCNO>EP-0630018</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Interblock gap detection in a data storage system
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G11B2010	G11B2730	G11B2012	G11B2010	G11B2730	G11B2012	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G11B	G11B	G11B	G11B	G11B	G11B	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G11B20	G11B27	G11B20	G11B20	G11B27	G11B20	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A system and method is provided for accurately reading and storing 
+data as multiple data blocks on a removable data storage medium mounted 
+
+within a data storage system. Each data block includes an initial 
+acquisition data character and multiple diverse synchronization 
+
+characters/bursts and adjacent data blocks are separated by a unique 
+interblock gap character. A multimodal interblock gap character 
+
+detection circuit is provided which may operate in a normal mode of 
+operation or a stringent mode of operation, the stringent mode requiring 
+
+an enhanced degree of certainty for detection of the interblock gap 
+character. A predicted time window of occurrence for a next interblock 
+
+gap character is generated in response to detection of an initial 
+acquisition data character and at least one synchronization character 
+
+within a data block. Additionally, a global clock count signal based 
+upon multiple track outputs is generated each time a resynchronization 
+
+burst is encountered. The multimodal interblock gap character detection 
+circuit is then automatically switched from the stringent mode of 
+
+operation to the normal mode of operation during the predicted time 
+window, minimizing the possibility of erroneous interblock gap character 
+
+detection during data block processing. In data blocks which are 
+sufficiently large to utilize multiple unique end of block 
+
+synchronization characters, the occurrence of each successive end of 
+block synchronization character may be utilized to redefine the predicted 
+
+time window with greater accuracy. Expiration of a predicted time window 
+or the occurrence of a global clock count signal during an open predicted 
+
+time window may then be utilized to generate a presumption of the 
+occurrence of an interblock gap character; however, actual detection of 
+
+the interblock gap character will override the prediction circuitry. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BENTLEY STEVEN ROSS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+PARANJAPE SUSHAMA MAHESH
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+QUINTANA FERNANDO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WEST STEPHEN CHARLES
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BENTLEY, STEVEN ROSS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+PARANJAPE, SUSHAMA MAHESH
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+QUINTANA, FERNANDO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WEST, STEPHEN CHARLES
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates in general to data storage systems
+and in particular to techniques for accurately reading and storing data
+blocks within a data storage system. Still more particularly the present
+invention relates to a system and method for accurately identifying the
+end of each data block within a data storage system.Modern data processing systems often use digital signal recording
+devices attached to hest processors to record records as addressable
+units within magnetic tape storage systems.Examples of systems which may be utilized to record records within
+a magnetic tape storage system are disclosed within Milligan et al., U.S.
+Patent No. 4,393,445; Milligan et al., U.S. Patent No. 4,435,762; Videki
+II, U.S. Patent No. 4,471,457; Cole et al., U.S. Patent No. 4,603,382;
+Bauer et al., U.S. Patent No. 4,423,480; and Fry et al., U.S. Patent No.
+4,403,286.
+Another example of such system can also be found in EP-A-0395205. The features in the preamble of claims 1 and 9 are disclosed therein.
+Each of the aforementioned patents discloses a maqnetic tape
+storage system which may be advantageously employed in carrying out the
+method and system of the present invention.In such data storage systems, it is practically a necessity that
+each track of data within the recording medium include multiple
+synchronization characters. Such synchronization characters are
+necessary so that the data may be considered self-synchronizing. Without
+such self-synchronizing, data may not be successfully recovered. This
+self-synchronizing is typically accomplished by inserting various
+synchronization characters between small blocks or sets of data signals
+so that the data stored therein may be accurately and efficiently
+recovered.In modern data storage systems data is typically written to
+multiple tracks simultaneously. When such multiple track recording is
+utilized it is possible to determine various necessary parameters which
+may affect data recovery, even though individual track data within a
+group of multiple tracks may be lost. One such parameter is the location
+of the end of a particular block of data. It is imperative to accurately
+identify the end of a block of data in order to prevent errors which may
+occur due to overwriting data when additional data is appended to a
+record. Systems which have been proposed to detect the end of a data block
+more reliably typically use a group of diverse synchronization characters
+which are positioned in a unique order within a data block, such that the
+end of a data block may
+</DESCRIPTION>
+<CLAIMS>
+A data storage system for accurately storing and reading data
+stored as multiple data blocks (60) on a removable data storage medium (34)
+
+mounted therein, each data block including an initial acquisition data
+character (62) and multiple diverse synchronization characters (FSC1-FSC5, BSC1-BSC5) disposed
+
+therein in an order determined in accordance with a predicted format
+identification, each data block separated from an adjacent data block by
+
+a unique interblock gap character, said system comprising:
+
+a transducing head (28);
+means for moving said removable data storage medium (34) relative
+to said transducing head (28);
+means (24) for controlling said transducing head (28) to store and
+read data on said removable data storage medium (34);
+
+   a clock circuit (52);
+
+said system being characterised by:
+
+a multimode interblock gap character detection circuit (38) coupled
+to said transducing head (28) for detecting occurrences of said
+
+interblock gap character, said multimode interblock gap character
+detection circuit having a normal mode of operation and a stringent mode
+
+of operation, said stringent mode of operation requiring an enhanced
+degree of certainty of detection;
+an end of block prediction circuit (42) coupled to said clock
+circuit (52) and said transducing head (28) for generating a predicted
+
+time window for occurrence of an interblock gap character in response to
+detection of at least one synchronization character (BSC1-BSC5); and
+logic control circuitry (44) coupled to said end of block
+prediction circuit and said multimode interblock gap character detection
+
+circuit (38) for automatically switching said multimode interblock gap
+character detection circuit from said stringent mode of operation to said
+
+normal mode of operation during said predicted time window, whereby
+erroneous detection of an interblock gap character during data block
+
+processing is minimized.
+A storage system as claimed in claim 1, wherein said end of block
+prediction circuit (42) generates a superseding predicted time window
+
+within a preceding predicted time window in response to detection of a
+subsequent synchronization character within said data block.
+A storage system as claimed in claim 1 or claim 2, further
+including means for closing said predicted time window in response to
+
+actual detection of an occurrence of an interblock gap character.
+A storage system as claimed in any of claims 1 to 3, further
+including a time out circuit for generating an indication of an
+
+interblock gap character in response to a failure to detect an interblock
+gap character within said predicted time window.
+A storage system as claimed in claim 4, wherein each data block
+includes a unique end of block synchronization character (BSC1) preceding
+
+said interblock gap character and wherein said time out circuit generates
+an indication of an interblock gap character after expiration of a
+
+predetermined period of time (Tm) following said unique end of block
+synchronization character in response to a failure to detect said
+
+interblock gap character prior to expiration of said predetermined period
+of time (Tm).
+A storage system as claimed in any preceding claim, wherein said
+interblock gap character comprises a series of selected characters and
+
+wherein said multimodal interblock gap character detection circuit (38)
+detects an occurrence of an interblock gap character in response to
+
+detection of a series of M selected characters when operating in normal
+mode of operation and in response to detection of a series of N selected
+
+characters while operating in a stringent mode of operation, wherein N is
+greater than M.
+A storage system as claimed in any preceding claim, wherein a
+duration of said predicted time window is based upon a maximum and
+
+minimum speed variation in moving said removable data storage medium (34)
+relative to said transducer head (28).
+A storage system as claimed in any preceding claims, further
+comprising a global track clock circuit (54) for initiating a global
+
+track clock count in response to each detection of a periodic 
+resynchronization burst (70) within said datablock, said logic control circuitry (44) being coupled
+
+to said global track clock circuit (54) for generating an indication of
+said interblock gap character in response to expiration of said global
+
+track clock count within said predicted time window, in an absence of
+actual detection of an interblock gap character.
+A method for accurately storing and reading data stored within a
+data storage system as multiple data blocks (60) on a removable data storage
+
+medium (34) mounted within said data storage system, each data block
+includin
+g an initial acquisition data character (62) and multiple diverse
+synchronization characters (FSC1-FSC5, BSC1-BSC5) disposed therein in an order determined in
+
+accordance with a predicted format identification, each data block
+separated from an adjacent data block by a unique interblock gap
+
+character, said method comprising the steps of:
+
+reading data on said removable data storage medium (34);
+detecting (122) an initial acquisition data character (62) and at least
+one synchronization character (BSC1-BSC5) for a data block within said data;
+
+said method being characterised by the following steps:
+generating (152, 156, 160, 164, 168) a predicted time window for
+occurrence of an interblock gap character in response to said detecting
+
+of at least one synchronization character within said data block; and
+employing a multimode interblock gap character detection circuit
+(38) to detect an occurrence of an interblock gap character in said data
+
+by utilizing a first criterion during said predicted time window and a
+second criterion at other times, said second criterion being more
+
+stringent than said first criterion, whereby erroneous detection of an
+interblock gap character during data block processing is minimized.
+A method as claimed in claim 9, further including the step of
+generating a superseding predicted time window within a preceding
+
+predicted time window in response to detection of a subsequent
+synchronization character within said data block.
+A method as claimed in claim 9 or claim 10, further including the
+step of presuming (134) the occurrence of an interblock gap character in
+
+response to a failure to detect an interblock gap character during said
+predicted time window. 
+A method as claimed in any of claims 9 to 11, further including the
+step of closing said predicted time window in response to actual
+
+detection of an occurrence of said interblock gap character.
+A method as claimed in any of claims 9 to 12, further including the
+step of varying a duration of said predicted time window in response to
+
+permitted variations in data rate during reading of said data.
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,649 @@
+<DOC>
+<DOCNO>EP-0615206</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Programmable architecture and methods for motion estimation.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04N726	H04N726	H04N736	H04N736	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04N	H04N	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04N7	H04N7	H04N7	H04N7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A programmable motion estimator includes one dual ported 
+memory for storing an image block, the prediction error, and 
+
+a temporary block used in interpolation, and a pixel-group 
+random access dual ported memory for storing a search 
+
+window. The two ports of the two memories are selectively 
+applied to an arithmetic logic unit, or ALU, through a 
+
+multiplexer. One output of the ALU provides an absolute 
+difference, which is furnished to a tree adder. Another 
+
+output of the ALU provides an average value or a difference 
+value, as selected, which is routed to the inputs of the 
+
+image memory and the search memory. In motion vector 
+searching, the ALU performs pixel absolute difference 
+
+arithmetic using the pixel groups from the image memory and 
+from the search memory, and determines a sum of absolute 
+
+differences in the tree adder. In half pixel interpolation, 
+the ALU performs pixel averaging arithmetic using pixel 
+
+groups from the search memory, and writes back to the search 
+memory. In quarter pixel interpolation, the ACU performs 
+
+pixel averaging arithmetic using pixel groups from the image 
+
+and search memories, and writes back to the search memory. 
+In some quarter pixel interpolations, temporary interpolated 
+
+blocks from the image memory are used to interpolated 
+quarter pixel blocks. These temporary blocks are obtained 
+
+by pixel averaging in the ALU using pixel groups from the 
+search memory. In error prediction determination, the ALU 
+
+performs pixel subtraction using the pixel groups from the  
+ 
+
+image memory and from the search memory, and writes back to 
+the image memory. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+INTEGRATED INFORMATION TECH
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTEGRATED INFORMATION TECHNOLOGY, INC.,
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+FANDRIANTO JAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MARTIN BRYAN R
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+RAINNIE HEDLEY K J
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SUTARDJA SEHAT
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WANG CHI SHIN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FANDRIANTO, JAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MARTIN, BRYAN R.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+RAINNIE, HEDLEY K.J.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SUTARDJA, SEHAT
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WANG, CHI SHIN
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates generally to motion 
+estimation, and more specifically to a programmable 
+architecture and methods for motion vector and/or prediction 
+error determination. Applications such as video telephone, digital 
+television, and interactive multimedia using such digital 
+storage technology as CD-ROM, digital audio tape, and 
+magnetic disk require digital video coding, or video 
+compression, to achieve the necessary high data transfer 
+rates over relatively low bandwidth channels. Various 
+standards have been proposed for video coding. A standard 
+for the storage and transmission of still images has been 
+adopted by the International Standards Organization ("ISO"), 
+Joint Photographic Expert Group ("JPEC"); see "JPEC 
+Technical Specification, Revision 5," JPEG-8-R5, January 
+1980. A standard for digital television broadcast coding at 
+30/45 Mb/s is under consideration; see CCIR-CMTT/2, "Digital 
+Transmission of Component-Coded Television Signals at 30-34Mb/s 
+and 45 Mb/s Using the Discrete Cosine Transform," 
+Document CMTT/2-55. A standard for video telephony and  
+ 
+video conferencing at 64 to 1920 kb/s has been adopted by 
+the International Consultative Committee for Telephone and 
+Telegraph ("CCITT"); see "Draft Revision of Recommendation 
+H.261," Document 572, CCITT SG XV, Working Party XV/1, Spec. 
+Grp. on Coding for Visual Telephony. A standard for storage 
+applications below 1.5 Mb/s, which are similar to the 
+applications targeted by the CCITT standard, is under 
+consideration by the Roving Picture Experts Group ("MPEG") 
+of the ISO. Video coding algorithms have been proposed as 
+contributions to the standardization activity of ISO/MPEG; 
+see Wong et al., "MCPIC: A Video coding Algorithm for 
+Transmission and Storage Applications," IEEE Communications 
+Magazine, November 1990, pp. 24-32. Many video coding techniques include a predictive mode 
+that realizes data compression between two different video 
+frames by identifying how a frame is unlike a preceding 
+frame. In predictive mode, the frame is represented in 
+terms of a set of vectors of the displacement of respective 
+groups of pixels in the frame relative to their position in 
+the preceding frame, known as motion vectors; and difference 
+information representing the degree of difference between 
+the displaced pixels and the corresponding pixels in the 
+preceding frame. Because the amount of data in the set of 
+motion vectors and difference information tends to be 
+considerably less than the amount of data in the frame 
+it
+</DESCRIPTION>
+<CLAIMS>
+A apparatus for performing an arithmetic 
+operation on groups of pixels under program control, 
+
+comprising: 
+   a first memory having a plurality of addressable 
+
+locations N pixels in width and a first read port, 
+wherein N pixels from any one of said addressable 
+
+locations are accessible in parallel on said first 
+read port during an address cycle; 
+
+   a second memory having a plurality of addressable 
+locations greater than N pixels in width and a 
+
+second read port, wherein any N contiguous pixels 
+from any one of said addressable locations are 
+
+accessible in parallel on said second read port 
+during an address cycle; and 
+
+   an arithmetic unit having a first operand input coupled 
+to said first read port, a second operand input 
+
+coupled to said second read port, and an output. 
+An apparatus as in claim 1, wherein said second 
+memory comprises: 
+
+   a memory array having a plurality of addressable 
+locations N pixels in width and a third read port, 
+
+wherein N pixels from any one of said addressable 
+locations and N pixels from an adjacent addressable 
+
+location are accessible in parallel on said third 
+read port during an address cycle; and 
+
+   a shifter having an input coupled to said third read 
+port and an output N pixels in width, said shifter 
+
+output being said second read port. 
+An apparatus as in claim 2, wherein said 
+shifter is a adapted to perform from zero to N-1 shifts on 
+
+a pixel boundary. 
+An apparatus as in claim 1, further comprising 
+a controller coupled to said first memory by a first address 
+
+bus, and coupled to said second memory by a second address 
+bus, said controller being under microcode control. 
+An apparatus as in claim 1, further comprising 
+a computer coupled to said first memory by a first address 
+
+bus, and coupled to said second memory by a second address 
+bus, said controller being under software control. 
+An apparatus as in claim 1, further comprising 
+a state machine coupled to said first memory by a first 
+
+address bus, and coupled to said second memory by a second 
+address bus. 
+An apparatus as in claim 1, wherein said 
+arithmetic unit comprises a subtractor circuit receiving 
+
+said first and second operandi so that pixel differences are 
+determinable in parallel. 
+An apparatus as in claim 1 wherein said 
+arithmetic unit comprises an absolute difference circuit 
+
+receiving said first and second operandi, further comprising 
+an adder coupled to the output of said arithmetic unit so 
+
+that a sum of absolute pixel differences is determinable in 
+parallel. 
+An apparatus as in claim 8, wherein said adder 
+is a tree adder. 
+An apparatus as in claim 1, wherein said 
+arithmetic unit comprises an averager circuit receiving said 
+
+first and second operandi so that pixel averages are 
+determinable in parallel. 
+A apparatus for performing an arithmetic 
+operation on groups of pixels under program control, 
+
+comprising: 
+   a memory having a plurality of addressable locations 
+
+greater than N pixels in width and first and second 
+read ports, wherein any N contiguous pixels from 
+
+any one of said addressable locations are 
+accessible in parallel on each of said first and 
+
+second read ports during an address cycle; and 
+   an arithmetic unit having a first operand input coupled 
+
+to said first read port, a second operand input 
+coupled to said second read port, and an output. 
+An apparatus as in claim 11, wherein said 
+memory comprises: 
+
+   a memory array having a plurality of addressable 
+locations N pixels in width, a third read port, and 
+
+a fourth read port, wherein N pixels from any one 
+of said addressable locations and N pixels from an 
+
+adjacent addressable location are accessible in 
+parallel on each of said third and forth read ports 
+
+during an address cycle; and 
+   a first shifter having an input coupled to said third 
+
+read port and an output N pixels in width, the 
+outport of said first shifter being said first read 
+
+port; 
+   a second shifter having an input coupled to said fourth 
+
+read port and an output N pixels in width, the 
+output of said second shifter being said second 
+
+read port. 
+An apparatus as in claim 12, wherein said 
+
+shifter is adapted to perform from zero to N-1 shifts on a 
+pixel boundary. 
+An apparatus as in claim 11, further 
+comprising a controller coupled to said memory by an address 
+
+bus, said controller being under microcode control. 
+An apparatus as in claim 11, further 
+comprising a computer coupled to said memory by an address 
+
+bus, said controller being under software control. 
+An apparatus as in claim 11, further 
+comprising a state machine coupled to said memory by an 
+
+address bus. 
+An apparatus as in claim 11, wherein said 
+arithmetic unit comprises a subtractor circuit receiving 
+
+said first and second operandi so that pixel absolute 
+differences are determinable in parallel. 
+An apparatus as in claim 11 wherein said 
+arithmetic unit comprises an absolute difference circuit 
+
+receiving said first and second operandi, further comprising 
+an adder coupled to the output of said arithmetic unit so 
+
+that a sum of pixel differences is determinable in parallel. 
+An apparatus as in claim 18, wherein said 
+adder is a tree adder. 
+An apparatus as in claim 11, wherein said 
+arithmetic unit comprises an averager circuit receiving said 
+
+first and second operandi so that pixel averages are 
+determinable in parallel. 
+A apparatus for performing a variety of 
+operations relating to motion estimation, including pixel 
+
+differences, sum of absolute pixel differences, and pixel 
+averaging, comprising: 
+
+   a first memory having a plurality of addressable 
+ 
+
+locations, a first write port, and first and second 
+read ports, wherein N pixels from any one of said 
+
+addressable locations are accessible in parallel on 
+each of said first and second read ports during an 
+
+address cycle; 
+   a second memory having a plurality of addressable 
+
+locations greater than N pixels in width, a second 
+write port, and third and fourth second memory read 
+
+ports, wherein any N contiguous pixels from any one 
+of said addressable locations are accessible in 
+
+parallel on each of said third and fourth read 
+ports during an address cycle; 
+
+   a first multiplexer having one input coupled to said 
+first and second read ports, another input coupled 
+
+to said third read port, and an output; 
+   a second multiplexer having one input coupled to said 
+
+third and fourth read ports, another input coupled 
+to said fourth read port, and an output; 
+
+   an arithmetic unit having a first operand input coupled 
+to the output of said first multiplexer, a second 
+
+operand input coupled to the output of said second 
+multiplexer, a first output for furnishing the 
+
+absolute value of a difference between said first 
+and second operandi, and a second output for 
+
+selectively furnishing one of a difference between 
+said first and second operandi, and an average of 
+
+said first and second operandi; and 
+   an adder coupled to the first output of said arithmetic 
+
+unit; 
+   wherein the second output of said arithmetic unit is routed 
+
+to said first and second inputs. 
+An apparatus as in claim 21, wherein said second 
+memory comprises: 
+
+   a memory array having a plurality of addressable 
+locations N pixels in width and fifth and sixth 
+
+ 
+read ports, wherein N pixels from any one of said 
+
+addressable locations and N pixels from an adjacent 
+addressable location are accessible in parallel on 
+
+each of said fifth and sixth read ports during an 
+address cycle; 
+
+   a first shifter having an input coupled to said fifth 
+read port and an output N pixels in width, the 
+
+output of said first shifter being said fifth read 
+port; and 
+
+   a second shifter having an input coupled to said sixth 
+read port and an output N pixels in width, the 
+
+output of said second shifter being said sixth read 
+port. 
+An apparatus as in claim 21, wherein said 
+adder is a tree adder. 
+A pixel-group random access memory ("PRAM") 
+having a plurality of addressable locations greater than N 
+
+pixels in width and a read port, wherein any N contiguous 
+pixels from any one of said addressable locations are 
+
+accessible in parallel on said read port during an address 
+cycle, comprising: 
+
+   a memory array having a plurality of addressable 
+locations N pixels in width and a first memory read 
+
+port, wherein N pixels from any one of said 
+addressable locations and N pixels from an adjacent 
+
+addressable location are accessible in parallel on 
+a read port of said memory array during an address 
+
+cycle; and 
+   a shifter having an input coupled to the read port of 
+
+said memory array and an output N pixels in width, 
+the output of said shifter being the read port of 
+
+said PRAM memory. 
+A circuit as in claim 24, wherein said memory 
+array is random access memory. 
+A circuit as in claim 24, wherein said shifter 
+is adapted to perform from zero to N-1 shifts on a pixel 
+
+boundary. 
+A method for motion estimation, comprising the 
+steps of: 
+
+   storing an image block in a first memory having a 
+plurality of addressable locations N pixels in 
+
+width; 
+   selecting N pixels in parallel during an address cycle 
+
+from any one of said addressable locations of said 
+first memory; 
+
+   storing a search window in a second memory having a 
+plurality of addressable locations M pixels in 
+
+width, M being greater than N; 
+   selecting a search block within said search window; 
+
+   selecting any N contiguous pixels in parallel during an 
+address cycle from any one of best match said 
+
+addressable locations of said second memory 
+corresponding to the search block from said search 
+
+block selecting step; 
+   determining a sum of absolute differences of the N 
+
+pixels from said first memory selecting step and 
+the N pixels from said second memory selecting 
+
+step; 
+   accumulating the results of said sum of absolute 
+
+differences determining step; 
+   repeating said first memory selecting step, said second 
+
+memory selecting step, said sum of absolute 
+differences determining step, and said accumulating 
+
+step for all pixels in the search block from said 
+search block selecting step to obtain a first sum 
+
+of absolute differences;
+ 
+
+   repeating said search block selecting step, said first 
+memory selecting step, said second memory selecting 
+
+step, said sum of absolute differences determining 
+step, and said accumulating step for all pixels in 
+
+the search block from said repeated search block 
+selecting step to obtain a second sum of absolute 
+
+differences; 
+   identifying the lesser of said first sum of absolute 
+
+differences and said second sum of absolute 
+differences; and 
+
+   selecting one of the search blocks from said search 
+block relating step as a best match block based on 
+
+said identifying step. 
+A method as in claim 27, wherein said second 
+memory comprises a memory array having a plurality of 
+
+addressable locations N pixels in width, said second memory 
+selecting step comprises the steps of: 
+
+   selecting N pixels in parallel from any one of said 
+addressable locations of said second memory 
+
+corresponding to the search block from said search 
+block selecting step during an address cycle; 
+
+   selecting N pixels in parallel from addressable location 
+of said second memory corresponding to the search 
+
+block from said search block selecting step during 
+an address cycle, 2*N contiguous pixels thereby 
+
+being selected; and 
+   selecting N of the 2*N contiguous pixels selected in 
+
+said first-mentioned pixel selecting step and said 
+
+second-mentioned pixel selecting step. 
+A method as in claim 27, wherein said step of 
+selecting a search block within said search window comprises 
+
+the step of skipping every I search blocks, wherein I is any 
+positive integer. 
+A method as in claim 27, wherein said step of 
+selecting a search block within said search window comprises 
+
+the steps of: 
+   identifying a temporary best match search block while 
+
+skipping every B/C blocks, wherein B is a search 
+block dimension in pixels and C is any positive 
+
+binary number less than a number of pixels in a 
+search block; 
+
+   identifying a smaller search window; and 
+   identifying said best match search block while skipping 
+
+every B/D blocks, wherein B is a search block 
+dimension in pixels and D is any positive binary 
+
+number greater than C. 
+A method for determining a prediction error in 
+motion estimation following the identification of a best 
+
+match block, comprising the steps of: 
+   storing an image block in a first memory having a 
+
+plurality of addressable locations N pixels in 
+width; 
+
+   selecting N pixels in parallel from any one of said 
+addressable locations of said first memory during 
+
+an address cycle; 
+   storing said best match block in a second memory having 
+
+a plurality of addressable locations M pixels in 
+width, M being greater than N; 
+
+   selecting any N contiguous pixels in parallel from any 
+of said addressable locations of said second memory 
+
+corresponding to said best match block during an 
+address cycle; 
+
+   determining differences of the N pixels from said first 
+memory selecting step and the N pixels from said 
+
+second memory selecting step; and 
+   storing the results of said differences determining 
+
+step. 
+A method as in claim 31, wherein said second 
+memory comprises a memory array having a plurality of 
+
+addressable locations N pixels in width, second memory 
+selecting step comprises the steps of: 
+
+   selecting N pixels in parallel from any one of said 
+addressable locations of said memory array 
+
+corresponding to the selected search block during 
+an address cycle; 
+
+   selecting N pixels in parallel from an adjacent 
+addressable location of said memory array 
+
+corresponding to the selected search block during 
+an address cycle, 2*N contiguous pixels thereby 
+
+being selected; and 
+   selecting N contiguous pixels of the 2*N contiguous 
+
+pixels selected in said first-mentioned pixel 
+selecting step and said second-mentioned pixel 
+
+selecting step. 
+A method for performing an arithmetic 
+operation on pixel operandi of width N, comprising the steps 
+
+of: 
+   storing a block of pixels in a memory having a plurality 
+
+of addressable locations M pixels in width, M being 
+greater than N; 
+
+   selecting a first group of any N contiguous pixels in 
+parallel from any one of said addressable locations 
+
+of said memory during an address cycle; 
+   selecting a second group of any N contiguous pixels in 
+
+parallel from any one of said addressable locations 
+of said memory during said address cycle; 
+
+   performing an arithmetic operation on said first group 
+of and said second group of pixels. 
+A method for selectively updating pixel 
+information in a memory and thereafter selectively accessing 
+
+surviving old pixel information and new pixel information 
+ 
+
+contained therein, comprising the steps of: 
+   arranging pixel information in a plurality of banks, 
+
+each bank having a plurality of addressable 
+locations and each addressable location containing 
+
+a pixel group, adjacent pixel groups being pixel 
+groups of adjacent banks having the same 
+
+addressable location and pixel groups of adjacent 
+banks having adjacent address locations; 
+
+   overwriting at least one of said banks of pixel 
+information with new pixel information; 
+
+   selecting a pixel group from one of said banks in 
+accordance with a specified addressable location; 
+
+   selecting an adjacent pixel group; and 
+   selecting a subset of contiguous pixels from the 
+
+selected pixel group and from the selected adjacent 
+pixel group. 
+A method as in claim 34, wherein: 
+   said arranging step comprises the step of arranging 
+
+pixel information in five banks, each bank having 
+an equal number of addressable locations and 
+
+containing pixel groups of equal size; 
+   said overwriting step comprises the step of overwriting 
+
+two adjacent banks; and 
+   said subset selecting step comprises the step of 
+
+selecting a number of contiguous pixels equal to 
+the size of said pixel groups. 
+</CLAIMS>
+</TEXT>
+</DOC>

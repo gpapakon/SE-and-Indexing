@@ -1,0 +1,296 @@
+<DOC>
+<DOCNO>EP-0613098</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Image processing apparatus and method of controlling the same
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T1500	G06T1500	G06T1520	G06T1510	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	G06T	G06T	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T15	G06T15	G06T15	G06T15	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Texture mapping is performed on polygons at the 
+same speed as a polygon drafting process without a 
+
+texture cache, thereby preventing complexity and an 
+increase in cost. An image memory (8) is constituted in 
+
+a double-buffer structure, and an address line, a data 
+line and a memory control line are individually connected 
+
+to each buffer. One of the two buffers is used for 
+texture data, and the other for a drawing result. The 
+
+texture data is one-dimensional, and the size thereof is 
+less than a maximum value of a column address. The 
+
+other buffer is an imaginary double buffer with two 
+buffers, one of the buffers being used for reading out 
+
+image data from a SAM port, the other being used for 
+writing image data produced from polygons. Read/write 
+
+switching is effected in a vertical flyback period. In 
+the read-out buffer, just after row-directional read-out, 
+
+the associated row is cleared by the flash write 
+function of a multiport DRAM in a horizontal flyback 
+
+period, and the next read-out address is output. In 
+synchronism with this, texture data is refreshed. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+</APPLICANTS>
+<INVENTORS>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to an image
+processing apparatus for performing three-dimensional
+(3-D) computer graphics (CG).Recently, game machines using computer graphics
+(CG) have widely been prevalent. Most of them are two-dimensional
+(2-D) CG systems. However, images produced
+by CG systems are generally short of naturalness. In
+order to overcome this drawback, a natural image is
+prepared as texture data, and a model image is subjected
+to a texture mapping process.A conventional inexpensive CG system has a
+structure as shown in FIG. 1. Specifically, a graphics
+chip 100 is connected to a single address line 101 and
+a data line 102. The address line 101 and data line
+102 are connected to first and second image memories
+103 and 104. Each of the image memories 103 and 104
+comprises a texture data area and a pixel data area.
+A model produced by pixel data is painted out by texture
+data by the following process. At first, the graphics
+chip 100 fetches polygon data from an external bus 105
+and then texture data from the image memory 103. The
+graphics chip 100 executes graphics processing and
+writes the processing result (pixel data) in the image
+memory 103. Alternatively, texture data in the image
+memory 104 may be fetched to subject the pixel data in
+the image memory 103 to mapping processing. In the above-described conventional CG system, the
+graphics chip 100 does not perform in parallel the
+fetching of texture data and pixel data and writing in
+the image memory, but performs serially, and a long
+processing time is required. This problem results from
+common use of the address line and data line in two
+banks (image memories 103 and 104).The reason why the address line and data line are
+shared by the image memories 103 and 104 is that the
+number of pins can be decreased and the manufacturing
+cost decreased. Besides, since the conventional
+graphics chip 100 does not include a CRT controller, it
+is necessary to read out data from the image memory 103
+or 104 and output the data to the external bus 105.
+When the internal memory of the graphics chips 100 is
+used to output data to the external bus 105, system
+control is made easier by sharing the address line and
+data line for the image memories 103 and 104. In the
+conventional system, in order to simplify the mapping
+algorithm, texture data is stored in a two-dimensional
+fashion. As a result, when multiport DRAMs used as
+image memories 103 and 104 are accessed, a considerable
+page break may occur frequently. Thus, the speed of the
+processing for subjecting
+</DESCRIPTION>
+<CLAIMS>
+An image processing apparatus having coordinate
+conversion means for conversion to a display coordinates
+
+system on the basis of model information consisting of
+polygons, arithmetic operation means for calculating a
+
+luminance gradient of each vertex of the polygons, means
+for storing the result of arithmetic operations of the
+
+arithmetic operation means, rendering means for performing
+shading, texture mapping of the polygons
+
+on the basis of the result of the arithmetic operations,
+means for storing a result of drawing in an image
+
+memory constituted basically by a multiport DRAM, and
+means for controlling the image memory, said apparatus
+
+characterized by comprising:
+
+an image memory (B) constituted by a multiport DRAM
+including a first memory (7) and a second memory (8) to
+
+which address lines, data lines, and memory control
+lines are individually connected;
+determination means for determining whether
+the size of the second memory (8) is greater than double
+
+the display size of an image to be displayed;
+setting means (15, 9) for fixedly setting said
+first memory (7) as a texture memory for storing texture
+
+data and setting said second memory (8) as a frame
+memory for storing the result of drafting, if the size
+
+of the second memory (8) is greater than double the
+display size, said setting means also setting the
+
+internal structure of the second memory (8) as imaginary
+double buffers divided by information of a highest bit
+
+for the address data, the internal data structure of
+said texture memory being such that two-dimensional
+
+texture data is expressed as one-dimensional texture
+data, the size of the one-dimensional texture data being
+
+less than a maximum value of a column address of said
+first memory;
+buffer switching means (9, 15) for switching, 
+within a vertical flyback time period, double buffers
+
+set within the second memory (8) such that one of said
+buffers is used for reading out image data from a SAM
+
+(serial access memory) port, and the other of said
+buffers is used for writing image data produced from the
+
+polygons into a RAM port;
+detecting means (10, 11) for detecting completion
+of reading out of the image data of every scan line of
+
+said buffer for reading out the image data;
+clearing means (13, 14, 15, 9) for clearing the
+scan line detected by said detecting means within a
+
+horizontal flyback time period (horizontal blanking time
+period) by means of a flash write function of said
+
+multiport DRAM;
+next-address output means (13, 14, 15, 9) for outputting
+an address of the next-readout scan line of the
+
+scan line cleared by said clearing means; and
+refreshing means (15, 16) for refreshing the texture
+memory in synchronism with the clearing processing
+
+of said clearing means and the address output from said
+next-address output means.
+The apparatus according to claim 1, characterized
+in that said refreshing means for refreshing
+
+said texture memory refreshes a plurality of lines in
+said horizontal flyback time period by a RAS (row address strobe)-only-refresh
+
+function.
+A method for controlling an image processing
+apparatus having coordinate conversion means for
+
+conversion to a display coordinates system on the basis
+of model information consisting of polygons, arithmetic
+
+operation means for calculating a luminance gradient of
+
+each vertex of the polygons, means for storing the
+result of arithmetic operations of the arithmetic
+
+operation means, rendering means for performing shading,
+texture mapping, etc. of the polygons on the basis of
+
+the result of the arithmetic operations, means for
+storing a result of drawing in an image memory 
+
+constituted basically by a multiport DRAM, and means for
+controlling the image memory, characterized in that an
+
+image memory (B) constituted by a multiport DRAM
+including a first memory (7) and a second memory (8) to
+
+which address lines, data lines, and memory control
+lines are individually connected said method characterized
+
+by comprising:
+
+a first step of determining whether the size of the
+second memory (8) is greater than double the display
+
+size of an image to be displayed;
+a second step of fixedly setting said first memory
+(7) as a texture memory for storing texture data and
+
+setting said second memory (8) as a frame memory for
+storing the result of drawing, if the size of the
+
+second memory (8) is greater than double the display
+size, said setting means also setting the internal
+
+structure of the second memory (8) as imaginary double
+buffers divided by information of a highest bit for the
+
+address data, the internal data structure of said texture
+memory being such that two-dimensional texture data
+
+is expressed as one-dimensional texture data, the size
+of the one-dimensional texture data being less than a
+
+maximum value of a column address of said first memory;
+a third step of switching, within a vertical flyback
+time period, double buffers set within the second
+
+memory (8) such that one of said buffers is used for
+reading out image data from a SAM (serial access memory)
+
+port, and the other of said buffers is used for writing
+image data produced from the polygons into a RAM port;
+a fourth step of detecting completion of reading
+out of the image data of every scan line of said buffer
+
+for reading out the image data;
+a fifth step of clearing the scan line detected by
+said detecting means within a horizontal flyback time
+
+period (horizontal blanking time period) by means of a
+flash write function of said multiport DRAM;
+a sixth step of outputting an address of the 
+next-readout scan line of the scan line cleared by said
+
+clearing means; and
+a seventh step of refreshing the texture memory in
+synchronism with the clearing processing of said clearing
+
+means and the address output from said next-address
+output means.
+An image processing apparatus according to
+claim 1, characterized by further comprising:
+
+
+data writing means (5) for writing two-dimensional
+texture data in said first memory (7), with said two-dimensional
+
+texture data being expressed as one-dimensional
+texture data, and with the size of the one-dimensional
+
+texture data being less than a maximum value
+of a column address of said first memory, and writing
+
+image data in said second memory (8).
+The apparatus according to claim 4,
+
+characterized in that said detecting means (10, 11)
+includes:
+
+
+a serial clock generator (11); and
+a scan line comparator (10) for counting an output
+clock from said serial clock generator (11) and comparing
+
+the counted result with the number of pixels of one line,
+thereby obtaining said detection output (coincidence
+
+output).
+The apparatus according to claim 5,
+
+characterized in that said detection output is also
+supplied to a controller (12) of a digital-to-analog
+
+converter for converting output data from said frame
+memory (8) to analog data.
+</CLAIMS>
+</TEXT>
+</DOC>

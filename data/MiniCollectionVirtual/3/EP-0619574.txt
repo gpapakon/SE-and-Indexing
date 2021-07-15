@@ -1,0 +1,701 @@
+<DOC>
+<DOCNO>EP-0619574</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Speech coder employing analysis-by-synthesis techniques with a pulse excitation.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G10L1900	G10L1900	G10L1904	G10L1908	G10L1910	G10L1912	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G10L	G10L	G10L	G10L	G10L	G10L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G10L19	G10L19	G10L19	G10L19	G10L19	G10L19	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+In an analysis-by-synthesis coder, the original speech signal undergoes small 
+time shifts to match in time the signal to be coded with the replica produced by 
+
+the long term synthesis filter. The shift is determined at each subframe by an 
+exhaustive search within a range of possible values so as to minimize the error 
+
+signal energy. Once the optimal shift has been determined, the optimal excitation 
+is searched for. The excitation is chosen in a codebook containing words with 
+
+very few pulses arranged in a deterministic structure, which words are all 
+obtained from a limited number of key words. The deterministic codebook 
+
+structure allows a fast search for the optimal excitation, without need of storing 
+the codebook and actually performing the synthesis filterings of the can
+didate 
+excitations. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+AT 
+&
+ T CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SIP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+AT
+&
+T CORP.
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SIP SOCIETA ITALIANA PER L'ESERCIZIO DELLE TELECOMUNICAZIONI P.A.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+CELLARIO LUCA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KLEIJN WILLEM BASTIAAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KROON PETER
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SERENO DANIELLE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+CELLARIO, LUCA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KLEIJN, WILLEM BASTIAAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KROON, PETER
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SERENO, DANIELLE
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to speech coders employing analysis-by-synthesis 
+techniques, and more particularly to a coder for low-bit-rate 
+applications, preferably at the lowest limits of the range of rates for which the 
+above-mentioned coders can be used with good performance, e.g. rates 
+within the 4 - 8 kbit/s range. An example of this type of applications is represented by speech coders 
+to be used for the so-called half-rate channel of the European mobile radio 
+system. In coders using analysis-by-synthesis techniques, for each block of 
+speech signal samples to be coded, the excitation signal for the synthesis 
+filter simulating the speech production apparatus is chosen within a set of 
+excitation signals so as to minimize a perceptually meaningful measure of 
+distortion. This is commonly obtained through the comparison of the synthesized 
+samples and of the corresponding samples of the original signal and 
+the simultaneous weighting, in a suitable filter, with a function that takes into  
+ 
+account how human perception evaluates the resulting distortion. In its most general form, the synthesis filter includes a cascade of two 
+elements that impose short-term and long-term spectral features, respectively, 
+on the excitation signal. The former ones are linked to the correlation 
+among subsequent samples, which generates a non-flat spectral envelope, 
+and the latter ones are linked to the correlation between adjacent pitch 
+periods, on which the fine signal spectral structure depends. With such a 
+scheme, the coded signal includes information relating to excitation and to 
+short-term synthesis parameters (short-term linear prediction coefficients or 
+other quantities related to them) and long-term ones (long-term delay and 
+linear prediction coefficients). The insertion of long-term features into the coded signal greatly enhances 
+natural sounding of the signal, especially if the delay is updated at each 
+subframe during the analysis-by-synthesis cycle; however,the related information 
+would require most of the bits available for coding. Especially in case of 
+low-bit-rate applications, it is therefore particularly interesting to search for 
+solutions that enable a reduction of the amount of information to be transmitted 
+to the decoder, while preserving signal quality. In the paper "Generalized analysis-by-synthesis coding and its application 
+to pitch prediction" presented by W.B. Kleijn, R.P. Ramachandran and P. 
+Kroon at the ICASSP 92 Conference, San Francisco (California, USA), March 
+23-26
+</DESCRIPTION>
+<CLAIMS>
+Method of coding/decoding speech signals, including, in a coding step, the 
+operations of: 
+
+
+sampling the original speech signals at a first sampling rate and dividing 
+the resulting sequence of samples [x(n)]
+ into a plurality of blocks of subsequent 
+samples, each block comprising a first predetermined number Ls of samples or 
+
+an integer multiple of said first number; 
+performing a short-term analysis of the original speech signal to determine a 
+group of linear prediction coefficients (ai) to be used for a linear prediction 
+
+filtering, a short-term synthesis filtering and a spectral weighting filtering, generating 
+a representation of said coefficients in the frequency domain, and inserting 
+
+into the coded signal information [j()] related to the value of said representation, 
+
+said information being valid for a period equal to the duration of a block or of a 
+group of consecutive blocks of samples; 
+obtaining, through said linear prediction filtering, a short-term residual signal 
+[rs(n)]
+ for said block or group of blocks of samples; 
+subjecting said residual signal [rs(n)] to a long-term analysis, to determine 
+
+long-term analysis parameters comprising a long-term synthesis filtering delay d 
+and coefficient b, and inserting into the coded signal information [j(d), j(b)]
+ related 
+to the values of said parameters, said information being valid for a time equal to 
+
+the duration of a block or a group of consecutive blocks of samples; 
+reproducing every block of speech signal samples to be coded with a 
+reconstructed and weighted speech signal [yw(n)]
+, obtained by subjecting to long-term 
+synthesis f
+iltering, short-term synthesis filtering and spectral weighting 
+filtering an excitation signal chosen within a set of excitation signals, each 
+
+comprising an amplitude contribution (excitation gain) and a shape contribution 
+(innovation), the latter being composed of a limited number of pulses, much less 
+
+than said first number of samples, with predefined positions and amplitudes 
+belonging to a respective finite set; 
+subjecting a set of samples of said residual signal [rs(n)] to a time shift by 
+
+discrete steps, each set of residual signal samples having a number of samples 
+equal to the number of samples in a block of speech signal samples to be coded, 
+
+to align in time the residual signal with a reconstructed residual signal [ss(n)] 
+
+ 
+obtained as result of the short-term synthesis filtering of an excitation signal, the 
+
+shift generating a modified residual signal [randm(nand)] that is subjected to a long-term 
+
+synthesis filtering and to a spectral weighting filtering, identical to those carried 
+out for the excitation signals, to generate a reconstructed and weighted modified 
+
+speech signal [xw(n)]; 
+determining an optimal excitation signal for each block of samples, by 
+minimizing the energy of a weighted error signal [e(n)]
+ represented by the 
+difference between the reconstructed and weighted modified signal [xw(n)]
+ and 
+the reconstructed and weighted signal [yw(n)]
+, and inserting into the coded signal 
+information [j(s), j(gmax), j(gnor), σ]
+ that identifies the optimal excitation signal; 
+characterized in that: 
+the innovation pulses are the only non-null samples of words composed of 
+said first number Ls of samples, 
+the innovation words for a first subset of excitation signals include a pair of 
+pulses, a limited group of words of the first set being key-words in which the two 
+
+pulses are placed in predetermined key positions and the other words in the 
+subset being obtained from each of the key-words by each time simultaneously 
+
+shifting the pulses by one position towards a word end, till one of the pulses 
+reaches said end or the key position of the other pulse in the starting word, the 
+
+shifting direction being the same for all words; and 
+the innovation words for a second subset of excitation signals include only 
+one pulse whose position is different for each signal; 
+
+   and in that for said determination of the optimal excitation signal the 
+energy of said weighted error signal is directly computed, by exploiting a pulse 
+
+response Q(n) of filters that carry out synthesis and spectral weighting filterings 
+of the excitation signal, with the following operations: 
+determining said pulse response Q(n) and the energy Eq thereof for each of 
+the possible pulse positions in the excitation signals; 
+determining a first partial error signal [e₁(n)], represented by the difference 
+
+between the reconstructed and weighted signal [xw(n)] and a contribution [yw1(n)]
+ 
+of the excitation signal filtering memory, and the energy of the same error signal; 
+determining a first correlation R(e₁q) between said first partial error signal 
+[e₁(n)]
+ and the pulse response Q(n) for each of the pulses of an excitation signal; 
+determining for each excitation signal, starting from said pulse response, a 
+signal [u(n)]
+ representative of a contribution of the filtering with null initial 
+conditions of the excitation signal; 
+determining the energy E(u) of said signal [u(n)] representative of the 
+
+contribution of a filtering with null initial conditions of the excitation signal, and 
+determine a second correlation R(e₁u) between said signal [u(n)]
+ representative 
+of the contribution of the filtering with null initial conditions of the excitation signal 
+
+and the first partial error signal [e₁(n)]; 
+determining, for each excitation signal, an optimal value of the amplitude 
+contribution as ratio between said second correlation and the energy of the signal 
+
+resulting from filtering at null initial conditions; 
+computing, as function of said second correlation R(e₁u), of said energy Eu 
+of the signal representative of the contribution of the filtering with null initial 
+
+conditions of excitation and of said energy E(e₁) of the first partial error signal, 
+the value of error signal energy for each excitation signal. 
+Method according to claim 1, characterized in that said pulses have unitary 
+amplitude. 
+Method according to claim 1 or 2, wherein the sequence of speech signal 
+samples is divided into frames that are composed by a plurality of consecutive 
+
+subframes each corresponding to one of said blocks and include a second 
+predetermined number Lf of samples, and wherein said short-term analysis is 
+
+carried out for each frame, characterized in that for said short-term analysis in a 
+frame a sample window is analysed, whose length is Lf+P (P = number of linear 
+
+prediction coefficients in each group), that encompasses a current frame and the 
+subsequent frame and also includes a predefined number H+K of samples of 
+
+said subsequent frame, said window being a trapezoidal window that weights all 
+samples with maximum weight, apart from the first and the last P samples, for 
+
+which the weighting factors are determined through linear interpolation between 
+a minimum weight and the maximum weight. 
+Method according to claim 3, characterized in that for the initial subframes of 
+each frame, the linear prediction coefficients ai are coefficients obtained as result 
+
+of an interpolation between the values provided by short-term analysis for the 
+current frame and those provided for the previous frame, the interpolation being 
+
+ 
+carried out by operating on said representation. 
+Method according to any one of the previous claims, wherein the linear 
+prediction residual is subjected to low-pass filtering before long-term analysis, 
+
+thereby providing a filtered residual signal [rf(n)]. 
+Method according to any of claims 1 to 5, wherein the sequence of speech 
+signal samples is divided into frames that are composed of a plurality of consecutive 
+
+subframes each corresponding to one of said blocks and include a second 
+predetermined number Lf of samples, and wherein said long-term analysis is 
+
+carried out for each frame, characterized in that to determine said long-term 
+analysis parameters, a sample window of the filtered residual signal [rf(n)]
+ is 
+analysed, that encompasses a current frame and the subsequent frame and also 
+
+includes a predefined number H+K of samples of said subsequent frame. 
+Method according to claim 6, characterized in that said long-term analysis 
+further includes the operation of determining, for each frame, a long-term 
+
+prediction gain G, representative of the ratio between the energies of filtered 
+residual signal at the input of and at the output from means that carry out said 
+
+analysis, the gain being also determined at each frame. 
+Method according to claim 6 or 7, characterized in that said long-term 
+analysis further includes the operations of: 
+
+
+classifying a speech signal segment corresponding to a frame as voiced or 
+unvoiced, depending on the value of said long-term analysis coefficient b and on 
+
+prediction gain G, and generating a first flag (V) in case the segment is classified 
+as voiced; 
+comparing values of long-term analysis delay d and coefficient b related to a 
+current frame with those related to the previous frame and generating, when 
+
+delay variation is less than a predefined amount and coefficient values in both 
+frames are positive
+, a second flag (F) that enables interpolation between delay 
+and coefficient values computed for said previous frame and those computed for 
+
+the current frame. 
+Method according to any of the claims from 6 to 8, wherein long-term 
+analysis delay d is determined as maximum of the autocorrelation function of the 
+
+filtered residual within the window used for the analysis itself, characterized in 
+that, before determining long-term analysis coefficient b and prediction gain G for 
+
+ 
+the current frame, the local maximum of said autocorrelation function is determined 
+
+even in a neighborhood of the maximum of the same function in the 
+previous frame, if said first and second flags had been generated in said 
+
+previous frame, and said local maximum is used as delay for current frame if it is 
+different by an amount that is less than a predefined value from the maximum in 
+
+the window related to current frame. 
+Method according to any of the claims from 6 to 9, characterized in that the 
+value of long-term analysis coefficient b is clipped to a first maximum value b₁, 
+
+linked to the ratio between energy of the filtered residual signal in the current 
+frame and in the previous frame in an interval whose length is equal to the long-term 
+
+analysis delay. 
+Method according to any of the claims from 6 to 10, characterized in that the 
+value of long-term analysis coefficient b is clipped to a second maximum value 
+
+b₂, if it exceeds such value while the prediction gain G is less than a gain 
+threshold Gthr. 
+Method according to claim 8 or any of claims 9 to 11, if referred to claim 8, 
+characterized in that said interpolation of long-term analysis delay d and coefficient 
+
+b is a linear interpolation extended over a whole frame and, in case of a 
+non-integer interpolated delay value, the value of a corresponding sample of the 
+
+reconstructed residual signal ss(n) is evaluated with a second-order polynomial 
+interpolation centered around the integer delay value that is nearest to said 
+
+interpolated value. 
+Method according to any of the claims from 6 to 12, wherein information 
+related to long-term analysis coefficient b inserted in the coded signal are indexes 
+
+representative of quantized coefficient values, and information related to long-term 
+analysis delay d allows representing also delay values that are outside an 
+
+interval of allowed delays, characterized in that coefficient values that are less 
+than a predefined fraction of a minimum quantized value are forced to 0 and, in 
+
+case of forcing to 0, delay information representative of a value that is outside 
+said interval of allowed delays and the index representative of said minimum 
+
+quantized value, are inserted in the coded signal. 
+Method according to any of claims 1 to 13, characterized in that, to determine 
+the optimal excitation, excitation signals of said second subset are used 
+
+ 
+if said first flag (V) has been generated or, if said flag has not been generated, if 
+
+analysis of the energy distribution in the, modified residual signal shows an 
+energy concentration in short times, that indicates the onset of a voiced sound. 
+Method according to claim 14, characterized in that, to determine the optimal 
+excitation, the excitation signals of the two subsets are normalized with different 
+
+normalization factors, linked to the number of pulses present in respective subset 
+signals. 
+Method according to claim 14 or 15, characterized in that, if said first flag (V) has 
+been generated, the amplitude contribution for excitation signals of said second 
+
+subset is limited in such a way as not to exceed a threshold that is proportional 
+to the absolute value of the residual signal. 
+Method according to any of claims 14 to 16, characterized in that said 
+analysis of the energy distribution of the modified residual signal is carried out at 
+
+each subframe and includes the operations of: 
+
+dividing the subframe into a plurality of partially overlapping windows, a first 
+and a last window coinciding with a respective initial or final part of the subframe, 
+
+the windows following the first one being each shifted by one sample with respect 
+to the previous window; 
+determining the energy and the power of the modified residual signal in the 
+whole subframe and the energy in each one of said windows; 
+determining the power for the window whose energy is maximum and 
+determining the ratio between the power in said window and the power in the 
+
+subframe; and 
+comparing said maximum energy and said power ratio with respective 
+thresholds, said energy concentration being recognized if said maximum energy 
+
+and said ratio are not less than respective thresholds. 
+Method according to any of the claims from 6 to 17, characterized in that, if 
+only the second flag (F) has been generated, long-term analysis delay d is varied 
+
+by an amount that is proportional to entity of the shift accumulated up to the 
+previous frame, the absolute value of the variation being limited to a predefined 
+
+maximum. 
+Method according to claim 18, characterized in that said delay variation is 
+disabled if it causes the decision about interpolation to be altered and the delay 
+
+ 
+to go out of a predetermined interval of values. 
+Method according to any of the claims from 6 to 19, characterized in that the 
+residual signal is subjected to said time shift in a subframe if at least one of said 
+
+first and second flags has been generated and if an analysis of the modified 
+residual signal energy in the subframe shows that the corresponding speech 
+
+signal segment is not silence and includes a pitch peak, the shift related to a 
+subframe being accumulated with that of the previous subframes of the same 
+
+frame, so that the total shift in a frame remains less than a maximum shift. 
+Method according to claim 20, characterized in that said analysis of the 
+modified residual signal energy includes the operations of: 
+
+
+comparing the energy itself with an energy threshold, which, when reached, 
+shows that the corresponding speech signal segment is not silence; 
+determining the modified residual signal power in the subframe and in an 
+interval whose length is equal to the long-term analysis delay, and the ratio 
+
+between such powers; and 
+comparing such ratio with a power threshold, which, when exceeded, shows 
+the presence of a pitch peak in the subframe. 
+Method according to claim 20 or 21, characterized in that the shift for a 
+subframe is determined, before determining an optimal excitation signal, within an 
+
+interval that extends around the shift accumulated in previous subframes of the 
+same frame, and it is the value that minimizes energy of said first partial error 
+
+signal [e₁(n)]. 
+Method according to claim 20, characterized in that to determine the shift, an 
+upsampling of the residual signal is carried out, at a second rate that is a multiple 
+
+of the first rate, the shift in a subframe being equal to one or more samples of the 
+upsampled residual signal. 
+Method according to claim 22 or 23, characterized in that said first partial 
+error signal is computed as sum between a signal [xw2(n)]
+ representative of the 
+modified residual signal filtered with null in
+itial conditions and a second partial 
+error signal [e₀(n)]
+, which is the difference between the memory contribution 
+[xw1(n)]
+ of the modified residual signal filtering and the memory contribution 
+[yw1(n)]
+ of the excitation filtering, the signal [xw2(n)] representative of the modified 
+
+residual filtered with null initial conditions related to a sample in a subframe being 
+ 
+
+obtained by carrying out the actual filtering of the modified residual signal for shift 
+values between the upper end of the interval and an intermediate value between 
+
+the two extreme values, while for each of the remaining shifts in the interval it is 
+iteratively obtained from the value related to the previous sample and from said 
+
+pulse response. 
+Method according to claim 24, characterized in that the determination of said 
+interval of shift values is carried out through the following operations: 
+
+
+fixing for the interval ends two symmetrical values with respect to the 
+accumulated value; 
+determining the residual signal peak position in the upsampled residual 
+signal and comparing it with the peak position in the previous subframe; 
+limiting the interval extension on one or both sides of the accumulated value 
+to avoid an excessive shift of the subframe into the past and/or into the future, 
+
+with consequent duplication or loss of residual signal peaks. 
+Method according to claim 25, characterized in that, in case of interval 
+limitation on one side only of the accumulated value, the search for the shift is 
+
+carried out also taking into account a certain number of values beyond the 
+interval end not interested by the limitation, such that the global number of tested 
+
+values is equal to the number of values included between said symmetrical 
+values. 
+Method according to any of the claims from 1 to 26, including a decoding 
+step where, starting from the information [j(), j(d), j(b), j(s), j(gnor), j(gmax), σ]
+ 
+about the linear prediction coefficient representation, the long-term analysis 
+
+parameters and the excitation signal, said representation is reconstructed, 
+reconstructed linear prediction coefficients are obtained therefrom, the long-term 
+
+analysis parameters are reconstructed, an excitation signal is chosen in a set of 
+excitation signals corresponding to the one used in the coding step, and said 
+
+signal is subjected to a short-term and a long-term synthesis filtering, identical to 
+the ones carried out in the coding step, by using reconstructed linear prediction 
+
+coefficients ai and long-term analysis delay d and coefficient b, to generate a 
+reconstructed block of speech signal samples [y(n)]
+ for each excitation signal 
+[s(n)]
+, characterized in that every block of the reconstructed speech signal [y(n)], 
+
+during the initial part of a validity period of linear prediction coefficients, is 
+ 
+
+generated by carrying out the short-term synthesis filtering with reconstructed 
+linear prediction coefficients ai obtained as result of an interpolation between 
+
+reconstructed values related to an immediately previous validity period and 
+reconstructed values related to the current period, and in that the values of long 
+
+term analysis delay d and coefficient b, related to two consecutive validity 
+periods, are compared and, if the delay variation is less than a predefined 
+
+amount and the coefficient is positive in both periods, a flag corresponding to that 
+second flag is generated, to enable carrying out, during long-term synthesis 
+
+filtering, an interpolation between the long-term analysis parameter values related 
+to said two validity periods. 
+Apparatus for coding/decoding speech signals using analysis-by-synthesis 
+techniques, including a coder composed of: 
+
+
+means (MT) for sampling at a first rate a speech signal and to divide the 
+sample sequence into blocks comprising a first number of samples; 
+short-term analysis means (STA, STR1) for computing a group of linear 
+prediction coefficients ai for one or more blocks of samples, for transforming said 
+
+coefficients into a representation thereof in the frequency domain, for obtaining 
+from said representation indexes j() identifying the coefficients themselves, to 
+
+be inserted into the coded signal, and for reconstructing the coefficients starting 
+from said indexes, every group of linear prediction coefficients being valid for a 
+
+period of time equal to the duration of one or more blocks of samples; 
+a linear prediction filter (LPC) that receives blocks of signal samples from the 
+sampling means (MT) and linear prediction coefficients ai from the short-term 
+
+analysis means (STA, STR1) and generates a short-term prediction residual 
+signal rs(n); 
+long-term analysis means (LTA, LTR1) for obtaining, from said residual 
+signal, parameters for a long-term synthesis filtering, which parameters comprise 
+
+a delay (d) and a coefficient (b), and for transforming said parameters into 
+indexes [j(b), j(d)]
+ to be inserted into the coded signal, the long-term analysis 
+parameters being valid for a period of time equal to the duration of one or more 
+
+blocks of samples; 
+a first filtering system (LTS1, STS1, SW) that: includes the series of a long-term 
+synthesis filter (LTS1), that receives from the long-term analysis means 
+
+ 
+(LTA, LTR1) said parameters, and of a short-term synthesis filter (STS1) and a 
+
+spectral weighting filter (SW), that receive from said short-term analysis means 
+(STA, STR1) said linear prediction coefficients ai receives signals belonging to a 
+
+set of excitation signals each including a shape contribution composed of a 
+number of pulses, of predefined amplitudes and positions, said pulse number 
+
+being much less than said first number; and generates a reconstructed signal 
+yw(n) for each one of the excitation signals; 
+means (TS) for time shifting, by discrete steps, a set of samples yw(n) of said 
+residual signal to align it in time with a reconstructed residual signal ss(n) 
+
+generated by the long-term synthesis filter (LTS1) of said first filtering system, the 
+set of samples of residual signal having a number of samples equal to said first 
+
+number of samples, every shift step being chosen within an interval of allowed 
+values; 
+a second filtering system (STS', SW'), that includes the series of a short-term 
+synthesis filter and a spectral weighting filter identical to those (STS1, SW) of the 
+
+first filtering system, is supplied with a modified residual signal generated by the 
+time shift means for each of the values of said interval, and generates a reconstructed 
+
+and weighted modified residual signal, said first and second filtering 
+systems (LTS1, STS1, SW, STS', SW') separately determining a contribution 
+
+representative of the memory of previous filtering and a contribution representative 
+of a filtering with null initial conditions; 
+means (SM, EM) for generating a weighted error signal [e(n)] by comparing 
+
+signals generated by the first and the second filtering systems, for identifying an 
+optimal excitation signal and an optimal shift, by minimizing the energy of said 
+
+weighted error signal, and for inserting in the coded signal information that 
+identifies the optimal excitation signal; 
+
+   and further comprising, at the decoding side: 
+means (LTR2, STR2) for reconstructing the linear prediction coefficients and 
+long-term analysis parameters starting from said indexes; 
+a third filtering system (LTS2, STS2), including the series of a long-term 
+synthesis filter,and a short-term synthesis filter, identical to those (LTS1, STS1) 
+
+of the first filtering system, for filtering an excitation signal selected, through 
+information related to optimal excitation, in a set
+ corresponding to the set used 
+ 
+
+on the coding side and to generate a block of reconstructed speech signal 
+samples, 
+
+characterized in that: 
+the innovation pulses are the only non-null samples of words composed of 
+said first number Ls of samples, 
+the innovation words for a first subset of excitation signals include a pair of 
+pulses, a limited group of words of the first set being key-words in which the two 
+
+pulses are placed in predetermined key positions and the other words in the 
+subset being obtained from each of the key-words by each time simultaneously 
+
+shifting the pulses by one position towards a word end, till one of the pulses 
+reaches said end or the key position of the other pulse in the starting word, the 
+
+shifting direction being the same for all words; and 
+the innovation words for a second subset of excitation signals include only 
+one pulse whose position is different for each signal; 
+
+   and in that, in said error signal generating means (SM, EM), the means 
+to minimize error energy are composed of a processing unit arranged to: 
+determine said pulse response [Q(n)] and an energy (Eq) thereof for each 
+
+one of the possible pulse positions in excitation signals; 
+determine a first partial error signal [e₁(n)], represented by the difference 
+
+between the reconstructed and weighted modified signal [xw(n)] and a contribution 
+
+[yw1(n)] of the excitation signal filtering memory, and an energy of the error signal 
+
+itself; 
+determine a first correlation [R(e₁q)] between said first partial error signal 
+
+[e₁(n)] and the pulse response for each of the pulses of an excitation signal; 
+determine, for each excitation signal, starting from said pulse responses, a 
+signal [u(n)]
+ representative of a contribution of the filtering with null initial 
+conditions of the excitation signal; 
+determine the energy [E(u)] of said signal [u(n)]
+ representative of the 
+contribution of a filtering with null initial conditions of the excitation signal and a 
+
+second correlation R(e₁u) between said signal [u(n)] representative of the 
+
+contribution of the filtering with null initial conditions of the excitation signal and 
+the first partial error signal [e₁(u)]
+; 
+determine, for each excitation signal, an optimal value of the amplitude 
+ 
+
+contribution as ratio between said second correlation and the energy of the signal 
+resulting from filtering with null initial conditions; 
+compute, as function of said second correlation R(e₁u), of said energy (Eu) 
+of the signal representative of the contribution of the filtering with null initial 
+
+conditions of the excitation and of said energy [E(e₁)] of the first partial error 
+
+signal, the error signal energy value for each excitation signal. 
+Apparatus according to claim 28, characterized in that a low-pass filter (FPB) 
+is provided between said linear prediction filter (LPC) and said long-term analysis 
+
+means (LTA, LTR1). 
+Apparatus according to claim 28 or 29, characterized in that the short-term 
+analysis means (STA, STR1) in the coder and the means (STR2) for reconstructing 
+
+linear prediction coefficients in the decoder include means for carrying 
+out, on said representation in the frequency domain, a linear interpolation 
+
+between values related to two consecutive validity periods and supply the short-term 
+synthesis filters (STS1, STS', STS2) of said filtering systems with the 
+
+interpolated values in an initial part of a validity period of a set of coefficients. 
+Apparatus according to any one of claims from 28 to 30, characterized in 
+that the long-term analysis means (LTA, LTR1) in the coder and the means 
+
+(LTR2) for reconstructing the long-term analysis parameters in the decoder 
+include comparing means for comparing parameters related to two consecutive 
+
+validity periods and generating a flag (F) to enable carrying out an interpolation 
+between the parameters when they satisfy predetermined conditions, and the 
+
+long-term synthesis filters (LTS1, LTS2) of the first and second filtering systems 
+are associated to means that, when said flag is present, carry out a second-order 
+
+polynomial interpolation of said parameters, extended to a whole validity period 
+thereof, and supply the respective long-term synthesis filter (LTS1, LTS2) with the 
+
+interpolated parameters. 
+Apparatus according to any one of claims from 28 to 31, characterized in 
+that the time shift means (TS) include a circuit (US) for upsampling the residual 
+
+signal, and storing means (SH) for storing, for each block of samples to be 
+coded, a first group of upsampled residual signal samples corresponding to said 
+
+first number Ls of samples, and two further groups of upsampled residual signal 
+samples, respectively preceding and following said first group and including a 
+
+ 
+number of samples linked to the maximum allowed shift, and for supplying the 
+
+second filtering system (STS', STW'), upon command by the energy minimizing 
+means (EM), with a fourth group of upsampled residual signal samples, including 
+
+as many samples as those of the first group and shifted with respect to the first 
+group by said optimal shift. 
+</CLAIMS>
+</TEXT>
+</DOC>

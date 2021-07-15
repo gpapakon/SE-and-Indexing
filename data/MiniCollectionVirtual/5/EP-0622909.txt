@@ -1,0 +1,320 @@
+<DOC>
+<DOCNO>EP-0622909</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Quantized coherent rake receiver for CDMA signals
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04B169	H04B1707	H04B169	H04L2722	H04B1707	H04L2722	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04B	H04B	H04B	H04L	H04B	H04L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04B1	H04B1	H04B1	H04L27	H04B1	H04L27	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An implementation of coherent diversity combining in a RAKE
+receiver that uses energy in signal echoes by integrating
+
+information from main-path and bit-period-delayed signal
+propagation paths to remove echo distortion, or time dispersion,
+
+is described. If delayed by one chip in a CDMA system,
+such echoes appear as uncorrelated interference. The RAKE
+
+receiver correlates a despreading code with the current (main-path)
+signal samples and with the signal samples delayed by 1,
+
+2, 4, ... bit periods, and combines the correlation results to
+determine the information content of the signal. After
+
+appropriate conditioning, the received signal is digitized
+and the signal samples are stored. Groups of samples are Fast
+
+Walsh Transformed, and the real and imaginary transforms are
+scaled according to a table of coefficients; the scaled
+
+results are stored. Weighted, scaled transforms of groups
+shifted by 1, 2, 4, ... samples are accumulated, and the index
+
+of the largest-magnitude accumulation is used to select real
+and imaginary transform values. The selected values are
+
+transferred to a RAKE coefficient computer and quantizer that
+determines from the sequence of values presented the mean
+
+value and trend of the real and imaginary components. A
+Kalman filter may use these values to estimate the values that
+
+will occur during the next group analysis period.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+ERICSSON INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+ERICSSON INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+DENT PAUL W
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DENT, PAUL W.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+Applicant's invention relates to methods and apparatuses for
+receiving spread spectrum radio signals, such as digitally
+modulated signals in a Code Division Multiple Access (CDMA)
+mobile radio telephone system, and more particularly to a RAKE
+receiver scheme for such signals.In CDMA communication systems, transmitted information
+signals overlap in both time and frequency as described in,
+e.g., N. Tzannes, Communication and Radar Systems, pp. 237-239,
+Prentice-Hall, Inc. (1985). An informational data stream
+to be transmitted is impressed upon a much-higher-rate data
+stream known as a "signature sequence". Typically, the
+signature sequence data are binary, providing a bit stream.
+One way to generate this signature sequence is with a pseudo-noise
+(PN) process that appears random, but can be replicated
+by an authorized receiver. The informational data stream and
+the high-bit-rate signature sequence stream are combined by
+multiplying the two bit streams together, assuming the binary
+values of the two bit streams are represented by +1 or -1.
+This combination of the higher-bit-rate signal with the lower-bit-rate
+data stream is called "coding" or "spreading" the
+informational data stream. Each informational data stream,
+or channel, is allocated a unique signature sequence, or
+"spreading code".A plurality of coded information signals modulate a radiofrequency
+(RF) carrier by, for example, quadrature phase shift
+keying (QPSK), and are jointly received as a composite signal
+at a receiver. Each of the coded signals overlaps all of the
+other coded signals, as well as noise-related signals, in both
+frequency and time. If the receiver is authorized, the
+composite signal is correlated with one of the unique spreading 
+codes, and the corresponding information signal can be
+isolated and decoded.One CDMA technique, called "traditional CDMA with direct
+spreading", uses a spreading code to represent one bit of
+information. Receiving the transmitted code or its complement
+(the opposite of each bit of the code sequence) indicates
+whether the information bit is a "-1" or "+1". The signature
+sequence usually comprises N bits, and each bit is called a
+"chip". The entire N-chip sequence, or its complement, is
+referred to as a transmitted symbol. The receiver correlates
+the received signal with the known signature sequence of its
+own signature sequence generator to produce a normalized value
+ranging from -1 to +1. When a large positive correlation
+results, a "-1" is detected; when a large negative correlation
+results, a "+1" is
+</DESCRIPTION>
+<CLAIMS>
+A method for decoding a Code Division Multiple
+Access signal comprising the steps of:
+
+
+correlating (114) at least two time shifts of a
+received signal against a spreading code, the received
+
+signal comprising successive transmitted data symbols, the
+at least two time shifts corresponding to a transmitted data
+
+symbol;
+weighting (112, 115a, 115b) the results of the
+correlating step (114) according to coefficients selected
+
+from a coefficient memory (115a), each coefficient having a
+sign and a value that is an inverse integer power of two and
+
+corresponding to a respective time shift;
+summing (116) the results of the weighting step (112,
+115a, 115b, 120) for each time shift in an accumulator; and
+determining (117) the sign of the sum in the
+accumulator to decode the transmitted data symbol.
+The method of claim 1, wherein and the spreading
+code and a complement of the spreading code correspond to
+
+different respective transmitted binary data symbols
+(+1, -1).
+The method of claim 2, wherein the correlating
+step (114) produces numerical binary-coded values in bit-serial
+
+form.
+The method of claim 3, wherein the summing step
+(116) comprises the step of summing the weighted
+
+correlations bit-serially in a plurality of recirculating
+bit-serial memories.
+The method of claim 4, wherein the weighting (112,
+115a, 115b) step comprises the step of delaying use of the
+
+bit-serial sums by an amount corresponding to the selected
+coefficients. 
+The method of claim 1, wherein the received signal
+comprises a plurality of successive complex vector values,
+
+and the correlating step (114) comprises the step of
+producing complex correlation values, and the coefficients
+
+are complex values whose both real and imaginary parts have
+a sign and a value that is an inverse integer power of two.
+The method of claim 1, modified in that the at
+least two time shifts are correlated against at least two
+
+spreading codes, the at least two spreading codes
+corresponding to different transmitted data symbols, and the
+
+weighting step (112, 115a, 115b) results are summed for each
+time shift in a respective accumulator for each spreading
+
+code, and the determining step (117) identifies the largest
+sum produced by the summing step (116) to decode the
+
+transmitted data symbols.
+The method of claim 7, wherein the spreading codes
+are mutually orthogonal.
+The method of claim 8, wherein the spreading codes
+are Walsh-Hadamard codes.
+The method of claim 9, wherein the correlating
+step (114) comprises carrying out a Fast Walsh Transform.
+The method of claim 8, wherein the spreading codes
+are Walsh-Hadamard codes modified by bitwise modulo-2
+
+addition of a predetermined scrambling bit pattern.
+The method of claim 11, further comprising the
+step of varying the scrambling bit pattern from one code
+
+block to another in response to a signal from a scrambling
+sequence generator. 
+An apparatus for decoding a Code Division Multiple
+Access signal comprising:
+
+
+means (114) for correlating at least two time shifts of
+a received signal with a spreading code, the received signal
+
+comprising successive transmitted data symbols, the at least
+two time shifts corresponding to a transmitted data symbol;
+means (112, 115a, 115b, 120) for weighting correlations
+produced by the correlating means (114) according to
+
+respective ones of at least two coefficients, each
+coefficient having a sign and a value that is an inverse
+
+integer power of two and corresponding to a respective time
+shift;
+means (116) for summing the weighted correlations
+produced by the weighting means (112, 115a, 115b, 120) for
+
+each time shift; and
+means (117) for determining the sign of the sum
+produced by the summing means (116) to decode the
+
+transmitted data symbol.
+The apparatus of claim 13, wherein the means for
+correlating (114) is adapted to correlate the at least two
+
+time shifts of the received signal with the spreading code
+and a complement of the spreading code corresponding to
+
+different respective transmitted binary data symbols
+(+1, -1).
+The apparatus of claim 14, wherein the correlating
+means (114) produces binary-coded values in bit-serial form.
+The apparatus of claim 15, wherein the summing
+means (116) comprises a plurality of bit-serial adders
+
+(116a) and associated recirculating bit-serial memories
+(116b).
+The apparatus of claim 16, wherein the weighting
+means (112, 115a, 115b, 120) comprises means for delaying
+
+use of a bit-serial value (120) produced by the correlating 
+means (114) by an amount corresponding to the respective
+
+coefficient.
+The apparatus of claim 13, modified in that the
+correlating means (114) correlates the at least two time
+
+shifts against at least two spreading codes, the at least
+two spreading codes corresponding to different transmitted
+
+data symbols, and the summing means (116) sums weighted
+correlations for each time shift for each spreading code,
+
+and the determining means (117) identifies the largest sum
+produced by the summing means (116) to decode the
+
+transmitted data symbols.
+The apparatus of claim 18, wherein the spreading
+codes are mutually orthogonal.
+The apparatus of claim 19, wherein the spreading
+codes are Walsh-Hadamard codes.
+The apparatus of claim 20, wherein the correlating
+means (114) comprises means for carrying out a Fast Walsh
+
+Transform.
+The apparatus of claim 21, wherein the spreading
+codes are Walsh-Hadamard codes modified by bitwise modulo-2
+
+addition of a predetermined scrambling bit pattern.
+The apparatus of claim 22, further comprising a
+scrambling sequence generator and means for varying the
+
+scrambling bit pattern (140) from one code block to another
+in response to a signal from the scrambling sequence
+
+generator.
+The apparatus of claim 13, wherein the received
+signal comprises a plurality of successive complex vector
+
+values, and the correlating means (114) produces complex
+correlation values, and the coefficients are complex values 
+
+whose both real and imaginary parts have a sign and a value
+that is an inverse integer power of two.
+The apparatus of claim 24, further comprising
+means for determining coefficients from complex correlation
+
+values (130) produced by the correlating means (114), the
+determined coefficients for use in decoding a succeeding
+
+transmitted data symbol.
+The apparatus of claim 25, wherein the coefficient
+determining means (130) comprises means for averaging the
+
+real and imaginary parts of the complex correlation values
+and means for quantizing the averaged parts to respective
+
+values that are each an inverse integer power of two, the
+quantized values being for use as coefficients in decoding
+
+the succeeding transmitted data symbol.
+The apparatus of claim 26, wherein the averaging
+means includes a Kalman filter.
+The apparatus of claim 18, wherein the
+coefficients are selected from a coefficient memory (115a),
+
+and each coefficient corresponds to a respective time shift
+and a respective spreading code; and wherein the apparatus
+
+further comprises means for subtracting a waveform
+corresponding to the decoded transmitted data symbol from
+
+the received signal.
+The apparatus of claim 28, wherein the subtracting
+means subtracts the waveform based on the correlations.
+The apparatus of claim 29, wherein a waveform is
+subtracted for each time shift and the subtracted waveforms
+
+are based on the correlations with the corresponding time
+shifts. 
+The apparatus of claim 30, wherein the subtracting
+means subtracts the waveforms for different time shifts in
+
+order of the correlation magnitudes from strongest to
+weakest.
+The apparatus of claim 31, wherein the correlating
+means (114) correlates at least two time shifts of the
+
+received signal after subtraction of the waveform from a
+
+time shift having a stronger correlation.
+</CLAIMS>
+</TEXT>
+</DOC>

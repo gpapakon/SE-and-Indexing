@@ -1,0 +1,91 @@
+<DOC>
+<DOCNO>EP-0908055</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+METHOD, APPARATUS AND SYSTEM FOR COMPRESSING DATA
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T900	G06T900	H04N146	H04N146	H04N160	H04N160	H04N726	H04N726	H04N728	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	H04N	H04N	H04N	H04N	H04N	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T9	G06T9	H04N1	H04N1	H04N1	H04N1	H04N7	H04N7	H04N7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An apparatus and method for image data compression performs a modified zero-tree coding on a range of absolute image values from the largest to a determined smaller absolute value, based upon file size or quality. If it is desired to maintain more detail in the image, then a vector quantizer codes the remaining values below this determined smaller value to zero, and lossless entropy coding is performed on the results of the two coding steps. The determined smaller value can be adjusted by examination of the histogram of the tree, or iteratively to meet a preselected compressed image size criterion or to meet a predefined level of image quality, as determined by any suitable metric. If the image to be compressed is in RGB color space, the apparatus converts the RGB image to a less redundant color space before commencing further processing.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+WDE INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+WDE INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+ZADOR ANDREW MICHAEL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ZADOR, ANDREW, MICHAEL
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+ METHOD. APPARATUS AND SYSTEM FOR COMPRESSING DATAField Of The InventionThe present invention relates to a method, apparatus and system for compressing data. More specifically, the present invention relates to the compression of data relating to images and the like.Background Of The InventionData compression systems are well known. Essentially, data compression systems operate on an original data stream, or file, and exploit the redundancies in the data and/or remove superfluous data to reduce the size of the data to a compressed format for transmission or storage. When it is desired to use the data, it is decompressed to a form in which it may be used normally. There are essentially two forms of data compression system, namely reversible (lossless) and irreversible (lossy) systems.Reversible compression systems are used when it is necessary that the original data be recovered exactly, and these systems are generally used for data such as executable program files, database records, etc. Reversible compression systems include Huffman coding, arithmetic coding, delta modulation, and LZW compression. Depending upon the amount of redundancy in the data (the entropy of the data) to be compressed, reversible compression systems can typically provide a compression ratio of about 2 to 1 or 3 to 1 on real-world images, (expressed as 2: 1 or 3:1).Irreversible compression systems are used when it is not required that the original data be recovered exactly and an acceptable approximation of the data can be employed instead. Unlike reversible compression systems, irreversible compression systems can be designed to provide almost any desired compression ratio, depending only upon the standards to which the recovered approximation of the data is subject.One common use for irreversible compression systems is image compression, as images generally can undergo irreversible compression and decompression with visually acceptable results. For example, digital still images are often processed with the JPEG (Joint Photographic Experts Group) compression system for storage and/or transmission. The JPEG algorithm is described in many references, including, "JPEG Still Image Data Compression Standard", Van Nostrand Reinhold Publishers, William Pennebaker, Joan L. Mitchell, the contents of which are incorporated herein by reference. Depending upon the intended use for the recovered image, JPEG systems can be set to various desired compression ratios, generally 
+
+between 2: 1 and 40: 1 , although it should be noted that undesircd
+</DESCRIPTION>
+<CLAIMS>
+I claim:
+1. A method of compressing a digital image to obtain a compressed image data set for subsequent reconstruction, comprising the steps of:
+(i) determining if the digital image is a color image in RGB color space and converting any determined RGB color images to a less redundant color space;
+(ii) performing a wavelet decomposition upon each of the color planes of the image in said less redundant color space to obtain a transform of DC and non-DC terms;
+(iii) lossless coding the DC terms;
+(iv) converting the transform to sign and magnitude format and selecting a division point comprising one of an adjacent pair of bit-planes and a pair of adjacent amplitudes, which separate the non-DC terms into first and second ranges based upon absolute magnitudes, the first range comprising the values of the transform which are greater in magnitude than those values in the second range of the transform;
+(v) employing a scalar quantizer to encode the values in the first range;
+(vi) employing a vector quantizer to encode the values in the second range; and
+(vii) coding the resulting data set with a lossless entropy encoder to obtain a compressed image data set.
+2. The method according to claim 1 wherein said division point is selected by iteratively applying said scalar quantizer and said vector quantizer to ranges defined by at least two pairs of adjacent bit-planes or pair of adjacent amplitudes and comparing each of the results of said applications and selecting the division point wherein the results are closest to a predefined criteria.
+3. The method according to claim 1 wherein said division point is selected by assuming that the histogram is the result of two curves, one a large spike and the second a shallow gaussian, and placing the thresholds symmetrically about the center of the histogram outside the crossovers of the two curves.
+4. The method according to claim 2 wherein said predefined criteria is expressed in terms of an image quality metric.
+5. The method according to claim 4 wherein said image quality metric is a mean square error metric.
+6. The method according to claim 4 wherein said image quality metric is the Li norm metric.
+7. The method according to claim 4 wherein said image quality metric is a peak signal to noise ratio metric. 
+
+8. The method according to claim 2 wherein said predefined criteria are expressed in terms of the size of the compressed image data for a selected image quality.
+9. The method according to claim 1 wherein said scalar quantizer is a zero-tree type coder.
+10. The method according to claim 1 wherein said vector quantizer is a lattice-type coder.
+11. The method according to claim 1 wherein said vector quantizer is an Equitz PNN-type coder.
+12. The method according to claim 1 wherein said conversion of a determined RGB image to a less redundant color space includes the step of determining color space statistics for said determined RGB image including the mean, maximum, and minimum in each orthogonal plane of the color space to allow the reconstruction of said determined RGB image to be calibrated.
+13. The method according to claim 2 wherein, before selecting said division point, data is depleted from said transform by removing or more severely quantizing data representing image elements which are otherwise imperceptible by the human visual system due to masking by other information in the image according to one or more predetermined visual sensitivity rules.
+14. The method according to claim 1 wherein said wavelet decomposition is performed iteratively on subbands of said image to further reduce image correlation.
+15. The method according to claim 1 wherein step (ii) further comprises the step of framing the image data with a data border of preselected width, the values of data in said border selected such that the values decrease smoothly and continuously from the gradient at the edges of the image to a value representing a flat 50% gray at each edge of the frame.
+16. The method according to claim 1 wherein step (iii) the DC terms are arranged in a rectilinear array and the lossless coding is delta coding which is performed on a row by row basis of said array, with the first data element in each row being unencoded as a reference and, when coding of said rows is completed, delta coding the first column of said array with the first pixel in said column being unencoded as a reference.
+17. The method according to claim 1 step (vi) wherein the selection of components of the vectors is made in such a way that triads of pixels are grouped so that a vector represents three pixels in the transform, each pixel representing the same spatial location in each of three orientation blocks of a single level (and thus scale) of the image transform pyramid, thereby decorrelating the redundancy of the pyramid's three orientation analysis. 
+
+18. The method according to claim 1, where in step (vi) the selection of components of the vectors is performed such that 2x2 quads identical to child vectors are defined as vectors if they possess data below the threshold, where these quads appear identically in each of Y, Cr, and Cb spaces.
+19. The method described in claim 1 step (vi) wherein the selection of chrominance vector components is based on Cr-Cb pairs at a given pixel location in transform space yielding two- dimensional vectors to reduce the redundancy in color and scale/spatial location of the transform.
+20. The method described in claim 18 wherein the selection of chrominance vector components is based on Cr-Cb pairs from each of the horizontal, vertical and diagonal blocks of a selected scale of the transform at a given spatial location yielding six-dimensional vectors to reduce the redundancy in color and scale/spatial location of the transform.
+21. The method described in claim 1 step (vi) wherein adjacent pixels to be handled by the vector quantizer, identified as representing smoothly varying data, and quantized such that they are rounded in opposite directions are tagged in the vector stream so that the receiver can locally optimally re-smooth such pixels appropriately, without the overhead of general smoothing filters at the receiver and thereby without the incurred quality loss of smoothing edges and textures to repair dents and bruises.
+22. The method described in claim 1 step (v) wherein adjacent, smooth-data pixels near edges, to be handled by the zero-tree coder, which would otherwise suffer from opposite rounding are sent in the zero-tree data with sufficient accuracy to reconstruct smoothly.
+23. The method described in claim 1 step (ii) wherein color subsampling is employed to gain additional compression and wherein such subsampling which would induce mis-registration of the color data on the luminance data is corrected at the receiver by bleeding colors back into registration with luminance edges after performing the inverse wavelet transform.
+24. The method described in claim 9 wherein the subordinate pass is performed in such a way that permits vector coding of similar amplitude subordinate data, such that for all newly significant transform pixels in the previous bit plane dominant pass, the absolute value of the pixel (from the current bit plane to the lowest bit plane assigned to the zero-tree coder) is sent to the subordinate data stream at once for entropy coding or for grouping into vectors to be dealt with by a subsequent vector quantizer.
+25. The method described in claim 9 wherein a single dominant pass encodes all zero trees and their root addresses whose data-roots are present in any bit plane assigned to the zero-tree 
+
+
+coder and wherein a single subordinate pass encodes the magnitudes of the significant data to sufficient accuracy as determined by hierarchy, adjacent pixel rounding error, and compression considerations.
+26. The method described in claim 25 wherein the data roots are pre-sorted in each hierarchy by average absolute magnitudes of triads to reduce entropy.
+27. The method described in claim 1 wherein in step (iii) the lossless coding is delta coding.
+28. The method described in claim 1 wherein step (ii) further comprises performing a second wavelet decomposition on at least the largest level of non-DC terms resulting from the first wavelet decomposition and step (iv) is performed on the resulting transform.
+29. The method of claim 1 wherein said less redundant color space is Y-Cr-Cb color space.
+30. Apparatus for compressing a digital image to obtain a compressed image data set for subsequent reconstruction, comprising: means to detect and convert digital image data from RGB color space to a less redundant color space; means to perform a wavelet decomposition of each color plane of said image in said less redundant color space to obtain a transform of DC and non-DC terms; means to losslessly encode said DC terms; means to convert said transform to a sign and magnitude format and to select a division point comprising one of a pair of adjacent bit planes and a pair of adjacent amplitudes which separate the non-DC terms into first and second ranges, based upon absolute magnitudes, the first range comprising values of the transform which are greater in magnitude than those in the second range of the transform; scalar quantizer means to encode the values in said first range; vector quantizer means to encode the values in said second range; and means to losslessly encode the resulting data set to obtain a compressed image data set.
+31. A method of encoding wavelet transformed digital information composed of DC and non- DC terms, comprising the steps of:
+(i) establishing a hierarchy in said transformed digital information wherein each pixel in the highest level adjacent the DC terms is identified as the parent of a corresponding two by two array of child pixels in the next lower level and repeating said identification for each lower level;
+(ii) for the highest level to the lowest level of the hierarchy to be encoded, examining each trio of corresponding horizontal, vertical and diagonal pixels in the level in rum in a dominant pass to identify pixels not previously deemed significant and losslessly encoding the address and sign of said identified pixels in the present level and examining the two by two child 
+
+
+ array of pixel trios in each lower level down to the lowest level and identifying those newly significant pixels;
+(iii) identifying zero tree roots in said examined pixels and removing from said hierarchy pixels which are dependent from a zero tree root from said hierarchy;
+(iv) in a subordinate pass, outputting the magnitudes of all significant pixels identified in the dominant pass, in the same order as the dominant pass was performed, said output magnitudes having a preselected numeric precision; and
+(v) repeating steps (ii) through (iv) for each level until the lowest level has been processed.
+32. An article of manufacture comprising a computer usable medium having computer readable program code means embodied therein for implementing a digital image compression apparatus, the computer readable program codes means in said article of manufacture comprising: computer readable program code for causing said computer to detect and convert digital image data from RGB color space to a less redundant color space; computer readable program code means for causing said computer to perform a wavelet decomposition of each color plane of said image in said less redundant color space to obtain a transform of DC and non-DC terms; computer readable program code means for causing said computer to losslessly encode said DC terms; computer readable program means for causing said computer to convert said transform to a sign and magnitude format and to select a division point comprising a pair of bit planes which separate the non-DC terms into first and second ranges, based upon absolute magnitudes, the first range comprising values of the transform which are greater in magnitude than those in the second range of the transform; computer readable program code means for causing said computer to perform a scalar quantization to encode the values in said first range; computer readable program code means for causing said computer to perform a vector quantization to encode the values in said second range; and computer readable program code means for causing said computer to losslessly encode the resulting data set to obtain a compressed image data set. 
+
+</CLAIMS>
+</TEXT>
+</DOC>

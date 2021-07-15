@@ -1,0 +1,238 @@
+<DOC>
+<DOCNO>EP-0625750</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Methods and apparatus for making and using distributed applications.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F946	G06F946	G06F954	G06F1300	G06F1300	G06F1500	G06F1500	G06F1516	G06F1516	G06F15177	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	G06F9	G06F13	G06F13	G06F15	G06F15	G06F15	G06F15	G06F15	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A client-server system for which applications programmers may easily write services 
+and in which a relationship between a server and a service may be changed without 
+
+halting the server. Both client and server have access to copies of code for the 
+service. The code has two parts: a caller portion which requests a service and a 
+
+callee portion which executes the service. State variables in the client process and 
+the server process determine which portion of the code is executed. This mechanism 
+
+permits a server to forward execution of the service to another server. The code for 
+the service is written using a template which relieves the applications programmer of 
+
+the need to write specialized code. The server provides the client with a server 
+namespace which is distinct from the server's system namespace. The client can 
+
+locate a service by means of a service pathname in the system namespace. The 
+server further provides the client with namespace manipulation services which 
+
+permit the client to add services to and remove services from a server and otherwise 
+to manipulate the server namespace without halting the server. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+AT 
+&
+ T CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+AT
+&
+T CORP.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+RAO CHUNG-HWA HERMAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+RAO, CHUNG-HWA HERMAN
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The invention concerns data processing systems generally and more particularly 
+concerns techniques for making applications programs to be executed 
+in distributed computing systems and executing such programs. Modern computer systems are often distributed, that is, the system is made 
+up of a number of computers which are connected by a network. Each computer 
+is capable of operating independently, but many tasks require the cooperation 
+of several computers. For example, in many such systems, a first 
+process running on one of the computers executes a program which controls a 
+large disk drive; when a second process on another of the computers executes 
+a program which needs a copy of a file on the disk drive, the second process 
+requests that the first process send it the copy via the network. One way in which processes running in a distributed system may cooperate 
+is as clients and servers. Server processes perform services for client  
+ 
+processes. To have a service performed, the client process sends a message 
+requesting the service to the server process; the server process then performs 
+the service and returns a message with the result to the client process. Thus, 
+in the above example, the second process is a file server process, the first 
+process is a client of the file server process, and the service is providing a 
+copy of a file. A simple model for communications between clients and servers is the 
+remote procedure call. In this model, the client calls a service in the server 
+in the same way in which it would call a procedure which it executes itself, 
+that is, the client ceases executing the procedure from which it made the 
+call, executes the called procedure, and continues execution of the calling 
+procedure on return from the call. In the same way, the process which makes 
+the remote procedure call ceases executing the procedure which made the 
+call. However, since the service is remote, the call turns into a message to 
+the server. The server then executes the service specified in the message and 
+returns a message with the result to the client. When the client receives the 
+message with the result, it resumes execution of the procedure which made 
+the call. While the client-server model for cooperating processes and the remote 
+procedure call are both widely accepted in the computer arts, it remains 
+difficult for the ordinary applications programmer to write programs using 
+the model. There are several sources for the difficulty. First, there are the 
+complexities of
+</DESCRIPTION>
+<CLAIMS>
+Apparatus for dividing execution of a program (117) between a caller 
+process and a callee process running in a computer system, the apparatus being 
+
+characterized by: 
+   means (1005) for making a determination whether a process (107) 
+
+executing the program is a caller process or a callee process; and 
+   in the program, 
+
+   a caller portion (210) 
+   a callee portion (213), and 
+
+   a selecting portion (209) for selecting either the caller portion or the 
+callee portion for execution by the process according to the 
+
+determination. 
+The apparatus set forth in claim 1 further characterized by: 
+   another process (131(a)); 
+
+   means responsive to execution of the caller portion by the process (107) 
+for sending a message (1019) requesting that the other process execute the program; 
+
+   means (1105) in the other process for receiving the message, making 
+the determination in response thereto, and commencing execution of the selecting 
+
+portion of the program, 
+whereby the other process is able to execute the program as either a caller process or 
+
+a callee process. 
+The apparatus set forth in claim 2 further characterized in that: 
+   the other process has access to namespace (133) means for relating a 
+
+first name identifying the program to a location of a copy of the program; and 
+   the program further includes an initialization portion (205) which is 
+
+executed by the other process in order to install the program in the namespace. 
+The apparatus set forth in claim 2 further characterized by: 
+   a further process (131(b)), the further process having message receiving 
+
+means like those in the other process; 
+   and wherein 
+
+   the other process has means (1023) responsive to the caller portion for 
+sending a message (1019) to the further process requesting that the further process 
+
+execute the program; and
+ 
+
+   the means for receiving the message determines whether the callee 
+portion is to be executed by the other process or the further process and causes the 
+
+determination to indicate a callee process in the first case and a caller process in the 
+second case. 
+The apparatus set forth in claim 4 further characterized by: 
+   namespace means (133) accessible to the other process for relating a 
+
+first name identifying the program either to a location of a copy of the program or to 
+a second name identifying the further process; and 
+
+   the means for receiving the message determines whether the called 
+portion is to be executed by the other process or the further process in response to 
+
+the namespace means. 
+The apparatus set forth in claim 2 further characterized in that: 
+   the apparatus is implemented in a distributed computing system 
+
+including a plurality of processing nodes (101); 
+   the process and the other process execute on different ones of the 
+
+nodes; and 
+   the means for sending a message sends the message from the node upon 
+
+which the process is executing to the node upon which the other process is 
+executing. 
+The apparatus set forth in any of claims 2, 4, or 5 further characterized 
+in that: 
+
+   the means responsive to execution of the caller portion includes means 
+(1023) for receiving a return message from the other process with results of 
+
+execution of the program; and 
+   the means for receiving the message includes means (1016) for sending 
+
+the return message with the results to the process. 
+The apparatus set forth in claim 7 further characterized in that: 
+   the means for sending a message, the means for receiving a message, 
+
+the means for sending a result message, and the means for receiving a return 
+message are provided by remote procedure call means (1017). 
+The apparatus set forth in claim 7 further characterized in that:
+ 
+
+   the message and the return message employ a first representation of the 
+data which is different from a second representation of the data employed in the 
+
+computer system; 
+   the message includes an argument value; 
+
+   the return message returns a result value; 
+   the program further includes 
+
+   an argument converter portion (201) and 
+   a result converter portion (203); 
+
+   the means for sending a message and the means for receiving a message 
+use the argument converter portion to convert argument values between the first 
+
+representation and the second representation; and 
+   the means for sending a return message and the means for receiving the 
+
+return message use the result converter portion to convert result values between the 
+first representation and the second representation. 
+A client-server system of the type wherein a server process (131) 
+executing in a computer system provides a service for a client process (107), the 
+
+client-server system being characterized by: 
+   server name space means (133) employed by the server process to relate 
+
+a name for the service to means (117) for providing the service, the name being part 
+of a server namespace distinct from any system namespace provided to the server 
+
+process by the computer system, 
+   service calling means (1016) employed by the client process to send a 
+
+message to the server which includes the name for the service; and 
+   service dispatching means (1105) employed by the server process for 
+
+responding to the name for the service in the message by employing the server name 
+space means to locate the means for providing the service and thereupon to employ 
+
+the means for providing the service to provide the service to the client. 
+The client-server system set forth in claim 10 further characterized 
+by: 
+
+   one or more namespace manipulation services (1201) which the server 
+process provides to the client process and which the client process employs to 
+
+manipulate the server namespace. 
+The client-server system set forth in claim 11 further characterized 
+ 
+
+by: 
+   a make service service (605) of the namespace manipulation services 
+
+which relates a new name in the server namespace to means for providing a new 
+service. 
+</CLAIMS>
+</TEXT>
+</DOC>

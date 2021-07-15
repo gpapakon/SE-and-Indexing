@@ -1,0 +1,514 @@
+<DOC>
+<DOCNO>EP-0619904</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+METHOD USING RELATIONAL ENTITIES FOR OBJECT-ORIENTED COMPUTER-AIDED GEOMETRIC DESIGN
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1750	G06F1750	G06T1740	G06T1740	G06T1720	G06T1720	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06T	G06T	G06T	G06T	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F17	G06F17	G06T17	G06T17	G06T17	G06T17	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Geometric objects including points, lines, curves, surfaces and solids are defined and constructed in a system which retains and utilizes relationships and dependencies between objects in a directed graph (digraph) data structure. The primary advantage is automatic updating of the model, preserving dependencies, when an underlying object is changed. Multiple types of parametric curves and surfaces and multiple levels of dependency are easily supported through a recursive program structure. Difficulties of surface-surface intersection and trimming are largely avoided by provision of novel entities which permit construction of accurate and durable joins between surface objects. An example model of a sailing yacht design illustrates six surface objects of several types with the defined dependency relationships. The hull (271) deck (272), cabin forward (273), cabin side (274), cabin aft (275) and cabin top (276) surfaces intersect at joins (278), (279) which are accurate and durable. The connectivity at the joins and the relative positioning of the surfaces are automatically preserved as the model is updated by changing one of the surfaces.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+AEROHYDRO INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+AEROHYDRO, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+LETCHER JOHN S JR
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LETCHER, JOHN S., JR.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The invention relates to a method of representing
+two- and three-dimensional geometric objects in a data
+structure. The method is particularly useful in the field
+of computer-aided design and numerical-control
+manufacturing of complex geometric objects made up of
+curves, surfaces, and solids.Geometric definition is an essential element in the
+design of practically any object to be manufactured. Until
+recently, geometric definition was performed primarily by
+drafting scale drawings of the object. In the last two
+decades, computer-aided geometric design (CAGD) has
+largely supplanted drafting. In CAGD, mathematical
+representations of an object's geometry are stored in
+computer memory and manipulated by the computer user.
+Sometimes the product of a CAGD design is scale drawings
+produced on a plotting device; in other cases a CAGD
+representation of the object is transmitted to numerical-control
+(NC) machinery for automated production of the
+object. The CAGD representation may also serve as a basis
+for analysis and evaluation of the design aside from
+visual aspects, e.g. finite-element stress analysis.One well-known example of a CAGD program is AutoCAD
+(R), produced by AutoDesk, Inc. of Sausalito, Calif.
+Initially a two-dimensional environment simulating the
+drafting process on paper, AutoCAD now provides a three-dimensional
+environment in which many types of geometric
+entities including points, lines, curves, surfaces and
+solids can be defined, positioned, and edited to build up 
+extremely precise definitions of highly complex objects.
+There are other CAGD programs which are much less general
+than AutoCAD, but are better adapted to specialized
+purposes; e.g. FAIRLINE (R) by AeroHydro, Inc., which is
+adapted to the special task of creating fair surfaces for
+ship hull design. CAGD programs for workstation and
+mainframe computers, for example IGDS (R) by Intergraph
+Corp., Huntsville, Ala., provide more flexible surface and
+solid modeling entities, such as nonuniform rational B-spline
+(NURBS) surfaces.In a CAGD program, each object springs into existence
+at the time when it is created, either by execution of a
+user command, or as a result of reading data from a file.
+In most circumstances the new object is positioned,
+oriented or constructed in some deliberate relationship to
+one or more objects already in existence. For example,
+line B may be created in such a way that one of its
+endpoints is one end of a previously existing line A.
+However, the relationship which was clearly in the mind of
+the user at the time
+</DESCRIPTION>
+<CLAIMS>
+A method of computer aided design of geometric models constructed
+from a multiplicity of geometric elements such as points, curves and surfaces in a design
+
+space of two or more dimensions, said method comprising:
+
+defining and supporting a set of geometric entities for use in constructing said
+geometric models, each of said geometric entities being an abstract geometric object type that
+
+is adapted to be actualized into one or more corresponding geometric objects stored in
+computer accessible memory, each of said geometric entities requiring, for its actualization
+
+into each of said one or more corresponding geometric object, a reference to one or more
+elements of a valid data type;
+said geometric entities including one or more point class
+entities,
+wherein each of said point class entities is adapted to be actualized into one or
+more point class objects, each of said point class objects designating a zero-dimensional point
+
+in said design space;
+said method being characterized in that said geometric
+entities further include one or more curve class entities,
+wherein each of said curve class entities is adapted to be actualized into one or
+more curve class objects, each of said curve class objects designating a one-dimensional
+
+continuous point set in said design space; in that said geometric
+entities further include one or more surface class entities,
+wherein each of said surface class entities is adapted to be actualized into one
+or more surface class objects, each of said surface class objects designating a two-dimensional
+
+continuous point set in said design space; and
+in that said method further comprises:
+identifying at least some of said geometric objects by
+
+corresponding unique object identifiers; and
+defining and supporting a plurality of relational entities among said set of
+geometric entities, each of said relational entities being adapted to be actualized into one or
+
+more corresponding relational objects stored in computer accessible memory, each of said
+relational entities requiring, for its actualization into each of said one or more corresponding
+
+relational objects, a reference to the object identifiers of one or more geometric objects,
+wherein each relational object also references the one or more object identifiers referenced by
+
+the relational entity from which it was actualized thereby establishing a dependency
+relationship upon the one or more other geometric objects whose object identifiers are 
+
+referenced by said relational object;
+wherein at least one of said relational entities is one of said curve class entities
+and requires for actualization into a curve class object reference to the object identifiers of
+
+two or more point class objects; and
+wherein at least one of said relational entities is one of said surface class
+entities and requires for actualization into a surface class object reference to the object
+
+identifiers of two or more geometric objects selected from point
+class objects and curve class objects.
+A method according to Claim 1, characterized in further
+comprising defining by computer
+
+implemented steps and storing in computer memory a logical geometric model made up of a
+collection of geometric objects that are actualized from said set of geometric entities, wherein
+
+said collection of geometric objects includes one or more relational objects, each of said
+relational objects being a geometric object actualized from one of said relational entities.
+A method according to Claim 2, characterized in further
+comprising generating from said logical geometric model by
+
+computer implemented steps an absolute geometric model in terms
+of absolute coordinate geometry coordinates in the design space.
+A method according to Claim 2, further characterized in
+that said collection of geometric objects comprises a directed
+
+graph data structure identifying dependencies among said
+collection of geometric objects.
+A method according to Claim 4, further characterized in
+that the directed graph data structure is acyclic.
+A method according to Claim 4, characterized in further
+comprising in response to a change of a particular geometric
+
+object that is part of the directed graph data structure,
+automatically updating other geometric objects in said geometric
+
+model in an order that is determined by said directed graph data
+structure.
+A method according to Claim 1, further characterized in 
+that the step of defining and supporting a
+
+plurality of geometric entities comprises defining and supporting by computer implemented
+steps an absolute point entity which may be actualized into one or more absolute point
+
+objects, each of which has specified absolute coordinate values of a corresponding point in
+said design space, and in that the step of defining and
+
+supporting a plurality of relational
+entities comprises defining and supporting by computer implemented steps a class of
+
+parametric curve entities, each of which may be actualized into one or more parametric curve
+objects, each of which depends on an ordered set of point class objects specified therein by
+
+object identifiers.
+A method according to Claim 7, further characterized in
+that the step of defining and supporting
+
+said plurality of relational entities comprises defining and supporting by computer
+implemented steps a relative point entity which may be actualized into one or more relative
+
+point geometric objects, each of which (1) depends on another point class object specified
+therein by an object identifier and (2) has specified coordinate value offsets from a point in
+
+design space that corresponds to the specified point class object on which it depends.
+A method according to Claim 7, further characterized in
+that the step of defining and supporting said
+
+plurality of relational entities comprises defining and supporting by computer implemented
+steps a line entity which may be actualized into one or more line geometric objects, each of
+
+which depends on two point class objects that are specified therein by object identifiers.
+A method according to Claim 7, further characterized
+in that the step of defining and supporting said
+
+plurality of relational entities comprises defining and supporting by computer implemented
+steps a B-spline parametric curve entity which may be actualized into one or more B-spline
+
+parametric curve objects, each of which depends on two or more point class objects specified
+therein by object identifiers.
+A method according to Claim 7, further characterized
+in that the step of defining and supporting said
+
+plurality of relational entities comprises defining and supporting by computer implemented
+steps an interpolative parametric spline curve entity, which may be actualized into one or
+
+more interpolative parametric spline curve objects, each of which depends on two or more
+point class objects that are specified therein by object identifiers. 
+A method according to Claim 7, further characterized
+in that the step of defining and supporting said
+
+plurality of relational entities comprises defining and supporting by computer implemented
+steps one or more bead class entities which may be actualized into one or more bead class
+
+objects, each of said bead class objects representing a point at a specified position on a
+parametric curve object, said one or more bead class entities including an absolute bead entity
+
+which may be actualized into one or more absolute bead objects, each of which specifies (1) a
+parametric curve object by its object identifier and (2) a parameter value, wherein each said
+
+absolute bead object represents a point in design space located at said specified parameter
+value along a parametric curve in said design space that corresponds to the parametric curve
+
+object specified therein.
+A method according to Claim 7, further characterized
+in that the step of defining and supporting said
+
+plurality of relational entities comprises defining and supporting by computer implemented
+steps an bead class entity which may be actualized into one or more absolute bead objects,
+
+each of which specifies (1) a parametric curve object by its object identifier and (2) a
+parameter value, wherein each said absolute bead object represents a point in design space
+
+located at said specified parameter value along a parametric curve in said design space that
+corresponds to the parametric curve object specified therein.
+A method according to Claim 12, further characterized
+in that the step of defining and supporting
+
+said plurality of relational entities comprises defining and supporting by computer
+implemented steps a subcurve entity which may be actualized into one or more subcurve
+
+objects, each of which specifies a parametric curve object by its object identifier and two bead
+class objects by their object identifiers, wherein each said subcurve object represents a portion
+
+of a curve that is represented by said curve class object said portion lying between points on
+said curve represented by said two bead class objects.
+A method according to Claim 12, further characterized
+in that the step of defining and supporting 
+
+said plurality of relational entities comprises defining and supporting by computer
+
+implemented steps a relative bead entity, which may be actualized into one or more relative
+bead objects, each of which (1) depends on a bead class object specified therein by its object
+
+identifier and (2) specifies a parameter value offset, wherein each said relative bead object
+represents a point in design space that (a) lies on a parametric curve in design space
+
+corresponding to the bead class object specified therein and (b) is located at the specified
+parameter value offset along that parametric curve from a point on said parametric curve
+
+represented by said bead class object, thereby creating a multiple level dependency
+relationship.
+A method according to Claim 7, further characterized
+in that the step of defining and supporting a
+
+plurality of relational entities comprises defining and supporting by computer implemented
+steps a class of parametric surface entities, each of which may be actualized into one or more
+
+parametric surface objects, each of which depends on an ordered set of objects specified
+therein by object identifiers, wherein each of said one or more parametric surface objects
+
+represents a surface in design space defined by geometric shapes in design space that
+correspond to the ordered set of objects specified therein, thereby establishing a multiple
+
+dependency relationship of said surface with said geometric shapes.
+A method according to Claim 16, further characterized
+in that said ordered set of objects is an ordered set of point
+
+class objects.
+A method according to Claim 16, further characterized
+in that said ordered set of objects is an ordered set of curve
+
+class objects.
+A method according to Claim 15, further characterized
+in that the step of defining and supporting a plurality of
+
+relational entities comprises defining and supporting by computer
+implemented
+
+steps one or more magnet class entities which may be actualized into one or more magnet
+class objects, each of said magnet class objects representing a point at a specified position on
+
+a parametric surface object, said one or more magnet class entities including an absolute
+magnet entity, which may be actualized into one or more absolute magnet objects, each of
+
+which (1) depends on a parametric surface object specified therein by its object identifier and
+(2) specifies parameter values, wherein each said absolute magnet object represents a point in 
+
+design space located at said specified parameter values on a parametric surface in said design
+space that corresponds to the parametric surface object specified therein, thereby defining a
+
+point in design space that is constrained to lie on a parametric surface in a dependency
+relationship.
+A method according to Claim 19, further characterized
+in that the step of defining and supporting a
+
+plurality of relational entities comprises defining and supporting by computer implemented
+steps a relative magnet entity, which may be actualized into one or more relative magnet
+
+objects, each of which (1) depends on a magnet class object specified therein by its object
+identifier and (2) specifies [a]
+ parameter value offsets, wherein each said relative magnet
+object represents a point in design space that (a) lies on a parametric surface in design space
+
+corresponding to the magnet class object specified therein and (b) is located at the specified
+parameter value offsets upon that parametric surface from a point on said parametric surface
+
+that is represented by the magnet class object specified therein, thereby defining a point in
+design space that is constrained to lie on a parametric surface in a multiple level dependency
+
+relationship.
+A method according to Claim 16, further characterized
+in that the step of defining and supporting a
+
+plurality of relational entities comprises defining and supporting by computer implemented
+steps a relative magnet entity, which may be actualized into one or more relative magnet
+
+objects, each of which (1) depends on a magnet class object specified therein by its object
+identifier and (2) specifies a parameter value offset, wherein each said relative magnet object
+
+represents a point in design space that (a) lies on a parametric surface in design space
+corresponding to the magnet class object specified therein and (b) is located at the specified
+
+parameter value offset along that parametric surface from a point on said parametric surface
+that is represented by the magnet class object specified therein, thereby defining a point in
+
+design space that is constrained to lie on a parametric surface in a multiple level dependency
+relationship.
+A method according to Claim 19, further characterized
+in that said one or more surface class entities
+
+includes a ruled surface entity and wherein each of said one or more surface class objects
+actualized from said ruled surface entity is a ruled surface object which depends on an
+
+ordered set of two curve objects, wherein each of said ruled surface objects represents a 
+surface in design space having two edges defined by curves in design space that correspond to
+
+the ordered set of two curve objects specified therein.
+A method according to Claim 15, further characterized
+in that said one or more surface class entities
+
+includes is an edge-blended surface entity and wherein each of said one or more surface class
+objects actualized from said edge-blended surface entity is a edge-blended surface object
+
+which depends on an ordered set of four curve objects, wherein each of said edge-blended
+surface objects represents a bilinear Coons patch in design space having four edges defined by
+
+curves in design space that correspond to the ordered set of four curve objects specified
+therein.
+A method according to Claim 15, further characterized
+in that said one or more surface class entities
+
+includes a lofted surface entity and wherein each of said one or more surface class objects
+actualized from said lofted surface entity is a lofted surface object which depends on an
+
+ordered set of three or more curve objects, wherein each of said lofted surface objects
+represents a surface in design space made up of an infinitude of curves that are interpolated
+
+through curves in design space which correspond to the ordered set of three or more curve
+objects specified therein.
+A method according to Claim 19, further characterized
+in that the step of defining and supporting a
+
+plurality of relational entities comprises defining and supporting by computer implemented
+steps a parametric snake entity, which may be actualized into one or more parametric snake
+
+objects, each of which (1) depends on two or more magnet objects specified therein by their
+object identifiers and each of which depends on a common parametric surface object and (2)
+
+represents a line in design space that is constrained to lie on a parametric surface in design
+space that is represented by said common parametric surface object, thereby forming a
+
+multiple level dependency relationship.
+A method according to Claim 24, further characterized
+in that the step of defining and supporting a
+
+plurality of relational entities comprises defining and supporting by computer implemented
+steps a ring class entity, which may be actualized into one or more ring class objects, each of
+
+which (1) depends on a parametric snake object specified therein by its object identifier and 
+(2) represents a point in design space that is constrained to lie on a parametric line in design
+
+space that is represented by said parametric snake object, thereby forming a multiple level
+dependency relationship.
+A method according to Claim 25, further characterized
+
+in that the step of defining and supporting a
+plurality of relational entities comprises defining and supporting by computer implemented
+
+steps a subsnake entity which may be actualized into one or more subsnake objects, each of
+which specifies therein a parametric snake object by its object identifier and two ring class
+
+objects by their object identifiers, wherein each said subsnake object represents a portion of a
+curve that is represented by said parametric snake object, said portion lying between points on
+
+said curve represented by said two ring class objects.
+A method according to Claim 25, further characterized
+in that the step of defining and supporting a
+
+plurality of relational entities comprises defining and supporting by computer implemented
+steps a subsurface entity which may be actualized into one or more subsurface objects, each
+
+of which specifies therein a parametric surface object and four snake class objects by their
+object identifiers, wherein each said subsurface object represents a portion of a parametric
+
+surface that is represented by said parametric surface object, said portion of said parametric
+surface bounded by four points on said parametric surface that are represented by said snake
+
+class objects.
+A method according to Claim 25, further characterized
+in that the step of defining and supporting a
+
+plurality of relational entities comprises defining and supporting by computer implemented
+steps a relative ring entity, which may be actualized into one or more relative ring objects,
+
+each of which (1) depends on a ring class object specified therein by its object identifier, and
+(2) specifies a parameter value offset, wherein each said relative ring object represents a point
+
+in design space that (a) lies on a parametric curve in said design space corresponding to the
+snake object on which the ring class object specified therein depends and (b) is located at the
+
+specified parameter value offset along that parametric curve from a point on said parametric
+curve that is represented by said ring class object, thereby establishing a multiple level
+
+dependency relationship in which said ring object defines a point in design space that is
+constrained to lie on a parametric curve which in turn is constrained to lie on a parametric
+
+surface. 
+A method according to Claim 3, further characterized
+in that the collection of geometric objects includes two of the
+
+surface class geometric objects actualized from said one or more
+surface class entities, each of said two surface class geometric
+
+objects depending on a common curve object which is identified
+therein by its object identifier, wherein said common curve
+
+object defines in design space a common edge shared by two
+surfaces defined by said two surface class geometric objects, and
+
+in that said method further comprises in response to a change in
+said common curve object, automatically updating the absolute
+
+geometric model so that said surface class geometric objects
+remain joined along said common edge in new shapes and locations.
+A method according to Claim 15, further characterized
+in that the geometric entities supported by computer implemented
+
+steps include at least one ruled or lofted surface geometric
+entity which depends for actualization on two or more curve
+
+geometric objects specified by object name or number, in that two
+ruled or lofted surface geometric objects actualized from said
+
+ruled or lofted surface geometric entities are made to have a
+common edge by dependency on curve geometric objects having
+
+common endpoints, and in that said method comprises the further
+steps of changing one or more of said curve geometric objects,
+
+and automatically updating the geometric model so that said ruled
+or lofted surface geometric objects remain joined along said
+
+common edge in new shapes and locations.
+A method according to Claim 19, further characterized
+in that the geometric entities supported by
+
+computer implemented steps include at least one edge-blended, ruled or lofted surface entity
+depending on curve objects specified by object name or number, at least one of said curve
+
+objects forming at least one edge of a surface object actualized from said edge-blended, ruled
+or lofted surface entity, and an edge-blended, ruled or lofted surface object actualized from
+
+said edge-blended, ruled or lofted surface entity uses a snake object, specified by object name
+or number, lying on some other surface object, as an edge curve,
+
+and in that said method comprises the further 
+steps of changing said other surface object or said snake object, and automatically updating
+
+the geometric model so that said edge-blended, ruled or lofted surface object remains joined
+to said other surface object along said snake geometric object in new shapes and positions.
+A method according to Claim 1, characterized in further
+comprising defining and supporting by computer implemented steps
+
+a point routine for evaluating point class objects, said point
+routine being programmed to call itself in a recursive manner.
+A method according to Claim 1, characterized in further
+comprising defining and supporting by computer implemented steps
+
+a surface routine for evaluating surface class objects, said
+surface routine being programmed to call itself in a recursive
+
+manner.
+A method according to Claim 1, further characterized
+in that the at least one of said relational entities which is one
+
+of said surface class entities has two or more references to
+object identifiers of other objects at least one of which
+
+includes an object identifier or a curve class object.
+</CLAIMS>
+</TEXT>
+</DOC>

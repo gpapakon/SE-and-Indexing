@@ -1,0 +1,432 @@
+<DOC>
+<DOCNO>EP-0625775</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Speech recognition system with improved rejection of words and sounds not contained in the system vocabulary
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G10L1500	G10L1514	G10L1102	G10L1100	G10L1528	G10L1506	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G10L	G10L	G10L	G10L	G10L	G10L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G10L15	G10L15	G10L11	G10L11	G10L15	G10L15	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A speech recognition apparatus and method output a recognition 
+signal corresponding to a command model having the 
+
+best match score for a current sound if the best match 
+score for the current sound is better than a recognition 
+
+threshold score for the current sound. The recognition 
+threshold comprises a first confidence score if the best 
+
+match score for a prior sound was better than a recognition 
+threshold for that prior sound. The recognition threshold 
+
+comprises a second confidence score better than the first 
+confidence score if the best match score for a prior sound 
+
+was worse than the recognition threshold for that prior 
+sound. In one embodiment, the recognition threshold for 
+
+the current sound comprises the first confidence score (a1) 
+if the match score for the prior sound and the acoustic 
+
+silence model is better than a silence match threshold, and 
+if the prior sound has a duration exceeding a silence duration 
+
+threshold, or (a2) if the match score for the prior 
+sound and the acoustic silence model is better than the 
+
+silence match threshold, and if the prior sound has a duration 
+less than the silence duration threshold, and if the 
+
+best match score for the next prior sound and an acoustic 
+command model was better than a recognition threshold for 
+
+that next prior sound, or (a3) if the match score for the 
+prior sound and the acoustic silence model is worse than 
+
+the silence match threshold, and if the best match score 
+for the prior sound and an acoustic command model was 
+
+better than a recognition threshold for that prior sound. 
+The recognition threshold for the current sound comprises 
+
+the second confidence score better than the first confidence 
+score (b1) if the match score for the prior sound and 
+
+the acoustic silence model is better than the silence match 
+threshold, and if the prior sound has a duration less than 
+
+the silence duration threshold, and if the best match score 
+for the next prior sound and an acoustic command model was 
+
+worse than the recognition threshold for that next prior 
+sound, or (b2) if the match score for the prior sound and  
+
+ 
+the acoustic silence model is worse than the silence match 
+
+threshold, and if the best match score for the prior sound 
+and an acoustic command model was worse than the recognition 
+
+threshold for that prior sound. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+EPSTEIN EDWARD A
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+EPSTEIN, EDWARD A.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The invention relates to computer speech recognition, particularly
+to the recognition of spoken computer commands.
+When a spoken command is recognized, the computer performs
+one or more functions associated with the command.In general, a speech recognition apparatus consists of an
+acoustic processor and a stored set of acoustic models.
+The acoustic processor measures sound features of an utterance.
+Each acoustic model represents the acoustic features
+of an utterance of one or more words associated with the
+model. The sound features of the utterance are compared to
+each acoustic model to produce a match score. The match
+score for an utterance and an acoustic model is an estimate
+of the closeness of the sound features of the utterance to
+the acoustic model.The word or words associated with the acoustic model having
+the best match score may be selected as the recognition
+result. Alternatively, the acoustic match score may be
+combined with other match scores, such as additional
+acoustic match scores and language model match scores. The
+word or words associated with the acoustic model or models
+having the best combined match score may be selected as the
+recognition result.For command and control applications, the speech recognition
+apparatus preferably recognizes an uttered command,
+and the computer system then immediately executes the
+command to perform a function associated with the recognized
+command. For this purpose, the command associated 
+with the acoustic model having the best match score may be
+selected as the recognition result.A serious problem with such systems, however, is that
+inadvertent sounds such as coughs, sighs, or spoken words not
+intended for recognition can be misrecognized as valid
+commands. The computer system then immediately executes the
+misrecognized commands to perform the associated functions
+with unintended consequences.US-A-4,239,936 discloses a speech recognition system in which
+ambient noise intensity is measured in parallel to the input
+speech signals, with any recognition result assigned to the
+input speech signal being rejected when the intensity of the
+noise exceeds a predetermined standard value.It is an object of the invention to provide a speech
+recognition apparatus and method which has a high likelihood
+of rejecting acoustic matches to inadvertent sounds or words
+spoken but not intended for the speech recognizer.It is another object of the invention to provide a speech
+recognition apparatus and method which identifies the acoustic
+model which is best matched to a
+</DESCRIPTION>
+<CLAIMS>
+A speech recognition apparatus comprising:
+an acoustic processor (10) for measuring the value of at
+
+least one feature of each of a sequence of at least two
+sounds, said acoustic processor (10) measuring the value
+
+of the feature of each sound during each of a series of
+successive time intervals to produce a series of feature
+
+signals representing the feature values of the sound;
+
+means (12) for storing a set of acoustic command models,
+each acoustic command model representing one or more
+
+series of acoustic feature values representing an
+utterance of a command associated with the acoustic
+
+command model;
+a match score processor (14) for generating a match score
+for each sound and each of one or more acoustic command
+
+models from the set of acoustic command models, each
+match score comprising an estimate of the closeness of a
+
+match between the acoustic command model and a series of
+feature signals corresponding to the sound;
+
+characterized by
+means (16) for outputting a recognition signal
+corresponding to the command model having the best match
+
+score for a current sound if the best match score for the
+current sound is better than a recognition threshold
+
+score for the current sound, the recognition threshold
+for the current sound comprising (a) a first confidence
+
+score if the best match score for a prior sound was
+better than a recognition threshold for that prior sound,
+
+or (b) a second confidence score better than the first
+confidence score if the best match score for a prior
+
+sound was worse than the recognition threshold for that
+prior sound.
+A speech recognition apparatus as claimed in Claim 1,
+characterized in that the prior sound occurs immediately
+
+prior to the current sound.
+A speech recognition apparatus as claimed in Claim 2,
+characterized in that:
+
+
+the apparatus further comprises means (20) for storing at
+least one acoustic silence model representing one or more
+
+series of acoustic feature values representing the
+absence of a spoken utterance;
+the match score processor (10) generates a match score
+for each sound and the acoustic silence model, each match
+
+score comprising an estimate of the closeness of a match
+between the acoustic silence model and a series of
+
+feature signals corresponding to the sound; and
+the recognition threshold for the current sound comprises
+the first confidence score (a1) if the match score for
+
+the prior sound and the acoustic silence model is better
+than a silence match threshold, and if the prior sound
+
+has a duration exceeding a silence duration threshold, or
+(a2) if the match score for the prior sound and the
+
+acoustic silence model is better than the silence match
+threshold, and if the prior sound has a duration less
+
+than the silence duration threshold, and if the best
+match score for the next prior sound and an acoustic
+
+command model was better than a recognition threshold for
+that next prior sound, or (a3) if the match score for the
+
+prior sound and the acoustic silence model is worse than
+the silence match threshold, and if the best match score
+
+for the prior sound and an acoustic command model was
+better than a recognition threshold for that prior sound;
+
+or 
+the recognition threshold for the current sound comprises
+the second confidence score better than the first
+
+confidence score (b1) if the match score for the prior
+sound and the acoustic silence model is better than the
+
+silence match threshold, and if the prior sound has a
+duration less than the silence duration threshold, and if
+
+the best match score for the next prior sound and an
+acoustic command model was worse than the recognition
+
+threshold for that next prior sound, or (b2) if the match
+score for the prior sound and the acoustic silence model
+
+is worse than the silence match threshold, and if the
+best match score for the prior sound and an acoustic
+
+command model was worse than the recognition threshold
+for that prior sound.
+A speech recognition apparatus as claimed in Claim 3,
+characterized in that the recognition signal comprises a
+
+command signal for calling a program associated with the
+command.
+A speech recognition apparatus as claimed in Claim 4,
+characterized in that:
+
+
+the output means (16) comprises a display; and
+the output means (16) displays one or more words
+corresponding to the command model having the best match
+
+score for a current sound if the best match score for the
+current sound is better than the recognition threshold
+
+score for the current sound.
+A speech recognition apparatus as claimed in Claim 5,
+characterized in that the output means (16) outputs an
+
+unrecognizable-sound indication signal if the best match
+score for the current sound is worse than the recognition
+
+threshold score for the current sound. 
+A speech recognition apparatus as claimed in Claim 6,
+characterized in that the output means (16) displays
+
+anunrecognizable-sound indicator if the best match score
+for the current sound is worse than the recognition
+
+threshold score for the current sound.
+A speech recognition apparatus as claimed in Claim 7,
+characterized in that unrecognizable-sound indicator
+
+comprises one or more question marks.
+A speech recognition apparatus as claimed in Claim 1,
+characterized in that the acoustic processor (10)
+
+comprises a microphone (24).
+A speech recognition apparatus as claimed in Claim 1,
+characterized in that:
+
+
+each sound comprises a vocal sound; and
+each command comprises at least one word.
+A speech recognition method comprising the steps of:
+
+measuring the value of at least one feature of each of a
+sequence of at least two sounds, the value of the feature
+
+of each sound being measured during each of a series of
+successive time intervals to produce a series of feature
+
+signals representing the feature values of the sound;
+storing a set of acoustic command models, each acoustic
+command model representing one or more series of acoustic
+
+feature values representing an utterance of a command
+ssociated with the acoustic command model;
+generating a match score for each sound and each of one
+or more acoustic command models from the set of acoustic
+
+command models, each match score comprising an estimate 
+of the closeness of a match between the acoustic command
+
+model and a series of feature signals corresponding to
+
+the sound;
+
+characterized by
+outputting a recognition signal corresponding to the
+command model having the best match score for a current
+
+sound if the best match score for the current sound is
+better than a recognition threshold score for the current
+
+sound, the recognition threshold for the current sound
+comprising (a) a first confidence score if the best match
+
+score for a prior sound was better than a recognition
+threshold for that prior sound, or (b) a second
+
+confidence score better than the first confidence score
+if the best match score for a prior sound was worse than
+
+the recognition threshold for that prior sound.
+A speech recognition method as claimed in Claim 11,
+characterized in that the prior sound occurs immediately
+
+prior to the current sound.
+A speech recognition method as claimed in Claim 12,
+further comprising the steps of:
+
+
+storing at least one acoustic silence model representing
+one or more series of acoustic feature values
+
+representing the absence of a spoken utterance;
+generating a match score for each sound and the acoustic
+silence model, each match score comprising an estimate of
+
+the closeness of a match between the acoustic silence
+model and a series of feature signals corresponding to
+
+the sound; and characterized in that
+the recognition threshold for the current sound comprises
+the first confidence score (a1) if the match score for 
+
+the prior sound and the acoustic silence model is better
+than a silence match threshold, and if the prior sound
+
+has a duration exceeding a silence duration threshold, or
+(a2) if the match score for the prior sound and the
+
+acoustic silence model is better than the silence match
+threshold, and if the prior sound has a duration less
+
+than the silence duration threshold, and if the best
+match score for the next prior sound and an acoustic
+
+command model was better than a recognition threshold for
+that next prior sound, or (a3) if the match score for the
+
+prior sound and the acoustic silence model is worse than
+the silence match threshold, and if the best match score
+
+for the prior sound and an acoustic command model was
+better than a recognition threshold for that prior sound;
+
+or the recognition threshold for the current sound
+comprises the second confidence score better than the
+
+first confidence score (b1) if the match score for the
+prior sound and the acoustic silence model is better than
+
+the silence match threshold, and if the prior sound has a
+duration less than the silence duration threshold, and if
+
+the best match score for the next prior sound and an
+acoustic command model was worse than the recognition
+
+threshold for that next prior sound, or (b2) if the match
+score for the prior sound and the acoustic silence model
+
+is worse than the silence match threshold, and if the
+best match score for the prior sound and an acoustic
+
+command model was worse than the recognition threshold
+for that prior sound.
+A speech recognition method as claimed in Claim 13,
+characterized in that the recognition signal comprises a
+
+command signal for calling a program associated with the
+command.
+A speech recognition method as claimed in Claim 14, 
+further comprising the step of displaying one or more
+
+words corresponding to the command model having the best
+match score for a current sound if the best match score
+
+for the current sound is better than the recognition
+threshold score for the current sound.
+A speech recognition method as claimed in Claim 15,
+further comprising the step of outputting an
+
+unrecognizable-sound indication signal if the best match
+score for the current sound is worse than the recognition
+
+threshold score for the current sound.
+A speech recognition method as claimed in Claim 16,
+further comprising the step of displaying an
+
+unrecognizable-sound indicator if the best match score
+for the current sound is worse than the recognition
+
+threshold score for the current sound.
+A speech recognition method as claimed in Claim 17,
+characterized in that unrecognizable-sound indicator
+
+comprises one or more question marks.
+A speech recognition method as claimed in Claim 11,
+characterized in that:
+
+
+each sound comprises a vocal sound; and
+each command comprises at least one word.
+</CLAIMS>
+</TEXT>
+</DOC>

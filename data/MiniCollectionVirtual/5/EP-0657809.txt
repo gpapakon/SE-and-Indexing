@@ -1,0 +1,194 @@
+<DOC>
+<DOCNO>EP-0657809</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Input/output objects in operating system kernel
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F946	G06F946	G06F1310	G06F1310	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	G06F13	G06F13	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A system and method is provided for managing input/output (I/O) 
+resources in a computer system. The system includes a hardware resource 
+
+manager which tracks the use of the I/O resources. In addition, the 
+hardware resource manager can allocate the resources between device 
+
+drivers and provide a standard implementation to be used by device 
+drivers. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+GOLUB DAVID BARNETT
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+RAWSON III FREEMAN LEIGH
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SOTOMAYOR GUY GIL JR
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GOLUB, DAVID BARNETT
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+RAWSON III, FREEMAN LEIGH
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SOTOMAYOR, GUY GIL, JR.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention generally relates to managing input/output 
+(I/O) resources in a computer system. A device driver is a software process that controls a hardware 
+device connected to an I/O channel of a computer system. For example, the 
+UNIX operating system (OS) uses a file system in the form of a data 
+structure resident on disk which includes a file for each hardware 
+device. Inside the OS kernel, references to a specific hardware device 
+file are converted to hardware commands to access a tape or the like. Prior art device driver models typically have no clear mechanism 
+for identifying the hardware resources that are needed by the device 
+driver. Each individual device driver usually includes its own 
+mechanisms. Since there is no standard mechanism for identifying the 
+resources needed, device drivers are forced to make educated guesses 
+about the hardware resources that are present. These ad-hoc resource 
+identification schemes usually result in device drivers which use any 
+identified resources. Collisions between device drivers utilizing the 
+same hardware resources are only prevented by diverse hardware 
+implementations. A significant problem with the ad-hoc schemes used in previous 
+device driver models is that the determination of the hardware resources 
+present is very sensitive to a particular system implementation. This 
+leads to device drivers that are specific not only to a particular 
+hardware device, but also to the resource identification method used by 
+the device driver. The ad-hoc resource identification mechanisms also 
+result in a fairly static device driver model, since the device drivers 
+usually perform the identification only during initialization. The 
+identification can not be performed when the device is in actual 
+operation since it may not function reliably or it may cause 
+perturbations to the device or, worse, to the system itself. The need 
+for a more dynamic device driver model becomes extremely important with 
+some of the newly emerging technologies, for example PCMCIA (Personal 
+Computer Memory Card Interface Association) standard cards.  
+ In addition, the use of virtual screens in many systems raises the 
+problem of resource allocation. The use of virtual screens allows several 
+applications to run on the system and each application believes that it 
+has exclusive access to the display hardware. There is currently no 
+standard way for device drivers to share identical hardware. US-A-5115499, is directed to a shared computer resource allocation 
+system in
+</DESCRIPTION>
+<CLAIMS>
+A hardware resource manager for managing input/output (I/O) 
+resource path information to allow device drivers to access physical 
+
+hardware resources of a computer system, comprising: 
+
+a database of I/O resources accessible by device drivers and 
+containing information defining input/output resource paths, the data 
+
+base information identifying what resources exist in the system and what 
+resources are currently being used in the system, the data base 
+
+information logically associating physical hardware resources of similar 
+type (60,70); 
+means for dynamically updating input/output resource path 
+information in said data base to allow new devices to be added to the 
+
+hardware resource manager; and 
+means for tracking and allocating resources to allow several device 
+drivers to share a same physical set of hardware resources, said hardware 
+
+resource manager providing input/output resource path information to one 
+or more device drivers. 
+A hardware resource manager as claimed in claim 1, wherein said 
+hardware resource manager includes a collection of computer programs, one 
+
+of said computer programs obtaining hardware configuration information 
+for each type of input/output resource path. 
+A hardware resource manager as claimed in claim 1 or claim 2 
+wherein said means for tracking and allocating implements a grant/yield 
+
+protocol (Fig.4a-4d) in which said input/output resource paths may be requested and 
+allocated between a plura
+lity of device drivers. 
+A hardware resource manager as claimed in claim 3, wherein said 
+means for tracking and allocating comprises: 
+
+
+means responsive to a first device driver requesting one of said 
+input/output resource paths; 
+means determining whether said one of said input/output resource 
+paths is currently in use by a second device driver; and 
+means responsive to said means for determining for assigning one of 
+said input/output resource paths to said first device driver if said 
+
+resource path is not currently in use by said second device driver and 
+querying said second device driver as to whether it will release said 
+
+input/output resource path if said resource path is currently in use and  
+ 
+
+notifying said first device driver as to whether it can access said 
+input/output resource path. 
+A method implemented by a hardware resource manager for managing 
+input/output (I/O) resource path information to allow device drivers to 
+
+access physical hardware resources of a computer system, comprising the 
+steps of: 
+
+
+defining, in a data base, information about input/output resource 
+paths, the data base information being accessible by device drivers and 
+
+identifying what resources exist in the system and what resources are 
+currently being used in the system, the data base information logically 
+
+associating physical hardware resources of similar type (60,70); 
+dynamically updating input/output resource path information in said 
+data base to allow new devices to be added to the hardware resource 
+
+manager; and 
+tracking and allocating resources to allow several device drivers 
+to share a same physical set of hardware resources and providing 
+
+input/output resource path information to one or more device drivers. 
+A method as claimed in claim 5 wherein said step of defining 
+information includes the use of one or more computer programs, one of 
+
+said computer programs obtaining hardware configuration information for 
+each type of input/output resource. 
+A method as claimed in claim 5 or claim 6 wherein the step of 
+tracking and allocating includes the step of implementing a grant/yield 
+
+protocol (Fig.4a-4d) in which said input/output resource paths may be requested and 
+allocated between a plurality of device drivers. 
+A method as claimed in claim 7, wherein the grant/yield protocol (Fig.4a-4d) 
+implemented by said step of tracking and allocating said input/output 
+
+resource paths comprises steps of: 
+
+requesting, by a first device driver, one of said input/output 
+resource paths; 
+determining whether said one of said input/output resource paths is 
+currently in use by a second device driver; and 
+using results of the step of determination to assign one of said 
+input/output resource paths to said first device driver if said resource 
+
+path is not currently in use by said second device driver or to query 
+said second device driver as to whether it will release said input/output  
+
+ 
+path if said resource path is currently in use and using results of said 
+
+query to notify said first device driver as to whether it can access said 
+input/output resource path. 
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,466 @@
+<DOC>
+<DOCNO>EP-0610004</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Image generating apparatus and method of generating an image
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T1550	G06T1550	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T15	G06T15	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The present invention provides an image generating 
+apparatus used in the field of image processing such as 
+
+Computer Graphics. The image generating apparatus comprises 
+an input unit for setting data related to a shape of each 
+
+polygon, an attribute-data-setting unit for setting physical-property 
+attribute data of the polygons, a view-point-data 
+
+setting unit for setting data related to a view point, a 
+boundary-box-dividing unit for dividing a boundary box 
+
+enclosing all the polygons into a set of voxels of equal-size 
+with parameters for the boundary box and a linear conditional 
+
+expression, a segment buffer for registering intersection data 
+per segment for each light source consisting of a thread of a 
+
+processor assigned for each segment on one polygon and a ray-intercepting 
+polygon at the time of intensity computation per 
+
+pixel, and an intensity computing unit for checking an 
+intersection with the registered ray-intercepting polygon first 
+
+when computing an adjacent pixel in the same segment. 
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC IND CO LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC INDUSTRIAL CO., LTD.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+DOERKSEN RICHARD
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MOCHIZUKI YOSHIYUKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NAKA TOSHIYA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DOERKSEN, RICHARD
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MOCHIZUKI, YOSHIYUKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NAKA, TOSHIYA
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to an image generating
+apparatus used in the field of image processing such as
+CG(Computer Graphics) for generating a realistic image at a
+high speed, and to a method thereof.There has been increasing demands for techniques to
+improve image qualities in the field of image processing such
+as CG(Computer Graphics). Accordingly, a variety of algorithms
+have been developed to generate a realistic image based on
+object's physical phenomena, such as light reflection or
+transmission,Conventionally, methods called "Gouraud shading" and
+"flat-shading" are applied; however, methods called "radiosity"
+and "ray-tracing", which handle specular reflections and
+shadows caused by one object to the others in an arbitrary
+boundary box, have been developed recently."Radiosity" is a method to reproduce shadows by
+computing a thermal energy propagation per pixel. A form
+factor is computed by a process called "hemi-cube" which uses
+a technique called "z-buffering" or a process called "ray 
+casting" which checks the intersection between a ray emanating
+from a light source and objects being modeled, or so-called
+polygons defining the objects' spatial-occupancies; the latter
+excels the former in the resulting image qualities."Ray-tracing" is a method to reproduce ray transmission
+and shadows by defining reflection and transmission factors of
+the object's surface, and thus this method is effective in
+reproducing an object with curved surfaces, such as an
+automobile, in a realistic image. The ray-tracing algorithms
+begin with "hidden-surface-removal": firstly, polygons enclosed
+in an arbitrary boundary box are projected on a screen as a 2D
+scene based on supplied data related to a view point as to its
+location, view direction, and zoom angle; secondly, a ray is
+fired from the center of the projection through each pixel on
+the screen to check the intersection between the ray and all
+the polygons in the arbitrary boundary box, and polygons that
+do not intersect with any other polygon relative to the rays
+are determined to be visible surfaces; finally, intensity on
+each pixel in the visible surfaces is computed by taking into
+account both a direct ray emanating from each light source and
+reflections from the other polygons.Given that both methods compute the intensity on each
+pixel, the qualities in the resulting image are significantly
+improved. However, the computation per pixel involves a
+massive amount of computation, and thus it takes quite a long
+time, in particular, when only a single processor
+</DESCRIPTION>
+<CLAIMS>
+An image generating apparatus for generating a
+realistic 2D image using a 3D model constructed by a computer,
+
+the image generating apparatus comprising:
+
+a 3D model dividing means (1) for dividing a 3D model of
+an object into a plurality of polygons (21,45,46,65,66) to
+
+define a spatial-occupancy of the 3D model;
+a light-source-data setting means (4) for setting data
+related to at least one light source (30,43) that illuminates
+
+the polygons (21,45,46,65,66);
+a view-point-data setting means (2) for setting data
+related to a view point (64,84) from which some of the
+
+polygons (21,45,65,66) visible from the view point (64,84) are
+observed; and
+an intensity computing means (5,6,7) for computing
+intensity across the visible polygons (21,45,65,66) with the
+
+use of the light source data and the view point data,
+
+wherein the intensity computing means (5,6,7) includes:
+a checking unit (5) for dividing each polygon (21,46)
+into a plurality of segments (22,23) to check whether or not a
+
+ray (44,85) emanating from the light source (30,43) through a
+sample pixel (24,29) selected sequentially from the pixels in
+
+each segment (22,23) is intercepted by any other polygon (45);
+an intersection-data registering unit (6) for registering
+data identifying the ray-intercepting polygon (45) as
+
+intersection data (27,28) each time such a ray-intercepting 
+polygon (45) is checked by the checking unit (5) for the
+
+sample pixel (24,29);
+a checking control unit (7) for checking ray-interception
+by the registered polygons (45) for a first pixel (31) other
+
+than the sample pixel (24,29), the checking control unit (7)
+being arranged to select a second pixel other than the sample
+
+and first pixels (24,29,31) by skipping the ray-interception
+check for the first pixel (31) when the ray (44,85) emanating
+
+from the light source (30,43) through the first pixel (31) is
+also intercepted by any of the registered ray-intercepting
+
+polygons (45), and to carry out the ray-interception check by
+non-registered polygons for the first pixel (31) when the ray
+
+(44,85) emanating from the light source (30,43) through the
+first pixel (31) is not intercepted by any of the registered
+
+polygons (45); and
+a ray-tracing unit for tracing a reflection of a second
+order from the sample pixel (24,29) when the checking unit (5)
+
+determines that there are no ray-intercepting polygons (45)
+relative to the sample pixel (24,29).
+The image generating apparatus of claim 1, wherein the
+checking unit (5) divides the polygon (21,46) into a set of
+
+the segments (22,23) along a scan line to select an adjacent
+pixel one after another from the pixels along the scan line.
+The image generating apparatus of claim 2, wherein the
+intersection-data registering unit (6) includes a segment 
+
+buffer (6) which registers the intersection data (27,28) per
+segment (22,23).
+The image generating apparatus of claim 3, wherein the
+intersection-data registering unit (6) generates the
+
+intersection data (27,28) per segment (22,23) for each light
+source (30,43) to register the generated data.
+The image generating apparatus of claim 4, wherein the
+intersection-data registering unit (6) includes an updating
+
+unit for updating the intersection data (27,28) each time a
+new ray-intercepting polygon (45) is checked during the ray-interception
+
+check by the checking unit (5) for one segment
+(22,23).
+The image generating apparatus of claim 4, wherein the
+segment buffer (6) comprises a set of threads assigned with
+
+their respective identification codes (25) to store the
+intersection data (27,28) of each segment (22,23) into a
+
+thread identified by their respective identification codes
+(25), whereby the intersection data (27,28) of each segment
+
+(22,23) on one polygon are processed in parallel by a
+plurality of processors equipped with the image generating
+
+apparatus.
+The image generating apparatus of claim 1, further
+comprising an intersection checking means (5) for checking the 
+
+polygons (21,45,46,65,66) of the 3D model to find a polygon
+(46) which is not illuminated by any light source (30,43),
+
+wherein the checking unit (5) in the intensity computing
+means (5,6,7) checks the polygons (21,45) other than the
+
+unilluminated polygons (46) checked by the intersection
+checking means (5).
+The image generating apparatus of claim 7, wherein the
+intersection checking means (5) includes:
+
+
+a boundary box dividing unit for dividing a boundary box
+(47,61) enclosing all the polygons (21,45,46,65,66) into a
+
+plurality of voxels (62,63), wherein the boundary box dividing
+unit determines the number of divisions for the boundary box
+
+(47,61) using a total number of the polygons (21,45,46,65,66),
+a mean size of the polygons (21,45,46,65,66), and the size of
+
+the boundary box (47,61) as parameters; and
+an intersection checking unit for checking an
+intersection between the voxels (62,63) relative to the light
+
+source (30,43).
+The image generating apparatus of claim 7, further
+comprising:
+
+
+an attribute-data setting means (3) for setting data
+related to a physical-property attribute including a
+
+reflection factor and a transmission factor of each polygon
+(21,45,46,65,66);
+ 
+wherein the intersection checking means (5) checks the
+
+intersection between the polygons (21,45,46,65,66) relative to
+the light source (30,43) by taking into account the physical-property
+
+of each polygon (21,45,46,65,66),
+the intensity computing means (5,6,7) determines the ray-intercepting
+
+polygons (45) by taking into account the
+physical property attribute of the ray-intercepting polygons
+
+(45); and
+the ray-tracing unit traces the reflection of the second
+order by taking into account the physical-property attribute
+
+of the polygons (21,45,46,65,66) located in a direction in
+which the ray (44,85) reflects.
+The image generating apparatus of claim 1, wherein
+the intersection checking unit (5) is arranged
+
+
+to create a boundary box (47,61) enclosing all the
+objects prior to the intersection-check for an arbitrary
+
+polygon,
+to divide a screen (41,81) created by the view-point-data
+setting means (2) into a set of rectangles (82) of equal-size,
+to check the intersection between the ray (44,85)
+emanating from the light source (30,43) and a sample point
+
+(83) in each rectangle (82) on the screen (41,81),
+to count a number of the polygons that intersect with the
+ray (44,85) in the boundary box (47,61), and
+to further divide each rectangle (82) into a set of
+smaller rectangles (86) when the counted number is larger than 
+
+a mean value of the polygons obtained by dividing a total
+number of the polygons by a total number of the rectangles
+
+(82), and to combine adjacent rectangles (82) when the counted
+number is smaller than the mean value.
+The image generating apparatus of claim 10, wherein
+the intersection checking unit (5) is arranged to subdivide
+
+each rectangle (82) by 2
+n
+.
+The image generating apparatus of claim 1, wherein
+
+the intersection checking unit (5) is arranged
+to create a boundary box (47,61) enclosing all the
+objects prior to the intersection-check for an arbitrary
+
+polygon,
+to compute optimal conditions for dividing the boundary
+box (47,61) for the intersection-check using a total number of
+
+the polygons within the boundary box (47,61), a mean area of
+the polygons, and a size of the boundary space as parameters,
+
+and
+to determine the number of divisions for the boundary box
+(47,61) with optimal coefficients computed in advance with a
+
+plurality of experimental scenes under a specific condition
+obtained as a result of the experiments.
+A method of computing intensity across visible polygons
+(21,45,65,66) in an image generating apparatus for generating a
+
+realistic 2D image from a 3D model, comprising a 3D model
+dividing means (1) for dividing a 3D model of an object into a 
+
+plurality of polygons (21,45,46,65,66) to define a spatial-occupancy
+of the 3D model, a light-source-data setting means
+
+(4) for setting data related to at least one light source
+(30,43) illuminating the polygons (21,45,46,65,66), a view-point-data
+
+setting means (2) for setting data related to a
+view point (64,84) from which some of the polygons
+
+(21,45,46,65,66) visible from the view point (64,84) are
+observed, an intensity computing means (5,6,7) for computing
+
+intensity across the visible polygons (21,45,65,66) with the
+use of the light source (30,43) data and the view point data,
+
+the method
+comprising the steps of:
+
+
+dividing each polygon (21,46) into a plurality of
+segments (22,23) to select a first sample pixel (24,29) in
+
+each segment (22,23) to determine whether there is any other
+polygon (45) that intercepts a ray (44,85) emanating from the
+
+light source (30,43) through the first sample pixel (24,29);
+registering data (26) identifying the ray-intercepting
+polygon (45) in a segment buffer (6) when such a ray-intercepting
+
+polygon (45) is checked;
+selecting a second sample pixel (31) from each segment
+(22,23) to determine whether any of the polygons (45)
+
+registered in the segment buffer (6) intercepts a ray (44,85)
+emanating from the light source (30,43) through the second
+
+sample pixel (31), and to select a pixel adjacent to the
+second sample pixel (31), by skipping the ray-interception 
+
+check for the second sample pixel (31) when any of the
+registered polygons (45) intercepts the ray (44,85);
+determining whether any of non-registered polygons
+intercepts the ray (44,85) emanating from the light source
+
+(30,43) through the second sample pixel (31) when none of the
+registered polygons (45) intercepts the ray (44,85) to
+
+register data identifying the polygons determined as the ray-intercepting
+polygons for the second sample pixel (31) in the
+
+segment buffer (6); and
+tracing a reflection of a second order from any of the
+sample pixels (24,29,31) when no ray-intercepting polygons are
+
+determined.
+The method of generating an image of claim 13,
+wherein when computing intensity on one segment (22,23) in an
+
+arbitrary polygon to check an intersection between polygons
+relative to one view direction and if a result of the
+
+intersection-check shows that the ray (44,85) emanating from
+the light source (30,43) through the sample pixel (24,29) on
+
+the segment (22,23) is intercepted by any other polygon, then
+registering an identification code (25) assigned to a
+
+processor that has computed the intensity on the sample pixel
+(24,29), and an identification code (26) for each of the ray-intercepting
+
+polygons (45), in the segment buffer (6) relative
+to the light source (30,43). 
+The method of generating an image of claim 13,
+wherein when computing a propagation of a thermal energy
+
+between polygons (21,45,46,65,66) in a boundary box (47,61)
+independent of a view point (64,84) by using the segment
+
+buffer (6), the method further comprises:
+
+checking the intersection between the sample pixel (24)
+and the ray (44,85) emanating from the light source (30,43)
+
+through the sample pixel (24) and the intersection between a
+pixel (29) on the segment (23) adjacent to the segment (22) of
+
+the sample pixel (24) and the ray (44,85) emanating from the
+light source (30,43) through the pixel (29), in parallel, and
+eliminating a polygon (46) whose pixels are totally
+shadowed by any other polygon (45) from a list of polygons
+
+subject to the ray-tracing.
+The method of generating an image of claim 13,
+further comprising:
+
+
+creating a boundary box (47,61) enclosing all objects
+when checking an intersection between an arbitrary polygon
+
+and the ray (44,85) emanating from the light source (30,43), a
+process of dividing the boundary box (47,61) comprising the
+
+steps of:
+dividing a screen (41,81) on which the object is
+projected into a set of rectangles (82) of equal-size;
+checking an intersection between the sample point (83) in
+each rectangle (82) on the screen (41,81) and the ray (44,85) 
+
+emanating from the light source (30,43) through the sample
+point (83);
+counting a number of the polygons that intersect with the
+ray (44,85) in the boundary box (47,61); and
+further dividing the boundary box (47,61) by a larger
+number of division when the counted number is larger than a
+
+mean value of the polygons obtained by dividing a total number
+of the polygons by a total number of the rectangles (82), and
+
+combining adjacent rectangles (82) when the counted number is
+smaller than the mean value.
+The method of claim 16, wherein the dividing step
+subdivides each rectangle (82) by 2
+n
+.
+The method of generating an image of claim 13,
+further comprising
+
+
+creating a boundary box (47,61) enclosing all objects
+
+when checking an intersection between an arbitrary polygon and
+the ray (44,85) emanating from the light source (30,43), a
+
+process of dividing the boundary box (47,61) comprising the
+steps of:
+computing optimal conditions for dividing the boundary
+box (47,61) for the intersection-check using a total number of
+
+the polygons within the boundary box (47,61), a mean area of
+the polygons, and a size of the boundary space as parameters,
+
+and 
+determining the number of divisions for the boundary box
+(47,61) with optimal coefficients computed in advance with a
+
+plurality of experimental scenes under a specific condition
+obtained as a result of the experiments.
+</CLAIMS>
+</TEXT>
+</DOC>

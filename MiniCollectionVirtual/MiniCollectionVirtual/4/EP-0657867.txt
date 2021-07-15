@@ -1,0 +1,769 @@
+<DOC>
+<DOCNO>EP-0657867</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+IMAGE PROCESSING DEVICE AND METHOD THEREFOR, AND ELECTRONIC DEVICE HAVING IMAGE PROCESSING DEVICE.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T120	G06T120	G06T300	G06T340	G06T340	G06T360	G06T1700	G06T1700	G09G514	G09G514	G09G534	G09G534	G09G536	G09G5393	G09G5395	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	G06T	G06T	G06T	G06T	G06T	G06T	G09G	G09G	G09G	G09G	G09G	G09G	G09G	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T1	G06T1	G06T3	G06T3	G06T3	G06T3	G06T17	G06T17	G09G5	G09G5	G09G5	G09G5	G09G5	G09G5	G09G5	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A game machine of an electronic device provided with an image processing device having, a parameter 
+registers (60, 70) and matrix computing circuits (66, 76) which output conversion processing signals necessary for 
+
+conversion processing of image information stored in VRAMs (24a, 24b), switching circuits (77a, 77b) which switch 
+the conversion processing signals selectively according to a coefficient k preset for every picture element and output 
+
+one of them, a circuit (65) for performing product-sum operation for generating the read addresses corresponding to the 
+picture information which are converted according to the conversion processing signals, and a VRAM access circuit 
+
+(78). By virtue of such an image processing device, image data of various split screens including window display 
+can be generated, while the increase of the load of a CPU and the increase of the capacity of an image memory are 
+
+suppressed. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SEGA ENTERPRISES KK
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SEGA ENTERPRISES, LTD.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+KAJIWARA SEIICHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KAJIWARA, SEIICHI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to an image processing system and 
+its method and to an electronic system having an image processing 
+system. It relates particularly to the image processing 
+technique used to perform the movement transformation and/or 
+rotation transformation in a video entertainment system. As more and more people have an interest in multimedia 
+today, methods and systems are being developed in the field of 
+hardware which will become the platform of multimedia. This type 
+of hardware is designed to implement complex and sophisticated 
+image processing in order to satisfy the needs of program 
+software. Especially, in the video entertainment systems, the 
+demand for image processing ability having more realistic and 
+dramatic effects has been increased to satisfy the user's 
+growing need.  The prior image processing technique is as follows. 
+According to the prior art of the image processing system used 
+in a video entertainment system, the background image where the 
+surface of the land or the sea, the sky, or the space is displayed 
+is combined with the foreground image where the character of 
+the game is displayed, and the composite image is displayed on 
+the monitor screen of the display. When a game player plays 
+the game, the foreground image or background image is moved to 
+show the motion of the character. That is, the foreground image 
+is moved or rotated with the background image fixed or, 
+conversely, the background image is moved or rotated with the 
+foreground image fixed. The latter function is called the 
+scroll function. In addition to the scroll function described above, an 
+image processing system has other functions such as the window 
+function and the priority function. The following describes 
+these functions. The following is a brief description of the window 
+function and the priority function. Recently, more and more 
+data has to be displayed on one monitor screen. To meet this 
+need, the window function has been introduced; it divides the 
+screen into one or more transparent image areas, called windows,  
+ 
+and displays different types of data in each window. Windows 
+are normally overlapped with the background image or with other 
+windows. And, among a plurality of overlapping windows, only 
+one window is displayed on top of the others according to the 
+specified priority. This priority is determined by the 
+priority function. The priority function plays an important 
+role in today's image processing technique; that is, it not only 
+determines the priority when windows
+</DESCRIPTION>
+<CLAIMS>
+An image processing system which accesses image memory 
+containing image information and sequentially reads image 
+
+information about an image to be displayed and which generates 
+image data according to said image information under control 
+
+of said CPU, said image processing system comprising: 
+   a plurality of signal processing means for outputting 
+
+transformation processing signals necessary for executing 
+transformation processing on said image information; 
+
+   a switching means, connected to a plurality of said signal 
+processing means, for selecting and outputting one of said 
+
+transformation processing signals according to a display 
+switching signal preset for each pixel; and 
+
+   an address generation means, connected to said switching 
+means, for generating a read address corresponding to image 
+
+information which has been transformed based on said 
+transformation processing signal. 
+An image processing system as claimed in claim 1, wherein 
+said signal processing means each comprising: 
+
+   a parameter register for storing parameters used for 
+performing movement transformation processing and/or rotation 
+
+transformation processing; 
+   a matrix operation circuit for performing movement 
+
+transformation processing and/or rotation transformation 
+ 
+
+processing using said parameters; 
+   a coefficient RAM for storing data as coefficients; and 
+
+   a coefficient RAM access circuit for accessing said 
+coefficient RAM and for calling said coefficients. 
+An image processing system as claimed in claim 2, wherein 
+said display switching signal is sent from one of said 
+
+coefficient RAMs to said switching means. 
+An image processing system as claimed in claim 2 or 3, 
+wherein said address generation means comprising: 
+
+   an AND/OR operation circuit connected to said switching 
+means; and 
+
+   an image memory access circuit connected to said AND/OR 
+operation circuit. 
+An image processing method for accessing said image memory 
+and sequentially reading image information about an image to 
+
+be displayed and for generating image data according to 
+corresponding image information, said image processing method 
+
+comprising the steps of: 
+   generating transformation processing signals necessary 
+
+for executing transformation processing for said image 
+information; 
+
+   selectively switching said transformation processing 
+signals according to a display switching signal preset for each 
+
+ 
+pixel and then outputting one of transformation processing 
+
+signals; 
+   generating a read address for image information which has 
+
+been transformed according to said transformation processing 
+signal; and 
+
+   displaying a plurality of independent images on splitted 
+areas of screen according to said display switching signal. 
+An electronic system comprising: 
+
+(1) a CPU; 
+(2) a video RAM; and 
+(3) a video processor for accessing said video RAM and 
+sequentially reading image information about an image to be 
+
+displayed and, under control of said CPU, for generating image 
+
+data, comprising a background image generation section and a 
+display control section connected to a corresponding background 
+
+image generation section, wherein said background image 
+generation section includes the following 1 to 3: 
+
+
+1 a plurality of signal processing means for outputting 
+transformation processing signals necessary for executing 
+
+transformation processing on said image information; 
+2 a switching means, connected to a plurality of said 
+signal processing means, for selecting and outputting one of 
+
+said transformation processing signals according to a preset 
+display switching signal; and 
+3 an address generation means, connected to said 
+ 
+
+switching means, for generating a read address corresponding 
+to image information which has been transformed based on said 
+
+transformation processing signal. 
+An electronic system comprising: 
+
+(1) a CPU; 
+(2) a first video processor; 
+(3) a first video RAM, connected to said first video 
+processor, for storing image information; 
+(4) a second video processor including a background 
+image generation section and a display control section 
+
+connected to said background image generation section; and 
+(5) a second video RAM, connected to said second video 
+processor, for storing image information, wherein said 
+
+background image processing section includes the following 1 
+- 3: 
+
+
+1 a plurality of signal processing means for outputting 
+transformation processing signals necessary for executing 
+
+transformation processing on said image information according 
+to provided information under control of said CPU; 
+2 a switching means, connected to a plurality of said 
+signal processing means, for selecting and outputting one of 
+
+said transformation processing signals according to a preset 
+display switching signal; and 
+3 an address generation means, connected to said 
+switching means, for generating a read address corresponding 
+
+ 
+to image information which has been transformed according to 
+
+said transformation processing signal. 
+An electronic system comprising: 
+
+(1) a CPU; 
+(2) a bus line connected to said CPU; 
+(3) a bus controller for controlling the flow of signals 
+on said bus line; 
+(4) a first image information processing section 
+including 
+
+the following 1) to 3): 
+
+1) a first video processor, connected to said bus line, 
+for controlling the generation of sprite image data; 
+2) a first video RAM, connected to said first video 
+processor, for storing image information for generating said 
+
+sprite image data; and 
+3) a frame buffer for expanding said sprite image data, 
+(5) a second image information processing section 
+including the following 1) and 2): 
+
+
+1) a second video processor connected to said bus line 
+including: 
+
+   a background image processing section for 
+generating background image data; and 
+
+   a display control section, connected to said 
+background image generation section and to said first image 
+
+processing section, for controlling said image data in order 
+ 
+
+to combine said sprite image data and said background image data; 
+and 
+2) a second video RAM, connected to said second video 
+processor, for storing image information for processing back 
+
+ground image data, wherein said background image generation 
+section includes the following 1 - 3: 
+
+
+1 a pair of signal processing means, connected to said 
+bus line, for outputting transformation processing signals 
+
+necessary to perform transformation processing on image 
+information according to provided information under control of 
+
+said CPU; 
+2 a switching means, connected to a plurality of said 
+signal processing means, for selecting and outputting one of 
+
+said transformation processing signals according to a pre-set 
+display switching signal; and 
+3 an address generation means, connected to said 
+switching means, for generating a read address corresponding 
+
+to image information which has been transformed according to 
+said transformation processing signal output from said 
+
+switching means. 
+An electronic system as claimed in claim 8, wherein said 
+first video processor includes a bit value change means for 
+
+reading sprite image data expanded in said frame buffer, 
+changing the value of a specified bit of the image data, and 
+
+then writing the image data back at the same address in said 
+ 
+
+frame buffer, and said second video processor includes: 
+   a bit value detection section for detecting whether or 
+
+not the value of said specified bit contained in sprite image 
+data expanded in said frame buffer has been changed; and 
+
+   a window control section for sending said sprite image 
+data to said display control section as a window signal of a 
+
+sprite image shape according to the value of said changed bit. 
+An electronic system comprising: 
+
+(1) a CPU; 
+(2) a bus line connected to said CPU; 
+(3) a bus controller for controlling signals on said bus 
+line; 
+(4) a first video information processing section 
+including the following 1) - 4): 
+
+
+1) a first video processor, connected to said bus line, 
+for controlling the generation of sprite image data; 
+2) a first video RAM, connected to said first video 
+processor, for storing image information for generating said 
+
+sprite image data; 
+3) a frame buffer for expanding said sprite image data; 
+and 
+4) a bit value change means for reading sprite image data 
+expanded in said frame buffer, changing the value of a specified 
+
+bit of the image data, and then writing the image data back at 
+the same address in said frame buffer, 
+(5) a second image information processing section 
+including the following 1) - 3): 
+
+
+1) a second video processor, connected to said bus line, 
+for generating background image data; 
+2) a second video RAM, connected to said second video 
+processor, for storing image information for generating 
+
+background image data; and 3) a display control section for 
+controlling said image data in order to combine said sprite image 
+
+data and said background image data, wherein said second video 
+processor includes the following 1 and 2 : 
+
+
+1 a bit value detection section for detecting whether 
+or not the value of said specified bit contained in sprite image 
+
+data read from said frame buffer has been changed; and 
+2 a window control section for sending said sprite image 
+data to said display control section as a window signal of a 
+
+sprite image shape according to the value of said changed bit. 
+An image processing system for representing a viewpoint 
+after coordinate transformation (Xp, Yp, Zp) and a specified 
+
+point on a display screen after coordinate transformation (Xs, 
+Ys, Zs) using the following formulas (1) and (2), where A - I 
+
+are rotation matrix parameters, (Px, Py, Pz) is a viewpoint 
+toward a display screen before coordinate tra
+nsformation, (Cx, 
+Cy, Cz) is a central point in coordinate transformation, (Sx, 
+
+Sy, Sz) is a specified point on a display screen before 
+coordinate transformation, and (Mx, My, Mz) is a parallel 
+
+ 
+displacement amount, 
+
+ 
+for representing the coordinates X and Y of a point on a scroll 
+
+screen on which a screen that has been transformed according 
+to the above formulas (1) and (2) is displayed using the 
+
+following formulas,X = k(Xs - Xp) + Xp Y = k(Ys - Yp) + Yp k = -Zp/(Zs - Zp)   (4) 
+ 
+
+for accessing image memory with the use of said coordinates X 
+and Y, and for generating data of an image to be displayed after 
+
+coordinate transformation, further comprising: 
+   coefficient memory for storing coefficient k for one 
+
+screen on a pixel basis; 
+   a matrix operation circuit for performing the calculation 
+
+of said formula (1) and said formula (2) to find Xp, Yp, Xs, 
+ 
+
+and Ys of each pixel; and 
+   an AND/OR operation circuit for performing the 
+
+calculation of said formula (4) using Xp, Yp, Xs, and Ys of said 
+pixel and the coefficient k of said corresponding pixel read 
+
+from said coefficient memory to find coordinates X and Y. 
+An electronic system comprising: 
+
+(1) a CPU; 
+(2) a video processor; and 
+(3) a video RAM, connected to said video processor, for 
+storing image information, characterized in that image data is 
+
+generated by accessing signals stored in said video RAM and 
+sequentially reading image information of an image to be 
+
+displayed, wherein said video processor includes: 
+
+1) a background image generation section; and 
+2) a display control section connected to said 
+background image generation section, wherein said background 
+
+image generation section includes the following 1 - 4: 
+
+1 a parameter register for storing signals of rotation 
+matrix parameters A - F supplied from said CPU as well as 
+
+coordinate data before transformation Px, Py, Pz, Cx, Cy, Cz, 
+Mx, My, and Mz, in which a viewpoint after coordinate 
+
+transformation (Xp, Yp, Zp) and a specified point on a display 
+screen after coordinate transformation (Xs, Ys, Zs) are 
+
+represented by the following formulas:  
+where (Px, Py, Pz) is a viewpoint before coordinate 
+
+transformation, (Cx, Cy, Cz) is a central point of coordinate 
+transformation, (Sx, Sy, Sz) is a specified point on a display 
+
+screen before coordinate transformation, and (Mx, My, Mz) is 
+a parallel displacement amount, and the coordinates X and Y of 
+
+a point on a background screen on which a screen that has been 
+transformed according to the above formulas is displayed are 
+
+represented by the following formulas:X = k(Xs - Xp) + Xp Y = k(Ys - Yp) + Yp   (4) 
+2 Coefficient memory for storing coefficient k, supplied 
+from said CPU, for each pixel; 
+3 a matrix operation circuit, connected to said 
+parameter register, for calculating Xp, Yp, Xs, and Ys of each 
+
+pixel by performing matrix operation of formula (1) and formula 
+(2); and 
+4 an AND/OR operation circuit for performing the 
+calculation of formula (4) with the use of Xp, Yp, Xs, and Ys 
+
+of said pixel and the coefficient k of the corresponding pixel 
+read from said coefficient memory to find coordinates X and Y 
+
+and then generating a read address in said video RAM. 
+An electronic system as claimed in claim 6, 7, 8, 9, 10, 
+or 12, further comprising a display device for displaying an 
+
+image according to image data generated from image information. 
+An image processing system, comprising: 
+
+(1) a first terminal for accepting signals from a CPU; 
+(2) a second terminal for connecting a video RAM in which 
+image information is stored; 
+(3) a third terminal for outputting image data; and 
+(4) a display image generation block including the 
+following circuits 1) - 5): 
+
+
+1) a parameter register, connected to said first 
+terminal, for storing signals of rotation matrix parameters A 
+
+- F supplied from the CPU, a viewpoint before coordinate 
+transformation (Px, Py, Pz), the central point of coordinate 
+
+transformation (Cx, Cy, Cz), and a parallel displacement amount 
+(Mx, My, Mz); 
+2) a matrix operation circuit, connected to said 
+parameter register, for executing the operation of the 
+
+following formulas (1) and (2) to find Xp, Yp, Xs, and Ys of 
+ 
+
+each pixel: 
+ 
+
+where, (Sx, Sy, Sz) is a specified point on the display screen 
+before coordinate transformation, (Xp, Yp, Zp) is a viewpoint 
+
+after coordinate transformation, and (Xs, Ys, Zs) is a specified 
+point on a display screen after coordinate transformation, 
+
+respectively; 
+3) coefficient memory, connected to said first terminal, 
+for storing signals of coefficient k supplied from the CPU; 
+4) an AND/OR operation circuit for performing the 
+following operation (4) using Xp, Yp, Xs, and Ys of each pixel 
+
+supplied from said matrix operation circuit and coefficient k 
+corresponding to each pixel read from said coefficient memory 
+
+to find coordinates X and Y of a display image;X = k(Xs - Xp) + Xp Y = k(Ys - Yp) + Yp   (4) 
+5) A video RAM access circuit, connected to said second 
+terminal, for accessing the video RAM using coordinates X and 
+
+Y supplied from said AND/OR operation circuit as a pixel address, 
+(5) a display control block, connected to said display 
+image generation block, for outputting generated image data 
+
+from said third terminal. 
+An image processing system, comprising: 
+
+(1) a first terminal for accepting signals from a CPU; 
+(2) a second terminal for connecting a video RAM where 
+image information is stored; 
+(3) a third terminal for outputting image data; 
+(4) a display image generation block including the 
+following circuits 1) - 8): 
+
+
+1) a pair of parameter registers, connected to said first 
+terminal, for storing signals representing rotation parameters 
+
+supplied from the CPU, a viewpoint before coordinate 
+transformation, a central point of coordinate transformation, 
+
+and an parallel displacement amount; 
+2) a pair of matrix operation circuits, each connected 
+to said corresponding parameter register, for calculating a 
+
+viewpoint and a point on a display screen after coordinate 
+transformation for each pixel of a pair of images; 
+3) a pair of coefficient memories, connected to said 
+first terminal, for storing coefficient k containing a display 
+
+ 
+switching signal supplied from the CPU; 
+4) a first switching circuit connected to the both of 
+said pair of matrix operation circuits; 
+5) a second switching circuit connected to the both of 
+said pair of coefficient memory; 
+6) an AND/OR operation circuit, connected to said first 
+and second switching circuits, for calculating the coordinates 
+
+of a display image according to signals supplied from said first 
+and second switching circuits; 
+7) a switching means for supplying said display 
+switching signal from one of said coefficient memories to said 
+
+first and second switching circuits and to AND/OR operation 
+circuit and for switching signals sent from said pair of matrix 
+
+operation circuits and said pair of coefficient memories to said 
+AND/OR operation circuit; and 
+8) a video RAM access circuit, connected to said second 
+terminal, for accessing a video RAM using coor
+dinate data 
+supplied from said AND/OR operation circuit as the pixel address 
+
+of a display image, 
+(5) a display control block, connected to said display 
+image generation block, for outputting generated image data 
+
+from said third terminal. 
+An image processing system as claimed in claim 14 or 15, 
+wherein a color RAM is connected to said display control block. 
+An image processing system as claimed in claim 14, 15, 
+or 16, further comprising: 
+
+   a control register, connected to said first terminal, the 
+contents of which may be re-written by the CPU; and 
+
+   a window control block for supplying control signals to 
+said display control block. 
+An image processing system as claimed in claim 17, wherein 
+said display image generation block, said window control block, 
+
+and said display control block are integrated on a semi-conductor 
+board as a video processor IC. 
+An image processing system as claimed in claim 17, further 
+comprising: 
+
+   a fourth terminal for accepting a foreground image; and 
+   a window detection block connected between said fourth 
+
+terminal and said window control block, wherein a signal sent 
+to said fourth terminal contains a window control flag and 
+
+foreground image signal, said window control flag is supplied 
+to said window detection block, and said foreground image signal 
+
+is supplied to said display control block. 
+An image processing system as claimed in claim 19, wherein 
+said display image generation block generates background images 
+
+corresponding to said foreground images, and said display 
+control block outputs image data combining said background 
+
+ 
+images and said foreground images from said fourth terminal. 
+An image processing system as claimed in claim 20, wherein 
+said display image generation block, said window control block, 
+
+said display control block, and said window detection block are 
+integrated on a semiconductor board as a video processor IC. 
+An image processing method comprising the steps of: 
+representing a viewpoint after coordinate transformation (Xp, 
+
+Yp, Zp) and a specified point on a display screen after 
+coordinate transformation (Xs, Ys, Zs) using the following 
+
+formulas (1) and (2), where A - I are rotation matrix parameters, 
+(Px, Py, Pz) is a viewpoint toward a display screen before 
+
+coordinate transformation, (Cx, Cy, Cz) is a central point of 
+coordinate transformation, (Sx, Sy, Sz) is a specified point 
+
+on a display screen before coordinate transformation, and (Mx, 
+My, Mz) is a parallel displacement amount; 
+
+
+ 
+representing the coordinates X and Y of a point on a scroll screen 
+
+on which a screen that has been transformed according to the 
+above formulas (1) and (2) is displayed, using the following 
+
+formulas;X = k(Xs - Xp) + Xp Y = k(Ys - Yp) + Yp k = -Zp/(Zs - Zp)   (4) 
+ 
+
+performing said formula (4) to find coordinates X and Y using 
+the coefficient k for one screen preset for each pixel and Xp, 
+
+Yp, Xs, and Ys of each of said pixel; accessing image memory 
+with the use of said coordinates X and Y; and generating data 
+
+of an image to be displayed after coordinate transformation, 
+wherein "X-axis rotation + Z-axis rotation" in which X-axis 
+
+rotation on the X axis of a display screen and Z-axis rotation 
+on the Z-axis of a display screen are successively done and/or 
+
+"Y-axis rotation + Z axis rotation" in which Y-axis rotation 
+on the Y-axis of a display screen and Z-axis rotation on the 
+
+Z-axis of a display screen are successively done is performed. 
+An image processing method comprising the steps of: 
+representing a viewpoint after coordinate transformation (Xp, 
+
+Yp, Zp) and a specified point on a display screen after 
+coordinate transformation (Xs, Ys, Zs) using the following 
+
+formulas (1) and (2), where A - I are rotation matrix parameters, 
+ 
+
+(Px, Py, Pz) is a viewpoint toward a display screen before 
+coordinate transformation, (Cx, Cy, Cz) is a central point of 
+
+coordinate transformation, (Sx, Sy, Sz) is a specified point 
+on a display screen before coordinate transformation, and (Mx, 
+
+My, Mz) is a parallel displacement amount; 
+ 
+
+representing the coordinates X and Y of a point on a scroll screen 
+on which a screen that has been transformed according to the 
+
+above formulas (1) and (2) is displayed, using the following 
+formulas;X = k(Xs - Xp) + Xp Y = k(Ys - Yp) + Yp k = -Zp/(Zs - Zp)   (4) 
+
+ 
+performing said formula (4) to find coordinates X and Y using 
+
+the coefficient k for one screen preset for each pixel and Xp, 
+Yp, Xs, and Ys of each of said pixel; accessing image memory 
+
+ 
+with the use of said coordinates X and Y; and generating data 
+
+of an image to be displayed after coordinate transformation, 
+wherein "X-axis rotation + screen-axis rotation" in which 
+
+X-axis rotation on the X-axis of a display screen and screen-axis 
+rotation on the screen-axis of a display screen are successively 
+
+done and/or "Y axis rotation + screen-axis rotation" in which 
+Y-axis rotation on the Y-axis of a display screen and said 
+
+screen-axis rotation are successively done is performed. 
+An image processing method comprising the steps of: 
+representing a viewpoint after coordinate transformation (Xp, 
+
+Yp, Zp) and a specified point on a display screen after 
+coordinate transformation (Xs, Ys, Zs) using the following 
+
+formulas (1) and (2), where A - I are rotation matrix parameters, 
+(Px, Py, Pz) is a viewpoint toward a display screen before 
+
+coordinate transformation, (Cx, Cy, Cz) is a central point of 
+coordinate transformation, (Sx, Sy, Sz) is a specified point 
+
+on a display screen before coordinate transformation, and (Mx, 
+My, Mz) is a parallel displacement amount; 
+
+
+ 
+representing the coordinates X and Y of a point on a scroll screen 
+
+on which a screen that has been transformed according to the 
+above formulas (1) and (2) is displayed, using the following 
+
+formulas;X = k(Xs - Xp) + Xp Y = k(Ys - Yp) + Yp k = -Zp/(Zs - Zp)   (4) 
+ 
+
+performing said formula (4) to find coordinates X and Y using 
+the coefficient k for one screen preset for each pixel and Xp, 
+
+Yp, Xs, and Ys of each of said pixel; accessing image memory 
+with the use of said coordinates X and Y; and generating data 
+
+of an image to be displayed after coordinate transformation, 
+wherein, scaling in the horizontal direction or in the vertical 
+
+direction of said display screen is done by accumulating said 
+coefficient k in either X or Y in the above formula (4). 
+An image processing method comprising the steps of: 
+representing a viewpoint after coordinate transformation (Xp, 
+
+Yp, Zp) and a specified point on a display screen after 
+coordinate transformation (Xs, Ys, Zs) using the following 
+
+formulas (1) and (2), where A - I are rotation matrix parameters, 
+(Px, Py, Pz) is a viewpoint toward a display screen before 
+
+coordinate transformation, (Cx, Cy, Cz) is a central point of 
+ 
+
+coordinate transformation, (Sx, Sy, Sz) is a specified point 
+on a display screen before coordinate transformation, and (Mx, 
+
+My, Mz) is a parallel displacement amount; 
+ 
+
+representing the coordinates X and Y of a point on a scroll screen 
+on which a screen that has been transformed according to the 
+
+above formulas (1) and (2) is displayed, using the following 
+formulas;X = k(Xs - Xp) + Xp Y = k(Ys - Yp) + Yp   (4) 
+
+ 
+performing said formula (4) to find coordinates X and Y using 
+
+the coefficient k for one screen preset for each pixel and Xp, 
+Yp, Xs, and Ys of each of said pixel; accessing image memory 
+
+with the use of said coordinates X and Y; and generating data 
+of an image to be displayed after coordinate transformation, 
+
+ 
+wherein image data is gen
+erated so that said display screen looks 
+curved by varying said coefficient k according to the vertical 
+
+coordinate value and the horizontal coordinate value of said 
+display screen. 
+</CLAIMS>
+</TEXT>
+</DOC>

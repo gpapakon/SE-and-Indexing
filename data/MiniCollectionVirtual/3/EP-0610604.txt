@@ -1,0 +1,233 @@
+<DOC>
+<DOCNO>EP-0610604</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Multiple processing of radiographic images based on a pyramidal image decomposition.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T100	G06T100	G06T120	G06T120	G06T500	G06T500	G21K400	G21K400	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	G06T	G06T	G06T	G06T	G21K	G21K	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T1	G06T1	G06T1	G06T1	G06T5	G06T5	G21K4	G21K4	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method of multiple processing a digital representation of a 
+radiographic image is disclosed that is based on a pyarmidal 
+
+decomposition of said image. A pyramidal decomposition is stored 
+and retrieved to be applied to at least two different processing 
+
+cycles, processed images are obtained by application of a 
+reconstruction algorithm. 
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+AGFA GEVAERT NV
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+AGFA-GEVAERT NAAMLOZE VENNOOTSCHAP
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+VUYLSTEKE PIETER
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+VUYLSTEKE,PIETER
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a method and apparatus for 
+producing multiple differently processed digital images. More in particular the invention relates to such a method for 
+use in a medical radiographic imaging system, such as a computed 
+radiography system or a computed tomography system. In the field of digital radiography a wide variety of image 
+acquisition techniques have been developed rendering a digital 
+representation of a radiographic image. Among such techniques are computerised tomography, nuclear 
+magnetic resonance, ultrasound detection, detection of a radiation 
+image by means of a CCD sensor or a video camera, radiographic film 
+scanning etc. In still another technique a radiation image, for example an X-ray 
+image of an object, is stored in a screen comprising a 
+photostimulable phosphor such as one of the phosphors described in 
+European patent publication 503 702, published on 16.09.92 and US 
+Ser. 07/842,603. The technique for reading out the stored radiation 
+image consists of scanning the screen with stimulating radiation, 
+such as laser light of the appropriate wavelength, detecting the 
+light emitted upon stimulation and converting the emitted light into 
+an electric representation for example by means of a photomultiplier 
+and finally digitizing the signal. One of the benefits of a digital radiographic system resides in 
+the possibility of processing the digital image representation 
+before display or hard copy recording. The term "processing" in 
+this context means any kind of image-processing such as noise 
+filtering, contrast enhancement, data compression etc. In some digital imaging systems the same original has to be 
+processed in different ways to produce multiple hard-copies or 
+displays originating from the same image. These different versions 
+of one image may be helpful for a radiologist in making a specific 
+diagnosis.  For example different versions of one original image may be 
+generated that are processed taking into account different contrast 
+enhancing modifying curves or different window level settings etc. 
+Time-consuming, mostly convolution or non-linear neighbourhood 
+operations, such as unsharp masking for edge enhancement, have to be 
+repeated if e.g. several images processed according to different 
+kernel sizes have to be produced. A digital radiographic image is commonly represented by about 10 
+MB digital data. The computation time required for processing such 
+an amount of data may extend to orders of minutes per processing 
+cycle. Hence, in
+</DESCRIPTION>
+<CLAIMS>
+A method of processing a digital representation of an original 
+radiographic image, comprising steps of: 
+
+
+1)-transforming said image into a multiresolution representation 
+which represents localised image detail at multiple scales, 
+2)-storing said multiresolution representation into a memory, 
+3)-producing at least two differently processed images by applying 
+at least two individual processing cycles, each processing cycle 
+
+comprising the steps of: 
+4)-retrieving said multiresolution representation from said memory, 
+5)-modifying the multiresolution representation at at least one 
+resolution level according to a non-identity function of a 
+
+neighbourhood of retrieved values, said neighbourhood consisting of 
+values of the same resolution level which correspond to a spatially 
+
+coherent region of pixels in said image, 
+6)-obtaining a processed image by applying the inverse of said 
+transform to the modified multiresolution representation. 
+A method according to claim 1 wherein the multiresolution 
+representation is a pyramidal representation wherein the number of 
+
+pixels in each detail image decreases at each coarser resolution 
+level. 
+A method according to claim 1 wherein said multiresolution 
+representation is obtained as a sequence of detail images at 
+
+multiple resolution levels and a residual image at a resolution 
+level lower than the minimum of said multiple resolution levels. 
+A method according to claim 3 wherein the detail image at the 
+finest resolution level is obtained as the pixel wise difference 
+
+between the original image and an image obtained by low pass 
+filtering the original image, and wherein the successive coarser 
+
+resolution level detail images are obtained by taking the pixelwise 
+difference between two low pass filtered versions of the original 
+
+image, the second having a smaller bandwidth than the former. 
+A method according to claim 3 
+
+wherein the detail images at successive coarser resolution levels 
+are obtained as a result of K iterations of the following steps: 
+
+
+a) computing an approximation image at a next coarser level by 
+ 
+
+applying a low pass filter to the approximation image corresponding 
+to the current iteration, ans subsampling the result in proportion 
+
+to the reduction in spatial frequency bandwidth, using the original 
+image as input to said low pass filter in the course of the first 
+
+iteration; 
+b) computing a detail image as the pixelwise difference between the 
+approximation image corresponding to the current iteration and the 
+
+approximation image at a next coarser resolution level computed 
+according to the method sub 4a;both images being brought into 
+
+register by proper interpolation of the latter image; 
+and wherein the residual image is equal to the approximation image 
+produced by the last iteration, 
+and wherein said processed image is computed by iterating K times 
+the following procedure starting from the coarsest detail image and 
+
+the residual image: 
+computing the approximation image at the current resolution level by 
+
+pixelwise adding the modified detail image at the same resolution 
+level to the approximation image at the coarser resolution level 
+
+corresponding to the previous iteration, both images being brought 
+into register by proper interpolation of the latter image, using the 
+
+residual image instead of the coarser approximation image in the 
+course of the first iteration. 
+A method according to claim 5 wherein said subsampling factor is 
+2, and said low-pass filter has an impulse response which 
+
+approximates a two-dimensional gaussian distribution. 
+A method according to claim 1 wherein said multiresolution 
+representation comprises detail transform images at multiple 
+
+resolution levels and a residual coefficient, each detail image 
+comprising a set of transform coefficients expressing the relative 
+
+contribution to the original image of the corresponding basis 
+function out of a set of predetermined basis functions, each of said 
+
+functions representing local detail at a specific resolution level 
+and being non-periodic, and having zero mean value, and wherein said 
+
+transform is characterised by the existence of an inverse transform 
+which returns the original image or a close approximation thereof 
+
+when being applied to said transform coefficients and said residual 
+coefficient. 
+A method according to claim 7 wherein said basis functions are 
+ 
+
+orthogonal. 
+A method according to claim 7 wherein said basis functions are 
+discrete wavelets. 
+A method according to claim 1 wherein said radiographic image is 
+stored in a photostimulable phosphor screen and wherein said digital 
+
+image representation is obtained by scanning said screen with 
+stimulating irradiation, detecting light emitted upon stimulation 
+
+and converting said detected light into a digital representation. 
+A method according to claim 1 wherein said function depends on 
+the value of a corresponding pixel in said original image. 
+A method according to claim 1 wherein said function has a slope 
+that gradually decreases with increasing argument values with the 
+
+exception of a region of lowest absolute argument values where the 
+slope is constant or increasing. 
+A method according to claim 1 wherein said function is not 
+identically defined at each resolution level in said decomposition, 
+
+such that modifications applied to finer resolution levels ampplify 
+image detail more than modifications applied to intermediate 
+
+resolution levels. 
+A method according to claim 1 wherein said function is not 
+identically defined at each resolution level in said decomposition, 
+
+such that modifications applied to coarser resolution levels amplify 
+image detail less than modifications applied to intermediate 
+
+resolution levels. 
+A method according to claim 1 wherein said values are modified 
+as a function of the estimated amount of image content and in 
+
+accordance with an estimated noise level. 
+A method according to claim 15 wherein said noise level is 
+determined as the estimated noise level in each detail image. 
+A method according to claim 15 wherein a set of noise 
+suppression functions are computed , each being associated with one 
+
+of said detail images, said functions being monotonically non-decreasing 
+ 
+
+in one variable and parametrically depending on said 
+noise variance in a non-increasing monotonic way and said 
+
+suppression functions being positive and asymptotically reaching a 
+maximum value equal to one and wherein each detail image is 
+
+attenuated by multiplying it with an associated noise suppression 
+function evaluated at an abscissa equal to said local detail image 
+
+variance. 
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,291 @@
+<DOC>
+<DOCNO>EP-0611474</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+ON-THE-FLY SPLITTING OF DISK DATA BLOCKS
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G11B1904	G11B2010	G11B2012	G11B1902	G11B2010	G11B1902	G11B1904	G11B2012	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G11B	G11B	G11B	G11B	G11B	G11B	G11B	G11B	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G11B19	G11B20	G11B20	G11B19	G11B20	G11B19	G11B19	G11B20	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A disk in a disk drive has radial spokes (14) wherein servo bursts are recorded, and multiple concentric bands (20) holding data blocks (16) in predefined block frames (22). To maximize data density, the data rate in each band (20) is proportional to the band radius, and the ratio of block frames (22) to spokes (14) in a given band (20) may be non-integral. In such bands (20), some data blocks (16) are split by a spoke (14). A disk controller in the disk drive uses a byte position accumulator (BPA) (84) when splitting a data block (16). During the transfer of a data block (16), the BPA (84) counts at the nominal data transfer rate to continually identify by its position in the data block (16) a byte therein to be transferred shortly. The BPA (84) output feeds a latch which is normally open to receive the BPA output. A timer (64) within the disk controller establishes the rotational time at which the data transfer must be suspended to avoid a spoke (14). The timer (64) generates an early warning signal (EW2) in advance of this time which closes the latch (88). The value in the closed latch (88) is the position of the last data byte to be transferred before the split. A comparator (82) indicates when a count of bytes transferred has reached the value in the latch (88); the data transfer is then suspended until the spoke (14) has passed.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+QUANTUM CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+QUANTUM CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BUCH BRUCE D
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BUCH, BRUCE, D.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The invention relates to the field of disk storage
+devices having data blocks that are split by servo or other
+non-data information fields.In the field of disk storage, it is common practice to
+pre-record servo information upon a magnetic disk when the
+disk is manufactured. The servo information, which takes the
+form of signal "bursts", is recorded along with other
+information. It is normally recorded at regular angular
+intervals on the disk, and is not meant to be re-written
+during normal use. Therefore, in so-called embedded servo
+systems, wherein the same disk surface carries both servo 
+information and user data, disk formatting techniques must
+accommodate radially-extending areas where user data cannot
+be stored.One formatting technique allows disk data blocks to be
+placed such that they are split by such servo areas. This
+technique enables data blocks to be placed more freely than
+if they were constrained to be contiguous. Therefore, more
+blocks can be placed along many tracks on the disk,
+increasing storage density. This improvement has a
+consequence, however, because disk controllers used with such
+disks must be able to ignore the non-data portion while
+reading a block, and avoid it while writing.Conceptually, a simple timing mark could indicate the
+times during the rotation of the disk that a split occurs.
+For example, if a disk rotates once every 16 milliseconds and
+there are 4 radially-extending servo areas, then splitting
+could occur (if necessary) at 4-millisecond intervals.
+However, due to spin speed variation and other effects, such
+an approach does not consistently yield the same byte
+position to split a given block during a read or write. Such
+a result is unacceptable from the standpoint of reliable data
+storage. Therefore, disk drives having split blocks
+generally have means for identifying the split location by
+byte position within each split block. This approach is more
+complicated than a simple timing system.Disks having split blocks may also employ another 
+density-improvement technique which unfortunately
+has the effect of increasing split-related complexity. It is
+known to arrange blocks of data in concentric bands or zones
+such as is illustrated in U.S. Patent No. 4,858,034 issued
+Aug. 15, 1989 to Hassel et al. and entitled "Modular Unitary
+Disk File Subsystem With Differing Density Zones". Using
+that approach, data blocks along the inner track of a given
+zone are recorded near a maximum linear density obtainable
+with a given combination of media, head, and controller
+electronics
+</DESCRIPTION>
+<CLAIMS>
+A method for transferring a user data block split by non-user data the user data block being divided in units having addresses on a disk,
+comprising the steps of:
+
+
+establishing a predetermined time (T
+1
+) within a period
+of rotation of said disk by which the transfer of said data
+
+block must be suspended in order to avoid writing over or reading non-user data;
+generating during the transfer of said data block a
+series of addresses of data units in said data block, each
+
+address being generated no more than a predetermined
+interval before the data unit having that address is
+
+transferred;
+designating (68) at a time (64) preceding said
+predetermined time by said predetermined interval the most
+
+recently-generated address to be the address of the last
+data unit to be transferred before suspending the transfer
+
+of said data block;
+suspending (54) the transfer of said data block when
+the designated last data unit has been transferred and
+resuming the transfer of said data block after said
+predetermined time at the data unit following said
+
+designated last data unit.
+A method as set forth in claim 1, wherein each of
+said data units is a byte, wherein said predetermined time
+
+is established with respect to when synchronization to a
+spoke preceding said data block on said disk was achieved.
+A method as set forth in claim 1, wherein said
+predetermined time is the time that a DC erase area (23) on
+
+said disk begins to pass under a magnetic head used to
+transfer said data block.
+A method as set forth in claim 1, wherein said
+generating step further comprises the step of scalingly
+
+counting cycles of a clock using a scale factor equal to
+the ratio of the period of said clock to the nominal
+
+transfer time of one data unit of said data block, wherein
+said clock is a crystal clock (40), wherein said scalingly
+
+counting step further comprises the step of accumulating
+said scale factor once per cycle of said clock.
+A method as set forth in claim 1, wherein said
+designating step further comprises the steps of:
+
+
+latching the most recently generated address and
+indicating that the latched value is the address
+of the last data unit to be transferred, further comprising
+
+the step of comparing (70) the identity of said designated 
+last data unit with a count of data units transferred to
+
+determine when said designated last data unit has been
+transferred.
+A method as set forth in claim 1, wherein the
+transfer of said data block is controlled by a block state
+
+machine (54), and wherein said suspending step further
+comprises the step of changing the state of said block
+
+state machine to a state wherein the transfer of said data
+block is stopped.
+A method as set forth in claim 1, further
+comprising the step of resuming the transfer of said data
+
+block after said predetermined time at the data unit
+following said designated last data unit.
+A method according to claim 1,
+comprising the steps of:
+
+
+accumulating once per cycle of a crystal clock a
+scale factor equal to the ratio of the period of said
+
+crystal clock to the nominal transfer time of one byte of
+said data block to generate a series of byte addresses,
+
+each address being generated no more than a predetermined 
+interval before the byte having that address is
+
+transferred;
+latching at a time preceding said predetermined
+time by said predetermined interval the byte address most
+
+recently generated in said accumulating step;
+indicating that the latched value is the address
+of the last byte to be transferred before suspending the
+
+transfer of said data block;
+comparing the latched value with a count of bytes
+transferred;
+suspending the transfer of said data block after
+said indicating step when said count of bytes transferred
+
+equals the latched value; and
+resuming the transfer of said data block after
+said predetermined time at the byte following said
+
+designated last byte.
+A disk controller for transferring a user data block split by non-user data the user data block being divided in units having addresses on a
+disk, comprising:
+
+
+a timer (STG) to establish a predetermined time
+within a period of rotation of said disk by which the
+
+transfer of said data block must be suspended;
+means for generating during the transfer of said
+data block a series of addresses of data units in said data
+
+block, each address being generated no more than a
+predetermined interval before the data unit having that 
+
+address is transferred;
+means (68) for designating at a time preceding
+said predetermined time by said predetermined interval the
+
+most recently-generated address as the address of the last
+data unit to be transferred before suspending the transfer
+
+of said data block;
+means (54) for suspending the transfer of said
+data block when the designated last data unit has been
+
+transferred in order to avoid writing over or reading of non-user data; and
+means for resuming the transfer of said data
+block after said predetermined time at the data unit
+
+following said designated last data unit.
+A disk controller as set forth in claim 9,
+
+wherein each of said data units is a byte, wherein said
+generating means comprises:
+
+
+a register (90) to hold a scale factor equal to
+the ratio of the period of a clock to the nominal transfer
+
+time of one data unit of said data block; and
+an accumulator (84) to accumulate said scale
+factor once per cycle of said clock during the transfer of
+
+said data block.
+A disk controller as set forth in claim 9,
+
+wherein said designating means comprises:
+
+a latch (88) to be loaded at a time preceding 
+said predetermined time by said predetermined interval with
+
+the most recently generated address; and
+means for indicating that the value in said latch
+is the address of the designated last data unit, further
+
+comprising a comparator (82) to indicate when a count of
+data units of said data block that have been transferred
+
+matches the address of the designated last data unit,
+further comprising a block state machine to control the
+
+transfer of said data block, and wherein said suspending
+means comprises means for changing the state of said block
+
+state machine to a state wherein the transfer of said data
+block is stopped.
+A disk controller according to claim 9,
+comprising
+:
+
+a register (90) to provide a scale factor equal
+to the ratio of the period of a clock to the nominal
+
+transfer time of one data unit of said data block;
+an accumulator (84) coupled to said register to
+accumulate said scale factor once per cycle of said clock
+
+during the transfer of said data block to generate a series
+of addresses of data units in said data block, each address
+
+being generated no more than a predetermined interval 
+before the data unit having that address is transferred;
+a latch (88) coupled to said accumulator to be
+loaded there-from at a time preceding said predetermined
+
+time by said predetermined interval and to designate the
+address most recently generated thereby as the address of
+
+the last data unit to be transferred before suspending the
+transfer of said data block;
+a counter (80) to hold a count of transferred
+data units of said data block;
+a comparator (82) to indicate when said count of
+transferred data units matches the value in said latch;
+means for indicating when the value in said latch
+is the address of the designated last data unit;
+means (54) for suspending the transfer of said
+data block when said comparator indicates a match and the
+
+value in said latch is the identity of the designated last
+data unit and;
+means for resuming the transfer of said data
+block after said predetermined time at the data unit
+
+following said designated last data unit.
+</CLAIMS>
+</TEXT>
+</DOC>

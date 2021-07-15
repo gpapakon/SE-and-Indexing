@@ -1,0 +1,426 @@
+<DOC>
+<DOCNO>EP-0649250</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Video signal processing.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T500	G06T500	H04N514	H04N514	H04N521	H04N521	H04N726	H04N726	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	H04N	H04N	H04N	H04N	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T5	G06T5	H04N5	H04N5	H04N5	H04N5	H04N7	H04N7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A digital Wiener filtering method is proposed which 
+applies motion compensation by successive 
+
+approximations of increasing resolution to determine 
+displacement vectors for two successive image frames, a 
+
+vector defining a real displacement only being applied 
+to a block of one of the frames when the mean absolute 
+
+error associated with that vector is not greater than a 
+given fraction of the mean absolute error between that 
+
+block and the corresponding block of the other frame. 
+The current frame is then filtered block-by-block, with 
+
+the blocks overlapping. In this filtering, each block 
+is a 3D volume of pixels from the current frame and 
+
+blocks selected from the preceding and succeeding 
+frames so as to correspond according to the 
+
+displacement vectors. In one embodiment, the filtering 
+comprises applying a 3D FFT to convert to a power 
+
+spectrum in the frequency domain, followed by 
+attenuation according to a Wiener filter and conversion 
+
+from the frequency domain by the inverse FFT. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+AVT COMMUNICATIONS LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+AVT COMMUNICATIONS LIMITED
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+KOKARAM ANIL CHRISTOPHER
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KOKARAM ANIL CHRISTOPHER
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to video signal processing 
+and is concerned with removing noise from a sequence of 
+images such as a sequence of frames comprising a motion 
+picture. Many papers discussing noise reduction have been 
+presented during the last two decades or so. Many 
+motion compensated noise reduction methods have also 
+been proposed. The types of noise that we are 
+particularly concerned with are noise such as white 
+Gaussian noise, noise which is equivalent to what one 
+would see on a television if the channel were not tuned 
+properly, and noise such as the graininess one sees 
+when watching an old movie (strictly speaking this 
+graininess is due in part to film grain noise which is 
+not necessarily Gaussian distributed). Suppose one has a set of images (called herein 
+frames) of an image sequence corrupted by additive 
+Gaussian noise. If the value of a pixel at coordinate 
+(i,j) in frame n of the clean image sequence is 
+I(i,j,n), then the value in the corrupted image 
+g(i,j,n) is 
+g(i,j,n) = I(i,j,n) + η(i,j,n) where η(i,j,n) is additive white Gaussian noise. By 
+Gaussian distributed noise, one means that if one had a 
+frame containing only noise, and then made a histogram 
+of the pixel values, the histogram would have a 
+Gaussian shape. By white noise one means that the 
+noise value at a particular pixel is uncorrelated with 
+the values at any other pixel in any other frame or in 
+any other part of the same frame. This latter 
+constraint is perhaps the more important one for the 
+following methods to function optimally.  One simple way to reduce the noise in the frames 
+is just to average the frames as they arrive. 
+Therefore a recursive averager can be used as set out 
+below in equation (2), where, I andn(i,j) represents the 
+value of the output pixel which is supposed to be an 
+estimate of the clean image. I andn-1(i,j) is the previous 
+output image pixel and gn(i,j) the current noisy image 
+pixel. Therefore the output frame at time k is the 
+average of all the previous k frames. If the frame 
+contains a stationary scene, this would be fine, since 
+the noise would be averaged out. However this is not 
+normally the case and moving objects are blurred by 
+this operation. A motion compensated averager, such as is 
+disclosed in the article by J. Boyce, 'Noise Reduction 
+of Image Sequences Using Adaptive Motion Compensated 
+Frame Averaging' in IEEE ICASSP, Volume 3, pages 461-464, 
+1992, works much better, as expected. The 
+averaging operation is then directed along motion 
+trajectories and so
+</DESCRIPTION>
+<CLAIMS>
+A digital filter for filtering noise from a 
+current frame (f) of an image sequence having a 
+
+plurality of frames, the apparatus comprising: 
+   means (3,4) arranged to select a data set 
+
+corresponding to the values of a plurality of pixels in 
+the said current frame (f) and the values of a 
+
+corresponding plurality of pixels in at least one of a 
+frame (f+1) succeeding the said current frame and a 
+
+frame (f-1) preceding the said current frame in the 
+said image sequence; 
+
+   means (4, Figure 5) arranged to apply a 3-dimensional 
+Wiener filtering operation, involving 3D 
+
+correlations, to the said data set to replace pixels of 
+the said current frame f by values, obtained from the 
+
+filtering operation, which are a function of the said 
+data set. 
+A filter as claimed in claim 1 and comprising: 
+   means for applying a motion compensation process 
+
+to said at least one of the said succeeding and 
+preceding frames to derive vector data mapping the 
+
+pixels in the said current frame into said at least one 
+of the succeeding and preceding frames; and 
+
+   using the said vector data to define a 3-dimensional 
+space to which the said Wiener filtering 
+
+operation is applied. 
+A filter as claimed in claim 1 or 2, wherein the 
+
+data set comprises data from the current, preceding and 
+succeeding frames. 
+A filter as claimed in claim 1, 2 or 3, wherein 
+the means for applying a filtering operation comprises 
+
+means arranged to apply the filter in the spatiotemporal 
+domain as a FIR filter. 
+A filter as claimed in claim 1, 2 or 3, wherein 
+the means for applying a filtering operation comprises 
+
+filter means arranged to apply the filter in the 
+ 
+
+frequency domain as an approximation to a IIR filter. 
+A filter as claimed in claim 5, wherein the filter 
+means comprises means arranged to apply a 3D discrete 
+
+Fourier transform (DFT) to the data set to define a 
+plurality of discrete frequency components (bins) by 
+
+which the frequency response of the filter is defined, 
+means arranged to attenuate the components using the 
+
+Wiener filter and means arranged to apply the inverse 
+DFT to obtain filtered pixel values for the current 
+
+frame. 
+A filter as claimed in claim 5 or 6 wherein the 
+means for applying Wiener filtering comprises means for 
+
+determining an attenuation for the pixels of the zone 
+at each of a plurality of distinct frequencies, the 
+
+attenuation determination means comprising: 
+   means for defining a power spectral density (PSD) 
+
+for said noise (Pηη) at each of a plurality of distinct 
+frequencies; 
+
+   means for determining the PSD of the zone being 
+processed (Pgg) at said frequencies; and 
+
+   means for determining a frequency response A of 
+the filter as a function of the difference (Pgg - Pηη) 
+
+between the PSD of the zone and that for said noise; 
+   the means for dtermining frequency response 
+
+comprising: 
+   means for defining a noise margin factor β; and 
+
+   means for adopting the difference Pgg - Pηη when Pgg 
+
+>
+ βPηη and for otherwise replacing the difference by a 
+value which is a positive value and a direct function 
+
+of Pgg. 
+A filter as claimed in any one of the preceding 
+claims and comprising means for processing the current 
+
+frame as a plurality of zones each of which is filtered 
+by the filter means, wherein the zones are blocks which 
+
+overlap and which are windowed such that filtered 
+pixels near the edges of the blocks have a contribution 
+
+ 
+from a plurality of surrounding blocks. 
+A method of digitally filtering noise from a 
+current frame f of an image sequence having a plurality 
+
+of frames, the method comprising: 
+   selecting a data set corresponding to the values 
+
+of a plurality of pixels in the said current frame f 
+and the values of a corresponding plurality of pixels 
+
+in at least one of a frame f+1 succeeding the said 
+current frame and a frame f-1 preceding the said 
+
+current frame in the said image sequence; 
+   applying a 3-dimensional Wiener filtering 
+
+operation, involving 3D correlations, to the said data 
+set to replace pixels of the said current frame f by 
+
+values, obtained from the filtering operation, which 
+are a function of the said data set. 
+A method as claimed in claim 9 and comprising the 
+steps of: 
+
+   applying a motion compensation process to said at 
+least one of the said succeeding and preceding frames 
+
+to derive vector data mapping the pixels in the said 
+current frame into said at least one of the succeeding 
+
+and preceding frames; and 
+   using the said vector data to define a 3-dimensional 
+
+space to which the said Wiener filtering 
+operation is applied. 
+A method as claimed in claim 9 or 10, wherein the 
+filter applying step comprises applying the filter in 
+
+the spatio-temporal domain as a FIR filter. 
+A method as claimed in claim 9 or 10, wherein the 
+filter applying step comprises applying the filter in 
+
+the frequency domain as an approximation to a IIR 
+filter. 
+A method as claimed in claim 12, wherein the 
+filter applying step comprises applying a 3D Fourier 
+
+transform (DFT or FFT) to the data set to define a 
+plurality of discrete frequency components (bins) by 
+
+ 
+which the frequency response of the filter is defined, 
+
+attenuating the components using the Wiener filter and 
+applying the inverse transform (DFT or FFT) to obtain 
+
+filtered pixel values for the current frame. 
+A method as claimed in claim 12 or 13, wherein the 
+Weiner filter attenuates the frequency components in 
+
+inverse relation to the power of the components. 
+A method as claimed in claim 12, 13 or 14 wherein 
+the Wiener filtering step comprises determining an 
+
+attenuation for the pixels of the zone at each of a 
+plurality of distinct frequencies, the attenuation 
+
+determination comprising: 
+   defining a power spectral density (PSD) for said 
+
+noise (Pηη) at each of a plurality of distinct 
+frequencies; 
+
+   determining the PSD of the zone being processed 
+(Pgg) at said frequencies; and 
+
+   determining a frequency response A of the filter 
+as a function of the difference (Pgg - Pηη) between the 
+
+PSD of the zone and that for said noise. 
+A method as claimed in claim 15, wherein negative 
+attenuations are avoided by taking said difference at 
+
+any one of said frequencies as a non-negative value 
+when said difference is negative. 
+A method as claimed in claim 16, wherein 
+determining the frequency response comprises: 
+
+   defining a noise margin factor β; 
+   adopting the difference Pgg - Pηη when Pgg 
+>
+ βPηη; 
+   otherwise replacing the difference by a value 
+
+which is a positive value and a direct function of Pgg. 
+A method as claimed in any one of claims 9 to 17, 
+wherein, before filtering, the mean of the data set is 
+
+determined and then subtracted from the data set and, 
+after filtering, the said mean is added back into the 
+
+data set. 
+A method as claimed in claim 18, and comprising 
+ 
+
+the step, after subtraction of the mean, of subjecting 
+the blocks of the data set to an analysis windowing 
+
+step, and the step, after filtering, of windowing the 
+mean before it is added back. 
+A method as claimed in any one of claims 9 to 19, 
+wherein the current frame is processed as a plurality 
+
+of zones, each of which is individually filtered. 
+A method as claimed in claim 20, wherein the zones 
+are blocks which overlap and which are windowed such 
+
+that filtered pixels near the edges of the blocks have 
+a contribution from a plurality of surrounding blocks. 
+A method as claimed in claim 20 or 21 when 
+appended to claim 18 or 19 and comprising the step of 
+
+applying a synthesis window to the pixels after the 
+mean is added back in order to compensate for the 
+
+contributions to pixels from the filtering of 
+overlapping zones. 
+A method as claimed in claim 10, or any one of 
+claims 11 to 22 when appended to claim 10, wherein the 
+
+motion compensation process comprises: estimating the 
+image displacement between two frames by calculating 
+
+the mean absolute error MAE₀ between a block in a first 
+of the frames and a block in the corresponding location 
+
+in the second of the frames, calculating the mean 
+absolute error MAEm between the first block in the first 
+
+frame and a plurality of blocks of a search region of m 
+blocks in the second frame and which region contains 
+
+the second block and each of the m blocks being offset 
+from the second block in the second frame; identifying 
+
+which of said plurality of searched blocks of the 
+
+search region in the second frame gives rise to the 
+minimum MAEm (MAEmin) and assigning to the first block, 
+
+in the first frame, a displacement vector corresponding 
+to said offset of the identified block. 
+A method according to claim 23 wherein said 
+displacement vector corresponding to said offset is 
+
+ 
+only assigned to the first block when r*MAEmin ≦ MAE₀, 
+
+where r is a constant greater than 1. 
+A method according to claim 24 comprising 
+generating for each frame L0 at least one sublevel Ln 
+
+of reduced resolution, dividing the level of lowest 
+resolution into a plurality of said blocks, obtaining 
+
+displacement vectors for each block, and assigning to 
+the next level Ln-1 the displacement vectors obtained, 
+
+a level Ln being generated by passing a low pass filter 
+mask over the preceding level Ln-1 and subsampling the 
+
+resulting filtered frame in the horizontal and vertical 
+directions. 
+A method of removing noise from a current frame f 
+of an image sequence having a plurality of frames, the 
+
+method comprising: 
+   applying a Wiener filtering operation to a data 
+
+set, obtained by Fourier transforming the values of a 
+plurality of pixels in the current frame f, to 
+
+attenuate frequency components within the data set as a 
+function of the difference between the spectral power 
+
+density Pηη of a noise signal associated with each 
+frequency component and the spectral power density Pgg 
+
+of the data set when Pgg is greater than βPηη, where β is 
+a constant greater than 1; and 
+
+   when Pgg is less than βPηη attenuating said 
+frequency components by a non-negative factor which 
+
+reduces as Pgg reduces. 
+A method according to claim 26 and comprising 
+applying motion compensation by successive 
+
+approximations of increasing resolution to determine 
+displacement vectors between two successive image 
+
+frames, a vector defining a real displacement only 
+being applied to a pixel of a block of one of the 
+
+frames when the mean absolute error associated with 
+that vector is not greater than a given fraction of the 
+
+mean absolute error between that block and the 
+ 
+
+corresponding block of the other frame. 
+</CLAIMS>
+</TEXT>
+</DOC>

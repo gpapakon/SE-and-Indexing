@@ -1,0 +1,236 @@
+<DOC>
+<DOCNO>EP-0653711</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Direct memory access controller
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1336	G06F1328	G06F1336	G06F1320	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F13	G06F13	G06F13	G06F13	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A direct memory access controller is provided that performs 
+DMA transfers by executing both a memory access cycle and an I/O 
+
+access cycle. During the memory access cycle, the address 
+location of system memory to be accessed is driven on the 
+
+addressing lines of a local bus. During the I/O access cycle, an 
+address value within a DMA configuration address range is driven 
+
+on the address lines of the local bus. The DMA configuration 
+address range is the range of address values to which the 
+
+configuration registers of the DMA controller are mapped for 
+receiving initialization data. Accordingly, other peripheral 
+
+devices that may be connected to the local bus will not respond 
+to the I/O access cycle. An address disable signal is further 
+
+not required to disable the address decoders of other I/O 
+peripheral devices not involved in the DMA transfer. Since the 
+
+memory access cycle and the I/O access cycle of the DMA transfer 
+are identical to those executed by the system microprocessor, 
+
+subsystems are not required to respond to specialized DMA 
+protocols. Finally, although the DMA controller implements two-cycle 
+
+DMA transfers, the DMA controller is compatible with 
+conventional peripheral devices which assume one-cycle DMA 
+
+transfer protocols. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+ADVANCED MICRO DEVICES INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+ADVANCED MICRO DEVICES INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+GEPHARDT DOUGLAS D
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MACDONALD JAMES R
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MUDGETT DAN S
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GEPHARDT, DOUGLAS D.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MACDONALD, JAMES R.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MUDGETT, DAN S.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to computer systems in particular a direct
+memory access (DMA) controller and more
+particularly to I/O addressing techniques employed during direct
+memory access operations of a DMA controller.In early personal computer system designs, the transfer of
+information between system memory and I/O addressable peripheral
+devices such as disk controllers, displays, keyboards and
+serial/parallel interface units was performed directly by the
+system microprocessor. As the number of transactions with
+peripheral devices increased and the capabilities of such devices
+expanded, the burden on the microprocessor associated with this
+transfer task severely limited overall system performance.
+Accordingly, techniques were developed to free the microprocessor
+from this task. Direct memory access (DMA) was one such
+developed technique.Direct memory access is typically handled by a DMA
+controller which is assigned the task of coordinating and
+performing data transfers between system memory and a peripheral
+device (or other system resource) without the intervention of the
+microprocessor. Before a DMA transfer can begin, certain
+information herein referred to as "initialization data" must be
+provided to the DMA controller from the microprocessor to
+indicate the direction of the transfer to be executed (i.e.,
+memory-to-peripheral device or peripheral device-to-memory) as
+well as the first address of system memory from which data is to
+be retrieved or to which data is to be written. The number of
+data words or bytes involved in the desired DMA transfer
+operation is further specified by the initialization data. Following initialization, the peripheral device (or
+peripheral controller) can initiate the DMA transfer at any time
+by asserting a request signal to indicate that it is ready to
+receive or transmit data via a direct memory access operation.
+The DMA controller responsively obtains mastership of the local
+bus by asserting a bus request signal (referred to as a "HOLD"
+signal for some microprocessors). When the microprocessor
+detects assertion of the bus request signal, it completes the
+operation it is currently executing, disables its address, data,
+and control bus outputs, and asserts a bus acknowledge signal.
+The DMA controller then takes control of the local bus to perform
+the transfer.The DMA controller may execute a DMA transfer using one of
+two basic approaches: a one-cycle transfer or a-two-cycle-transfer.
+Figure 1 illustrates a memory-to-peripheral device
+transfer using the two-cycle approach.
+</DESCRIPTION>
+<CLAIMS>
+A direct memory access controller connectable to a local bus comprising:
+
+a memory address register (42) for storing a value indicative of a memory
+address;
+a mode register (48) for storing information indicative of a direction of a
+DMA operation;
+an address decoder (46);
+a temporary data register (120);
+a control circuit (122) coupled to said mode register and to said address
+decoder wherein said control circuit is capable of executing a memory access cycle
+
+during which said memory address is driven on said local bus;
+wherein during said memory access cycle data is transferred from a system
+memory to said temporary data register;
+characterized in that
+said control circuit is configured to execute an I/O access cycle during which
+an address value within a DMA configuration address range is driven on said local
+
+bus;
+wherein said address decoder is disabled by said control circuit during said I/O
+access cycle; and
+and wherein during said I/O access cycle,
+data is
+
+transferred from said temporary data register to a data buffer in a peripheral device.
+The direct memory access controller as recited in Claim 1 further comprising a
+word count register (114) coupled to said control circuit for storing a value indicative
+
+of a number of words to be transferred during said DMA operation.
+The direct memory access controller as recited in Claim 2, wherein said
+temporary data register is coupled to said local bus.
+The direct memory access controller as recited in Claim 3, wherein said
+memory access cycle is a memory read cycle. 
+The direct memory access controller as recited Claim 4, wherein said I/O
+access cycle is an I/O write cycle.
+The direct memory access controller as recited in Claim 5, wherein a byte of
+data is provided to said temporary data register from a system memory during said
+
+memory read cycle.
+The direct memory access controller as recited in Claim 6, wherein said byte
+of data is provided to a peripheral device during said I/O write cycle.
+The direct memory access controller as recited in Claim 1, wherein said
+address decoder is coupled to said mode register for storing mode information within
+
+said mode register during an initialization phase when an I/O access cycle is executed
+on said local bus with an address value that is within said DMA configuration address
+
+range.
+The direct memory access controller as recited in Claim 8, wherein said
+address
+
+decoder is further coupled to said memory address register, and wherein a starting
+address value is stored within said memory address register during the initialization
+
+phase
+
+when said address decoder is driven with a particular address value within said DMA
+configuration address range.
+The direct memory access controller as recited in Claim 3, wherein said
+memory access cycle is a memory write cycle.
+The direct memory access controller as recited in Claim 10, wherein said I/O
+access cycle is an I/O read cycle. 
+The direct memory access controller as recited in Claim 11, wherein a byte of
+data is provided from a peripheral device to said temporary register during said I/O
+
+read cycle.
+The direct memory access controller as recited in Claim 12, wherein said byte
+of data is provided from said temporary register to a system memory during said
+
+memory write cycle.
+A computer system comprising:
+
+a local bus (110);
+a microprocessor (104) coupled to said local bus;
+a system memory (106) coupled to said local bus;
+a peripheral device (108) coupled to said local bus; and
+a direct memory access controller (102) as recited in any of claims I - 13
+coupled to said local bus.
+The computer system as recited in Claim 14, wherein said at least one
+configuration register includes a mode register (118) for storing information
+
+indicative of a direction of said pending DMA operation.
+The computer system as recited in Claim 15, wherein said at least one
+configuration register further includes a memory address register (112)for storing a
+
+value indicative of a memory address.
+The computer system as recited in Claim 16, further comprising a temporary
+data register (120) coupled to said control unit.
+A method for controlling a direct memory access operation within a computer
+system including a system memory (106), a DMA controller (102), and a peripheral
+
+device (108) coupled to a local bus (110), said method comprising the steps of:
+
+the microprocessor (104) storing configuration information within said DMA
+controller by addressing said DMA controller with an address value within a DMA 
+
+configuration address range ;
+the DMA controller executing a memory access cycle on said local bus to
+access a
+predetermined memory location within said system memory, wherein said memory
+access cycle includes transferring data from said system memory to temporary data
+
+register within said DMA controller;
+characterized in that
+ the method further includes the steps of;
+
+the DMA controller executing an I/O access cycle and driving said local bus
+with an address value within said DMA configuration address range;
+transferring data from said temporary data register within said DMA controller
+to a data buffer in said peripheral device; and
+disabling an address decoder during said I/O access cycle.
+The method for controlling a direct memory access operation as recited in
+Claim 18 comprising the further step of storing a byte of data from said predetermined
+
+memory location in a temporary register of said DMA controller.
+The method for controlling a direct memory access operation as recited in
+Claim 19 comprising the further step of driving said byte of data stored within said
+
+temporary register on said local bus during said I/O access cycle.
+</CLAIMS>
+</TEXT>
+</DOC>

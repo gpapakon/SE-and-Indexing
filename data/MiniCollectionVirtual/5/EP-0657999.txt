@@ -1,0 +1,285 @@
+<DOC>
+<DOCNO>EP-0657999</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Sampling frequency conversion
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04B1404	H04B1404	H03H1700	H03H1706	H03H1700	H03H1706	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04B	H04B	H03H	H03H	H03H	H03H	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04B14	H04B14	H03H17	H03H17	H03H17	H03H17	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An improved method converts a first sampling rate of signal values to a second 
+sampling rate, the second sampling rate being a non-integer multiple of the first 
+
+sampling rate. The method comprises the steps of: interpolating between 
+successive signal values occurring at the first sampling rate to derive further signal 
+
+values at an integer multiple sampling rate thereof, the integer multiple sampling 
+rate falling within a range that is a greater than 0.5 and less than two times an 
+
+integer multiple of the second sampling rate; employing a method of weighted 
+average interpolation or decimation to derive from the signal values occurring at an 
+
+integer multiple sampling rate of the first sampling rate, signal value magnitudes 
+occurring at the integer multiple of the second signal sampling rate; and decimating 
+
+the signal values at the integer multiple of the second sampling rate by an integer 
+multiple factor to derive second sampling rate. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+NOKIA MOBILE PHONES LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+NOKIA MOBILE PHONES LTD.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+ALI-YRKKO OLLI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+VAHARALO ANTTI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ALI-YRKKO, OLLI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+VAHARALO, ANTTI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to signal sampling rate conversion and, more particularly, to
+conversion of a digital signal at one sampling rate to a set of signals at a second
+sampling rate, employing a method of weighted averages.During digital signal processing, a common occurrence is to find that the sampling
+rate must be changed e.g. a signal is read from an analog-to-digital converter (A/D)
+which operates at a first sampling rate, digitally processed and then fed to a
+digital-to-analog converter (D/A) which operates at a second sampling rate.
+During this process, the digital values are also filtered to exhibit a particular
+frequency/bandwidth characteristic.The sampling rate conversion process determines the digital value magnitudes of
+signals at the second sampling rate from the digital values of signals occurring at
+the first sampling rate. If the first and second data sampling rates are integer
+multiples of each other, determination of output signal magnitudes can be easily
+accomplished by either interpolation or decimation. If however, the first and
+second sampling rates are not integer multiples, the solution to the problem
+becomes more computationally complex.EP 323200 describes a sampling frequency conversion in which the impulse response of
+a low pan filter is used to convert oversampled samples from a first to a second sampling rate
+prior to decimation.The prior art has employed several techniques to accomplish sampling rate
+conversion (with filtering) and has used both infinite impulse response (IIR) and
+finite impulse response (FIR) filters. The sampling rate conversion process has
+involved a multiplication (by interpolation) of the input sampling rate by an integer
+factor to achieve a higher frequency sampling rate which is also an integer
+multiple of the desired second sampling rate. Then, after filtering, the integer
+multiple sampling rate is divided (by decimation) by an integer value to arrive at
+the desired second sampling rate.As an example, a digital signal having a sampling rate of 20 kHz is sent to a D/A 
+converter that has a sampling rate of 97.2 kHz. Thus, the signal with a 20 kHz 
+sampling rate must be changed to a 97.2 kHz sampling rate and the signal must be
+filtered using specified filter characteristics. If an IIR filter is employed, the 20 kHz
+sampling rate data may be interpolated by a factor of 243 to a sampling rate of
+4,860 kHz (4,860 kHz being a 50 times multiple of the D/A converter sampling rate
+of 97.2 kHz). The resulting signal with 4,860 kHz sampling rate data is
+</DESCRIPTION>
+<CLAIMS>
+A method for converting a first sampling rate of input signal values to
+a second sampling rate of output signal values, the second sampling rate being a
+
+non-integer multiple of the first sampling rate, and for determining amplitudes of
+said second sampling rate output signal values from first sampling rate input signal
+
+values, said method comprising the steps of:
+
+a. interpolating between successive input signal values occurring at said
+first sampling rate to derive signal values occurring at an integer multiple sampling
+
+rate, IMR1, from said input signal values, said IMR1 falling within a range that is
+greater than 0.5 and less than two times an integer multiple of said second
+
+sampling rate,
+b. interpolating from said signal values at said IMR1, through the use of
+weighted averages of said signal values at IMR1, to derive signal values occurring at an integer
+
+multiple of said second sampling rate, IMR2; and
+c. decimating said signal values at IMR2 by an integer multiple factor to
+derive output signal values at said second sampling rate.
+A method for converting a first sampling rate of input signal values to
+a second sampling rate of output signal values, the second sampling rate being a
+
+non-integer multiple of the first sampling rate, and for determining amplitudes of
+said second sampling rate output signal values from first sampling rate input signal
+
+values, said method comprising the steps of:
+
+a. interpolating between successive input signal values occurring at said
+first sampling rate to derive signal values occurring at an integer multiple sampling
+
+rate, IMR1 from said input signal values, said IMR1 falling within a range that is
+greater than 0.5 and less than two times an integer multiple of said second
+
+sampling rate.
+
+a1. filtering said signal values at IMR1 to achieve a filtered signal value
+representation.
+b. interpolating from said filtered signal values at said IMR1, through the use of
+weighted averages
+
+of said filtered signal values at IMR1 to derive signal values occurring at an integer
+multiple of said second sampling rate, IMR2; and
+c. decimating said signal values at IMR2 by an integer multiple factor to
+derive output signal values at said second sampling rate.
+A method as recited in claim 2 wherein said IMR1 exhibits a lower
+frequency than said IMR2 and step b employs a weighting factor x, where:
+
+
+x
+ = 
+((n
+*
+mden)
+mod 
+mnum
+mnum
+
+and:
+
+mnum/mden = fout/(fout-fin)
+, with the fraction 
+fout/(fout-fin)
+ converted to higher
+terms to assure that mnum and mden are integer values,
+n = sequence number of output sample,
+fout = second sampling rate,
+fin = first sampling rate, and
+a mod b is modulus or remainder of the division a/b.
+A method as recited in claim 3 wherein, in step b, each output data
+value at IMR2 has a magnitude o(n) where:
+
+
+o(n)
+=
+x*i(k)
++
+(1-x)*i(k
++
+1)
+
+where: 
+
+k
+=
+n-trunc(
+n
+*
+mden
+mnum
+)
+i = input sample magnitude;
+"trunc" (y) is largest integer not greater than y.
+A method as recited in to claim 2, wherein IMR1 is greater than IMR2
+
+and wherein step b employs a weighting factor x, where:
+
+x
+=
+((n
+*
+dden)
+mod
+dnum
+dnum
+
+and:
+
+dnum/dden = fin/(fin-fout)
+, with the fraction 
+fin/(fin-fout)
+ converted to higher
+terms to assure that dnum and dden are integer values,
+n = sequence number of output sample,
+fout = second sampling rate,
+fin = first sampling rate, and
+a mod b is modulus or remainder of a division a/b.
+A method as recited in claim 5, wherein in step b, each output at IMR2
+has a magnitude o(n), wherein: 
+
+
+o(n)
+=
+(1-x)*i(k)
++
+x*i(k
++
+1)
+
+where:
+
+k
+=
+n
++
+trunc(
+n
+*
+dden
+dnum
+)
+i = input sample magnitude;
+"trunc" (y) is largest integer not greater than y.
+A method as recited in any preceding claims, implemented by a
+computer.
+Apparatus for converting a first sampling rate of input signal values
+to a second sampling rate of output signal values, and for determining amplitudes
+
+of said second sampling rate output signal values from first sampling input signal
+values, comprising:
+
+
+means for interpolating between successive input signal values to derive signal
+values at an integer multiple sampling rate, IMR1, from said input signal values,
+
+said IMR1 falling within a range that is greater than 0.5 and less than two times
+an integer multiple of said second sampling rate, 
+means for interpolating from said signal values at said IMR1, through the use of
+weighted averages of said signal values at IMR1, signal values occurring at an integer multiple of said second
+
+sampling rate, IMR2; and
+means for decimating said signals values at IMR2 by an integer multiple factor to
+derive said second sampling rate of output signal values.
+Apparatus as recited in claim 8, wherein when said IMR1 exhibits a
+lower frequency then said IMR2 said means for determining is adapted to utilise a
+
+weighting factor x where:
+
+x = 
+(n*mden) mod mnum
+mnum
+, and
+mnum = fout/(fout-fin)
+, with the fraction 
+fout/(fout-fin)
+ converted to higher
+terms to assure that mnum and mden are integer values; and
+
+wherein when IMR1 is greater than IMR2 said means for determining is
+adapted to utilise a weighting factor x where:
+
+
+x = 
+(n * dden) mod dnum
+dnum
+; and
+dnum/dden = fin/(fin-fout)
+, with the fraction 
+fin/(fin-fout)
+ converted to 
+higher terms to assure that dnum and dden are integer values; and where
+
+for both cases
+n = sequence number of output sample
+fout = second sampling rate
+fin = first sampling rate, and
+a mod b is modulus or remainder of a division a/b.
+</CLAIMS>
+</TEXT>
+</DOC>

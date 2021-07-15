@@ -1,0 +1,281 @@
+<DOC>
+<DOCNO>EP-0959596</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method and circuit for training an adaptive equalizer
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H03H2100	H03H2100	H04B304	H04B310	H04L2503	H04L2503	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H03H	H03H	H04B	H04B	H04L	H04L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H03H21	H03H21	H04B3	H04B3	H04L25	H04L25	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method and a circuit for training the tap coefficient of an
+adaptive equalizer, which are characterized in that both the target
+
+impulse response window and the filter coefficient window are made
+fixed after a predetermined condition is satisfied. Thereby, the
+
+convergence of training can be avoided from being late due to the
+affect such as noise etc. The predetermined condition includes:
+
+(1)when the ratio of power outside the window of target impulse
+response and power inside the window of target impulse response is
+
+less than a predetermined value, (2)when the ratio of power outside
+the window of filter coefficient and power inside the window of filter
+
+coefficient is less than a predetermined value, and (3) when the loop
+of the impulse response update step, the impulse response window step,
+
+the filter coefficient update step and the filter coefficient window
+step is repeated a predetermined number of times.
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+NIPPON ELECTRIC CO
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+NEC CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+KANDA YOSHINORI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SEKI KATSUTOSHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KANDA, YOSHINORI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SEKI, KATSUTOSHI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to a method and a circuit for training
+the tap coefficient of an adaptive equalizer, and more particularly
+to a method and a circuit for training the parameter of a time-domain
+equalizer used to correct a distortion in receive signal caused by
+the transmission characteristic of channel mainly in a multicarrier
+modulation transmission system.A conventional method for training the parameter of time-domain
+equalizer used in a multicarrier modulation transmission system and
+its problem will be explained below.At first, the multicarrier modulation transmission system is
+explained briefly below, while it is described in detail in J.A.C.
+Bingham, "Multicarrier Modulation For Data Transmission", IEEE
+Commun. Mag., pp.5-14, May, 1990.A multicarrier modulation signal can be produced most simply
+by using an inverse fast Fourier transform (hereinafter referred to
+as 'IFFT'). Input digital data are grouped into parallel-data blocks
+called symbols for every predetermined bit number. One symbol
+parallel data is divided into several bit groups. Then, each of
+carrier signals of same number with different frequencies is
+modulated with each of the bit groups.For example, if one symbol is of a 512-bit binary signal, each
+two bit from the top in this one symbol is assigned to each of 0 to 
+255th of 256 carrier frequencies. For the 2-bit logics {0,0}, {0,1},
+{1,0} and {1,1}, the amplitude and phase of the corresponding carrier
+signals are made 1+j, 1-j, -1+j and -1-j. Here, j represents an
+imaginary number, and for example, 1+j represents a carrier signal
+with an amplitude of √2 and an phase of +45°. It should be noted
+that for any of 2-bit logics {0,0}, {0,1}, {1,0} and {1,1}, the
+amplitude of carrier signal is √2 and the carrier signal is not
+amplitude-modulated by a signal to be transmitted.When a multicarrier signal phase-modulated with an original
+signal to be transmitted is represented by a frequency-domain vector,
+to convert one symbol of original signal to be transmitted into a
+multicarrier signal is a simple conversion of digital code, but when
+this signal is transmitted, IFFT is required because it is
+transmitted as a time-domain analogue signal. Also, since the
+frequency-domain signal is of complex number, IFFT needs to be a
+complex IFFT. On the contrary, in performing a fast Fourier
+transform(hereinafter referred to as 'FFT'), a complex FFT is
+required.Since FFT and IFFT are performed in the technical field of this
+invention, in the following explanation, a general frequency-domain
+signal
+</DESCRIPTION>
+<CLAIMS>
+A method for training the tap coefficient of an adaptive
+equalizer, comprising the steps of:
+
+
+(a) on the transmission side, generating a frequency-domain
+training vector X by encoding a code to be generated from a PRBS
+
+(pseudo-random binary sequence) generator and converting said
+frequency-domain training vector X into a time-domain signal then
+
+transmitting it to a channel;
+(b) on the reception side where a signal transmitted from the
+transmission side is received, generating a frequency-domain
+
+training vector X analogous to that generated on the transmission
+side;
+(c) providing a target impulse response update block, a target
+impulse response window block, a filter coefficient update block and
+
+a filter coefficient window block so as to train a FIR (finite impulse
+response) filter used as a time equalizer on the reception side, and
+
+at said target impulse response update block, determining an updated
+value Bu of signal B so as to reduce an error signal E=BwX-WwY for
+
+a signal (represented as Y in the frequency-domain) received from
+said channel, said training vector X, an output (represented as Bw
+
+in the frequency-domain) of said target impulse response window block
+and an output (represented as Ww in the frequency-domain) of said
+
+filter coefficient window block where the initial values of Bw and
+Ww are predetermined properly;
+(d) at said target impulse response window block, converting
+said updated value Bu into a time-domain signal bu(D), selecting
+
+consecutive v taps, which give the maximum power, of bu(D), and
+zeroing the remaining taps;
+(e) at said filter coefficient update block, determining an
+updated value Wu of signal W so as to reduce said error signal for
+
+said signal Y, signal X, signal Bw and signal Ww;
+(f) at said filter coefficient window block, selecting
+consecutive L taps, which give the maximum power, of a time-domain
+
+signal ww(D) for the output Wu of said filter coefficient update block,
+zeroing the remaining taps not selected, and shifting the tap
+
+coefficient so that the selected L taps locate at the temporal
+beginning of the filter coefficient;
+(g) repeating a loop composed of said steps (c), (d), (e) and
+(f) until said error signal is converged sufficiently; and
+(h) stopping changing the value Bw and the value Ww when in the
+process of said step (g), it is determined that the value Bw or the
+
+value Ww is sufficiently converged.
+A method for training the tap coefficient of an adaptive
+equalizer, according to claim 1, wherein:
+
+
+it is determined that the value Bw or the value Ww is sufficiently
+converged when in the process of said step (g), said loop composed
+
+of said steps (c), (d), (e) and (f) is repeated a predetermined number
+of times.
+A method for training the tap coefficient of an adaptive
+equalizer, according to claim 1, wherein:
+
+
+it is determined that the value Bw is sufficiently converged
+when in the process of said step (g), the ratio of power outside the
+
+window of said target impulse response to power inside the window
+of said target impulse response is less than a predetermined value.
+A method for training the tap coefficient of an adaptive
+equalizer, according to claim 1, wherein:
+
+
+it is determined that the value Ww is sufficiently converged
+when in the process of said step (g), the ratio of power outside the
+
+window of said filter coefficient to power inside the window of said
+filter coefficient is less than a predetermined value.
+A circuit for training the tap coefficient of an adaptive
+equalizer, comprising:
+
+
+a PRBS (pseudo-random binary sequence) generator for generating
+a PRBS code provided on the transmission side;
+an encoder for encoding the output code of said PRBS generator
+to generate a frequency-domain training vector X on the transmission
+
+side;
+IFFT for converting said frequency-domain training vector X
+into a time-domain signal and then transmitting it to a channel;
+a PRBS generator and an encoder, which are analogous to said
+PRES and said encoder on the transmission side, for generating a
+
+training vector X similar to said frequency-domain training vector
+generated on the transmission side, provided on the reception side;
+an impulse response updating means that is composed of a target
+impulse response update block, a target impulse response window block,
+
+a filter coefficient update block and a filter coefficient window
+block so as to train a FIR (finite impulse response) filter used as
+
+a time equalizer on the reception side, and that at said target impulse
+response update block, determines an updated value Bu of signal B
+
+so as to reduce an error signal E=BwX-WwY for a signal (represented
+as Y in the frequency-domain) received from said channel, said
+
+training vector X, an output (represented as Bw in the
+frequency-domain) of said target impulse response window block and
+
+an output (represented as Ww in the frequency-domain) of said filter
+coefficient window block where the initial values of Bw and Ww are
+
+predetermined properly;
+an impulse response window multiplying means that at said target
+impulse response window block, converts said updated value Bu into
+
+a time-domain signal bu(D), selecting consecutive v taps, which give
+the maximum power, of bu(D), and zeroing the remaining taps;
+a filter coefficient updating means that at said filter
+coefficient update block, determines an updated value Wu of signal
+
+W so as to reduce said error signal for said signal Y, signal X, signal
+Bw and signal Ww;
+a filter coefficient window multiplying means that at said
+filter coefficient window block, selects consecutive L taps, which
+
+give the maximum power, of a time-domain signal ww(D) for the output
+Wu of said filter coefficient update block, zeroing the remaining
+
+taps not selected, and shifting the tap coefficient so that the
+selected L taps locate at the temporal beginning of the filter
+
+coefficient;
+a training means that repeats the circular operation of said
+impulse response updating means, said impulse response window
+
+multiplying means, said filter coefficient updating means and said
+filter coefficient window multiplying means until said error signal
+
+is converged sufficiently; and
+a window fixing means that stops changing the value Bw and the
+value Ww when in the process of the operation of said training means,
+
+it is determined that the value Bw or the value Ww is sufficiently
+converged.
+A circuit for training the tap coefficient of an adaptive
+equalizer, according to claim 5, wherein:
+
+
+said window fixing means counts the repeat number of said
+circular operation of said impulse response updating means, said
+
+impulse response window multiplying means, said filter coefficient
+updating means and said filter coefficient window multiplying means,
+
+and determines that the value Bw or the value Ww is sufficiently
+converged when said repeat number reaches a predetermined value.
+A circuit for training the tap coefficient of an adaptive
+equalizer, according to claim 5, wherein:
+
+
+it is determined that the value Bw is sufficiently converged
+when in the process of the training operation of said training means,
+
+the ratio of power outside the window of said target impulse response
+to power inside the window of said target impulse response is less
+
+than a predetermined value.
+A circuit for training the tap coefficient of an adaptive
+equalizer, according to claim 5, wherein:
+it is determined that the value Ww is sufficiently converged
+when in the process of the training operation of said training means,
+
+the ratio of power outside the window of said filter coefficient to
+power inside the window of said filter coefficient is less than a
+
+predetermined value.
+</CLAIMS>
+</TEXT>
+</DOC>

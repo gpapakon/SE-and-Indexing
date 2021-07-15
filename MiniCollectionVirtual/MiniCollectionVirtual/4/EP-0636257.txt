@@ -1,0 +1,132 @@
+<DOC>
+<DOCNO>EP-0636257</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+CISC TO RISC INSTRUCTION TRANSLATION ALIGNMENT AND DECODING
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F930	G06F922	G06F9318	G06F9318	G06F930	G06F922	G06F938	G06F938	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	G06F9	G06F9	G06F9	G06F9	G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A system and method for extracting complex, variable length computer instructions from a stream of complex instructions each subdivided into a variable number of instruction bytes, and aligning instruction bytes of individual ones of the complex instructions. The system receives a portion of the stream of complex instructions and extracts a first set of instruction bytes starting with the first instruction bytes, using an extract shifter. The set of instruction bytes are then passed to an align latch where they are aligned and output to a next instruction detector. The next instruction detector determines the end of the first instruction based on said set of instruction bytes. An extract shifter is used to extract and provide the next set of instruction bytes to an align shifter which aligns and outputs the next instruction. The process is then repeated for the remaining instruction bytes in the stream of complex instructions. The isolated complex instructions are decoded into nano-instructions which are processed by a RISC processor core.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SEIKO EPSON CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SEIKO EPSON CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+COON BRETT
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MIYAYAMA YOSHIYUKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NGUYEN LE TRONG
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WANG JOHANNES
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+COON, BRETT
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MIYAYAMA, YOSHIYUKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NGUYEN, LE TRONG
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WANG, JOHANNES
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The invention relates to a system and method for translating a stream of non-native
+instructions for processing on a host processor according to the preambles of claims
+1 and 5.All complex instruction set computers (CISC computers) which use variable
+length instructions are faced with the problem of determining the length of each
+instruction that is encountered in the instruction stream. Instructions are packed
+into memory as successive bytes of data, so that given the address of an
+instruction, it is possible to determine the starting address of the next instruction if
+you know the first instruction's length.For a conventional processor, this length determination does not have a
+significant performance impact compared to other stages in the processing of an 
+instruction stream, such as the actual execution of each instruction. As a result,
+fairly simple circuits are typically used. Superscalar reduced instruction set
+computers (RISC computers), on the other hand, can process instructions at a
+much higher rate, requiring instructions to be extracted from memory much more
+rapidly to keep up with the parallel execution of multiple instructions. This limiting
+factor imposed by the rate at which instructions can be extracted from memory is
+referred to as the Flynn Bottleneck.The task of determining the length of each instruction and extracting that
+instruction from the instruction stream is performed by a function unit called an
+Instruction Align Unit (IAU). This block must contain decoder logic to determine
+the instruction length, and a shifter to align the instruction data with the decoder
+logic.For the Intel 80386 microprocessor, the first byte of an instruction can have
+numerous implications on the overall instruction length, and may require tha
+additional bytes be checked before the final length is known. Furthermore, the
+additional bytes may specify other additional bytes. It is therefore extremely
+difficult to quickly determine the length of the X86 instruction because the process
+is inherently sequential.Based on the information provided in the i486 Programmer's Reference
+Guide, several conclusions can be drawn regarding alignment unit present in the
+i486 . The i486 's IAU is designed to look only at the first few bytes of the
+instruction. In cases where these bytes do not fully specify the length, these initial
+bytes are extracted and the process is repeated on the remaining bytes. Each
+iteration of this process requires a full cycle, so it may take several cycles, at worst
+case, for an instruction
+</DESCRIPTION>
+<CLAIMS>
+A system for translating a stream of non-native instructions for processing on a host
+processor into native instructions for processing on a reduced
+
+instruction set computer, comprising:
+
+(1) an instruction translator (1202) to convert the stream of non-native
+instructions into native instructions, wherein non-native instructions are
+
+converted into less than a predetermined number of native instructions;
+(2) a latch to store at least two groups of said native instructions in at least two
+intermediate buckets (1208, 1210), wherein said at least two intermediate
+
+buckets can store up to said predetermined number of native instructions;
+and
+(3) a selector (1214) to combine a subset of said at least two groups of said
+native instructions into a final bucket (1212), so as to allow issuing of said
+
+subset of said native instructions of said final bucket on the host processor,
+wherein said final bucket has a maximum capacity of said predetermined
+
+number of native instructions.
+The system according to claim 1 wherein said predetermined number of native
+instructions is four native instructions.
+The system according to claim 1 or 2, wherein the stream of non-native
+instructions comprises at least two non-native instructions.
+The system according to one of the claims 1 to 3 wherein the system is a
+processor. 
+A method of translating a stream of non-native instructions for processing on a
+host processor into native instructions for processing on a reduced
+
+instruction set computer, comprising the steps of:
+
+(1) translating the stream of non-native instructions into native instructions;
+(2) storing in at least two intermediate buckets, at least two groups of said
+native instructions;
+(3) combining into a final bucket, a subset of said at least two groups of said
+native instructions so as to allow issuing of said subset of said n
+ative
+instructions of said final bucket on the host processor.
+The method according to claim 5, wherein the stream of non-native instructions
+comprises at least two non-native instructions.
+The method according to claim 5 or 6, wherein the non-native instructions are
+converted into less than a predetermined number of native instructions.
+The method according to claim 7, wherein said at least two intermediate buckets
+can store up to said predetermined number of native instructions at a time.
+The method according to claim 7 or 8, wherein said final bucket has a maximum
+capacity of said predetermined number of native instructions.
+The method according to one of claims 7 to 9, wherein said predetermined
+number is four.
+</CLAIMS>
+</TEXT>
+</DOC>

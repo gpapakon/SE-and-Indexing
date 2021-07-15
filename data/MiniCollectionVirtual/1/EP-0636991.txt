@@ -1,0 +1,606 @@
+<DOC>
+<DOCNO>EP-0636991</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Information processing apparatus for implementing neural network.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06K964	G06K966	G06N300	G06N308	G06N310	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06K	G06K	G06N	G06N	G06N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06K9	G06K9	G06N3	G06N3	G06N3	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+In an information processing apparatus for implementing a 
+neural network, if an input vector is inputted to a calculating 
+
+unit (104), a neuron which responds to the input vector is retrieved 
+in accordance with network interconnection information stored 
+
+in a first storage (101) unit and the neuron number indicating the 
+retrieved neuron is written in a first register (105). The 
+
+calculating unit reads out the internal information of the 
+neuron stored in a second storage unit (102) by using the neuron 
+
+number, writes it in a second register (106), and calculates the sum 
+of products of the outputs of the neurons and the connection 
+
+loads of synapses connected to the neurons. By repeating the 
+sequence of operations by the number of times corresponding to 
+
+the total number of input vectors, a recognition process is 
+executed. The neural network can easily be expanded by 
+
+rewriting the contents of the first and second storage units. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC IND CO LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC INDUSTRIAL CO., LTD.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+FUKUDA MASARU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KOUDA TOSHIYUKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MARUNO SUSUMU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MARUYAMA MASAKATSU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NAKAHIRA HIROYUKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SAKIYAMA SHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FUKUDA, MASARU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KOUDA, TOSHIYUKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MARUNO, SUSUMU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MARUYAMA, MASAKATSU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NAKAHIRA, HIROYUKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SAKIYAMA, SHIRO
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to an information processing 
+apparatus for performing a speech recognition process and an 
+image recognition process. In recent years, increasing attention has been focused on 
+information processing to which a neural network is applied in 
+the field of information processing. The neural network was 
+achieved in imitation of the structure of neurons provided in 
+the brain of a living organization. Although a large number of 
+processes in the neural network are implemented by conventional 
+sequential calculators of von Neumann type, their processing 
+speeds are extremely low. To solve the problem, attempts have 
+been made lately to implement the neural network by means of 
+dedicated electronic circuits. Among methods of implementing the neural network with 
+dedicated electronic circuits, there has been known such a 
+method as disclosed in Japanese Laid-Open Patent Publication 
+No. 2-236658, in which hardware is used in common by a time-division 
+method so that the amount of hardware is not 
+exponentially increased even if the number of neurons is 
+increased in order to perform more complicated information 
+processing in the neural network. In the above conventional method of implementing the neural  
+ 
+network, however, the structure of the network system that can 
+be implemented by a single information processing apparatus is 
+fixed, so that it is inappropriate for a single information 
+processing apparatus to implement any information processing 
+from the simplest to the most complicated, i.e., any network 
+from the smallest to the largest. This is because, to 
+implement any neural network from the smallest to the largest, 
+it is necessary to conform the information processing apparatus 
+to the specification of a large-scale neural network. In the 
+case of implementing a small-scale neural network, redundant 
+parts are increased accordingly. Moreover, as the number of data sets to be inputted and the 
+number of candidates to be selected increase, the number of 
+cycles required for selection is increased, so that the total 
+processing time becomes longer. If an address is allocated to each neuron as in the 
+conventional method, on the other hand, the network scale is 
+limited by the bit width of the address. In the case where the 
+addresses of neurons are outputted to their common bus, it is 
+impossible to output a plurality of addresses at the same time, 
+so that longer processing time is required in accordance with 
+the number of learning neurons. In the case where a
+</DESCRIPTION>
+<CLAIMS>
+An information processing apparatus for implementing a 
+multi-layer neural network having a plurality of neurons, each 
+
+of which recognizes or learns an input signal through a 
+calculation in the network, said apparatus comprising: 
+
+   a first storage means for storing network interconnection 
+information which indicates the interconnection of said 
+
+plurality of neurons in said neural network so that the network 
+interconnection information can be rewritten; 
+
+   a second storage means for storing neuron internal 
+information which is specific information on individual neurons 
+
+in said neural network so that the neuron internal information 
+can be rewritten; 
+
+   a third storage means for storing a neuron read out of said 
+first storage means; 
+
+   a fourth storage means for storing the neuron internal 
+information read out of said second storage means; and 
+
+   a calculating means for retrieving the neuron which 
+responds to said input signal by using the network 
+
+interconnection information stored in said first storage means, 
+reading out of said first storage means the retrieved neuron so 
+
+that it is written in said third storage means, reading out of 
+said second storage means the neuron internal information 
+
+corresponding to the neuron stored in said third storage means 
+so that it is written in said fourth storage means, and 
+
+ 
+performing said calculation in the network by using the neuron 
+
+internal information stored in said fourth storage means. 
+An information processing apparatus according to claim 
+1, wherein said calculating means further has a function of 
+
+rewriting the neuron internal information stored in said second 
+storage means and rewriting the network interconnection 
+
+information stored in said first storage means by using the 
+neuron internal information which has been rewritten. 
+An information processing apparatus for implementing a 
+multi-layer neural network having a plurality of neur
+ons, each 
+of which has state energy and proliferates if said state energy 
+
+exceeds a specified threshold value, so as to perform learning 
+by changing the state energy of any of said plurality of 
+
+neurons and the connection load of a synapse connected to said 
+neuron, said apparatus comprising: 
+
+   a number assigning means for assigning a specific neuron 
+number to each of said plurality of neurons; 
+
+   a first storage means for storing network interconnection 
+information which indicates the interconnection of said 
+
+plurality of neurons, each having said neuron number, by 
+showing the process in which said plurality of neurons were 
+
+generated by proliferation so that the network interconnection 
+information can be rewritten; 
+
+   a second storage means for storing the state energy of each 
+of said plurality of neurons and the connection load of a 
+
+ 
+synapse connected to each of said plurality of neurons so that 
+
+each of the state energy and connection load can be rewritten; 
+   a first calculating means for retrieving a fired neuron by 
+
+using the network interconnection information stored in said 
+first storage means and reading the neuron number assigned to 
+
+the retrieved neuron out of said first storage means; 
+   a second calculating means for reading, by using the neuron 
+
+number read out by said first calculating means, the state 
+energy of the neuron corresponding to said neuron number and 
+
+the connection load of a synapse connected to said neuron out 
+of said second storage means; and 
+
+   a third calculating means for calculating, by using the 
+connection load of a synapse read out by said second 
+
+calculating means, the sum of products of the outputs of said 
+plurality of neurons and the connection loads of synapses 
+
+connected to said plurality of neurons. 
+An information processing apparatus according to claim 
+3, wherein said number assigning means assigns ascending neuron 
+
+numbers to said plurality of neurons in the order in which the 
+neurons were generated by proliferation. 
+An information processing apparatus according to claim 
+3, wherein 
+
+   said second calculating means further has a function of 
+rewriting the state energy and the connection load of a synapse 
+
+stored in said second storage means and
+ 
+
+   said first calculating means further has a function of 
+rewriting, by using the state energy which has been rewritten 
+
+by said second calculating means, the network interconnection 
+information stored in said first storage means. 
+An information processing apparatus for implementing a 
+multi-layer neural network having a plurality of neurons, each 
+
+of which has state energy and proliferates if said state energy 
+exceeds a specified threshold value, so as to perform learning 
+
+by changing the state energy of any of said plurality of 
+neurons and the connection load of a synapse connected to said 
+
+neuron, said apparatus comprising: 
+   a number assigning means for assigning a specific neuron 
+
+number to each of said plurality of neurons; 
+   a storage means for storing network interconnection 
+
+information which indicates the interconnection of said 
+plurality of neurons, each having said neuron number, by 
+
+showing the process in which said plurality of neurons were 
+generated by proliferation, the state energy of each of said 
+
+plurality of neurons, and the connection load of a synapse 
+connected to each of said plurality of neurons so that each of 
+
+the network interconnection information, state energy, and 
+connection load of a synapse can be rewritten; 
+
+   a first calculating means for retrieving a fired neuron by 
+using the network interconnection information stored in said 
+
+storage means and reading the neuron number assigned to the 
+ 
+
+retrieved neuron out of said storage means; 
+   a second calculating means for reading, by using the neuron 
+
+number read out by said first calculating means, the state 
+energy of the neuron corresponding to said neuron number and 
+
+the connection load of a synapse connected to said neuron out 
+of said storage means; 
+
+   a third calculating means for calculating, by using the 
+connection load of a synapse read out by said second 
+
+calculating means, the sum of products of the outputs of said 
+plurality of neurons and the connection loads of synapses 
+
+connected to said plurality of neurons; 
+   an address converting means for inverting the logic of each 
+
+bit at a first address outputted from said first calculating 
+means so as to provide a second address and outputting the 
+
+resulting second address; 
+   a selecting means for selecting either of the second 
+
+address outputted from said address converting means and a 
+third address outputted from said second calculating means and, 
+
+if said second address was selected, enabling said first 
+calculating means to access the second address in said storage 
+
+means while, if said third address was selected, enabling said 
+second calculating means to access the third address in said 
+
+storage means; and 
+   a select signal output means for outputting a select signal 
+
+for determining the selection by said selecting means. 
+An information processing apparatus according to claim 
+6, wherein 
+
+   said second calculating means further has a function of 
+rewriting the state energy and the connection load of a synapse 
+
+stored in said storage means and 
+   said first calculating means further has a function of 
+
+rewriting, by using the state energy which has been rewritten 
+by said second calculating means, the network interconnection 
+
+information stored in said storage means. 
+An information processing apparatus for implementing a 
+neural network which selects, as candidates for a recognition 
+
+result, n categories out of N categories which are obtained by 
+subjecting an input signal to a calculation in the network so 
+
+as to be recognized, said apparatus comprising: 
+   first to (n-1)-th candidate selecting means, each having a 
+
+comparing means for comparing the values of two sets of data, 
+a first storage means for storing, of said two sets of data, 
+
+that set of data having the larger value, a second storage 
+means for storing, of said two sets of data, that set of data 
+
+having the smaller value, a third storage means for storing 
+information for distinguishing the data stored in said first 
+
+storage unit from other accompanying data, and a fourth storage 
+means for storing information for distinguishing the data 
+
+stored in said second storage means from other accompanying 
+data;
+
+ 
+   an n-th candidate selecting means having said comparing 
+
+means and said first and third storage means, 
+   the first to n-th candidate selecting means being connected 
+
+in cascade so that either of the two sets of data compared by 
+the comparing means of said candidate selecting means is stored 
+
+in the first storage means of the first candidate selecting 
+means, while the other set of data becomes any of the N sets of 
+
+data, and that either of the two sets of data compared by the 
+comparing means of an i-th (2≦i≦n) candidate selecting means 
+
+is stored in the first storage means of the i-th candidate 
+selecting means, while the other set of data is stored in the 
+
+second storage means of an (i-1)-th candidate selecting means. 
+An information processing apparatus for implementing a 
+neural network having a plurality of neurons each of which 
+
+performs learning upon receiving a teacher signal having first 
+and second values, said apparatus comprising: 
+
+   a specifying means for specifying, among said plurality of 
+neurons, a neuron which performs learning by using the first 
+
+value of said teacher signal; and 
+   a determining means for determining whether or not the 
+
+specification of the neuron by said specifying means is valid, 
+   wherein, only if it is determined that
+ the specification of 
+the neuron by said specifying means is valid, learning is 
+
+performed by the neuron specified by said specifying means by 
+using the first value of said teacher signal and learning is 
+
+ 
+performed by said plurality of neurons except for the neuron 
+
+specified by said specifying means by using the second value of 
+said teacher signal. 
+An information processing apparatus for implementing a 
+multi-layer network which performs a recognition process with 
+
+respect to given characteristic data through a calculation in 
+the network and outputs the processing result, said apparatus 
+
+comprising: 
+   a first signal for executing the inputting of said 
+
+characteristic data from the outside or the outputting of said 
+processing result to the outside; and 
+
+   a second signal, different from said first signal, for 
+executing the inputting of said characteristic data from the 
+
+outside or the outputting of said processing result to the 
+outside. 
+An information processing apparatus for implementing a 
+multi-layer neural network, said apparatus comprising 
+
+   a plurality of information processing units each of which 
+performs a recognition process with respect to given 
+
+characteristic data through a calculation in the network and 
+outputs the processing result, 
+
+   each of said plurality of information processing units 
+having: 
+
+   a first signal for executing the inputting of the 
+characteristic data from the outside of said information 
+
+ 
+processing unit or the outputting of the processing result to 
+
+the outside of said information processing unit, said first 
+signal being shared by all the information processing units; 
+
+and 
+   a second signal for executing the inputting of the 
+
+characteristic data from the outside of said information 
+processing unit or the outputting of the processing result to 
+
+the outside of said information processing unit, said second 
+signal being inherent to said information processing unit. 
+An information processing apparatus for implementing a 
+multi-layer neural network, said apparatus comprising: 
+
+   a plurality of information processing units each of which 
+performs a recognition process with respect to given 
+
+characteristic data through a calculation in the network and 
+outputs the processing result; and 
+
+   an adding means for adding up the processing results 
+outputted from said plurality of information processing units, 
+
+   each of said information processing units having: 
+   a first signal for executing the inputting of the 
+
+characteristic data from the outside of said information 
+processing unit or the outputting of the processing result to 
+
+said adding means, said first signal being shared by all the 
+information processing units; and 
+
+   a second signal for executing the inputting of the 
+characteristic data from the outside of said information 
+
+ 
+processing unit or the outputting of the processing result to 
+
+said adding means, said second signal being inherent to said 
+information processing unit. 
+An information processing apparatus for implementing a 
+multi-layer neural network, said apparatus comprising: 
+
+   a plurality of information processing units each of which 
+performs a recognition process with respect to given 
+
+characteristic data through a calculation in the network and 
+outputs the processing result; and 
+
+   a comparing means for comparing the processing results 
+outputted from said plurality of information processing units, 
+
+   each of said information processing units having: 
+   a first signal for executing the inputting of the 
+
+characteristic data from the outside of said information 
+processing unit or the outputting of the processing result to 
+
+said comparing means, said first signal being shared by all the 
+information processing units; and 
+
+   a second signal for executing the inputting of the 
+characteristic data from the outside of said information 
+
+processing unit or the outputting of the processing result to 
+said comparing means, said second signal being inherent to said 
+
+information processing unit. 
+An information processing apparatus for implementing a 
+neural network consisting of neurons each having a synapse, 
+
+said apparatus comprising:
+ 
+
+   a storage means for storing the weight coefficient of said 
+synapse; 
+
+   a calculating means for performing a calculation by using 
+the weight coefficient of said synapse read out of said storage 
+
+means and an input signal to said synapse and outputting the 
+calculation result; and 
+
+   a non-linear processing means for performing non-linear 
+processing with respect to said calculation result from said 
+
+calculating means and writing, in said storage means, the non-linear 
+processing result as a new weight coefficient of said 
+
+synapse. 
+An information processing apparatus for implementing a 
+neural network consisting of neurons each having a synapse, 
+
+said information processing apparatus comprising: 
+   a storage means for storing the weight coefficient of said 
+
+synapse; 
+   a non-linear processing means for performing non-linear 
+
+processing with respect to the weight coefficient of said 
+synapse read out of said storage means and outputting the non-linear 
+
+processing result; and 
+   a calculating means for performing a calculation by using 
+
+said non-linear processing result from said non-linear 
+processing means and an input signal to said synapse so as to 
+
+write, in said storage means, the calculation result as a new 
+coefficient of said synapse. 
+An information processing apparatus for implementing a 
+neural network consisting of neurons each having a synapse, 
+
+said apparatus comprising: 
+   a storage means for storing the weight coefficient of said 
+
+synapse; 
+   a non-linear processing means for performing non-linear 
+
+processing with respect to the weight coefficient of said 
+synapse read out of said storage means; and 
+
+   a calculating means for executing the processing of said 
+neuron by using the non-linear processing result from said non-linear 
+
+processing means and an input signal to said synapse so 
+as to output the processing result. 
+An information processing apparatus for implementing a 
+neural network consisting of neurons each having a synapse, 
+
+said information processing apparatus comprising: 
+   a storage means for storing the weight coefficient of said 
+
+synapse; 
+   a calculating means for performing a calculation by using 
+
+the weight coefficient of said synapse read out of said storage 
+means and an input to said synapse so as to write the 
+
+calculation result in said storage means; and 
+   a non-linear processing means for performing non-linear 
+
+processing with respect to said calculation result read out of 
+said storage means so as to write, in said storage means, the 
+
+non-linear processing result as a new weight coefficient of 
+ 
+
+said synapse. 
+An information processing apparatus for implementing a 
+neural network consisting of neurons each having a synapse, 
+
+said apparatus comprising: 
+   a storage means for storing the weight coefficient of said 
+
+synapse; 
+   a calculating means for performing a calculation by using 
+
+the weight coefficient of said synapse read out of said storage 
+means and an input to said synapse so as to output the 
+
+calculation result; 
+   a non-linear processing means for performing non-linear 
+
+processing with respect to said calculation result from said 
+storage means and outputting the non-linear processing result; 
+
+and 
+   a selecting means for selecting either of said calculation 
+
+result from said calculating means and said non-linear 
+processing result from sai
+d non-linear processing means so that 
+the selected result is written in said storage means as a new 
+
+weight coefficient of said synapse. 
+</CLAIMS>
+</TEXT>
+</DOC>

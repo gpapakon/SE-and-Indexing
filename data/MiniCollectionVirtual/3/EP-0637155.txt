@@ -1,0 +1,388 @@
+<DOC>
+<DOCNO>EP-0637155</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method and system for buffering transient data using a single physical buffer
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1300	G06F1300	H04L1256	H04L1256	H04L1308	H04L1308	H04L2906	H04L2906	H04L2908	H04L2908	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	H04L	H04L	H04L	H04L	H04L	H04L	H04L	H04L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F13	G06F13	H04L12	H04L12	H04L13	H04L13	H04L29	H04L29	H04L29	H04L29	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A computer method and system for buffering 
+transient data passed between multiple protocols utilizes a 
+
+single, physical buffer having multiple, shifting logical 
+buffers therein. Each protocol is assigned a logical buffer 
+
+in the physical buffer. The transient data is passed 
+between protocols by shifting the corresponding logical 
+
+buffers, shifting a first logical buffer to exclude the data 
+and shifting a next logical buffer to include the same data. 
+
+As a result, the data does not have to be rewritten in the 
+physical buffer. 
+
+
+ 
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MICROSOFT CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MICROSOFT CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+THIELEN DAVID
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+THIELEN, DAVID
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates generally to the 
+field of data communications and, more particularly, to 
+communications protocols which regulate data transfer 
+between a computer and modem. It is well known in the field of communications 
+to transfer data from a sending computer to a receiving 
+computer via a communications link. Such a communications 
+link may be established over a network via dedicated 
+telephone lines or physical cables or over a temporarily 
+established connection via a telephone line. Where the 
+communications link is established between two computers 
+over a telephone line, the communications link between the 
+two computers is typically defined as shown in Figure 1, 
+which is a block diagram of a prior art computer system. 
+In the prior art computer system shown in Figure 1, a 
+receiving computer 100 is connected to a receiving modem 
+(modulator/demodulator) 110. The receiving modem 110 
+communicates over a telephone line with a sending modem 
+112 that is connected to a sending computer 115. The 
+sending computer 115 sends the data to the receiving 
+computer 100 by first sending digital data to the sending 
+modem 112, which encodes the digital data into a signal 
+sent over the telephone line using frequency modulation 
+techniques. The receiving modem 110 demodulates the 
+signal to extract the digital data from the signal and 
+sends the digital data to the receiving computer 100. Typical modem-to-modem communication, such as 
+that described above with reference to Figure 1, is 
+asynchronous. That is, the receiving computer 100 cannot  
+ 
+predict the timing of the arrival of the data because the 
+data arrives asynchronously relative to the clock of the 
+receiving computer 100. Because of this, the receiving 
+computer 100 stores in a memory 120 a number of 
+communications protocols 122 which control the flow of the 
+data. Each of the protocols 122 are implemented as an 
+executable computer program performed by a CPU 130 in the 
+receiving computer to control the flow of the data from 
+the communications link to the CPU 130 via an I/O Control 
+140. The protocols 122 are typically provided by an 
+application program 150 (shown separately in the memory 
+120) and called by the application program as subprograms 
+of the application program 150. Each protocol 122 described above requires a 
+corresponding protocol buffer 124 in the memory 120 in 
+which to store the data while transient between the 
+computer and communications interface. Each protocol 
+buffer 124 is a separate physical buffer
+</DESCRIPTION>
+<CLAIMS>
+A method of buffering transient data, the 
+transient data being passed among multiple protocols while 
+
+being transferred from a first device to a second device, 
+the method performed by a computer and comprising the 
+
+steps of: 
+
+(a) defining for each of the multiple protocols 
+a corresponding logical buffer comprising a region in a 
+
+physical buffer stored by the computer, the physical 
+buffer storing data including the transient data 
+
+contiguously in an order in which the data is transferred; 
+(b) passing the transient data from the first 
+device to a first protocol when the first protocol 
+
+requests the transient data by shifting a first logical 
+buffer in the physical buffer assigned to the first 
+
+protocol to include a new portion of the physical buffer 
+and by storing the transient data in the new portion; and 
+(c) passing the transient data from the first 
+protocol to a last protocol when the last protocol 
+
+requests the transient data by shifting a last logical 
+buffer in the physical buffer assigned to the last 
+
+protocol to include the portion of the physical buffer 
+storing the transient data and by shifting the first 
+
+logical buffer to exclude the portion storing the 
+transient data. 
+The method of claim 1, further comprising 
+the step of passing the transient data from the second 
+
+protocol to the second device by transferring the 
+transient data to the second device when the second device 
+
+requests the transient data and shifting the last logical 
+buffer to exclude a portion which stores the transient 
+
+data after the transient data has been transferred to the 
+second device. 
+The method of claim 1 wherein step 
+(c) further comprises passing the transient data from the 
+
+first protocol to any number of intermediate protocols, 
+each assigned an intermediate logical buffer storing data 
+
+including the transient in the physical buffer, the first, 
+intermediate and last logical buffers being provided 
+
+contiguously within the physical buffer in an order 
+corresponding to an order in which the transient data is 
+
+passed among the first, intermediate and last protocols, 
+by performing the steps of: 
+
+
+(i) shifting each intermediate logical buffer 
+assigned to each intermediate protocol to include a 
+
+portion of a preceding logical buffer storing the 
+transient data, and 
+(ii) shifting the preceding logical buffer to 
+exclude the portion storing the transient data. 
+The method of claim 3 wherein step (b) is 
+repeated as often as the first protocol requests the 
+
+transient data, and step (c) is repeated as often as an 
+
+intermediate protocol requests the transient data. 
+The method of claim 3 wherein the step of 
+(c) (i) shifting each intermediate logical buffer comprises 
+
+assigning a beginning pointer pointing to a beginning of 
+each intermediate logical buffer to point to a preceding 
+
+memory location in the physical buffer, and the step of 
+(c) (ii) shifting the preceding logical buffer comprises 
+
+assigning an end pointer pointing to an end of each 
+intermediate logical buffer to point to a preceding memory 
+
+location in the physical buffer. 
+The method of claim 3, further comprising 
+the step of (d) releasing, for future inclusion in the 
+
+first logical buffer assigned to the first protocol, a 
+portion of the last logical buffer of the physical buffer 
+
+ 
+which stores data that the last protocol has already 
+
+passed to the second device. 
+The method of claim 6 wherein the step of 
+releasing the portion of the last logical buffer of the 
+
+single buffer comprises assigning an end pointer pointing 
+to an end of the last logical buffer to point to a 
+
+preceding memory location in the physical buffer. 
+The method of claim 3 wherein the first 
+device is a computer and the second device is a modem. 
+The method of claim 3 wherein the first 
+device is a modem and the second device is a computer. 
+A method of buffering transient data, the 
+transient data being passed among multiple protocols while 
+
+being transferred from a first device to a second device 
+under the control of multiple subprograms, the method 
+
+performed by a computer and comprising the steps of: 
+
+(a) defining for each of the multiple 
+subprograms a corresponding logical buffer which is a 
+
+region in a physical buffer stored by the computer, the 
+physical buffer storing data including the transient data 
+
+contiguously in an order in which the data is transferred; 
+(b) passing the transient data from a first 
+device to a first subprogram when the first subprogram 
+
+requests the data by shifting a first logical buffer in 
+the physical buffer assigned to the first subprogram to 
+
+include a new portion of the physical buffer and by 
+storing the transient data in the new portion in the 
+
+physical buffer; and 
+(c) passing the transient data from the first 
+subprogram to a last subprogram when the last subprogram 
+
+requests the transient data by shifting a last logical 
+buffer in the physical buffer assigned to the last 
+
+subprogram to include the portion of the physical buffer 
+ 
+
+storing the transient data and by shifting the first 
+logical buffer to exclude the portion storing the 
+
+transient data. 
+The method of claim 10, further comprising 
+the step of passing the data from the second subprogram to 
+
+the second device by transferring the data to the second 
+device when the second device requests the transient data 
+
+and shifting the last logical buffer to exclude a portion 
+which stores the transient data after the transient data 
+
+has already been transferred to the second device. 
+The method of claim 10 wherein the step of 
+(c) passing the transient data from the first subprogram 
+
+to the last subprogram comprises passing the transient 
+data from the first subprogram to any number of 
+
+intermediate subprograms, each assigned an intermediate 
+logical buffer in the physical buffer, the first, 
+
+intermediate and last logical buffers being provided 
+contiguously within the physical buffer in an order 
+
+corresponding to an order in which the transient data is 
+passed among the first, intermediate and last subprograms, 
+
+by performing the steps of: 
+
+(i) shifting each intermediate logical buffer 
+assigned to each intermediate subprogram to include a 
+
+portion of a preceding logical buffer storing the 
+transient data; and 
+(ii) shifting the preceding logical buffer to 
+exclude the portion storing the transient data. 
+The method of claim 12 wherein step (b) is 
+repeated as often as the first subprogram requests the 
+
+transient data, and step (c) is repeated as often as an 
+intermediate subprogram requests the transient data. 
+The method of claim 12 wherein the step of 
+(ci) shifting each intermediate logical buffer comprises 
+
+ 
+assigning a beginning pointer pointing to a beginning of 
+
+each intermediate logical buffer to point to a preceding 
+memory location in the physical buffer, and the step of 
+
+(cii) shifting the preceding logical buffer comprises 
+assigning an end pointer pointing to an end of each 
+
+intermediate logical buffer to point to a preceding memory 
+location in the physical buffer. 
+The method of claim 12, further comprising 
+the step of (d) releasing, for future inclusion in the 
+
+first logical buffer assigned to the first subprogram, a 
+portion of the last logical buffer of the physical buffer 
+
+which stores data that the last subprogram has already 
+passed to the second device. 
+The method of claim 15 wherein the step of 
+releasing the portion of the last logical buffer of the 
+
+single buffer comprises assigning an end pointer pointing 
+to an end of the last logical buffer to point to a 
+
+preceding memory location in the physical buffer. 
+A computer system for buffering transient 
+data passed between the computer system and a remote 
+
+device under the control of multiple protocols comprising: 
+   a memory storing a physical buffer which stores 
+
+data including the transient data contiguously in an order 
+in which the transient data is transferred; 
+
+   means for defining for each of the multiple 
+protocols a corresponding logical buffer which is a 
+
+logical buffer in the physical buffer; 
+   means for passing the transient data from the 
+
+computer system to a first protocol when the first 
+protocol requests the transient data by shifting a first 
+
+logical buffer in the physical buffer assigned to the 
+first protocol to include a new portion of the physical 
+
+buffer and by storing the transient data in the new 
+portion;
+
+ 
+   means for passing the transient data from the 
+
+first protocol to a last protocol when the last protocol 
+requests the transient data by shifting a last logical 
+
+buffer in the physical buffer assigned to the last 
+protocol to include the portion of the first logical 
+
+buffer storing the transient data and by shifting the 
+physical buffer to exclude the portion storing the 
+
+transient data; and 
+   means for transferring the transient data from 
+
+the last protocol to the remote device when the remote 
+device requests the data. 
+The computer system of claim 17 wherein the 
+means for passing the transient data from the first 
+
+protocol to the last protocol passes the transient data 
+from the first protocol to any number of intermediate 
+
+protocols, each assigned an intermediate logical buffer in 
+the physical buffer, the first, intermediate and last 
+
+logical buffers being provided contiguously within the 
+physical buffer in an order corresponding to an order in 
+
+which the transient data is passed among the first, 
+intermediate and last protocols, and comprises: 
+
+   means for shifting each intermediate logical 
+buffer assigned to each intermediate protocol to include a 
+
+portion of the preceding logical buffer, and 
+   means for shifting the preceding logical buffer 
+
+to exclude the portion storing the transient data. 
+The computer system of claim 18 wherein the 
+
+means for shifting each intermediate logical buffer to 
+include the portion comprises assigning a beginning 
+
+pointer pointing to a beginning of each intermediate 
+logical buffer to point to a preceding memory location in 
+
+the physical buffer, and the means for shifting the 
+preceding logical buffer to exclude the portion comprises 
+
+assigning an end pointer pointing to an end of each 
+ 
+
+intermediate logical buffer to point to a preceding memory 
+location in the physical buffer. 
+</CLAIMS>
+</TEXT>
+</DOC>

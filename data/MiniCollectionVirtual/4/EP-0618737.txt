@@ -1,0 +1,232 @@
+<DOC>
+<DOCNO>EP-0618737</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Neural network video image processor
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06N308	G06N300	G06N300	H04N904	G06T500	G06N306	H04N514	G06T500	H04N514	H04N904	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06N	G06N	G06N	H04N	G06T	G06N	H04N	G06T	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06N3	G06N3	G06N3	H04N9	G06T5	G06N3	H04N5	G06T5	H04N5	H04N9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A signal processing system for a video camera 
+uses a single neural network to implement multiple 
+
+nonlinear signal processing functions. In one example, 
+the neural network implements gamma correction and 
+
+contrast compression, in another example, color 
+correction and aperture correction are added to the 
+
+combined function emulated by the network. The network 
+is trained using back propagation to emulate one function 
+
+then a combination of two functions, then a combination 
+of three functions, and so on. The programmed neural 
+
+network replaces multiple pipelined signal processors in 
+the video camera. The use of a single neural network in 
+
+place of the multiple dedicated processing functions 
+reduces engineering effort to develop the product and may 
+
+reduce the cost of the total system. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC IND CO LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC INDUSTRIAL CO., LTD.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+ZORTEA ANTHONY
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ZORTEA ANTHONY
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention concerns apparatus and a
+method for processing video signals to implement a
+plurality of signal processing functions in a single
+operation, and in particular to apparatus which uses a
+neural network to perform these functions.In many signal processing systems, functions
+are applied to data sequentially. That is to say one
+function is applied to the input data and the output
+values produced by that function are applied as the input 
+values to the next function. This type of processing is
+commonly referred to as pipeline processing.An exemplary system which employs pipeline
+processing is a video camera. One such camera is
+described in an article by K.A. Parulski et al. entitled
+"A Digital Color CCD Imaging System Using Custom VLSI
+Circuits," IEEE Transactions on Consumer Electronics,
+Vol. 35, No. 3, pp. 382-389, August, 1989.The camera described in this paper employs a
+CCD sensor which collects samples representing successive
+video images. These samples are then digitized and
+processed by a color filter array (CFA) signal processor
+and a red, green, blue (RGB) signal post-processor. The
+CFA processor generates, from the single image samples
+provided by the CCD device, a complete set of Red (R),
+Green (G) and Blue (B) samples. In addition, the CFA
+processor performs color balance corrections on the RGB
+signals. The RGB post-processor performs black-level
+adjustments, gamma correction and aperture correction.As described in the referenced article, the
+circuitry used to perform these processing functions is
+implemented in two VLSI integrated circuits. These
+circuits represent a relatively large amount of special
+purpose circuitry produced only after an expensive
+development cycle. In addition to requiring a relatively large
+amount of special purpose circuitry, systems such as that
+shown in the referenced paper introduce a delay in their
+processing paths due to the pipelining of the signal
+processing operations. Parallel signal processing paths
+may exist in the system, for example, if audio
+information from the observed scene were being processed
+in parallel with the video information. The delays
+caused by the pipeline processing of the video
+information are desirably compensated for in the audio
+signal processing circuitry.While the delays for the referenced video
+camera processing circuitry are relatively small, other
+video signal processing apparatus may employ one or more
+frame delay elements in its processing circuitry. These
+elements introduce more substantial delays for which
+compe
+</DESCRIPTION>
+<CLAIMS>
+A signal processing system which processes a plurality of input signals according to
+at least first and second non-linear signal processing functions to produce a plurality of
+
+output signals, the system comprising:
+
+a neural network (410, 420, 1210) having a plurality of programmable weighting factors
+(W
+Ii
+); a plurality of input terminals for receiving the plurality of input signals(R, G, B), and
+a plurality of control signals (GAMMA, CC); and a plurality of output terminals for
+
+providing the plurality of output signals (R, G, B);
+simulation means for generating a plurality of values, each corresponding to a respectively
+different one of the weighting factors, including:
+
+
+means for simulating a response of the neural network to a plurality of test patterns, each
+pattern containing an input vector, a control vector and an output vector; and
+means for changing respective simulated values assigned to the weighting factors to
+conform the simulated response to the output vectors of the test patterns;
+means for generating a first plurality of test patterns, each containing an input vector, a
+control vector and a desired output vector, for the first non-linear function and for applying
+
+the test patterns to the simulation means to produce preliminary values for the plurality of
+weighting factors;
+means for generating a second plurality of test patterns representing a combination of the
+first and second non-linear signal processing functions, each pattern in the second plurality
+
+of test patterns containing an input vector, a control vector and a desired output vector, and
+for applying the second set of test patterns to the simulation means to produce final values
+
+for the plurality of weighting factors; and 
+means for applying the final values of the weighting factors to the neural network to enable
+the neural network to process the input signals according to the first and second non-linear
+
+signal processing functions.
+A system according to claim 1, wherein the simulation means comprises:
+
+a simulator which simulates a response of the neural network to each of the input vectors
+and control vectors of the test patterns to produce a vector of simulated output values;
+means for calculating a plurality of cost function values, each cost function value
+representing a mathematical function of the simulated output values selected and
+
+corresponding desired output values from the desired output vector;
+back propagation means, responsive to the cost function values, for modifying each of the
+programmable weighting factors to minimize differences between respective values in each
+
+of the output vectors and the values in the vector of simulated output values; and
+means for determing when the weighting factors have converged to values which allow
+the neural network to emulate the signal processing function with acceptable error.
+A system according to claim 2 wherein each cost function value is a function of all of the
+simulated output values of the neural network.
+A system according to claim 2, wherein the system is a color video signal processing
+system which produces at least first and second color signal values as respective first and
+
+second output values in both the simulated and desired output vectors, and the cost function
+is a function of a difference between a ratio of the simulated first and second output values
+
+and a ratio of the desired first and second output values.
+A system according to claim 2, wherein the system is a color video signal processing
+system which produces at least first and second color signal values as respective first and
+
+second ones of both the simulated and desired output values, and the cost function is a
+function of a combination of the first and second simulated output values and the first and 
+
+second desired output values which represents a difference between a first luminance value
+produced by the simulated output values and a second luminance value produced by
+
+corresponding desired output values.
+A signal processing system according to claim 1, wherein the input signals are video
+information signals, the first non-linear signal processing function is gamma correction and
+
+the second non-linear signal processing function is contrast compression.
+A system according to claim 6 further including means for generating a third set of test
+patterns representing results of processing the input values using a color correction function
+
+in combination with the gamma correction function and the contrast compression function;
+and
+
+
+means for training the neural network using the third set of test patterns after the neural
+network has been trained using the second set of test patterns to produce a set of values for
+
+the plurality of weighting factors to emulate the combined color correction, contrast
+compression and gamma correction functions.
+A system according to claim 7 further including means for generating a fourth set of test
+patterns representing results of processing the input values using an aperture correction
+
+function in combination with the gamma correction function, the contrast compression
+function and the color correction function; and
+
+
+means for training the neural network using the fourth set of test patterns after the neural
+network has been trained using the third set of test patterns to produce values for the
+
+plurality of weighting factors which allow the neural network to emulate the combined
+aperture correction, color correction, contrast compression and gamma correction functions.
+A signal processing system according to claim 6, wherein the video information
+signals include red, green and blue color signals. 
+A signal processing system according to claim 6, wherein the video information
+signals include red, green and blue color signals and the first and second non-linear signal
+
+processing functions are selected from a group consisting of gamma correction, contrast
+compression, color balance and aperture correction.
+A method of processing a plurality of input signals according to at least first and
+second non-linear signal processing functions to produce a plurality of output signals, in a
+
+system which includes a neural network having a plurality of programmable weighting
+factors, the method comprising the steps of:
+
+
+generating a first plurality of test patterns, representing the first non-linear signal processing
+function, each pattern in the first plurality of test patterns containing an input vector, a
+
+control vector and an output vector, for the first non-linear function;
+simulating a response of the neural network to the first plurality of test patterns and
+modifying the weighting factors of the neural network to conform the simulated response of
+
+the neural network to the output vectors contained in the first plurality of test patterns to
+generate a plurality of preliminary values for the weighting factors;
+generating a second plurality of test patterns representing a combination of the first and
+second non-linear signal processing functions each pattern in the second plurality of test
+
+patterns including an input vector, a control vector and an output vector;
+simulating a response of the neural network to the second plurality of test patterns and
+modifying the weighting factors of the neural network to conform the simulated response of
+
+the neural network to the output vectors contained in the second plurality test patterns to
+generate a plurality of final values for the weighting factors;
+applying the final values of the weighting factors to the neural network; and
+processing the input signals using the neural network to produce the output signals.
+</CLAIMS>
+</TEXT>
+</DOC>

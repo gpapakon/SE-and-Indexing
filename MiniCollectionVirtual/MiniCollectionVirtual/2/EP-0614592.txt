@@ -1,0 +1,261 @@
+<DOC>
+<DOCNO>EP-0614592</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+MOTION VIDEO ENCODING/DECODING
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04N730	H04N592	H04N750	H04N726	H03M730	H04N726	H03M730	H04N730	H04N750	H04N592	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04N	H04N	H04N	H04N	H03M	H04N	H03M	H04N	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04N7	H04N5	H04N7	H04N7	H03M7	H04N7	H03M7	H04N7	H04N7	H04N5	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Direct current component coefficients resulting from an orthogonal transformation of a video signal are encoded with a precision, expressed in terms of quantization bits, which may be varied at each video sequence, group of pictures, picture, slice, macroblock or block portion of the video signal in accordance with a required picture quality. The encoded coefficients may be decoded in accordance with the precision used during encoding.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SONY CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SONY CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+KATO MOTOKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KATO, MOTOKI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to video signal encoding and
+decoding, and, more particularly, is directed to high precision
+encoding and decoding of orthogonally transformed coefficients
+with efficient compression.Recently, orthogonal transformation techniques have been
+used to encode a video signal. One such orthogonal
+transformation is a discrete cosine transformation (DCT). In a
+two-dimensional DCT, pictures or images represented in the video
+signal are divided into blocks having a predetermined pixel
+count, and then each block is orthogonally transformed into a
+block of coefficients.Fig. 1 shows a two-dimensional block of DCT coefficients
+corresponding to an image block of 8 pixels x 8 lines. The
+coefficient F(0,0) corresponds to a direct-current component
+representing an average luminance value of the two-dimensional
+block.Row coefficients such as F(1,0), F(2,0) ... F(6,0), F(7,0), 
+and similarly F(1,1), F(2,1) ... F(6,1), F(7,1), represent
+high-frequency components in the vertical direction of the
+two-dimensional block. Column coefficients such as F(0,1),
+F(0,2) ... F(0,6), F(0,7), and similarly F(1,1), F(1,2) ...
+F(1,6), F(1,7), represent high-frequency components in the
+horizontal direction of the two-dimensional block.The DCT encoding technique utilizes the two-dimensional
+correlation within an image to concentrate encoded signal power
+around a specific frequency component. The amount of information
+needed to represent the image can be compressed significantly if
+only coefficients distributed in this concentration are encoded.For example, in the case of a flat picture, its blocks
+exhibit good autocorrelation, that is, amplitude levels of the
+pixels in the block are almost equal to each other. Therefore,
+DCT coefficients corresponding to the low-frequency components
+in the block, such as F(0,0), F(1,0), F(0,1), F(1,1), have large
+values while most of the other coefficients have very low or zero
+values. Accordingly, Huffman encoding, which compacts series of
+contiguous identical coefficients, significantly compresses the
+amount of information needed to represent the image.A standard for encoding video signals with motion, popularly
+known as MPEG1, has been defined by ISO-IEC/JTC1/SC2/WG11. In
+the MPEG1 technique, a picture is either an "intra picture",
+meaning that it is encoded as a standalone picture, or an "inter
+picture", meaning that it is predictively encoded relative to at 
+least one other picture.The structure used for representing a video signal in MPEG1
+format will now be explained with
+</DESCRIPTION>
+<CLAIMS>
+A method of encoding a video signal having pixels represented
+by n bits, n being an integer, the method comprising the steps of:
+
+
+receiving (60) a picture quality signal (CTL);
+selecting (65) an encoding precision in accordance with said
+picture quality signal (CTL);
+orthogonally transforming (61) said video signal to produce
+direct current component coefficients and alternating current component coefficients;
+quantizing (307) said direct current component coefficients using the selected encoding
+precision and quantizing (305) said alternating current component coefficients according to a
+
+given quantization step signal (S18), wherein
+the encoding precision is selected to be n + m bits, m being
+a non-negative integer;
+differenciating
+said quantized direct current component coefficients using an initial
+
+value set in accordance with said selected encoding precision; and
+variable length encoding (64) the
+di
+fferentiated direct current component coefficients using variable
+length coding tables (67) which each have a length that is a function
+
+of said selected encoding precision.
+A method according to claim 1, wherein said picture quality
+signal (CTL) corresponds to a portion of said video signal selected from
+
+a video sequence, a group of pictures, picture, slice, macroblock and 
+block.
+A method according to claim 2, wherein said block has a size of
+8 pixels x 8 lines.
+A method according to claim 1, claim 2 or claim 3, wherein n
+has a value of eight, and n + m has a value of eight to eleven.
+A method according to any one of the preceding claims, wherein
+the step of orthogonally transforming comprises performing (61) a
+
+discrete cosine transformation.
+A method according to any one of the preceding claims, wherein
+said direct current component coefficients include luminance direct
+
+current component coefficients and chrominance direct current
+component coefficients.
+An apparatus for encoding a video signal having pixels
+represented by n bits, n being an integer, the apparatus comprising:
+
+
+means (60) for receiving a picture quality signal (CTL);
+means (65) for selecting an encoding precision in accordance
+with said picture quality signal (CTL);
+means (61) for orthogonally transforming said video signal to 
+produce direct current component coefficients and alternating current component coefficients;
+means (307, 305) for quantizing said
+direct current component
+
+coefficients using the selected
+encoding precision and quantizing said alternating current component coefficients according
+
+to a given quantization step signal (S18), wherein
+the encoding precision is selected to be n + m bits, m being a
+non-negative integer;
+means (63) for differenciating
+said quantized direct current component coefficients using an
+
+initial value set in accordance with said selected encoding precision;
+and
+means (64) for variable length encoding the
+differentiated direct current component coefficients using variable
+
+length coding tables (67) which each have a length that is a function
+of said selected encoding precision.
+An apparatus according to claim 7, wherein said picture quality
+signal (CTL) corresponds to a portion of said video signal selected from
+
+a video sequence, group of pictures, picture, slice, macroblock and
+block.
+An apparatus according to claim 8, wherein said block has a
+size of 8 pixels x 8 lines.
+An apparatus according to claim 7, claim 8 or claim 9, 
+wherein n has a value of eight and n + m has a value of eight to
+
+eleven.
+An apparatus according to any one of claims 7 to 10, wherein
+said means for orthogonally transforming comprises means (61) for
+
+performing a discrete cosine transformation.
+An apparatus according to any one of claims 7 to 11, wherein
+said direct current component coefficients include luminance direct
+
+current component coefficients and chrominance direct current
+component coefficients.
+A method of decoding an encoded video signal corresponding to
+an original video signal having pixels represented by n bits, n being an
+
+integer, the method comprising the steps of:
+
+receiving (89) a picture quality signal (CTL);
+selecting (87) a decoding precision in accordance with said
+picture quality signal (CTL);
+extracting (81) encoded
+direct and alternating current component
+
+coefficients from said encoded video
+signal; 
+variable length decoding (81) the
+encoded direct current component coefficients using variable length
+
+coding tables (85) which each have a length that is a function of said
+selected encoding precision;
+inverse differenciating (82)
+the variable length decoded direct current component
+
+coefficients using an initial value set in accordance with the selected
+decoding precision; and
+inverse quantizing (504) said inverse differentiated direct current
+component coefficients using the selected decoding precision and inverse quantizing (503)
+
+said alternating current component coefficients according to a given quantization step signal
+(S18)
+wherein the decoding precision is selected to be n + m bits, m being a
+non-negative integer.
+A method according to claim 13, wherein said picture quality
+signal (CTL) corresponds to a portion of said video signal selected from
+
+a video sequence, group of pictures, picture, slice, macroblock and
+block.
+A method according to claim 14, wherein said block has a size
+of 8 pixels x 8 lines.
+A method according to claim 13, claim 14 or claim 15, wherein
+n has a value of eight and n + m has a value of eight to eleven.
+A method according to any one of claims 13 to 16, further
+comprising the step (84) of inverse discrete cosine transforming the 
+
+inverse quantized direct current component coefficients.
+A method according to any one of claims 13 to 17, wherein said
+encoded direct current component coefficients include encoded
+
+luminance direct current component coefficients and encoded
+chrominance direct current component coefficients.
+An apparatus for decoding an encoded video signal
+corresponding to an original video signal having pixels represented by
+
+n bits, n being an integer, the apparatus comprising:
+
+means (89) for receiving a picture quality signal (CTL);
+means (87) for selecting a decoding precision in accordance with
+said picture quality signal (CTL);
+means (81) for extracting encoded
+direct and alternating current component
+
+coefficients from said
+encoded video signal;
+means (81) for variable length decoding said
+encoded direct current component coefficients using variable length
+
+coding tables (85) which each have a length that is a function of said
+selected decoding precision;
+means (82) for inverse differenciating
+the variable length decoded direct current
+
+component coefficients using an initial value set in accordance with the 
+selected decoding precision; and
+means (504, 503) for inverse quantizing said inverse
+differentiated direct current component coefficients using the selected decoding precision and
+
+for inverse quantizing said alternating current component coefficients according to a given
+quantization step signal (S18),
+wherein the decoding precision is selected to be n + m bits,
+m being a non-negative integer.
+An apparatus according to claim 19, wherein said picture quality
+signal (CTL) corresponds to a portion of said video signal selected from
+
+a video sequence, group of pictures, picture, slice, macroblock and
+block.
+An apparatus according to claim 20, wherein said block has a
+size of 8 pixels x 8 lines.
+An apparatus according to claim 19, claim 20, or claim 21,
+wherein n has a value of eight and n + m has a value of eight to
+
+eleven.
+An apparatus according to any one of claims 19 to 22, further
+comprising means (84) for inverse discrete cosine transforming the
+
+inverse quantized direct current component coefficients.
+An apparatus according to any one of claims 19 to 23, wherein
+said encoded direct current component coefficients include encoded
+
+luminance direct current component coefficients and encoded
+chrominance direct current component coefficients.
+</CLAIMS>
+</TEXT>
+</DOC>

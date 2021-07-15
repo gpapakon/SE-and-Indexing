@@ -1,0 +1,175 @@
+<DOC>
+<DOCNO>EP-0644489</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method and apparatus for signalling interrupt information in a data processing system.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F946	G06F946	G06F948	G06F1320	G06F1324	G06F1516	G06F1516	G06F15177	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	G06F9	G06F13	G06F13	G06F15	G06F15	G06F15	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An interrupt packet protocol for both interrupt requests and 
+interrupt resets. Address bus packets are used to signal and transfer 
+
+information. When an interrupt source has an interrupt request, it 
+requests use of the address bus. When granted the bus, the interrupt 
+
+source sends out an interrupt request packet. The interrupt controller 
+processes the information and signals an interrupt to the processor. In 
+
+a multiprocessing system, the interrupt controller may route the 
+interrupt information to an appropriate processor. When the processor is 
+
+done processing the interrupt, it will alert the interrupt controller to 
+send a reset packet to the interrupt source. 
+By sending interrupt information over the address bus, it allows 
+for use of an underutilized resource, the address bus, and not use the 
+
+busier data bus. The interrupt packets going over the address bus use 
+the address lines already in the system at a cost of zero pins and zero 
+
+wires. This is in contrast to prior methods, which used several 
+interrupt lines. Since interrupts are transferred over the address bus, 
+
+they are sequenced with other interrupts and with other system 
+operations. This is helpful during debug because it makes interrupts 
+
+more observable at a system level and less asynchronous to the system. 
+Since interrupt information is defined in various fields in the interrupt 
+
+packet instead of being hard-wired on the planar, this interrupt system 
+is very programmable. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+ARROYO RONAD XAVIER
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+CHANDLER WILLIAM BRENT
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DALY GEORGE WILLIAM JR
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ARROYO, RONAD XAVIER
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+CHANDLER, WILLIAM BRENT
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DALY, GEORGE WILLIAM, JR.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to data processing systems, and more 
+particularly to a way of signalling interrupt information between an 
+interrupt source and an interrupt processor in a data processing system. In data processing systems, interrupts are used to signal a 
+processor that an interrupt condition exists at a given source. This 
+interrupt source could be, for example, an adapter card on a system bus 
+which requires some type of service. The required service may be to 
+initiate a transfer of data, or to read a status register that has 
+recently changed. When the processor has been conditioned to accept an interrupt, 
+otherwise known as having the interrupts enabled, the processor will 
+initiate interrupt processing upon the receipt of an interrupt. This 
+interrupt processing typically involves the processor interrogating the 
+source of the interrupt, performing functions based upon the type of 
+interrupt, and resetting/turning off the interrupt. Interrupt priorities have also been accommodated in traditional 
+systems. If more than one interrupt signal is active at a given time, 
+the use of interrupt priorities tells the processor which interrupt to 
+service first. Interrupt controllers have been designed to offload certain 
+interrupt handshake functions that are required, such as resetting an 
+interrupt signal. Typical of such interrupt controllers is an Intel 8259 
+controller, which is described in the Intel Component Data Catalog, 1981 
+(available from Intel Corp. Literature Department, 3065 Bowers Avenue, 
+Santa Clara, CA), and to which reference may be made for background 
+information. These interrupt controllers can monitor multiple interrupt 
+sources, and only interrupt the processor using a single interrupt line. Current interrupt signalling methods were primarily designed for 
+uniprocessor systems with few interrupt sources or priority levels. Most 
+systems send interrupts over one or more interrupt lines hardwired on the 
+planar. In a multiprocessor environment, where there is more than one 
+processor capable of servicing an interrupt, these types of interrupt  
+ 
+signalling techniques cause increases in bus complexity. An interrupt 
+signal from each interrupt source would have to be wired to each 
+processor or interrupt controller capable of servicing such interrupt. Attempts to satisfy needs of a multiprocessing data processing 
+system have required dedicated interrupt controllers for each processor 
+in the system. This approach is not only costly, but also does not allow 
+for cohesive
+</DESCRIPTION>
+<CLAIMS>
+A method for transferring interrupt information in a data 
+processing system having a bus comprising an address portion and a data 
+
+portion, comprising: 
+   transferring said interrupt information between a device and an 
+
+interrupt servicer over said address portion. 
+A method as claimed in Claim 1 wherein said device causes an 
+interrupt to be generated. 
+The method as claimed in Claim 1 or Claim 2 wherein said device 
+causes said interrupt information to be transferr
+ed to said interrupt 
+servicer. 
+A method of as claimed in any previous claim wherein said interrupt 
+information signals an interrupt request command to said interrupt 
+
+servicer. 
+A method of as claimed in any previous claim wherein said interrupt 
+servicer causes said interrupt information to be transferred to said 
+
+device. 
+A method as claimed in Claim 5 wherein said interrupt information 
+signals an interrupt reset command to said device. 
+A method as claimed in any preceding claim wherein said interrupt 
+information is transferred between said device and said server as 
+
+interrupt packets on said address portion. 
+A system for transferring interrupt information in a data 
+processing system having a bus comprising an address portion and a data 
+
+portion, comprising: 
+   a device; 
+
+   an interrupt servicer operatively coupled to said device; and
+ 
+
+   means for using said address portion to transfer said interrupt 
+information between said device and said interrupt servicer. 
+A system as claimed in Claim 8 wherein said device causes an 
+interrupt to be generated. 
+A system as claimed in Claim 9 wherein said device causes said 
+interrupt information to be transferred to said interrupt servicer. 
+A system as claimed in Claim 10 wherein said interrupt information 
+signals an interrupt request command to said interrupt servicer. 
+The system as claimed in Claim 11 wherein said interrupt servicer 
+causes said interrupt information to be transferred to said device. 
+A system as claimed in Claim 12 wherein said interrupt information 
+signals an interrupt reset command to said device. 
+A system as claimed in any of Claims 8 to 13 wherein said interrupt 
+information is transferred over said address portion between said device 
+
+and servicer as interrupt packets. 
+A data processing system comprising: 
+   a plurality of interrupt driven processors; 
+
+   means for initiating an interrupt request by a device; 
+   means for generating an interrupt packet containing interrupt 
+
+information for said device; and 
+   means for sending said interrupt packet, across an address bus of 
+
+said data processing system, to an interrupt controller to cause the 
+controller to signal an interrupt to a selected one of said processors. 
+</CLAIMS>
+</TEXT>
+</DOC>

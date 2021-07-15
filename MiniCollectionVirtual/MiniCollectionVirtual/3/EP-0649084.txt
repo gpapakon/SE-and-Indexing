@@ -1,0 +1,296 @@
+<DOC>
+<DOCNO>EP-0649084</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Microprocessor branch processing.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F938	G06F938	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A branch processing unit (BPU) is used, in an exemplary embodiment, in a superscalar, 
+superpipelined microprocessor compatible with the x86 instruction set architecture. The BPU 
+
+(140) predicts the direction of branches, and provides target addresses for predicted taken 
+branches and unconditional change of flow (UCOF) instructions (jumps, calls, returns). The BPU 
+
+includes a target cache (110) for storing target addresses for UCOFs and predicted taken branches 
+-- a history cache (120) stores history information for branches predicted not taken. A return 
+
+address stack (130) stores target addresses for returns associated with calls stored in the target 
+cache, while a far target cache (140) stores limits and mode bits for far targets stored in the target 
+
+cache. Resolution logic (150) monitors branch execution, resolving branch predictions and 
+repairing the execution pipeline in the case of mispredictions. The BPU is accessed at prefetch 
+
+time with the prefetch address. For accesses that hit in the BPU, the target address is supplied to 
+prefetcher (35), which begins prefetching at the predicted target address, shifting the code stream 
+
+in one clock as it enters the prefetch buffer (30). A branch is allocated into the resolution logic 
+when it issues (from the ID2 pipe stage) -- a branch will issue only if the number of outstanding 
+
+(unresolved) branches (or floating point instructions) is three or less. For issued branches, the 
+prefetcher prefetches in both the predicted and not-predicted direction -- NP prefetch registers 
+
+(164) store prefetched instruction bytes in the not-predicted direction such that, in the case of a 
+
+branch misprediction, the contents of the corresponding NP prefetch buffer are transferred to the 
+prefetch buffer (162) to initiate repair. For calls, return target addresses are pushed onto the 
+
+return address stack either (a) when a call hits in the target cache during prefetch, or (b) for a 
+previously undetected call, when the call is decoded. For far targets, the far target cache stores 
+
+limits and modes, and is accessed by indirection bits stored with a far target in the target cache 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+CYRIX CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+CYRIX CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BLUHM MARK
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MCMAHAN STEVEN C
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BLUHM, MARK
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MCMAHAN, STEVEN C.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This application incorporates by reference the subject matter of co-pending U. S. Patent 
+Applications Ser. No. 08/138,781, (Atty Docket CX-00181) titled "Speculative Execution In A 
+Pipelined Processor", filed October 18, 1993, Ser. No. 08/138,789, (Atty Docket CX-00190) titled 
+"Pipelined Processor With Independent Instruction Issuing", filed October 18, 1993, and Ser. No. 
+08/138,654, (Atty Docket CX-186) titled "Control of Data for Speculation Execution and 
+Exception Handling in a Microprocessor with Write Buffer", filed October 18, 1993, all assigned 
+to the assignee of this application. The invention relates generally to pipelined digital processors, 
+and more 
+particularly to structures and methods for branch processing (including prediction and target 
+addressing), implemented as a branch processing unit. In an exemplary embodiment, this 
+branch prediction and target addressing functions are implemented as a branch processing unit 
+in a superscalar, superpipelined microprocessor compatible with the x86 instruction set 
+architecture. Computers commonly employ pipeline techniques to reduce the average 
+execution time per instruction. An execution pipeline is divided into pipe stages -- instructions 
+are executed in stages allowing multiple instructions to be overlapped in the execution pipeline. 
+The performance goal is for each pipe stage to complete all associated operations on an 
+instruction in a clock cycle, such that instructions continuously advance to the next pipe stage 
+and an instruction completes execution each clock cycle. Pipeline performance is significantly affected by hazards that prevent a pipe stage from 
+completing its operations in a single clock cycle, thereby causing pipe stalls or bubbles. Three 
+general classes of pipeline hazards are: (a) structural hazards which arise from hardware 
+resource conflicts; (b) data hazards which arise from dependency of an instruction on the results 
+of, a previous instruction; and (c) control hazards which arise from instructions that change the 
+flow of the instruction stream. Change of flow (COF) hazards interrupt the code stream, significantly impacting pipeline 
+performance -- COFs typically account for 15-30% of the instruction mix. For example, in the x86 
+instruction set architecture, COFs occur on the average every four to six instructions. COF 
+instructions include branches (including loops), jumps, and call/returns -- branches are 
+conditional in that the branch may be taken or not taken (depending, for example, on the status 
+of
+</DESCRIPTION>
+<CLAIMS>
+A pipelined processor including an instruction fetch stage that prefetches instruction 
+bytes (each with an associated address) and an instruction decode stage that decodes the 
+
+instruction bytes to obtain instructions of variable length, including COF (change of flow) 
+instructions that specify a target address, comprising: 
+
+
+(a) prefetch means for generating prefetch addresses to fetch instruction bytes from a 
+memory, the instruction bytes being fetched sequentially unless the prefetch means is directed 
+
+to change the instruction flow by switching to an out-of-sequence prefetch address; 
+(b) the prefetch means including a prefetch buffer for storing a plurality of instruction bytes 
+received from the memory in response to prefetch addresses generated by the prefetch means; 
+(c) processor core means for executing instructions; 
+(d) the processor core means including decode means for receiving instruction bytes from the 
+prefetch buffer and decoding instructions; 
+(e) branch processing means including a target cache for storing a plurality of predicted 
+target addresses each corresponding to a COF instruction for which the branch processing 
+
+means predicts a target address; and 
+(f) the branch processing means tagging each predicted target address with an access tag 
+corresponding to a prefetch address associated with the corresponding COF; 
+(g) the branch processing means, in response to prefetch addresses from the prefetch means, 
+accesses the target cache with corresponding access tags, and in the case of a hit, provides the 
+
+associated predicted target address to the prefetch means; wherein 
+(h) the prefetch means, in response to a predicted target address from the branch processing 
+means, generates a corresponding prefetch address to fetch the corresponding instruction bytes, 
+
+thereby changing instruction flow to the predicted target address. 
+The pipelined processor of Claim 1, wherein the branch processing means stores 
+predicted target addresses for unconditional COFs and predicted taken branches. 
+The pipelined processor of Claim 1 or Claim 2, wherein, for branches, the branch 
+processing means includes prediction means for predicting branch direction based on the 
+
+branch history, with previously undetected branches being predicted not-taken. 
+The pipelined processor of Claim 3, wherein the branch processing means includes a 
+history cache that stores history information for branches that are previously detected but 
+
+predicted not-taken. 
+The pipelined processor of Claims 1-4, wherein each prefetch address generated by the 
+prefetch means fetches a block of instruction bytes, with each block being specified by either an 
+
+aligned prefetch address corresponding to a predetermined initial byte the block, or a target 
+address within the block, and wherein a COF is identified by: 
+
+
+(a) a basic block address corresponding to either (i) the aligned prefetch address for the block 
+containing the COF, or (ii) a target address within the block containing the COF where the COF 
+
+is reached by sequencing through the block starting with the target address, and 
+(ii) a COF location identifying the location of the COF within a block. 
+The pipelined processor of Claim 5, wherein the access tag for a predicted target address 
+stored in the target cache corresponds to the basic block address for the associated COF. 
+The pipelined processor of Claims 1-6, wherein the prefetch means includes COF 
+confirmation means for confirming that, for each prefetch address that results in a hit in the 
+
+target cache such that the branch processing means provides a predicted target address to the 
+prefetch means, the decoder means decodes a COF at the specified COF location. 
+The pipelined processor of Claims 1-7, wherein the branch processing means includes 
+branch resolution means for monitoring the execution by the processor core of COFs for which 
+
+the branch processing means provides a predicted target address, to determine whether (i) the 
+predicted target address is the same as the actual target address, and, (b) for branches, whether 
+
+the predicted direction is the same as the actual direction. 
+The pipelined processor of Claim 8, wherein the prefetch means includes 
+
+(a) not-predicted prefetch registers that store, for each of a predetermined number of 
+branches, a predetermined number of instruction bytes in not-predicted direction of the branch; 
+(b) in response to a determination by the branch resolution means that a branch is 
+mispredicted, the prefetch means transfers the contents of the corresponding non-predicted 
+
+prefetch register to the prefetch buffer. 
+The pipelined processor of Claim 7, wherein the branch processing means includes: 
+
+(a) speculation control means for causing, for each decoded branch, the processor core means 
+to checkpoint the state of the processor core means at the point where the branch begins 
+
+execution, 
+(b) such that instructions after the branch can be speculatively executed prior to resolution of 
+the branch; 
+(c) the speculation control means including speculation level means for ensuring that the 
+total number of unresolved branches being executed by the processor core means does not 
+
+exceed a maximum speculation level; and 
+(d) the speculation control means including processor core repair means for restoring, in the 
+case of a mispredicted branch, the corresponding checkpointed state of the processor core. 
+A method of implementing branch processing in a pipelined processor including an 
+instruction fetch stage that prefetches instruction bytes (each with an associated address) and an 
+
+instruction decode stage the decodes the instruction bytes to obtain instructions of variable 
+length, including COF (change of flow) instructions that specify a target address, comprising the 
+
+steps: 
+
+(a) generating prefetch addresses to fetch instruction bytes from a memory, the instruction 
+bytes being fetched sequentially unless the prefetch means is directed to change the instruction 
+
+flow by switching to an out-of-sequence prefetch address; 
+(b) decoding instruction bytes into instructions, including COF instructions; 
+(c) storing a plurality of predicted target addresses each corresponding to a COF instruction, 
+each predicted target address being tagged with an access tag corresponding to a prefetch 
+
+address associated with the corresponding COF; 
+(d) in response to prefetch addresses, accessing the stored predicted target addresses with 
+corresponding access tags, and 
+(e) in the case of a hit, generating a corresponding prefetch address to fetch the 
+corresponding instruction bytes, thereby changing instruction flow to the predicted target 
+
+address. 
+The method of implementing branch processing of Claim 11, wherein predicted target 
+addresses are stored for unconditional COFs and predicted taken branches. 
+The method of implementing branch processing of Claim 11 or Claim 12, further 
+comprising the step of predicting branch direction based on the branch history, with previously 
+
+undetected branches being predicted not-taken. 
+The method of implementing branch processing Claim 13, wherein predicted target 
+addresses are stored in a target cache, and branch history for predicted not-taken branches is 
+
+stored in a separate history cache. 
+The method of implementing branch processing of Claims 11-14, further comprising the 
+step of confirming that, for each prefetch address that results in a predicted target address being 
+
+used to generate a prefetch address, a corresponding COF at a specified COF location is actually 
+decoded. 
+The method of implementing branch processing of Claims 11-15, further comprising the 
+steps of: monitoring the e
+xecution of COFs for which a predicted target address has been used 
+to generate a prefetch address, to determine whether (a) the predicted target address is the same 
+
+as the actual target address, and, (b) for branches, whether the predicted direction is the same as 
+the actual direction. 
+The method of implementing branch processing of Claims 11-16, further comprising 
+storing, for each of a predetermined number of branches, a predetermined number of 
+
+instruction bytes in not-predicted direction of the branch, and in response to a determination 
+that a branch is mispredicted, decoding such stored instruction bytes in the not-predicted 
+
+direction, and continuing with the step of generating prefetch addresses. 
+The method of implementing branch processing of Claims 11-17, further comprising the 
+steps of: 
+
+
+(a) for each decoded branch, checkpointing processor state at the point where the branch 
+begins execution, 
+(b) such that instructions after the branch can be speculatively executed prior to resolution of 
+the branch; 
+(c) ensuring that the total number of unresolved branches being executed by the processor 
+core means does not exceed a maximum speculation level; and 
+(d) in the case of a mispredicted branch, restoring the corresponding checkpointed processor. 
+A pipelined processor including an instruction fetch stage that prefetches instruction 
+bytes (each with an associated address) and an instruction decode stage the decodes the 
+
+instruction bytes to obtain instructions of variable length, including COF (change of flow) 
+instructions that specify a target address, comprising: 
+
+
+(a) prefetch means for generating prefetch addresses to fetch instruction bytes from a 
+memory, the instruction bytes being fetched sequentially unless the prefetch means is directed 
+
+to change the instruction flow by switching to an out-of-sequence prefetch address; 
+(b) the prefetch means including a prefetch buffer for storing a plurality of instruction bytes 
+received from the memory in response to prefetch addresses generated by the prefetch means; 
+(c) processor core means for executing instructions; 
+(d) the processor core means including decode means for receiving instruction bytes from the 
+prefetch buffer and decoding instructions; 
+(e) branch processing means including (i) a target cache for storing a plurality of predicted 
+target addresses each corresponding to a COF instruction for which the branch processing 
+
+means predicts a target address, and one or both of (ii) a return stack for storing return target 
+addresses corresponding to both predicted and previously undetected calls, and (iii) a far target 
+
+cache for storing a plurality of far target limits and modes for far target addresses stored in the 
+target cache; 
+(f) the branch processing means tagging each predicted target address with an access tag 
+corresponding to a prefetch address associated with the corresponding COF, and for far target 
+
+addresses, associating with each predicted far target address an indirect addressing code 
+identifying in the far target cache the associated limits and modes; 
+(g) for the return stack, the branch processing means pushing a return target address on the 
+return stack when the call is detected by the branch processing means or, if undetected, when 
+
+the call is decoded by the decode means; 
+(h) the branch processing means, in response to prefetch addresses from the prefetch means, 
+accesses the target cache with corresponding access tags, and in the case of a hit, provides (i) the 
+
+associated predicted target address to the prefetch means, either from the target cache, or in the 
+case of a return, from the return stack, and (ii) in the case of a far target address, the 
+
+corresponding limits and modes; 
+(i) the prefetch means, in response to a predicted target address from the branch processing 
+means, generates a corresponding prefetch address to fetch the corresponding instruction bytes, 
+
+thereby changing instruction flow to the predicted target address. 
+</CLAIMS>
+</TEXT>
+</DOC>

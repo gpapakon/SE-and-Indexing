@@ -1,0 +1,1335 @@
+<DOC>
+<DOCNO>EP-0637175</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Picture data coding apparatus.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T900	G06T900	H04N724	H04N724	H04N726	H04N726	H04N730	H04N730	H04N732	H04N732	H04N746	H04N746	H04N750	H04N750	H04N764	H04N764	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T9	G06T9	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+According to the picture data coding apparatus of the 
+present invention, the picture data storage unit stores each 
+
+frame inputted from the pre-process unit, and the frame memory 
+stores the latest-transmitted decoded frame. The frame 
+
+selection unit judges whether or not a frame under transmission 
+can be displayed. If the frame has been judged to be incapable 
+
+of being displayed, the frame selection unit judges whether or 
+not each frame stored in the picture data storage unit 103 can 
+
+be displayed or not, and selects the smallest numbered frame 
+among frames which have been judged to be capable of being 
+
+displayed. The coding unit predictive codes the selected frame 
+by using the latest-transmitted frame stored in the frame 
+
+memory 131 as a reference frame, thereby outputting it to the 
+transmission buffer 127. These features can minimize frame 
+
+skipping even when a frame under transmission becomes incapable 
+
+of being displayed due to a burst error. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC IND CO LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC INDUSTRIAL CO., LTD.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+KUROBE AKIO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MASAKI SHOICHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KUROBE, AKIO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MASAKI, SHOICHI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a picture data coding 
+apparatus for coding and decoding motion picture data which 
+are used in video conference, video phones, and the like. Various arts for processing digitalized motion picture 
+data have been realized these days. Generally, picture data 
+are transmitted in a large amount so that it is necessary to 
+compress or reduce them in volume in order to make them 
+available for record or transmission. ITU (International Telecommunication Union) Recommendation 
+H.261 Video Codec for Audiovisual Services is known as a 
+picture data compression coding method for transmitting motion 
+picture data at a low-bit rate of between 64Kbps and 2Mbps. According to the method, a frame containing picture data 
+to be coded (hereinafter a target frame) is divided into 
+several blocks. Then, one block in a target frame is compared 
+with an area corresponding to one block in another frame, which 
+precedes the target frame, and as a result, a motion vector 
+between them is detected. A motion vector indicates a one 
+block area in the preceding frame, which block area has the 
+closest correlation with a block to be coded in the target 
+frame (hereinafter a target block), so that not only the  
+ 
+prediction error between the target block and the corresponding 
+one block area in the preceding frame, but the motion vector 
+are coded and transmitted. FIG. 1 shows the construction of a conventional picture 
+data coding apparatus which is based on the picture data 
+compression coding method H. 261. The apparatus has a pre-process 
+unit 15, a coding unit 6, a transmission control unit 
+7, and an unillustrated decoding unit. The pre-process unit 15 is provided with a YC separation 
+and A/D conversion unit 12, an NTSC/CIF (Common Intermediate 
+Format) conversion unit 13, and a pre-process filter 14. The 
+YC separation and A/D conversion unit 12 divides an NTSC signal 
+into a luminosity signal and a color difference signal and then 
+applies them with A/D conversion. The NTSC/CIF conversion unit 
+13 converts an NTSC signal into a CIF signal. The use of the 
+intermediate format allows communication among any video 
+cordic, regardless of the difference in their TV systems. There are two types of intermediate formats to be defined 
+in H. 261, one of which is CIF where a frame is coded into a 
+luminosity component (Y) and two color difference components 
+(CB and CR). The codes indicating these components are defined 
+in CCIR Recommendation 601. An example of the luminosity 
+component has 288
+</DESCRIPTION>
+<CLAIMS>
+A picture data coding apparatus for predictive coding a 
+series of inputted frames, each of the frames being composed 
+
+of picture data, and for displaying said frames on a display 
+of a receiver at an end of a predetermined smoothing time 
+
+period, said smoothing time period following a sampling 
+operation of each frame and being provided for smoothing 
+
+dispersion in time required for coding, transmitting, and 
+decoding each sampled frame, said picture data coding apparatus 
+
+comprising: 
+   a picture data storage means, which includes a storage 
+
+area for storing at least one frame, for receiving said frames 
+at a predetermined interval, for sampling every m frame 
+
+received, and for storing sampled frames to said storage area, 
+said m being a natural number; 
+
+   a latest-transmitted frame storage means for storing a 
+same frame as a frame which has been transmitted latest; 
+
+   a coding means for predictive coding each frame inputted; 
+   a transmission means for tra
+nsmitting each coded frame to 
+the receiver via a transmission path; 
+
+   a first judging means for judging every predetermined 
+point of time whether or not a frame under transmission can be 
+
+displayed on the display of the receiver, from a remaining time 
+before a displaying operation of the frame from a current time 
+
+point, remaining amount of code of the frame, and a decode time 
+of the frame, said frame under transmission being a frame which 
+
+ 
+is being transmitted; 
+
+   a second judging means for judging whether or not each 
+frame stored in said picture data storage means can be 
+
+displayed on the display of the receiver, from a remaining 
+time before a displaying operation of the frame from a current 
+
+time point, amount of code of the frame, a coding time, and a 
+decode time of the frame; 
+
+   a system control means for, when said first judging means 
+has judged that the frame under transmission cannot be 
+
+displayed, directing said picture data storage means to 
+transfer a frame stored therein to said second judging means, 
+
+and for, when said second judging means has judged that the 
+frame stored in said picture data storage means can be 
+
+displayed, directing said picture data storage means to 
+transfer said frame that has been judged to be capable of being 
+
+displayed, to said coding means, and further directing said 
+latest-transmitted frame storage means to transfer a latest-transmitted 
+
+frame to the coding means, as a reference frame. 
+The picture data coding apparatus of claim 1, wherein said 
+picture data storage means comprising: 
+
+   n picture data memories, said n being a natural number and 
+each of said n picture data memories comprising said storage 
+
+area; and 
+   a write control means for writing each received frame to 
+
+a respective one of said n picture data memories, by numbering 
+ 
+
+each frame, 
+   when said first judging means has judged that a frame 
+
+under transmission cannot be displayed, said system control 
+means controls said picture data storage means to transfer 
+
+frames stored in said n picture data memories starting from a 
+smallest numbered frame to said second judging means, and, when 
+
+said second judging means has judged that the frame stored in 
+said picture data storage means can be displayed, said system 
+
+control means further controls said picture data storage means 
+to transfer frames stored in said n picture data memories to 
+
+said coding means. 
+The picture data coding apparatus of claim 2, wherein said 
+transmission means comprises: 
+
+   a transmission buffer for storing predictive coded frames 
+outputted from said coding means; and 
+
+   a transmission control means for controlling said 
+transmission buffer to output the predictive coded frames to 
+
+said transmission path on a first-in, first-out basis and to 
+output a next predictive coded frame to said transmission path 
+
+when a receipt of a predictive coded frame that has been 
+transmitted latest has been reported by the receiver, and to 
+
+reoutput the latest-transmitted frame when no receipt thereof 
+has been reported; 
+
+   wherein said first judging means comprises: 
+   a remaining code amount detection means for detecting 
+
+ 
+amount of remaining coded data of a frame under transmission, 
+
+the coded data of the frame remaining in said transmission 
+buffer; 
+
+   a first transmission time calculation means for 
+calculating a transmission time required for transmitting the 
+
+remaining coded data, based on the detected remaining code 
+amount, using an equation shown below: 
+
+(a transmission time of remaining coded data) = (remaining 
+code amount) / (a predetermined transmission rate);  
+
+   a first decode time calculation means for detecting and 
+storing generation code amount, said generation code amount 
+
+being amount of code generated through a predictive coding 
+operation, thereby calculating decode time of the frame under 
+
+transmission, using an equation shown below: 
+(decode time) = (generation code amount) / (a 
+
+predetermined decode rate);  
+   a first remaining time detection means for detecting a 
+
+remaining time before a displaying operation of the frame from 
+a current time point; 
+
+   a first comparison means for comparing said remaining time 
+and a sum of said decode time and said transmission time; and 
+
+   said first judging means judges that a frame which meets 
+a requirement expressed by an inequality shown below can be 
+
+displayed on the display of the receiver: 
+(remaining time before a displaying operation) 
+>
+ 
+(transmission time of remaining coded data) + (decoding time); 
+
+ 
+   wherein said second judging means comprises: 
+
+   a code amount prediction means for predicting generation 
+code amount of a frame stored in said picture data storage 
+
+means; 
+   a second transmission time calculation means for 
+
+calculating a transmission time of a frame stored in said 
+picture data storage means, based on the predicted code amount, 
+
+using an equation shown below: 
+(transmission time) = (predicted code amount) / 
+
+(predetermined transmission rate);  
+   a coding time calculation means for calculating a time 
+
+required for coding a frame stored in said picture data storage 
+means, based on the predicted code amount, using an equation 
+
+shown below: 
+(coding time) = (predicted code amount) / (predetermined 
+
+transmission rate);  
+   a second decode time calculation means for calculating 
+
+a decode time of a frame stored in said picture data storage 
+means, based on the predicted code amount, using an equation 
+
+shown below: 
+(decode time) = (predictive code amount) / (predetermined 
+
+decode rate);  
+   a second remaining time detection means for detecting 
+
+remaining time before a displaying operation of the frame from 
+a current time point; 
+
+   a second comparison means for comparing said remaining 
+ 
+
+time and a sum of said coding time, said decode time, said 
+transmission time; and 
+
+   said second judging means judges that a frame which meets 
+a requirement expressed by an inequality shown below can be 
+
+displayed on the display of the receiver: 
+(remaining time before a displaying operation) 
+>
+ (coding 
+time) + (transmission time for the coded data) + (decoding 
+
+time). 
+The picture data coding apparatus of claim 3, wherein 
+each of said first remaining time detection means and said 
+
+second remaining time detection means comprises: 
+   an initial value output unit for outputting said 
+
+predetermined smoothing time period; 
+   a timer for outputting a signal every predetermined lapse 
+
+time; 
+   a first selector having one output terminal and two input 
+
+terminals for receiving two input signals, one of said two 
+input terminals receiving an output signal of said initial 
+
+value output unit, and for selecting one of said two input 
+signals in accordance with a selection signal sent from said 
+
+system control means; 
+   an lapse time subtraction unit for subtracting said lapse 
+
+time from an output of said first selector every time said 
+signal sent from said timer has been detected, and for 
+
+outputting a result to said first comparison means;
+ 
+
+   n addition units, each of said n addition units adding 
+an output of said lapse time subtraction unit and a product of 
+
+said lapse time and k, said k being a natural number between 
+1 and n inclusive; 
+
+   a second selector for selecting a signal among said n 
+signals outputted from said n addition units in accordance with 
+
+said selection signal sent from said system control means and 
+for outputting the selected signal to said second comparison 
+
+means and said first selector; 
+   wherein at a beginning of an operation of said picture 
+
+data coding apparatus, said system control means outputs said 
+selection signal to said first selector for selecting a signal 
+
+outputted from said initial value output unit among the two 
+signals; 
+
+   every time said second judging means starts a judging 
+operation, said syste
+m control means outputs to said second 
+selector said selection signal for sequentially selecting said 
+
+n signals; 
+   when said second judging means judges for the first time 
+
+that a frame can be displayed, said system control means 
+outputs to said first selector said selection signal for 
+
+selecting said output of said second selector. 
+The picture data coding apparatus of claim 4, wherein each 
+of said first remaining time detection means and said second 
+
+remaining time detection means further comprises n subtraction 
+ 
+
+units for subtracting transmission time required for 
+transmitting remaining coded data in a frame under transmission 
+
+from n output signals outputted from said n addition units, 
+thereby outputting results to said second selector. 
+The picture data coding apparatus of claim 4, wherein 
+each of said first remaining time detection means and said 
+
+second remaining time detection means, in place of said n 
+addition units and said second selector, comprises: 
+
+   a time difference detection unit for detecting a time 
+difference between a time point on which a frame under 
+
+transmission is sampled and a frame stored in said picture 
+data storage means is sampled, said time difference being 
+
+detected as a negative value when the frame stored in said 
+picture data storage means precedes the frame under 
+
+transmission; and 
+   a time difference addition unit for adding the detected 
+
+time difference and an output of said lapse time subtraction 
+unit, and for outputting an obtained result to said second 
+
+comparison means and said first selector. 
+The picture data coding apparatus of claim 3, wherein said 
+code amount prediction means comprises: 
+
+   an inter-frame difference detection unit for detecting an 
+inter-frame difference value between a frame to be judged by 
+
+said second judging means and a latest-transmitted frame by 
+ 
+
+detecting a difference between one decoded block in said frame 
+to be judged by said second judging means and picture data of 
+
+a block located in a corresponding position to the decoded 
+block in the latest-transmitted frame; 
+
+   a cross conversion unit for cross converting the inter-frame 
+difference detected by said inter-frame difference 
+
+detection unit; 
+   a no-data block detection unit for regarding a block whose 
+
+cross conversion coefficients are all smaller than a 
+predetermined threshold as a no-data block and for detecting 
+
+a number of no-data blocks contained in said frame to be judged 
+by said second judging means; 
+
+   a code amount calculation unit for determining a number 
+of effective blocks, based on the detected number of no-data 
+
+blocks and for calculating generation code amount, based on an 
+equation shown below: 
+
+(effective block number) = (entire block number) - (no-data 
+block number) (generation code amount) = (generation code amount per 
+
+effective block in a latest-coded frame) * (effective block 
+number) 
+The picture data coding apparatus of claim 3, wherein said 
+code amount prediction means comprises: 
+
+   a latest frame number storage unit for storing a frame 
+number of a frame that has been stored latest in said picture 
+
+ 
+data storage means; 
+
+   a code amount prediction control unit for, when said first 
+judging means has judged that the frame under transmission 
+
+cannot be displayed, for directing said coding means to code 
+a frame whose frame number is stored in said latest frame 
+
+number storage means by using the latest-transmitted frame as 
+a reference frame, and to detect generation code amount, and 
+
+for predicting said generation code amount as generation code 
+amount of a frame to be judged by said second judging means. 
+A picture data coding apparatus for predictive coding a 
+series of inputted frames, each of the frames being composed 
+
+of picture data, and for displaying said frames on a display 
+of a receiver at an end of a predetermined smoothing time 
+
+period, said smoothing time period following a sampling 
+operation of each frame and being provided for smoothing 
+
+dispersion in time required for coding, transmitting, and 
+decoding each sampled frame, said picture data coding apparatus 
+
+comprising: 
+   a reference frame storage means having a capacity to store 
+
+at least one frame for storing a predetermined frame; 
+   a coding means for sampling every predetermined number of 
+
+inputted frames and for predictive coding sampled frames by 
+using, as reference frames, at least a latest-transmitted frame 
+
+stored in said reference frame storage means and a frame under 
+transmission;
+
+ 
+   a coded data storage means having storage areas to store 
+
+at least two coded frames for storing predictive coded frames; 
+   a transmission means for transmitting each coded frame to 
+
+the receiver via a transmission path; 
+   a first judging means for judging every predetermined 
+
+point of time whether or not a frame under transmission can be 
+displayed on the display of the receiver, from a remaining time 
+
+before a displaying operation of the frame from a current time 
+point, amount of coded data of the frame, and a decode time of 
+
+the frame; 
+   a second judging means for judging whether or not each 
+
+frame stored in said coded data storage means can be displayed 
+on the display of the receiver, from a remaining 
+
+time before a displaying operation of the frame from a current 
+time point, amount of coded data of the frame, and a decode 
+
+time of the frame; and 
+   a system control means for, when said first judging means 
+
+has judged that the frame under transmission cannot be 
+displayed, directing said coded data storage means to read a 
+
+frame which uses a predetermined frame as a reference frame 
+among frames stored in said storage area and to transfer the 
+
+read frame to said second judging means, and for, when said 
+second judging means has judged that the frame stored in said 
+
+coded data storage means can be displayed, directing said coded 
+data storage means to transfer said frame that has been judged 
+
+to be capable of being displayed, to said coding means. 
+The picture data coding apparatus of claim 9, wherein 
+said coded data storage means comprises: 
+
+   n coded data memories, said n being a natural number and 
+each of said n coded data memories having a storage area for 
+
+storing coded frame; 
+   a write control means for sequentially writing coded 
+
+frames received from said coding means to said n coded data 
+memories by associating with a respective frame number and a 
+
+respective reference frame number; and 
+   when said first judging means has judged that a frame 
+
+under transmission cannot be displayed, said system control 
+means controls said coded data storage means to transfer coded 
+
+frames stored in said n coded data memories starting from a 
+smallest numbered frame to said second judging means, and, when 
+
+said second judging means has judged that the frame transferred 
+from one of said n coded data memories can be displayed, said 
+
+system control means further controls said coded data storage 
+means to read a coded frame which has been judged to be capable 
+
+of being displayed, by using a predetermined frame as a 
+reference frame among the coded frames stored in said coded 
+
+data storage means and to transfer the coded frame to said 
+transmission means. 
+The picture data coding apparatus of claim 10, wherein 
+said transmission means comprises: 
+
+   a transmission buffer for storing predictive coded frames 
+ 
+
+outputted from said coding means; and 
+   a transmission control means for controlling said 
+
+transmission buffer to output the predictive coded frames to 
+said transmission path on a first-in, first-out basis and to 
+
+output a next predictive coded frame to said transmission path 
+when a receipt of a predictive coded frame that has b
+een 
+transmitted latest has been reported by the receiver, and to 
+
+reoutput the latest-transmitted frame when no receipt thereof 
+has been reported; 
+
+   wherein said first judging means comprises: 
+   a remaining code amount detection means for detecting 
+
+amount of remaining code of a frame under transmission, the 
+code remaining in said transmission buffer; 
+
+   a first transmission time calculation means for 
+calculating a transmission time required for transmitting the 
+
+remaining coded data, based on the detected remaining code 
+amount, using an equation shown below: 
+
+(a transmission time of remaining coded data) = (remaining 
+code amount) / (a predetermined transmission rate);  
+
+   a first decode time calculation means for detecting and 
+storing generation code amount, said generation code amount 
+
+being amount of code generated through a predictive coding 
+operation, thereby calculating decode time of the frame under 
+
+transmission, using an equation shown below: 
+(decode time) = (generation code amount) / (a 
+
+predetermined decode rate); 
+ 
+
+   a first remaining time detection means for detecting a 
+remaining time before a displaying operation of the frame from 
+
+a current time point; 
+   a first comparison means for comparing said remaining time 
+
+and a sum of said decode time and said transmission time; and 
+   wherein said second judging means comprises: 
+
+   a code amount prediction means for predicting generation 
+code amount of a frame stored in said coded data storage means; 
+
+   a second transmission time calculation means for 
+calculating a transmission time of a frame stored in said coded 
+
+data storage means, based on the predicted code amount, using 
+an equation shown below: 
+
+(transmission time) = (predicted code amount) / 
+(predetermined transmission rate);  
+
+   a second decode time calculation means for calculating a 
+decode time of a frame stored in said coded data storage means, 
+
+based on the predicted code amount, using an equation shown 
+below: 
+
+(decode time) = (predictive code amount) / (predetermined 
+decode rate);  
+
+   a second remaining time detection means for detecting 
+remaining time before a displaying operation of the frame 
+
+stored in said coded data storage means from a current time 
+point; and 
+
+   a second comparison means for comparing said remaining 
+time and a sum of said decode time and said transmission time;
+
+ 
+   said first judging means judges that a frame which meets 
+
+a requirement expressed by an inequality shown below can be 
+displayed on the display of the receiver: 
+
+(remaining time before a displaying operation) 
+>
+ 
+(transmission time of remaining coded data) + (decoding time);  
+
+   said second judging means judges that a frame which meets 
+a requirement expressed by an inequality shown below can be 
+
+displayed on the display of the receiver: 
+(remaining time before a displaying operation) 
+>
+ 
+(transmission time for the coded data) + (decoding time). 
+The picture data coding apparatus of claim 11, wherein 
+each of said first remaining time detection means and said 
+
+second remaining time detection means comprises: 
+   an initial value output unit for outputting said 
+
+predetermined smoothing time period; 
+   a timer for outputting a signal every predetermined lapse 
+
+time; 
+   a first selector having one output terminal and two input 
+
+terminals for receiving two input signals, one of said two 
+input terminals receiving an output signal of said initial 
+
+value output unit, and for selecting one of said two input 
+signals in accordance with a selection signal sent from said 
+
+system control means; 
+   an lapse time subtraction unit for subtracting said lapse 
+
+time from an output of said first selector every time said 
+ 
+
+signal sent from said timer has been detected, and for 
+outputting a result to said first comparison means; 
+
+   n addition units, each of said n addition units adding 
+an output of said lapse time subtraction unit and a product of 
+
+said lapse time and k, said k being a natural number between 
+1 and n inclusive; 
+
+   a second selector for selecting a signal among said n 
+signals outputted from said n addition units in accordance with 
+
+said selection signal sent from said system control means and 
+for outputting the selected signal to said second comparison 
+
+means and said first selector; 
+   wherein at a beginning of an operation of said picture 
+
+data coding apparatus, said system control means outputs said 
+selection signal to said first selector for selecting a signal 
+
+outputted from said initial value output unit among the two 
+signals; 
+
+   every time said second judging means starts a judging 
+operation, said system control means outputs to said second 
+
+selector said selection signal for sequentially selecting said 
+n signals; and 
+
+   when said second judging means judges that a frame under 
+transmission can be displayed for the first time after said 
+
+first judging means has judged that the frame under 
+transmission cannot be displayed, said system control means 
+
+outputs to said first selector said selection signal for 
+selecting said output of said second selector. 
+The picture data coding apparatus of claim 12, wherein 
+each of said first remaining time detection means and said 
+
+second remaining time detection means further comprises n 
+subtraction units for subtracting transmission time required 
+
+for transmitting remaining coded data in a frame under 
+transmission from n output signals outputted from said n 
+
+addition units, thereby outputting results to said second 
+selector. 
+The picture data coding apparatus of claim 12, wherein 
+each of said first remaining time detection means and said 
+
+second remaining time detection means, in place -of said n 
+addition units and said second selector, comprises: 
+
+   a time difference detection unit for detecting a time 
+difference between a time point on which a frame under 
+
+transmission is sampled and a frame.stored in said coded data 
+storage means is sampled, said time difference being detected 
+
+as a negative value when the frame stored in said coded data 
+storage means precedes the frame under transmission; and 
+
+   a time difference addition unit for adding the detected 
+time difference and an output of said lapse time subtraction 
+
+unit, and for outputting an obtained result to said second 
+comparison means and said first selector. 
+The picture data coding apparatus of claim 9, wherein 
+said coded data storage means comprises:
+
+ 
+   a coded data memory having a storage area for storing a 
+
+coded frame; 
+   a write control means for writing a predetermined frame, 
+
+among coded frames received from said coding means, which has 
+been sampled after the frame under transmission and use a 
+
+latest-transmitted frame as a reference frame, said 
+predetermined frame being written by being associated with a 
+
+frame number and a reference frame number; and 
+   when said first judging means has judged that a frame 
+
+under transmission cannot be displayed, said system control 
+means controls said coded data storage means to transfer a 
+
+coded frame stored in said coded data memory to said second 
+judging means, and, when said second judging means has judged 
+
+that the frame stored in said coded data memory can be 
+displayed, said system control means further controls said 
+
+coded data storage means to read the frame stored in said coded 
+data memory and to transfer to said transmission means. 
+A picture data coding apparatus for predictive coding a 
+series of inputted frames, each of the frames being composed 
+
+of picture data, and for displaying said frames on a display 
+of a receiver at an end of a predetermined smoothing time 
+
+period, said smoothing time period following a sampling 
+operation of each frame and being provided for smoothing 
+
+dispersion in time required for coding, transmitting, and 
+
+decoding each sampled frame, said picture data coding apparatus 
+ 
+
+comprising: 
+   a coding means for predictive coding each inputted frame 
+
+from a smallest numbered frame; 
+   a transmission means having a transmission buffer for 
+
+storing coded frames to be transmitted, for storing coded 
+frames coded by said coding means to said transmission buffer 
+
+and transferring each coded frame from a smallest numbered 
+frame from said transmission buffer to the receiver via a 
+
+transmission path; 
+   a first judging means for judging whether or not a frame 
+
+under transmission can be displayed on the display of the 
+receiver at the end of said smoothing time period; 
+
+   a picture data reproduction means for applying a process 
+opposite to the coding operation to coded frames coded by said 
+
+coding means until said first judging means has been judged 
+that a frame under transmission cannot be displayed, and for 
+
+substantially reproducing picture data before the coding 
+operation; and when said first judging means has been judged 
+
+that a frame under transmission cannot be displayed, applying 
+said process opposite to the coding operation to all remaining 
+
+frames in said transmission buffer at that time and for 
+substantially reproducing picture data before the coding 
+
+operation; 
+   a reproduced data storage means having a storage area for 
+
+storing at least four reproduced frames, two of said four 
+reproduced frames being a latest-transmitted frame and a 
+
+ 
+latest-coded frame among frames reproduced by said picture data 
+
+reproduction means; 
+   a second judging means for judging whether or not every 
+
+remaining frame in said transmission buffer can be displayed 
+on the display of the receiver at the end of said smoothing 
+
+time period; and 
+   a system control means for controlling said coding means 
+
+to code a reproduced frame which has been first judged to be 
+capable of being displayed, by using, as a reference frame, a 
+
+latest-transmitted frame whose receipt has been informed from 
+the receiver and further to code a next inputted frame in a 
+
+same manner as a newly inputted frame by using, as a reference 
+frame, a frame which has been coded immediately before said 
+
+next inputted frame and to transfer the coded frame to said 
+transmission means. 
+The picture data coding apparatus of claim 16, wherein 
+said first judging means comprises: 
+
+   a remaining code amount detection means for detecting 
+amount of remaining coded data of a frame under transmission, 
+
+the coded data of the frame remaining in said transmission 
+buffer; 
+
+   a first transmission time calculation means for 
+calculating a transmission time required for transmitting the 
+
+remaining coded data, based on the detected remaining code 
+amount, using an equation shown below: (a transmission time of remaining coded data) = (remaining 
+
+code amount) / (a predetermined transmission rate);  
+   a first decode time calculation means for detecting and 
+
+storing generation code amount, said generation code amount 
+being amount of code generated through a predictive coding 
+
+operation, thereby calculating decode time of the frame under 
+transmission, using an equation shown below: 
+
+(decode time) = (generation code amount) / (a 
+predetermined decode rate);  
+
+   a first remaining time detection means for detecting a 
+remaining time before a displaying operation of the frame from 
+
+a current time point; and 
+   a first comparison means for comparing said remaining time 
+
+and a sum of said decode time and said transmission time, 
+   wherein said second judging means comprises: 
+
+   a code amount prediction means for predicting generation 
+code amount of a frame stored in said reproduced data storage 
+
+means when the frame is coded; 
+   a second transmission time calculation means for 
+
+calculating a transmission time of the frame stored in said 
+reproduced data storage means, based on the predicted code 
+
+amount, using an equation shown below: 
+(transmission time) = (predicted code amount) / 
+
+(predetermined transmission rate);  
+   a coding time calculation means for calculating a time 
+
+required for coding a frame stored in said picture data storage 
+ 
+
+means, based on the predicted code amount, using an equation 
+shown below: 
+
+(coding time) = (predicted code amount) / (predetermined 
+transmission rate);  
+
+   a second decode time calculation means for calculating 
+a decode time of a frame stored in said picture data storage 
+
+means, based on the predicted code amount, using an equation 
+shown below: 
+
+(decode time) = (predictive code amount) / (predetermined 
+decode rate);  
+
+   a second remaining time detection means for detecting 
+remaining time before a displaying operation of the frame 
+
+stored in said reproduced data storage means from a current 
+time point; 
+
+   a second comparison means for comparing said remaining 
+time and a sum of said coding time, said decode time, and said 
+
+transmission time; and 
+   said first judging means judges that a frame which meets 
+
+a requirement expressed by an inequality shown below can be 
+displayed on the display of the receiver: 
+
+(remaining time before a displaying operation) 
+>
+ 
+(transmission time of remaining coded data) + (decode time);  
+
+   said second judging means judges that a frame which meets 
+a requirement expressed by an inequality shown below can be 
+
+displayed on the display of the receiver: 
+(remaining time before a displaying operation) 
+>
+ (coding 
+time) + (transmission time for the coded data) + (decode time). 
+The picture data coding apparatus of claim 17, wherein 
+each of said first remaining time detection means and said 
+
+second remaining time detection means comprises: 
+   an initial value output unit for outputting said 
+
+predetermined smoothing time period; 
+   a timer for outputting a signal every predetermined lapse 
+
+time; 
+   a first selector having one output terminal and two input 
+
+terminals for receiving two input signals, one of said two 
+input terminals receiving said smoothing time period outputted 
+
+from said initial value output unit, and for selecting and 
+outputting one of said two input signals in accordance with a 
+
+selection signal sent from said system control means; 
+   an lapse time subtraction unit for subtracting said lapse 
+
+time from an output of said first selector every time said 
+signal sent from said timer has been detected, and for 
+
+outputting a result to said first comparison means; 
+   n addition units, each of said n addition units adding 
+
+an output of said lapse time subtraction unit and a product of 
+said lapse time and k, said k being a natural number between 
+
+1 and n inclusive; 
+   a second selector for selecting a signal among said n 
+
+signals outputted from said n addition units in accordance with 
+said selection signal sent from said system control means and 
+
+ 
+for outputting the selected signal to said second comparison 
+
+means and said first selector; 
+   wherein at a beginning of an operation of said picture 
+
+data coding apparatus, said system control means outputs said 
+selection signal to said first selector for selecting a signal 
+
+outputted from said initial value output unit among the two 
+signals; 
+
+   every time said second judging means starts a judging 
+operation, said system control means outputs to said second 
+
+selector said selection signal for sequentially selecting said 
+n signals; 
+
+   when said second judging means judges for the first time 
+that a frame can be displayed, said system control means 
+
+outputs to said first selector said selection signal for 
+selecting said output of said second selector. 
+The picture data coding apparatus of claim 17, wherein 
+each of said first remaining time detection means and said 
+
+second remaining time detection means further comprises n 
+subtraction units for subtracting transmission time required 
+
+for transmitting remaining coded data in a frame under 
+
+transmission from said n output signals outputted from said n 
+addition units, thereby outputting results to said second 
+
+selector. 
+The picture data coding apparatus of claim 17, wherein 
+ 
+
+said code amount prediction means comprises: 
+   an inter-frame difference detection unit for detecting an 
+
+inter-frame difference value between a frame to be judged and 
+a latest-transmitted frame by detecting a difference between 
+
+one decoded block in said frame to be judged by said second 
+judging means and picture data of a decoded block located in 
+
+a corresponding position to the decoded block to be judged, in 
+the latest-transmitted frame; 
+
+   a cross conversion unit for cross converting the inter-frame 
+difference detected by said inter-frame difference 
+
+detection unit; 
+   a no-data block detection unit for regarding a block whose 
+
+cross conversion coefficients are all smaller than a 
+predetermined threshold as a no-data block and for detecting 
+
+a number of no-data blocks contained in said frame to be judged 
+by said second judging means; 
+
+   a code amount calculation unit for determining a number 
+of effective blocks, based on the detected number of no-data 
+
+blocks and for calculating generation code amount, based on an 
+equation shown below: 
+
+(effective block number) = (entire block number) - (no-data 
+block number) (generation code amount) = (generation code amount per 
+
+effective block in a latest-coded frame) * (effective block 
+number) 
+The picture data coding apparatus of claim 15, wherein 
+said code amount prediction means comprises a code amount 
+
+prediction control unit for, when said first judging means has 
+judged that the frame under transmission cannot be displayed, 
+
+for directing said coding means to code a latest-coded frame 
+which has been stored in said transmitted buffer and then 
+
+decoded, by using the latest-transmitted frame as a reference 
+frame and for regarding said generation code amount as 
+
+generation code amount of a frame to be judged by said second 
+judging means. 
+The picture data coding apparatus of claim 16, further 
+comprising: 
+
+   a picture data storage means, which includes a storage 
+area for storing at least one frame; and 
+
+   a memory control means for controlling said picture data 
+storage means to store frames sampled during a presence of a 
+
+transmission error, and to transfer each frame stored in said 
+picture data storage means to said coding means after a 
+
+transfer of a latest-reproduced frame to said coding means has 
+been completed. 
+The picture data coding apparatus of claim 22, wherein 
+said first judging means comprises: 
+
+   a remaining code amount detection means for detecting 
+amount of remaining coded data of a frame under transmission, 
+
+ 
+the coded data of the frame remaining in said transmission 
+
+buffer; 
+   a first transmission time calculation means for 
+
+calculating a transmission time required for transmitting the 
+remaining coded data, based on the detected remaining code 
+
+amount, using an equation shown below: 
+(a transmission time of remaining coded data) = (remaining 
+
+code amount) / (a predetermined transmission rate);  
+   a first decode time calculation means for detecting and 
+
+storing generation code amount, said generation code amount 
+being amount of code generated through a predictive coding 
+
+operation, thereby calculating decode time of the frame under 
+transmission, using an equation shown below: 
+
+(decode time) = (generation code amount) / (a 
+predetermined decode rate);  
+
+   a first remaining time detection means for detecting a 
+remaining time before a displaying operation of the frame from 
+
+a current time point; and 
+   a first comparison means for comparing said remaining time 
+
+and a sum of said decode time and said transmission time, 
+   wherein said second judging means comprises: 
+
+   a code amount prediction means for predicting generation 
+code amount of a reproduced frame when the reproduced frame 
+
+stored in said picture data reproduction means; 
+   a second transmission time calculation means for 
+
+calculating a transmission time of a frame stored in said 
+ 
+
+reproduced data storage means and said picture data storage 
+means, based on the predicted code amount, using an equation 
+
+shown below: 
+(transmission time) = (predicted code amount) / 
+
+(predetermined transmission rate);  
+   a coding time calculation means for calculating a time 
+
+required for coding a frame stored in said picture data storage 
+means, based on the predicted code amount, using an equation 
+
+shown below: 
+(coding time) = (predicted code amount) / (predetermined 
+
+transmission rate);  
+   a second decode time calculation means for calculating 
+
+a decode time of a frame stored in said picture data storage 
+means, based on the predicted code amount, using an equation 
+
+shown below: 
+(decode time) = (predictive code amount) / (predetermined 
+
+decode rate);  
+   a second remaining time detection means for detecting 
+
+remaining time before a displaying operation of the frame 
+stored in said reproduced data storage means and said picture 
+
+data storage means from a current time point; 
+   a second comparison means for comparing said remaining 
+
+time and a sum of said coding time, said decode time, and said 
+transmission time; and 
+
+   said first judging means judges that a frame which meets 
+a requirement expressed by an inequality shown below can be 
+
+ 
+displayed on the display of the receiver: 
+
+(remaining time before a displaying operation) 
+>
+ 
+(transmission time of remaining coded data) + (decode time);  
+
+   said second judging means judges that a frame which meets 
+a requirement expressed by an inequality shown below can be 
+
+displayed on the display of the receiver: 
+(remaining time before a displaying operation) 
+>
+ (coding 
+time) + (transmission time for the coded data) + (decode time). 
+The picture data coding apparatus of claim 23, wherein 
+each of said first remaining time detection means and said 
+
+second remaining time detection means comprises: 
+   an initial value output unit for outputting said 
+
+predetermined smoothing time period; 
+   a timer for outputting a signal every predetermined lapse 
+
+time; 
+   a first selector having one output terminal and two input 
+
+terminals for receiving two input signals, one of said two 
+input terminals receiving said smoothing time period outputted 
+
+from said initial value output unit, and for selecting and 
+outputting one of said two input signals in accordance with a 
+
+selection signal sent from said system control means; 
+   an lapse time subtraction unit for subtracting said lapse 
+
+time from an output of said first selector every time said 
+signal sent from said timer has been detected, and for 
+
+outputting a result to said first comparison means;
+ 
+
+   n addition units, each of said n addition units adding 
+an output of said lapse time subtraction unit and a product of 
+
+said lapse time and k, said k being a natural number between 
+1 and n inclusive; 
+
+   a second selector for selecting a signal among said n 
+signals outputted from said n addition units in accordance with 
+
+said selection signal sent from said system control means and 
+for outputting the selected signal to said second comparison 
+
+means and said first selector; 
+   wherein at a beginning of an operation of said picture 
+
+data coding apparatus, said system control means outputs said 
+selection signal to said first selector for selecting a signal 
+
+outputted from said initial value output unit among the two 
+signals; 
+
+   every time said second judging means starts a judging 
+operation, said system control means outputs to said second 
+
+selector said selection signal for sequentially selecting said 
+n signals; 
+
+   when said second judging means judges for the first time 
+
+that a frame can be displayed, said system control means 
+outputs to said first selector said selection signal for 
+
+selecting said output of said second selector. 
+The picture data coding apparatus of claim 24, wherein 
+each of said first remaining time detection means and said 
+
+second remaining time detection means further comprises n 
+ 
+
+subtraction units for subtracting transmission time required 
+for transmitting remaining coded data in a frame under 
+
+transmission from said n output signals outputted from said n 
+addition units, thereby outputting a result to said second 
+
+selector. 
+The picture data coding apparatus of claim 23, wherein 
+said code amount prediction means comprises: 
+
+   an inter-frame difference detection unit for detecting an 
+inter-frame difference value between a frame to be judged and 
+
+a latest-transmitted frame by detecting a difference between 
+one block in said frame to be judged by said second judging 
+
+means and picture data of a decoded block located in a 
+corresponding position to the decoded block to be judged, in 
+
+the latest-transmitted frame; 
+   a cross conversion unit for cross converting the inter-frame 
+
+difference detected by said inter-frame difference 
+detection unit; 
+
+   a no-data block detection unit for regarding a block whose 
+cross conversion coefficients are all smaller than a 
+
+predetermined threshold as a no-data block and for detecting 
+a number of no-data blocks contained in said frame to be judged 
+
+by said second judging means; 
+   a code amount calculation unit for determining a number 
+
+of effective blocks, based on the detected number of no-data 
+blocks and for calculating generation code amount, based on an 
+
+ 
+equation shown below: 
+
+(effective block number) = (entire block number) - (no-data 
+block number) (generation code amount) = (generation code amount per 
+
+effective block in a latest-coded frame) * (effective block 
+number). 
+The picture data coding apparatus of claim 23, wherein 
+said code amount prediction means further comprises: 
+
+   a latest-stored frame number storage means for storing a 
+frame number of a latest-stored frame among frames stored in 
+
+said picture data storage means and said reproduced data 
+storage means; and 
+
+   a code amount prediction control unit for, when said first 
+judging means has judged that the frame under transmission 
+
+cannot be displayed, directing said coding means to code a 
+frame whose frame number is stored in said latest-stored frame 
+
+number storage means and the reproduced data by using the 
+latest-transmitted frame as a reference frame and to detect 
+
+its generation code amount and regarding said generation code 
+amount as generation code amount of a frame to be judged by 
+
+said second judging means. 
+</CLAIMS>
+</TEXT>
+</DOC>

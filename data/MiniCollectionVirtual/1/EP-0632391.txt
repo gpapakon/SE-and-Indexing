@@ -1,0 +1,201 @@
+<DOC>
+<DOCNO>EP-0632391</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Universal asynchronous receiver/transmitter
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1328	G06F1320	G06F1338	G06F1338	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F13	G06F13	G06F13	G06F13	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Data characters to be transferred from a peripheral 
+device to a central processing unit are serially shifted 
+
+into the receiver shift register of a universal 
+asynchronous receiver/transmitter (UART). A multiple 
+
+byte first-in-first-out memory stores a plurality of 
+data characters received by the shift register. The 
+
+UART checks the status of each data character stored in 
+the FIFO to determine whether it will trigger an 
+
+exception. A bytes till exception register indicates 
+the number of data characters remaining in the FIFO 
+
+until an exception is encountered. Then, upon request 
+by the CPU, the UART provides the count of consecutive 
+
+valid data characters from the top of the FIFO to the 
+first exception, eliminating the need to check status on 
+
+every transferred byte. Each of the multiple channels 
+of the UART includes an Initialization Register. 
+
+Setting the appropriate bit Initialization Register of 
+any UART channel allows concurrent writes to the same 
+
+selected register in each channel's register set. This 
+function reduces initialization time for all of the 
+
+common parameters that are loaded into each channel's 
+registers. The UART implements a methodology which 
+
+allows for the processing of any control characters or 
+errors received by the UART during DMA while internal 
+
+and/or external FIFOs are being used. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+NAT SEMICONDUCTOR CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+NATIONAL SEMICONDUCTOR CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+MICHAEL MARTIN S
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MICHAEL, MARTIN S.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to data 
+communications between a data processing system and its 
+associated peripheral devices and, in particular, to an 
+improved universal asynchronous receiver/transmitter 
+(UART) device. 
+According 
+to the invention, the multiple-channel 
+UART allows concurrent writes to the same 
+register of each channel's identical register set. Data communications is a broad term used to define 
+the transmission of data from one point to another. To ensure coherent data communications between two 
+or more points, e.g. between a data processing system 
+and one of its peripheral devices, an interface standard 
+is established to define the characteristics of the 
+communication link. The most popular interface standard for data 
+transmission is asynchronous communication. This 
+standard specifies that each data character to be 
+transmitted be proceeded by a "start" bit and be 
+followed by one or more "stop" bits. Between 
+characters, a mark condition is continuously maintained. 
+Because each transmitted character is bracketed by these  
+ 
+"start" and "stop" bits, the receiver is resynchronized 
+with each transmission, allowing unequal intervals 
+between characters. One commonly used asynchronous data communications 
+device is the Universal Asynchronous Receiver/Transmitter, 
+or UART. A conventional UART relies on two 
+separate serial shift registers, each with its own 
+serial port and clock, to receive data from and transmit 
+data to a modem or peripheral device in response to 
+control signals from the associated data processing 
+system. This architecture allows data to be 
+simultaneously sent and received through the UART at 
+different data rates. To transmit data from its associated data 
+processing system to a selected modem or peripheral 
+device, a UART can request the parallel transfer of data 
+(typically an 8-bit character, or byte, which is placed 
+on the system's data bus) into the UART's transmitter 
+holding register. The transmitter holding register then 
+transfers the data to a transmitter shift register which 
+serially transmits each bit of data to the peripheral 
+device. Initially, when the transmitter holding 
+register is empty, the UART signals the CPU that it is 
+ready to receive data. Data is transferred when a data 
+strobe input from the system to the UART is 
+appropriately pulsed. Since the transmitter holding register is "empty" 
+as soon as the parallel transfer of data to the 
+transmitter shift register occurs, even if the actual 
+serial shifting of data by the
+</DESCRIPTION>
+<CLAIMS>
+A peripheral device connectable between a data processing system 
+and a plurality of peripheral systems for transferring data characters therebetween, 
+
+the peripheral device comprising 
+
+a plurality of communications channels, each communications channel 
+being connectable between the data processing system and a corresponding 
+
+peripheral system for transfer of data characters therebetween; 
+a plurality of register sets, each set (30) being associated with a 
+communications channel in one-to-one correspondence and each set comprising a 
+
+plurality of storage registers (18, 21, 24, 31), each individual storage register (18, 
+21, 24, 31) being uniquely accessible for a write operation by a corresponding 
+
+standard write address referenced by the data processing system, and wherein 
+each storage register (18, 21, 24, 31) within a selected register set (30) has an 
+
+equivalent register (18, 21, 24, 31) in each of the other register sets (30); and 
+a plurality of initialisation registers (29) associated with the said 
+communications channels in one-to-one correspondence, each initialisation 
+
+register containing parameters for the corresponding communications channel; 
+ 
+   
+characterised in that
+ 
+   each initialisation register (29) responds to a standard concurrent write 
+
+instruction referenced by the data processing system and identifying said 
+initialisation register (29) by setting a concurrent write enable flag (29, Bit 0) for the 
+
+associated communications channel to identify a plurality of enabled 
+communications channels such that a subsequently referenced standard write 
+
+address identifying a specific storage register (18, 21, 24, 31) associated with an 
+enabled communications channel causes a concurrent write to all equivalent 
+
+storage registers (18, 21, 24, 31) associated with all enabled communications 
+channels. 
+The peripheral device of claim 1, characterised in that it comprises a 
+memory storage element comprising the plurality of storage registers (18, 21, 24, 
+
+31) for storing data characters. 
+The peripheral device of claim 1 or 2, characterised in that the 
+standard write address referenced by the data processing system to access a  
+
+ 
+specific individual storage register (18, 21, 24, 31) includes a first write address 
+
+component that identifies a register set (30) associated with a specific 
+communications channel and a second write address component that identifies the 
+
+specific individual storage register (18, 21, 24, 31) included in said register set 
+(30), and wherein the second write address component is the same for 
+
+corresponding individual storage registers (18, 21, 24, 31) in each of the register 
+sets. 
+The peripheral device of one of claims 1 to 3, characterised in that 
+each individual storage register set (30) of said storage register sets includes, in 
+
+addition to said storage registers (18, 21, 24, 31), an initialisation register (29), this 
+initialisation register responding to a standard concurrent write programming 
+
+instruction provided by the data processing system by setting a concurrent write 
+flag (29, Bit 0) such that a subsequent standard write address referenced by the 
+
+data processing system and having a first write address component that identifies 
+a register set (30) that includes an initialisation register (29) having its concurrent 
+
+write flag (29, Bit 0) set enables a concurrent write operation to the individual 
+storage register (18, 21, 24, 31) in each storage register set (30) that includes an 
+
+initialisation register (29) having its concurrent write flag (29, Bit 0) set and that is 
+identified by the second write address component of said subsequent standard 
+
+write address. 
+The peripheral device of one of claims 1 to 4, characterised in that 
+each initialisation register (29) responds to a standard clear instruction referenced 
+
+by the data processing system by clearing the concurrent write enable flag (29, Bit 
+0). 
+</CLAIMS>
+</TEXT>
+</DOC>

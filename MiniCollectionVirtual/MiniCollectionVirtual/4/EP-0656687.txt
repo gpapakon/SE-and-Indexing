@@ -1,0 +1,452 @@
+<DOC>
+<DOCNO>EP-0656687</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Parallel infinite impulse response (IIR) filter with low quantization effects and method therefor.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H03H1704	H03H1704	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H03H	H03H	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H03H17	H03H17	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A parallel IIR filter (100) has low quantization effects and 
+includes a multiplier (103) which multiplies a digital input signal 
+
+by a constant, and an arbitrary number of biquad filters (104, 
+105). Outputs of the multiplier (103) and each biquad filter (104, 
+
+105) are summed together in a summing device (106) to provide 
+an output signal of the IIR filter (100). The IIR filter (100) first 
+
+expresses its transfer function as a cascade form transfer 
+function, and then calculates the constant as a product of a 
+
+constant term of each cascade form biquad term. The IIR filter 
+(100) partially decomposes the cascade form transfer function to 
+
+provide first order terms, and calculates numerator coefficients 
+of the first-order terms. Pairs of decomposed terms are 
+
+recombined to provide a parallel form transfer function, from 
+which parallel form coefficients are taken and applied to the 
+
+biquad filters (104, 105). 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MOTOROLA INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MOTOROLA, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+CHEN WEL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+PARK SANGIL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+CHEN, WEL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+PARK, SANGIL
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates generally to electrical filters, and 
+more particularly, to digital filters. Infinite impulse response (IIR) digital filter structures have 
+been studied for more than thirty years. IIR filters generally fall 
+into two types, cascade and parallel. The parallel IIR filter 
+theoretically provides less noise, i.e., provides a higher signal-to-noise 
+ratio. However, for two major reasons most IIR filters 
+are nonetheless implemented using the cascade form. First, the 
+parallel form is considered to be computationally expensive. See, 
+for example, L. Jackson, Digital Filters and Signal Processing, 
+Kluwer Academic Publishers, 1986, at page 202. The cascade IIR 
+filter requires 25-50 percent fewer multiply operations than 
+required for the parallel IIR filter, thus saving processing 
+hardware and instruction cycles. For these practical reasons, the 
+cascade form is often preferred. Second, known parallel IIR filters suffer from reduced 
+performance due to quantization errors. These quantization 
+errors reduce signal-to-noise ratio (SNR) and can arise from two 
+sources. First, commercially-available digital signal processors 
+(DSPs) can create quantization errors when implementing the 
+biquad filters of the IIR filter. The microelectronics revolution 
+has provided DSPs with sophisticated data addressing modes and 
+high arithmetic precision. Nonetheless, commercially available 
+DSPs do not provide the precision required to avoid creating 
+quantization errors. While these DSPs perform the repetitive 
+arithmetic operations required for IIR filters in a high-precision 
+arithmetic logic unit (ALU), sometimes the precision is lost. For 
+example, the high operand precision is lost when an operand must  
+ 
+be stored in memory to implement a time delay. This lost 
+precision results in quantization error. Second, quantization errors occur when the IIR filter 
+polynomial is decomposed to determine the parallel form 
+coefficients. The desired transfer function of the filter is easily 
+expressed in cascade form, that is, as a product of some number 
+of biquad terms. Determination of cascade-form coefficients is 
+easy because only second-order decomposition of each biquad 
+term is involved. In theory, the parallel form of the transfer 
+function can be obtained directly from the cascade form. 
+However, in practice it is very difficult to generate parallel-form 
+filter coefficients directly from the cascade form transfer 
+function. Conversion from the given cascade filter coefficients 
+to the parallel
+</DESCRIPTION>
+<CLAIMS>
+A parallel IIR filter with low quantization effects (100), 
+comprising: 
+
+   a multiplier (103) having a constant associated 
+therewith, having an input terminal for receiving 
+
+a digital signal, and an output terminal for 
+providing a first intermediate signal; 
+
+   a plurality of digital biquad filters (104, 105), each 
+digital biquad filter (104, 105) having an input 
+
+terminal for receiving said digital signal, and an 
+output terminal for providing a corresponding 
+
+intermediate biquad signal; 
+   an output summing device (106), having a first input 
+
+terminal coupled to said output terminal of said 
+multiplier (103), second input terminals 
+
+coupled to output terminals of each digital 
+biquad filter section (104, 105), and an output 
+
+terminal for providing an output signal (107) of 
+the parallel IIR filter (100); and 
+
+   processing means (55, 60) for providing coefficients 
+to each of said plurality of digital biquad 
+
+filters, said processing means comprising: 
+   expression means for expressing (142) a transfer 
+
+function of the parallel IIR filter (100) as a 
+cascaded IIR filter transfer function, said 
+
+cascaded IIR filter transfer function being a 
+product of a plurality of cascade form biquad 
+
+terms, each cascade form biquad term having a 
+numerator and a denominator; 
+
+   decomposition means for decomposing (143) each 
+cascade form biquad term to provide a pair of 
+
+first-order terms of a plurality of first-order 
+terms corresponding thereto;
+
+ 
+   calculation means for calculating (144) first and 
+
+second intermediate numerator coefficients for 
+each first-order term; 
+
+   combination means for combining (145) pairs of said 
+plurality of first-order terms to provide a 
+
+plurality of parallel-form biquad terms; and 
+   application means for applying (147) first and second 
+
+numerator coefficients and first and second 
+denominator coefficients of each parallel form 
+
+biquad term to corresponding ones of said 
+plurality of digital biquad filters (104, 105) of 
+
+the parallel IIR filter (100), 
+   the parallel IIR filter (100) filtering (149) said 
+
+digital signal to provide said output signal using 
+said plurality of digital biquad filters (104, 
+
+105) as determined by corresponding first and 
+second numerator coefficients and corresponding 
+
+first and second denominator coefficients. 
+The parallel IIR filter (100) of claim 1 further comprising 
+second calculation means for calculating (146) said 
+
+constant as a product of a constant term of each of said 
+plurality of cascade form biquad terms, wherein said 
+
+application means further applies said constant to said 
+multiplier (103), the parallel IIR filter (100) 
+
+filtering (149) said digital signal further using said 
+multiplier (103) as determined by said constant. 
+The parallel IIR filter (100) of claim 1, wherein said 
+processing means (55, 60) comprises: 
+
+   a program memory (55) for storing a plurality of 
+instructions; and 
+
+   a data processor (60) operatively coupled to said 
+program memory (55) and responsive to said 
+
+plurality of instructions. 
+The parallel IIR filter (100) of claim 1, wherein each 
+digital biquad filter comprises: 
+
+   a summing device (113) having first, second, third, 
+and fourth input terminals, and an output 
+
+terminal for providing an output signal of the 
+digital biquad filter (104); 
+
+   a first multiplier (111) having an input terminal for 
+receiving said digital signal, and an output 
+
+terminal coupled to said first input terminal of 
+said summing device (113), said first 
+
+multiplier (111) multiplying an input thereof by 
+a corresponding first numerator coefficient to 
+
+provide an output thereof to said output 
+terminal; 
+
+   a first delay element (110) having an input terminal 
+for receiving said digital signal, and an output 
+
+terminal; 
+   a second multiplier (112) having an input terminal 
+
+coupled to said output terminal of said first 
+delay element (110), and an output terminal 
+
+coupled to said second input terminal of said 
+summing device (113), said second 
+
+multiplier (112) multiplying an input thereof by 
+a corresponding second numerator coefficient to 
+
+provide an output thereof to said output 
+terminal; 
+
+   a second delay element (114) having an input terminal 
+coupled to said output terminal of said summing 
+
+device (113), and an output terminal; 
+   a third multiplier (116) having an input terminal 
+
+coupled to said output terminal of said second 
+delay element (114), and an output terminal 
+
+coupled to said third input terminal of said 
+summing device (113), said third 
+
+multiplier (116) multiplying an input thereof by 
+a corresponding first denominator coefficient to 
+
+ 
+provide an output thereof to said output 
+
+terminal; 
+   a third delay element (115) having an input terminal 
+
+coupled to said output terminal of said second 
+delay element (114), and an output terminal; and 
+
+   a fourth multiplier (117) having an input terminal 
+coupled to said output terminal of said third 
+
+delay element (115), and an output terminal 
+coupled to said fourth input terminal of said 
+
+summing device (113), said fourth 
+multiplier (117) multiplying an input thereof by 
+
+a corresponding second denominator coefficient 
+to provide an output thereof to said output 
+
+terminal. 
+A parallel infinite impulse response (IIR) filter with low 
+quantization effects (100), comprising: 
+
+   a multiplier (103) having a constant associated 
+therewith, having an input terminal for receiving 
+
+a digital signal, and an output terminal for 
+providing a first intermediate signal; 
+
+   a plurality of digital biquad filters (104, 105), each 
+digital biquad filter (104, 105) having an input 
+
+terminal for receiving said digital signal, and an 
+output terminal for providing a corresponding 
+
+intermediate biquad signal; 
+   an output summing device (106) having a first input 
+
+terminal coupled to said output terminal of said 
+
+multiplier (103), second input terminals 
+coupled to output terminals of each digital 
+
+biquad filter (104, 105), and an output terminal 
+for providing an output signal of the IIR 
+
+filter (107); and 
+   a data processing apparatus (55, 60) operatively 
+
+coupled to said multiplier (103), said data 
+processing apparatus (55, 60) expressing (142) 
+
+a transfer function of the parallel IIR 
+ 
+
+filter (100) as a cascade form transfer 
+function, said cascade form transfer function 
+
+being a product of a plurality of cascade form 
+biquad terms, each cascade form biquad term 
+
+having a numerator and a denominator, said data 
+processing apparatus (55, 60) further 
+
+calculating said constant (K) as a product of a 
+constant term of each of said plurality of 
+
+cascade form biquad terms and applying said 
+constant to the multiplier (103), 
+
+   the parallel IIR filter (100) filtering (149) said 
+digital signal using said multiplier (103) as 
+
+determined by said constant. 
+The parallel IIR filter (100) of claim 5, wherein said data 
+processing apparatus (55, 60) comprises: 
+
+   expression means for expressing (142) a transfer 
+function of the parallel IIR filter (100) as a 
+
+cascaded IIR filter transfer function, said 
+cascaded IIR filter transfer function being a 
+
+product of a first predetermined number of 
+biquad terms, each biquad term having a 
+
+numerator and a denominator; 
+   calculation means for calculating said constant as a 
+
+product of a constant term of each of said 
+plurality of cascade form biquad terms; and 
+
+   application means for applying said constant to the 
+parallel IIR filter (100). 
+The parallel IIR filter (100) of claim 5, wherein said data 
+processing apparatus (55, 60) comprises: 
+
+   a program memory (55) for storing a plurality of 
+instructions; and 
+
+   a data processor (60) operatively coupled to said 
+program memory (55) and responsive to said 
+
+plurality of instructions. 
+A method for filtering a digital input signal using a parallel 
+infinite impulse response (IIR) filter (100), comprising the 
+
+steps of: 
+   expressing (142) a transfer function of the parallel 
+
+IIR filter (100) as a cascade form transfer 
+function, said cascade form transfer function 
+
+being a product of a plurality of cascade form 
+biquad terms, each cascade form biquad term 
+
+having a numerator and a denominator; 
+   decomposing (143) each cascade form biquad term to 
+
+provide a pair of first-order terms of a plurality 
+of first-order terms corresponding thereto; 
+
+   calculating (144) first and second intermediate 
+numerator coefficients for each first-order 
+
+term; 
+   combining (145) pairs of said plurality of first-order 
+
+terms to provide a plurality of parallel form 
+biquad terms; 
+
+   applying (148) first and second numerator 
+coefficients and first and second denominator 
+
+coefficients of each parallel form biquad term 
+to corresponding ones of a plurality of biquad 
+
+filters (104, 105) of the parallel IIR 
+filter (100); and 
+
+   filtering (149) a digital input signal with the parallel 
+IIR filter (100) to provide a digital output 
+
+signal using said plurality of biquad 
+filters (104, 105) as determined by 
+
+corresponding first and second numerator 
+coefficients and corresponding first and second 
+
+denominator coefficients. 
+The method of claim 8 further comprising the steps of: 
+   calculating (147) a constant from said numerator of 
+
+each of said first predetermined number of 
+cascade form biquad terms; and
+
+ 
+   applying said constant to a multiplier (103) of the 
+
+parallel IIR filter (100); 
+and wherein said step of filtering (149) comprises the step 
+
+of filtering (149) said digital input signal of the parallel 
+IIR filter further using said multiplier (103) as determined 
+
+by said constant. 
+A method for filtering a digital input signal using a parallel 
+infinite impulse response (IIR) filter (100), comprising the 
+
+steps of: 
+   expressing (142) a transfer function of the parallel 
+
+IIR filter (100) as a cascaded IIR filter transfer 
+function, said cascaded IIR filter transfer 
+
+function being a product of a plurality of 
+cascade form biquad terms, each cascade form 
+
+biquad term having a numerator and a 
+denominator; 
+
+   calculating (147) a parallel form constant by 
+multiplying together constants of numerators of 
+
+each of said plurality of cascade form biquad 
+terms; 
+
+   applying said parallel form constant to a 
+multiplier (103) of the parallel IIR filter (100); 
+
+and 
+   filtering (149) a digital input signal with the parallel 
+
+IIR filter (100) to provide a digital output 
+signal using said multiplier (103) as determined 
+
+by said parallel form constant. 
+</CLAIMS>
+</TEXT>
+</DOC>

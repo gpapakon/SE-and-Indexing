@@ -1,0 +1,343 @@
+<DOC>
+<DOCNO>EP-0634721</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method and circuit for translation of virtual addresses in data processing systems
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1210	G06F1210	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F12	G06F12	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The invention takes into account the ESA [executive storage area] architecture with register address conversion (ART), upstream of dynamic address conversion (DAT), in computers having at least two processors (PLU and EXU), which access a common memory system and only one (EXU) of which is equipped with a complete address translation unit (ART/DAT) and the other (PLU) of which has only an address translation buffer (TLB-CAM), for which the other processor (EXU) supplies the translated absolute page addresses (ADAP). A separate address space number (ESA) is assigned to a predetermined number n of the available virtual address spaces. The separate address space number is stored in separate registers (ESA-REG), individually assigned to the general-purpose registers (B-REG), instead of the more comprehensive pointers (ALESN/ALEN), which define the address spaces, and forms, together with the virtual page addresses (VPAD), the supervisory entry in the translation buffer (TLB-CAM), the entries of which are checked using the separate address space number (ESA) from the relevant separate register (ESA-REG) in conjunction with the calculated respective virtual page address (VPAD) as an item of comparison data. 
+<
+IMAGE
+>
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SIEMENS NIXDORF INF SYST
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SIEMENS NIXDORF INFORMATIONSSYSTEME AKTIENGESELLSCHAFT
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+SALZMANN HORST DIPL-PHYS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SALZMANN, HORST, DIPL.-PHYS.
+</INVENTOR-NAME>
+</INVENTORS>
+<CLAIMS>
+Method for translating virtual addresses (VAD)
+into absolute addresses (AAD) in data processing systems,
+
+the storage system of which is subdivided into a multiplicity
+of simultaneously addressable virtual address
+
+spaces in accordance with the ESA architecture, each of
+these address spaces being addressable by the content of
+
+a separate access register (ACC-REG) which in each case
+is permanently allocated to one of the multipurpose
+
+registers (B-REG), which can be addressed by the register
+field (B) of a command, and contains a pointer
+
+(ALESN/ALEN) to a relevant address list via which, during
+a preceding register/address conversion (ART), the
+
+pointer (STD), needed for the subsequent dynamic address
+conversion (DAT), for a segment table is finally found,
+
+by means of which the absolute address (AAD), needed for
+the storage access, is obtained in connection with a part
+
+of the virtual address (VAD) to be translated, for
+separate processors (PLU, EXU), all of which can access
+
+the common storage system, characterized in that
+
+complete address translations are only executed by
+one of the processors (EXU),
+in this processor (EXU), a separate address space
+number (ESA) is allocated to a predetermined number
+
+(n) of virtual address spaces,
+in the case of a first address translation request
+by the other processor (PLU), in each case the
+
+relevant separate address space number (ESA) and the
+absolute page address (APAD) are determined and
+
+transferred to the other processor (PLU), 
+the separate address space number (ESA) determined
+is stored in separate registers (ESA-REG)
+
+individually allocated to the multipurpose registers
+(B-REG) of the requesting processor (PLU) and,
+
+together with the virtual page address (VPAD) as
+control entry and the absolute page address (APAD)
+
+determined in a translation buffer (TLB-CAM)
+operating in an associated manner,
+with each address calculation to be carried out by
+this other processor (PLU), first the valid separate
+
+address space number (ASA) read out of the
+associated separate register in parallel with the
+
+selection of one of the multipurpose registers
+(B-REG), together with the calculated virtual page
+
+address (VPAD), is used for checking the translation
+buffer (TLB-CAM) for the presence of a translated
+
+page address (APAD), and that
+in dependence on the check of the translation buffer
+(TLB-CAM), either the valid absolute page address
+
+(APAD) contained therein is used for forming the
+absolute address (AAD) or, in the case of a negative
+
+test result, the translation is requested by the
+relevant processor (EXU).
+Method according to Claim 1, characterized in
+that in the case of the presence of a separate address
+
+space number (ESA) declared invalid (V=0) in the separate
+register (ESA-REG), the translation request (ESAREQ) to
+
+the relevant processor (EXU) is triggered directly
+without checking the translation buffer (TLB-CAM).
+Method according to Claim 1 or 2, characterized
+in that a first complete address translation takes place
+
+in two steps, wherein in the first step (ESAREQ) in each
+case, the separate address space number (ESA) is determined
+
+by means of the register field (B) forwarded to the
+executing processor (EXU) and is stored in the separate
+
+register (ESA-REG) of the requesting processor (PLU),
+allocated to the relevant multipurpose register (B-REG),
+
+whilst in the second step (DATREQ), the absolute page 
+address (APAD) is determined by means of the virtual
+
+address (VAD) forwarded to the executing processor (EXU)
+together with the register field (B), and the total entry
+
+is newly set up in the translation buffer (TLB-CAM) of
+the requesting processor (PLU) together with the separate
+
+address space number (ESA) from the associated separate
+register (ESA-REG).
+Method according to Claim 2 and 3, characterized
+in that in the case of an unsuccessful check of the
+
+translation buffer (TLB-CAM), only the second step
+(DATREQ) of the address translation is carried out for
+
+determining the absolute page address (APAD).
+Method according to one of Claims 1 to 4, characterized
+in that in the processor (EXU) performing the
+
+address translation, a translation buffer (ALB-CAM)
+operating in an associative manner is also used in which
+
+the pointers (ALESN/ALEN) contained in the access
+registers (ACC-REG) are entered as control entries for
+
+the associated pointer (STD) determined in each case for
+selecting the dynamic address conversion (DAT), each of
+
+the entries corresponding to one of the separate address
+space numbers (ESA).
+Method according to Claim 5, characterized in
+that the separate address space number (ESA) relevant in
+
+each case is derived from an entry in each case resulting
+in a hit indication.
+Method according to Claim 5 and 6, characterized
+in that the selection of the associated pointer (STD) for
+
+the dynamic address conversion (DAT) occurs in dependence
+on the separate address space number (ESA) determined
+
+during the check of the conversion buffer (ALB-CAM).
+Method according to one of Claims 5 to 7,
+characterized in that, in accordance with the ESA architecture,
+
+operation takes place in the four different
+translation modes predetermined by the res
+pective program
+status word (PSW), the address space "0" forming the
+
+primary space, address space "1" forming the secondary
+space and address space "2" forming the home space and 
+
+the associated pointers (STD) of these three address
+spaces are predetermined for the dynamic address
+
+conversion (DAT) by the contents of the control registers
+(CR1, 7, 13) whilst the remaining address spaces are
+
+defined by the contents of the access registers (ACC-REG)
+and the associated pointers (STD) for the dynamic address
+
+conversion are predetermined by the relevant address list
+of the register address conversion (ART).
+Method according to Claim 8, characterized in
+that the control registers (CR1, 7 and 13) form an
+
+integral component of the translation buffers (ALB-CAM)
+and are allocated to the entries "0" to "2" corresponding
+
+to the address spaces "0" to "2" whilst the remaining
+entries "3" to "n" can be optionally allocated to the
+
+virtual address spaces defined by the access registers
+(ACC-REG), entries "0" and "1" being characterized as
+
+valid and entry "2" being characterized as invalid for
+the home space, and
+
+that in a translation mode corresponding to the first
+three address spaces "0" to "2", a hit signal supplied
+
+during the checking of the translation buffer (ALB-CAM)
+is converted into the separate address space number (ESA)
+
+characterizing the associated virtual address space in
+dependence on the corresponding control bits in the
+
+program status word (PSW5, 16, 17).
+Circuit arrangement for translating virtual
+addresses (VAD) into absolute addresses (AAD) in data
+
+processing systems, the storage system of which is
+subdivided into a multiplicity of simultaneously
+
+addressable virtual address spaces in accordance with the
+ESA architecture, each of these address spaces being
+
+addressable by the content of a separate access register
+(ACC-REG) which in each case is permanently allocated to
+
+one of the multipurpose registers (B-REG), which can be
+addressed by the register field (B) of a command, and
+
+contains a pointer (ALESN/ALEN) to a relevant address
+list via which, during a preceding register/address
+
+conversion (ART), the pointer (STD), needed for the 
+subsequent dynamic address conversion (DAT), for a
+
+segment table is finally found, by means of which the
+absolute address (AAD), needed for the storage access, is
+
+then obtained in connection with a part of the virtual
+address (VAD) to be translated, for separate processors
+
+(PLU, EXU), all of which can access the common storage
+system, characterized in that
+
+complete address translations are only executed by one of
+the processors (EXU),
+
+that this one processor (EXU) allocates a separate
+address space number (ESA) to a predetermined number (n)
+
+of virtual address spaces, and during a first address
+translation request by another processor (PLU), in each
+
+case determines the relevant separate address space
+number (ESA) and the absolute page address (APAD),
+
+
+that with the register address conversion (ART) in this
+one processor (EXU), a separate memory for temporary
+
+storage of the pointers (ALESN/ALEN) predetermined by the
+access registers (ACC-REG) for the individual virtual
+
+address spaces is coupled in correlation with the predetermined
+separate address space numbers (ESA),
+that in the other processors (PLU), a separate
+individual register (ESA-REG) for the storage of the
+
+separate address space number (ESA) determined in each
+case is allocated to each of the multipurpose registers
+
+(B-REG), and
+that the entries in a translation buffer (TLB-CAM)
+operating in an associative manner, of this other
+
+processor exhibit, in addition to the section for the
+virtual page address (VPAD) used as control entry and for
+
+the absolute page address (APAD) determined, in each case
+a further section for the associated separate address
+
+space number (ESA) determined as further control entry.
+Circuit arrangement according to Claim 10,
+characterized in that the memory coupled to the register
+
+address conversion (ART) is constructed as conversion
+buffer (ALB-CAM) operating in an associative manner for
+
+the temporary storage of the pointers (STD), in each case 
+determined for the address spaces predetermined by the
+
+access registers (ACC-REG), for the dynamic address
+conversion (DAT), the entries of which are in each case
+
+allocated to one of the separate address space numbers
+(ESA).
+Circuit arrangement according to Claim 10 or 11,
+characterized in that a monitoring circuit (OR) for
+
+monitoring the entries for their validity and for
+triggering a translation request (ESAREQ) to the
+
+processor (EXU) executing the address translation in the
+case of an invalid entry is coupled to the separate
+
+registers (ESA-REG).
+Circuit arrangement according to Claim 11 or 12,
+characterized in that
+
+
+the three address spaces ("0" to "2") for the Primary
+Space, the Secondary Space and the Home Space are permanently
+
+allocated the corresponding least significant
+entries in the conversion buffer operating in an
+
+associative manner (ALB-CAM), the associated control
+registers forming an integral component of these entries,
+
+and
+in that the monitoring circuit (COMP2) of this conversion
+buffer (ALB-CAM) is coupled to a separate control
+
+device (COD) which converts the hit signal, supplied by
+one of the entries during a check of the conversion
+
+buffer (ALB-CAM), into the associated separate address
+space number (ESA), during which process the respective
+
+hit signal is modified into the separate address space
+number (ESA) identifying the associated virtual address
+
+space, in dependence on the control bits (5, 16, 17),
+indicating the valid translation mode, in the respective
+
+program status word (PSW) if one of the three separate
+translation modes are present.
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,560 @@
+<DOC>
+<DOCNO>EP-0617365</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Fully pipelined and highly concurrent memory controller
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1206	G06F1316	G06F1316	G06F1200	G06F1200	G06F1206	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F12	G06F13	G06F13	G06F12	G06F12	G06F12	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A memory controller which makes maximum use of any 
+processor pipelining and runs a large number of cycles 
+
+concurrently. The memory controller can utilize 
+different speed memory devices and run each memory 
+
+device at its desired optimal speed. The functions are 
+performed by a plurality of simple, interdependent 
+
+state machines, each responsible for one small portion 
+of the overall operation. As each state machine 
+
+reaches has completed its function, it notifies a 
+related state machine that it can now proceed and 
+
+proceeds to wait for its next start or proceed 
+indication. The next state machine operates in a 
+
+similar fashion. The state machines responsible for 
+the earlier portions of a cycle have started their 
+
+tasks on the next cycle before the state machines 
+responsible for the later portions of the cycle hav
+e 
+completed their tasks. The memory controller is 
+
+logically organized as three main blocks, a front end 
+block, a memory block and a host block, each being 
+
+responsible for interactions with its related bus and 
+components and interacting with the various other 
+
+blocks for handshaking. The memory controller utilizes 
+differing speed memory devices, such as 60 ns and 80 
+
+ns, on an individual basis, with each memory device 
+operating at its full designed rate. The speed of the 
+
+memory is stored for each 128 kbyte block of memory and 
+used when the memory cycle is occurring to redirect a 
+
+state machine, accomplishing a timing change of the 
+memory devices. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+COMPAQ COMPUTER CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+COMPAQ COMPUTER CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BONELLA RANDY M
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+COLLINS MICHAEL J
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LANDRY JOHN A
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SANTELER PAUL A
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+THOME GARY W
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BONELLA, RANDY M.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+COLLINS, MICHAEL J.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LANDRY, JOHN A.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SANTELER, PAUL A.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+THOME, GARY W.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The invention relates to memory controllers used
+with computers, and more particularly to memory
+controllers working with an address pipelined processor
+and allowing multiple concurrent cycles.Microprocessor-based computer systems have been
+increasing in performance at a tremendous rate. Much
+of this increase has been based on the improvements in
+the microprocessor itself. For example, clock speeds
+are reaching those previously used only by mainframe
+computers. However, affordable memory device
+performance has not been increasing at the same rate.
+Indeed, dynamic random access memory (DRAM) performance
+has flattened out recently, with the majority of the
+effort being concentrated on increasing device storage
+size. Thus main memory has become a bottleneck.Cache memory systems, where a small amount of very
+fast, expensive static RAM is used to store copies of
+the data, have made the problem somewhat less severe,
+but the designs are very complicated and expensive.
+Further, the poor memory performance returns when
+access must be made to main memory. So there still is
+a need to improve the performance of the main memory
+system.Page mode memory devices provide one way to
+increase memory system performance. If consecutive 
+accesses are made to the same row address, referred to
+as the same page, only column addresses need be
+provided. This allows a dramatic reduction in cycle
+time for those cases, referred to as page hits. This
+is a quick gain and relatively easily made by itself,
+but more performance is always desired.In many processors, the address is provided before
+the data portion of the cycle. This is referred to as
+pipelining and allows a performance increase in the
+memory systems. All of the address decoding can be
+started before the data portion begins, so that
+partially parallel operations can occur.In most cases this overlap is somewhat minimal,
+one or two clock cycles, as the related systems cannot
+handle much more complexity. For example, the memory
+controller is conventionally built as a synchronous
+controller, based on a major state machine to control
+events and advancing on the processor clock edge. As
+the complexities of the microprocessor and the computer
+system increase, the conventional memory controller
+design becomes very limiting. It is exceedingly
+difficult to build a major state machine to handle all
+the possible cases. The complexity is daunting, if not
+overwhelming. As a result, numerous potential
+performance improvements have to be limited. Usually
+this means that any pipelining is
+</DESCRIPTION>
+<CLAIMS>
+A computer system comprising:
+
+a processor (152) having address outputs and data and
+control terminals and executing operations cycles wherein
+
+signals are provided on said address outputs and said
+control terminals indicative of the operation being
+
+performed, said control terminals including an output for
+indicating operation cycle start and an input for receiving
+
+an operation cycle completion indication;
+a processor bus having address (PA), data (PD) and
+control (PC) portions for transmitting address, data and
+
+control signals, said processor bus being connected to said
+processor for transmitting signals to and from said
+
+processor;
+a host bus having address (HA), data (HD) and control
+(HC) portions for transmitting address, data and control
+
+signals;
+a bus controller (110) having address inputs and control and
+data terminals, said bus controller connected to said host bus for
+
+receiving addresses and transmitting and receiving control
+and data signals over said host bus, said control terminals
+
+including an input for receiving an operation cycle start
+indication and an output for providing an operation cycle
+
+completion indication;
+a plurality of memory devices (168,170) having address
+and control inputs and data terminals;
+means (160) connected to said processor and host
+address bus portions for transferring addresses between said
+
+buses; and
+means (164) connected to said processor bus for
+determining whether an operation cycle on said processor bus
+
+is directed to said plurality of memory devices or said host
+bus device;
+a memory bus having address, control and data (MD)
+
+portions and connected to said plurality of memory devices 
+for transferring address and control signals to said
+
+plurality of memory devices and data signals to and from
+said plurality of memory devices; and
+a memory address means (166) connected to said processor
+address bus portion for providing addresses from said
+
+processor bus to said memory bus, said memory address means
+having control inputs for receiving signals controlling said
+
+address provision; and
+
+characterised by a data buffer (158) directly connected to said processor (PD),
+host (HD) and memory (MD) data bus portions for transferring
+
+data between said buses, said data buffer having control
+inputs for receiving signals controlling transfers between
+
+said buses;
+
+   a memory controller (156) connected to said processor,
+host and memory control bus portions, to said data buffer,
+
+to said means for transferring addresses between said
+processor and host buses, to said operation cycle direction
+
+determination means and to said memory address means for
+controlling operation of said data buffer, said means for
+
+transferring addresses between said processor and host
+buses, said memory address means and said plurality of
+
+memory devices based on the direction as determined by said
+operation cycle direction determination means and as
+
+sequenced by the operation cycle, said memory controller
+including:
+
+
+a processor control interface portion (400) having
+a state machine, said processor control interface portion
+
+receiving operation cycle start indications from said
+processor, providing operation cycle complete indications
+
+to said processor, providing control signals to said data
+buffer for receiving data from said processor data bus and
+
+providing data to said processor bus, providing a control
+signal indicative of receipt of an operation cycle directed
+
+to said plurality of memory devices, providing a control
+signal indicative of receipt of an operation cycle directed
+
+to said host bus; having an input for receiving a signal 
+indicative of completion of said operation cycle to said
+
+plurality of memory devices and having an input for
+receiving a signal indicative of completion of said
+
+operation cycle to said host bus;
+a host bus control interface portion (404) having
+a state machine, said host bus control interface portion
+
+receiving said control signal indicative of receipt of an
+operation cycle directed to said host bus from said
+
+processor control interface portion, providing operation
+cycle start indications to said host bus, receiving
+
+operation cycle complete indications from said host bus,
+providing control signals to said data buffer for receiving
+
+data from said host bus and providing data to said host bus
+and providing a signal to said processor control interface
+
+portion indicative of completion of said operation cycle to
+said host bus; and
+a memory control interface portion (402) having
+a state machine, said memory control interface portion
+
+receiving said control signal indicative of receipt of an
+operation cycle directed to said plurality of memory devices
+
+from said processor control interface portion, providing
+control signals to said plurality of memory devices,
+
+providing control signals to said memory address means to
+provide an address and control signals to said plurality of
+
+memory devices, providing control signals to said data
+buffer for receiving data from said memory bus and providing
+
+data to said memory bus, and providing a signal to said
+processor control interface portion indicative of completion
+
+of said operation cycle to said plurality of memory devices.
+The computer system of claim 1, wherein said
+processor control terminals include an input indicating
+
+capability to receive the address of the next operation
+cycle, wherein said processor (152) may then provide the
+
+address of the next operation cycle, resulting in
+pipelining, and
+
+   wherein said processor interface control
+portion (400) has an output for providing a control signal
+
+indicating capability to the next address and wherein
+said next address control signal is provided when said
+
+memory controller (156) is capable of receiving said next
+address before a pending operation cycle is complete.
+The computer system of claim 2, wherein said
+data buffer (158) includes latches for receiving data from
+
+said processor bus for provision of said data to said
+plurality of memory devices and latches for receiving
+
+data from said processor bus for provision of said data
+to said host bus (H), and
+
+   wherein said processor control interface
+portion (400) controls said data buffer (158) to latch data from
+
+said processor bus to the proper of said latches based
+on the direction of said operation cycle and provides
+
+said operation cycle complete indication to said
+processor bus when said data is latched and before
+
+completion of the cycle to said plurality of memory
+devices (168, 170) or said host bus (H) as appropriate.
+The computer system of claim 3, wherein said
+processor (152) performs burst operation cycles wherein an
+
+address is provided and a plurality of sequential data
+elements are provided, said burst operation cycle
+
+utilizing a single operation cycle indication and 
+receiving a plurality of operation cycle complete
+
+indications, one for each data element, and
+
+   wherein said processor control interface portion (400)
+provides a operation cycle completion indication for
+
+each data element.
+The computer system of claim 4, wherein said
+data buffer (158) latches for provision of data to said
+
+plurality of memory devices (168, 170) include a plurality of
+latches sufficient for receiving all the data elements
+
+in a burst operation cycle, and
+
+   wherein said processor control interface
+portion (400) controls said latches in said data buffer to
+
+latch all of the data elements in a burst operation
+cycle.
+The computer system of claim 3, wherein said
+processor (152) provides an operation write cycle directed to
+
+one of sai host bus (H) or said plurality of memory
+devices (168, 170) followed by an operation cycle directed to the
+
+other of said plurality of memory devices or host bus,
+and
+
+   wherein said processor control interface portion (400)
+provides said control signals to said data buffer (158) and
+
+said processor (152) to cause data to be latched in said data
+buffer, an operation cycle receipt signal is provided
+
+to the appropriate of said host bus control interface
+portion (404) or said memory control interface portion (402) and an
+
+operation cycle completion indication is provided to
+said processor for the first of said cycles and said
+
+processor control interface portion receives the
+operation cycle start indication for the second
+
+operation cycle and provides an operation cycle receipt
+signal to the other of said host bus control interface
+
+portion (404) or said memory control interface portion (402), 
+whereby two operation cycles are concurrently being
+
+processed by said memory controller.
+The computer system of claim 6, wherein said
+device connected to said host bus (H) comprises:
+
+
+an input/output bus (E) having address, control
+and data portions for transmitting address, data and
+
+control signals;
+a second device having address inputs and data and
+control terminals, said device connected to said
+
+input/output bus for receiving addresses and
+transmitting and receiving control and data signals
+
+over said input/output bus (E);
+an input/output data buffer (112) connected between said host and
+said input/output bus data portions for transferring
+
+data between said buses, said data buffer having
+control inputs for receiving signals controlling
+
+transfers between said buses and having latches for
+
+receiving data from said host bus for provision to said
+input/output bus (E);
+means (114) connected to said input/output and host
+address bus portions for transferring addresses between
+
+said buses;
+wherein said bus controller (110) is connected to said host and
+input/output bus control portions, to said input/output
+
+data buffer (112) and said means for transferring addresses
+between said input/output (E) and host (H) buses for
+
+controlling operation of said input/output data buffer (112)
+and said means for transferring addresses between-said
+
+input/output and host buses as sequenced by the
+operation cycle and performing operation cycles on said
+
+input/output bus, said bus controller including an
+input for receiving an operation cycle start indication
+
+on said host bus and an output for providing an
+operation cycle completion indication on said host bus, 
+wherein said processor (152) provides an operation
+directed to said second device on said input/output bus prior
+
+to providing said operation cycle directed to said host
+bus, and
+wherein said bus controller (110) provides said
+control signals to said input/output data buffer (112) to
+
+cause said input/output data buffer to latch data and
+provides said operation cycle completion indication to
+
+said host bus (H) before completion of the operation cycle
+on the input/output bus (E), whereby three operation cycles
+
+are concurrently being processed by the computer
+system.
+The computer system of claim 7 wherein said
+operation to the second of said host bus (H) or said
+
+plurality of memory devices (168, 170) is a write cycle,
+
+wherein said processor (152) provides an operation cycle
+following said second operation cycle; and
+wherein said processor control interface portion (400)
+provides said control signals to said data buffer to
+
+cause data for said cycle to be latched in said data
+buffer, an operation cycle completion indication is
+
+provided to said processor (152) for said cycle and said
+processor control interface portion (400) receives the
+
+operation cycle start indication for the operation
+cycle following said second operation cycle, whereby
+
+four operation cycles are concurrently being processed
+by the computer system, three of them being
+
+concurrently processed by said memory controller (156).
+The computer system of claim 1, wherein said
+bus controller (110) connected to said host bus comprises:
+
+
+an input/output bus (E) having address, control
+and data portions for transmitting address, data and
+
+control signals; 
+a second device having address inputs and data and
+control terminals, said device connected to said
+
+input/output bus for receiving addresses and
+transmitting and receiving control and data signals
+
+over said input/output bus;
+an input/output data buffer (112) connected between said host (H) and
+said input/output (E) bus data portions for transferring
+
+data between said buses, said data buffer having
+control inputs for receiving signals controlling
+
+transfers between said buses;
+means (114) connected to said input/output and host
+address bus portions for transferring addresses between
+
+said buses;
+wherein said bus controller (110) is connected to said host and
+input/outpu/ bus control portions, to said input/output
+
+data buffer (112) and said means for transferring addresses
+between said input/output (E) and host (H) buses for
+
+controlling operation of said input/output data buffer
+and said means (114) for transferring addresses between said
+
+input/output and host buses as sequenced by the
+operation cycle and performing operation cycles on said
+
+input/output bus (E), said bus controller including an
+input for receiving an operation cycle start indication
+
+on said host bus and an output for providing an
+operation cycle completion indication on said host bus;
+
+and
+a bus master having address outputs and
+control and data terminals connected to said
+
+input/output bus for controlling operation cycles on
+said input/output bus, wherein said bus master directs
+
+operations to said plurality of memory devices,
+wherein said bus controller (110) detects said bus
+master operation cycle directed to said plurality of
+
+memory devices and controls said input/output data
+buffer (112) to transfer data between said input/output (E) and 
+
+host (H) data bus portions and controls said means
+connected to said input/output and host address bus
+
+portions to transfer addresses between said
+input/output and host buses,
+wherein said memory controller (156) controls said
+means connected to said processor and host address bus
+
+portions for transferring addresses between said
+processor and host buses to transfer addresses between
+
+said processor and host buses when said memory
+controller detects said bus master cycle directed to
+
+said plurality of memory devices, and
+wherein said memory control interface portion (402)
+receives control signals from said input/output bus (E) and
+
+provides control signals to said data buffer to
+transfer data between said plurality of memory devices
+
+and said host bus and to said memory address means to
+provide address and control signals to said plurality
+
+of memory devices based on the address signals on said
+processor bus and the control signals on said
+
+input/output bus when said bus master is directing
+operation cycles to said plurality of memory devices (168, 170).
+</CLAIMS>
+</TEXT>
+</DOC>

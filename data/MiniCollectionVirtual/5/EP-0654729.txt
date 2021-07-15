@@ -1,0 +1,330 @@
+<DOC>
+<DOCNO>EP-0654729</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Pick correlation
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F3033	G06F3048	G06F3033	G06F3048	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F3	G06F3	G06F3	G06F3	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A pick correlation method, comprises the steps of 
+displaying a pick marker on a display screen; directing the 
+
+pick marker at an image on the display screen, the image 
+comprising at least one line primitive, and the pick marker 
+
+having a pick window corresponding thereto; subjecting the at 
+least one line primitive to a trivial test, whereby the at 
+
+least one line primitive can be trivially tested by the 
+trivial test if the at least one line primitive has both of 
+
+its end-points outside of the same extended edge of the 
+rectangular shaped pick window and, if successfully tested by 
+
+the trivial test, accepting or rejecting the at least one 
+line primitive in accordance with the results of the trivial 
+
+test; and if the at least one line primitive cannot be 
+trivially tested, subjecting the at least one line primitive 
+
+to a non-trivial test which does not require performing 
+floating point operations, and accepting or rejecting the at 
+
+least one line primitive in accordance with the results of 
+the non-trivial 
+
+test. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+CORNETT KEVIN BARRY
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MARK EDWARD FRANK
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+CORNETT, KEVIN BARRY
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MARK, EDWARD FRANK
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates generally to graphic 
+display systems and, more specifically, to a graphic display 
+system which allows for picking an object from a display 
+screen. Computer graphic images are often made up of line 
+primitives. Line primitives can represent many types of 
+objects in computer graphic systems. Such objects can be, 
+for example, electrical, mechanical, chemical, architectural, 
+or artistic in nature. Most graphic systems represent the 
+object on the display screen by a set of data which 
+represents the coordinates of the line primitives. For 
+example, in a two-dimensional display, these coordinate data 
+sets are sets of values, such as x₁,y₁; x₂,y₂; etc., which 
+represent each end-point x-y coordinate location of each line 
+primitive contained in the display; more specifically, the 
+coordinate data x₁,y₁ corresponds to one end-point of a line 
+primitive, and the companion coordinate data x₂,y₂ corresponds 
+to the other end-point of the same line primitive. The 
+quantity of line primitives representing the images on a 
+display screen can be extraordinarily large depending on the 
+number and complexity of objects being displayed. Typically, 
+in design systems, the quantity of line primitives 
+corresponding to the objects shown on a display screen can at 
+any given time range from thousands to hundreds of thousands. Selecting an object on a screen is commonly referred to 
+as "picking". The picking of an object is generally enabled 
+using a pick marker to select the object on the displayed 
+image. The pick marker used in display systems can take the  
+ 
+form of any symbol, such as an arrow, star, polygon, 
+rectangle, line etc.; and a user can move the pick marker 
+about a display screen by various means, such as using a 
+"mouse", light pen, keypad, etc. "Pick correlation" refers 
+to the task of determining if the pick marker has a "hit" on, 
+or has picked, a line primitive (and thus the object to which 
+the line primitive corresponds) in the displayed image. Currently, two methods are used for pick correlation, 
+the so-called analytical method and the so-called clipping 
+method. An example of an analytical method is disclosed in 
+U.S. Patent No. 4,698,625, to McCaskill et al. which relates 
+to a technique for facilitating the selection of a graphic 
+object on a display screen by a user. When a pointing cursor 
+is brought to within a predetermined distance of a graphic 
+object, the point on the graphic object closest to the 
+pointing cursor is highlighted to show that the graphic
+</DESCRIPTION>
+<CLAIMS>
+A method of pick correlation, comprising the steps of: 
+
+(a) displaying a pick marker on a display screen; 
+(b) directing said pick marker at an image on said 
+display screen, said image comprising at least one line 
+
+primitive, said at least one line primitive having end-point 
+coordinates x₁,y₁ and x₂,y₂, said pick marker 
+
+having a rectangular shaped pick window corresponding 
+thereto, and said rectangular shaped pick window having 
+
+a height of 2h and a width of 2w; 
+(c) subjecting said at least one line primitive to a 
+trivial test, whereby said at least one line primitive 
+
+can be trivially tested by said trivial test if said at 
+least one line primitive has both of its end-points 
+
+outside of the same extended edge of said rectangular 
+shaped pick window and, if successfully tested by said 
+
+trivial test, accepting or rejecting said at least one 
+line primitive in accordance with the results of said 
+
+trivial test; and 
+(d) if said at least one line primitive cannot be 
+trivially tested in step (c), subjecting said at least 
+
+one line primitive to a non-trivial test which does not 
+require performing floating point operations, and 
+
+accepting or rejecting said at least one line primitive 
+in accordance with the results of said non-trivial test. 
+A method according to claim 1, wherein said trivial test 
+is capable of testing said at least one line primitive 
+
+if said at least one line primitive has either one or 
+both of its end-points visible within said rectangular 
+
+shaped pick window, or has its end-points in opposite 
+outer, non-extended edge regions relative to said 
+
+ 
+rectangular shaped pick window. 
+A method according to claim 2, wherein said trivial test 
+comprises an enhanced version of the Cohen-Sutherland 
+
+test. 
+A method according to claim 1, wherein said trivial test 
+in step (c) comprises the Cohen-Sutherland test. 
+A method according to claim 1, 3 or 4 wherein said non-trivial 
+test of step (d) comprises the steps of 
+
+transforming the coordinates of the center of said 
+rectangular shaped pick window to origin coordinates 
+
+0,0, and transforming the end-point coordinates of said 
+at least one line primitive in accordance with and 
+
+relative to the transformation of the coordinates of the 
+center of said rectangular shaped pick window; 
+
+determining if said at least one line primitive 
+satisfies either the condition that |h*dx + w*dy| 
+>
+= |T| 
+or the condition that |h*dx - w*dy| 
+>
+= |T|, wherein dx 
+= x₁-x₂; dy = y₁-y₂; and T = x₁*y₂ - y₁*x₂ = y₁*dx - x₁*dy; 
+
+and accepting said at least one line primitive if said 
+at least one line primitive satisfies either of said 
+
+conditions. 
+A method of pick correlation, comprising the steps of: 
+
+(a) displaying a pick marker on a display screen; 
+(b) directing said pick marker at an image on said 
+display screen, said image comprising at least one line 
+
+primitive, said at least one line primitive having end-point 
+coordinates x₁,y₁ and x₂,y₂, said pick marker 
+
+having a rectangular shaped pick window corresponding 
+thereto, and said rectangular shaped pick window having 
+
+a height of 2h and a width of 2w; 
+(c) transforming the coordinates of the center of said 
+ 
+
+rectangular shaped pick window to origin coordinates 
+0,0, and transforming the end-point coordinates of said 
+
+at least one line primitive in accordance with and 
+relative to the transformation of the coordinates of the 
+
+center of said rectangular shaped pick window; 
+(d) determining if said at least one line primitive 
+satisfies either the condition that |h*dx + w*dy| 
+>
+= |T| 
+or the condition that |h*dx - w*dy| 
+>
+= |T|, wherein dx 
+= x₁-x₂; dy = y₁-y₂; and T = x₁*y₂ - y₁*x₂ = y₁*dx - x₁*dy; 
+
+and 
+(e) accepting said at least one line primitive if said 
+at least one line primitive satisfies either of said 
+
+conditions. 
+A method according to claim 8, further comprising the 
+step of subjecting said at least one line primitive to 
+
+a trivial test subsequent to said directing step (b) and 
+prior to said transforming step (c), and foregoing steps 
+
+(d) through (e), if said at least one line primitive is 
+accepted or rejecte
+d using said trivial test, wherein 
+said trivial test is capable of trivially testing said 
+
+at least one line primitive if said at least one line 
+primitive has both of its end-points outside of the same 
+
+extended edge of said rectangular shaped pick window. 
+A method according to claim 9, wherein said trivial test 
+is capable of trivially testing said at least one line 
+
+primitive if said at least one line primitive has either 
+one or both of its end-points visible within said 
+
+rectangular shaped pick window, or has both of its end-points 
+in opposite outer, non-extended edge regions 
+
+relative to said rectangular shaped pick window. 
+A method according to claim 10, wherein said trivial 
+test comprises an enhanced version of the Cohen-Sutherland 
+
+test. 
+A method of pick correlation, comprising the steps of: 
+
+(a) displaying a pick marker on a display screen; 
+(b) directing said pick marker at an image on said 
+display screen, said image comprising at least one line 
+
+primitive, said at least one line primitive having end-point 
+coordinates x₁,y₁ and x₂,y₂, said pick marker 
+
+having a square shaped pick window corresponding 
+thereto, and said square shaped pick window having a 
+
+width of 2w; 
+(c) subjecting said at least one line primitive to a 
+trivial test, whereby said at least one line primitive 
+
+can be trivially tested by said trivial test if said at 
+least one line primitive has both of its end-points 
+
+outside of the same extended edge of said square shaped 
+pick window and, if successfully tested by said trivial 
+
+test, accepting or rejecting said at least one line 
+primitive in accordance with the results of said trivial 
+
+test; and 
+(d) if said at least one line primitive cannot be 
+trivially tested in step (c), subjecting said at least 
+
+one line primitive to a non-trivial test which does not 
+require performing floating point operations, and 
+
+accepting or rejecting said at least one line primitive 
+in accordance with the results of said non-trivial test. 
+A method according to claim 12, wherein said trivial 
+test is capable of testing said at least one line 
+
+primitive if said at least one line primitive has either 
+one or both of its end-points visible within said square 
+
+shaped pick window, or has its end-points in opposite 
+outer, non-extended edge regions relative to said square 
+
+shaped pick window. 
+A method according to claim 13, wherein said trivial 
+test comprises an enhanced version of the Cohen-Sutherland 
+
+test. 
+A method according to claim 12, wherein said trivial in 
+step (c) comprises the Cohen-Sutherland test. 
+A method according to claim 10, 12 or 13, wherein said 
+non-trivial test of step (d) comprises the steps of 
+
+transforming the coordinates of the center of said 
+square shaped pick window to origin coordinates 0,0, and 
+
+transforming the end-point coordinates of said at least 
+one line primitive in accordance with and relative to 
+
+the transformation of the coordinates of the center of 
+said square shaped pick window; 
+
+determining if said at least one line primitive 
+satisfies either the condition that |w(dx + dy)| 
+>
+= |T| 
+or the condition that |w(dx - dy)| 
+>
+= |T|, wherein dx = 
+x₁-x₂; dy = y₁-y₂; and T = x₁*y₂ - y₁*x₂ = y₁*dx - x₁*dy; 
+
+and 
+accepting said at least one line primitive if said at 
+
+ 
+least one line primitive satisfies either of said 
+
+conditions. 
+</CLAIMS>
+</TEXT>
+</DOC>

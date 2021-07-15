@@ -1,0 +1,188 @@
+<DOC>
+<DOCNO>EP-0650120</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method and computer system for integrating a compression system with an operating system
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1310	G06F1310	G06F9445	G06F306	G06F1200	G06F1200	G06F306	G06F9445	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F13	G06F13	G06F9	G06F3	G06F12	G06F12	G06F3	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The present invention provides a method in a computer system of integrating a 
+compression system with an operating system. The computer system preferably comprises at 
+
+least a memory device and one storage device. A user-supplied device driver is provided for 
+storage devices that are not supported by the computer system to enable the computer system 
+
+to communicate with the storage devices. In response to initialization of the computer 
+system, the operating/compression system is loaded into the memory device and begins 
+
+executing before any user-supplied device drivers are loaded into the memory device. Any 
+compressed volume files located on the computer system are assigned drive letters at this 
+
+time. When the user-supplied device drivers are loaded into the memory device, drive letters 
+are assigned to the various storage devices. A drive letter conflict resolution scheme is 
+
+provided to resolve conflicts that occur when the operating system attempts to assign a drive 
+letter. The compression system assigns drive letters to compressed volume files (in the case 
+
+where a compressed drive is created from free space on an existing drive) or to host drives (in 
+the case where the contents of an existing drive are compressed). 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MICROSOFT CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MICROSOFT CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+SLIVKA BENJAMIN W
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SLIVKA, BENJAMIN W.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates generally to a computer method and system for
+device driver management, and more particularly, to a computer method and system for
+integrating a compression system with an operating system.As a general rule of thumb, a user of a computer system will eventually
+run out of secondary storage space. Therefore, it is always desirable to have new
+methods of increasing a secondary storage volume's storage capacity. One traditional
+method of increasing a volume's storage capacity is manually directing the operating
+system to delete unnecessary data from the volume, thereby freeing space for new data.
+This method is undesirable because often a user will make a hasty decision about what
+data should be deleted and then regret that decision later. Additionally, sometimes all
+of the data on a volume may be important so as to preclude their deletion.Another method of increasing the storage capacity of a file-based
+volume is compressing individual files and storing the compressed files on the volume.
+Drawbacks of this method include the requirement that users must explicitly compress
+a file to save space, and must explicitly decompress a file before it can be used.Yet another method of effectively increasing the storage capacity of a
+file-based volume is dynamically compressing files, storing the compressed files, and
+then decompressing the files as they are retrieved. Compression systems utilizing this
+method have typically taken the form of an add-on package to an operating system.
+These compression systems are typically installed as a device driver with a drive letter
+assigned. The compression systems typically store the compressed files in a
+"compressed volume." The compressed volume is a single file (a "compressed volume
+file") stored on a host volume along with other files or directories. A compressed
+volume is treated as a logical volume with its own device driver through which the
+compressed volume file is accessed. Like other volumes in the computer system, each
+compressed volume and host volume is assigned a unique drive letter (e.g., A, B, C, and
+so on). Thus, if a compressed volume file is stored on a host volume that is assigned
+drive letter D, and the compressed volume is assigned to drive letter E, then references 
+to drive letter E will access the files stored in the compressed volume file that is itself
+stored on the host volume with drive letter D.Figure 1 is a block diagram of a conventional computer system 100.
+The computer system 100 comprises a read-only memory (ROM) device
+</DESCRIPTION>
+<CLAIMS>
+A method of initializing a computer system (1400) to include a subsystem, the
+computer system (1400) having a fixed volume (1406) and a removable volume
+
+(1405, 1408), the method comprising the steps of:
+
+when the removable volume (1405, 1408) is a boot volume, loading the
+subsystem from the removable volume (1405, 1408); and
+when configuration information for the subsystem resides on the
+removable volume (1405, 1408), initializing the subsystem in accordance
+
+to configuration information of the removable volume, and when the
+configuration information for the subsystem does not reside on the
+
+removable volume (1405, 1408), initializing the subsystem in accordance
+to configuration information that resides on the fixed volume (1406).
+The method of claim 1 wherein the subsystem is a compression system.
+The method of claim 2 wherein the configuration information includes a name
+of a compressed volume file (1514) and an indication of a drive letter to be
+
+assigned to the compressed volume file (1514).
+The method of claim 2 or 3, further comprising the steps of:
+
+executing an initialization function wherein the initialization function
+determines a number of drive letters to reserve for compressed volumes
+
+and determining which volumes of the compression system to mount;
+reserving the determined number of drive letters for the compression
+system; 
+mounting the determined compressed volumes that can be mounted
+based on the installing of standard system device drivers; and
+after installing each non-standard device driver, mounting the determined
+compressed volumes that can be mounted based on the installing of the
+
+non-standard device driver.
+The method of claim 4, further comprising the step of:
+
+after executing the initialization function, directing the compression
+system to relocate initialization code to a memory location (1712)
+
+determined by an operating system (1410).
+The method of claim 4 or 5, further comprising the step of:
+
+after completion of loading of non-standard device drivers, directing the
+compression system to locate a resident portion of the compression
+
+system at a memory location (1718) determined by an operating system
+(1410).
+The method of one of claims 4 to 6, further comprising the step of:
+
+directing the compression system to locate a resident portion of the
+compression system at a memory locati
+on (1716) determined by a
+memory manager installed by an operating system (1410).
+A system for initializing a computer system (1400) to include a compression
+system, the computer system (1400) having a fixed volume (1406) and a
+
+removable volume (1405, 1408), the system comprising:
+
+means for determining whether the removable volume (1405, 1408) is a
+boot volume from which to boot the computer system (1400); and
+means for, when the removable volume (1405, 1408) is the boot volume,
+loading the compression system from the removable volume (1405, 1408)
+
+and executing an initialization function of the loaded compression system
+wherein when configuration information for the compression system
+
+resides on the removable volume (1405, 1408), the compression system
+is initialized in accordance to configuration information of the removable 
+
+volume (1405, 1408), and when the configuration information for the
+compression system does not reside on the removable volume (1405,
+
+1408), the compression system is initialized in accordance to
+configuration information that resides on the fixed volume (1406).
+The system of claim 8 wherein the initialization function determines a number
+of drive letters to reserve for compressed volumes, determines which volumes
+
+of the compression system to mount, reserves the determined number of drive
+letters for the compression system, mounts the determined compressed
+
+volumes that can be mounted based on the installing of standard system device
+drivers, and, after installing each non-standard device driver, mounts the
+
+determined compressed volumes that can be mounted based on the installing
+of the non-standard device driver.
+The system of claim 8 or 9, further comprising:
+
+means for, after executing the initialization function, directing the
+compression system to relocate initialization code to a memory location
+
+(1712) determined by an operating system (1410).
+The system of one of claims 8 to 10, further comprising:
+
+means for, after completion of loading of non-standard device drivers,
+directing the compression system to locate a resident portion of the
+
+compression system at a memory location (1718) determined by an
+operating system (1410).
+The system of one of claims 8 to 11, further comprising:
+
+means for directing the compression system to locate a resident portion of
+the compression system at a memory location (1716) determined by a
+
+memory manager installed by an operating system (1410).
+A computer program product adapted to perform the method of one of claims 1 to 7.
+</CLAIMS>
+</TEXT>
+</DOC>

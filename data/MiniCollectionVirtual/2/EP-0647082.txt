@@ -1,0 +1,685 @@
+<DOC>
+<DOCNO>EP-0647082</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Packet-at-a-time reporting in a data link controller
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04L1256	H04L2906	H04L1256	H04L2906	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04L	H04L	H04L	H04L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04L12	H04L29	H04L12	H04L29	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A data link controller (DLC) 52 is disclosed which 
+employs buffers (100,106) on both receive and transmit 
+
+sides. These last-in, first-out buffers contain a 
+position indicating that a character is the last one of 
+
+a packet. In this way, a user need not monitor 
+reception or transmission on a character-by-character 
+
+basis, but need only concern themselves with packets. 
+The receive and transmit FIFO's generate requests for 
+
+more characters by monitoring the number of characters 
+stored and thereby automatically receive and transmit 
+
+characters without processor intervention. A four-stage 
+mechanism (600,602,604,606,608,610,612,614) permits 
+
+monitoring of multiple contiguous frames (back-to-back 
+frames) received. Control of the DLC is provided by 
+
+status and control registers (112,212) which are 
+accessible to the user via a microprocessor interface 
+
+(50). Particular registers have bit positions 
+monitoring status conditons in such a manner that the 
+
+most-probable one of a set of conditions compries the 
+least-significant bit position, while the least-probable 
+
+condition occupies the most-significant bit position. 
+This affords simple shift and test technique for 
+
+monitoring status conditions. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+ADVANCED MICRO DEVICES INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+ADVANCED MICRO DEVICES INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+CROWE CHARLES
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GULICK DALE E
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LAWELL TERRY G
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+CROWE, CHARLES
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GULICK, DALE E.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LAWELL, TERRY G.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+Co-pending application of particular interest to
+the instant application are our European Patent Applications
+210797
+entitled "Digital
+Subscriber Controller"; U.S. Ser. No. 034,822, filed
+April 3, 1987, (= EP-A-0 285 330)
+entitled "Data Protocol Controller";
+U.S. Ser. No. 035,684, filed April 2, 1987 (= EP-A-0 285 334),
+entitled
+"Enhanced Universal Asynchronous Receiver-Transmitter";
+U.S. Ser. No. 035,683, filed April 3, 1987 (= EP-A-0 285 331),
+entitled "Data Link
+Controller with Flexible Multiplexer"; and U.S. Ser.
+No. 035,687 , field April 2, 1987 ( = EP-A-0 285 329),
+entitled "Dual-Port Timing Controller", all
+assigned to the present applicant.This invention relates to data communication
+networks that comply with international protocols and,
+more particularly at the second level of protocol, a
+data link controller providing packet-at-a-time status
+reporting employing a delayed reporting mechanism.Data link controller (DLCs) are used in integrated
+services digital networks (ISDNs) to provide a
+high-speec serial interface to a telecommunication
+network. Bit Oriented Protocols (BOPs) specify the data
+format employed in transmission over the network and
+call for transmission in "packets" complying with
+certain norms.Typically, the status of individual characters with
+a packet is reported. This creates excessive overnead 
+time in monitoring the reception of a packet. And during transmission excessive
+intra-packet intervention is required. Typically, packet boundaries were of no
+significance.The limitations meant that complex programming requirements are imposed
+on a DLC user and moreover, throughput of the DLC is compromised because of the
+excessive processor time required in the character-by-character method of reception
+and transmission of data.Reference may be made to Mini Micro Conference Record November 1983
+San Francisco US pages 1 - 17 V Coleman et al "The Implementation of
+Ethernet/IEEE 802.3 in VLSI" which describes in relation to Ethernet, a transceiver, a
+serial interface adapter, a local area network controller.Compcon '86, March 1986, Washington US pages 70 - 75 P E Weston 'IC
+solutions for ISDN' should also be considered.The present invention relates to a data link controller having an internal,
+bidirectional port means for high-speed serial receipt and transmission of signals, and
+interface means connected to an internal bus for the connection of a microprocessor,
+comprising transmitter means for parallel reception of data on said internal bus, for
+parallel-to-serial conversion thereof,
+</DESCRIPTION>
+<CLAIMS>
+A data link controller (DLC) (52) comprising an
+internal, bidirectional port means (104) for high-speed
+
+serial receipt and transmission of signals, and interface
+means connected to an internal bus (58,60,62) for the
+
+connection of a microprocessor, said interface means
+comprising transmitter means (100,102) for parallel
+
+reception of data on said internal bus, for parallel-to-serial
+conversion thereof, and for serial generation
+
+thereof at said port means (104), and receiver means
+(106,108) for serial reception of data on said port means
+
+(104), for serial-to-parallel conversion thereof, and for
+parallel generation thereof on said int
+ernal bus;
+
+wherein said transmitter means (100) includes a
+transmit byte register and counter means (152,154) for
+
+receiving a transmit packet size, for decrementing said
+transmit packetsize, and for generating a signal when said
+
+decremented count is zero, and FIFO transmit means (150)
+connected to said internal bus and to said port means for
+
+receiving in parallel data on said internal bus, for storing a
+plurality of said data and for generating therefrom for
+
+generation at said serial port means said most-recently
+stored data, wherein said FIFO transmit means comprises a
+
+plurality of registers (160) each having a plurality of bit
+positions, including a bit position for storing a signal
+
+indicative of the signal generated by said transmit byte 
+register and counter means, thereby tagging a "least byte
+
+of packet of a transmit packet",
+said transmitter means (102) further including status
+and control means (112,212) connected to said internal bus,
+
+said interface means and said port means for receiving and
+generating a plurality of status signals and control
+
+signals, said status and control means including a
+plurality of status and control registers (112) operably
+
+connected to said interface means, each register of said
+plurality of registers comprising a plurality of bit
+
+storage locations arrayed in a least-significant to a most-significant
+order, each location of said plurality of
+
+locations representing a predetermined status condition of
+said data link controller and arrayed in said least-significant
+
+to most-significant order in proportion to said
+status condition being most- to least- likely to occur,
+
+respectively,
+an interrupt source register for storing in a
+predetermined bit position a receiver frame status signal
+
+and a plurality of delayed status reporting means for receiving
+a minimum packet size signal and a flag detection signal
+
+for generating a status of received data packets on a
+packet-at-a-time basis.
+A data link controller according to claim 1 wherein
+said receiver means further includes a FIFO receive
+
+register means (106) connected to said internal bus and to 
+said port means for receiving in parallel data received on
+
+said port means, for storing a plurality of said data and
+for generating therefrom on said internal bus said stored data;
+
+and wherein said plurality of status and control registers
+includes a FIFO status register comprising five of said bit
+
+storage locations of said plurality of locations, said
+least-significant storage location adapted for storing a
+
+received threshold reached status, a second least-significant
+storage location for storing a received FIFO data
+
+available status, a third least-significant storage
+location for storing a transmit threshold reached status, a
+
+next-to-most significant storage location for storing a
+transmit FIFO buffer available status, and a most-significant
+
+storage location for storing a transmit underrun
+status.
+A data link controller according to claim 2 wherein
+said FIFO transmit register means is responsive to a
+
+transmit threshold signal and wherein said FIFO transmit
+register means is adapted to generate a data request signal,
+
+said FIFO transmit register means includes:
+
+FIFO transmit buffer means (150) for storing said
+plurality of parallel data received by said FIFO transmit
+
+register means, for generating at a plurality of outputs
+signals representing said data received, and for generating
+
+a signal indicative of the number of said plurality of data
+stored therein: and 
+data request generating means (156,158) adapted to be responsive to
+said transmit threshold signal and said signal indicative
+
+of the number of said plurality of data stored in said FIFO
+transmit buffer means for generating said data request
+
+signal.
+A data link controller according to claim 3 wherein
+said FIFO transmit register means is further adapted to be responsive to
+
+a transmit byte count signal and said data request
+generating means includes transmit byte counter means (154)
+
+adapted to be responsive to said transmit byte count signal, and said
+signal indicative of the number of said plurality of data 
+
+stored in said FIFO transmit buffer means, for generating
+a transmit byte count equal to zero (TBC-O) signal, and
+
+wherein said data request generating means is further
+adapted to be responsive to said TBC-O signal, whereby said data request
+
+signal is generated when said transmit threshold signal
+becomes equal to a predetermined value and said TBC-O
+
+signal is not active.
+A data link controller according to claim 4 wherein
+said transmit byte counter means is further adapted to be responsive to
+
+said signal indicative of the number of said plurality of
+data stored in said FIFO transmit buffer means, for
+
+maintaining a count of the number of said data received by
+said FIFO transmit register means and for generating a
+
+signal indicative of said data-received count when said
+data received by said FIFO transmit register means is
+
+generated by an output of said FIFO
+transmit buffer means.
+A data link controller according to claim 5 wherein
+said FIFO transmit register means is further adapted to generate a last-byte-of-packet
+
+signal, wherein said FIFO transmit buffer
+means further includes means for tagging each of said
+
+plurality of data stored therein as a last-byte-of-packet,
+and for generating a signal indicative of the absence of
+
+said tagged data stored therein:
+
+wherein said transmit byte counter means is adapted to generate a 
+signal indicative of a last-byte-of-packet count,
+
+said last-byte-of-packet count signal received by
+said FIFO transmit buffer means, and
+wherein said data request generating means is adapted to be further
+responsive to said signal indicative of the absence of
+
+tagged data stored within said FIFO transmit buffer means,
+said data request signal being generated when said transmit
+
+threshold signal equals said predetermined values, said
+TBC-O is not active and said signal indicative of the
+
+absence of tagged data stored within said FIFO transmit
+buffer means is active.
+A data link controller according to claim 6 wherein
+said FIFO receive register means is adapted to be responsive to a receive
+
+threshold signal and wherein said FIFO receive register
+means further generates a data request signal, said FIFO
+
+receive register means includes
+
+FIFO receive buffer means (290) for storing said
+plurality of data received in parallel by said FIFO receive
+
+register means, for generating at a plurality of outputs
+signals representing said data received, and for generating
+
+a signal indication of the number of said plurality of data
+stored therein; and
+data request generating means (296) adapted to be responsive to said
+receive threshold signal and said signal indication of the
+
+number of said plurality of data stored in said FIFO
+receive buffer means for generating said data request 
+
+signal.
+A data link controller according to claim 7 wherein
+said FIFO receive register means is further adapted to be responsive to
+
+a last-byte-of-packet signal, wherein said FIFO receive
+buffer means further includes means for tagging each of
+
+said plurality of data stored therein as a last-byte-of-packet,
+and for generating a signal indicative of said
+
+tagged data stored therein,
+
+   wherein said data request generating means is further
+adapted to be responsive to an absence of tagged data stored signal
+
+generated by said FIFO receive buffer means, said data
+request signal is generated when said receive threshold
+
+signal becomes equal to a predetermined value or said
+signal indicative of said tagg
+ed data is active.
+A data link controller according to claim 8 wherein
+said FIFO receive register means further includes receive
+
+byte counter means (292,294) adapted to be responsive to said signal
+indicative of said tagged data stored in said FIFO receive
+
+buffer means and to said last-byte-of-packet signal for
+maintaining a count of the number of said data received by
+
+said FIFO receive register means and for generating a
+signal indicative of said data received count when said
+
+data received by said FIFO receive register means is
+generated at an output of said plurality of outputs of said
+
+FIFO receive buffer means. 
+A data link controller according to claim 9 further
+including a cyclic redundancy check (CRC) code checker
+
+(222) and a flag/abort detector (214) wherein said
+plurality of status and control registers includes a
+
+receive frame status register connected to said CRC code
+checker, said receive byte counter means and said FIFO
+
+receive register means, and said flag/abort detector
+comprising six of said plurality of bit storage locations
+
+a least-significant thereof storing an abort received
+status, a second-least-significant location thereof storing
+
+a non-integer number of bytes received status, a third-least-significant
+location thereof storing a cyclic
+
+redundancy check error status, a fourth-least-significant
+location thereof storing a short frame error status, a
+
+next-to-most-significant location thereof storing a long
+frame error status, and a most-significant location thereof
+
+storing an overrun error status.
+A data link controller according to claim 10 further
+including a receive mark idle detector (230), and wherein
+
+said plurality of status and control register includes a
+receive link status register connected to said receive mark
+
+idle detector and said flag/abort detector, comprising
+three of said plurality of bit storage locations, a least-significant
+
+location thereof storing a mark idle received
+status, a second-least-significant location thereof storing
+
+a flag idle received status, and most-significant location 
+thereof storing an in-frame status.
+A data link controller according to claim 11 wherein
+said receive byte counter means includes
+
+
+means for receiving said signal indicative of said data-received
+count and an in-frame signal for generating said
+
+signals indicative of said data received count when said
+data received by said FIFO receive register means is
+
+generated at an output of said plurality of outputs
+("delayed data-received count" signal), comprising
+current stage means (602) adapted to be responsive to said in-frame
+signal and receiving said signal indicative of said data-received
+
+count and a flag detection signal generating
+therefrom signals indicative of said data-received count;
+holding stage means (606) for receiving said signals
+indicative of said data-received count generated by said
+
+current stage means and for receiving a holding-empty signal,
+an end-of-frame signal and generating therefrom said signal
+
+indicative of said data-received count upon reception of
+said holding-empty and end-of-frame signals, and for generating
+
+said holding-empty signal;
+master stage means (610) for receiving said signal
+indicative of said data-received count generated by said
+
+holding stage means and for receiving a master-empty signal, an
+end-of-frame signal and generating therefrom said signal
+
+indicative of data-received count upon reception of said
+master-empty and end-of-frame signals, and for generating said 
+
+master-empty signal;
+slave stage means (614) for receiving said signal
+indicative of said data-received count generated by said
+
+master stage means and for receiving a slave-empty signal and
+generating therefrom said "delayed data-received count"
+
+signal upon reception of said slave-empty signal.
+A data link controller as claimed in claim 1 wherein
+current stage means for receiving an in-frame signal and
+
+for receiving said minimum packet size signal and said flag
+detecting signal generating therefrom signals indicative of
+
+the status of data received by said DLC upon reception of
+said in-frame signal;
+
+
+holding stage means for receiving said signals
+indicative of the status of data received by said DLC upon
+
+reception of said in-frame signal generated by said current
+stage means and receiving a holding empty signal, an end-of-frame
+
+signal and for generating therefrom a status of data
+received by said DLC upon reception of said holding-empty
+
+signal and for generating said holding-empty signal;
+master stage means for receiving said status of data
+received by said DLC upon reception of said holding-empty
+
+signal generated by said holding stage means and for receiving
+a master empty signal, said end-of-frame signal and
+
+for generating therefrom a status of data received by said DLC
+upon reception of said master empty and end-of-frame
+
+signals and generating said master empty signal; and 
+slave stage means for receiving said status of data
+received by said DLC upon reception of said master empty
+
+and end-of-frame signals generated by said master stage
+means and for receiving a slave empty signal and for generating
+
+therefrom an OR function result signal of a status of data
+received by said DLC upon reception of said slave empty
+
+signal and for generating said slave empty signal, said status
+of data received by said DLC upon reception of said slave
+
+empty signal being said receive frame status signal.
+A DLC according to claim 1 having link address
+detection means (226) comprising at least a first, second,
+
+third and fourth link address register and a broadcast link
+address register for recognition of a packet address, and
+
+wherein said interrupt source register receive link address
+field is a three-bit field associating said first, second,
+
+third and fourth link address registers and said broadcast
+link-address register with the status of a received packet
+
+according to the following table: 
+
+Contents of Received
+
+Link Address Field Bit
+2
+1
+0
+Meaning
+0
+0
+0
+Contents of Said First Link Address Register Recognized
+0
+0
+1
+Contents of Said Second Link Address Register Recognized
+0
+1
+0
+Contents of Said Third Link Address Register Recognized
+0
+1
+1
+Contents of Said Fourth Link Address Register Recognized
+1
+0
+0
+Contents of Said Broadcast Link Address Register Recognized
+1
+0
+1
+Not used
+1
+1
+0
+Default -- No packet received
+1
+1
+1
+Packet Received
+A DLC according to claim 1 wherein said Interrupt
+
+Source Register Valid packet field is a two-bit field
+comprising a fourth bit position of said Interrupt Source
+
+Register representing reception of a valid packet by said
+DLC and a fifth bit position of said Interrupt Source
+
+Register representing transmission of a valid packet by
+said DLC.
+A DLC according to claim 15, wherein said transmitter
+means further including first-in, first-out (FIFO) transmit
+
+register means (100) for receiving said data on said internal
+bus for storing a plurality of said received data and for
+
+generating said receive data for said parallel-to-serial
+conversion, and said receiver means further including
+
+first-in-first-out (FIFO) receive register means (106)
+for receiving converged data, said converted data being said 
+
+data received by said receiver means after said serial-to-parallel
+conversion thereof for storing a plurality of said
+
+converted data and for generating said converted data on
+said internal bus; wherein said Interrupt Source Register
+
+interrupt source field is a three-bit field comprising a
+fifth bit position of said Interrupt Source Register
+
+representing occurrence of any of a plurality of
+predetermined error conditions in a frame received by said
+
+DLC, a sixth bit position of said Interrupt Source Register
+representing occurrence of any of a plurality of
+
+predetermined conditions in said transmit register means
+and said receive register means, and a seventh bit position
+
+of said Interrupt Source Register representing occurrence
+of any of a plurality of predetermined conditions in a
+
+receive-side of said port means.
+A data link controller (DLC) (52) having an internal,
+bidirectional port means (104) for high-speed serial
+
+receipt and transmission of signals, and interface means
+connected to an internal bus for the connection of a
+
+microprocessor, comprising transmitter means (100,102) for
+parallel reception of data on said internal bus, for
+
+parallel-to-serial conversion thereof, and for serial
+generation thereof at said port means, and receiver means
+
+(106,108) for serial reception of data on said port means
+for serial-to-parallel conversion thereof and for parallel
+
+generation thereof on said internal bus; further including 
+status and control means (112,212) connected to said
+
+internal bus, said interface means and said port means for
+receiving and generating a plurality of status signals and
+
+control signals, said status and control means including:
+
+a plurality of status and control registers (112,212)
+operably connected to said interface means each register of
+
+said plurality of registers comprising a plurality of bit
+storage locations arrayed in a least-significant to a most-significant
+
+order, each location of said plurality of
+locations representing a predetermined status condition of
+
+said data link controller and arrayed in said least-significant
+to most-significant order in proportion to said
+
+status condition being most- to least- likely to occur,
+respectively,
+said receiver means further includes a FIFO receive
+register means (106) connected to said internal bus and to
+
+said port means for receiving in parallel data received on
+said port means, storing a plurality of said data and
+
+generating therefrom on said internal bus said stored data;
+said plurality of status and control registers further
+includes a FIFO status register comprising five of said bit
+
+storage locations of said plurality of location said least-significant
+thereof storing a received threshold reached
+
+status, a second least-significant location storing a
+received FIFO data available status, said FIFO receive
+
+register means is responsive to a receive threshold signal
+and wherein said FIFO receive register means further 
+
+generates a data request signal, said FIFO receive register
+means includes
+FIFO receive buffer means (290) for storing said
+plurality of data received in parallel by said FIFO receive
+
+register means, for generating at a plurality of outputs
+signals representing said data received, and for generating
+
+a signal indication of the number of said plurality of said
+data stored therein; and data request generating means
+
+(296) adapted to be responsive to said receive threshold signal and said
+signal indication of the number of said plurality of data
+
+stored in said FIFO receive buffer means for generating
+said data request signal,
+said FIFO receive register means is further adapted to be responsive
+to a last-byte-of-packet signal, wherein said FIFO receive
+
+buffer means further includes means for tagging each of
+said plurality of data stored therein as a last-byte-of-packet,
+
+and for generating a signal indicative of said
+tagged data stored therein,
+wherein said data request generating means is further adapted to be
+responsive to an absence of tagged data stored signal
+
+generated by said FIFO receive buffer means, said data
+request signal is generated when said receive threshold
+
+signal becomes equal to a predetermined value or said
+signal indicative of said tagged data is active,
+wherein said FIFO receive register means further
+includes receive byte counter means (292,294) adapted to be responsive to
+
+said signal indicative of said tagged data stored in said 
+FIFO receive buffer means and to said last-byte-of-packet
+
+signal for maintaining a count of the number of said data
+received by said FIFO receiver register means and for
+
+generating a signal indicative of said data received count
+when said data received by said FIFO receive register means
+
+is generated as an output of said plurality of outputs of
+said FIFO receive buffer means.
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,370 @@
+<DOC>
+<DOCNO>EP-0658012</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Subband encoding/decoding apparatus and method.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G11B2014	G11B2014	H03M730	H03M730	H03M1300	H03M1300	H04B166	H04B166	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G11B	G11B	H03M	H03M	H03M	H03M	H04B	H04B	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G11B20	G11B20	H03M7	H03M7	H03M13	H03M13	H04B1	H04B1	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+In a signal processing method to compress digital audio 
+data by a block floating process, encoding/decoding 
+
+apparatuses of a digital signal prevents sound quality of a 
+digital audio signal from being deteriorated and improves a 
+
+compression ratio of the digital audio signal when the digital 
+audio signal is converted on a frequency axis per 
+
+predetermined time frame, and data on the frequency axis is 
+then divided into a plurality of blocks to be recorded, 
+
+otherwise, bits is then allocated per block to compress the 
+digital audio signal for minimizing transmitted parameters. 
+
+Also, encoding/decoding methods are provided to enable highly 
+efficient encoding/decoding without recording or transmitting 
+
+the word length to obtain a high-quality audio signal by 
+allocating bits to allow quantization data of a spectrum 
+
+signal to occupy the area held by the word length. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+GOLD STAR CO
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+GOLDSTAR CO. LTD.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+TAE WON KUN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TAE, WON KUN
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a signal processing 
+method to compress digital audio data by a block floating 
+process, and more particularly to encoding/decoding 
+apparatuses of a digital signal suitable for preventing sound 
+quality of a digital audio signal from being deteriorated and 
+improving a compression ratio of the digital audio signal when 
+the digital audio signal is converted on a frequency axis per 
+predetermined time frame, and data on the frequency axis is 
+then divided into a plurality of blocks to be recorded, 
+otherwise, bits is then allocated per block to compress the 
+digital audio signal for minimizing transmitted parameters, 
+and encoding/decoding methods thereof. A high efficiency coding method with respect to a digital 
+audio signal includes a subband coding (hereinafter referred 
+to as "SBC") method that divides a signal on the time axis of 
+an audio signal to a plurality of frequency bands to codes the 
+divided signals, and an adaptive transform coding (ATC) method 
+that vertically transforms a signal on a time axis to a signal 
+on a frequency axis to divide the signal into a plurality of  
+ 
+frequency bands and adaptively code to respective bands. FIG. 1 is a block diagram showing a conventional digital 
+data encoder adopting the adaptive transform coding method. As shown in FIG. 1, the conventional digital data encoder 
+includes a PCM data block circuit 1 for dividing received 
+spectrum data PCM to sub-blocks on several time axis, and a 
+band-split filter 2 for dividing output data from the PCM data 
+block circuit 1 per predetermined frequency as in SBC. 
+Furthermore, a time/frequency converter 3 receives output data 
+per frequency band from the band-split filter 2 to convert the 
+received data into a frequency axis perpendicular to the time 
+axis, thereby outputting spectrum data, and a scale factor 
+operator 4 allows the spectrum data from the time/frequency 
+converter 3 to be blocks for obtaining scale factor SF per 
+block. A masking level operator 5 searches out a tonal 
+component of the spectrum data, i.e., spectrum data of a 
+specific sound, from the time/frequency converter 3 and 
+obtains a masking level to calculate a minimum masking level 
+per block. A bit allocation operator 6 determines to output a 
+word length WL to allocate bits per blocks for generating a 
+quantization error smaller than the masking level from the 
+masking level operator 5. Also, a parameter operator 7 obtains 
+parameters by means of a signal from the masking level 
+operator 5 and bit
+</DESCRIPTION>
+<CLAIMS>
+An encoding apparatus or a digital signal comprising: 
+   a block dividing portion for dividing an input spectrum 
+
+signal to a plurality of sub-blocks; 
+   a scale factor operating portion for obtaining respective 
+
+scale factors of said sub-blocks from said block dividing 
+portion; 
+
+   a masking level operating portion for extracting a 
+masking level with respect to said scale factor of said sub-block 
+
+from said scale factor operating portion; 
+   a block 
+&
+ total energy operating portion for obtaining 
+total block energy and each sub-block energy, using said scale 
+
+factor from said scale factor operating portion and said 
+masking level from said masking level operating portion; 
+
+   an adaptive bit allocating portion for adaptively 
+allocating bit per sub-blocks to determine a word length per 
+
+blocks, using the correlation of said total block energy and 
+each sub-block energy from said block 
+&
+ total energy operating 
+portion; 
+
+   a parameter operating portion for supplying the number of 
+said sub-blocks by comparing said masking level from said 
+
+masking level operating portion with said scale factor; 
+   a spectrum signal normalizing 
+&
+ quantizing portion for 
+normalizing and quantizing an input spectrum signal to supply 
+
+quantization data, using said scale factor from said scale 
+factor operating portion and said word length from said 
+
+adaptive bit allocating portion; and
+ 
+
+   a data storing 
+&
+ error-correction coding portion for 
+formatting and converting said scale factor from said scale 
+
+factor operating portion, the number of sub-blocks from said 
+parameter operating portion and said quantization data from 
+
+said spectrum signal normalizing 
+&
+ quantizing portion into an 
+error correction code, and outputting said error correction 
+
+code. 
+An encoding apparatus of a digital signal as claimed 
+in claim 1, wherein said masking level is obtained by 
+
+multiplying a masking effect coefficient of affecting one sub-block 
+to other sub-blocks. 
+An encoding apparatus of a digital signal as claimed 
+in claim 1, further comprising a scale factor error-correction 
+
+data generating portion for generating said error correction 
+data of said scale factor from said scale factor operating 
+
+portion to supply said error correction data to said data 
+storing 
+&
+ error-correction coding portion. 
+An encoding apparatus of a digital signal as claimed 
+in claim 1, wherein said scale factor error-correction data 
+
+generating portion uses any sum of odd numbers, even numbers 
+and square roots of said scale factors from said scale factor 
+
+operating portion as said error correction data to supply it 
+to said data storing 
+&
+ error-correction coding portion. 
+An encoding apparatus of a digital signal as claimed 
+in claim 1, wherein said parameter operating portion compares 
+
+said masking level from said masking level operating portion 
+with said scale factor, and operating to supply the received 
+
+number of sub-blocks in such a manner that the value of the 
+ 
+
+parameter is increased when said scale factor is greater than 
+said masking level. 
+A decoding apparatus of a digital signal comprising: 
+a data storing 
+&
+ error correcting portion for decoding 
+recorded or transmitted encoding data to supply quantization 
+
+data, scale factors, error correction data and the number of 
+sub-blocks, and correct an error; 
+
+   a masking level operating portion for extracting a 
+masking level of said scale factor from said data storing 
+&
+ 
+error correcting portion; 
+
+   a block 
+&
+ total energy operating portion for calculating 
+sub-block energy and total block energy, using said scale 
+
+factor from said data storing 
+&
+ error correcting portion and 
+said masking level from said masking level operating portion; 
+
+   an adaptive bit allocating portion for obtaining adaptive 
+word length per sub-block, using the correlation of said total 
+
+block energy and sub-block energy from said block 
+&
+ total 
+energy operating portion; and 
+
+   a quantization-data inverse quantizing portion for 
+performing inverse quantization, using said scale factor, 
+
+quantization data and the number of sub-blocks from said data 
+storing 
+&
+ error correcting portion and said word length from 
+said adaptive bit allocating portion. 
+A decoding apparatus of a digital signal as claimed in 
+claim 6, wherein said masking level is obtained by multiplying 
+
+a masking effect coefficient of affecting one sub-block to 
+other sub-blocks. 
+A decoding apparatus of a digital signal as claimed in 
+ 
+
+claim 6, wherein said data storing 
+&
+ error correcting portion 
+decodes said recorded or transmitted encoding data to supply 
+
+said quantization data, scale factor, error correction data 
+and the number of sub-blocks, corrects one having a 
+
+correctable error, and supplies an error flag with respect to 
+one having an incorrigible error. 
+A decoding apparatus of a digital signal as claimed in 
+claim 6, further comprising a scale factor error correcting 
+
+portion for correcting information with an error using total 
+information with respect to said error designated 
+by said 
+error flag among said scale factor, error correction data and 
+
+the number of sub-blocks to supply said scale factor and the 
+number of sub-blocks to said quantization-data inverse 
+
+quantizing portion. 
+A decoding apparatus of a digital signal as claimed 
+in claim 6, further comprising a buffer for temporarily 
+
+storing said scale factor from said data storing 
+&
+ error 
+correcting portion to supply said scale factor to said block 
+&
+ 
+total energy operating portion. 
+An encoding method of a digital signal comprising the 
+steps of: 
+
+   time/frequency converting digital audio data divided into 
+a block unit on a predetermined time axis to obtain a 
+
+corresponding spectrum signal; 
+   dividing said spectrum signal into the predetermined 
+
+number of sub-blocks on a frequency axis; 
+   obtaining a scale factor for each sub-block per said 
+
+partitioned sub-block;
+ 
+
+   extracting a masking level with respect to said scale 
+factor for each sub-block; 
+
+   operating sub-block energy and total block energy, using 
+said scale factor for each sub-block and said masking level; 
+
+   allocating bits with respect to respective sub-blocks in 
+accordance with the correlation of sub-block energy with 
+
+respect to the operated total energy; 
+   operating the number of sub-blocks to be transmitted and 
+
+recorded with respect to said masking level and a word length; 
+and 
+
+   normalizing said spectrum signal in accordance with said 
+scale factor for each sub-block and quantizing said spectrum 
+
+signal in accordance with said word length. 
+A decoding method of a digital signal comprising the 
+steps of; 
+
+   storing transmitted data, and extracting a masking level 
+with respect to a scale factor for each sub-block in the 
+
+stored data; 
+   calculating total block energy and sub-block energy, 
+
+using said scale factor for each sub-block and said masking 
+level; 
+
+   obtaining an adaptive word length per sub-block, using 
+the correlation of said sub-block energy and total block 
+
+energy; and 
+   performing inverse quantization with respect to 
+
+quantization data in said stored data by means of the number 
+of sub-blocks, said scale factor for each sub-block and said 
+
+word length in said stored data to restore the original 
+ 
+
+spectrum signal. 
+A decoding method as claimed in claim 12, further 
+comprising the step of correcting an error, after performing 
+
+the step of storing said data and extracting a masking level, 
+when said error occurs with respect to said stored data. 
+A decoding method as claimed in claim 13, wherein 
+said error correcting step is performed by: 
+
+   correcting said error in case of a correctable error, and 
+generating an error flag in case of an incorrigible error in 
+
+connection with the occurrence of said error in said stored 
+data; and 
+
+   correcting said error of said scale factor for each sub-block 
+and the number of sub-blocks in said stored data in 
+
+accordance with said error flag and error correction data in 
+said stored data. 
+A decoding method of a digital signal as claimed in 
+claim 14, wherein said step of correcting said error of said 
+
+scale factor for each sub-block and the number of sub-blocks 
+is performed by: 
+
+   supplying the input scale factor unchanged when said 
+error flag is generated in said error correction data only; 
+
+   obtaining the number of sub-blocks by means of the sum of 
+odd numbers and even numbers of said error correction data 
+
+when said error flag is generated in the number or sub-blocks 
+only; and 
+
+   obtaining said scale factor of corresponding sub-block by 
+means of the sum of odd numbers and even numbers when said 
+
+error in said scale factor of said sub-block is not corrected. 
+</CLAIMS>
+</TEXT>
+</DOC>

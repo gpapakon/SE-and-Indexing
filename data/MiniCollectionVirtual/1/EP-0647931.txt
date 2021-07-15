@@ -1,0 +1,193 @@
+<DOC>
+<DOCNO>EP-0647931</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+High speed method and apparatus for generating animation by means of a three-region frame buffer and associated region pointers
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G09G5393	G06T160	G09G500	G06T160	G09G5397	G09G536	G09G536	G09G5399	G09G500	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G09G	G06T	G09G	G06T	G09G	G09G	G09G	G09G	G09G	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G09G5	G06T1	G09G5	G06T1	G09G5	G09G5	G09G5	G09G5	G09G5	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method and apparatus for quickly copying a first frame region 
+into a second frame region. A video memory array comprising a plurality of 
+
+video random access memory devices is divided into at least two frame 
+regions. A background image is rendered by a central processing unit into a 
+
+background frame region within the video memory array. The central 
+processing unit then requests the background image in the background frame 
+
+region to be copied into a new frame region in the video memory array. A 
+dedicated circuit copies the entire background image in the background frame 
+
+region into the new frame region. The dedicated circuit operates by using a 
+serial data register within each video random access memory device during the 
+
+vertical retrace period of a video timing signal. The dedicated circuit performs 
+the background frame copy without requiring any processing resources from 
+
+the central processing unit. 
+
+ 
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SUN MICROSYSTEMS INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SUN MICROSYSTEMS, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+FORREST CRAIG S
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FRANK EDWARD H
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NAUGHTON PATRICK J
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FORREST, CRAIG S.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FRANK, EDWARD H.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NAUGHTON, PATRICK J.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to the field of frame
+buffers for computer systems. More particularly, to a
+method and apparatus for quickly copying information
+from a first region of memory in a frame buffer to a
+second region of memory in the frame buffer.Many computer systems use a region of memory
+called a frame buffer for storing data that is to be
+displayed on a graphics display screen. A display
+control system reads the information in the frame buffer
+line-by-line, converts the information into an analog
+video signal using a digital to analog converter (DAC),
+and transmits the analog video signal to a display
+screen. The line-by-line scanning generally beginning
+at a region in the frame buffer corresponding to the
+upper left-hand corner of the display screen and
+continuing to the lower right-hand corner.Typically, a frame buffer is constructed of
+video random access memory (VRAM) devices that differ
+from conventional dynamic random access memory (DRAM)
+devices by having two access ports instead of just one
+access port. A first access port, called a random
+access port, provides conventional random access to the
+VRAM such that a central processing unit 
+coupled to the VRAM may read or write to any memory location in the
+VRAM. A second port, called a serial access port, provides simultaneous serial
+access to the VRAM such that a device coupled to the serial port can shift data
+in or out of the VRAM. A display circuit usually accesses the serial port to
+furnish pixel data to the circuitry controlling the output display. In such a
+configuration, a central processing unit can write to the VRAM while a display
+circuit continually furnishes information to an output display.To animate objects on a display screen coupled to a frame buffer
+based display system, animation software renders a series of frames with slight
+picture changes in each frame. To provide smooth animation, approximately
+15 to 30 new frames should be displayed each second. As the picture in one
+frame changes to the picture in the next frame, continuous motion is
+presented. To accomplish this, the frame buffer must be continually updated.The ability of a frame buffer to both receive information and
+transfer that information to an output display simultaneously causes certain
+difficulties. If the animation software writes to frame buffer memory while the
+display controller is scanning the image in the frame buffer memory to a
+display, then the display may present information from more than one
+animation frame at time. This problem is referred to as
+</DESCRIPTION>
+<CLAIMS>
+A method for generating and displaying a sequence of animation frames, said
+method for use with a frame buffer apparatus comprising at least three data regions,
+
+each of the data regions having contents comprising animation frame data, and said
+frame buffer apparatus further comprising a display region pointer, a background region
+
+pointer. and a new frame region pointer, said method comprising the following steps:
+
+displaying, on a video display device, the contents of the data region addressed
+by the display region pointer;
+copying the contents of the data region addressed by the background region
+pointer into the data region addressed by the new frame region pointer;
+rendering a next frame in the sequence of animation frames;
+overlaying the next frame onto the data region addressed by the new frame
+region pointer;
+resetting the display region pointer to identify the data region addressed by the
+new frame region pointer;
+determining whether to update the contents of the data region addressed by the
+background region pointer;
+updating the background region pointer to refer to one of the data regions that is
+different than the data region addressed by the background region pointer when it is
+
+determined to update the contents of the data region addressed by the background
+region pointer; 
+resetting the new frame region pointer to identify the data region previously
+addressed by the display region pointer when it is determined not to update the
+
+contents of the data region addressed by the background region pointer;
+iteratively repeating the foregoing steps until the sequence of animated frames
+has been completely displayed on the video display device.
+The method of claim 1 wherein the step of displaying includes one or more video
+retrace periods, and the respective steps of copying, rendering, and overlaying are
+
+performed during said video retrace periods.
+The method of claim 2 wherein said one or more video retrace periods include a
+vertical video retrace period.
+The method of claim 2, wherein said cne or more video retrace periods include a
+horizontal video retrace period.
+The method of claim 1, wherein the updating step further includes:
+
+resetting the background region pointer to address the data region addressed by
+the display region pointer; and
+resetting the new frame pointer to address the data region previously addressed
+by the background region pointer.
+An apparatus for generating and displaying a sequence of animation frames,
+said apparatus comprising:
+
+
+a frame buffer apparatus comprising at least three data regions, each of the data
+regions having contents comprising animation frame data, and the frame buffer
+
+apparatus further comprising a display region pointer, a background region pointer, and
+a new frame region pointer;
+means for displaying, on a video display device, the contents of the data region
+addressed by the display region pointer;
+means for copying the contents of the data region addressed by the background
+region pointer into the data region addressed by the new frame region pointer;
+means for rendering a next frame in the sequence of animation frames;
+means for overlaying the next frame onto the data region addressed by the new
+frame region pointer;
+means for resetting the display region pointer to identify the data region
+addressed by the new frame region pointer;
+means for determining whether to update the contents of the data region
+addressed by the background region pointer;
+means for updating the background region pointer to refer to one of the data
+regions that is different than the data region addressed by the background region
+
+pointer when it is determined to update the contents of the data region addressed by
+the background region pointer; 
+means for resetting the new frame region pointer to identify the data region
+previously addressed by the display region pointer when it is determined not to update
+
+the contents of the data region addressed by the background region pointer;
+means for iteratively repeating the foregoing steps until the sequence of
+animated frames has been completely displayed on the video display device.
+The apparatus of claim 6, wherein the means for displaying include means for
+generating one or more video retrace periods, and the respective means for copying,
+
+rendering, and overlaying are operative during said video retrace periods.
+The apparatus of claim 7, wherein said one or more video retrace periods
+include a vertical video retrace period.
+The apparatus of claim 7 wherein said one or more video retrace periods include
+a horizontal video retrace period.
+The apparatus of claim 6, wherein the updating means further includes:
+
+means for resetting the background region pointer to address the data region
+addressed by the display region pointer; and
+means for resetting the new frame region pointer to address the data region
+previously addressed by the background region pointer.
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,260 @@
+<DOC>
+<DOCNO>EP-0644494</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Computer method and system for b-tree optimization
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1730	G06F1730	G06F1200	G06F1200	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F17	G06F17	G06F12	G06F12	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A B-tree optimizer mechanism is provided for 
+optimizing a B-tree stored in a storage device of a computer 
+
+system. The B-tree optimizer monitors the type and amount of 
+activity occurring within the B-tree. Based upon the type and 
+
+amount of activity, the B-tree optimizer determines whether 
+the B-tree should be reorganized. When it is determined that 
+
+the B-tree should be reorganized, the B-tree optimizer 
+computes an optimal fill factor for the pages within the 
+
+B-tree, and reorganizes the B-tree by filling each page with 
+key values according to the optimal fill factor. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MICROSOFT CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MICROSOFT CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BERKOWITZ BRIAN THOMAS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BERKOWITZ, BRIAN THOMAS
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates generally to a computer
+method and system for storing data, and more particularly,
+to a computer method and system for B-tree optimization.Conventional storage structures, such as the
+well known B-tree, are used to quickly locate specific
+units of data (such as data records in a database or files
+in a directory) stored on a secondary storage device. A
+B-tree provides a means of clustering pointers to units of
+data, so that the units can be quickly located.Figure 1 is a block diagram of a conventional
+B-tree 100 storing a database index. The B-tree 100 has a
+root node 101, internal nodes 102, 103, 104, and leaf
+nodes 105, 106, 107, 108, 109, 110, 111, 112, 113. The
+root node 101 is the node at the top of the tree 100, the
+leaf nodes 105, 106, 107, 108, 109, 110, 111, 112 and 113
+are those at the bottom of the tree, and the internal
+nodes 102, 103 and 104 are all of the nodes in between the
+root node and the leaf nodes.The root node 101 contains one or more key
+values and two or more pointers to internal nodes 102, 103
+and 104. Each internal node 102, 103 and 104 contains one
+or more key values and two or more pointers to lower level
+internal nodes or leaf nodes 105, 106, 107, 108, 109, 110,
+111, 112 and 113. Each leaf node 105, 106, 107, 108, 109,
+110, 111, 112 and 113 contains key values and pointers to
+units of data indexed by the key values. For example, the
+leaf node 107 contains a key value "40" and a pointer 118
+to a data record 119 that corresponds to the key value
+"40." Nodes are considered parent nodes to nodes to
+which they point in the next lower level, which are
+considered child nodes. Leaf nodes have no child nodes.
+For example, the internal node 102 is a child node to the
+root node 101, and a parent node to the leaf nodes 105,
+106, 107.In order to clarify how searching is performed
+in a B-tree, it is helpful to consider an example.
+Suppose the B-tree of Figure 1 is an index to a database
+file and the key values in each node correspond to a key
+value field in a data record of the database file. To
+locate a data record having a key value of "40", a
+searching routine follows pointer 114 from the root node
+101 to the internal node 102. Next, the searching routine
+follows pointer 117 from the internal node 102 to leaf
+node 107. The searching routine then searches through key
+values in leaf node 107 until the key value "40" is found.
+Finally, the searching routine follows pointer 118 from
+leaf node 107 to data record 119.For a comprehensive discussion of B-trees and
+B-tree
+</DESCRIPTION>
+<CLAIMS>
+A method, for use in a computer system (200), of optimizing storage of a B-tree,
+the B-tree comprising a plurality of pages, each page
+
+having storage capacity for a predetermined
+amount of
+
+data, the method comprising the steps of:
+
+gathering and analyzing (302) activity statistics associated with the B-tree;
+determining (304), based upon the result of the step of analyzing (302),
+whether the B-tree should be reorganized; and
+in case that it is determined that the B-tree should be reorganized
+(304:J):
+
+
+determining (306) from the activity statistics an optimal fill factor for the pages
+of the plurality of pages, the optimal fill factor indicating an amount of
+
+data to be stored on each page relative to the size of a page of the
+plurality of pages, and
+reorganizing (308) the B-tree by using
+the optimal fill factor
+
+to determine the amount of data to be stored in each page of the reorganized B-tree.
+The method as claimed in claim 1 wherein:
+
+the step of analyzing activity statistics comprises determining
+the number of pages in
+
+the B-tree; and
+the step of determining whether the B-tree should be reorganized is
+further based (432) on the number of pages in the B-tree.
+The method as claimed in claim 1 or 2 wherein: 
+
+the step of analyzing activity statistics comprises determining (408) a total number
+of pages that have been added to the B-tree or deleted from the B-tree
+
+during a selected period of time; and
+the step of determining whether the B-tree should be reorganized is
+further based (412) on the total number of pages, that have been added to
+
+or deleted from the B-tree during the selected period of time.
+The method as claimed in one of claims 1 to 3 wherein:
+
+the step of analyzing activity statistics comprises determining (416) a total number
+of key values that have been deleted from the B-tree during a selected
+
+period of time; and
+the step of determining whether the B-tree should be reorganized is
+further based (424) on the total number of key values that have been
+
+deleted from the B-tree during the selected period of time.
+The method as claimed in one of claims 1 to 4 wherein:
+
+the step of analyzing activity statistics comprises determining an average amount of
+data that was stored in each page of the B-tree at a previous time that the
+
+B-tree was reorganized; and
+it is determined that the B-tree should be reorganized when a specified
+amount of time has passed (418) since the previous time that the B-tree
+
+was reorganized and a specified amount of data that should be stored on
+each page of the B-tree is greater than the average amount of data that
+
+was stored on each page of the B-tree at the previous time (432).
+The method as claimed in one of claims 1 to 5:
+
+in case that the step of analyzing activity statistics determines that less than a
+predefined amount of activity has occurred within the B-tree, classifying
+
+the B-tree as static; and
+in case that the step of analyzing activity determines that more than the
+predefined amount of activity has occurred within the B-tree, classifying
+
+the B-tree as dynamic.
+The method as claimed in claim 6 wherein the step of determining the optimal
+fill factor is further based on the classification of the B-tree as static or dynamic,
+
+such that the optimal fill factor has a first value in case that the B-tree is
+classified as static and a second value in case that the B-tree is classified as
+
+dynamic.
+A computer system (200), for optimizing storage of a B-tree, the B-tree
+comprising a plurality of pages, each page
+
+having storage capacity for a predetermined
+amount of data, the
+
+computer system comprising:
+
+monitoring means for gathering and analyzing (302) activity statistics associated with the B-tree
+decision means for determining (304), based upon the result of the
+analysis of the activity sta
+tistics,
+whether the B-tree should be reorganized; and
+reorganization means for reorganizing (308) the B-tree in case that it is determined that
+the B-tree should be reorganized (304:Y), the reorganization means
+
+comprising:
+
+means for determining (306) from the activity an optimal fill factor for
+the pages of the plurality of pages, the optimal fill factor indicating an
+
+amount of data to be stored on each page relative to the size of a
+page of the plurality of pages, and
+means for storing in each page
+of the reorganised B-tree an
+
+amount of data determined
+by the optimal fill factor.
+The system as claimed in claim 8 wherein:
+
+the monitoring comprises means for determining the
+number of pages in the B-tree; and
+the decision means
+further operates based (432) on the number of pages in the B-tree.
+The system as claimed in claim 8 or 9 wherein:
+
+the monitoring means comprises means for determining (408) a
+total number of pages that have been added to the B-tree or deleted from
+
+the B-tree during a selected period of time; and 
+the decision means
+further operates based (412) on the total number of pages that have been
+
+added to or deleted from the B-tree during the selected period of time.
+The system as claimed in one of claims 8 to 10 wherein.
+
+the monitoring means comprises means for determining (416) a
+total number of key values that have been deleted from the B-tree during
+
+a selected period of time; and
+the decision means
+further operates based (424) on the total number of key values that have
+
+been deleted from the B-tree during the selected period of time.
+The system as claimed in one of claims 8 to 11 wherein:
+
+the monitoring means comprises means for determining an
+average amount of data that was stored in each page of the B-tree at a
+
+previous time that the B-tree was reorganized; and
+the decision means
+determines that the B-tree should be reorganized when a specified
+
+amount of time has passed (418) since the previous time that the B-tree
+was reorganized and a specified amount of data that should be stored on
+
+each page of the B-tree is greater than the average amount of data that
+was stored on each page of the B-tree at the previous time (432).
+The system as claimed in one of claims 8 to 12, further comprising.
+
+means for classifying the B-tree as static in case that the monitoring means
+determines that less than a predefined amount of
+
+activity has occurred within the B-tree; and
+means for classifying the B-tree as dynamic in case that the monitoring means
+determines that more than the predefined amount of
+
+activity has occurred within the B-tree.
+The system as claimed in claim 13 wherein the means for determining the
+optimal fill factor further operates based on the classification of the B-tree as 
+
+static or dynamic, such that the optimal fill factor has a first value in case that
+the B-tree is classified as static and a second value in case that the B-tree is
+
+classified as dynamic.
+</CLAIMS>
+</TEXT>
+</DOC>

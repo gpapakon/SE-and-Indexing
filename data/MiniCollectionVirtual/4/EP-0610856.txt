@@ -1,0 +1,207 @@
+<DOC>
+<DOCNO>EP-0610856</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Error recovery mechanism for software visible registers in computer systems.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1114	G06F1114	G06F1116	G06F1116	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F11	G06F11	G06F11	G06F11	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A CPU is so structured as to include a CSVR which 
+stores, the same contents as a software visible register 
+
+(SVR) of one cycle earlier. Upon occurrence of an error 
+in a calculation unit, an error flag is activated. 
+
+At the same time, data at the time of error occurrence 
+are written into the SVR. The activation of the error 
+
+flag inhibits writing into the CSVR. In this case, 
+the instruction which was being executed when the error 
+
+occurred is restarted by restoring the contents of the 
+CSVR into the SVR. On the other hand, if an error is 
+
+detected in the CSVR, the instruction is restarted 
+with the contents of the SVR restored to the SVR. 
+
+Error processing is accomplished under the control 
+of a diagnostic processor. By setting the mode flag 
+
+appropriately, an instruction is given as to whether 
+firmware for the generation of the timing of control 
+
+shift to the diagnostic processor is to be gone through 
+or not. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+NIPPON ELECTRIC CO
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+NEC CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+DATE YUUKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DATE, YUUKI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to an error recovery 
+mechanism for use in computer systems, and more particularly 
+to an error recovery mechanism for software visible 
+registers in computer systems. In a computer system, in the event of fault in its 
+central processing unit (CPU), if data affected by the 
+fault are written into a software visible register (SVR), 
+it will become difficult to restart the instruction whose 
+execution was interrupted by the fault, because writing 
+the fault-affected data into the SVR invites the loss of 
+the necessary data for restart by overwrite. Although it is theoretically possible to preventing 
+fault-affected data into the SVR, this in practice would 
+require the gathering of error occurrence signals from 
+different parts of the CPU and the prevention of fault-affected 
+data from being written into the SVR, and this 
+processing takes time. Especially, latest computer systems 
+are operating under high-speed clocks, which makes it even 
+more difficult to inhibit writing into the SVR.  A "Fault Recovery Mechanism, Transparent to Digital 
+System Function" is disclosed in the U.S. Patent No. 
+4,996,687, granted to Richard F. Hess et al. on February 
+26, 1991. This mechanism, intended for recovery from soft 
+errors in the main memory RAM connected to the CPU via a 
+bus, has a configuration having a backup RAM having the 
+same contents as the main memory, so that the contents of 
+this backup RAM can be restored to the main memory in the 
+event of fault. This prior art, however, is incapable of timely back-up 
+of the state in the CPU. Therefore, it involves the 
+problem of being unable to cone with a case in which, for 
+instance, wrong data have been overwritten into the SVR on 
+account of an error having occurred in the arithmetic unit An object of the present invention is to obviate the 
+aforementioned problem and to provide an error recovery 
+mechanism for realizing a computer system highly resistant 
+to fault, capable of restarting the instruction which was 
+being processed when the fault occurred even when wrong 
+data have been overwritten into the SVR on account of an 
+error having occurred in the calculation unit. In one of its preferred embodiments, the invention 
+provides an error recovery mechanism for use in computer 
+systems, each having a central processing unit (CPU)  
+ 
+including a set of registers each consisting of at least 
+one word. The error recovery mechanism includes a set 
+of backup registers which have the same configuration as 
+the CPU's set of
+</DESCRIPTION>
+<CLAIMS>
+An error recovery mechanism for use in computer 
+systems, each having a central processing unit (CPU) 
+
+including a set of registers each consisting of at least 
+one word, comprising: 
+
+   a set of backup registers which have the same 
+configuration as said set of registers and into which, 
+
+after the time data are written into said set of registers, 
+the same data are written; 
+
+   error detection means for detecting any error having 
+occurred in said CPU; and 
+
+   error processing means responsive to an error notice 
+from said error detection means for processing the error 
+
+in said CPU and restoring said CPU. 
+An error recovery mechanism, as claimed in Claim 1, 
+wherein said error processing means further includes: 
+
+   an error processing for analyzing the cause of the 
+
+error in said CPU, resetting said CPU after saving the 
+contents of said set of registers and said set of backup 
+
+registers into save areas, and restoring the contents of 
+said save areas to said set of registers and said set of 
+
+backup registers. 
+An error recovery mechanism, as claimed in Claim 2, 
+wherein said error processing moans further includes:
+
+ 
+   error processing firmware for performing preparation 
+
+for error processing for the error reported from said 
+error detection means, generating a suitable timing for 
+
+error recovery, and having said error processor start 
+error processing at the timing so generated. 
+An error recovery mechanism, as claimed in Claim 3, 
+wherein said error detection means includes: 
+
+   a backup register error detecting section for detecting 
+any error occurring in any of said backup registers; 
+
+   said error processing means includes: 
+   a backup register error flag indicating the occurrence 
+
+or an error in said backup register error detecting section; 
+and 
+
+   when said error processor is to restore the contents 
+of said saving areas to said set of registers and said set 
+
+of backup registers, if said backup register error flag 
+indicates "error occurrence", the contents of said saving 
+
+areas regarding said set of registers are restored to said 
+set of registers and said set of backup registers, or if 
+
+said backup register error flag indicates "error non-occurrence", 
+the contents of said saving areas regarding 
+
+said set of backup registers are restored to said set of 
+registers and said set of backup registers. 
+An error recovery mechanism, as claimed in Claim 3, 
+wherein said error detection means further includes:
+
+ 
+   an error processing mode flag designating either a 
+
+mode to directly notify said error processor of the error 
+detected by said error detecting means or a mode to start 
+
+said error processor via said error processing firmware. 
+An error recovery mechanism, as claimed in Claim 5, 
+wherein said error detection means includes: 
+
+   a backup register error detecting section for detecting 
+any error occurring in any of said backup registers; 
+
+   said error processing means includes: 
+   a backup register error flag indicating the occurrence 
+
+of an error in said backup register error detecting section; 
+and 
+
+   when said error processor is to restore the contents 
+of said saving areas to said set of registers and said set 
+
+of backup registers, if said backup register error flag 
+indicates "error occurrence", the contents of said saving 
+
+areas regarding said set of registers are restored to said 
+set of registers and said set of backup registers, or if 
+
+said backup register error flag indicates "error non-occurrence", 
+the contents of said saving areas regarding 
+
+said set of backup registers are restored to said set of 
+registers and said set of backup registers. 
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,256 @@
+<DOC>
+<DOCNO>EP-0657805</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Result normalizer and method of operation.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F501	G06F501	G06F700	G06F700	G06F748	G06F7485	G06F750	G06F776	G06F776	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F5	G06F5	G06F7	G06F7	G06F7	G06F7	G06F7	G06F7	G06F7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A result normalizer (58) for use with an adder (56) generates a 
+mask in two stages that indicates the location of the leading one in the 
+
+adder result. In the first stage, a leading zero anticipator (68) 
+determines the position to within two digits. In the second stage, a 
+
+count leading zero indicator (70) determines the position to a single 
+digit. The mask is used to control the number of digits that each stage 
+
+of a multiplexer array (66) shifts the adder result. The output of the 
+multiplexer array thereby contains a leading one. The result normalizer 
+
+may be advantageously used in high performance applications such as in a 
+floating point execution unit in a data processor or in digital signal 
+
+processing systems. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MOTOROLA INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MOTOROLA INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BURGESS BRADLEY G
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ELLIOTT TIMOTHY A
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+OLSON CHRISTOPHER H
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+POTTER TERENCE M
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BURGESS, BRADLEY G.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ELLIOTT, TIMOTHY A.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+OLSON, CHRISTOPHER H.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+POTTER, TERENCE M.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention generally relates to digital computing 
+systems, and more specifically to a normalizer. Digital computing systems often express data in "scientific 
+notation" or "floating.point" format. In scientific notation, a number 
+consists of a mantissa and an exponent. The value of the number is the 
+product of the mantissa, the radix of the numbering system and the 
+exponent if the exponent is positive. Conversely, the value of the 
+number is the quotient of the mantissa and the product of the radix and 
+the exponent if the exponent is negative. In digital computing systems, 
+the radix of the most common numbering system is two. Digital computing systems often require that a mantissa of a binary 
+number have a one in its leading digit, or most significant bit. The 
+exponent is then adjusted so that value, as described above, is equal to 
+the value of the number as originally expressed. Digital computing 
+systems make this requirement for several reasons, including improved 
+data precision, implementation speed and industry norms. Normalizers are a class of devices that receive data expressed in 
+scientific notation and adjust the mantissa and exponent such that the 
+mantissa has a one in the leading digit. Known normalizers perform their 
+function in a number of serialized steps. For instance, a known 
+normalizer might receive a sixty-four bit un-normalized mantissa and 
+output a normalized mantissa in three stages. In the first stage of a known normalizer, the normalizer determines 
+if the leading one is in the first sixteen digits, is in one of the 
+seventeenth through thirty-second digits, is in one of the thirty-third 
+through forty-eighth digits, or is in one of the forty-ninth through 
+sixty-fourth digits. The result of this first determination controls the 
+output of a first four-to-one sixty-four-bit multiplexer. The first 
+multiplexer outputs either the input value, the input shifted sixteen 
+digits and concatenated with sixteen zeros, the input shifted thirty-two 
+digits and concatenated with thirty-two zeros, or the input shifted  
+ 
+forty-eight digits and concatenated with forty-eight zeros. After this 
+stage, the mantissa's leading one is in one of the first sixteen digits. In the second stage of the known normalizer, the normalizer 
+determines if the leading one is in the first four digits of the first 
+stage output, is in one of the fifth through eighth digits, is in one of 
+the ninth through twelfth digits, or is in one of the thirteenth through 
+sixteenth digits. The
+</DESCRIPTION>
+<CLAIMS>
+A result normalizer of use with an adder, the adder receiving a 
+first and a second operand, the adder generating a result logically 
+
+equivalent to the sum of the first and second operand, the normalizer 
+comprising: 
+
+   first mask circuitry receiving the first and second operand, the 
+first mask circuitry generating a first mask responsive to 
+
+the first and second operands, the first mask indicating a 
+position of a leading one within the result and a position 
+
+adjacent to the position of the leading one; 
+   second mask circuitry receiving the first mask and the result, the 
+
+mask circuitry generating a second mask responsive to the 
+first mask and to the result, the second mask indicating the 
+
+position of the leading one within the result; 
+   encoding circuitry coupled to the second mask circuitry, the 
+
+encoding circuitry receiving the second mask, the encoding 
+circuitry generating a first and a second control signal; 
+
+   a first multiplexer coupled to the encoding circuitry, the first 
+multiplexer receiving the result and the first control 
+
+signal, the first multiplexer shifting the result a first 
+number of digits responsive to the first control signal, the 
+
+first multiplexer generating a shifted result; and 
+   a second multiplexer coupled to the encoding circuitry and to the 
+
+first multiplexer, the second multiplexer receiving the 
+shifted result and the second control signal, the second 
+
+multiplexer shifting the shifted result a second number of 
+digits responsive to the second control signal, the second 
+
+multiplexer generating a normalized result. 
+A data processor comprising: 
+bus circuitry for receiving an instruction, a first operand, and a 
+
+second operand;
+ 
+
+   floating point circuitry coupled to the bus circuitry for executing 
+the instruction, the instruction generating a normalized 
+
+result, the floating point circuitry comprising; 
+      an adder, the adder receiving the first and the second 
+
+operand, the adder generating a result logically 
+equivalent to the sum of the first and second operand; 
+
+      a first mask circuitry receiving the first and second 
+operand, the first mask circuitry generating a first 
+
+mask responsive to the first and second operands, the 
+first mask indicating a position of a leading one 
+
+within the result and a position adjacent to the 
+position of the leading one; 
+
+      a second mask circuitry receiving the first mask and the 
+result, the mask circuitry generating a second mask 
+
+responsive to the first mask and to the result, the 
+second mask indicating the position of the leading one 
+
+within the result; 
+      an encoding circuitry coupled to second mask circuitry, the 
+
+encoding circuitry receiving the second mask, the 
+encoding circuitry generating a first and a second 
+
+control signal; 
+      a first multiplexer coupled to the encoding circuitry, the 
+
+first multiplexer receiving the result and the first 
+control signal, the first multiplexer shifting the 
+
+result a first number of digits responsive to the first 
+control signal, the first multiplexer generating a 
+
+shifted result; and 
+      a second multiplexer coupled to the encoding circuitry and to 
+
+the first multiplexer, the second multiplexer receiving 
+the shifted result and the second control signal, the 
+
+second multiplexer shifting the shifted result a second 
+number of digits responsive to the second control 
+
+signal, the second multiplexer generating the 
+normalized result. 
+The data processor of claim 2 further comprising exponent adder 
+circuitry coupled to the encoding circuitry, the exponent adder receiving 
+
+the first and the second operand and the first and second control signal, 
+the exponent adder circuitry generating a normalized exponent responsive 
+
+ 
+to the first and the second operand and the first and second control 
+
+signal. 
+A method of normalizing a result comprising the steps of: 
+   receiving a first and a second operand in an adder; 
+
+   generating a result in the adder logically equivalent to the sum of 
+the first and second operand; 
+
+   generating a first mask in a first mask circuitry, the first mask 
+responsive to the first and second operands, the first mask 
+
+indicating a position of a leading one within the result and 
+a position adjacent to the position of the leading one; 
+
+   generating a second mask in a second mask circuitry coupled to the 
+first mask circuitry, the second mask responsive to the first 
+
+mark and to the result, the second mask indicating the 
+position of the leading one within the result; 
+
+   generating a first and a second control signal in an encoding 
+circuitry coupled to second mask
+ circuitry; 
+   shifting the result in a first multiplexer coupled to the encoding 
+
+circuitry, the first multiplexer shifting the result a first 
+number of digits responsive to the first control signal, the 
+
+first multiplexer generating a shifted result; and 
+   shifting the shifted result in a second multiplexer coupled to the 
+
+encoding circuitry and to the first multiplexer, the second 
+multiplexer shifting the shifted result a second number of 
+
+digits responsive to the second control signal, the second 
+multiplexer generating a normalized result. 
+The method of claim 4 further comprising the step of generating a 
+normalized exponent responsive to the first and the second operand and 
+
+the first and second control signal in an exponent adder circuitry, the 
+exponent adder coupled to the encoding circuitry, the exponent adder 
+
+receiving the first and the second operand and the first and second 
+control signal. 
+</CLAIMS>
+</TEXT>
+</DOC>

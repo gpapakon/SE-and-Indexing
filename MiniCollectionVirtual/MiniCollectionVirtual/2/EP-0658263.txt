@@ -1,0 +1,205 @@
+<DOC>
+<DOCNO>EP-0658263</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+IMPROVED VECTOR QUANTIZATION
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04N1104	G06T900	H04B1404	G06T900	H04N746	H04N141	H03M730	H04N736	H04N726	H04N726	H04N728	H04N736	H04N141	H04N1104	H03M730	H04B1404	H04N752	H04N746	H04N754	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04N	G06T	H04B	G06T	H04N	H04N	H03M	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H03M	H04B	H04N	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04N11	G06T9	H04B14	G06T9	H04N7	H04N1	H03M7	H04N7	H04N7	H04N7	H04N7	H04N7	H04N1	H04N11	H03M7	H04B14	H04N7	H04N7	H04N7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Improved method and apparatus for vector quantization (VQ) to build a codebook for the compression of data. The codebook (600) or "tree" is initialized by establishing N initial nodes (610) and creating the remainder of the codebook as a binary codebook (650). Children entries (670) are split upon determination of various attributes, such as maximum distortion, population, etc. Vectors obtained from the data are associated with the children nodes, and then representative children entries are recalculated. This splitting/reassociation continues iteratively until a difference in error associated with the previous children and current children becomes less than a threshold. This splitting and reassociating process continues until the maximum number of terminal nodes is created in the tree, a total error or distortion threshold has been reached or some other criterion. The data may then be transmitted as a compressed bitstream comprising a codebook and indices referencing the codebook.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+APPLE COMPUTER
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+APPLE COMPUTER, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+NORMILE JAMES OLIVER
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WANG KATHERINE SHU-WEI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NORMILE, JAMES, OLIVER
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WANG, KATHERINE, SHU-WEI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to video compression and decompression.
+More specifically, the present invention relates to improved video
+compression/decompression using image preprocessing and vector quantization
+(VQ).Modern applications, such as multimedia or other applications requiring
+full motion video required the development of video compression standards for
+reducing the processing bandwidth consumed by storing, transmitting, and
+displaying such video information. This is due to the large amount of data to
+transmit or store for representing high resolution full image video information.
+Generally, apparatus such as shown in Figures 1a, 1b, and 1c are employed in
+order to compress and decompress an input image for vector quantization based
+techniques. For instance, as shown in Figure 1a, an image 100 may be input to an
+encoder 101 which applies spatial or temporal preprocessing to an input image or
+sequence of images in order to reduce the redundancy or otherwise reduce the
+amount of information contained in the input image 100. Encoder 101 generates a
+compressed image 102 which is substantially smaller than the original image 100.
+In certain prior art systems, the encoder 101 uses a codebook 105 which is used
+for matching given pixel patterns in the input images 100, so that the pixel patterns
+are mapped to alternative pixel patterns in the compressed images 102. In this 
+manner, each area in the image may be addressed by referencing an element in the
+codebook by an index, instead of transmitting the particular color or other graphics
+information. Although in some prior art applications, quality is lost in compressed
+images 102, substantial savings are incurred by the reduction in the image size
+from images 100 to compressed images 102. Other compression techniques are
+"loss-less" wherein no quality in the decoded images is lost generally at the cost of
+additional computation time or a larger bitstream.Conversely, compressed images 102 may be applied to a decoder 131, as
+shown in Figure 1b, in order to generate decompressed images 132. Again,
+decoder 131 uses codebook 105 to determine the pixel patterns represented in
+images 132 from the indices contained within compressed images 102. Decoder
+131 requires the use of the same codebook 105 which was used to encode the
+image. Generally, in prior art systems, the codebook is unique as associated with
+a given image or set of images which are compressed and/or decompressed for
+display in a computer system.Generally, a codebook such as 105 is generated
+</DESCRIPTION>
+<CLAIMS>
+A method of vector quantization of an image comprising the following
+steps:
+
+
+a. initializing (702) N initial nodes in a vector quantizer tree;
+b. sampling a vector from said image;
+c. determining a node in said vector quantizer tree which is a best
+representative sample of the vector sampled from said image;
+d. associating (703) the vector with said node in said vector quantizer
+tree;
+e. sampling a next vector from said image;
+f. repeating steps c-f until there is no more vectors to be sampled from
+said image, said next vector become said vector,
+g. determining (704) which of the nodes in said tree is the most distorted
+node in said tree;
+h. splitting (705) said most distorted node into two children nodes;
+i. associating a first portion of the vectors associated with said most
+distorted node with a first of said children nodes, and a second portion
+
+of the vectors associated with said most distorted node with a second
+
+of said children nodes;
+j. determining a current error of the two children nodes compared to the
+first and second portions of the vectors;
+k. if the change in error between the current error and a previous error is
+less than an error threshold then proceeding (706) to step I otherwise
+
+determining new values of said first and second children nodes, and
+proceeding to step i, said current error becoming said previous error;
+l. repeating (707) steps g through I until the number of terminal nodes in
+said vector quantizer tree has reached a desired population; and
+m. associating indices with each of the terminal nodes in said vector
+quantizer tree.
+The method of claim 1 further comprising the step of transmitting a sequence of
+indices from said vector quantizer tree representative of an index of a terminal
+
+node in said vector quantizer tree associated with each said sampled vector in said
+input range.
+The method of claim 1 wherien the step of determining the most distorted node
+comprises determining whether the average distortion of the node compared to
+
+each of the vectors sampled form said input image associated with the node has
+exceeded a threshold.
+The method of claim 1 wherein the step of determining the most distorted node
+comprises determining whether the total distortion of the node compared to each
+
+of the vectors sampled from said input image associated with the node has
+exceeded a threshold.
+The method of claim 1 wherein the step of determining the most distorted node
+comprises determining whether the total population of sampled vectors from said
+
+input image associated with said node has exceeded a threshold.
+The method of claim 1 wherein the step of determining the most distorted node
+comprises determining whether the percentage distortion of the node compared
+
+to each of the vectors sampled from said input image associated with the node
+has exceeded a threshold.
+The method of claim 1 wherein the step of determining the most distorted node
+comprises determining whether the maximum distortion of the node compared to 
+
+each of the vectors sampled from said input image associated with the node has
+exceed a threshold.
+The method of claim 1 wherein the step of determining the most distorted node
+comprises determining whether the ratio of maximum to minimum distortion of
+
+the node compared to each of the vectors sampled from said input image
+associated with the node has exceeded a threshold.
+The method of claim 1 wherein the step of determining the node which is the
+best representative sample of the vector sampled from said image comprises
+
+determining the mean squared error between the sampled vector and the node.
+The method of claim 9 wherein the step of determining the mean squared error is
+weighed more heavily towards large errors during an early portion of said vector
+
+quantization, and weighed less heavily towards large errors during a latter portion
+of said vector quantization. 
+An apparatus for vector quantization of an image comprising:
+
+a. means for initializing N initial nodes in a vector quantizer tree;
+b. means for sampling vectors from said image;
+c. means for determining nodes in said vector quantizer tree which
+are best representative samples of the vectors sampled from
+
+said image;
+d. means for associating said vectors with said nodes in said
+vector quantizer tree;
+e. means for iterating and creating new nodes in the vector
+quantizer tree including
+
+
+g. means for determining which of the nodes in said tree is
+the most distorted node in said tree;
+h. means for splitting said most distorted node into two
+children nodes;
+i. means for associating a first portion of the vectors
+associated with said most distorted node with a first of said
+
+children nodes, and a second portion of the vectors
+associated with said most distorted node with a second
+
+portion of said children nodes;
+j. means for determining a current error of the two children
+nodes relative to the first and second portions of the vectors;
+k. means for determining new values of said first and
+second children nodes and continuously activating
+
+components i-j if the change in error between the current error
+and a previous error is greater that an error threshold said
+
+current error becoming said previous error; and
+l. means for continuously activating components g-I until a
+stoppage criterion is met.
+The apparatus of claim 11 further comprising:
+
+means for activating components b-e until there are no more vectors
+remaining to be sampled from said image; and wherein the components g
+
+through I are to be activated until the number of terminal nodes in said vector
+quantizer tree has reached a desired population; and
+means for associating indices with each of the terminal nodes in said
+vector quantizer tree.
+The apparatus of claim 11 wherein the stoppage criterion is that said
+tree reaches a desired distortion compared to said vectors.
+The apparatus of claim 11 wherein said iteration and creation means is
+to split said worst nodes into more than two children nodes and wherein the
+
+stoppage criterion is that a number of terminal nodes in said tree reaches a
+desired population.
+The apparatus of claim 11 wherein the criteria used by the most
+distorted node determination means to determine which node should be split
+
+includes the population associated with a specific node.
+The apparatus of claim 11 wherein N is greater than two.
+</CLAIMS>
+</TEXT>
+</DOC>

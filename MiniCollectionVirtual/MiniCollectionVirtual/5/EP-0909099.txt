@@ -1,0 +1,223 @@
+<DOC>
+<DOCNO>EP-0909099</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Communications system for transmission of multimedia digital data and a method therefor
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04N724	H04N752	H04N762	H04N760	H04N724	H04N726	H04N708	H04N7081	H04N726	H04N7081	H04N708	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A coding device (101) encodes image data with the
+coding self-contained within specific image data units, and
+
+supplies the encoded data stream to a packetizer (103) to
+generate packets from the encoded image data stream, and a
+
+packet header adding device (104) adds to each packet a
+packet header containing time information whereby the
+
+temporal position of the packet is determined. Thus,
+temporal information associated with data received after
+
+recovery of an error can be known immediately by the
+receiver even when an error occurs on the communications
+
+network over which a data stream containing image data,
+audio data, and other information is transmitted.
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC IND CO LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC INDUSTRIAL CO., LTD.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+HIGASHIDA MASAAKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HIGASHIDA, MASAAKI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a communications 
+system and method for communicating compression coded image 
+data, audio data, and additional information via a 
+transmission path such that a temporal sequence of the data 
+can be correctly reconstructed even after a transmission 
+path error occurs. The development of communication systems using 
+optical fibers and other high speed transmission paths has 
+greatly increased communication capacity. This has spurred 
+the development of digital communication systems, which are 
+now used not only for digital computer data, but also for 
+transmitting digitized image signals, audio signals, and 
+related additional information. Asynchronous transfer mode (ATM) systems, for 
+example, can operate at speeds in excess of 155 
+megabits/second, and practical ATM systems for 
+communicating digital data are now available. Formal standards for ATM systems have been 
+adopted by the International Telecommunication Union -  
+ 
+Telecommunication Standardization Sector (ITU-T) and the 
+ATM Forum, for example, and numerous related publications 
+have been issued. Japanese Patent Laid-Open Publication JP-A-8-307859 
+(referred to below as prior art example 1), for example, 
+teaches a means for transmitting image, audio, and related 
+data coded for commercial digital VCR use over an ATM 
+network. A method for allocating the moving picture data 
+of this digital VCR data stream to ATM cells is disclosed 
+in this prior art example 1. More specifically, as shown in Fig. 10, an 80-byte 
+DIF (digital interface) block is split into two 40-byte 
+parts, and the remaining 8-byte part of the 48-byte 
+ATM cell payload is used for e.g. error correction parity. 
+Alternatively, a 4-byte portion of the remaining 8 bytes is 
+used for error detection code. In another method of the 
+above-noted prior art example 1, three 80-byte DIF blocks 
+are joined to form a single 240-byte data block, which is 
+then split into five 48-byte ATM cells. A further method for writing moving picture data 
+to ATM cells is a so-called "MPEG over ATM" method taught 
+in "Video On Demand Specification 1.0, af-saa-0049.000", 
+issued by The ATM Forum Technical Committee on Audiovisual 
+Multimedia Services in December 1995 (referred to below as 
+prior art example 2). Numerous descriptions of this  
+ 
+specification have also been published. Basically, MPEG 
+over ATM is a method for joining two continuous MPEG2 
+Single Program Transport Streams (STPS), each 188 octets 
+long, into one 376 octet stream to which an 8-byte AAL 5
+
+</DESCRIPTION>
+<CLAIMS>
+A communications system for transmitting a stream of 
+multimedia digital data over a distribution communications network via a 
+
+transmission path by way of a transmitter, said system comprising: 
+
+a data stream generator (101) for coding frames of image data in a unit of an 
+image data group and generating a continuous data stream thereof together 
+
+with temporal information indicative of a temporal location of the image 
+data group; 
+a packetizer (103) for segmenting said continuous data 
+stream into a plurality of data packets; and 
+a packet header adding device (104) for adding the 
+temporal information as a packet header to each data packet to thereby 
+
+produce a transmission packet (802) corresponding to each data packet, 
+respectively, 
+  
+ 
+
+   wherein said temporal information is regularly updated based on a 
+update cycle of the image data group; and
+ 
+   wherein every transmission packet within a frame has the same 
+
+temporal information. 
+The communications system as claimed in claim 1, wherein 
+the temporal information is indicative of the chronological sequence of the 
+
+transmission packet. 
+The communications system as claimed in claim 2, wherein 
+the continuous data stream generated by said data stream generator (101) 
+
+comprises a first frame of image data, which comprises a predetermined number 
+of subsequences. 
+The communications system as claimed in claim 3, 
+wherein the continuous data stream generated by said data stream 
+
+generator further comprises a second frame of image data, and
+ 
+   wherein the temporal information of the second frame is incremented by one, in 
+
+order to indicate that the second frame should be processed after the first frame. 
+The communications system as claimed in claim 1, 
+further comprising a cell generator (105) for dividing each transmission 
+
+packet into a plurality of cells (804, 805) to be transmitted to the 
+transmission path.  
+
+ 
+The communications system as claimed in claim 5, 
+wherein said cell generator (105) converts the transmission packets (802) to 
+
+AAL 5-PDU (803), converts the AAL 5-PDU to the ATM cell payload blocks, 
+and converts the ATM cell payload blocks (804) to ATM cells (805). 
+The communications system as claimed in claim 1, 
+wherein said data stream generator (101) additionally codes audio data and 
+
+additional information in the unit of the image data group. 
+A method for transmitting a stream of multimedia 
+digital data over a distribution communica
+tions network via a transmission 
+path by way of a transmitter, comprising the steps of 
+
+
+coding frames of image data in a unit of an image data group and 
+generating a continuous data stream thereof, together with temporal 
+
+information indicative of a temporal location of the image data group; 
+segmenting said data stream into a plurality of data 
+packets; and 
+adding the temporal information as a packet header to 
+each data packet to thereby produce a transmission packet corresponding to 
+
+each data packet, respectively, 
+ 
+   wherein said temporal information is regularly updated based on 
+
+an update cycle of the image data group; and
+ 
+   wherein every transmission packet within a frame has the same 
+
+temporal information.  
+ 
+The method as defined in claim 8, further 
+comprising the steps of determining in one frame, temporal information for a 
+
+temporal location to which an associated digital interface format (DIF) block belongs in a frame. 
+The method as defined in claim 9, further 
+comprising the steps of: 
+
+
+splitting a subsequence (701) into a plurality of AAL blocks 
+(702) for application to an ATM adaptation layer for data transmission; 
+obtaining the temporal information (TC) by copying original 
+temporal information contained in a DIF subsequence; 
+adding the temporal information as a header to the beginning 
+portion of every AAL block to thereby produce a plurality of transmission 
+
+packets (702); and 
+determining the temporal information associated with the DIF 
+blocks in each AAL block. 
+The method as defined in claim 8, wherein the 
+step of producing a transmission packet (802) further comprising the steps 
+
+of: 
+
+sequentially numbering a predetermined number of DIF 
+blocks (801) for one transmission packet; 
+producing a DIF packet (802) by assembling the plurality 
+of DIF blocks; and  
+
+ 
+adding a time code as a packet header to the beginning of 
+the DIF packet, wherein the time code as the packet header provides the 
+
+temporal information required to determine the temporal location of the DIF 
+packet (DIFP). 
+The method as defined in claim 8, further 
+comprising the steps of dividing the transmission packet into a plurality of 
+
+cells (804, 805) to be transmitted to the transmission path. 
+The method as defined in claim 8, 
+wherein said step of coding comprises coding audio data and additional 
+
+information in the unit of the image data group. 
+</CLAIMS>
+</TEXT>
+</DOC>

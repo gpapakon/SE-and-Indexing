@@ -1,0 +1,288 @@
+<DOC>
+<DOCNO>EP-0623230</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+FAULT TOLERANT COMPUTER SYSTEM WITH PROVISION FOR HANDLING EXTERNAL EVENTS
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F946	G06F1114	G06F1116	G06F1114	G06F1120	G06F1116	G06F948	G06F1120	G06F946	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F11	G06F11	G06F11	G06F11	G06F11	G06F9	G06F11	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A fault tolerant computer system employing primary tasks (31, 41, 51) and corresponding backup tasks (32, 42, 52). The system operates to provide fault tolerant operation even where uncontrolled external events (Table C and D) may occur whose time of occurrence may affect task performance. For this purpose, external event data is stored (in CPUQ) for each external event occurring during performance of a primary task which indicates the event type and the relationship between the occurence of the external event and the occurence of a predetermined primary task event, such as a memory (M) access operation. This external event data is sent to eac respective backup task (32, 42, 52) along with messages transmitted to the respective primary task (31, 41, 51). In the event a primary task fails, (Table E) the backup task (32, 42, 52) will replay (Table F) the failed primary task by processing these transmitted messages while using the transmitted external event data to redeliver each external signal to the backup task at an appropriate time which will assure that the backup task properly recovers the primary task.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+UNISYS CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+UNISYS CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+GLEESON BARRY JOHN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GLEESON, BARRY, JOHN
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to improved means and 
+methods for providing fault tolerance in a data processing 
+system. As computer systems increase in speed, power and 
+complexity, it has become of increasing importance to provide 
+fault tolerance in such systems to prevent the system from 
+"going-down" in the event of hardware and/or software 
+failure. However, providing fault tolerant capabilities in 
+a computer system has proven to be expensive as well as 
+introducing significant performance penalties.  
+ A basic way of achieving fault tolerance in a data 
+processing system is to provide each task (also called a 
+process) with a backup task such that, if the primary task 
+fails, the backup task is automatically able to recover and 
+continue execution. For example, a primary task and its 
+backup task could be provided using a pair of simultaneously 
+executing CPUs (central processing units) intercoupled such 
+that, if one fails, execution continues on the other. It 
+will be appreciated that the need to provide such duplicate 
+hardware is a very expensive way of achieving fault 
+tolerance, particularly since the simultaneously operating 
+duplicate hardware cannot be used to provide additional data 
+processing power. One known approach for avoiding hardware 
+duplication is to provide a first CPU for the primary task, 
+and a second CPU for the backup task, the backup becoming 
+active to recover and continue execution only if the primary 
+fails. Until then, the backup CPU can do other processing. 
+In order to assure that the backup process can take over in 
+the event the primary process fails, this known approach 
+provides for a checkpointing operation to occur whenever the 
+primary data space changes. This checkpointing operation 
+copies the primary's state and data space to that of the 
+backup so that the backup task will be able to continue 
+execution if the primary task fails. However, the frequent 
+checkpointing required by this approach detrimentally affects 
+performance and also uses up a significant portion of the 
+added computing power. Another known approach is disclosed in U.S. Patent 
+No. 4,590,554. Although this approach also uses 
+checkpointing, it provides the advantage of employing a fault 
+tolerant architecture which significantly reduces the 
+frequency of checkpointing. However, the approach has the 
+disadvantage of requiring a message transmission protocol  
+ 
+which is essentially synchronous in that it requires messages 
+to be transmitted to primary and backup processors 
+substantially
+</DESCRIPTION>
+<CLAIMS>
+In a fault tolerant computer system including a 
+data processor (A), a method comprising: 
+
+
+providing a plurality of primary tasks (31, 41, 51), 
+at least one of said primary tasks performing a persistent 
+
+action, and wherein a primary task is subject to at least 
+one external event whose time of occurrence may affect the 
+
+performance thereof; 
+providing a corresponding plurality of interconnected 
+backup tasks (32, 42, 52) external to said data processor 
+
+for backing up said plurality of primary tasks; 
+transmitting messages (M1, M2, M3, M4, M5) between 
+said primary tasks for processing thereby; 
+storing the transmitted messages; 
+also storing external event data (S) indicative of 
+each external event type and its occurrence relationship to 
+
+a predetermined primary task event; 
+each primary task processing the messages transmitted 
+thereto; 
+transmitting at least particular ones of the stored 
+messages to said backup tasks, subsequent to said storing, 
+
+in a manner such that there is transmitted to said backup 
+tasks, prior to the performance of a persistent action, at 
+
+least those particular messages required for said backup 
+tasks to recover from a failure of said data processor; 
+also transmitting the external event data to respective 
+backup tasks prior to performance of said persistent 
+
+action; 
+said primary tasks continuing to process the messages 
+transmitted thereto so long as the aforementioned 
+
+transmitting of messages and external event data to said 
+backup tasks is met; and 
+recovering from a failure by causing said backup tasks 
+to process the messages and the external event data transmitted 
+
+thereto, each occurrence relationship being used during  
+ 
+
+said recovering to determine when its respective external 
+event is to occur, whereby proper recovery is achieved. 
+The method of claim 1, wherein said particular 
+messages are chosen such that said backup tasks (32, 42, 52) 
+
+and other parts of said system will agree on a particular 
+state of each primary task (31, 41, 51) prior to said 
+
+failure which need not be the actual state thereof at the 
+time of failure. 
+The method of claim 2, wherein said primary tasks 
+(31, 41, 51) sequentially process the messages (M1, M2, M3, 
+
+M4, M5) transmitted thereto, and wherein said particular 
+messages comprise at least the most recently processed 
+
+message and all earlier messages transmitted by said primary 
+tasks. 
+The method of claim 3, wherein said primary tasks 
+(31, 41, 51) sequentially process the messages (M1, M2, M3, 
+
+M4, M5) transmitted thereto, wherein said storing of the 
+transmitted messages is in a queue (MQ) which stores the 
+
+transmitted messages in the order of their transmission, 
+wherein the external event data (S) is stored in said queue 
+
+in occurrence order, wherein the performance of a persistent 
+action is indicated in said queue by storing a persistent 
+
+action indication (D) at a position based no earlier than 
+the position of the most recently processed message,
+ 
+   and wherein said particular messages and said external 
+
+event data are transmitted to said backup tasks (32, 42, 52) 
+prior to the performance of said persistent action based on 
+
+the position of said persistent action indication in said 
+queue. 
+The method of one or more of claims 2-4, wherein 
+said recovering includes causing said backup tasks (32, 42, 
+
+52) to process the messages (M1, M2, M3, M4, M5) and the 
+external event data (S) transmitted thereto in a manner  
+
+ 
+which will result in each backup task arriving at its 
+
+respective particular state. 
+The method of claim 1, wherein said particular 
+messages and said external event data (S) are transmitted to 
+
+said backup tasks (32, 42, 52) such that each backup task 
+receives each message of said particular messages which was 
+
+transmitted to its respective primary task (31, 41, 51) and 
+also receives external event data corresponding to each 
+
+external event occurring for its respective primary task. 
+The method of claim 6, wherein said particular 
+messages are transmitted to said backup tasks (32, 42, 52) 
+
+such that each backup task also receives each message of 
+said particular messages which was transmitted by its 
+
+respective primary task (31, 41, 51). 
+The method of claim 7, including each backup task 
+
+(32, 42, 52) providing a count (MRCCR) of the number of 
+messages (M1, M2, M3, M4, M5) received which were 
+
+transmitted by its respective primary task (31, 41, 51), and 
+wherein said count is used for determining said occurrence 
+
+relationship. 
+The method of claim 8, wherein each backup 
+processor (B, C, D) uses said count (MRCCR) during said 
+
+recovering to determine when an external event is to occur. 
+The method of one or more of claims 1-3, including 
+performing a checkpointing operation between a primary task 
+
+(31, 41, 51) and its respective backup task (32, 42, 52) 
+after at least a plurality of messages (M1, M2, M3, M4, M5) 
+
+have been transmitted to said primary task, said 
+checkpointing operation including storing checkpointing data 
+
+(PC, CF, MRC, MRCCR) corresponding to the state of the 
+primary task, and transmitting said checkpointing data to 
+
+the respective backup task subsequent to said storing and at  
+ 
+
+a time no later than required for said backup tasks to 
+recover from failure of said data processor (A) using the 
+
+messages transmitted thereto from their respective primary 
+tasks, said checkpointing data causing the backup task to 
+
+which it is transmitted to be brought to the same state as 
+its respective primary task at the time of checkpointing. 
+The method of claim 10, wherein said checkpointing 
+data (PC, CF, MRC, MRCCR) includes a count (MRC) of the 
+
+number of messages (M1, M2, M3, M4, M5) processed by the 
+primary task (31, 41, 51) since its start or last 
+
+checkpointing, and wherein the respective backup task (32, 
+42, 52) uses said count for discarding a corresponding 
+
+number of messages. 
+The method of claim 10, wherein said primary tasks 
+(31, 41, 51) sequentially process messages (M1, M2, M3, M4, 
+
+M5) transmitted thereto, wherein said storing of transmitted 
+messages is in a queue (MQ) which stores transmitted 
+
+messages in the order of their transmission, wherein the 
+external event data (S) is stored in said queue in 
+
+occurrence order, wherein said queue also stores a 
+checkpointing indication (CK) at a position indicative of 
+
+the time of performance of said checkpointing operation, 
+wherein the performance of a persistent action is indicated 
+
+in said queue by storing a persistent action indication (D) 
+positioned in said queue based on the position of the most 
+
+recently processed message, and wherein said particular 
+messages and said external event data are transmitted to 
+
+said backup tasks (32, 42, 52) prior to the performance of 
+said persistent action if positioned earlier in said queue 
+
+than said persistent action indication, and wherein said 
+checkpointing data (PC, CF, MRC, MRCCR) is also transmitted 
+
+to the respective backup if it is positioned earlier than 
+the position of said persistent action indication. 
+The method of claim 1 or 2, wherein said  
+ 
+
+predetermined primary task event is a memory access 
+operation. 
+The method of claim 1 or 2, wherein said 
+predetermined primary task event occurs a plurality of times 
+
+during performance of said primary task (31, 41, 51), and 
+wherein said external event data (S) includes for each 
+
+external event a count (R, MRC) related to the number of 
+times said predetermined primary task occurred from a 
+
+reference point prior to occurrence of the external event. 
+The method of claim 14, wherein said count (R, 
+MRC) is used by said backup task (32, 42, 52) during replay 
+
+to determine when the corresponding external event (S) is to 
+be delivered. 
+</CLAIMS>
+</TEXT>
+</DOC>

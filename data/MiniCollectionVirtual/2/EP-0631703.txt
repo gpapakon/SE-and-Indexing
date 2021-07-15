@@ -1,0 +1,244 @@
+<DOC>
+<DOCNO>EP-0631703</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+EFFICIENT CRC REMAINDER COEFFICIENT GENERATION AND CHECKING DEVICE AND METHOD.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H03M1300	H03M1300	H03M1309	H04L100	H04L100	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H03M	H03M	H03M	H04L	H04L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H03M13	H03M13	H03M13	H04L1	H04L1	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Various parallel CRC remainder coefficient generation devices (100, 200, 300, 400, 500, 600, 700) and methods (1100, 1200) are described for providing efficient error detection in various digital data communication systems (800, 900, 1000). A K-bit CRC remainder is calculated from m bits at a time, where m can be less than, equal to, or greater than K, and where the processing of each of the m bits requires a total of j K-bit table look-ups into a total of j tables (410, 412, 414, 516, 518, 520, 522, 616, 614, 712, 714) of 2
+<
+b
+>
+ entries each, where m = jb. Also required are one m-bit exclusive-or operation (208, 306, 506, 608, 706), a total of (j-1)K-bit exclusive-or operations (422, 532, 626, 628, 720), and one (K-m)-bit exclusive-or operation (216, 632) if m 
+<
+ K. A 16-bit CRC using the new method can be implemented on a 16-bit DSP processor.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+CODEX CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+CODEX CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+LI SHIPING
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+PASCO-ANDERSON JAMES A
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LI, SHIPING
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+PASCO-ANDERSON, JAMES, A.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+ EFFICIENT CRC REMAINDER COEFFICIENT GENERATION AND CHECKING DEVICE AND METHODField of the InventionThis invention relates generally to digital communication error detection and, more particularly, to a cyclic redundancy checking (CRC) device and method for error- detection in a digital data communication system.BackgroundIn a digital data communication system a receiver may receive transmitted data signals that contain errors. A number of factors, such as attenuation of signals, transmission line loss, magnetic field changes, and noise may cause such errors. Various error detection methods have been developed to check received digital data for errors. Linear systematic cyclic codes, commonly known as cyclic redundancy (CRC) codes are typically used to provide error detection capability at various network layers of modern data communications networks.CRC remainder coefficient generation and checking devices are implemented both in hardware and in software. Typical hardware implementations use serial shifter register schemes wherein feedback shift registers perform a long division of polynomials one bit at a time. To improve throughput, octet algorithms that handle one 8 bit-byte at a time have been developed. These octet algorithms are realized in both hardware and software. However, error processing utilizing CRC computations has a high degree of computational 
+
+complexity, and thus can have a significant impact on the performance or cost of a digital data communication system. For example, in one application, 1/3 of the processing available from a DSP56156 processor is consumed by CRC computation. Thus, there is a need for an efficient CRC computation device and method that reduces the complexity and processing requirements for CRC computation in a digital data communication system.Summary of the InventionDescribed is a cyclic redundancy check (CRC) remainder coefficient generator, and a method for utilizing the generator, in a CRC circuit for generating a plurality of CRC remainder coefficients for an (n+m) bit frame utilizing a first input of data for a plurality of m coefficients representing a last m bits of an (n+m) bit frame (n, m are positive integers, m > 1 ; K is a degree of a CRC generating polynomial) and a second input of data for a plurality of K previously calculated CRC remainder coefficients of a first n bits of the frame. The generator includes at least a CRC circuit combining unit and a CRC circuit conversion unit. The CRC circuit combining unit is operably coupled to receive a
+</DESCRIPTION>
+<CLAIMS>
+Claims:
+1 . A cyclic redundancy check (CRC) remainder coefficient generator in a CRC circuit having a first input of data for a plurality of m coefficients representing a last m bits of an (n+m) bit frame (n, m are positive integers, m 
+>
+1 ; K is a positive integer representing a degree of a CRC generating polynomial) and a second input of data for a plurality of K previously calculated CRC remainder coefficients of a first n bits of the frame, comprising:
+1 A) CRC circuit combining means, operably coupled to receive a preselected portion of the first input data and a preselected portion of the second input data, for substantially performing bitwise modulo-two addition of the preselected portion of the first input data and the preselected portion of second input data to provide a plurality of adjusted coefficients; and
+1 B) CRC circuit conversion means, operably coupled at least to the CRC circuit combining means, comprising a plurality (more than one) of look-up tables and substantially at least a first EXCLUSIVE-OR circuit, for utilizing at least the plurality of adjusted coefficients to provide a plurality of CRC remainder coefficients for the (n+m) bit frame. 
+
+2. The generator of claim 1 wherein the CRC circuit combining means includes at least an EXCLUSIVE-OR circuit, and, where selected, one of 2A-2B: 2A) the preselected portion of first input data that the
+EXCLUSIVE-OR circuit is coupled to receive comprises one of 2A1 -2A2:
+2A1 ) where m 
+>
+ K,
+K most significant coefficients of m first input data; and
+2A2) where 1 
+<
+ m 
+<
+ K, all coefficients of the first input data, and
+2B) the preselected portion of second input data that the EXCLUSIVE-OR circuit is coupled to receive comprises one of 2B1 -2B2:
+2B1 )) where m 
+>
+ K, all remainder coefficients of the second input data; and 2B2) where 1 
+<
+ m 
+<
+ K, m highest-order remainder coefficients of the second input data.
+3. The generator of claim 1 wherein the CRC circuit conversion means includes at least a remainder conversion unit that includes j memory look-up tables (1
+<
+ j 
+<
+ m) of size 2 by K (where jb = m; 1 
+<
+ b 
+<
+ m), operably coupled to the CRC circuit combining means, for utilizing at least the plurality of adjusted coefficients to output all coefficients of the CRC intermediate remainder for the (n+m) bit frame, and wherein each coefficient has been precomputed and stored in one of the j memory look-up tables, wherein, where selected, the coefficients of the CRC intermediate remainder for the (n+m) 
+
+
+bit frame are stored in memory registers for output to an EXCLUSIVE-OR circuit, and, where selected, one of 3A-3B:
+3A) one of: b = 8 and b = 16,
+3B) the CRC circuit conversion means further includes a second EXCLUSIVE-OR circuit, operably coupled to j register means, each of which is operably coupled to a separate one of the j memory look-up tables such that the circuit receives j sets of K coefficients for the CRC intermediate remainder, for performing bitwise modulo-two addition (j-1 times) on said coefficients to provide the CRC remainder coefficients for the
+(n+m) bit frame, and where selected, wherein K =32, m=16, j=2, and b=8, and two 32 bit look-up tables are utilized, wherein the second EXCLUSIVE-OR circuit includes one of 3B1- 3B4: 3B1 ) a first intermediate EXCLUSIVE-OR circuit, operably coupled to receive and process by bitwise modulo- two addition, 16 coefficients for lowest order terms from each of the two 32 bit look-up tables;
+3B2) a second intermediate EXCLUSIVE-OR circuit, operably coupled to receive and process by bitwise modulo- two addition, 16 coefficients for highest order terms from each of the two 32 bit look-up tables;
+3B3) remainder means, operably coupled to the first intermediate EXCLUSIVE-OR circuit and to the second intermediate EXCLUSIVE-OR circuit, for storing 16 coefficients for highest order terms of an intermediate remainder and 16 coefficients for lowest order coefficients of a CRC remainder for the (n+m) bit frame; and
+3B4) a third intermediate EXCLUSIVE-OR circuit, operably coupled to the second EXCLUSIVE-OR circuit and to receive 16 lowest order coefficients of the second input of data for the plurality of K previously calculated CRC remainder coefficients of n bits, for performing bitwise modulo-two addition on the 16 coefficients for highest order terms of an intermediate remainder and the 16 lowest order 
+
+
+coefficients of the second input of data to provide 16 highest order term coefficients that, together with the 16 lowest order coefficients (from the remainder means) of the CRC remainder coefficients for the (n+m) bit frame, represent all (32) CRC remainder coefficients for the (n+m) bit frame.
+4. The cyclic redundancy check (CRC) remainder coefficient generator of claim 1 , wherein the generator is a component of a communication network system that comprises at least a computer, a plurality of modems, and a plurality of terminals, and, where selected, a switched network. 
+
+5. A cyclic redundancy check (CRC) remainder coefficient generator in a communication network system comprising:
+5A) first storage means for storing data for a plurality of m coefficients representing a last m bits of an (n+m) bit frame (n, m are positive integers, m 
+>
+ 1 ; K is a positive integer representing a degree of a CRC generating polynomial);
+5B) second storage means for storing data for a plurality of previously calculated CRC remainder coefficients of a precomputed CRC remainder for a first n bits of the frame; 5C) an EXCLUSIVE-OR circuit, operably coupled to the first storage means and to the second storage means, for substantially performing bitwise modulo-two addition on a preselected portion of first storage means data and on a preselected portion of second storage means data to provide a plurality of adjusted coefficients;
+5D) CRC circuit conversion means, operably coupled at least to the EXCLUSIVE-OR circuit, comprising a plurality (more than one) of look-up tables and substantially at least a first EXCLUSIVE-OR circuit, for utilizing at least the plurality of adjusted coefficients to provide a plurality of CRC remainder coefficients for the (n+m) bit frame. 
+
+6. The generator of claim 5 wherein at least one of 6A-6B:
+6A) wherein the CRC circuit combining means includes at least an EXCLUSIVE-OR circuit, and, where selected, one of 6A1 -6A3:
+6A1 ) wherein the preselected portion of first input data that the EXCLUSIVE-OR circuit is coupled to receive comprises one of 6A1 a-6A1 b:
+6A1 a) where m 
+>
+ K, K most significant coefficients of m first input data; and
+1 6A1 b) where 1 
+<
+ m 
+<
+ K, all coefficients of the first input data,
+6A2) wherein the preselected portion of second storage means data that the EXCLUSIVE-OR circuit is coupled to receive comprises one of 6A2a-6A2b:
+6A2a) where m 
+>
+ K, all remainder coefficients of the second input data; and 6A2b) where 1 
+<
+ m 
+<
+ K, m highest-order remainder coefficients of the second input data, and
+6A3) wherein the CRC circuit conversion means includes at least a remainder conversion unit that includes j memory look-up tables (1 
+<
+ j 
+<
+ m) of size 2
+b
+ by K (where jb = m; 1 
+<
+ b 
+<
+ m), operably coupled to the CRC circuit combining means, for utilizing at least the plurality of adjusted coefficients to output all coefficients of the CRC intermediate remainder for the (n+m) bit frame, and wherein each coefficient has been precomputed and stored in one of the j memory look-up tables, wherein, where selected, the coefficients of the CRC intermediate remainder for the (n+m) bit frame are stored in memory registers for output to an EXCLUSIVE-OR circuit, and, where selected, one of 6A3a-6A3b: 
+
+
+ 6A3a) wherein one of: b = 8 and b = 16, and 6A3b) wherein the CRC circuit conversion means further includes a second EXCLUSIVE-OR circuit, operably coupled to j register means, each of which is operably coupled to a separate one of the j memory look-up tables of claim 12B such that the circuit receives j sets of K coefficients for a CRC intermediate remainder, for performing bitwise modulo-two addition (j-1 times) on said coefficients to provide the CRC remainder coefficients for the (n+m) bit frame, and where selected, wherein K =32, m=16, j=2, and b=8, and two 32 bit look-up tables are utilized in claim 16, wherein the second EXCLUSIVE-OR circuit includes 6A3b1 -6A3b4:
+6A3b1 ) a first intermediate EXCLUSIVE-OR circuit, operably coupled to receive and process by bitwise modulo-two addition, 16 coefficients for lowest order remainder terms from each of the two 32 bit look-up tables;
+6A3b2) a second intermediate EXCLUSIVE-OR circuit, operably coupled to receive and process by bitwise modulo-two addition, 16 coefficients for highest order remainder terms from each of the two 32 bit look-up tables;
+6A3b3) remainder means, operably coupled to the first intermediate EXCLUSIVE-OR circuit and to the second intermediate EXCLUSIVE-OR circuit, for storing 16 coefficients for highest order terms of an intermediate remainder and 16 lowest order coefficients of a CRC remainder for the (n+m) bit frame; and
+6A3b4) a third intermediate EXCLUSIVE-OR circuit, operably coupled to the second
+EXCLUSIVE-OR circuit and to receive 16 lowest order coefficients of the second input of data for the plurality of K previously calculated CRC remainder coefficients of n bits, for performing bitwise modulo-two addition on the 16 highest order coefficients of an intermediate remainder and the 16 
+
+
+lowest order coefficients of the second input of data to provide 16 highest order coefficients that, together with the 16 lowest order coefficients (from the remainder means) of the CRC remainder coefficients for the (n+m) bit frame, represent all (32) CRC remainder coefficients for the (n+m) bit frame, and
+6B) wherein the communication network system comprises at least a computer, a plurality of modems, and a plurality of terminals, and, where selected, a switched network. 
+
+7. A method for generating cyclic redundancy check (CRC) remainder coefficients in a CRC circuit having a first input of data for a plurality of m coefficients representing a last m bits of an (n+m) bit frame (n, m are positive integers, m 
+>
+ 1 ; K is a positive integer representing a degree of a CRC generating polynomial) and a second input of data for a plurality of K previously calculated CRC remainder coefficients of a first n bits of the frame, comprising the steps of:
+7A) substantially performing, in a CRC circuit combining unit, bitwise modulo-two addition of a preselected portion of the first input data and a preselected portion of the second input data to provide a plurality of adjusted coefficients; and
+7B) in a CRC circuit conversion unit comprising a plurality (more than one) of look-up tables and substantially at least a first EXCLUSIVE-OR circuit, utilizing at least the plurality of adjusted coefficients to provide a plurality of CRC remainder coefficients for the (n+m) bit frame. 
+
+8. The method of claim 7 wherein the CRC circuit combining unit includes at least an EXCLUSIVE-OR circuit, and, where selected, at least one of 8A-8C: 8A) wherein the preselected portion of first input data that the EXCLUSIVE-OR circuit is coupled to receive comprises one of 8A1-8A2:
+8A1 ) where m 
+>
+ K,
+K most significant coefficients of m first input data; and
+8A2) where 1 
+<
+ m 
+<
+ K, all coefficients of the first input data, 8B) wherein preselected portion of the second input data comprises one of 8B1-8B2: 8B1 ) where m 
+>
+ K, all remainder coefficients of the second input data; and
+8B2) where 1 
+<
+ m 
+<
+ K, m highest-order remainder coefficients of the second input data,
+8C) wherein the CRC circuit conversion unit includes at least a remainder conversion unit that includes j memory look¬ up tables (1 
+<
+ j 
+<
+ m) of size 2
+b
+ by K (where jb = m; 1 
+<
+ b 
+<
+ m), operably coupled to the CRC circuit combining means, for utilizing at least the plurality of adjusted coefficients to output all coefficients of the CRC intermediate remainder for the (n+m) bit frame, and wherein each coefficient has been precomputed and stored in one of the j memory look-up tables, wherein, where selected, the coefficients of the CRC intermediate remainder for the (n+m) bit frame are stored in memory registers for output to an EXCLUSIVE-OR circuit, and where selected, one of 8C1 -8C2:
+8C1 ) wherein one of: b = 8 and b = 16, and 8C2) wherein the CRC circuit conversion means of claim 23 further includes a second EXCLUSIVE-OR circuit, 
+
+
+operably coupled to j register means, each of which is operably coupled to a separate one of the j memory look-up tables of claim 23 such that the circuit receives j sets of K coefficients of a CRC intermediate remainder, for performing bitwise modulo-two addition (j-1 times) on said coefficients to provide the CRC remainder coefficients for the (n+m) bit frame, and where selected, wherein K =32, m=16, j=2, and b=8, and two 32 bit look-up tables are utilized in claim 25, wherein the second EXCLUSIVE-OR circuit includes 8C2a-8C2d:
+8C2a) a first intermediate EXCLUSIVE-OR circuit, operably coupled to receive and process by bitwise modulo-two addition, 16 coefficients for lowest order remainder terms from each of the two 32 bit look-up tables; 8C2b) a second intermediate EXCLUSIVE-OR circuit, operably coupled to receive and process by bitwise modulo-two addition, 16 coefficients for highest order remainder terms from each of the two 32 bit look-up tables;
+8C2c) remainder means, operably coupled to the first intermediate EXCLUSIVE-OR circuit and to the second intermediate EXCLUSIVE-OR circuit, for storing 16 coefficients for highest order remainder terms of an intermediate remainder and 16 lowest order coefficients of a CRC remainder for the (n+m) bit frame; and 8C2d) a third intermediate EXCLUSIVE-OR circuit, operably coupled to the second EXCLUSIVE-OR circuit and to receive 16 lowest order coefficients of the second input of data for the plurality of K previously calculated CRC remainder coefficients of n bits, for performing bitwise modulo-two addition on the 16 coefficients for highest order terms of an intermediate remainder and the 16 lowest order coefficients of the second input of data to provide 16 highest order coefficients that, together with the 16 lowest order coefficients (from the remainder means) of the CRC remainder 
+
+
+coefficients for the (n+m) bit frame, represent all (32) CRC remainder coefficients for the (n+m) bit frame. 
+
+9. A method for generating cyclic redundancy check (CRC) remainder coefficients in a CRC circuit in a communication network system, comprising the steps of:
+9A) storing data for a plurality of m coefficients representing a last m bits of an (n+m) bit frame (n, m are positive integers, m 
+>
+ 1 ; K is a positive integer representing a degree of a CRC generating polynomial) in a first memory register unit;
+9B) storing data for a plurality of K previously calculated cyclic division polynomial remainder coefficients of a remaining portion of a first n bits of the frame in a second memory register unit;
+9C) in a CRC circuit combining unit, substantially performing bitwise modulo-two addition on data from a preselected portion of the first memory register storage unit and on a preselected portion of the data from the second memory register unit to provide a plurality of adjusted coefficients;
+9D) in a CRC circuit conversion unit comprising a plurality (more than one) of look-up tables and substantially at least a first EXCLUSIVE-OR circuit, utilizing at least the plurality of adjusted coefficients to provide a plurality of CRC remainder coefficients for the (n+m) bit frame. 
+
+1 0. The method of claim 9 wherein at least one of 10A-10C: 1 0A) the CRC circuit combining unit includes at least an EXCLUSIVE-OR circuit, and where selected at least one of 1 0A1 -1 0A3:
+10A1 ) wherein the preselected portion of first input data that the EXCLUSIVE-OR circuit is coupled to receive comprises one of 10A1 a-10A1 b:
+1 0A1 a) where m 
+>
+ K, K most significant coefficients of m first input data; and
+1 0A1 b) where 1 
+<
+ m 
+<
+ K, all coefficients of the first input data, 10A2) wherein the preselected portion of the data from the second memory register unit that the EXCLUSIVE-OR circuit is coupled to receive comprises one of 10A2a-10A2b:
+10A2a) where m 
+>
+ K, all remainder coefficients of the second input data; and 10A2b) where 1 
+<
+ m 
+<
+ K, m highest-order remainder coefficients of the second input data,
+10A3) wherein the CRC circuit conversion unit includes at least a remainder conversion unit that includes j memory look-up tables (1 
+<
+ j 
+<
+ m) of size 2
+b
+ by K (where jb = m; 1 
+<
+ b 
+<
+ m), operably coupled to the CRC circuit combining means, for utilizing at least the plurality of adjusted coefficients to output all coefficients of the CRC intermediate remainder for the (n+m) bit frame, and wherein each coefficient has been precomputed and stored in one of the j memory look-up tables, wherein, where selected, the coefficients of the CRC intermediate remainder for the (n+m) bit frame are stored in memory registers for output to an EXCLUSIVE-OR circuit, and where selected, at least one of 1 0A3a-1 0A3b: 
+
+
+ 10A3a) wherein one of: b = 8 and b = 16, and 10A3b) wherein the CRC circuit conversion means of claim 31 further includes a second EXCLUSIVE-OR circuit, operably coupled to j register means, each of which is operably coupled to a separate one of the j memory look-up tables of claim 31 such that the circuit receives j sets of K coefficients a CRC intermediate remainder, for performing bitwise modulo-two addition (j-1 times) on said coefficients to provide the CRC remainder coefficients for the (n+m) bit frame, and where selected, wherein K =32, m=16, j=2, and b=8, and two 32 bit look¬ up tables are utilized in claim 33, wherein the second EXCLUSIVE-OR circuit includes 103b1 -103b4:
+103b1 ) a first intermediate EXCLUSIVE-OR circuit, operably coupled to receive and process by bitwise modulo-two addition, 16 coefficients for lowest order remainder terms from each of the two 32 bit look-up tables;
+103b2) a second intermediate EXCLUSIVE-OR circuit, operably coupled to receive and process by bitwise modulo-two addition, 16 coefficients for highest order remainder terms from each of the two 32 bit look-up tables;
+103b3) remainder means, operably coupled to the first intermediate EXCLUSIVE-OR circuit and to the second intermediate EXCLUSIVE-OR circuit, for storing 16 coefficients for highest order remainder terms of an intermediate remainder and 16 lowest order coefficients of a CRC remainder for the (n+m) bit frame; and 103b4) a third intermediate
+EXCLUSIVE-OR circuit, operably coupled to the second EXCLUSIVE-OR circuit and to receive 16 lowest order coefficients of the second input of data for the plurality of K previously calculated CRC remainder coefficients of n bits, for performing bitwise modulo-two addition on the 16 
+
+
+coefficients for highest order remainder terms of an intermediate remainder and the 16 lowest order coefficients of the second input of data to provide 16 highest order coefficients that, together with the 16 lowest order coefficients (from the remainder means) of the CRC remainder coefficients for the (n+m) bit frame, represent all (32) CRC remainder coefficients for the (n+m) bit frame,
+1 0B) wherein the communication network system comprises at least a computer, a plurality of modems, and a plurality of terminals, and, where selected, a switched network, and where selected, wherein the communication network system is one of 1 0B1 -1 0B3:
+10B1 ) a point-to-point communication network line structure system;
+10B2) a multipoint communication network line structure system; and
+10B3) a mixed communication network line structure system, and
+10C) wherein the steps of the method for generating the cyclic redundancy check (CRC) remainder coefficients in the CRC circuit are implemented in a digital signal processor. 
+
+</CLAIMS>
+</TEXT>
+</DOC>

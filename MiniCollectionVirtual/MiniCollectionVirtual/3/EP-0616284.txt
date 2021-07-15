@@ -1,0 +1,331 @@
+<DOC>
+<DOCNO>EP-0616284</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Transaction processing.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F946	G06F946	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Transaction synchronization in the form of COMMIT processing in a 
+distributed, heterogeneous database system is provided, in which some 
+
+resources 320, 330 are synchronized to a transaction by a single-phase 
+commit procedures while other resources 340, 350 synchronize by multi-phase 
+
+commit procedures. An application requestor 304 at an application 
+site 300 effectively represen
+ts all single-phase commit resources in 
+multi-phase commit processing. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+GILLES ROBERT ALAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GRAFE ROBERT JOSEPH
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+JACKSON ROBERT DEAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+REINSCH ROGER ALAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SANDERS RICHARD ROLLAND
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SLONIM JACOB
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ZIMOWSKI MELVIN RICHARD
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GILLES ROBERT ALAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GRAFE ROBERT JOSEPH
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+JACKSON ROBERT DEAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+REINSCH ROGER ALAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SANDERS RICHARD ROLLAND
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SLONIM JACOB
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ZIMOWSKI MELVIN RICHARD
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a method for synchronizing 
+transaction processing in a system with a plurality of distributed sites 
+at which transaction operations may be performed, and more particularly, 
+in systems which must coordinate transaction processing at a plurality of 
+sites some, but not all, of which, support a multi-phase transaction 
+synchronization procedure. As pointed out by C.J. Date in "An Introduction to Database 
+Systems", Vol. 2, Addison-Wesley Publishing Company, 1983, the purpose of 
+a database system is to carry out transactions. A transaction is a unit 
+of work that consists of the execution of an application-specified 
+sequence of operations initiated with a BEGIN transaction operation, 
+including one or more UPDATE and/or READ database access operations, and 
+ending with either a COMMIT or BACKOUT operation. A COMMIT operation 
+signals successful termination of transaction; while a BACKOUT operation 
+denotes unsuccessful termination of a transaction due to abnormal 
+circumstances. The COMMIT and BACKOUT operations are employed to ensure the atomic 
+property for transactions. Relatedly, a transaction either succeeds or 
+fails. In succeeding, the results of the transaction are made permanent 
+(committed); in failing, all effects of the unsuccessful transaction are 
+removed (backed out). Transaction oriented systems include a recovery manager, or 
+equivalent, which is typically a procedure or set of procedures that 
+operate to maintain the atomic nature of transactions and to re-establish 
+system operation after failure. The recovery manager maintains atomicity 
+by means of a transaction synchronization procedure. Such procedures are 
+commonly called "commit" procedures. In a transaction-oriented system which includes either a single 
+site where transaction operations are executed or which permits such 
+operations to be executed at only one site during any transaction, 
+transaction atomicity is enforced by a single-phase synchronization 
+operation. In this regard, when the transaction is completed, the 
+recovery manager requests that the site make permanent all changes to the  
+ 
+database occurring during the transaction. In response, the site, in a 
+single phase, either commits or backs out the changes and reports the 
+commit or backout to the recovery manager. In distributed database systems encompassing a multiplicity of 
+sites, each of which may include a database, a transaction may cause 
+changes to be made to more than one database. In such a system, 
+atomicity can be
+</DESCRIPTION>
+<CLAIMS>
+A method for synchronizing transaction processing in a system with 
+a plura
+lity of distributed systems at which transaction operations may be 
+performed, the system including: 
+
+   at least one application system (300) for executing an application 
+program (302) which performs transaction processing, the application 
+
+program including requestor means (304) for forwarding application 
+transaction requests and receiving responses to transaction requests; 
+
+   a plurality of resource systems, each including a database, 
+including at least one first resource system (320) for conducting 
+
+transaction operations in response to transaction requests under the 
+control of a single-phase transaction synchronization procedure, and at 
+
+least one second resource system (340) for performing transaction 
+operations in response to transaction requests under the control of a 
+
+multi-phase transaction synchronization procedure; and 
+   a communication facility (360) connecting all said application 
+
+system and plurality of resource systems for communication therebetween, 
+      the method being characterised by the steps of: 
+
+   executing a transaction at an application system, the transaction 
+including at least one transaction resource operation conducted at a 
+
+resource system; 
+   issuing a transaction synchronization request from the application 
+
+system and communicating the transaction synchronization request to the 
+requestor means and to all second resource systems which conducted 
+
+transaction resource operations; 
+   determining at the requestor means whether any first resource 
+
+systems performed transaction resource operations during the transaction; 
+and: 
+
+
+(a) if only first resource systems performed transaction resource 
+operations during the transaction, communicating transaction commit 
+
+requests from the application system to all such first resource systems, 
+conducting single-phase transaction synchronization procedures at all 
+
+such first resource systems in response to the transaction commit 
+requests, and communicating results of such single-phase transaction 
+
+synchronization procedures to the requestor means, otherwise, 
+(b) if first resource systems and second resource systems performed 
+transaction resource operations during the transaction: 
+
+   first, communicating transaction commit requests to all such second 
+ 
+
+resource systems and to the requestor means and commencing a multi-phase 
+synchronization procedure including the requestor means and all such 
+
+second resource systems, communicating commit requests from the 
+application system to all such first resource systems, conducting single-phase 
+
+transaction synchronization procedures at all such first resource 
+systems in response to the transaction commit requests, and communicating 
+
+the results of such single-phase transaction synchronization procedures 
+to the requestor means; 
+
+   followed by, conducting all remaining phases of the multi-phase 
+transaction synchronization procedure and communicating results of the 
+
+multi-phase transaction synchronization procedure to the application 
+system; 
+
+   and either committing or backing out the transaction in response to 
+the results of the multi-phase transaction synchronization procedure 
+
+communicated to the application system. 
+The method of Claim 1, further including, if the transaction 
+requires a database update operation at a first resource system, the 
+
+steps of: 
+   generating a transaction backout request at the requestor means if 
+
+the transaction requires a database update operation at any other 
+resource system and providing the transaction backout request to the 
+
+application program; and 
+   backing out the transaction. 
+The method of Claim 2, wherein step (a) includes: 
+   if any first resource system performed a database update operation 
+
+during the transaction; 
+   first, communicating transaction commit requests from the 
+
+requestor means to all first resource systems which conducted database 
+read operations during the transaction, conducting single-phase 
+
+transaction synchronization procedures at all such first resource 
+systems, and communicating results of such single phase transaction 
+
+procedures to the requestor means; and 
+   followed by, communicating a transaction commit request from the 
+
+requestor means to the first resource system which performed the database 
+update transaction, conducting a single-phase transaction synchronization 
+
+procedure at the first resource system which performed the database 
+update transaction, and communicating the result of the single-phase 
+
+transaction synchronization procedure to the requestor means. 
+The method of any preceding Claim, wherein the multi-phase 
+transaction synchronization procedure is a two-phase transaction 
+
+synchronization procedure in which the requestor means and all such 
+second resource systems vote to commit or backout the transaction in a 
+
+first phase, and the transaction is either committed or backed out in a 
+second phase in response to votes made in the first phase, wherein: 
+
+   during the first phase, the steps of communicating transaction 
+commit requests to the first resource systems, conducting single-phase 
+
+transaction synchronization procedures, and communicating results of such 
+single-phase transaction synchronization procedures are performed during 
+
+the first phase of the two-phase transaction synchronization procedure; 
+and 
+
+   the requestor means votes to commit the transaction during the 
+first phase of the multi-phase transaction synchronization procedure if 
+
+all such first resource systems commit, or to back out if any such first 
+resource system backs out. 
+A transaction processing system including a plurality of 
+distributed systems at which transaction operations may be performed, the 
+
+system including: 
+   at least one application system (300) for executing an application 
+
+program (302) which performs transaction processing, the application 
+program including requestor means (304) for forwarding application 
+
+transaction requests and receiving responses to transaction requests; 
+   a plurality of resource systems, each including a database, 
+
+including at least one first resource system (320) for conducting 
+transaction operations in response to transaction requests under the 
+
+control of a single-phase transaction synchronization procedure, and at 
+least one second resource system (340) for performing transaction 
+
+operations in response to transaction requests under the control of a 
+multi-phase transaction synchronization procedure; and 
+
+   a communication facility (360) connecting all said application 
+system and plurality of resource systems for communication therebetween, 
+
+   and characterised in that: 
+   the application system includes means for executing a transaction, 
+
+the transaction including at least one transaction resource operation 
+conducted at a resource system; means for issuing a transaction 
+
+synchronization request from the application system and communicating the 
+transaction synchronization request to the requestor means and to all 
+
+second resource systems which conducted transaction resource operations; 
+ 
+
+means for determining at the requestor means whether any first resource 
+systems performed transaction resource operations during the transaction; 
+
+and: 
+
+(a) if only first resource systems performed transaction resource 
+operations during the transaction, communicating transaction commit 
+
+requests from the application system to all such first resource systems, 
+which conduct single-phase transaction synchronization procedures at all 
+
+such first resource systems in response to the transaction commit 
+requests and communicate the results of such single-phase transaction 
+
+synchronization procedures to the requestor means, otherwise, 
+(b) if first resource systems and second resource systems performed 
+
+transaction resource operations during the transaction: 
+   first, communicating transaction commit requests to all such second 
+
+resource systems and to the requestor means and commencing a multi-phase 
+synchronization procedure including the requestor means and all such 
+
+second resource systems, communicating commit requests from the 
+application system to all such first resource systems, which conduct 
+
+single-phase transaction synchronization procedures at all such first 
+resource systems in response to the transaction commit requests and 
+
+communicate the results of such single-phase transaction synchronization 
+procedures to the requestor means; 
+
+   means for conducting all remaining phases of the multi-phase 
+transaction synchronization procedure and communicating results of the 
+
+multi-phase transaction synchronization procedure to the application 
+system; 
+
+   and means for either committing or backing out the transaction in 
+response to the results of the multi-phase transaction synchronization 
+
+procedure communicated to the application system. 
+</CLAIMS>
+</TEXT>
+</DOC>

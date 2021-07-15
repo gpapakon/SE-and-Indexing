@@ -1,0 +1,273 @@
+<DOC>
+<DOCNO>EP-0628909</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Program trace circuit and program trace method.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1128	G06F1128	G06F1134	G06F1134	G06F1136	G06F1136	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F11	G06F11	G06F11	G06F11	G06F11	G06F11	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A trace circuit comprises a latch for latching a base pointer of local 
+variables and a latch for latching a program execution address. At the 
+
+time of a data access, the content of the base pointer latch and the content 
+of the program execution address latch are written to the trace memory 
+
+together with the accessed address, data and status. A variable offset of 
+the local variable is calculated from the address and the value of the base 
+
+pointer recorded in the trace memory. The debug information table of a 
+program being debugged is searched by this variable offset and the 
+
+program execution address recorded in the trace memory, so that the 
+local variable is made to correspond to the data access content stored in 
+
+the trace memory. Thus, the efficiency of the debugging is improved by 
+using a tracer in the course of debugging a program described in high 
+
+level language such as C language. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+NIPPON ELECTRIC CO
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+NEC CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+NIWA KUNIO C O NEC CORPORATION
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NIWA, KUNIO, C/O NEC CORPORATION
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a circuit and a method for tracing a 
+program, and more specifically, to a circuit and a method for tracing a 
+local variable in a program tracing. Referring to Figure 1, there is shown a conventional evaluation 
+system, in which an evaluation chip 1 is coupled through a conventional 
+trace circuit 500 to a trace memory 2. The shown conventional trace 
+circuit 500 is configured to record a content on an address bus 3, a 
+content on a data bus 4, an instruction fetch/inverted data access status 
+signal 6, an inverted read signal 5 and an inverted write signal 7 outputted 
+from the evaluation chip 1, into the trace memory 2 in response to a trace 
+strobe signal 10 produced from the inverted read signal 5 and the inverted 
+write signal 10. On the other hand, in the case of writing to an internal register, 
+some of evaluation chips are configured to output information for 
+identifying a written register and a written value, in addition to the above 
+mentioned signals. In some other evaluation chips, an internal register is mapped in an 
+internal RAM space, and when the internal register has been written,  
+ 
+information identifying the written register is outputted to the address bus 
+as an internal RAM address, and the written value is outputted to the data 
+bus as data written to the internal RAM. In a high level language such as C language, local variables are 
+usually allocated to stacks. Lists of source programs written in C 
+language are shown in Figures 2A and 2B, and assembly lists of object 
+programs produced by compiling the source programs are shown in 
+Figures 2C and 2D. Figure 3A shows a condition of the stack when a 
+function y() is called out from a function x(). In Figures 2C and 2D, the address of the base of the local variable 
+of each function is stored in a "hl" register which will serve as a base 
+pointer, and the access to the local variable is executed by a relative 
+addressing through the "hl" register. The address to the local variable is 
+not definitively fixed, but varies dependently upon the address of the stack 
+top when the function is called out. For example, even in the same function y(), the address of the local 
+variables "c", "d", "e" , and "f" in the case that the address of the stack top 
+is 0FF08h as shown in Figure 3B when the function is called out, are 
+different by 8 bytes from those in the case that the address of the stack top 
+is 0FF10h as shown in Figure 3C (where the suffix "h" indication a 
+hexadecimal notation, and the same
+</DESCRIPTION>
+<CLAIMS>
+A trace circuit coupled between an evaluation chip and a trace 
+memory which receives an accessed address, data and status from the 
+
+evaluation chip, the trace circuit comprising a first latch means and 
+latching a base pointer of a local variable from said evaluation chip, for 
+
+outputting the latched base pointer to said trace memory, and a second 
+latch means receiving and latching a program execution address from said 
+
+evaluation chip, for outputting the latched program execution address to 
+said trace memory, so that at tile
+ time of a data accessing, the contents of 
+said first and second latch means are written into said trace memory 
+
+together with the accessed address, the data and the status. 
+A trace circuit claimed in Claim 1 further including a logic circuit 
+receiving a read signal and a data access status signal from said evaluation 
+
+chip, for generating a first strobe signal to said second latch means, so 
+that, in response to said first strobe signal, said second latch means latches 
+
+an accessed address from said evaluation chip as the program execution 
+address. 
+A trace circuit claimed in Claim 2 further including a decoder 
+receiving a register address from said evaluation chip, for generating a 
+
+coincidence signal when the received register address corresponds to a 
+register which holds the address of the base of the local variable, and a 
+
+second logic circuit receiving said coincidence signal and a register write 
+signal from said evaluation chip, for generating a second strobe signal to 
+
+said first latch means, so that in response to said second strobe signal, said 
+ 
+
+first latch means latches the register address from said evaluation chip, as 
+the base pointer of the local variable. 
+A trace circuit claimed in Claim 2 further including a decoder 
+receiving the accessed address from said evaluation chip, for generating a 
+
+coincidence signal when the accessed address coincides with a register 
+which holds the address of the base of the local variable, and a second 
+
+logic circuit receiving said coincidence signal and an internal RAM write 
+signal from said evaluation chip, for generating a second strobe signal to 
+
+said first latch means, so that in response to said second strobe signal, said 
+first latch means latches the accessed address from said evaluation chip, as 
+
+the base pointer of the local variable. 
+A trace circuit claimed in Claim 2 further including a decoder 
+receiving the accessed address from said evaluation chip, for outputting a 
+
+most significant register address coincidence signal when the content of 
+the accessed address coincides with the most significant register address, 
+
+and a least significant register address coincidence signal when the content 
+of the accessed address coincides with the least significant register 
+
+address, a second logic circuit receiving said most significant register 
+address coincidence signal and an internal RAM write signal from said 
+
+evaluation chip, for generating a second strobe signal, and a third logic 
+circuit receiving said least significant register address coincidence signal 
+
+and said internal RAM write signal from said evaluation chip, for 
+generating a third strobe signal, and wherein said first latch means 
+
+includes a most significant base pointer latch and a least significant base 
+pointer latch which are coupled to a data bus of said evaluation chip, said 
+
+ 
+most significant base pointer latch responding to said second strobe signal 
+
+to latch data on said data bus as a most significant base pointer, said least 
+significant base pointer latch responding to said third strobe signal to latch 
+
+data on said data bus as a least significant base pointer. 
+A method for tracing a local variable in a program tracing 
+performed in a system in which an evaluation chip and a trace memory 
+
+are coupled through a trace circuit coupled, said trace circuit comprising 
+a first latch means and latching a base pointer of a local variable from 
+
+said evaluation chip, for outputting the latched base pointer to said trace 
+memory, and a second latch means receiving and latching a program 
+
+execution address from said evaluation chip, for outputting the latched 
+program execution address to said trace memory, so that at the time of a 
+
+data accessing, the contents of said first and second latch means are 
+written into said trace memory together with an accessed address, data 
+
+and status from said evaluation chip, the method including the step of 
+calculating a variable offset of a local variable from an address and the 
+
+value of a base pointer which are recorded in a trace memory, the step of 
+searching a debug information table of a program being debugged, by 
+
+means of said variable offset and a program execution address recorded in 
+said trace memory, and the step of causing the content of a data access 
+
+recorded in said trace memory to correspond to the local variable. 
+An evaluation system including an evaluation chip, a trace memory 
+which receives an accessed address, data and status from the evaluation 
+
+chip, and a trace circuit coupled between the evaluation chip and the trace 
+memory, the trace circuit comprising a first latch means and latching a 
+
+ 
+base pointer of a local variable from said evaluation chip, for outputting 
+
+the latched base pointer to said trace memory, and a second latch means 
+receiving and latching a program execution address from said evaluation 
+
+chip, for outputting the latched program execution address to said trace 
+memory, so that at the time of a data accessing, the contents of said first 
+
+and second latch means are written into said trace memory together with 
+the accessed address, the data and the status. 
+An evaluation system claimed in Claim 7 wherein said trace circuit 
+further includes a logic circuit receiving a read signal and a data access 
+
+status signal from said evaluation chips for generating a first strobe signal 
+to said second latch means, so that, in response to said first strobe signal, 
+
+said second latch means latches an accessed address from said evaluation 
+chip as the program execution address. 
+An evaluation system claimed in Claim 8 wherein said trace circuit 
+further includes a decoder receiving a register address from said 
+
+evaluation chip, for generating a coincidence signal when the received 
+register address corresponds to a register which holds the address of the 
+
+base of the local variable, and a second logic circuit receiving said 
+coincidence signal and a register write signal from said evaluation chip, 
+
+for generating a second strobe signal to said first latch means, so that in 
+response to said second strobe signal, said first latch means latches the 
+
+register address from said evaluation chip, as the base pointer of the local 
+variable. 
+An evaluation system claimed in Claim 8 wherein said trace circuit 
+further includes a decoder receiving the accessed address from said 
+
+evaluation chip, for generating a coincidence signal when the accessed 
+address coincides with a register which holds the address of the base of 
+
+the local variable, and a second logic circuit receiving said coincidence 
+signal and an internal RAM write signal from said evaluation chip, for 
+
+generating a second strobe signal to said first latch means, so that in 
+response to said second strobe signal, said first latch means latches the 
+
+accessed address from said evaluation chip, as the base pointer of the local 
+variable. 
+An evaluation system claimed in Claim 8 wherein said trace circuit 
+further includes a decoder receiving the accessed address from said 
+
+evaluation chip, for outputting a most significant register address 
+coincidence signal when the content of the accessed address coincides with 
+
+the most significant register address, and a least significant register 
+address coincidence signal when the content of the accessed address 
+
+coincides with the least significant register address, a second logic circuit 
+receiving said most significant register address coincidence signal and an 
+
+internal RAM write signal from said evaluation chip, for generating a 
+second strobe signal, and a third logic circuit receiving said least 
+
+significant register address coincidence signal and said internal RAM 
+write sig
+nal from said evaluation chip, for generating a third strobe 
+signal, and wherein said first latch means includes a most significant base 
+
+pointer latch and a least significant base pointer latch which are coupled to 
+a data bus of said evaluation chip, said most significant base pointer latch 
+
+responding to said second strobe signal to latch data on said data bus as a 
+ 
+
+most significant base pointer, said least significant base pointer latch 
+responding to said third strobe signal to latch data on said data bus as a 
+
+least significant base pointer. 
+</CLAIMS>
+</TEXT>
+</DOC>

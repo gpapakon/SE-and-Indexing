@@ -1,0 +1,403 @@
+<DOC>
+<DOCNO>EP-0644471</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Numerical control method and numerical control system with setting of a pattern of acceleration and deceleration
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G05B19416	G05B100	G05B101	G05B19416	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G05B	G05B	G05B	G05B	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G05B19	G05B1	G05B1	G05B19	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+To enable the free setting of the an acceleration and 
+deceleration pattern free from the amount of movement and 
+
+the movement time a numerical control method for 
+controlling the operation of a controlled object by a 
+
+target function, which computes the target function Y(t) by 
+an amount of change ΔY
+t
+, a normalized target function y(t), 
+and correction values β, δ, defined as: 
+
+
+and the parameters β
+a
+ and β
+d
+ are defined as 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SONY CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SONY CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+ITOH IETOSHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ITOH, IETOSHI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a numerical control
+method and a numerical control system used for the control
+of various types of PTP (point to point) operations such as
+robot control, temperature control, camera focus control,
+slide control of a CD player, video disk, and the like, and
+DC point control of electrical circuits. More particularly,
+it relates to a numerical control method and numerical
+control system which enable free setting of a pattern of
+acceleration and deceleration free from the amount of
+movement or the time of movement.In general, in a servo control circuit, there is known
+a method for converting information on the phase and speed
+of a controlled object to a pattern, storing the same in
+advance in a memory, and later reading out the information
+in accordance with a target point to control the object at
+different points of time. In this case, the acceleration
+curve and deceleration curve are tinkered with so that the
+controlled object will be operated smoothly and within the
+desired time.For example, the most general pattern of acceleration
+and deceleration is the triangular pattern shown in Fig.
+1A, but since the acceleration jumps at three locations:
+the starting point of movement, the peak point, and the
+target point, it suffers from the disadvantage that a shock
+is easily given to the mechanical system. Further, this
+cannot be said to be optimal as the input to a servo
+control circuit.Therefore, as shown in Fig. 1B, proposal has been made
+of a pattern of acceleration and deceleration which
+provides a constant speed portion F as a stopping measure
+immediately before the target point, but even with this 
+pattern of acceleration and deceleration, the jumps in acceleration at the starting point of
+movement and the peak point in the transition from acceleration to deceleration are not
+eliminated, so it also suffers from the disadvantage of the shock to the mechanical system
+cannot be completely resolved. Further, the disadvantage that the input is not the
+optimal one for a servo control system similarly remains.On the other hand, to achieve a smooth operation at the time of acceleration and
+deceleration, the method has been proposed of storing in advance in a read-only-memory
+(ROM) the smooth pattern of acceleration and deceleration as shown in Fig.
+2A. By this technique, problems in overshooting and precision of stopping are
+remarkably eliminated. However, the acceleration and deceleration times are made
+constant, so if the amount of movement is increased, the acceleration and
+</DESCRIPTION>
+<CLAIMS>
+A numerical control method for controlling the value of a parameter (Y),
+as it changes between a first reference value and a second reference value, in
+
+conformity with a target function (Y(t)) defining how the value of the controlled
+parameter (Y) changes with time, characterised in that it comprises the following
+
+steps:
+
+inputting a value for the difference (ΔY
+t
+) between the first and second
+reference values of the controlled parameter;
+inputting a normalised target function (y(t)), wherein the normalised target
+function (y(t)) is a function defining a desired pattern of change of said controlled
+
+parameter (Y) with time, and comprises a first function (y
+a
+(t)) defining the desired
+pattern of change during a time period (Tpa) when the rate of change of the
+
+controlled parameter (Y) is increasing and a second function (y
+d
+(t)) defining the
+desired pattern of change during a time period (Tpd) when the rate of change of
+
+the controlled parameter (Y) is decreasing;
+calculating correction values (β,δ) based on said input difference (ΔY
+t
+) and
+said input normalised target function (y(t)); and
+computing said target function (Y(t)) from said input difference (ΔY
+t
+), said
+input normalised target function (y(t)) and from the calculated correction values
+
+(β,δ), said target function (Y
+a
+(t)) during the time period when the rate of change
+of the controlled parameter is increasing being computed according to:
+
+
+Y
+a
+(t) = 
+δ
+a
+(T
+pa
+)
+δ
+a
+(T
+pa
+) + δ
+d
+(T
+pd
+)
+ • ΔYt • β
+a
+ • y
+a
+(t)
+
+   and said target function (Y
+d
+(t)) during the time period when the rate of
+change of the controlled parameter is decreasing being computed according to:
+
+
+Y
+d
+(t) = 
+δ
+d
+(T
+pd
+)
+δ
+a
+(T
+pa
+) + δ
+d
+(T
+pd
+)
+ • ΔYt • β
+d
+ • y
+d
+(t)
+
+   where
+
+δ
+a
+(T
+pa
+) = 
+y
+a
+(T
+pa
+) 
+y
+a
+(T
+pa
+)
+δ
+d
+(T
+pd
+) = 
+y
+d
+(T
+pd
+)
+y
+d
+(T
+pd
+)
+β
+a
+ = 
+1
+y
+a
+(T
+pa
+)
+β
+d
+ = 
+1
+y
+d
+(T
+pd
+)
+.
+A numerical control method according to claim 1, wherein when the first
+and second functions of said normalised target function are respective triangular
+
+curves, β
+a
+ = 1 and β
+d
+ = 1.
+A numerical control system for controlling the value of a parameter (Y), as
+it changes between a first reference 
+value and a second reference value, in conformity
+with a target function (Y(t)) defining how the value of the controlled parameter
+
+(Y) changes with time, characterised in that the system comprises:
+
+an input unit which receives as an input the value of the difference (ΔY
+t
+)
+between said first and second reference values of the controlled parameter,
+
+and a normalised target function (y(t)), the normalised target function (y(t)) being
+a function defining a desired pattern of change of said controlled parameter (Y)
+
+with time, and comprising a first function (y
+a
+(t)) defining the desired pattern of
+change during a time period (Tpa) when the rate of change of the controlled
+
+parameter (Y) is increasing and a second function (y
+d
+(t)) defining the desired
+pattern of change during a time period (Tpd) when the rate of change of the
+
+controlled parameter (Y) is decreasing, said first and second functions (y
+a
+(t),y
+d
+(t))
+each being a dimensionless smooth continuous function;
+a correction value calculating unit which calculates correction values (β,δ)
+based on said difference (ΔY
+t
+) and on said normalised target function (y(t)); and
+a target function computation unit which computes the target function
+(Y(t)) based on the input normalised target function (y(t)), the input value for the
+
+difference (ΔY
+t
+) between the first and second values of the controlled parameter,
+and the calculated correction values (β,δ); 
+wherein the target function computation unit is adapted to compute the
+value of said target function (Y
+a
+(t)) applicable during the time period when the
+rate of change of the controlled parameter is increasing according to:
+
+
+Y
+a
+(t) = 
+δ
+a
+(T
+pa
+)
+δ
+a
+(T
+pa
+) + δ
+d
+(T
+pd
+)
+ • ΔYt • β
+a
+ • Y
+a
+(t)
+
+   and to compute the value of said target function (Y
+d
+(t)) applicable during
+the time period when the rate of change of the controlled parameter is decreasing
+
+according to:
+
+Y
+d
+(t) = 
+δ
+d
+(T
+pd
+)
+δ
+a
+(T
+pa
+) + δ
+d
+(T
+pd
+)
+ • ΔYt • β
+d
+ • y
+d
+(t)
+
+   where
+
+δ
+a
+(T
+pa
+) = 
+y
+a
+(T
+pa
+)
+y
+a
+(T
+pa
+)
+δ
+d
+(T
+pd
+) = 
+y
+d
+(T
+pd
+)
+y
+d
+(T
+pd
+)
+β
+a
+ = 
+1
+y
+a
+(T
+pa
+)
+β
+d
+ = 
+1
+y
+d
+(T
+pd
+)
+.
+A numerical control system according to claim 3, wherein when the first
+and second functions of said input normalised target function are respective
+
+triangular curves, β
+a
+ = 1 and β
+d
+ = 1.
+</CLAIMS>
+</TEXT>
+</DOC>

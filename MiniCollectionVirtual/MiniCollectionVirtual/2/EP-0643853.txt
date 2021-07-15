@@ -1,0 +1,401 @@
+<DOC>
+<DOCNO>EP-0643853</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+SYSTEM FOR ACCESSING DISTRIBUTED DATA CACHE CHANNEL AT EACH NETWORK NODE TO PASS REQUESTS AND DATA
+</INVENTION-TITLE>
+<CLASSIFICATIONS>B82B100	B82B100	G06F1516	G06F1208	G06F1208	G06F1516	G06F1730	G06F1730	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>B82B	B82B	G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>B82B1	B82B1	G06F15	G06F12	G06F12	G06F15	G06F17	G06F17	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Network Distributed Caches ("NDCs") (50) permit accessing a named dataset stored at an NDC server terminator site (22) in response to a request submitted to an NDC client terminator site (24) by a client workstation (42). In accessing the dataset, the NDCs (50) form an NDC data conduit (62) that provides an active virtual circuit ("AVC") from the NDC client site (24) through intermediate NDC sites (26B, 26A) to the NDC server site (22). Through the AVC provided by the conduit (62), the NDC sites (22, 26A and 26B) project an image of the requested portion of the named dataset into the NDC client site (24). The NDCs (50) maintain absolute consistency between the source dataset and its projections at all NDC client terminator sites (24, 204B and 206) at which client workstations access the dataset. Channels (116) in each NDC (50) accumulate profiling data from the requests to access the dataset for which they have been claimed. The NDCs (50) use the profile data stored in channels (116) to anticipate future requests.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+PITTS WILLIAM M
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+PITTS, WILLIAM M.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+PITTS WILLIAM M
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+PITTS, WILLIAM M.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates generally to the technical
+field of multi-processor digital computer systems and, more
+particularly, to multi-processor computer systems in which:
+1. the processors are loosely coupled or networked
+together;2. data needed by some of the processors is controlled
+by a different processor that manages the storage of
+and access to the data;3. processors needing access to data request such access
+from the processor that controls the data;4. the processor controlling data provides requesting
+processors with access to it.Within a digital computer system, processing data stored
+in a memory; e.g., a Random Access Memory ("RAM") or on a storage
+device such as a floppy disk drive, a hard disk drive, a tape
+drive, etc.; requires copying the data from one location to
+another prior to processing: Thus, for example, prior to
+processing data stored in a file in a comparatively slow speed
+storage device such as hard disk, the data is first copied from
+the computer system's hard disk to its much higher speed RAM.
+After data has been copied from the hard disk to the RAM, the
+data is again copied from the RAM to the computer system's
+processing unit where it is actually processed. Each of these
+copies of the data, i.e., the copy of the data stored in the RAM
+and the copy of the data processed by the processing unit, can
+be considered to be image of the data stored on the hard disk.
+Each of these images of the data may be referred to as a
+projection of the data stored on the hard disk.In a loosely coupled or networked computer system having
+several processors that operate autonomously, the data needed
+by one processor may be accessed only by communications passing
+through one or more of the other processors in the system. For
+example, in a Local Area Network ("LAN") such as Ethernet one
+of the processors may be dedicated to operating as a file server 
+that receives data from other processors via the network for
+storage on its hard disk, and supplies data from its hard disk
+to the other processors via the network. In such networked
+computer systems, data may pass through several processors in
+being transmitted from its source at one processor to the
+processor requesting it.In some networked computer systems, images of data are
+transmitted directly from their source to a requesting processor.
+One operating characteristic of networked computer systems
+of this type is that, as the number of requests for access to
+data increase and/or the amount of data being transmitted in
+processing each request
+</DESCRIPTION>
+<CLAIMS>
+In a network of digital computers that
+includes a first plurality of
+
+Network Distributed Cache or NDC sites, each NDC site
+including an NDC that has an NDC buffer,
+
+the network also including one or more client sites (42)
+which may or may not be NDC sites, whereby each NDC site
+
+that receives requests from the corresponding client
+site to access data is called an NDC client terminator
+
+site, and whereby each item of data that may be requested
+by the client sites belongs to a data set, and
+
+whereby the NDC storing a particular data set
+is called the NDC server terminator site for
+
+that particular data set, a method for
+projecting images of a stored dataset from an NDC server
+
+terminator site into a second plurality of NDC client
+terminator sites in response to requests to access such
+
+dataset transmitted from the client sites to the NDC
+client terminator sites, the method comprising the steps
+
+of:
+
+(a) the NDC receiving a request to access
+data in the stored dataset;
+(b) the NDC checking the NDC buffer at this
+NDC site to determine if a projected image of data
+
+requested from the dataset is already present there;
+(c) if the NDC buffer of this NDC site does
+not contain a projected image of all data requested from
+
+the dataset, and if the NDC site receiving the request
+is not the NDC server terminator site for the dataset,
+
+the NDC of this NDC site transmitting a single request for
+all of the requested data that is not present at this
+
+NDC site
+from this NDC site downstream to another NDC site closer
+
+to the NDC server terminator site for the dataset than
+the present NDC site;
+(d) if the NDC buffer of this NDC site does
+not contain a projected image of all data requested from
+
+the dataset, and if the NDC site receiving the request
+
+is the NDC server terminator site for the dataset, the
+NDC of this NDC site accessing the stored dataset to
+
+project an image of the requested data into its NDC
+buffer;
+(e) repeating the steps (a) through (d) until
+the NDC buffer of the downstream NDC site receiving the
+
+request contains a projected image of all requested
+data;
+(f) each successive NDC site, having obtained  
+a projected image of all the requested data, returning
+
+the requested data upstream to the NDC site from
+which it received the request until the requested data
+
+arrives at the NDC client terminator site,
+whereby each NDC site that returns the requested data
+
+upstream to the requesting NDC site retains a copy of
+the requested data that the returning NDC site may subsequently
+
+transmit to an NDC site other than the NDC
+site to which the returning NDC site first returned the
+
+data, so that images of the stored dataset may be projected
+concurrently from a single NDC site into said
+
+second plurality of NDC client terminator sites; and
+(g) the NDC client terminator site, upon
+receiving the requested data, returning the requested
+
+data to the client site.
+The method of claim 1 further comprising the
+steps of:
+
+
+(h) each NDC upon receiving the initial
+request to access the dataset claiming a channel and
+
+designating the channel for storing various data
+relevant to processing requests to access the dataset;
+(i) storing in the channel of this NDC site
+data collected by the NDC while processing requests to
+
+access the dataset; and
+(j) if the NDC site is not performing any
+steps of the method that are required for responding to
+
+a request to access a dataset, the method at NDC sites
+further including:
+
+
+i. periodically analyzing data stored in
+the channel of this NDC site to determine
+
+whether it is possible to anticipate future
+requests to access the dataset;
+ii. if the analysis of data stored in the
+channel of this NDC site establishes that it
+
+is possible to anticipate future requests to
+access the dataset, further analyzing data
+
+stored in the channel to determine whether
+anticipated future requests will soon present
+
+this NDC site with another request to access
+the dataset and whether the projected image of
+
+data present in the NDC buffer includes
+sufficient data to respond immediately to the
+
+anticipated request; and 
+iii. if anticipated future requests to
+access the dataset will soon present this NDC site with
+
+another request to access the dataset and if the
+projected image of data present in the NDC buffer lacks
+
+sufficient data to respond immediately to the
+anticipated request, this NDC site, before receiving a
+
+request therefor, requesting data from the dataset from
+the next downstream NDC site.
+The method of claim 2 wherein the NDC site, in
+requesting data from the next downstream NDC site,
+
+requests a quantity of data that is larger than the
+amount of data returned by the NDC client terminator
+
+site to the requesting client site in response to a
+request to access the dataset received by the NDC client
+
+terminator site from the client site.
+The method of claim 1 further comprising the
+steps of:
+
+
+(h) each NDC, upon receiving the initial
+request to access the dataset from an upstream NDC site,
+
+allocating an upstream site structure in which the NDC
+stores information indicating the type of activity being
+
+performed on the dataset at the upstream NDC site from
+which this NDC site received the request;
+(i) each NDC, upon receiving a request to
+access the dataset if the type of activity occurring on
+
+the dataset differs from that already being supported
+for the dataset, transmitting a message to its
+
+downstream NDC site informing the downstream NDC site of
+the new type of activity now occurring on the dataset;
+
+and
+(j) each NDC, upon receiving a message from an
+upstream NDC site informing it of the type of activity
+
+being performed on the dataset at the upstream NDC site,
+storing such information in the upstream site structure 
+
+for that upstream NDC site.
+The method of claim 4 further comprising the
+steps of:
+
+
+(k) each NDC, upon receiving information from
+a local client or from an upstream NDC site informing it
+
+of the type of activity being performed on the dataset
+at that location, comparing the information just
+
+received with previously stored information recording
+the type of activity occurring on the dataset; and
+(l) if the NDC determines from its comparison
+of the information just received with the previously
+
+stored information that the dataset is being accessed by
+at least two different NDC sites and one of those NDC
+
+sites is accessing the dataset to write data into the
+dataset, then a concurrent write sharing CWS
+
+condition has occurred and the NDC declares itself to be
+a consistency control site CCS for the dataset.
+The method of claim 5 after the NDC declares
+itself to be the CCS further comprising the steps of:
+
+
+(m) if a request to access the dataset for
+writing it creates the CWS condition, then the CCS
+
+transmitting disable messages to all upstream NDC sites
+other than the NDC site whose request created the CWS
+
+condition instructing such upstream NDC sites to disable
+any projected image of the dataset stored in the NDC
+
+buffer of such NDC sites; and
+(n) if a request to access the dataset for
+reading it creates the CWS condition, then transmitting
+
+a recall message to the upstream NDC site that is
+accessing the dataset to write data to the dataset
+
+instructing such upstream NDC site to transmit back to
+the CCS the projected image of the dataset stored in the
+
+NDC buffer of such NDC site.
+The method of claim 6 further comprising the
+step of:
+
+
+(o) the NDC that declared itself to be the CCS
+for the dataset including with the data returned to all
+
+upstream NDC sites that access the dataset an indicator
+that instructs each such upstream NDC site not to
+
+maintain a projected image of the data in their NDC
+buffer after the data has traversed the NDC site.
+The method of claim 7 further comprising the
+steps of:
+
+
+(p) the NDC that declared itself to be the CCS
+for the dataset, upon receiving information from a local
+
+client or from an upstream NDC site informing it of a
+cessation of a type of activity being performed on the
+
+dataset at that location, comparing the information just
+received with the previously stored information for the
+
+dataset;
+(q) if the NDC determines from its comparison
+of the information just received with the previously
+
+stored information for the dataset that this NDC site
+need no longer function as the CCS for the dataset, then
+
+the NDC site ceasing to function as the CCS for the
+dataset; and
+(r) upon this NDC site ceasing to function as
+the CCS for the dataset, permitting any upstream NDC
+
+site that is accessing the dataset to maintain in the
+NDC buffer of such NDC site an image of any subsequent
+
+projections of data from the dataset.
+The method of claim 5 wherein; before a
+disable message or a recall message transmitted upstream
+
+by a recently declared CCS reaches an NDC site having a
+projected image of the dataset present in the NDC buffer
+
+of the NDC site; such NDC site transmits downstream,
+through a channel tow
+ard the NDC site that has declared
+itself to be the CCS, a request to access the dataset; 
+
+the request to access the dataset transmitted downstream
+arriving at an NDC site that has already transmitted the
+
+recall or disable message upstream; the method further
+comprising the steps of:
+
+
+(o) the NDC site, that receives the request to
+access the dataset after having transmitted the recall
+
+or disable message upstream, responds to the request by
+rejecting the request to access the dataset;
+(p) each upstream site upon receiving the
+response rejecting the request to access the dataset
+
+successively retransmitting the rejection response
+upstream until the rejection message reaches the client
+
+terminator site for the request to access the dataset;
+and
+(q) upon receiving the rejection message, the
+NDC of the NDC client terminator site releasing the
+
+channel, waiting a short interval of time to allow the
+recall or disable message from the downstream CCS to be
+
+processed, and then generating and transmitting
+downstream a new request to access the dataset.
+The method of claim 4 further comprising the
+steps of:
+
+
+(m) the NDC site having declared itself to be
+the CCS for the dataset, upon receiving information from
+
+a local client or from an upstream NDC site informing it
+of a cessation of a type of activity being performed on
+
+the dataset at that location, comparing the information
+just received with the previously stored information for
+
+the dataset; and
+(n) if the NDC site determines from its
+comparison of the information just received with the
+
+previously stored information for the dataset that this
+NDC site need no longer function as the CCS for the
+
+dataset, then the NDC site ceasing to function as the
+CCS for the dataset.
+</CLAIMS>
+</TEXT>
+</DOC>

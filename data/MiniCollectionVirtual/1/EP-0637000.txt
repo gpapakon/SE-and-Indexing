@@ -1,0 +1,388 @@
+<DOC>
+<DOCNO>EP-0637000</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Straight line coordinate generator.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T1120	G06T1120	G09G520	G09G520	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	G09G	G09G	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T11	G06T11	G09G5	G09G5	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A straight line coordinate generator basing upon a 
+Bresenham straight line drawing algorithm which can flexibly 
+
+display a lattice point at either side of a desired line, above 
+or below as well as left or right, regardless what a 
+
+device or a program directs to display. 
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC IND CO LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC INDUSTRIAL CO., LTD.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+TAKADA SHUICHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TAKADA, SHUICHI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a graphics display, 
+particularly to a straight line coordinate generator for 
+drawing a line by specifying lattice points (X and Y integer 
+coordinates) which place on the line or the nearest to the 
+line, and emitting or printing the lattice points. According to a CAD (Computer-Aided Design) system or a 
+video game, a line which is displayed on a CRT (Cathode Ray 
+Tube) or printed with a printing machine according to its start 
+and end points often fails to be straight because of 
+undesirable placement or size of holes at a shadowmask, or 
+placement of display dots at a crystal dot matrix or at a 
+printing face. More specifically, according to structural 
+characteristics of CRT or the printing machine, the placement 
+or the size of display dots are determined beforehand; 
+therefore, if a line passes between the display dots, it fails 
+to be straight. To overcome such inconveniences, instead of 
+designating the start point and end point, lattice points on 
+a line or lattice points which place near to the line are 
+emitted or printed. Otherwise, data representing these lattice 
+points are stored in a memory and are outputted later. (The 
+direct emitting/ printing of a line and the indirect  
+ 
+emitting/printing via a memory at an external device are 
+referred to as "drawing". Emitting of a line on the CRT and 
+printing of a line with the printing device are referred to as 
+"display".) A device which implements the above drawing or the 
+display often use a Bresenham algorithm. The basic Bresenham algorithm is described hereunder. 
+("Computer Graphics" (1984) by J. d. Foley et al. translated 
+by Atsumi Imamiya, published by Japan Computer Association, 
+pp. 443-446) With the Bresenham algorithm, no division operation is 
+included to decide a lattice point to be displayed. Moreover, 
+all the operations are performed on integer data, so that they 
+can be realized with a simple construction of hardware with a 
+low cost. Actually, a straight line coordinate generator 
+according to the above algorithm is integrally constructed as 
+a LSI (Large Scale Integration), and has been for sale. The Bresenham straight line drawing algorithm will be 
+described in detail hereunder. Given start coordinates (Xs, 
+Ys) and end coordinates (Xe, Ye) of a line on a two-dimensional 
+X-Y surface, coordinates of a nth lattice point, (Xn, Yn) will 
+be figured out (strictly speaking, a line starting with the 
+start point and ending with the end point should be referred 
+to as a "segment" even though it
+</DESCRIPTION>
+<CLAIMS>
+A straight line coordinate generator for displaying a 
+lattice point of a line according to a Bresenham line drawing 
+
+algorithm when XY coordinates of a start point and an end point 
+of the line are given, the straight line coordinate generator 
+
+comprising: 
+   a reference coordinate determination means for detecting 
+
+a difference in absolute value between the X coordinate of the 
+start point and the X coordinate of the end point, and a 
+
+difference in absolute value between the Y coordinate of the 
+start point and the Y coordinate of the end point, then making 
+
+the coordinate with a bigger difference in the absolute value 
+into a reference coordinate and the other coordinate into a 
+
+judge coordinate; 
+   a designate constant input means for inputting a 
+
+designate constant indicating which of two lattice points is 
+displayed when the reference coordinate is an integer and the 
+
+judge coordinate is a sum of the integer and 1/2, the lattice 
+points placing in a direction of a judge coordinate axis and 
+
+being equally distant from the line to each other, 
+   a designate constant holding means for holding the 
+
+designate constant which is inputted by the designate constant 
+input means; 
+
+   a constant computation means for applying the XY 
+coordinates of the start point and the end point to the 
+
+Bresenham line drawing algorithm to compute each constant of 
+ 
+
+the Bresenham line drawing algorithm; 
+   a variable computation means for, when the reference 
+
+coordinate of a point is an integer, computing an error 
+variable which corresponds to a distance between the point and 
+
+a lattice point which places nearest to the point by obtaining 
+the error variable of a lattice point to be displayed first 
+
+according to the designated constant which is held by the 
+designate constant holding me
+ans, and obtaining the error 
+variable of a lattice point to be displayed second or later 
+
+according to the designate constant which is held by the 
+designate constant holding means and the error variable of a 
+
+preceding lattice point; 
+   a variable holding means for holding the error variable 
+
+which is computed by the variable computation means; and 
+   a lattice point display means for displaying a lattice 
+
+point which is designated by the designate constant when the 
+error variable which is held by the error variable holding 
+
+means indicates that the line passes at a midpoint of said two 
+lattice points. 
+The straight line coordinate generator of Claim 1, 
+wherein the designate constant input means inputs two sorts of 
+
+designate constants selectively, each of which designates to 
+display one of said two lattice points. 
+The straight line coordinate generator of Claim 2 
+ 
+
+further comprising a designate constant registration means 
+where the designate constant is registered according to each 
+
+of eight combinations, said eight combinations being determined 
+basing upon if the reference coordinate is X coordinate or Y 
+
+coordinate as well as a relative X coordinate and a relative 
+Y coordinate is positive or negative when the start point is 
+
+an original point, wherein the designate constant input means 
+detects from the designate constant registration means the 
+
+designate constant for the XY coordinates of the start point 
+and the end point, and inputs the detected designate constant. 
+The straight line coordinate generator of Claim 2, 
+wherein the designate constant input means is comprised of a 
+
+designate constant replacement means for, whenever the judge 
+coordinate becomes the integer+1/2, replacing the designate 
+
+constant which is held by the designate constant holding means 
+with another designate constant which represents display of the 
+
+other lattice point. 
+The straight line coordinate generator of Claim 2, 
+wherein the designate constant input means, when the reference 
+
+coordinate is an integer and the judge coordinate is sum of the 
+integer and 1/2, detects which of the two lattice points a 
+
+device displays, the device being connected to the straight 
+line coordinate generator, and inputs the designate constant 
+
+which directs to display the same lattice point as the device. 
+The straight line coordinate generator of Claim 2, 
+wherein the designate constant input means, when the reference 
+
+coordinate is an integer and the judge coordinate is sum of the 
+integer and 1/2, detects which of the two lattice points a 
+
+program displays, the program being applied to the straight 
+line coordinate generator, and inputs the designate constant 
+
+which directs to display the same lattice point as the program. 
+The straight line coordinate generator of Claim 2, 
+wherein the designate constant input means, when the reference 
+
+coordinate is an integer and the judge coordinate is sum of the 
+integer and 1/2, is informed by a user which of the lattice 
+
+points a program or a device displays, the program and the 
+device being applied and connected to the straight line 
+
+coordinate generator respectively, and inputs the designate 
+constant which directs to display the same lattice point as the 
+
+program or the device. 
+The straight line coordinate generator of Claim 1 
+further comprising a designate constant registration means 
+
+where the designate constant is registered according to each 
+of eight combinations, said eight combinations being determined 
+
+basing upon if the reference coordinate is X coordinate or Y 
+coordinate as well as a relative X coordinate and a relative 
+
+Y coordinate is positive or negative when the start point is 
+an original point, wherein the designate constant input means 
+
+ 
+detects from the designate constant registration means the 
+
+designate constant for the XY coordinates of the start point 
+and the end point, and inputs the detected designate constant. 
+The straight line coordinate generator of Claim 1, 
+wherein the designate constant input means is comprised of a 
+
+designate constant replacement means for, whenever the judge 
+coordinate becomes the integer+1/2, replacing the designate 
+
+constant which is held by the designate constant holding means 
+with another designate constant which represents display of the 
+
+other lattice point. 
+The straight line coordinate generator of Claim 1, 
+wherein the designate constant input means, when the reference 
+
+coordinate is an integer and the judge coordinate is sum of the 
+integer and 1/2, detects which of the two lattice points a 
+
+device displays, the device being connected to the straight 
+line coordinate generator, and inputs the designate constant 
+
+which directs to display the same lattice point as the device. 
+The straight line coordinate generator of Claim 1, 
+wherein the designate constant input means, when the reference 
+
+coordinate is an integer and the judge coordinate is sum of the 
+integer and 1/2, detects which of the two lattice points a 
+
+program displays, the program being applied to the straight 
+line coordinate generator, and inputs the designate constant 
+
+ 
+which directs to display the same lattice point as the program. 
+The straight line coordinate generator of Claim 1, 
+wherein the designate constant input means, when the reference 
+
+coordinate is an integer and the judge coordinate is sum of the 
+integer and 1/2, is informed by a user which of the lattice 
+
+points a program or a device displays, the program and the 
+device being applied and connected to the straight line 
+
+coordinate generator respectively, and inputs the designate 
+constant which directs to display the same lattice point as the 
+
+program or the device. 
+A method for drawing a straight line by displaying a 
+lattice point of the line according to a Bresenham line drawing 
+
+algorithm when XY coordinates of a start point and an end point 
+of the line are given, the method comprising steps of: 
+
+   detecting a difference in absolute value between the X 
+coordinate of the start point and the X coordinate of the end 
+
+point, and a difference in absolute value between the Y 
+coordinate of the start point and the Y coordinate of the end 
+
+point, then making the coordinate with a bigger difference in 
+the absolute value into a reference coordinate and the other 
+
+coordinate into a judge coordinate; 
+   inputting a designate constant which indicates which of 
+
+two lattice points is displayed when the reference coordinate 
+is an integer and the judge coordinate is a sum of the integer 
+
+ 
+and 1/2, said two lattice points placing in a direction of a 
+
+judge coordinate axis and being equally distant from the line 
+to each other, 
+
+   holding the inputted designate constant; 
+   applying the XY coordinates of the start point and the 
+
+end point to the Bresenham line drawing algorithm to compute 
+each constant of the Bresenham line drawing algorithm; 
+
+   when the reference coordinate of a point is an integer, 
+computing an error variable which corresponds to a distance 
+
+between the point and a lattice point which places nearest to 
+the point by obtaining the error variable of a lattice point 
+
+to be displayed first according to the designate constant and 
+obtaining the error variable of a lattice point to be displayed 
+
+second or later according to the designate constant and the 
+error variable of a preceding lattice point; 
+
+   holding the computed error variable; and 
+   displaying a lattice point designated by the designate 
+
+constant when the error variable indicates that the line passes 
+at a midpoint of said two la
+ttice points. 
+The method of Claim 1, wherein the designate constant 
+is inputted by inputting two sorts of designate constants 
+
+selectively, each of which designates to display one of said 
+two lattice points. 
+The method of Claim 14 further comprising a step of 
+ 
+
+registering the designate constant according to each of eight 
+combinations, said eight combinations being determined basing 
+
+upon if the reference coordinate is X coordinate or Y 
+coordinate as well as a relative X coordinate and a relative 
+
+Y coordinate is positive or negative when the start point is 
+an original point, wherein the designate constant is inputted 
+
+by detecting one of the eight combinations which corresponds 
+to the XY coordinates of the start and the end point, finding 
+
+the designate constant corresponding to the detected 
+combination, and inputting it. 
+The method of Claim 14, wherein the designate constant 
+is inputted by, whenever the judge coordinate becomes the 
+
+integer+1/2, replacing the designate constant with another 
+designate constant which represents display of the other 
+
+lattice point. 
+The method of Claim 14, wherein the designate constant 
+is inputted by, when the reference coordinate is an integer and 
+
+the judge coordinate is sum of the integer and 1/2, detecting 
+which of the two lattice points a device displays, the device 
+
+being connected to a straight line coordinate generator which 
+employs the method, and inputting the designate constant which 
+
+directs to display the same lattice point as the device. 
+The method of Claim 14, wherein the designate constant 
+ 
+
+is inputted by, when the reference coordinate is an integer and 
+the judge coordinate is sum of the integer and 1/2, detecting 
+
+which of the two lattice points a program displays, the program 
+being applied to a straight line coordinate generator which 
+
+employs the method, and inputting the designate constant which 
+directs to display the same lattice point as the program. 
+The straight line coordinate generator of Claim 14, 
+wherein the designate constant is inputted by, when the 
+
+reference coordinate is an integer and the judge coordinate is 
+sum of the integer and 1/2, learning from a user which of the 
+
+lattice point a program or a device displays, the program and 
+the device being applied and connected to a straight line 
+
+coordinate generator which employs the method respectively, 
+and inputting the designate constant which directs to display 
+
+the same lattice point as the program or the device. 
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,263 @@
+<DOC>
+<DOCNO>EP-0633546</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Background recovery in monocular vision
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T720	G06T720	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T7	G06T7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A process for background information recovery in an 
+image including an image of a moving object, comprises 
+
+the steps of identifying regions of moving objects 
+relative to the background; deriving a moving 
+
+constellation containing moving objects in a minimum 
+circumscribing polygon; deriving partial background 
+
+images associated with respective positions of the moving 
+constellation; and combining ones of the partial 
+
+background images. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SIEMENS CORP RES INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SIEMENS CORPORATE RESEARCH, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+LEE CHEOUNG N
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SAMMADAR SUMITRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LEE, CHEOUNG N.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SAMMADAR, SUMITRO
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present application relates generally to vision
+technology and more particularly to background recovery
+and motion estimation.Motion estimation has been an important goal in
+vision technology for many years. See, for example, R.
+Jain, "Extraction of motion information from peripheral
+process," IEEE Trans. Pattern Anal. Machine Intell.,
+vol. 1, No. 5, pp. 489-503, Sept. 1981, mentioned above;
+W. N. Martin and J. K. Aggarwal, "Survey Dynamic scene
+analysis," Comput. Graph. Image Processing, 7, 356-374,
+1978; J. Roach and J. K. Aggarwal, "Computer tracking of
+objects in space," IEEE Trans. Pattern Anal. Machine
+Intell., vol. 1, No. 2, pp. 127-135, Apr. 1979; D. H.
+Ballard and O. A. Kimball, "Rigid body motion from depth
+and optical flow," Comput. Vision, Graph. Image
+Processing, 22, pp. 95-115, Apr. 1983; H. P. Moraveck,
+"Towards automatic visual obstacle avoidance," in Proc.
+Fifth Int. Joint Conf. Artif. Intell., vol. 2, p. 584,
+1977; W. E. L. Grimson, "Computational Experiments with a
+Feature Based Streo Algorithm," IEEE Trans. Pattern
+Anal. Machine Intell., vol. 7, No. 5, pp. 17-33, Jan.
+1985; D. Marr and T. Poggio, "A theory of human
+stereopsis," MIT AI Memo 451 AI Lab., Mass. Inst.
+Technol. Cambridge, MA, 1977; V. S. Ramachandran and S.
+M. Anstis, "The perception of apparent motion,"
+Scientific American, 102-109, June, 1986; R. K. Kjeldsen,
+R. M. Bolle, A. C. Califano and R. W. Taylor, "A
+Homogeneous Framework for Visual Recognition,"
+Proceedings, IJCAI, 1578-1584, 1989. A number of techniques have been developed to
+extract and represent object motion in short-range or
+long-range. However, most techniques can hardly be
+integrated in a homogeneous frame since the
+correspondence problem in motion estimation requires
+either intensive computation for a generalized approach,
+such as contour motion, as for example, E. Hildreth, The
+measurement of visual motion MIT Press, Cambridge MA.
+1984, or image flow in short-range motion; see for
+example, B. K.P. Horn and B. G. Schunk, "Determining
+optical flow," Artificial Intelligence 17, 185-203,
+1981 or extra constraints for feature-based matching in
+long-range motion. See, for example, D. T. Lawton and C.
+C. McConnel, "Image Understanding Environments," IEEE
+Proc., vol. 76, No. 8. 1036-1050, August 1988 .Similar work has been done in many different places.
+Precision is the result of intensive computation in
+classical estimation techniques. See, e.g. J. Barron,
+"Computing motion and structure from noisy, time-varying
+image velocity information," Technical
+</DESCRIPTION>
+<CLAIMS>
+A process of background information recovery in an
+image sequence having a plurality of image frames (im0, im1),
+
+the image sequence including an image of at least one moving
+object against a background, comprising the steps performed on
+
+said image frames of said image sequence of:
+
+a) identifying a region of an image frame (im1) containing
+an object moving relative to the background;
+b) deriving a moving constellation (McG) corresponding to
+the identified region from a comparison between the image
+
+frame (im1) and a preceding image frame (im0);
+c) deriving a partial background image frame by excluding
+from the input image the area covered by the moving
+
+constellation; and
+d) recovering background information (BgR);
+characterised in that
+ said moving constellation is derived in
+a minimum circumscribing polygon and 
+in that
+ said background
+information (BgR) is recovered recursively by combining the
+
+partial background image frame with previously recovered
+background information relating to the area covered by the
+
+moving constellation.
+A process for background information recovery as claimed
+in claim 1, wherein the circumscribing polygon is a rectangle.
+A process for background image recovery as claimed in
+claim 1 or 2, wherein the moving constellation is derived by
+
+obtaining intensity difference frames from consecutive ones of
+said frames and by deriving a bounding box from each
+
+difference frame.
+A process for background image recovery as claimed
+in claim 3, wherein said intensity difference frames
+
+are binarized to obtain a bounding box frame, and the
+bounding box is formed in a binarized frame using
+
+horizontal and vertical projections and 
+thresholding both ends of said bounding box to get
+
+boundaries of said bounding box by utilizing a
+threshold value dependent upon the size of a moving
+
+object.
+A process of background information recovery
+in 
+an image as claimed in claim 1, where the background image
+frame is recursively obtained and updated in accordance
+
+with the algorithm:
+
+Mc
+i
+ = Rmτ(I
+i
+ - I
+{i-1}
+)
+Bg
+i
+ = I
+0
+Bg
+i
+ = Bg
+{i-1}
+Ur(I
+i
+ - Mc
+i
+)
+Bg
+unknown
+ = ∩
+{i=0....n}
+Mc
+i
+
+   wherein:
+
+I
+i
+ denotes input image;
+Mc
+i
+ is a moving constellation at the ith frame;
+Bg
+i
+ is the recovered background image frame in the ith
+frame time;
+Bg
+unknown
+ is the unknown background area until the
+ith frame time;
+Ur is a replace union operator;
+"-" is a set difference operation in which each
+element has a location index (X,Y);
+"Rmτ" is a minimum rectangle operator; and
+"∩
+{i=O....n}
+" represents an intersection operation.
+A process of motion estimation comprising
+the process of background information recovery as defined in
+
+one of claims 1-5, wherein a depth of
+said moving object is obtained from the first
+
+derivative of size of said image of said moving object.
+A process of motion estimation comprising
+the process for background information recovery as defined in
+
+claim 6 wherein the velocity of said
+moving object is obtained from a perspective
+
+compensated image of said object.
+A process of motion estimation as defined in 
+claim 7 comprising the steps of:
+
+
+(1) estimating depth z with the equation
+
+1/(z -kw
+i
+ ) = l
+i
+/f,
+
+   if l
+i
+/l
+i+
+1
+\
+≥T, the threshold value, being the
+number of pixels which a system requires as a minimum
+
+difference in pixels;
+(2) deriving a rough depth estimation and z
+component velocity estimation using three
+
+consecutive frames or every second three
+frames;
+(3) compensating perspective distortion for x, y
+in the image using ( u - x
+p
+ dz/dt, v - y
+p
+
+dz/dt ); and
+(4) determining x, y velocity components compared
+to the previous frame.
+A process of motion estimation as defined in
+claim 8 wherein the threshold value is dynamically
+
+selected after checking a line size change in previous
+frames.
+</CLAIMS>
+</TEXT>
+</DOC>

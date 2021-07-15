@@ -1,0 +1,380 @@
+<DOC>
+<DOCNO>EP-1374045</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+INSTRUCTION PROCESSOR SYSTEMS AND METHODS
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F9318	G06F9318	G06F944	G06F944	G06F9445	G06F9445	G06F945	G06F945	G06F1576	G06F1578	G06F1750	G06F1750	H03K19173	H03K19173	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	H03K	H03K	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	G06F9	G06F9	G06F9	G06F9	G06F9	G06F9	G06F15	G06F15	G06F17	G06F17	H03K19	H03K19	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The present invention relates to the design-time and run-time environments of instruction processors implemented in re-programmable hardware. In one aspect the present invention provides a design system for generating configuration information and associated executable code base on a customisation specification, which includes application information including application source code and customisation information including desgn constraints, for implementing an instruction processor using re-progammable hardware,t he system comprising: a template generator; an analyser; a compiler; an instantiator; and a builder. In another aspect the present invention provides a management system for managing run-time re-configuration of an instruction processor implemented using re-programmable hardware, comprising: a configuration library; a code library; a loader; a loader controller; a run-time monitor; an optimisation determiner; and an optimisation instructor.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IMP COLLEGE INNOVATIONS LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+IMPERIAL COLLEGE INNOVATIONS LIMITED
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+CHEUNG PETER Y K
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LUK WAYNE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SENG SHAY PING
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+CHEUNG, PETER, Y., K.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LUK, WAYNE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SENG, SHAY, PING
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+INSTRUCTION PROCESSOR SYSTEMS AND METHODSThe present invention relates to the design-time and run-time environments of reprogrammable instruction processors, such instruction processors being referred in the specification as flexible instruction processors (FIPs).In one aspect the present invention relates to a FIP design system for generating FIP configuration information and associated executable FIP code for FIP implementations based on user-specified customisation specifications, and a related method of generating FIP configuration information and associated executable FIP code for FIP implementations based on user-specified customisation specifications.In another aspect the present invention relates to a FIP management system for managing the run-time adaptation of the FIP configuration information and associated executable FIP code of a FIP implementation, and a related method of managing the adaptation of the FIP configuration information and associated executable FIP code of a FIP implementation during run-time.General-purpose instruction processors, such as those from AMD Corporation (US) and Intel Corporation (US), have dominated computing for a long time. However, such processors have fixed architectures, and tend to lose performance when dealing with non-standard operations and non-standard data which are not supported by the instruction set formats [1].The need for customising instruction processors for specific applications is particularly acute in embedded systems, such as cell phones, medical appliances, digital cameras and printers [2].It is possible to develop customised integrated circuits for executing programs written in a specific language. An example is the GMJ30501SB processor which is customised for executing the Java language (Helborn Electronics, Segyung, Korea). However, the design and fabrication of such integrated circuits is still expensive, and, once designed, its customised function is fixed and cannot be altered. 
+
+Re-programmable hardware, such as Field-Programmable Gate Arrays (FPGAs) from Xilinx Inc. (San Jose, California, US) or Complex Programmable Logic Devices (CPLDs) from Altera Corporation (San Jose, California US), provides a means of implementing instruction processors using standard, off-the-shelf components. The use of such devices not only eliminates the risks associated with integrated circuit design and fabrication, but also opens up the possibilities of having a customisable processor.One route to supporting customisation is to augment an instruction
+</DESCRIPTION>
+<CLAIMS>
+CLAIMS
+1. A design system for generating configuration information and associated executable code based on a customisation specification, which includes application information including application source code and customisation information including design constraints, for implementing an instruction processor using re-programmable hardware, the system comprising: a template generator for generating a template for each processor style identified as a candidate for implementation; an analyser for analysing instruction information for each template and determining instruction optimisations; a compiler for compiling the application source code to include the instruction optimisations and generate executable code; an instantiator for analysing architecture information for each template, determining architecture optimisations and generating configuration information including the architecture optimisations; and a builder for generating device-specific configuration information from the configuration information including the architecture optimisations.
+2. The system of claim 1, further comprising: a selector for profiling the configuration information and associated code for each candidate implementation, and selecting one or more optimal implementations based on predeterminable criteria.
+3. The system of claim 1 or 2, wherein the application information further includes application data.
+4. The system of claim 3, wherein the application data includes data representative of data to be operated on by the instruction processor.
+5. The system of claim 4, wherein the application data includes data representative of a range of run-time conditions. 
+
+6. The system of any of claims 1 to 5, wherein the customisation information further includes at least one custom instruction.
+7. The system of claim 6, wherein each custom instruction can be defined as mandatory or optional.
+8. The system of any of claims 1 to 7, wherein the customisation information further identifies at least one processor style as a candidate for implementation.
+9. The system of any of claims 1 to 8, further comprising: a profiler for profiling information in the customisation specification and identifying at least one processor style as a candidate for implementation.
+10. The system of claim 9, wherein the profiled information includes the application source code.
+11. The system of claim 9 or 10, wherein the profiler is configured to identify a plurality of processor styles as candidates for implementation.
+12. The system of claim 11, wherein ones of the processor styles are identified to execute parts of an application, whereby the application is to be executed by combined ones ofthe processor styles.
+13. The system of any of claims 9 to 12, wherein the profiler is further configured to collect profiling information for enabling optimisation.
+14. The system of claim 13, wherein the profiling information includes frequency of groups of opcodes.
+15. The system of claim 13 or 14, wherein the profiling information includes information regarding operation sharing. 
+
+16. The system of any of claims 13 to 15, wherein the profiling information includes information regarding operation parallelisation.
+17. The system of any of claims 9 to 16, wherein the analyser is configured to utilise the profiling information in analysing the instruction information, and determine the instruction optimisations therefrom.
+18. The system of any of claims 1 to 17, wherein the instruction optimisations include operation optimisations.
+19. The system of claim 18, wherein the operation optimisations include operation sharing optimisations.
+20. The system of claim 18 or 19, wherein the operation optimisations include operation parallelisation optimisations.
+21. The system of any of claims 1 to 20, wherein the instruction optimisations include custom instructions.
+22. The system of any of claims 1 to 21, wherein the analyser is configured to identify candidate instruction optimisations, and determine implementation of the instruction optimisations based on estimations performed by the instantiator.
+23. The system of claim 22, wherein, where the estimations from the instantiator provide that the re-programmable hardware cannot be programmed to implement all instructions together during run time, the analyser groups combined ones of instructions into sets of instructions which can be implemented by re-programming ofthe re-programmable hardware.
+24. The system of any of claims 1 to 23, wherein the analyser is configured to determine a plurality of implementations for different run-time conditions, each having instruction optimisations associated with the run-time conditions, and generate decision condition information associated with each implementation, 
+
+
+ which decision condition information enables selection between the implementations depending on actual run-time conditions.
+25. The system of any of claims 1 to 24 when appendant upon claim 9, wherein, where the instruction optimisations cannot provide an implementation which complies with design constraints, the analyser is configured to invoke the profiler to re-profile the customisation specification based on analysis information provided by the analyser.
+26. The system of any of claims 1 to 25, wherein the architecture optimisations performed by the instantiator include pipelining.
+27. The system of any of claims 1 to 26, wherein the architecture optimisations performed by the instantiator include resource replication.
+28. The system of any of claims 1 to 27, wherein the architecture optimisations performed by the instantiator include technology independent optimisations.
+29. The system of claim 28, wherein the technology independent optimisations include removal of unused resources.
+30. The system of claim 28 or 29, wherein the technology independent optimisations include opcode assignment.
+31. The system of any of claims 28 to 30, wherein the technology independent optimisations include channel communication optimisations.
+32. The system of any of claims 28 to 31, wherein the technology independent optimisations include customisation of data and instruction paths.
+33. The system of any of claims 1 to 32, wherein, where a plurality of configurations of the re-programmable hardware are required to implement the instruction processor, the instantiator is configured to optimise ones of the 
+
+
+ configurations into groups and schedule implementation of the grouped configurations.
+34. The system of any of claims 1 to 33, further comprising: a library containing processor definitions and associated parameters for a plurality of processor styles; and wherein the template generator is configured to generate templates from processor definitions and associated parameters extracted from the library.
+35. The system of any of claims 1 to 34, wherein the processor styles include superscalar processors.
+36. The system of any of claims 1 to 35, wherein the processor styles include hybrid processors.
+37. The system of any of claims 1 to 36, wherein the compiler is generated by the analyser, and the application source code is annotated with customisation information for compilation by the compiler to provide an optimised executable code.
+38. The system of any of claims 1 to 36, wherein the compiler is configured to compile the application source code and re-organise the compiled source code to incorporate optimisations to provide an optimised executable code.
+39. The system of any of claims 1 to 38, wherein the configuration information and associated executable code, and, where relevant, the decision condition information, are deployed in at least one management system which is for managing adaptation and configuration of instruction processors implemented using re-programmable hardware.
+40. The system of any of claims 1 to 39, wherein the configuration information and associated executable code, and, where relevant, the decision condition 
+
+
+ information, are deployed in at least one library for enabling re-programming of re-programmable hardware.
+41. The system of any of claims 1 to 40, wherein the re-programmable hardware comprises at least one field programmable gate array.
+42. The system of any of claims 1 to 41, wherein the re-programmable hardware comprises at least one complex programmable logic device.
+43. The system of any of claims 1 to 42, wherein the instruction processor is fully implemented using the re-programmable hardware.
+44. A method of generating configuration information and associated executable code based on a customisation specification, which includes application information including application source code and customisation information including design constraints, for implementing an instruction processor using reprogrammable hardware, the method comprising the steps of: generating a template for each processor style identified as a candidate for implementation; analysing instruction information for each template and determining instruction optimisations; compiling the application source code to include the instruction optimisations and generate executable code; analysing architecture information for each template and determining architecture optimisations; generating configuration information including the architecture optimisations; and generating device-specific configuration information from the configuration information including the architecture optimisations.
+45. The method of claim 44, further comprising the steps of: profiling the configuration information and associated code for each candidate implementation; and 
+
+
+ in response thereto selecting one or more optimal implementations based on predeterminable criteria.
+46. The method of claim 44 or 45, wherein the application information further includes application data.
+47. The method of claim 46, wherein the application data includes data representative of data to be operated on by the instruction processor.
+48. The method of claim 47, wherein the application data includes data representative of a range of run-time conditions.
+49. The method of any of claims 44 to 48, wherein the customisation information further includes at least one custom instruction.
+50. The method of claim 49, wherein each custom instruction can be defined as mandatory or optional.
+51. The method of any of claims 44 to 50, wherein the customisation information further identifies at least one processor style as a candidate for implementation.
+52. The method of any of claims 44 to 51 , further comprising the steps of: profiling information in the customisation specification; and identifying at least one processor style as a candidate for implementation.
+53. The method of claim 52, wherein the profiled information includes the application source code.
+54. The method of claim 52 or 53, wherein a plurality of processor styles are identified as candidates for implementation in the customisation specification profiling step. 
+
+55. The method of claim 54, wherein ones of the processor styles are identified to execute parts of an application, whereby the application is to be executed by combined ones ofthe processor styles.
+56. The method of any of claims 52 to 55, wherein profiling information for enabling optimisation is collected in the customisation specification profiling step.
+57. The method of claim 56, wherein the profiling information includes frequency of groups of opcodes .
+58. The method of claim 56 or 57, wherein the profiling information includes information regarding operation sharing.
+59. The method of any of claims 56 to 58, wherein the profiling information includes information regarding operation parallelisation.
+60. The method of any of claims 56 to 59, wherein the instruction information analysis step comprises the steps of: utilising the profiling information in analysing the instruction information; and determining the instruction optimisations therefrom.
+61. The method of claim 60, wherein the instruction optimisations include operation optimisations.
+62. The method of claim 61, wherein the operation optimisations include operation sharing optimisations.
+63. The method of claim 61 or 62, wherein the operation optimisations include operation parallelisation optimisations.
+64. The method of any of claims 60 to 63, wherein the instruction optimisations include custom instructions. 
+
+65. The method of any of claims 44 to 64, wherein the instruction information analysis step comprises the steps of: identifying candidate instruction optimisations; and determining implementation of the instruction optimisations based on estimations performed based on instantiation of the candidate instruction optimisations.
+66. The method of claim 65, wherein, where the estimations provide that the re- programmable hardware cannot be programmed to implement all instructions together during run time, the instruction information analysis step comprises the step of: grouping combined ones of instructions into sets of instructions which can be implemented by re-programming ofthe re-programmable hardware.
+67. The method of any of claims 44 to 66, wherein the instruction information analysis step comprises the steps of: determining a plurality of implementations for different run-time conditions, each having instruction optimisations associated with the run-time conditions; and generating decision condition information associated with each implementation, which decision condition information enables selection between the implementations depending on actual run-time conditions.
+68. The method of any of claims 44 to 67 when appendant upon claim 52, wherein, where the instruction optimisations cannot provide an implementation which complies with design constraints, the instruction information analysis step comprises the step of: invoking the customisation specification profiling step to re-profile the customisation specification based on analysis information provided by the instruction information analysis step. 
+
+69. The method of any of claims 44 to 68, wherein the architecture optimisations include pipelining.
+70. The method of any of claims 44 to 69, wherein the architecture optimisations include resource replication.
+71. The method of any of claims 44 to 70, wherein the architecture optimisations include technology independent optimisations.
+72. The method of claim 71, wherein the technology independent optimisations include removal of unused resources.
+73. The method of claim 71 or 72, wherein the technology independent optimisations include opcode assignment.
+74. The method of any of claims 71 to 73, wherein the technology independent optimisations include channel communication optimisations.
+75. The method of any of claims 71 to 74, wherein the technology independent optimisations include customisation of data and instruction paths.
+76. The method of any of claims 44 to 75, wherein, where a plurality of configurations of the re-programmable hardware are required to implement the instruction processor, the instantiation step comprises the steps of: optimising ones ofthe configurations into groups; and scheduling implementation ofthe grouped configurations.
+77. The method of any of claims 44 to 76, wherein each template is generated from processor definitions and associated parameters extracted from a library containing processor definitions and associated parameters for a plurality of processor styles. 
+
+78. The method of any of claims 44 to 77, wherein the processor styles include superscalar processors.
+79. The method of any of claims 44 to 78, wherein the processor styles include hybrid processors.
+80. The method of any of claims 44 to 79, wherein the compiler utilised in compiling the application source code is generated in the instruction information analysis step, and the compiling step comprises the steps of: annotating the application source code with customisation information; and compiling the annotated source code to provide an optimised executable code.
+81. The method of any of claims 44 to 79, wherein the compiling step comprises the steps of: compiling the application source code; and re-organising the compiled source code to incorporate optimisations to provide an optimised executable code.
+82. The method of any of claims 44 to 81 , further comprising the step of: deploying the configuration information and associated executable code, and, where relevant, the decision condition information, in at least one management system which is for managing re-configuration of instruction processors implemented using re-programmable hardware.
+83. The method of any of claims 44 to 82, further comprising the step of: deploying the configuration information and associated executable code, and, where relevant, the decision condition information, in at least one library for enabling re-programming of re-programmable hardware.
+84. The method of any of claims 44 to 83, wherein the re-programmable hardware comprises at least one field programmable gate array. 
+
+85. The method of any of claims 44 to 83, wherein the re-programmable hardware comprises at least one complex programmable logic device.
+86. The method of any of claims 44 to 85, wherein the instruction processor is fully implemented using the re-programmable hardware.
+87. A management system for managing run-time re-configuration of an instruction processor implemented using re-programmable hardware, comprising: a configuration library containing configuration information for a plurality of instruction processor implementations ; a code library for containing associated executable code for the implementations; a loader for loading application data and, as required, configuration information and associated executable code into re-programmable hardware for implementation and execution of an instruction processor; a loader controller for signalling the loader to load application data and, as required, configuration information and associated executable code, and execute the executable code; a run-time monitor for obtaining run-time statistics relating to operation of the instruction processor; an optimisation determiner configured to receive the run-time statistics, and being operable to instruct the loader to load new configuration information and associated executable code for a new implementation into the re-programmable hardware; and an optimisation instructor for invoking the optimisation determiner.
+88. The system of claim 87, comprising: a run-time manager including the loader controller, the run-time monitor and the optimisation instructor.
+89. The system of claim 87 or 88, wherein the optimisation instructor is configured automatically to invoke the optimisation determiner on a predeterminable event. 
+
+90. The system of claim 89, wherein the event is an instruction in the executable code.
+91. The system of any of claims 87 to 90, wherein the optimisation instructor is configured to be invoked by an external agent.
+92. The system of claim 91, wherein the optimisation instructor is configured to be invoked in response to an actuation instruction from an external agent.
+93. The system of claim 91 or 92, wherein the optimisation determiner is configured to instruct the loader controller to signal the loader to load the new configuration information and associated executable code into the re-programmable hardware on invocation ofthe optimisation instructor by the external agent.
+94. The system of claim 93 when appendant upon claim 92, wherein the actuation instruction identifies the implementation to be implemented using the reprogrammable hardware.
+95. The system of any of claims 91 to 94, wherein the configuration information and associated executable code for a new implementation are loaded into the respective ones of the configuration library and the code library prior to invocation of the optimisation instructor by an external agent, such that the configuration information and associated executable code for that implementation can be loaded into the re-programmable hardware on invocation ofthe optimisation instructor by the external agent.
+96. The system of any of claims 87 to 95, further comprising: a decision condition library for containing associated decision condition information for at least ones ofthe implementations; and wherein the loader is configured to provide the optimisation determiner with decision condition information for a plurality of other implementations for various run-time conditions of the implementation loaded in the reprogrammable hardware, and the optimisation determiner is configured to 
+
+
+ profile the decision condition information for the other implementations, determine whether the decision condition information for any of the other implementations more closely fits the run-time statistics, and, where the decision condition information for one ofthe other implementations more closely fits the run-time statistics, instruct the loader controller to signal the loader to load the configuration information and associated executable code for that implementation into the re-programmable hardware.
+97. The system of any of claims 87 to 96, further comprising: an adapter for generating one or more new implementations optimised to the run-time statistics; and wherein the optimisation determiner is configured to instruct the adapter to generate the one or more new implementations.
+98. The system of claim 97 when appendant upon any of claims 87 to 95, wherein the adapter is configured to load the configuration information and associated executable code for each new implementation into respective ones of the configuration library and the code library.
+99. The system of claim 97 when appendant upon claim 96, wherein the adapter is configured to load the configuration information, associated executable code and associated decision condition information for each new implementation into respective ones of the configuration library, the code library and the decision condition library.
+100. The system of any of claims 97 to 99, wherein the optimisation determiner is configured to instruct the loader to load the configuration information and associated executable code for a new implementation into the re-programmable hardware on satisfaction of predeterminable criteria.
+101. The system of claim 100, wherein the optimisation determiner is configured to instruct the loader to load the configuration information and associated executable code for a new implementation into the re-programmable hardware 
+
+
+ where a re-configuration ratio R 
+>
+ 1, the re-configuration ratio R being given by the function:
+T E
+R = J=.
+T
+cl
+∑(C
+a
+ F
+J
+) + T
+r
+Where: C^.
+j
+ is the number of clock cycles to implement a software function
+T
+sw
+ is the cycle time for each clock cycle in the clock cycle number r C
+cij
+ is the number of clock cycles to implement a custom instruction;
+T is the cycle time for each clock cycle in the clock cycle number C
+c
+ ; and
+T
+r
+ is the time required for re-configuration of the re-programmable hardware.
+102. The system of any of claims 97 to 101, wherein the adapter is configured to operate on line.
+103. The system of any of claims 97 to 101, wherein the adapter is configured to operate off line.
+104. The system of any of claims 97 to 103, wherein the adapter comprises: an analyser for analysing instruction information based on the run-time statistics and determining instruction optimisations; a compiler for compiling the application source code to include the instruction optimisations and generate executable code; an instantiator for analysing architecture information based on the run-time statistics, determining architecture optimisations and generating configuration information including the architecture optimisations; and a builder for generating device-specific configuration information from the configuration information including the architecture optimisations. 
+
+105. The system of claim 104, wherein the adapter further comprises: a selector for profiling the configuration information and associated code for each candidate implementation, and selecting one or more optimal implementations based on predeterminable criteria.
+106. The system of claim 104 or 105, wherein the adapter further comprises: a profiler for profiling information in a customisation specification and the runtime statistics, and identifying at least one processor style as a candidate for implementation; and a template generator for generating a template for each processor style identified as a candidate for implementation.
+107. The system of claim 106, wherein the profiled information includes the application source code.
+108. The system of claim 106 or 107, wherein the profiler is configured to identify a plurality of processor styles as candidates for implementation.
+109. The system of claim 108, wherein ones of the processor styles are identified to execute parts of an application, whereby the application is to be executed by combined ones ofthe processor styles.
+110. The system of any of claims 106 to 109, wherein the profiler is further configured to collect profiling information for enabling optimisation.
+111. The system of claim 110, wherein the profiling information includes frequency of groups of opcodes.
+112. The system of claim 110 or 111, wherein the profiling information includes information regarding operation sharing. 
+
+113. The system of any of claims 110 to 112, wherein the profiling information includes information regarding operation parallelisation.
+114. The system of any of claims 106 to 113, wherein the analyser is configured to utilise the profiling information in analysing the instruction information, and determine the instruction optimisations therefrom.
+115. The system of any of claims 104 to 114, wherein the instruction optimisations include operation optimisations.
+116. The system of claim 115, wherein the operation optimisations include operation sharing optimisations.
+117. The system of claim 115 or 116, wherein the operation optimisations include operation parallelisation optimisations.
+118. The system of any of claims 104 to 117, wherein the instruction optimisations include custom instructions.
+119. The system of claim 118, wherein custom instructions are identified as candidates for optimisation based on frequency of use.
+120. The system of claim 118, wherein custom instructions are identified as candidates for optimisation based on a decision function D, where the decision function D is given by:
+" T C F
+D = max 
+>
+ S, ι T C F '
+Where: C^ is the number of clock cycles to implement a software function JO;
+Tsw is the cycle time for each clock cycle in the clock cycle number C ■
+■
+
+ C
+C
+i
+j
+ is the number of clock cycles to implement a custom instruction; T
+c
+, is the cycle time for each clock cycle in the clock cycle number C
+ci
+ ; F
+j
+ is the number of times a procedure is called; and S
+j
+ is a binary selection variable, denoting whether the custom instruction is implemented.
+121. The system of any of claims 104 to 120, wherein the analyser is configured to identify candidate instruction optimisations, and determine implementation of the instruction optimisations based on estimations performed by the instantiator.
+122. The system of claim 121, wherein, where the estimations from the instantiator provide that the re-programmable hardware cannot be programmed to implement all instructions together during run time, the analyser groups combined ones of instructions into sets of instructions which can be implemented by re-programming of the re-programmable hardware.
+123. The system of any of claims 104 to 122, wherein the analyser is configured to determine a plurality of implementations for different run-time conditions, each having instruction optimisations associated with the run-time conditions, and generate decision condition information associated with each implementation, which decision condition information enables selection between the implementations depending on actual run-time conditions.
+124. The system of any of claims 104 to 123 when appendant upon claim 106, wherein, where the instruction optimisations cannot provide an implementation which complies with design constraints, the analyser is configured to invoke the profiler to re-profile the customisation specification based on analysis information provided by the analyser.
+125. The system of any of claims 104 to 124, wherein the architecture optimisations performed by the instantiator include pipelining. 
+
+126. The system of any of claims 104 to 125, wherein the architecture optimisations performed by the instantiator include resource replication.
+127. The system of any of claims 104 to 126, wherein the architecture optimisations performed by the instantiator include technology independent optimisations.
+128. The system of claim 127, wherein the technology independent optimisations include removal of unused resources.
+129. The system of claim 127 or 128, wherein the technology independent optimisations include opcode assignment.
+130. The system of any of claims 127 to 129, wherein the technology independent optimisations include channel communication optimisations.
+131. The system of any of claims 127 to 130, wherein the technology independent optimisations include customisation of data and instruction paths.
+132. The system of any of claims 104 to 131, wherein, where a plurality of configurations of the re-programmable hardware are required to implement the instruction processor, the instantiator is configured to optimise ones of the configurations into groups and schedule implementation of the grouped configurations.
+133. The system of any of claims 106 to 132, wherein the adapter further comprises: a library containing processor definitions and associated parameters for a plurality of processor styles; and wherein the template generator is configured to generate templates from processor definitions and associated parameters extracted from the library.
+134. The system of any of claims 106 to 133, wherein the processor styles include superscalar processors. 
+
+135. The system of any of claims 106 to 134, wherein the processor styles include hybrid processors.
+136. The system of any of claims 104 to 135, wherein the compiler is generated by the analyser, and the application source code is annotated with customisation information for compilation by the compiler to provide an optimised executable code.
+137. The system of any of claims 104 to 135, wherein the compiler is configured to compile the application source code and re-organise the compiled source code to incorporate optimisations to provide an optimised executable code.
+138. The system of any of claims 87 to 137, wherein the re-programmable hardware comprises at least one field programmable gate array.
+139. The system of any of claims 87 to 137, wherein the re-programmable hardware comprises at least one complex programmable logic device.
+140. The system of any of claims 87 to 139, wherein the instruction processor is fully implemented using the re-programmable hardware.
+141. A method of managing run-time re-configuration of an instruction processor implemented in re-programmable hardware, comprising the steps of: providing a configuration library containing configuration information for a plurality of instruction processor implementations; providing a code library for containing associated executable code for the implementations; loading application data and, as required, configuration information and executable code into re-programmable hardware for implementation and execution of an instruction processor; executing the executable code; obtaining run-time statistics relating to operation of the instruction processor; and 
+
+
+ loading new configuration information and associated executable code for a new implementation into the re-programmable hardware.
+142. The method of claim 141, wherein the loading step is performed automatically on a predeterminable event.
+143. The method of claim 142, wherein the event is an instruction in the executable code.
+144. The method of any of claims 141 to 143, wherein the loading step is actuated by an external agent.
+145. The method of claim 144, wherein the loading step is actuated in response to an actuation instruction from an external agent.
+146. The method of claim 145, wherein the actuation instruction identifies the implementation to be implemented using the re-programmable hardware.
+147. The method of any of claims 144 to 146, further comprising the step of: loading the configuration information and associated executable code for a new implementation into the respective ones ofthe configuration library and the code library prior to the loading step; and wherein the loading step comprises the step of loading the configuration information and associated executable code for that implementation into the re- programmable hardware on actuation by an external agent.
+148. The method of any of claims 141 to 147, further comprising the steps of: providing a decision condition library for containing associated decision condition information for at least ones ofthe implementations; profiling the decision condition information for a plurality of other implementations for various run-time conditions ofthe implementation loaded in the re-programmable hardware; 
+
+
+ determining whether the decision condition information for any of the other implementations more closely fits the run-time statistics; and wherein, where the decision condition information for one of the other implementations more closely fits the run-time statistics, the loading step comprises the step of: loading the configuration information and associated executable code for that implementation into the re-programmable hardware.
+149. The method of any of claims 141 to 147, further comprising the step of: generating one or more new implementations optimised to the run-time statistics.
+150. The method of claim 149 when appendant upon any of claims 141 to 147, further comprising the step of: loading the configuration information and associated executable code for each new implementation into respective ones of the configuration library and the code library.
+151. The method of claim 149 when appendant upon claim 148, further comprising the step of: loading the configuration information, associated executable code and associated decision condition information for each new implementation into respective ones of the configuration library, the code library and the decision condition library.
+152. The method of any of claims 141 to 151, wherein the configuration information and associated executable code for a new implementation are loaded into the reprogrammable hardware on satisfaction of predeterminable criteria.
+153. The method of claim 152, wherein the configuration information and associated executable code for a new implementation are loaded into the re-programmable hardware where a re-configuration ratio R 
+>
+ 1, the re-configuration ratio R being given by the function: 
+
+Where: C^
+j
+ is the number of clock cycles to implement a software function JO;
+T
+sw
+ is the cycle time for each clock cycle in the clock cycle number
+C„ is the number of clock cycles to implement a custom instruction; T
+CI
+ is the cycle time for each clock cycle in the clock cycle number C
+clιJ
+; and
+T
+r
+ is the time required for re-configuration of the re-programmable hardware.
+154. The method of any of claims 149 to 153, wherein the implementation generating step is performed on line.
+155. The method of any of claims 149 to 153, wherein the implementation generating step is performed off line.
+156. The method of any of claims 149 to 155, wherein the implementation generating step comprises the steps of: analysing instruction information based on the run-time statistics and determining instruction optimisations; compiling the application source code to include the instruction optimisations and generate executable code; analysing architecture information based on the run-time statistics and determining architecture optimisations; generating configuration information including the architecture optimisations; and generating device-specific configuration information from the configuration information including the architecture optimisations. 
+
+157. The method of claim 156, wherein the implementation generating step further comprises the steps of: profiling the configuration information and associated code for each candidate implementation; and in response thereto selecting one or more optimal implementations based on predeterminable criteria.
+158. The method of claim 156 or 157, wherein the implementation generating step further comprises the steps of: profiling information in a customisation specification and the run-time statistics; identifying at least one processor style as a candidate for implementation.; and generating a template for each processor style identified as a candidate for implementation.
+159. The method of claim 158, wherein the profiled information includes the application source code.
+160. The method of claim 158 or 159, wherein a plurality of processor styles are identified as candidates for implementation in the customisation specification profiling step.
+161. The method of claim 160, wherein ones of the processor styles are identified to execute parts of an application, whereby the application is to be executed by combined ones ofthe processor styles.
+162. The method of any of claims 158 to 161, wherein profiling information for enabling optimisation is collected in the customisation specification profiling step.
+163. The method of claim 162, wherein the profiling information includes frequency of groups of opcodes. 
+
+164. The method of claim 162 or 163, wherein the profiling information includes information regarding operation sharing.
+165. The method of any of claims 162 to 164, wherein the profiling information includes information regarding operation parallelisation.
+166. The method of any of claims 162 to 165, wherein the instruction information analysis step comprises the steps of: utilising the profiling information in analysing the instruction information; and determining the instruction optimisations therefrom.
+167. The method of claim 166, wherein the instruction optimisations include operation optimisations.
+168. The method of claim 167, wherein the operation optimisations include operation sharing optimisations.
+169. The method of claim 167 or 168, wherein the operation optimisations include operation parallelisation optimisations.
+170. The method of any of claims 166 to 169, wherein the instruction optimisations include custom instructions.
+171. The method of claim 170, wherein custom instructions are identified as candidates for optimisation based on frequency of use.
+172. The method of claim 170, wherein custom instructions are identified as candidates for optimisation based on a decision function D, where the decision function -0 is given by:
+n
+ T C F
+D = max -
+>
+-—-l T" f -^— rXS J, j=\ 
+l
+ cι ^cι,j 
+r
+) 
+
+
+ Where: 
+no
+.y is the number of clock cycles to implement a software function
+AY,
+T
+w
+ is the cycle time for each clock cycle in the clock cycle number C • C
+C
+i
+j
+ is the number of clock cycles to implement a custom instruction;
+T
+ci
+ is the cycle time for each clock cycle in the clock cycle number C
+ci
+ ; F
+j
+ is the number of times a procedure is called; and S
+j
+ is a binary selection variable, denoting whether the custom instruction is implemented.
+173. The method of any of claims 156 to 172, wherein the instruction information analysis step comprises the steps of: identifying candidate instruction optimisations; and determining implementation of the instruction optimisations based on estimations performed based on instantiation of the candidate instruction optimisations.
+174. The method of claim 173, wherein, where the estimations provide that the reprogrammable hardware cannot be programmed to implement all instructions together during run time, the instruction information analysis step comprises the step of: grouping combined ones of instructions into sets of instructions which can be implemented by re-programming ofthe re-programmable hardware.
+175. The method of any of claims 156 to 174, wherein the instruction information analysis step comprises the steps of: determining a plurality of implementations for different run-time conditions, each having instruction optimisations associated with the run-time conditions; and generating decision condition information associated with each implementation, which decision condition information enables selection between the implementations depending on actual run-time conditions. 
+
+176. The method of any of claims 156 to 175 when appendant upon claim 158, wherein, where the instruction optimisations cannot provide an implementation which complies with design constraints, the instruction information analysis step comprises the step of: invoking the customisation specification profiling step to re-profile the customisation specification based on analysis information provided by the instruction information analysis step.
+177. The method of any of claims 156 to 176, wherein the architecture optimisations include pipelining.
+178. The method of any of claims 156 to 177, wherein the architecture optimisations include resource replication.
+179. The method of any of claims 156 to 178, wherein the architecture optimisations include technology independent optimisations.
+180. The method of claim 179, wherein the technology independent optimisations include removal of unused resources.
+181. The method of claim 179 or 180, wherein the technology independent optimisations include opcode assignment.
+182. The method of any of claims 179 to 181, wherein the technology independent optimisations include channel communication optimisations.
+183. The method of any of claims 179 to 182, wherein the technology independent optimisations include customisation of data and instruction paths.
+184. The method of any of claims 156 to 183, wherein, where a plurality of configurations of the re-programmable hardware are required to implement the instruction processor, the instantiation step comprises the steps of: optimising ones ofthe configurations into groups; and 
+
+
+ scheduling implementation ofthe grouped configurations.
+185. The method of any of claims 158 to 184, wherein each template is generated from processor definitions and associated parameters extracted from a library containing processor definitions and associated parameters for a plurality of processor styles.
+186. The method of any of claims 158 to 185, wherein the processor styles include superscalar processors.
+187. The method of any of claims 158 to 185, wherein the processor styles include hybrid processors.
+188. The method of any of claims 156 to 187, wherein the compiler utilised in compiling the application source code is generated in the instruction information analysis step, and the compiling step comprises the steps of: annotating the application source code with customisation information; and compiling the annotated source code to provide an optimised executable code.
+189. The method of any of claims 156 to 187, wherein the compiling step comprises the steps of: compiling the application source code; and re-organising the compiled source code to incorporate optimisations to provide an optimised executable code.
+190. The method of any of claims 141 to 189, wherein the re-programmable hardware comprises at least one field programmable gate array.
+191. The method of any of claims 141 to 189, wherein the re-programmable hardware comprises at least one complex programmable logic device.
+192. The method of any of claims 141 to 191, wherein the instruction processor is fully implemented using the re-programmable hardware. 
+
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,171 @@
+<DOC>
+<DOCNO>EP-0650303</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Paging system control apparatus
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04M342	H04M342	H04W8818	H04W8800	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04M	H04M	H04W	H04W	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04M3	H04M3	H04W88	H04W88	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+In a paging system control apparatus that employs a 
+POCSAG signal consisting of a plurality of batches each 
+
+consisting of a plurality of groups, it is intended to 
+improve the efficiency of using the batches by reallocating 
+
+existing call signals in storing call signals of randomly 
+input calls in a queue buffer for the POCSAG signal. The 
+
+apparatus has first and second queue buffers that 
+alternately serve as a current-use queue buffer and a 
+
+waiting queue buffer. When it is found that the current-use 
+queue buffer has no empty area for accommodating a call 
+
+signal of a new call, all of the call signals stored in the 
+current-use queue buffer are transferred to the waiting 
+
+queue buffer so as to be reallocated in sequence from the 
+head of the waiting queue buffer and so that empty areas 
+
+are minimized. The reallocation-completed waiting queue 
+buffer is changed to a new current-use queue buffer, and 
+
+the new call signal is stored therein. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+NIPPON ELECTRIC CO
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+NEC CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+NOZAKI REIKO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NOZAKI, REIKO
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a paging system
+control apparatus and, more specifically, to a paging
+system control apparatus which performs a queuing operation
+which arranges the call signals of randomly input calls
+into a prescribed transmission signal format.Among the transmission signal formats of a call signal
+in conventional paging systems is a format arranged in
+accordance with the international standard signal scheme
+known as the POCSAG signal (CCIR Recommendation 584-1
+(1982-1986), Standard Codes and Formats for International
+Radio Paging).As shown in FIG. 1, the transmission signal format of
+the POCSAG signal scheme consists of a plurality of
+batches. Each batch is divided into 8 groups (group 0 to
+group 7), and each group is further divided into 2 code
+words (hereinafter referred to as CWs). Each of the 8
+groups corresponds to the 3 least significant bits of an
+identity assigned to each pagers (i.e., 000 = group 0, and
+111 = group 7), and all of the pagers used in a paging
+system are distributed to the 8 groups.Call data input to a paging system control apparatus 
+is converted to a call signal having a paging signal
+format. The call signal is constituted of an address CW of
+one CW when it does not includes a character display
+(messages), and of an address CW of one CW and one or more
+message Cws that correspond to the length of the character
+message to be displayed. An arrangement is so constituted
+that the address CW is necessarily placed in the group
+corresponding to the 3 least significant bits of a pagers
+address in a call. The message CW(s) occupies the CW next
+to the address CW and, if necessary, Cws in subsequent
+group or groups accordance with the length of the message.To transmit a POCSAG signal as described above, the
+conventional paging system control apparatus has one queue
+buffer having a configuration as shown in FIG. 2, and
+stores the call signals of the randomly input calls in
+their sequence of arrival and sequentially transmits those
+in a cyclical manner. In FIG. 2, batch n and batch n+1
+denote memory areas of the queue buffer corresponding to
+the nth and (n+1)th batches, respectively, and G0-G7
+represent memory areas for the respective groups of each
+batch and have a memory capacity of 2 Cws.The above-described conventional paging system control
+apparatus stores the call signals of input calls in the
+queue buffer while queuing those in their sequence of
+arrival. Therefore, when call signals are stored in the
+queue buffer, for instance, as shown in FIG. 3(b), the
+control
+</DESCRIPTION>
+<CLAIMS>
+A paging system control apparatus which has two queue buffers (1,2) for
+temporarily storing a transmission signal format that includes a plurality of batches
+
+each including a plurality of groups that are related to identification numbers of
+respective pagers, and which stores randomly input call signals in a said queue buffer
+
+(1,2) and later transmits these together, characterised in that:
+
+two queue buffers (1,2) are alternately used as a current-use queue buffer and
+a waiting queue buffer;
+by a reallocation section (5) for transferring all of the call signals stored in the
+current-use queue buffer to the waiting queue buffer while reallocating the call
+
+signals, when it is found that no empty area is available for a new call during a
+queuing operation on the call signals in the current-use queue buffer; and
+by a means (4,5) for changing the waiting queue buffer to which the call
+signals have been reallocated completely to a new current-use queue buffer and the
+
+current-use queue buffer to a new waiting queue buffer, and then making the queuing
+operation on the call signals continue.
+The paging system control apparatus according to claim 1, wherein the
+reallocation section (5) reallocates the call signals so that they are sequentially
+
+arranged from a head section to an end section of the waiting queue buffer by
+sequentially retrieving, from the current-use queue buffer, call signals that can be
+
+accommodated without being overwritten over a call signal that has already been
+transferred. 
+The paging system control apparatus according to claim 2, further comprising:
+
+an origination pointer (6) for indicating an original location of an existing call
+signal;
+a destination pointer (7) for indicating a destination location of the existing call
+signal; and
+a group number storage section (8) for storing a group number of an existing
+call signal to be transferred,
+
+wherein the reallocation section (5) comprises:
+
+a group number writing means for determining the destination group
+number based on the destination pointer (7), and for writing the determined group
+
+number to the group number storing section (8);
+a retrieving means for retrieving, from the current-use queue buffer, an
+existing call signal that belongs to a group of the destination group number stored in
+
+the group number storage section (8);
+an original location of a call signal location writing means for writing
+positional information for the existing call signal retrieved by the retrieving means to
+
+the origination pointer (6);
+a call signal transferring means for transferring the call signal indicated
+by the origination pointer (6) to a location of the waiting queue buffer indicated by the
+
+destination pointer (7);
+a next code word positional information writing means for writing
+positional information for a code word next to, on the waiting queue buffer, that of the
+
+call signal that has been transferred by the call signal transferring means;
+a next group positional information writing means for changing positional 
+information for the destination pointer (7) to that of a next group when no existing call
+
+signal is detected by the retrieving means; and
+a judging means for judging the completion of reallocation when the
+destination pointer (7) indicates the last positional information and the next positional
+
+information cannot be set therein in the next code word positional information writing
+means or the next group positiona
+l information writing means.
+</CLAIMS>
+</TEXT>
+</DOC>

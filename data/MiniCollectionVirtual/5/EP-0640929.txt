@@ -1,0 +1,320 @@
+<DOC>
+<DOCNO>EP-0640929</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Inter-processor communication via post office RAM.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1516	G06F15167	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F15	G06F15	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A device and method for providing inter-processor 
+communication in a multi-processor architecture. A post 
+
+office RAM has a plurality of mailboxes. Each mailbox is 
+write-accessible by one port, but is read-accessible by 
+
+the other ports. Thus, a processor device on a port has 
+write-access to one mailbox, but can read the other 
+
+mailboxes in the post office. A transmitting processor 
+communicates with a receiving processor, by utilizing the 
+
+post office. The transmitting processor writes 
+information into its own mailbox, and signals a receiving 
+
+processor. The receiving processor determines which of 
+the processor devices signalled it, and reads the 
+
+information in the transmitting processor's mailbox. 
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+ADVANCED MICRO DEVICES INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+ADVANCED MICRO DEVICES INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+DETTMER DAVID
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FREEMSTER RYAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DETTMER, DAVID
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FREEMSTER, RYAN
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The invention pertains generally to inter-processor 
+communication, and, more particularly, to inter-processor 
+communication via mailboxes. A processor device in a multi-processor system 
+architecture needs a capability of transferring 
+information to the other processor devices in the system. 
+Various inter-processor communication approaches have been 
+used, with varying degrees of success. One such approach utilizes a central memory for 
+storing the information to be transferred. Each processor 
+device has read-access and write-access to the central 
+memory via a bus. Bus arbitration logic is used to allow 
+each processor device read-access and write-access to the 
+memory without bus collision or contention. Typically, 
+the central memory is random access memory (RAM), used for 
+storing the information which is passed between the 
+processors. Unfortunately, such approaches are costly, since they 
+center around the combination of the central RAM to store 
+the information and complex bus arbitration logic to 
+provide each processor device both read-access and write-access 
+to the RAM without bus collision or contention. One example of the approach is Burkhardt, Jr., et al., 
+"Intercomputer Communication Control Apparatus and 
+Method", U.S. Pat. No. 5,142,683, which discloses a 
+mailbox communication method and apparatus in which 
+multiple processors have access to a common memory. A 
+processor desiring to send a message to another processor 
+inserts the message into its own mailbox, along with the 
+address of the other processor. The sending processor  
+ 
+interrupts the receiving processor, which, in response to 
+the interrupt, scans the mailboxes to find the mailbox 
+containing receiving processor's address and reads the 
+message. Since the processors access common memory via 
+a common work station bus, one disadvantage is that 
+overhead is required to deal with bus contention and 
+collision. Moreover, Burkhardt has another disadvantage, 
+since communication paths may be tied up unless processors 
+copy and clear mailbox information quickly. An example of a shared common mailbox is found in 
+Murray, Jr. et al., "Data Multiplex Control Facility", 
+U.S. Pat. No. 4,665,482, which discloses use of a mailbox 
+between a CPU and an I/O microprocessor. Another example 
+of a mailbox, which does not alleviate the disadvantages, 
+is shown in Fiacconi, "Multiprocessor System with 
+Interrupt and Verification Unit", U.S. Pat. No. 4,862,354. Another approach that avoids bus collision or 
+contention employs commonly
+</DESCRIPTION>
+<CLAIMS>
+An apparatus for communication between a 
+plurality of processor devices, comprising 
+
+   a post office memory including a plurality of 
+mailbox memories; 
+
+   each of the mailbox memories being write 
+accessible only by its owner processor device, and read-accessible 
+
+by its owner and other the processor devices. 
+An apparatus as in claim 1, wherein: 
+   the plurality of processors includes a 
+
+transmitting processor and a receiving processor; 
+   a signal line provides communication between the 
+
+processors; and 
+   a subroutine in the receiving processor, 
+
+corresponding to the signal line, reads the mailbox memory 
+of the transmitting processor. 
+An apparatus as in claim 2, wherein at least one 
+of the processor devices is external to a chip, and the 
+
+other processor devices are on the chip. 
+An apparatus as in claim 3, wherein at least two 
+of the processor devices on the chip are streamlined 
+
+signal processors, and one of the processor devices on the 
+chip is a master microprocessor. 
+An apparatus as in claim 2, wherein the signal 
+line is a trigger, and further comprising a vector 
+
+register pointing to the subroutine. 
+An apparatus as in claim 2, wherein the signal 
+line is an interrupt, and wherein the subroutine is an 
+
+interrupt service routine addressed by the interrupt. 
+An apparatus as in claim 5, wherein the plurality 
+of processors comprises at least three processor devices, 
+
+including at least two transmitting processors and at 
+least one receiving processor, and a signal line between 
+
+the receiving processor and each of the transmitting 
+processors, further comprising: 
+
+
+(a) an OR gate producing a logical-OR of the 
+signal lines; and 
+(b) a mailbox status register associated with 
+the receiving processor, each of the signal lines setting 
+
+a status of one of the transmitting processors in the 
+mailbox status register. 
+An apparatus as in claim 5, having at least three 
+processor devices, including at least two transmitting 
+
+processors and at least one receiving processor, and a 
+signal line between the receiving processor and each of 
+
+the transmitting processors, further comprising: 
+
+(a) an OR gate producing a logical-OR of the 
+signal lines; 
+(b) a mailbox status register associated with 
+the receiving processor, each of the signal lines setting 
+
+a status of one of the transmitting processors in the 
+mailbox status register. 
+An apparatus as in claim 1, wherein the post 
+office memory is a multi-port random access memory (RAM), 
+
+and each of the mailbox memories is a predetermined area 
+of the RAM; 
+
+   each predetermined area of the RAM further 
+comprising means for providing write-access for only one 
+
+of the processor devices to the predetermined area of the 
+RAM from one of the ports; and 
+
+   means for providing read-access to the RAM for 
+the processor devices from each port. 
+An apparatus as in claim 9, wherein the device 
+is a 4-port RAM. 
+An apparatus as in claim 10, wherein the 
+predetermined area of RAM is 8 bytes. 
+An apparatus as in claim 1, further comprising: 
+
+   a plurality of ports corresponding to the 
+plurality of processor devices; and 
+
+   wherein each of the post office memories 
+comprises, 
+
+   a plurality of register blocks, each of the 
+register blocks including, 
+
+      storage for a predetermined number of data 
+bits, 
+
+      a single data-in bus connection, 
+      a plurality of data-out bus connections, 
+
+one data-out bus connection for each of the plurality of 
+ports, 
+
+      a plurality of read input lines, one read 
+input line from each of the ports, and 
+
+      a single write line, the write line coming 
+from the port corresponding to the owner processor device. 
+A method of communicating among a plurality of 
+processor devices, including a transmitting processor and 
+
+a receiving processor, utilizing a post office with a 
+plurality of mailboxes, the method comprising the steps 
+
+of: 
+   writing information into a predetermined one of 
+
+the mailboxes in the post office with a transmitting 
+processor; 
+
+   signaling a receiving processor with the 
+transmitting processor; 
+
+   determining in the receiving processor which of 
+the processor devices signalled the receiving processor; 
+
+and 
+   reading the information in the predetermined 
+
+mailbox with the receiving processor. 
+The method of claim 13, further comprising the 
+step of the receiving processor acting on the information. 
+The method of claim 13, wherein the writing step 
+occurs via a first port which is reserved to the 
+
+transmitting processor. 
+The method of claim 13, wherein the signalling 
+step comprises the transmitting processor issuing an 
+
+interrupt to the receiving processor. 
+The method of claim 13, the determining step 
+including the receiving processor executing an interrupt 
+
+subroutine corresponding to the interrupt, and the reading 
+step being performed by the interrupt subroutine. 
+The method of claim 17, further comprising the 
+step of the transmitting processor setting a status 
+
+register indicating the transmitting processor, and the 
+determining step comprising the receiving processor 
+
+reading the status register to determine the transmitting 
+processor. 
+The method of claim 13, wherein the signalling 
+step comprises the transmitting processor issuing a 
+
+trigger to the receiving processor. 
+The method of claim 19, the determining step 
+including executing a subroutine pointed at in a vector 
+
+register corresponding to the trigger, and the reading 
+step being performed by the subroutine. 
+The method of claim 20, further comprising the 
+step of the transmitting processor setting a mailbox 
+
+status register indicating the transmitting processor, and 
+the determining step comprising the receiving processor 
+
+reading the mailbox status register to determine the 
+transmitting processor. 
+A method of bi-directional communication between 
+at least two processor devices, utilizing a post office 
+
+with a plurality of mailboxes, the method comprising the 
+steps of: 
+
+   writing information into a first mailbox in the 
+post office RAM, and signaling a second processor device 
+
+with a first processor device; 
+   writing information into a second mailbox in the 
+
+post office RAM, and signaling the first processor device 
+with the second processor device; 
+
+   determining in the second processor device which 
+of the processor devices signalled it; 
+
+   determining in the first processor device which 
+of the processor devices signalled it; 
+
+   reading the information in the first mailbox with 
+the second processor device; and 
+
+   reading the information in the second mailbox 
+with the first processor device. 
+A post office RAM comprising: 
+   a multi-port RAM, having a plurality of cells 
+
+and a plurality of ports, any one of the RAM cells being 
+read-accessible by the plurality of ports, and write-accessible 
+
+by only one of the ports. 
+An apparatus for communication' between a plurality of 
+processor devices comprising a central memory including a 
+
+respective memory section for each of said processor 
+devices, the arrangement being such that information may 
+
+only be put into each said memory section from its 
+associated processor device but information may be removed 
+
+therefrom by its associated processor device or other 
+processor devices. 
+</CLAIMS>
+</TEXT>
+</DOC>

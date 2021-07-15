@@ -1,0 +1,225 @@
+<DOC>
+<DOCNO>EP-0650128</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Discrete cosine transform processor
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1714	G06F1714	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F17	G06F17	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A discrete cosine transform processor for executing 
+discrete cosine transform calculations in both forward and 
+
+inverse directions on the basis of previously stored 
+product addition data has a memory having a first memory 
+
+section (6a) for storing product addition calculation data 
+for the forward direction transformation and a second 
+
+memory section (6a) for storing product addition 
+calculation data for the inverse direction transformation 
+
+other than data in common to those stored in the first 
+memory section; and sign inverter (7) for inverting signs 
+
+of the data used in common for the inverse direction 
+transformation, among the data stored in the first memory 
+
+section. The memory preferably includes first memory for 
+storing product addition data corresponding to even-order 
+
+coefficients and second memory for storing product addition 
+data corresponding to odd-order coefficients; and only the 
+
+second memory stores data used in common for both the 
+forward and inverse direction transformations in the first 
+
+memory thereof. 
+
+</ABSTRACT>
+<APPLICANTS>
+</APPLICANTS>
+<INVENTORS>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a discrete cosine
+transform processor suitable for use to compress and expand
+image data, in particular.Recently, since semiconductor technology has advanced
+markedly and in addition International Standards (e.g.,
+CCITT H261, ISO, MPEG, etc.) with respect to image data
+coding have been established, LSIs for compressing and
+expanding image data are now being developed. The basis of
+the standards of the image data compression and expansion
+technique resides in two-dimensional discrete cosine
+transformation. Here, the two-dimensional discrete cosine
+transformation at N x N points in the forward direction can
+be expressed by the following formula:
+X(u,v)=2NC(u)C(v)i=0N-1j=0N-1x(i,j)cos(2i+1)uπ2Ncos(2j+1)vπ2N
+   where x(i, j) (i, j = 0, 1, ..., N-1) denote the
+original signals (image data) and X(u, v) (u, v = 0, 1,
+..., N-1) denote the transformed coefficients. Further,
+when u = v = 0, C(0) = C(0) = 2-1/2 and when u and V≠ 0,
+C(u) = C(v) = 1.Further, the discrete cosine transformation in the
+inverse direction can be expressed by the following
+formula:
+X(i,j)=2Nu=0N-1v=0N-1C(u)C(v)X(u,v)cos(2i+1)uπ2Ncos(2j+1)vπ2NNow, assuming that X denotes a matrix of N x N having
+components of X(u, v) (where u denotes the u-th row and v
+denotes the v-th column); x denotes a matrix of N x N
+having components of x(i, j) (where i denotes the i-th row 
+and j denotes the j-th column); and further
+Cu,i = (2 / N)1/2 C (u) cos ((2i + 1) uπ / N)
+denotes a transform matrix C of N x N having components of
+the u-th row and the i-th column), the above-mentioned
+formulae (1) and (2) can be expressed as follows:
+X = C · x · Ctx = Ct · X · C
+   where Ct denotes the transposed matrix of the matrix C.
+The above formulae (3) and (4) indicate that the two-dimensional
+discrete cosine transformation can be obtained
+by twice achieving the one-dimensional discrete cosine
+transformation.In the case of the general two-dimensional discrete
+cosine transformation used for image data compression and
+expansion, the transformation is usually executed in unit
+of block of 8 (vertical pixels) x 8 (horizontal pixels).
+Therefore, the case of N = 8 will be explained hereinbelow
+by way of example. In this case, since the transform
+matrix is a (8 x 8) matrix, it has been so far necessary to
+simply execute multiplication and accumulation calculations 4096 times.
+Therefore, in order to realize a discrete cosine transform
+LSI, the important problem is to execute a great amount of
+multiplication and accumulation calculations at high
+</DESCRIPTION>
+<CLAIMS>
+A discrete cosine transform processor for executing both
+discrete cosine transform calculations and inverse
+
+discrete cosine transform on the basis of previously
+stored multiplication and accumulation data, comprising:
+
+
+input means (1) for receiving data to be processed;
+first adding and subtracting means (3, 4) for adding and
+subtracting specified combination of data received by
+
+said input means;
+first selecting means (5) for selectively outputting the
+results of the operations of said first adding and
+
+subtracting means (3, 4) to first memory means (6a) or
+to second memory means (6b); and wherein said first and
+
+second memory means comprising a plurality of memory
+sections;
+said first memory means (6a) for storing multiplication
+and accumulation data corresponding to even-order
+
+coefficients, said first memory means being implemented
+as a ROM of two bank construction having a first bank
+
+for storing multiplication and accumulation data for
+discrete cosine transform and a second bank for storing
+
+multiplication and accumulation data for inverse
+discrete cosine transform;
+said second memory means (6b) for storing multiplication
+and accumulation data corresponding to odd-order
+
+coefficients, said second memory means being implemented 
+as a ROM of one bank construction and storing
+
+multiplication and accumulation data used in common for
+both the discrete cosine transform and the inverse
+
+discrete cosine transform in a first section thereof and
+storing multiplication and accumulation data for the
+
+inverse direction transformation other than data in
+common stored in said first memory section or in a
+
+second memory section; wherein said second memory means
+are programmed by two program lines used in common
+
+irrespective whether a discrete cosine transform or an
+inverse discrete cosine is computed; said selecting
+
+means (5) selectively outputting the results of the
+operations of said first adding and subtracting means to
+
+said first memory means or to said second memory means
+in two continuous 2 digit 2 bit data;
+sign inverting means (7) for inverting signs of the data
+
+used in common for the discrete cosine transform and the
+inverse discrete cosine transform, among said
+
+multiplication and accumulation data supplied by said
+second memory means, said sign inverting means having
+
+complement generators for generating 2's complements of
+said multiplication and accumulation data used in common
+
+for the discrete cosine and inverse discrete cosine and
+inverse discrete cosine transform stored in said second
+
+memory means while said multiplication and accumulation
+data used for the discrete cosine transform are
+
+transmitted as they are supplied by said second memory
+means;
+first accumulation means (11
+1
+-11
+4
+, 12
+1
+-12
+4
+) for
+accumulatively adding said multiplication and
+
+accumulation data read from said first memory means; and
+second accumulation means (11
+5
+-11
+8
+, 12
+5
+-12
+8
+) for
+accumulatively adding said multiplication and
+
+accumulation data read from said second memory means 
+other than the part of the data outputted as they are in
+
+case of a discrete cosine transform and the data
+outputted by said sign inverting means (7), in case of
+
+an inverse discrete cosine transform.
+The discrete cosine transform processor according to
+claim 1, further comprising second selecting means (19)
+
+for selecting any of the data outputted from said first
+memory means and the data passed through said complement
+
+generators.
+The discrete cosine transform processor according to
+claim 1, wherein said first and second memory means are
+
+two port ROMs.
+The discrete cosine transform processor according to
+claim 1, wherein said first and second memory means are
+
+provided with decode signals for reading out data, said
+decode signal being composed of a plurality of data
+
+corresponding to number of pixels.
+The discrete cosine transform processor as defined in
+claim 4, wherein the number of pixels is four.
+The discrete cosine transform processor according to
+claim 1, wherein said sign inverting means include
+
+exclusive OR means.
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,228 @@
+<DOC>
+<DOCNO>EP-0637154</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Control architecture for atm networks.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04L1256	H04L1256	H04Q300	H04Q300	H04Q1104	H04Q1104	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04L	H04L	H04Q	H04Q	H04Q	H04Q	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04L12	H04L12	H04Q3	H04Q3	H04Q11	H04Q11	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A control method and architecture is described for an ATM network carrying
+connectionless data traffic. The method is capable of integrating connection-oriented
+
+as well as connectionless traffic. The method takes advantage of the
+quasi-deterministic nature of the traffic emanating from a source that is being
+
+shaped by the leaky bucket shaping algorithm. Alternative methods are provided
+if such a shaping algorithm is not provided by the CPE which methods still guarantee
+
+performance that equals or exceeds shared media networks such as FDDI.
+Hardware and software embodiments of the methods are disclosed. The invention
+
+is particularly applicable to LANs and hubs.
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+NIPPON ELECTRIC CO
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+NEC CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+DIGHE RAJIV
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ISHII ALEXANDER T
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+RAMAMURTHY GOPOLAKRISHNAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DIGHE, RAJIV
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ISHII, ALEXANDER T.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+RAMAMURTHY, GOPOLAKRISHNAN
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a control architecture for asynchronous transfer 
+mode (ATM) networks, and specifically relates to a burst-level control for 
+controlling access in an ATM network. While the following description describes the invention in conjunction with a 
+LAN, the invention is not so limited and is applicable to any ATM network. There is tremendous interest in the development of ATM based LANs that 
+provide connectivity between local work-stations and servers and are also suitable 
+for use as a hub. Current LAN technologies have media access control which ensures that once 
+a station gains access to the medium, no frame loss results (except due to random 
+noise). Many ATM-based switch architectures, on the other hand, do not have 
+such control. Moreover, because of the limited amount of high speed memory that 
+is provided in a switch, it is possible for there to be significant cell loss, especially 
+when there is hot spot traffic from several bursty sources all directed to a single 
+output port. For example, such a condition occurs in a client server model. The 
+resulting cell loss leads to large frame loss when compared to systems having 
+media access control. Therefore, it is essential that during periods of overload the 
+bandwidth at a hot-spot output port be shared in a manner similar to that in a 
+shared medium network. A solution to implementing media access control and shared bandwidth at 
+a hot-spot output port is to institute a burst-level control that manages media 
+access in an ATM LAN. Burst level control is preferable in an ATM LAN when 
+the following conditions are met: sources generate large bursts (compared to the 
+amount of buffer memory in the switch) that will result in buffer overflows in 
+the absence of any control; blocking a burst at the beginning of the burst is 
+preferable to having retransmissions of bursts already in progress and frequent 
+retransmissions due to cell loss increases the effective load on the system, resulting 
+in an end-to-end throughput that is several times slower than that of a shared 
+medium network. However, it is important that the burst level control be done in real time so 
+that the latencies in admitting new bursts do not become a significant bottleneck. The present invention describes a burst level control method and apparatus  
+ 
+for use in an ATM LAN. The burst level provides both a media access control and 
+a fast and efficient call admission control. By using such a burst level control, not only can ATM LAN performance be 
+compa
+</DESCRIPTION>
+<CLAIMS>
+A method of controlling a channel in an ATM network 
+comprising the steps of: 
+
+   determining a state of a channel between an input port and an output 
+port; 
+
+   when the state is determined to be idle, resources are allocated and a 
+new burst of information is transmitted through said channel; and 
+
+   when the state is determined not to be idle, a new burst of information 
+is not transmitted through said channel. 
+A method as set forth claim 1, 
+wherein when the state is determined to be active, a request to transmit a burst 
+
+of information is queued for later transmission of the burst of information. 
+A method as set forth in claim 1 or 2, 
+   wherein the burst of information is transmitted at different rates when 
+
+the channel is in a compliant mode and in a sustained mode. 
+A method as set forth in claim 1, 2 or 3, 
+   wherein resources are allocated when said new burst of information is to 
+
+be transmitted. 
+A method as set forth in any one of claims 1 to 4, 
+wherein resources are deallocated when the state changes from active to idle. 
+A circuit for controlling a channel in an ATM network comprising: 
+   means for determining the state of a channel between an input port and 
+
+an output port, 
+   means for requesting transmission of a new burst of information when 
+
+the state of a channel is IDLE and for not transmitting a new burst 
+of information when the state of a channel is ACTIVE. 
+A circuit as set forth in claim 
+6, further comprising means for requesting transmission of burst information when 
+
+the state of a channel is determined to be active. 
+A circuit as set forth in claim 6 or 7, 
+   further comprising means for transmitting said burst of information at different 
+
+rates when the state of a channel is in a compliant mode and is a sustained mode. 
+A circuit as set forth in claim 6, 7, or 8, 
+   further comprising means for allocating resources when a new burst of 
+
+information is to be transmitted. 
+A circuit as set forth in any one of claims 6 to 9, 
+further comprising means for deallocating resources when the state of a channel 
+
+changes from active to idle. 
+A circuit for determining a state of a channel in an ATM network comprising: 
+   a first counter for receiving as a first input a signal commensurate with 
+
+a cell of information and for receiving as a second input pulse signals 
+defining a peak rate and for providing an output signal at said peak 
+
+rate; 
+   a first comparator coupled for receiving as a first input said output signal 
+
+from said first counter and for receiving as a second input a signal 
+
+commensurate with the size of said first counter, said first comparator 
+providing an output signal commensurate with the output of said 
+
+first counter being less than the size of said first counter; 
+   a second counter for receiving as a first input a signal commensurate 
+
+with a cell of information and for receiving as a second input pulse 
+signals defining a sustained rate and for providing an output signal 
+
+at said sustained rate; 
+   a second comparator for receiving as a first input said output signal 
+
+of said second counter and for receiving as a second input a signal 
+commensurate with the size of said second counter, said second comparator 
+
+ 
+providing all output signal commensurate with the output of 
+
+said second counter being less than the size of said second counter; 
+   first AND gate means coupled for receiving as a first input a signal indicative 
+
+of the count of said first counter being zero and for receiving 
+as a second input said pulse signals defining a sustained rate and for 
+
+providing an output signal at said sustained rate when said count of 
+said first counter is zero; 
+
+   first flip-flop means coupled for receiving as a first input a signal indicative 
+of the count of said first circuit being zero and for receiving as 
+
+a second input clock pulses and for providing an output signal when 
+the count is non-zero; 
+
+   third counter means coupled to said first AND gate means for counting 
+the quantity of pulses at said sustained rate when the count of said 
+
+first counter is zero and for being coupled to said flip-flop means for 
+being cleared responsive to said output signal from said first flip-flop 
+
+means; 
+   latch means coupled to said third counter means for receiving as a first 
+
+input a carry output from said third counter means and for receiving 
+as a second input said clock pulses and for providing an output signal 
+
+indicative of the channel being in an idle state; 
+   second AND gate means coupled to said latch means for receiving as a 
+
+first input said output signal from said latch means and for receiving 
+as a second input a new cell signal and for providing an output signal 
+
+indicative of a new cell signal being received when said output signal 
+from said latch means indicates the channel being in an idle state; 
+
+   second flip-flop means coupled to make second AND gates means for 
+receiving said output signal from said second AND gate means as a 
+
+first input and for receiving as a second input said clock signal and for 
+providing an output signal indicative of a new burst of information; 
+
+   means coupled for receiving as inputs new cell information, said output 
+ 
+
+signal from said second flip-flop means indicative of a new burst 
+of information; not a new burst of information signal and an ACK 
+
+signal and for providing an output signal indicative of a cell being 
+ready for transmission; and 
+
+   third AND gate means coupled for receiving as inputs said output signal 
+indicative of a cell being ready for transmission from said means 
+
+for receiving said output signal from said first comparator and said 
+output signal from said second comparator and for providing as an 
+
+output signal a signal indicative that a cell is ready for transmission, 
+said output signal also being provided as input signals to said first 
+
+and said second counters. 
+</CLAIMS>
+</TEXT>
+</DOC>

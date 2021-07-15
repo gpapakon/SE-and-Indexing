@@ -1,0 +1,566 @@
+<DOC>
+<DOCNO>EP-0614316</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Apparatuses and methods for moving picture coding and decoding
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04N746	G06T900	H04N754	H04N726	H04N726	H04N746	H04N752	G06T900	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04N	G06T	H04N	H04N	H04N	H04N	H04N	G06T	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04N7	G06T9	H04N7	H04N7	H04N7	H04N7	H04N7	G06T9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The present invention discloses a method of coding image 
+data with coefficients between fields by increasing the 
+
+coefficients prior to coding. The method comprising the steps 
+of: (1) detecting a motion vector in a reference field to a 
+
+sample field to check whether the reference field is zoomed 
+in or out relative to the sample field, data of the reference 
+
+field being coded based on the sample field; (2) zooming out 
+the reference field when the reference field is zoomed in 
+
+relative to the sample field, and zooming in the reference 
+field when the reference field is zoomed out relative to the 
+
+sample field according to the motion vector; and (3) coding the 
+reference field after the reference field has been zoomed 
+
+according to the motion vector in the second step. In the 
+second step, the reference field may be zoomed out by 
+
+eliminating pixels that are not adjacent in one of a vertical 
+
+direction and a horizontal direction. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC IND CO LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC INDUSTRIAL CO., LTD.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+FUJIWARA YUJI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MATUDA TOYOHIKO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NISHINO MASAKAZU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YAMANE YASUHIKO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FUJIWARA, YUJI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MATUDA, TOYOHIKO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NISHINO, MASAKAZU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YAMANE, YASUHIKO
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to an apparatus and method
+for coding and decoding moving pictures using coefficients
+between frames or fields, and more particularly, to a high-efficient
+apparatus and method for coding and decoding a
+sequence of moving pictures that contains zoomed images.In recent years, a variety of techniques have been
+developed in the field of image digitization. Because an image
+is converted into a massive amount of data, the image data
+must be compressed, or reduced in volume, to be recorded or
+transmitted efficiently. For example, a digital video tape
+recorder for a HDTV(High-Definition Television) is furnished
+with a function that codes and decodes an enormous amount of
+image data of moving pictures.FIG. 1A is a block diagram showing a structure of a
+conventional coding unit. More precisely, numeral 1000 is an
+image input unit used to input image data per frame that makes
+up moving pictures. Numerals 1001, 1002 are frame memories for
+temporarily storing image data of two continuous frames, for
+example, frames #0, #1, respectively. The frame referred
+herein is the data of one image that collectively makes up the 
+moving pictures; in case of an interlace display, the frame is
+a field consisting of alternative scanning lines. Numeral 1003
+is an adder for computing a total of image data pixel values
+in the frame memories 1001, 1002. Numeral 1004 is a subtracter
+for computing a balance between the image data pixel values in
+the frame memories 1001, 1002. Numeral 1005 is a selector for
+selecting an output from either the adder 1003 or subtracter
+1004. Numeral 1006 is a discrete cosine transform(DCT) unit
+for dividing a frame formed on the output from the selector
+1005 into a set of 8x8 pixel array blocks to analyze each
+block's frequency. Numeral 1007 is a quantization unit for
+quantizing the frequency into an array using a quantization
+table which specifies an adequate quantization method for each
+frequency. Numeral 1008 is a variable length coding (VLC) unit
+for outputting coded data by converting the quantization
+frequency array into variable length codes; this process is
+also known as "entropy coding".The above-described coding unit converts original image
+data into the coded data by the following steps of (1) dividing
+a frame formed on the total or balance of two continuous
+frames' image data into a set of 8x8 pixel array blocks; (2)
+computing coefficients between the two frames with an
+orthogonal transform; (3) quantizing the coefficients first,
+and then converting the
+</DESCRIPTION>
+<CLAIMS>
+A method of coding image data with coefficients
+between fields by increasing the coefficients prior to coding,
+
+the method comprising the steps of:
+
+(1) detecting a motion vector in a reference field to
+a sample field to check whether the reference field is zoomed
+
+in or out relative to the sample field, data of the reference
+field being coded based on the sample field;
+(2) zooming out (S124) the reference field when the
+reference field is zoomed in relative to the sample field, and
+
+zooming in (S125) the reference field when the reference field
+is zoomed out relative to the sample field according to the
+
+motion vector; and
+(3) coding the reference field after the reference
+field has been zoomed according to the motion vector in the
+
+second step.
+The method of Claim 1, wherein both the sample and
+reference fields comprise a set of alternative scan lines in
+
+case of an interlace display, and comprise one image's data
+otherwise.
+The method of Claim 1, wherein the first step
+includes the substep of checking a group consisting of a
+
+predetermined number of sequential fields to select a most
+zoomed-in field
+ in the group as the sample field.
+The method of Claim 3, wherein a first field in
+the group is the sample field.
+The method of Claim 3, wherein the predetermined
+number is 4.
+The method of Claim 1, wherein the reference field
+is zoomed out by eliminating pixels that are not adjacent in 
+
+one of a vertical direction and a horizontal direction in the
+second step.
+The method of Claim 6, wherein pixels in one line
+and one of a vertically and a horizontally adjacent line are
+
+eliminated in zig-zag in the second step.
+The method of Claim 6, wherein pixels are
+interpolated with a reference to neighboring pixel data when
+
+the reference field is zoomed in in the second step.
+The method of Claim 6, wherein pixels are
+interpolated with a reference to corresponding pixel data in
+
+an adjacent field within the group in the second step.
+The method of Claim 1, wherein the reference
+field is zoomed according to a direction and a size of the
+
+motion vector in the second step.
+The method of Claim 10, wherein the first step
+further includes the substep of checking whether the reference
+
+field is zoomed in or out relative to the sample field based
+on a direction of the motion vector.
+The method of Claim 11, wherein the second step
+includes the substeps of:
+
+
+generating (S1504, S1512) a second pixel address in a
+zoomed reference field according to the size and direction of
+
+the motion vector, the second pixel address mapping to a first
+pixel address in the reference field; and
+reading out (S1505, S1513) pixel data at the first
+pixel address from the reference field to write (S1506, S1514)
+
+the pixel data at the second pixel address.
+The method of Claim 12, wherein the second pixel
+address is generated in such a way that vertically and
+
+horizontally adjacent pixels are not eliminated when the 
+reference field is zoomed out in the pixel-address-generating
+
+substep.
+The method of Claim 13, wherein the second pixel
+address is generated in such a way that pixels are eliminated
+
+in zig-zag in one pixel line and one of a vertically and a
+horizontally adjacent pixel line.
+The method of Claim 12, wherein a third pixel
+address is generated (S1813, S1832) when the reference field
+
+is zoomed in in the pixel-address-generating substep, the
+third pixel address specifying an address where pixel data are
+
+to be interpolated, and
+
+   wherein the pixel data are interpolated (S1815, S1834)
+at the third pixel address in the read/write substep.
+The method of Claim 15, wherein pixels are
+interpolated with a reference to neighboring pixel data when
+
+the reference field is zoomed in in the second step.
+The method of Claim 15, wherein pixels are
+interpolated with a reference to corresponding pixel data in
+
+an adjacent field within the group in the second step.
+The method of Claim 1, wherein the first step
+includes the substeps of:
+
+
+computing (S83, S85) zoom coefficients of an
+approximate equation based on the motion vector, which
+
+represent a first pixel address in the reference field and a
+second pixel address in a zoomed reference field, and
+wherein the reference field is zoomed according to a
+direction and a size of the motion vector in the second step.
+The method of Claim 18, wherein the first step
+further includes the substep of checking whether the reference
+
+field is zoomed in or out relative to the sample field based
+on a direction of the motion vector. 
+The method of Claim 19, wherein the second step
+includes the substeps of
+
+
+generating (S1504, S1512) the first and second pixel
+addresses with the approximate equation; and
+reading out (S1505, S1513) pixel data at the first
+pixel address from the reference field to write (S1506, S1514)
+
+the pixel data at the second pixel address.
+The method of Claim 20, wherein the second pixel
+address is generated in such a way that vertically and
+
+horizontally adjacent pixels are not eliminated when the
+reference field is zoomed out in the pixel-address-generating
+
+substep.
+The method of Claim 21, wherein the second pixel
+address is generated in such a way that pixels are eliminated
+
+in zig-zag in one pixel line and one of a vertically and a
+horizontally adjacent pixel line.
+The method of Claim 22, wherein a third pixel
+address is generated (S1813, S1832) when the reference field
+
+is zoomed in in the pixel-address-generating substep, the
+third pixel address specifying an address where pixel data are
+
+to be interpolated, and
+
+   wherein the pixel data are interpolated (S1815, S1834)
+at the third pixel address in the read/write substep.
+The method of Claim 23, wherein pixels are
+interpolated with a reference to neighboring pixel data when
+
+the reference field is zoomed in in the second step.
+The method of Claim 23, wherein pixels are
+interpolated with a reference to corresponding pixel data in
+
+an adjacent field within the group in the second step.
+The method of Claim 1, wherein the first step
+includes the substeps of: 
+
+
+computing (S83, S85) zoom coefficients of an
+approximate equation based on the motion vector, which
+
+represent a first pixel address in the reference field and a
+second pixel address in a zoomed reference field; and
+generating (S1504, S1512) the first and second pixel
+addresses with the approximate equation;
+
+   the second step includes the substeps of:
+
+reading out (S1505, S1513) pixel data at the first
+pixel address from the reference field to write the pixel data
+
+at the second pixel address;
+generating (S1813, S1832) a third pixel address when
+the reference field is zoomed in, the third pixel address
+
+specifying an address where pixel data are to be interpolated;
+interpolating (S1815, S1834) the pixel data at the
+third address; and
+
+   the third step includes the substep of:
+
+   coding image data generated by one of the substep of
+reading out and the substep of interpolating.
+A method of decoding coded data with zoom
+coefficients between fields when image data have been coded by
+
+a coding method which zooms out or in zoomed-in/out fields
+prior to coding, the method comprising the steps of:
+
+
+(1) decoding coded data into field data;
+(2) generating (S2105, S2108) a first pixel address
+in a decoded field and a second pixel address mapping to the
+
+first pixel address in a zoomed decoded field with the zoom
+coefficients;
+(3) reading out (S2106, S2109) pixel data at the
+first pixel address from the decoded field to write the pixel
+
+data at the second pixel address to zoom the decoded field; 
+(4) generating (S2145, S2150) a third pixel address
+at which pixel data are interpolated when the decoded field is
+
+zoomed in; and
+(5) interpolating (S2147, S2152) the pixel data at
+
+the third pixel address.
+A coding apparatus for coding image data with
+coefficients between fields by increasing the coefficients
+
+prior to coding, the apparatus comprising:
+
+means (103) for temporarily storing a sample field;
+means (103) for temporarily storing a reference field
+which is to be coded based on the sample field;
+means (101) for detecting a motion vector in the
+reference field to the sample field to determine whether the
+
+reference field is zoomed in or out relative to the sample
+field;
+means (104) for zooming in the reference field when the
+reference field is zoomed out relative to the sample field,
+
+and for zooming out the reference field when the reference
+field is zoomed in relative to the sample field according to
+
+the motion vector; and
+means (108) for coding the reference field after it has
+been zoomed according to the motion vector.
+The apparatus of Claim 28, wherein both the sample
+and reference fields comprise a set of alternative scan lines
+
+in case of a interlace display, and comprise one image's data
+otherwise.
+The apparatus of Claim 29, wherein the detecting
+means (101) includes means for checking a group consisting of
+
+a predetermined number of sequential fields to select a most
+zoomed-in field in the group as the sample field. 
+The apparatus of Claim 29, wherein a first field
+in the group is the sample field.
+The apparatus of Claim 30, wherein the
+predetermined number is 4.
+The apparatus of Claim 28, wherein the zooming
+means (104) zooms out the reference field by eliminating
+
+pixels that are not adjacent in one of a horizontal direction
+and a vertical direction.
+The apparatus of Claim 33, wherein the zooming
+means (104) eliminates pixels in one line and one of a
+
+vertically and horizontally adjacent line in zig-zag.
+The apparatus of Claim 33, wherein the zooming
+means (104) interpolates pixels by referring to neighboring
+
+pixel data when the zooming means (104) zooms in the reference
+field.
+The apparatus of Claim 33, wherein the zooming
+means (104) interpolates pixels by referring to corresponding
+
+pixel data in an adjacent field in the group.
+The apparatus of Claim 28, wherein the zooming
+means (104) zooms in the reference field according to a
+
+direction and a size of the motion vector.
+The apparatus of Claim 37, wherein the detecting
+means (101) further includes:
+
+   means for checking whether the reference field is
+zoomed in or out relative to the sample field based on a
+
+direction of the motion vector.
+The apparatus of Claim 38, wherein the apparatus
+further includes:
+
+   means (105) for generating a second pixel address in a
+zoomed reference field according to the size and direction of 
+
+the motion vector, the second pixel address mapping to a first
+pixel address in the reference field; and
+
+   the zooming means includes:
+
+   means (104c) for reading out pixel data at the first
+pixel address from the reference field storage means to write
+
+the pixel data at the second pixel address.
+The apparatus of Claim 39, wherein the pixel-address-generating
+means (105) generates the second pixel
+
+address in such a way that vertically and horizontally
+adjacent pixels are not eliminated when the reference field is
+
+zoomed out.
+The apparatus of Claim 40, wherein the pixel-address-generating
+means (105) generates the second pixel
+
+address in such a way that pixels are eliminated in zig-zag in
+one pixel line and one of a vertically and a horizontally
+
+adjacent pixel line.
+The apparatus of Claim 39, wherein the pixel-address-generating
+means (105) generates a third pixel address
+
+when the reference field is zoomed in, the third pixel address
+specifying an address where pixel data are to be interpolated,
+
+and
+
+   wherein the read/write means (104c) interpolates the
+pixel data at the third pixel address.
+The apparatus of Claim 42, wherein the read/write
+means (104c) interpolates pixels by referring to neighboring
+
+pixel data when the reference field is zoomed.
+The apparatus of Claim 42, wherein the read/write
+means (104c) interpolates pixels by referring to corresponding
+
+pixel data in an adjacent field within the group.
+The apparatus of Claim 28, wherein the apparatus
+further includes: 
+
+
+means (102) for computing zoom coefficients of an
+approximate equation based on the motion vector, which
+
+represent a first pixel address in the reference field and a
+second pixel address in a zoomed reference field, and
+wherein the zooming means (104) zooms the reference
+field according to a direction and a size of the motion
+
+vector.
+The apparatus of Claim 45, wherein the detecting
+means (101) further includes:
+
+   means for checking whether the reference field is
+zoomed in or out relative to the sample field based on a
+
+direction of the motion vector.
+The apparatus of Claim 46, wherein the apparatus
+further includes:
+
+   means (105) for generating the first and second pixel
+addresses with the approximate equation; and
+
+   the zooming means (104) includes:
+
+   means (104c) for reading out pixel data at the first
+pixel address from the reference field to write the pixel data
+
+at the second pixel address.
+The apparatus of Claim 47, wherein the pixel-address-generating
+means (105) generates the second pixel
+
+address in such a way that vertically and horizontally
+adjacent pixels are not eliminated when the reference field is
+
+zoomed out.
+The apparatus of Claim 48, wherein the pixel-address-generating
+means (105) generates the second pixel
+
+address in such a way that pixels are eliminated in zig-zag in
+one pixel line and one of a vertically and a horizontally
+
+adjacent pixel line. 
+The apparatus of Claim 49, wherein the pixel-address-generating
+means (105) generates a third pixel address
+
+when the reference field is zoomed in, the third pixel address
+specifying an address where pixel data are to be interpolated,
+
+and
+
+   wherein the read/write means (104c) interpolates the
+pixel data at the third pixel address.
+The apparatus of Claim 50, wherein the read/write
+means (104c) interpolates pixels by referring to neighboring
+
+pixel data when the reference field is zoomed in.
+The apparatus of Claim 50, wherein the read/write
+means (104c) interpolates pixels by referring to corresponding
+
+pixel data in an adjacent field within the group.
+The apparatus of Claim 28, wherein the apparatus
+further comprises:
+
+
+means (102) for computing zoom coefficients of an
+approximate equation based on the motion vector, which
+
+represent a first pixel address in the reference field and a
+second pixel address in a zoomed reference field;
+means (105) for generating the first and second pixel
+
+addresses with the approximate equation;
+
+   the zooming means (104) includes:
+
+means (104c) for reading out pixel data at the first
+pixel address from the reference field to write the pixel data
+
+at the second pixel address;
+means (104b) for generating a third pixel address when
+the reference field is zoomed in, the third pixel address
+
+specifying an address where pixel data are to be interpolated;
+means (104c) for interpolating the pixel data at the
+third address; and 
+the coding means (108) codes image data generated by
+one of the read/write means (104c) and pixel-data-interpolating
+
+means (104c).
+An apparatus of decoding coded data with zoom
+coefficients between fields when image data have been coded by
+
+a coding method which zooms out or in zoomed-in/out fields
+prior to coding, the apparatus comprising:
+
+
+means (7) for decoding coded data into field data;
+means (201) for temporarily storing data of one decoded
+field;
+means (202) for temporarily storing the zoom
+coefficients associated with the decoded field data in the
+
+decoded-field-data storage means;
+means (204) for generating a first pixel address in the
+decoded field and a second pixel address with the zoom
+
+coefficients, the second pixel mapping to the first pixel
+address in a zoomed decoded field;
+means (203) for reading out pixel data at the first
+pixel address from the decoded-field-data storage means to
+
+write the pixel data at the second pixel address to zoom the
+decoded field;
+means (203) for generating a third pixel address at
+which pixel data are interpolated when the decoded field is
+
+zoomed in; and
+means (203) for interpolating the pixel data at the
+third pixel address.
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,154 @@
+<DOC>
+<DOCNO>EP-0646861</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+A history buffer system
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F938	G06F938	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A history buffer system (12) for allowing the recovery of executed 
+instructions comprises main history buffer (14) for storing addresses of 
+
+issued instructions and at least one subsidiary history buffer (16, 22) 
+associated with a predetermined type of data, such as fixed or floating point 
+
+data. The subsidiary history buffer (16, 22) has a plurality of entries (Y, Z), 
+each entry for storing a pointer to a register (18, 26) and the data stored in 
+
+the register. The main history buffer (14) is arranged to store control data 
+(fxtag, fptag) which associates the entries in a subsidiary history buffer with 
+
+the appropriate issued instructions of the same data type stored in the main 
+history buffer. The main history buffer (14) may comprise a storage entry for 
+
+each issued instruction, each storage entry having a field for storing the 
+address of an issued instruction, and at least one tag field (fxtag, fptag) 
+
+corresponding to the at least one subsidiary history buffer (16, 22) for storing 
+the control data. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MOTOROLA INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MOTOROLA, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+KATZ ITAI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SHOHAM DORON
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+UZRAD ORAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KATZ, ITAI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SHOHAM, DORON
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+UZRAD, ORAN
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to a history buffer system for implementing a
+precise exception model in a processor such that executed instructions may be
+recovered in the event of an exception.A history buffer generally enables the deletion of previously issued
+instructions in a processor which issues instructions speculatively and has out-of-order
+completion. For each issued instruction, a pointer to the destination
+register (i.e. the number of the destination register), and the data stored in the
+destination register, is saved in the history buffer.European patent application no. EP-A-0306891 and an article entitled
+'Implementing Precise Interrupts in Pipelined Processors' by Smith and
+Pleszkun, IEEE Transactions on Computers, vol. 37, no. 5, May 1988, New
+York, US, pages 562 - 573, describe methods for implementing precise
+interrupts including methods using a history buffer.When implementing a history buffer system, several factors need to be
+considered. For example, different instructions have different operands. The
+destination registers of the different instructions usually have different sizes.
+Moreover, some instructions do not effect registers, and in some architectures,
+some instructions effect two registers, each of which may be of a different size.
+For example:
+a fixed point arithmetic instruction effects fixed point registers
+which are 32 bits in size;a floating point arithmetic instruction effects floating point
+registers which are 64 bits in size;a store instruction does not effect any general purpose register;a fixed point load with update instruction effects two fixed point
+registers; anda floating point load with update instruction effects one fixed point
+register and one floating point register.In order to account for the different sizes of the different data types
+which are to be stored in the history buffer, typically a fixed size entry is 
+allocated for each instruction which is large enough for the data having the
+greatest size. For example, an entry having an 64 bit data field (plus other
+fields) is allocated for each instruction. Thus, whenever a fixed point
+instruction is issued, 32 bits (64-32) of the allocated history buffer entry are
+not used. Moreover, whenever a store instruction is issued, none of the
+allocated 64 bits are used.The prior art history buffer systems therefore inefficiently utilise
+storage space, with a result that larger silicon area is required than is
+necessary.In a processor which does not have a floating point unit, a history buffer
+which supports floating
+</DESCRIPTION>
+<CLAIMS>
+A history buffer system (12) for allowing the recovery of executed
+instructions in the event of an exception comprising:
+
+
+a main history buffer (14) for storing addresses of issued instructions,
+the main history buffer comprising a plurality of storage entries, each storage
+
+entry having a field for storing the address of an issued instruction, the history
+buffer system (12) being characterised by:
+at least one subsidiary history buffer (16, 22), each one of the at least
+one subsidiary history buffers being associated with a respective
+
+predetermined type of data, and having a plurality of entries, each entry for
+storing a pointer to a register (18, 26) associated with the respective subsidiary
+
+history buffer and the data of the predetermined type stored in the register, the
+size of each one of the at least one subsidiary history buffers depending on the
+
+predetermined type of data to be stored therein,
+wherein each storage entry of the main history buffer further comprises
+
+at least one tag field corresponding to the at least one subsidiary history buffer
+for storing control data, which control data of an issued instruction of the same
+
+data type as the at least one subsidiary history buffer provides an indication of
+the position of the subsidiary history buffer's issue pointer.
+A history buffer system according to claim 1 wherein a tag field is m bits
+wide, where m corresponds to the number of entries in the corresponding
+
+subsidiary history buffer.
+A history buffer system according to claim 2 wherein a storage entry for
+an issued instruction comprises two m-bit entries in a tag field.
+A history buffer system according to claim 1, 2, or 3 further comprising
+control logic (30, 32) coupled to the main history buffer for using the control
+
+data to determine when all the entries of the corresponding subsidiary history
+buffer are full and for generating a flag in response thereto. 
+A history buffer system according to claims 2 and 4 wherein the control
+logic comprises a logical OR gate (30, 32) for logically combining the bits in the
+
+at least one tag field of all the storage entries, the logical combination providing
+an indication when the subsidiary history buffer is full and the number of
+
+entries in the subsidiary history buffer which have to be recovered from the
+subsidiary history buffer in the event of an exception.
+A history buffer system according to any preceding claim comprising a
+subsidiary history buffer (22) associated with floating point data and a
+
+subsidiary history buffer (16) associated with fixed point data, the main history
+buffer (14) storing control data for the floating point subsidiary history buffer
+
+and control data for the fixed point subsidiary history buffer.
+A history buffer system according to claim 6 wherein a storage entry
+comprises a tag field for the floating point subsidiary history buffer and a tag
+
+field for the fixed point subsidiary history buffer.
+</CLAIMS>
+</TEXT>
+</DOC>

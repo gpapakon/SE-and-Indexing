@@ -1,0 +1,196 @@
+<DOC>
+<DOCNO>EP-0636969</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method for providing an extensible set of auxiliary services for objects in an object-oriented system
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F944	G06F944	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An extensible set of auxiliary services for objects in an object-oriented 
+system. Every object in an object-oriented system is implemented by an 
+
+associated object manager. Each object manager in the present invention has an 
+associated object manager identifier that identifies the object manager. Each object 
+
+manager in the system can optionally provide various auxiliary services for objects 
+that the object manager implements. These auxiliary services are objects 
+
+implemented by the object manager itself, or by another object manager. For a 
+particular type of auxiliary service, different object managers may provide 
+
+different auxiliary services. For example, two object managers may provide two 
+different freeze-melt services. For each type of auxiliary service type, there is a 
+
+well-known context in which auxiliary services of that type are associated with 
+names. For each type of auxiliary service, there is also a well-known function that 
+
+transforms an object manager identifier into a name. When a client of an object 
+needs to access an auxiliary service for an object, the client first invokes an 
+
+operation within the object that provides the object manager identifier for the 
+object manager that manages the object. The client then passes the object manager 
+
+identifier to the well-known function for the desired type of auxiliary service that 
+transforms the object manager identifier into a name. The client resolves the 
+
+transformed name within a well-known context for the type of auxiliary service 
+desired to obtain a representation of the desired auxiliary service. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SUN MICROSYSTEMS INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SUN MICROSYSTEMS, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+NELSON MICHAEL N
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+POWELL MICHAEL L
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+RADIA SANJAY R
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NELSON, MICHAEL N.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+POWELL, MICHAEL L.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+RADIA, SANJAY R.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to the field of object-oriented
+programming. More particularly, the present invention relates to a method for
+providing an extensible set of auxiliary services for objects in an object-oriented
+system and a method for providing secure freeze services.In an object-oriented system, an object comprises a collection of data
+along with a set of functions for manipulating the collection of data. The collection
+of data is referred to as the object's state data. The functions for manipulating the
+state data are referred to as operations. Each object has an associated object
+manager which is the server that implements the operations of the object and
+maintains the collection of data in the object.To perform an operation on an object, a client sends a message to the
+object to "invoke" one of the operations within the object. The message sent to an
+object comprises an operation selector and parameter data. The operation selector
+in the message selects the operation within the object that will be used to
+manipulate the object. The parameter data in the message provides external
+information that will be used by the invoked operation. Alter the operation has 
+completed, the operation usually returns a return value to the client that provides
+the results of the operation invocation.In addition to the unique operations within each object, it is
+convenient to have a set of "auxiliary services" that perform maintenance
+operations on the objects within the system. Examples of auxiliary services
+include a freeze-melt service for creating persistent objects and a duplication
+service for creating copies of objects with different access rights. The auxiliary
+services for an object may be implemented by the object's object manager or by
+another object manager. For a particular auxiliary service type, different object
+managers may provide different auxiliary services. For example, two different
+object managers may provide two different freeze-melt services. Since the
+auxiliary services may perform sensitive operations, access to auxiliary services
+must be made secure.For examples of prior art discussion of object-oriented
+computing systems see EP-A-0 501 601 (Hewlett-Packard) and IBM
+Technical Disclosure Bulletin, vol. 32, no. 10A, March 1990, entitled 'Object
+Data Manager' pp 55-57. It is therefore an objective of the present invention to provide a set of
+auxiliary services for the objects in the object-oriented system.It is a further objective of the present invention to provide said set of
+auxili
+</DESCRIPTION>
+<CLAIMS>
+A method providing an extensible set of auxiliary services for objects in
+an object-oriented system, said object-oriented system comprising first object
+
+manager (30), said first object manager (30) managing a plurality of objects
+(31, 61), said method comprising the steps of:
+
+
+creating a plurality of auxiliary service objects, each of said plurality of
+auxiliary service objects comprising at least one auxiliary service operation;
+providing a name server, said name server comprising a plurality of
+context objects, each of said context objects comprising a plurality of name-to-object
+
+associations
+implementing a "get object manager identifier" operation in each of said
+plurality of objects, said "get object manager identifier" operation returning an
+
+object manager identifier associated with an object manager that manages
+said object;
+transforming said object manager identifier into an auxiliary service
+object name having a desired auxiliary service;
+resolving said auxiliary service object name associated with said
+desired auxiliary service in one of said plurality of context objects to receive a
+
+representation of said auxiliary service object; and
+invoking one of the auxiliary service operations within said auxiliary
+service object using said representation of said auxiliary service object.
+The method providing as claimed in claim 1, wherein said auxiliary
+service object name associated with a desired auxiliary service comprises a
+
+name that identifies said desired auxiliary service with said object manager.
+The method as claimed in claim 1, wherein one of said auxiliary
+services is a freeze-melt service, said freeze-melt service used to make
+
+objects persistent. 
+The method as claimed in claim 1, wherein one of said auxiliary
+services is an object duplication service, said object duplication service used
+
+to create copies of objects.
+The method as claimed in claim 4, wherein said object duplication
+service creates copies of objects with different access rights.
+The method as claimed in claim 1, wherein a new auxiliary service is
+added by implementing said new auxiliary service object and binding at least
+
+one auxiliary service object name to said new auxiliary service object in one of
+said plurality of contexts.
+The method as clamed in claim 1 further comprising the steps of
+
+creating a freeze-melt service object, said freeze-melt service object
+comprising
+ a freeze operation and a melt operation, said freeze-melt service
+object having at least one freeze-melt service object name;
+wherein one of said plurality of name-to-object associations comprises
+an association of said freeze-melt service object name to a representation of
+
+said freeze-melt service object;
+implementing a transformation function that transforms said object
+manager identifier into said freeze-melt service object name;
+obtaining for an object access to both said freeze operation and said
+melt operation by invoking said "get object manager identifier" operation in
+
+said object to obtain said object manager identifier;
+calling said transformation function to transform said object manager
+identifier into said freeze-melt service object name; and
+resolving said freeze-melt service object name in said context object to
+receive a representation of said freeze-melt service object.
+The method as claimed in claim 7, wherein said secure freeze-melt
+service comprises an object implemented by a second object manager.
+The method defined by claim 1 further comprising the steps of 
+
+creating a duplication service object, said duplication service object
+comprising a duplication operation for duplicating objects, said duplication
+
+service object having at least one duplication service object name;
+wherein one of said plurality of name associations comprises an
+association of a duplication service object name to a representation of said
+
+duplication service object;
+implementing a transformation function that transforms said first object
+manager identifier into a duplication service object name;
+obtaining for an object access to said duplication operation by invoking
+said "get object manager identifier" operation in said object to obtain said first
+
+object manager identifier;
+calling said transformation function to transform said first object
+manager identifier into said duplication service object name; and
+resolving said duplication service object name in said context object to
+receive a representation of said duplication service object.
+The method as claimed in claim 9, wherein said secure duplication
+service comprises an object implemented by a second object manager.
+</CLAIMS>
+</TEXT>
+</DOC>

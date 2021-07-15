@@ -1,0 +1,244 @@
+<DOC>
+<DOCNO>EP-0649086</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Microprocessor with speculative execution
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F938	G06F938	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Speculative execution for branches and floating point instructions is supported, in an 
+exemplary embodiment, for a superscalar, superpipelined microprocessor compatible with the 
+
+x86 instruction set architecture. Speculative execution involves issuing speculation instructions 
+(branches and floating point instructions), speculatively issuing instructions past such 
+
+speculation instructions, and checkpointing processor state to enable execution pipeline repair in 
+the case of a branch misprediction or floatin
+g point exception. Speculation control is provided 
+by a branch processing unit (BPU) (40), which includes resolution control (102), resolution 
+
+buffers (104), and speculation level logic (106). The resolution control (a) controls the issue of 
+speculation instructions (branches and floating point instructions) from the ID2 pipe stage, 
+
+including the allocation of a resolution buffer to each speculation instruction that is issued, and 
+(b) controls checkpointing of the processor state in the AC and EX pipe stages, and pipeline 
+
+repair, by broadcasting four speculation control vectors (110) to the pipe stages: checkpoint 
+(111), resolution (112), pipeline repair (113), and target mismatch repair (114). The 
+
+speculation level logic identifies the current speculation level of the execution pipeline, i.e., the 
+number of outstanding, unresolved speculation instructions -- for the exemplary embodiment, 
+
+the maximum speculation level is four (if necessary, a speculation instruction will stall at the ID2 
+stage until the speculation level is three or less). For each speculation instruction, write buffers 
+
+(29) are allocated to queue writes to memory (cache or external) pending resolution of the 
+associated speculation conditions -- in response to the speculation control vectors, speculation 
+
+level logic (29a) in the write buffers retires queued writes by either completing the write if a 
+speculation condition is resolved, or invalidating the write if repair is required. All processor 
+
+resources that can be changed by speculatively issued instructions prior to the speculation 
+instruction being resolved are checkpointed -- certain resources that are only used by selected 
+
+"speculation level zero" instructions that appear infrequently in the typical code stream are not 
+checkpointed. In addition to the maximum speculation lever, issue constraints for speculation 
+
+instructions are: (a) a floating point instruction will issue only if there is not an outstanding 
+branch, and (b) speculation level zero instructions will only be issued if the speculation level is 
+
+zero. Pipeline repair of a speculation error is effected by broadcasting to the AC and EX pipe 
+stages, and the write buffers, the pipeline repair vector, which instructs the AC and EX pipe 
+
+stages to flush the current instruction, and restore from the appropriate checkpoint register 
+(speculation lever for each stage and the write buffers is also adjusted). 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+NAT SEMICONDUCTOR CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+NATIONAL SEMICONDUCTOR CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BLUHM MARK
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GARIBAY RAUL A JR
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HERVIN MARK W
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LIE MILTON
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MCMAHAN STEVEN C
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+QUATTROMANI MARC A
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BLUHM, MARK
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GARIBAY, RAUL A , JR
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HERVIN, MARK W.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LIE, MILTON
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MCMAHAN, STEVEN C.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+QUATTROMANI, MARC A.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The subject matter of this application is related to that disclosed in
+Applications Ser. No. 08/138783 (Atty Docket CX-00180) titled "Branch Processing Unit", filed
+October 18, 1993, Ser No. 08/138789 (Atty Docket CX-00190) titled "Pipelined Processor With
+Independent Instruction Issuing", filed October 18, 1993, and Ser No. 08/138654 (Atty Docket CX-186)
+titled "Control of Data for Speculation Execution and Exception Handling in a
+Microprocessor with Write Buffer", filed October 18, 1993, all assigned to the assignee of this
+application. US 08/138,783 has a published European counterpart
+EP-A-0649084. US 08/138,789 has a published European counterpart EP-A-0649085.
+US 08/138,654 has issued as US 5,524,009.Technical Field. The invention relates generally to pipelined digital processors, and more
+particularly to structures and methods for speculative execution in a pipelined processor. In an
+exemplary embodiment, speculative execution for branches and floating point instructions
+issued to a floating point unit is supported for a superscalar, superpipelined microprocessor
+compatible with the x86 instruction set architecture.Related Art. Computers employ pipeline techniques to reduce the average execution time
+per instruction. An execution pipeline is divided into pipe stages - instructions are executed in
+stages allowing multiple instructions to be overlapped in the pipeline. The goal is for each pipe
+stage to complete all associated operations on an instruction in a clock cycle, such that
+instructions continuously advance to the next pipe stage and an instruction completes execution
+each clock cycle.Pipeline performance is significantly affected by hazards that prevent a pipe stage from
+completing its operations in a single dock cycle, thereby causing pipe stalls or bubbles. Three
+general classes of pipeline hazards are: (a) structural hazards which arise from hardware
+resource conflicts; (b) data hazards which arise from dependency of an instruction on the results
+of a previous instruction; and (c) control hazards which arise from events that change the flow
+of the instruction stream - change of flow instructions and exceptions.Change of flow (COF) hazards significantly impact pipeline performance, typically
+accounting for 15-30% of the instruction mix. For example, in the x86 instruction set
+architecture, COFs occur on the average every four to six instructions. COF instructions include
+branches (including loops), jumps, and call/returns - branches are conditional in that the
+branch may be taken or not
+</DESCRIPTION>
+<CLAIMS>
+A pipelined processor with an execution pipeline including an instruction issue stage, an
+execution stage and at least one intermediate processing stage, the intermediate processing stage and the
+
+execution stage including modifiable processor resources that are modified by instruction processing in that
+stage, the processor selectively issuing branch instructions and then issuing and speculatively processing
+
+subsequent instructions in a predicted direction of a branch, comprising:
+
+a) branch processing means (40) for predicting the direction of a branch instruction, and for
+resolving the branch by determining during or after the execution stage whether the actual predicted branch
+
+direction is correct;
+b) speculation control means (106,29a) for selectively directing the instruction issue stage to
+issue the branch instruction and then, before such branch instruction is resolved, to issue at least one
+
+speculative instruction in the predicted direction of the branch; and
+(c) the or one of the intermediate stages processing the speculative instruction by at least
+modifying the associated modifiable processor resources, prior to the branch being resolved;
+
+characterised in that:
+(d) each of the execution stage and the at least one intermediate stage includes checkpointing
+means (102, 111, 218) for checkpointing the modifiable processor resources for such stage; and
+(e) the speculation control means controls processing of speculative instructions by directing
+the checkpointing means for each stage that processes a branch instruction (i) to checkpoint modifiable
+
+processor resources that a remodified, and in response to a branch misprediction, (ii) to repair such stage by
+restoring processor state using the corresponding modifiable processor resources.
+The processor of Claim 1, wherein the speculation control means selectively provides
+three commands to each checkpointing means: (i) a checkpoint command that directs the
+
+checkpointing means to checkpoint modifiable processor resources that are modified into a
+designated checkpoint register, and after a branch is resolved, either (ii) in the case of a branch
+
+resolved as correctly predicted, a resolution command that directs the checkpointing means to
+deallocate such designated checkpoint register, or (ii) in the case of a branch resolved as
+
+mispredicted, a repair command that directs the checkpointing means to restore processor state
+from such checkpoint register.
+The processor of Claim 2, wherein the repair command is broadcast to each checkpointing
+means, allowing each checkpointing means to initiate the process state restoration substantially
+
+simultaneously.
+The processor of any of Claims 1-3, wherein the speculation control means includes
+speculation level means for maintaining a count of the number of branch instructions that are 
+
+issued but not resolved, and for inhibiting the issue stage from issuing a branch instruction if the
+number of outstanding unresolved branch instructions is equal to a predtermined number.
+The processor of any of Claims 1-4, wherein the speculative control means is inhibited
+from issuing the speculative instructions in the predetermined direction of the branch if such
+
+instruction is subject to a predetermined issue constraint.
+The processor of Claim 5, wherein the checkpointing means for at least one stage
+checkpoints only a subset of the corresponding modifiable processor resources, and wherein a
+
+predetermined issue constraint is that the speculation control means will not issue any
+instruction that would be speculative if processing that instruction in such stage would modify a
+
+processor resource that is not checkpointed. 
+A method of implementing speculative execution in a pipelined processor with an execution
+pipeline including an instruction issue stage, an execution stage and at least one intermediate processing
+
+stage, the intermediate processing stage and the execution stage including modifiable processor resources
+that are modified by instruction processing in that stage, the processor selectively issuing branch
+
+instructions and then issuing and speculatively processing subsequent instructions in a predicted direction
+of a branch, comprising:
+
+
+(a) predicting the direction of a branch instruction, and resolving the branch by determining
+during or after the execution stage whether the actual predicted branch direction is correct;
+(b) selectively directing the instruction issue stage to issue the branch instruction and then,
+before such branch instruction is resolved, to issue at least one speculative instruction in the predicted
+
+direction of the branch; and
+(c) processing the speculative instruction in the at least one intermediate stage, including
+modifying the associated modifiable processor resources, prior to the branch being resolved;
+
+characterized by:
+(d) checkpointing the modifiable processor resources for each of the execution stage and the at
+least one intermediate stage;
+(e) controlling processing of speculative instructions for each stage that processes a branch
+instruction by (i) checkpointing modifiable processor resources that are modified, and in response to branch
+
+misprediction, (ii) repairing such stage by restoring processor state using the corresponding checkpointed
+modifiable processor resources.
+The method of implementing speculative execution of Claim 7, wherein the step of
+controlling processing of speculative instructions is accomplished by selectively providing three
+
+commands to each stage: (i) a checkpoint command to cause checkpointing of modifiable
+processor resources that are modified into a designated checkpoint register, and after a branch
+
+is resolved, either (ii) in the case of a branch resolved as correctly predicted, a resolution
+command to deallocate such designated checkpoint register, or (ii) in the case of a branch
+
+resolved as mispredicted, a repair command restoring processor state from such checkpoint
+register.
+The method of implementing speculative execution of Claim 8, wherein the repair
+command is broadcast to each stage, allowing each repair for each stage to be initiated
+
+substantially simultaneously.
+The method of implementing speculative execution of any of Claims 7-9, further
+comprising the step of: maintaining a count of the number of branch instructions that are issued
+
+but not resolved, and inhibiting the issue stage from issuing a branch instruction if the number
+of outstanding unresolved branch instructions is equal 
+to a predetermined number.
+</CLAIMS>
+</TEXT>
+</DOC>

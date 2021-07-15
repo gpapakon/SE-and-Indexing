@@ -1,0 +1,244 @@
+<DOC>
+<DOCNO>EP-0614281</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Digital high speed algorithmic data recovery method and apparatus
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04L2502	H04L2503	H03L708	H04L2503	H03L7081	H04L2502	H04L7027	H04L7033	H04L7027	H04L7033	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04L	H04L	H03L	H04L	H03L	H04L	H04L	H04L	H04L	H04L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04L25	H04L25	H03L7	H04L25	H03L7	H04L25	H04L7	H04L7	H04L7	H04L7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An all digital data algorithmic recovery method and apparatus which 
+operates at jitter greater than 25% and where run length is more than 1000 bits 
+
+and which uses self calibrated delay elements to phase align a locally 
+generated time ruler reference with the data average transition position to 
+
+reliably establish the sampling time for retrieving data from an incoming binary 
+sequence at the center of the data eye. The phase adjusted time ruler signal 
+
+is used to sample transition positions of the data and the sampled data is 
+statistically analyzed in a state machine wherein the time ruler is a broadband 
+
+signal comprising a first and second base frequency and wherein the period of 
+one of said frequencies is 
+
+
+where F
+R
+ equals the receiver local clock 
+frequency and F
+T
+ equals the frequency of the distant clock. 
+
+ 
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+ADVANCED MICRO DEVICES INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+ADVANCED MICRO DEVICES, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+GUO BIN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GUO, BIN
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to digital algorithmic data recovery for
+serial data transmit/receive systems and particularly to all digital
+method and apparatus for edge position averaging and data/clock
+synchronization.Reference is made to our copending European patent applications
+being filed concurrently herewith and which relate to aspects of our
+high data rate digital data/clock recovery system. The applications
+correspond to our US applications: (1) "Digital Full Range Rotating
+Phase Shifter", serial number 08/021,691 (US-A-5 451 894); filing date Feb. 24 1993;
+inventor Bin Guo; AMD Docket Number A894; and (2) "Digital Variable
+In-Lock Range Phase Comparator", serial number 08/021,712; filing date
+Feb. 24 1993; inventor Bin Guo; AMD Docket Number A911.In additicn, reference is made to our copending European patent
+applications 93304078.4 (EP-A-0 575 059), 93304077.6 (EP-A-0 575 058) and 93304079.2 (EP-A-0 576 150) which relate to
+aspects of the data recovery system described in the present
+application. In serial data transmit/receive systems, the clock information which
+provides the correct timing for data recovery is generally embedded in the data
+stream and there is no separate line or channel to carry a clock signal to the
+receiver. Clock frequency recovery and phase alignment with data is generally
+performed before the received data can be recovered and de-serialized.
+Traditionally, a Phase Locked Loop (PLL) is employed, in which the frequency
+of a Voltage Controlled Oscillator (VCO) is adjusted responsive to the incoming
+data frequency. The phase acquisition can be accomplished by the same
+phase locked loop, or by a separate phase locked loop depending on whether
+a single or a multi-loop system is used. The PLL detects the phase error of the
+recovered clock, or the phase difference between the output of the VCO and
+the incoming data and generates an error signal which is filtered and converted
+to a control voltage to drive the VCO to reduce the phase difference. When the
+phase difference of the two is eliminated or becomes a constant, the VCO
+output is truly a retimed clock since it has an established, known phase in
+relation to the data. In practice, the data is often contaminated with various
+types of noises such that timing or phase jitter is present. The edges i.e., the
+transitions, in the data stream do not always arrive perfectly in time, but rather
+at different "early" or "late" times, causing timing noise known as phase or
+timing jitter. Incorrect phase errors are detected and adjustments to
+</DESCRIPTION>
+<CLAIMS>
+An all digital method for tracking and aligning the phase of a binary receiver
+reference signal to the phase of an incoming serial binary data stream (SERIN), with a bit
+
+rate which is derived from a distant asynchronous oscillator having a specified nominal
+frequency and tolerance, said method comprising:
+
+
+sampling the transition edge positions of transitions of said incoming binary serial
+data stream;
+digitally analysing said transition edge positions by comparing said transition edge
+positions to a phase adjusted reference signal (SBITCK) derived from a local reference
+
+signal (BITCK) which has the same said specified nominal frequency and tolerance as
+said distant asynchronous oscillator; and
+providing digital command signals to shift the relative phase of said phase
+adjusted reference signal (SBITCK) to reduce the phase difference between said
+
+incoming serial binary data signal (SERIN) and said phase adjusted reference signal, by
+launching a pulse derived from said local reference signal into a multistage delay line to
+
+provide said phase adjusted reference signal; 
+characterised in that
+ the analysis of the
+transition edge positions determines the average edge position with reference to the local
+
+reference signal (BITCK) and by the step of compensating said phase adjusted signal by
+causing said phase adjusted reference signal to include a time ruler pulse train with a
+
+frequency spectrum composed of a plurality of time ruler delay signals having different
+base frequencies.
+A method according to claim 1 wherein said frequency spectrum includes a first
+frequency which includes a plurality of cycles of equal period and a second frequency
+
+which includes one cycle of a different period so that the average pulse rate of said local
+reference signal is equal to the pulse rate of said incoming serial binary data whereby
+
+data recovery can be accurately undertaken even in instances of run length of thousands
+of unchanging value bits in said incoming serial binary data.
+A method according to claim 1 or 2 and further comprising generating an end
+stage pointer (ESP) indicating which stage of said multistage delay line (50) would
+
+provide exactly a 360 degree phase shift of said pulse launched into said delay line.
+A method according to claim 3 wherein said step of providing digital command
+signals to shift the relative phase further includes effectively connecting the output of
+
+said stage pointed to by said ESP to said first stage of said delay line (50) to wrap the
+stage selection for phase shift of said reference signal back to the first stage of said local
+
+delay line whenever the delay needed exceeds 360 degrees in phase.
+A method according to claim 1, wherein the multistage delay line comprises a
+plurality of unit delay elements (22,23,24) which are serially connected, each having an
+
+input terminal, an intermediate terminal and an output terminal and the method further
+comprises initiating the generation of the time ruler pulse train upon arrival of the
+
+transitions of the incoming binary serial data stream. 
+A method according to claim 5, wherein the input, intermediate and output
+terminals of the unit delay elements are connected into an edge distribution analyser
+
+circuit (81) for sampling and analysing said time ruler pulse train.
+A method according to claim 6, wherein the sampling of the data stream is
+performed at each input, intermediate and output terminal at the occurrence of a selected
+
+transition of the phase adjustment reference signal, the reference signal and sampled
+signals are combinatorially interconnected to provide a running count of the difference
+
+between the number of the data stream transitions which are early (E) or late (L) with
+respect to the selected transition of the reference signal, and the early versus late
+
+difference count is analysed to generate a correction signal for adjusting the phase of the
+reference signal to drive said early minus late (E-L) difference towards zero.
+A method according to claim 7, wherein the reference signal is provided by
+reference clock, the combinatorial interconnections also provide a running count of the
+
+difference between the number of data stream transitions which are earlier than a first
+predetermined time and the number of data stream transitions which are later than a
+
+second predetermined time, to provide an I-O difference count; and
+
+analysing said difference count to generate a correction signal for adjusting the
+phase of said reference clock to drive said I-O difference count toward a positive
+
+maximum value.
+A method according to claim 8 wherein said difference count corrects for 180
+degree phase shifts and said E-L count corrects for 90 degree phase shifts.
+A method according to claim 8 or 9 wherein the minimum E-L count and the
+maximum I-O difference count are a measure of the phase alignment in said received
+
+serial data.
+An all digital phase lock loop apparatus for performing the method of any one of
+the preceding claims; said apparatus comprising:
+
+
+means for sampling the transition edge positions of incoming serial binary data
+(SERIN) and for determining the edge position with reference to a local
+
+reference signal (BITCK) provided by a reference clock;
+means (30) including a multi stage delay line (50) for generating a time ruler
+pulse train;
+means (56) for adjustably shifting the phase of said time ruler pulse train to
+provide a phase adjusted reference signal and characterised by said sampling means
+
+determining the average edge position, and by
+means (20, 81,82) for comparing said phase adjusted reference signal to the
+average edge position of said incoming serial binary data and for analysing the results of
+
+said comparison wherein said adjustment means (56) acts in response to said analysed
+comparison, and in that said time ruler pulse train has a frequency spectrum composed of a plurality of time ruler delay signals
+
+having different base frequencies.
+An apparatus according to claim 11 wherein said generating means (30) provides
+a frequency spectrum containing at least a first and second base frequency, the first said
+
+base frequency being the frequency corresponding to the period of the local reference
+clock (F
+R
+) multiplied by N, where N is the number of pulses in the adjusted time ruler
+pulse train and wherein the said second base frequency corresponds to a period equal to
+
+T
+1
+ + T
+2
+, where T
+1
+ = 1/F
+R
+ and T
+2
+ = 1/F
+R
+-F
+T
+, where F
+T
+ equals the frequency of a remote
+clock determining the bit rate of the incoming data stream (SERIN).
+An apparatus according to claim 11 or 12 wherein said means (56) for adjustably
+phase shifting includes a 360 degree phase shifter.
+An apparatus according to claim 14, wherein said 360 degree phase shifter
+includes a means to identify exactly at which output in a chain of serially connected delay
+
+elements making up the delay line that a signal in said delay line is exactly in phase with a
+signal which is launched into the first delay element of said delay line and is propagating
+
+in said delay line;
+
+means to mark said identified output in said chain of delay element as the end
+
+point; and
+means to cause the output of the first element of said chain of delay elements to
+provide the next output delay when a larger delay than is available at said end point is
+
+requested whereby the chain of delay elements is wrapped back at the end point.
+</CLAIMS>
+</TEXT>
+</DOC>

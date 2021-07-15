@@ -1,0 +1,499 @@
+<DOC>
+<DOCNO>EP-0614317</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Video signal decoding.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T900	G06T900	H04N726	H04N726	H04N736	H04N736	H04N750	H04N750	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	H04N	H04N	H04N	H04N	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T9	G06T9	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A digital video signal that has been encoded using motion- 
+compensated prediction, transform encoding, and variable-length 
+
+coding, is decoded using parallel processing. Frames of the video 
+signal are divided into slices (1, 2, 3, 4) made up of a sequence of 
+
+macroblocks (MB). The signal to be decoded is slice-wise divided for 
+parallel variable-length decoding. Each variable-length-decoded 
+
+macroblock is divided into its constituent blocks for parallel 
+inverse transform processing. Resulting blocks of difference data 
+
+are added in parallel to corresponding blocks of reference data. The 
+blocks of reference data corresponding to each macroblock are read 
+
+out in parallel from reference data memories (44, 45, 46, 47) on the 
+basis of a motion vector (83) associated with the macroblock. 
+
+Reference data corresponding to each macroblock is distributed for 
+storage among a number of reference data memories. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SONY CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SONY CORP
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+EMOTO SEIICHI C O INTELLECTUAL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KOYANAGI HIDEKI C O INTELLECTU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SUMIHIRO HIROSHI C O INTELLECT
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WADA TOHRU C O INTELLECTUAL PR
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+EMOTO SEIICHI C O INTELLECTUAL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KOYANAGI HIDEKI C O INTELLECTU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SUMIHIRO HIROSHI C O INTELLECT
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WADA TOHRU C O INTELLECTUAL PR
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to decoding of prediction-coded video 
+signals, and more particularly is directed to the application of 
+parallel processing to such decoding. It is known to perform compression coding on video data which 
+represents a moving picture in order to reduce the quantity of data 
+to be recorded and/or transmitted. Such data compression may be 
+useful, for example, in recording/reproducing systems using recording 
+media such as magnetic tape or optical disks, and is also useful in 
+transmission systems such as those used for video teleconferencing, 
+video telephones, television broadcasting (including direct satellite 
+broadcast), and the like. For example, it has been proposed by the 
+Moving Picture Experts Group (MPEG) to compression-code moving 
+picture video data utilizing motion-compensated prediction, transform 
+processing using an orthogonal transformation such as the discrete 
+cosine transform (DCT), and variable-length coding. A system for 
+decoding and reproducing such compression-coded video data is 
+illustrated in block diagram form in Figure 14 of the accompanying 
+drawings. As shown in Figure 14, a sequence of compression-coded video 
+data is provided at an input terminal 101 for processing, in turn, by 
+an inverse VLC (variable-length coding) circuit 102, an inverse 
+quantization circuit 103, and an inverse DCT circuit 104. An adding 
+circuit 105 forms a reconstructed frame of video data on the basis of 
+a difference signal provided from the inverse DCT circuit 104 and 
+predictive picture data (reference data) provided from a motion 
+compensation circuit 106. The resulting reconstructed video data is 
+stored in a frame memory 107. The motion compensation circuit 106 forms the predictive 
+picture data from reconstructed data previously stored in frame 107 
+on the basis of motion compensation information (including, for 
+example, motion vectors) extracted from the input signal and supplied 
+to the motion compensation circuit 106 by the inverse VLC circuit 
+102. Alternatively, with respect to frames for which predictive 
+coding was not performed, such as "intra-frame" coded data, the 
+motion compensation circuit 106 simply provides the value "0" to the  
+ 
+adder 105. Reconstructed frames of video data are output from the 
+frame memory 107 via a digital-to-analog converter 108 for display by 
+a display device 109. As the number of pixels in each frame of the video signal has 
+increased from, for example, the 352 x 240 frame used for video 
+telephones to the 720 x 480 frame
+</DESCRIPTION>
+<CLAIMS>
+An apparatus for decoding a coded video signal that represents 
+an image frame, said coded video signal having been divided into a 
+
+plurality of slices (1, 2, 3, 4), each of said slices being a 
+sequence of macroblocks (MB), each of said macroblocks being a two-dimensional 
+
+array of picture elements of said image frame, said coded 
+video signal being a bit stream that represents a sequence of said 
+
+slices which together represent said image frame, said bit stream 
+including a plurality of synchronizing code signals, each of which is 
+
+associated with a respective one of said slices for indicating a 
+beginning of the respective slice, the apparatus comprising: 
+
+   a plurality of decoding means (30, 31, 32, 33), each for 
+decoding a respective portion of said coded video signal that 
+
+represents said image frame; and 
+   distributing means (25) responsive to said synchronizing code 
+
+signals for distributing said slices among said plurality of decoding 
+means. 
+An apparatus according to claim 1, wherein said plurality of 
+decoding means is fewer in number than said plurality of slices into 
+
+which said coded video signal which represents said image frame was 
+divided, and said distributing means distributes said slices in 
+
+cyclical fashion among said decoding means. 
+An apparatus according to any one of claims 1 and 2, wherein 
+each of said slices represents a portion of said image frame which is 
+
+one macroblock high and extends horizontally entirely across said 
+image frame. 
+An apparatus according to claim 3, wherein each of said 
+macroblocks is a 16 x 16 array of said picture elements. 
+An apparatus for decoding input signal blocks that were formed 
+by transform encoding and then variable-length encoding blocks of 
+
+video data, the apparatus comprising:
+ 
+
+   decoding means (30, 31, 32. 33) for variable-length decoding a 
+series of said input signal blocks; 
+
+   parallel data means (34) for forming plural parallel data 
+streams, each of which includes respective ones of said series of 
+
+input signal blocks which were variable-length decoded by said 
+decoding means; and 
+
+   a plurality of inverse transform means (39, 40, 41, 42) each 
+for receiving a respective one of said parallel data streams and for 
+
+performing inverse transform processing on the variable-length 
+decoded signal blocks in the respective data stream. 
+An apparatus according to claim 5, wherein said decoding means 
+is one of a plurality of decoding means for variable-length decoding 
+
+respective series of input signal blocks; and further comprising 
+distributing means (25) for forming said respective series of input 
+
+signal blocks to be decoded by said plural decoding means from a bit 
+stream representing an image frame and in response to synchronizing 
+
+signals provided at predetermined intervals in said bit stream 
+representing said image frame. 
+An apparatus for decoding an input digital video signal which 
+includes groups of blocks (83) of prediction-coded difference data, 
+
+each of said groups consisting of a predetermined plurality of said 
+blocks (MB) and having a respective motion vector (82) associated 
+
+therewith, each of said blocks of prediction-coded difference data 
+having been formed on the basis of the respective motion vector 
+
+associated with the respective group which includes said block, the 
+apparatus comprising: 
+
+   output means (39, 40, 41, 42) for supplying in parallel blocks 
+of prediction-coded difference data contained in one of said groups 
+
+of blocks; 
+   reference data means (43, 53, 54, 55, 56, 48, 49, 50, 51) for 
+
+supplying in parallel plural blocks of reference data, each of said 
+blocks of reference data being formed on the basis of the motion 
+
+vector associated with said one of said groups of blocks and 
+corresponding to one of said blocks of prediction-coded difference 
+
+data supplied by said output means; and
+ 
+
+   a plurality of adding means (57, 58, 59, 60) each connected to 
+said output means and said reference data means for adding a 
+
+respective one of said blocks of prediction-coded difference data and 
+the corresponding block of reference data. 
+An apparatus according to claim 7, wherein each of said groups 
+of blocks is a macroblock which includes four blocks of prediction-coded 
+
+data and said plurality of adding means consists of four adders 
+(57, 58, 59, 60) operating in parallel. 
+An apparatus according to any one of claims 7 and 8, wherein 
+said reference data means comprises: 
+
+   a plurality of reference data memories (44, 45, 46, 47) from 
+which reference data is read out in parallel on the basis of said 
+
+motion vector associated with said one of said groups of blocks; 
+   a plurality of buffer memories (48, 49, 50, 51), each for 
+
+temporarily storing the reference data read out from a respective one 
+of said plurality of reference data memories and for reading out the 
+
+temporarily stored data on the basis of said motion vector associated 
+with said one of said group of blocks; and 
+
+   distributing means (52) connected between said buffer memories 
+and said adding means for distributing among said plurality of adding 
+
+means, on the basis of said motion vector associated with said one of 
+said groups of blocks, the reference data read out from said 
+
+plurality of buffer memories. 
+An apparatus according to any one of claims 7 and 8, wherein 
+said reference data means comprises: 
+
+   a plurality of reference data memories (44, 45, 46, 47) from 
+which reference data is read out in parallel on the basis of said 
+
+motion vector associated with said one of said groups of blocks; 
+   a plurality of buffer memories (48, 40, 50, 51), each connected 
+
+to a respective one of said adding means, for temporarily storing 
+reference data read out from said plurality of reference data 
+
+memories and for supplying the temporarily stored reference data to 
+its respective adding means; and
+
+ 
+   distributing means (52) connected between said reference data 
+
+memories and said buffer memories for distributing among the 
+plurality of buffer memories, on the basis of said motion vector 
+
+associated with said one of said groups of blocks, the reference data 
+read out from the plurality of reference data memories. 
+An apparatus according to claim 10, wherein each of said buffer 
+memories temporarily stores reference data read out from every one of 
+
+said reference data memories. 
+An apparatus according to any one of claims 7 to 11, wherein 
+said input digital video signal includes input signal blocks that 
+
+were formed by transform encoding and then variable-length encoding 
+blocks of prediction-coded difference data, and said output means 
+
+comprises: 
+   decoding means (30, 31, 32, 33) for variable-length decoding a 
+
+series of said input signal blocks; 
+   parallel data means (34) for forming plural parallel data 
+
+streams, each of which includes respective ones of said series of 
+input signal blocks which were variable-length decoded by said 
+
+decoding means; and 
+   a plurality of inverse transform means (39, 40, 41, 42) each 
+
+for receiving a respective one of said parallel data streams and for 
+performing inverse transform processing on the variable-length 
+
+decoded signal blocks in the respective data stream to form blocks of 
+prediction-coded difference data that are supplied to said adding 
+
+means. 
+An apparatus according to claim 12, wherein said decoding means 
+is one of a plurality of decoding means (30, 31, 32, 33) for 
+
+variable-length decoding respective series of input signal 
+blocks; and further comprising distributing means (25) for forming 
+
+said respective series of input signal blocks to be decoded by said 
+plural decoding means from a bit stream representing an image frame 
+
+and in response to synchronizing signals provided at predetermined 
+intervals in said bit stream representing said image frame. 
+A method of decoding a coded video signal that represents an 
+image frame, said coded video signal having been divided into a 
+
+plurality of slices (1, 2, 3, 4), each of said slices being a 
+sequence of macroblocks (MB), each of said macroblocks being a two-dimensional 
+
+array of picture elements of said image frame, said coded 
+video signal being a bit stream that represents a sequence of said 
+
+slices which together represent said image frame, said bit stream 
+including a plurality of synchronizing code signals, each of which is 
+
+associated with a respective one of said slices for indicating a 
+beginning of the respective slice, the method comprising the steps 
+
+of: 
+   providing a plurality of decoding means (30, 31, 32, 33), each 
+
+for decoding a respective portion of said coded signal that 
+represents said video frame; and 
+
+   distributing said slices among said plurality of decoding means 
+in response to said synchronizi
+ng code signals. 
+A method according to claim 14, wherein said plurality of 
+decoding means is fewer in number than said plurality of slices into 
+
+which said coded video signal which represents said image frame was 
+divided, and said distributing step includes distributing said slices 
+
+in cyclical fashion among said decoding means. 
+A method according to claim 14, wherein each of said slices 
+represents a portion of said image frame which is one macroblock high 
+
+and extends entirely across said image frame. 
+A method according to claim 16, wherein each of said 
+macroblocks is a 16 x 16 array of said picture elements. 
+A method of decoding input signal blocks that were formed by 
+transform encoding and then variable-length encoding blocks of video 
+
+data, the method comprising the steps of: 
+   variable-length decoding a series of said input signal blocks; 
+
+   forming plural parallel data streams, each of which includes 
+respective ones of said variable-length decoded series of input 
+
+signal blocks; and
+ 
+
+   performing, in parallel, inverse transform processing on the 
+variable-length decoded signal blocks in the respective data streams. 
+A method according to claim 18, further comprising the steps 
+of: 
+
+   forming in parallel plural series of input signal blocks from a 
+bit stream representing an image frame of input video signals and in 
+
+response to synchronizing signals provided at predetermined intervals 
+in said bit stream representing said frame of input signals; and 
+
+   variable-length decoding, in parallel, the plural series of 
+input signal blocks. 
+A method according to claim 19, further comprising the step of 
+distributing variable-length decoded input signal blocks from every 
+
+one of said plural series of input signal blocks to each of said 
+plural parallel data streams. 
+A method of decoding an input digital video signal which 
+includes groups of blocks of prediction-coded difference data, each 
+
+of said groups consisting of a predetermined plurality of said blocks 
+and having a respective motion vector associated therewith, each of 
+
+said blocks of prediction-coded difference data having been formed on 
+the basis of the respective motion vector associated with the 
+
+respective group which includes said block, the method comprising the 
+steps of: 
+
+   outputting in parallel blocks of prediction-coded difference 
+data contained in one of said groups of blocks; 
+
+   reading out in parallel from memory, on the basis of the motion 
+vector associated with said one of said groups of blocks, plural 
+
+blocks of reference data, each of said blocks of reference data 
+corresponding to one of said blocks of prediction-coded difference 
+
+data; and 
+   respectively adding, in parallel, the blocks of prediction-coded 
+
+difference data contained in said one of said groups of blocks 
+and the corresponding blocks of reference data. 
+A method according to claim 21, wherein said reading out step 
+comprises the sub-steps of: 
+
+   reading out the reference data from a plurality of memories on 
+the basis of the motion vector associated with said one of said 
+
+groups of blocks; 
+   distributing, on the basis of the motion vector associated with 
+
+said one of said groups of blocks, the reference data read out from 
+the plurality of memories; 
+
+   temporarily storing the distributed reference data; and 
+   reading out the temporarily stored data. 
+A method according to any one of claims 21 and 22, wherein said 
+input digital video signal includes input signal blocks that were 
+
+formed by transform-encoding and then variable-length encoding blocks 
+of prediction-coded difference data, said outputting step comprising 
+
+the sub-steps of: 
+   variable length decoding a series of said input signal blocks; 
+
+   forming plural parallel data streams, each of which includes 
+respective ones of said variable-length decoded series of input 
+
+signal blocks; and 
+   performing, in parallel, inverse transform processing on the 
+
+variable-length decoded signal blocks in the respective data streams. 
+A method according to claim 23, further comprising the steps 
+of: 
+
+   forming in parallel plural series of input signal blocks from a 
+bit stream representing an image frame of input video signals and in 
+
+response to synchronizing signals provided at predetermined intervals 
+in said bit stream representing said frame of input signals; and 
+
+   variable-length decoding, in parallel, the plural series of 
+input signal blocks. 
+A method of decoding a prediction-coded video signal that 
+represents an image frame, said prediction-coded video signal having 
+
+been divided into a plurality of macroblocks, each of said 
+macroblocks being a two-dimensional array of picture elements of said 
+
+image frame, the method comprising the steps of:
+ 
+
+   providing a plurality of memories each for storing reference 
+data which corresponds to a respective portion of said image frame, 
+
+said plurality of memories together storing reference data which 
+represents a complete image frame; and 
+
+   distributing data representing a reconstructed image frame for 
+storage in said plurality of memories such that a portion of each 
+
+macroblock of the reconstructed image frame is stored in each of said 
+plurality of memories. 
+A method according to claim 25, wherein said macroblocks are 
+each composed of a predetermined number of two-dimensional blocks and 
+
+each of said plurality of memories stores corresponding blocks from 
+all of the macroblocks of an image frame. 
+A method according to claim 26, wherein said plurality of 
+memories consists of first, second, third and fourth memories, said 
+
+macroblocks are each composed of four blocks which respectively 
+represent upper left, upper right, lower left and lower right 
+
+quadrants of the respective macroblock, and said distributing step 
+comprises: 
+
+   storing in the first memory the blocks representing the upper 
+left quadrants of all of the macroblocks; 
+
+   storing in the second memory the blocks representing the upper 
+right quadrants of all of the macroblocks; 
+
+   storing in the third memory the blocks representing the lower 
+left quadrants of all of the macroblocks; and 
+
+   storing in the fourth memory the blocks representing the lower 
+right quadrants of all of the macroblocks. 
+A method according to any one of claims 25, 26 and 27, wherein 
+said distributing step comprises storing a first line of each of said 
+
+macroblocks in a first one of said plurality of memories and storing 
+a second line of each of said macroblocks in a second one of said 
+
+plurality of memories. 
+A method according to claim 28, wherein each of said 
+macroblocks is composed of a number of lines that is an integral 
+
+ 
+multiple of a number of memories that forms said plurality of 
+
+memories, and said distributing step comprises distributing said 
+lines of each macroblock in cyclical fashion among said memories. 
+A method according to claim 29, wherein each of said 
+macroblocks is composed of sixteen lines, and said number of memories 
+
+is four. 
+</CLAIMS>
+</TEXT>
+</DOC>

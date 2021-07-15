@@ -1,0 +1,185 @@
+<DOC>
+<DOCNO>EP-0612025</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Apparatus and method for the visualisation of a three-dimensional scene by means of maximum intensity projection.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T1100	G06T1100	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T11	G06T11	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An arrangement and a method for maximum intensity projection of a 
+three-dimensional scene on a two dimensional display (11), 
+via
+ the calculation of first or 
+higher-order interpolated values of points (P₁, ..., P
+m
+) along rays (61) casted through a 
+voxel representation (50) of said scene, is improved in speed. The improvement is 
+
+achieved by, firstly, determining an estimated minimum value for the ray (61) under 
+consideration and for each sample point (P
+k
+) an estimated maximum value for the 
+interpolated value. Only if the estimated maximum value for a point exceeds the 
+
+estimated minimum value for the ray (61), an interpolation is required. Both estimated 
+extremes are obtained by comparing the values contributing to the interpolations, the 
+
+estimated minimum value by an analogue procedure or by reference to a neighbouring 
+ray. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+KONINKL PHILIPS ELECTRONICS NV
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+PHILIPS NV
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+ZUIDERVELD KAREL JAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ZUIDERVELD KAREL JAN C O INT O
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The invention relates to an arrangement for the visualisation of a three-dimensional 
+scene by means of maximum intensity projection (MIP), the arrangement 
+comprising a display having a two-dimensional matrix of pixels; a memory for storing 
+data representing the three-dimensional scene as a plurality of voxel values; and 
+computing means, having access to said memory, for assigning to pixels of the display a 
+greyvalue being a maximum of interpolated greyvalues along rays through the scene, 
+associated with said pixels. Such an arrangement or workstation is, for example, used 
+for inspection of images of a volume of which the distribution of a parameter is 
+obtained in three dimensions by means of a technique such as magnetic resonance 
+imaging or three-dimensional computed tomography. In particular, MIP is a technique 
+often used in clinical applications of magnetic resonance angiography (MRA). With MRA, volume data is usually too noisy for providing satisfactory 
+projection images using techniques based on extraction and shadowing of surfaces. With 
+MIP, for each pixel of the output image a ray is casted through the image volume. The 
+maximum greyvalue encountered along said ray, i.e. at any one of the sample positions 
+at which the greyvalue is calculated, is used as the resulting greyvalue of the pixel. As the casted rays or the sample points do, in general, not coincide with 
+voxel centres, the greyvalues associated with the sample points have to be calculated 
+from nearby voxel values. Good image quality can be obtained by trilinear (first order) 
+interpolation of voxel values. Even better image quality can be obtained by using more 
+complex methods of (higher order) interpolation. First or higher order interpolations are computational expensive 
+operations. When floating point operations are used, calculation of an MIP image 
+having 256² pixels, typically requires in the order of 0,5 GFLOPS (5-10⁸ floating point  
+ 
+operations) if a trilinear interpolation is used. On a currently commercially available 
+workstation this represents a total processing time of about one minute. With clinical 
+application of MIP, it is desirable to calculate multiple high-quality projection images. 
+An often used way of presentation is in the form of a sequence of projection images 
+with angles which differ only slightly (3°-6°) from each other. Since the resulting 
+images have to be available within a short period, the high computational requirements 
+associated with trilinear or higher order interpolation are
+</DESCRIPTION>
+<CLAIMS>
+Arrangement (10) for the visualisation of a three-dimensional scene by 
+means of maximum intensity projection (MIP), the arrangement comprising 
+
+
+a display (11) having a two-dimensional matrix of pixels; 
+a memory (12) for storing data representing the three-dimensional scene as a 
+plurality of voxel values; 
+computing means (13), having access to said memory (12), for assigning to 
+pixels of the display a greyvalue being a maximum of interpolated greyvalues 
+
+along rays through the scene, associated with said pixels; 
+ 
+said computing means (13) being arranged 
+
+
+a) for determining, for each ray (61), an estimated minimum greyvalue; 
+b) for determining for each point (Pk) of a plurality of points (P₁, ..., Pm) along 
+said ray (61) an estimated maximum greyvalue, said estimated maximum 
+
+greyvalue being derived from the voxel values of voxels within a predetermined 
+neighbourhood around said point (Pk); 
+c) for comparing each estimated maximum greyvalues of said points with said 
+estimated minimum greyvalue for said ray (61); 
+d) for calculating an interpolated greyvalue for a point (Pk) in case for said point 
+(Pk) along the ray the estimated maximum greyvalue exceeds said estimated 
+
+minimum greyvalue; and 
+e) for determining the maximum of the interpolated greyvalues for assignment to 
+the pixel to which said ray (61) is associated. 
+Arrangement according to Claim 1, wherein the computing means (13) is 
+arranged for handling sequentially in time the points (P₁, ..., Pm) along said ray, said 
+
+handling comprising for each point (Pk, k=1,..., m) 
+
+determining the estimated maximum greyvalue; 
+comparing said estimated maximum greyvalue with the largest interpolated 
+greyvalue determined for any of the points along said ray already handled; and 
+skipping the calculation of an interpolated greyvalue if said estimated maximum 
+greyvalue does not exceed said largest interpolated greyvalue. 
+Arrangement according to Claim 1 or 2 wherein the computing means 
+(13) is arranged for determining the estimated maximum greyvalue of a point (Pk) as the 
+
+maximum of all voxel values within a predetermined neighbourhood of the point. 
+Arrangement according to Claim 1, 2, or 3, wherein the computing means 
+(13) is arranged for determining an estimated minimum greyvalue for a ray (61) by 
+
+
+determining for each sample point (Pk, k=1,...,m) on said ray a minimum 
+value being the minimum of voxel values within a predetermined neighbourhood 
+
+of that sample point (Pk) and 
+establishing the maximum of said minimum values as the estimated minimum 
+greyvalue. 
+Arrangement according to Claim 1, 2, or 3, wherein the computing means 
+(13) is arranged for determining an estimated minimum greyvalue for a ray (61) by 
+
+calculating the interpolated greyvalue of a sample point on said ray, said sample point 
+having a relatively small geometrical distance to a position where an adjacent ray is 
+
+determined to have a large or its maximum greyvalue. 
+Arrangement according to any of the preceding Claims comprising an 
+additional memory and computing means for storing in said additional memory for each 
+
+voxel a local minimum value and/or a local maximum value, said local minimum or 
+local maximum values being the minimum or maximum values of all voxel values 
+
+within a predetermined neighbourhood from said voxel. 
+Arrangement according to Claim 6, in which the voxels are arranged in a 
+three-dimensional rectangular matrix and in which said predetermined neighbourhood 
+
+for a point comprises the voxel in which the point is located and all adjacent voxels. 
+Arrangement according to any of the preceding Claims, in which the 
+computing means is arranged for calculating an interpolated greyvalue by means of a 
+
+three-dimensional linear interpolation. 
+Method for calculating, from a dataset of voxel values representing a 
+scene in three-dimensions, a maximum intensity projection (MIP) along a plurality of 
+
+rays wherein to each ray a greyvalue is assigned, being a maximum of interpolated 
+greyvalues along said ray, in which method for each ray 
+
+
+a) an estimated minimum greyvalue is determined; 
+b) for each of a plurality of points along said ray an estimated maximum greyvalue 
+is determined, said estimated maximum greyvalue being derived from the voxel 
+
+values of voxels within a predetermined neighbourhood around said point; 
+c) each estimated maximum greyvalue of said points is compared with said 
+estimated minimum greyvalue; 
+d) if it is established that, for a point along the ray an estimated maximum 
+greyvalue exceeds said estimated minimum greyvalue an interpolated greyvalue 
+
+for said point is calculated; and 
+e) the maximum of the interpolated greyvalues is determined. 
+Method according to Claim 9 in which a preprocessing step is performed, 
+the preprocessing step comprising the calculation and storage of a local minimum value 
+
+and/or a local maximum value for each voxel, said local minimum or local maximum 
+values being the minimum or maximum values of all voxel values within a 
+
+predetermined neighbourhood from said voxel. 
+</CLAIMS>
+</TEXT>
+</DOC>

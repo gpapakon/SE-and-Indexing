@@ -1,0 +1,546 @@
+<DOC>
+<DOCNO>EP-0615350</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method of identifying an unknown system with a band-splitting adaptive filter and a device thereof
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04B306	H04B323	H04B323	H04B306	H04B321	H04B320	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04B	H04B	H04B	H04B	H04B	H04B	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04B3	H04B3	H04B3	H04B3	H04B3	H04B3	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An object of the present invention is to offer an 
+art of identifying an unknown system to provide less 
+
+computation and a shorter convergence time by 
+controlling the number of taps of the adaptive filter 
+
+corresponding to each subband. 
+The configuration of the present invention 
+comprises: a step of splitting an input signal to an 
+
+unknown system and generating a plurality of subband 
+signals; a step of splitting an output signal from said 
+
+unknown system and generating a plurality of subband 
+reference signals; a step of filtering said subband 
+
+signals with a plurality of adaptive filters and 
+generating a plurality of replica signals corresponding 
+
+to said subband reference signals; a step of generating 
+a plurality of subband error signals based on 
+
+differences between said subband reference signals and 
+said replica signals; a step of updating coefficient 
+
+values of said adaptive filters using said subband error 
+signals; and a step of adaptively controlling the number 
+
+of taps of said adaptive filters using data on said 
+adaptive filters. 
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+NIPPON ELECTRIC CO
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+NEC CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+SUGIYAMA AKIHIKO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SUGIYAMA, AKIHIKO
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a method and a device
+identifying an unknown system such as a transmission path,
+an acoustic coupling path or the like.Echo cancellers, noise cancellers, howling cancellers,
+equalizers and the like are known as applications for
+unknown system identification with an adaptive filter.
+Here, using an acoustic echo canceller removing acoustic
+echo leaking into a microphone from a speaker in an
+acoustic coupling path as an example, a prior art is
+explained.An echo canceller uses an adaptive filter having a
+larger number of tap coefficients than the impulse response
+length of an echo path, generates an echo replica
+corresponding to a transmission signal and reduces acoustic
+echo leaking into a microphone from a speaker in an
+acoustic coupling path. At this time, each tap coefficient
+of the adaptive filter is corrected based on correlation
+between a far-end signal and an error signal that is
+obtained by subtracting the echo replica from a mixed
+signal in which echoes and a near-end signal exist in
+mixture. Following papers are known as typical coefficient
+adaptation algorithms for such an adaptive filter; "LMS
+Algorithm" (Proceedings of IEEE, pp.1692-1716, Vol.63-No.12,
+1975; hereinafter referred to as Paper 1) and
+"Learning Identification Method; LIM" (IEEE Transactions
+on Automatic Control, pp.282-287, Vol.12-No.3, 1967;
+hereinafter referred to as Paper 2).The impulse response length of the acoustic space
+where an acoustic echo canceller is actually used is
+dependent on physical dimensions of the acoustic space
+and a reflection factor of the wall. For example,
+assuming a teleconference room, the impulse response
+length of the room reaches 1,000 taps and sometimes
+several thousands taps. From the viewpoint of
+computation and hardware size, realization of such an
+echo canceller is extremely difficult in this case.
+Therefore, subband adaptive filters are proposed to
+solve problems such as increased amount of computation
+and the like. "IEEE SP Magazine" (pp.14-37, January in
+1992; hereinafter referred to as Paper 3).First, according to a method of Paper 3 shown in
+Fig.11, an input signal is divided into a plurality of
+subbands with an analysis filter bank 3 and subband
+input signals are generated. This subband input signal
+is decimated by a factor of L1 in decimation circuits 50i 
+(i=1, 2,....., K) and is supplied to the adaptive
+filters 61i (i=1, 2,....., K) that are independent each
+other. Li is usually set as Li=K.On the other hand, an output of unknown system 2 to
+be
+</DESCRIPTION>
+<CLAIMS>
+A method of identifying an unknown system with a
+subband adaptive filter comprising:
+
+
+a step of splitting an input signal to an unknown
+system and generating a plurality of subband signals;
+a step of splitting an output signal from said
+unknown system and generating a plurality of subband
+
+reference signals;
+a step of filtering said subband signals with a
+plurality of adaptive filters and generating a plurality
+
+of replica signals corresponding to said subband
+reference signals;
+a step of generating a plurality of subband error
+signals based on differences between said subband
+
+reference signals and said replica signals;
+a step of updating coefficient values of said
+adaptive filters using said subband error signals; and
+a step of adaptively controlling the number of taps to be allocated to each of said
+adaptive filters based on coefficient values of said respective adaptive filters or
+
+based on subband error signals corresponding to said respective adaptive filters.
+The method of identifying an unknown system with a
+subband adaptive filter of claim 1, wherein said data on
+
+respective adaptive filters comprise data on coefficient
+values of said respective adaptive filters.
+The method of identifying an unknown system with a 
+subband adaptive filter of claim 2, wherein said data on
+
+coefficient values of said respective adaptive filters
+comprise squares of coefficient values of said
+
+respective adaptive filters.
+The method of identifying an unknown system with a
+subband adaptive filter of claim 2, wherein said data on
+
+coefficient values of said adaptive filters comprise
+averages of squares of respective coefficient values of
+
+said adaptive filters.
+The method of identifying an unknown system with a
+subband adaptive filter of claim 2, wherein said data on
+
+coefficient values of said respective adaptive filters
+comprise absolute values of coefficient values of
+
+said respective adaptive filters.
+The method of identifying an unknown system with a
+subband adaptive filter of claim 2, wherein said data on
+
+coefficient values of said respective adaptive filters
+comprise averages of absolute values of coefficient
+
+values of said respective adaptive filters.
+The method of identifying an unknown system with a
+subband adaptive filter of claim 1, wherein said data on
+
+said adaptive filters comprise data on subband error
+signals corresponding to said respective adaptive
+
+filters.
+The method of identifying an unknown system with a 
+subband adaptive filter of claim 7, wherein said data on
+
+subband error signals comprise squares of respective
+subband error signals corresponding to said respective
+
+adaptive filters.
+The method of identifying an unknown system with a
+subband adaptive filter of claim 7, wherein said data on
+
+subband error signals comprise averages of squares of
+respective subband error signals corresponding to said
+
+respective adaptive filters.
+The method of identifying an unknown system with a
+subband adaptive filter of claim 7, wherein said data on
+
+subband error signals comprise absolute values of
+respective subband error signals corresponding to said
+
+respective adaptive filters.
+The method of identifying an unknown system with a
+subband adaptive filter of claim 7, wherein said data on
+
+subband error signals comprise averages of absolute
+values of respective subband error signals corresponding
+
+to said respective adaptive filters.
+The method of identifying an unknown system with a
+subband adaptive filter of claim 1, wherein said step of
+
+adaptive control comprises:
+
+a step of calculating respective squares of
+coefficient values of said respective adaptive filters
+
+and sum of these squares; 
+a step of calculating values by way of (a square of
+coefficient value of said adaptive filter)/(sum of said
+
+squares) for said respective adaptive filters;
+a step of calculating a number of taps of said
+adaptive filters respectively based on said values;
+a step of controlling said number of taps of said
+respective adaptive filters based on a number of taps
+
+calculated in the previous step.
+The method of identifying an unknown system with a
+subband adaptive filter of claim 1, wherein said step of
+
+adaptive control comprises:
+
+a step of calculating absolute values of
+coefficient values of said respective adaptive filters
+
+and sum of these absolute values;
+a step of calculating values by way of (an absolute
+value of said adaptive filter)/(sum of said absolute
+
+values) for said respective adaptive filters;
+a step of calculating a number of taps of adaptive
+filters respectively based on said values;
+a step of controlling said number of taps of said
+respective adaptive filters based on a number of taps
+
+calculated in the previous step.
+The method of identifying an unknown system with a
+subband adaptive filter of claim 1, wherein said step of
+
+adaptive control comprises: 
+
+a step of calculating a maximum power and a minimum
+power from among powers of said subband error signals;
+
+and
+a step of increasing number of taps of said
+adaptive filter corresponding to a subband error signal
+
+having said maximum power by R
+1
+ (R
+1
+ is integer), and
+decreasing number of taps of said adaptive filter
+
+corresponding to a subband error signal having said
+minimum power by R
+2
+ (R
+2
+ is integer).
+The method of identifying an unknown system with a
+subband adaptive filter of claim 1, wherein said step of
+
+adaptive control comprises:
+
+a step of calculating respective magnitudes of
+subband error signals corresponding to said respective
+
+adaptive filters and sum of these magnitudes;
+a step of calculating values by way of (a magnitude
+of subband error signal corresponding to said adaptive
+
+filter)/(sum of said magnitudes) for said respective
+adaptive filters;
+a step of calculating a number of taps of said
+adaptive filters respectively based on said values;
+a step of controlling said number of taps of said
+respective adaptive filters based on a number of taps
+
+calculated in the previous step.
+The method of identifying an unknown system with a 
+subband adaptive filter of claim 1, wherein said step of
+
+adaptive control comprises:
+
+a step of adaptively controlling said number of
+taps of adaptive filters using said data on adaptive
+
+filters and said data on subband reference signals,
+instead of said step of adaptively controlling said
+
+number of taps of adaptive filters using said data on
+adaptive filters.
+The method of identifying an unknown system with a
+subband adaptive filter of claim 16, wherein said data
+
+on subband reference signals comprise powers of said
+subband reference signals.
+The method of identifying an unknown system with a
+subband adaptive filter of claim 16, wherein said data
+
+on subband reference signals comprise absolute values of
+said subband reference signals.
+The method of identifying an unknown system with a
+subband adaptive filter of claim 16, wherein said step
+
+of adaptive control, in addition to said step of
+processing said data on adaptive filters, comprises:
+
+
+a step of calculating powers of said subband
+reference signals corresponding to respective adaptive
+
+filters and sum of these powers;
+a step of calculating values by way of (a power of
+said subband reference signal corresponding to said 
+
+adaptive filters)/(sum of said powers) for said
+respective adaptive filters;
+a step of calculating number of taps of said
+adaptive filters respectively based on said values and a
+
+processed data on said adaptive filters; and
+a step of controlling a number of taps of said
+adaptive filters respectively based on said number of
+
+taps calculated in the previous step.
+The method of identifying an unknown system with a
+subband adaptive filter of claim 16, wherein said step
+
+of adaptive control, in addition to said step of
+processing said data on adaptive filters, comprises:
+
+
+a step of calculating absolute values of said
+subband reference signals corresponding to respective
+
+adaptive filters and sum of these absolute values;
+a step of calculating values by way of (an absolute
+value of said subband reference signal corresponding to
+
+said adaptive filter)/(sum of said absolute values) for
+said respective adaptive filters;
+a step of calculating number of taps of said
+adaptive filters respectively based on said values and
+
+processed data on said adaptive filters; and
+a step of controlling a number of taps of adaptive
+filters respectively based on said number of taps
+
+calculated in the previous step.
+A device for identifying an unknown system with a
+subband adaptive filter comprising:
+
+
+a first analysis filter bank means for dividing a
+band of an input signal to an unknown system and
+
+generating a plurality of subband signals;
+a second analysis filter bank means for dividing a
+band of an output signal from said unknown system and
+
+generating a plurality of subband reference signals;
+a plurality of adaptive filter means having a
+coefficient value adaptation means to update coefficient
+
+values based on subband error signals and a tap number allocation
+updating means to update said number of taps based on
+
+tap number control signals, filtering said subband
+signals based on updated coefficient values and tap
+
+numbers, and generating a plurality of replica signals
+corresponding to said subband reference signals;
+a plurality of subtracter means for calculating
+respective differences between said subband reference
+
+signals and said replica signals and outputting these
+differences to said coefficient value updating means as
+
+said subband error signals;
+an analyzer means for analyzing data on said
+adaptive filters; and 
+a tap number control means for calculating a number of taps to be allocated to
+said adaptive filters based on a result of analysis output from said analyzer means,
+
+generating said tap number control signals and outputting them to said tap number
+allocation updating means.
+The device for identifying an unknown system with a
+subband adaptive filter of claim 21, wherein said
+
+analyzer means (10) is comprised so as to calculate
+respective squares of coefficient values of said
+
+respective adaptive filters and sum of these squares and
+said tap number control means (11) is comprised so as to
+
+calculate values by way of (a square of coefficient
+value of said adaptive filter)/(sum of said squares) for
+
+said respective adaptive filters and a tap number of
+said respective adaptive filters based on these values
+
+and output said tap number control signals.
+The device for identifying an unknown system with a
+subband adaptive filter of claim 21, wherein said
+
+analyzer means (12) is comprised so as to calculate
+respective absolute values of coefficient values of said
+
+adaptive filters and sum of these absolute values and
+
+said tap number control means (11) is comprised so as to
+calculate values by way of (an absolute value of
+
+coefficient value of said adaptive filter)/(sum of said
+absolute values) for said respective adaptive filters and
+
+a tap number of said respective adaptive filters based
+on these values and output said tap number control 
+
+signals.
+The device for identifying an unknown system with a
+subband adaptive filter of claim 21, wherein said
+
+analyzer means is comprised so as to calculate
+respective squares of subband error signals
+
+corresponding to said respective adaptive filters and
+sum of these squares and said tap number control means
+
+is comprised so as to calculate values by way of (a
+square of subband error signals corresponding to said
+
+adaptive filter)/(sum of said squares) for said
+respective adaptive filters and a tap number of said
+
+respective adaptive filters based on these values and
+output said tap number control signals.
+The device for identifying an unknown system with a
+subband adaptive filter of claim 21, wherein said
+
+analyzer means (15) is comprised so as to calculate
+respective absolute values of subband error signals
+
+corresponding to said respective adaptive filters and
+sum of these absolute values and said tap number control
+
+means (11) is comprised so as to calculate values by way
+of (an absolute value of subband error signals
+
+corresponding to said adaptive filter)/(sum of said
+absolute values) for said respective adaptive filters
+
+and a tap number of said respective adaptive filters
+based on these values and output said tap number control 
+
+signals.
+The device for identifying an unknown system with a
+subband adaptive filter of any of claims 21-25, wherein said tap
+
+number control means (17) is comprised so as to
+calculate, based on a result of analysis output from
+
+said analyzer means and data on said subband reference
+signals, a tap number of said adaptive filters, generate
+
+said tap number control signal and output this signal to
+said tap number updating means.
+The device for identifying an unknown system with a
+subband adaptive filter of claim 26, wherein said tap
+
+number control means (17) is comprised so as to receive
+powers of respective subband reference signals
+
+corresponding to said respective adaptive filters and
+calculate sum of these powers and values by way of (a
+
+power of subband reference signal corresponding to said
+adaptive filter)/(sum of said powers) for said
+
+respective adaptive filters, calculate a tap number of
+said adaptive filters based on these values and a result
+
+of analysis output from said analyzer means, generate
+said tap number control signal and output this signal to
+
+said tap number updating means.
+The device for identifying an unknown system with a
+subband adaptive filter of claim 26, wherein said tap
+
+number control means is comprised so as to receive 
+absolute values of respective subband reference signals
+
+corresponding to said respective adaptive filters and
+calculate sum of these absolute values and values by way
+
+of (an absolute value of subband reference signal
+corresponding to said adaptive filter)/(sum of said
+
+absolute values) for said respective adaptive filters,
+calculate a tap number of said adaptive filters based on
+
+these ratios and a result of analysis output from said
+analyzer means, generate said tap number control signal
+
+and output this signal to said tap number updating
+means.
+The device for identifying an unknown system with a
+subband adaptive filter of any of claims 21-28, wherein said tap
+
+number updating means (617) comprises a generator means
+for generating a sequence of numbers consisting of 0's
+
+and 1's as elements using said tap number control signals
+and a plurality of switching means (615) for switching
+
+ON and OFF for operations at each tap of said adaptive
+filters, and is comprised so as to turn the operation of
+
+a tap corresponding to a switching means ON when this
+switching means has received 1 of said sequence of
+
+numbers, and turn the operation of a tap corresponding
+to a switching means OFF when this switching means has
+
+received 0 of said sequence of numbers.
+The device for identifying an unknown system with a 
+subband adaptive filter of any of claims 21-29, comprising an
+
+averaging circuit (13) for averaging data used for
+analysis before said analyzer means works.
+The device for identifying an unknown system with a
+subband adaptive filter of any of claims 21-30, comprising a first
+
+group of decimation circuits (50) for decimating said
+subband signals and transmitting them to said adaptive
+
+filters and a second group of decimation circuits (51)
+for decimating said subband reference signals and
+
+transmitting them to said subtracters.
+</CLAIMS>
+</TEXT>
+</DOC>

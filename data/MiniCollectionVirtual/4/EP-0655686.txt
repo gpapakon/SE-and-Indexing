@@ -1,0 +1,313 @@
+<DOC>
+<DOCNO>EP-0655686</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Retry control method and device for control processor
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1114	G06F1114	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F11	G06F11	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+There is provided a technique which enhances the 
+functions of a control processor exclusively used for 
+
+the execution of a RAS function in an information 
+processing apparatus with high reliability and which is 
+
+effective for a retry process in the case of an error. 
+This is achieved by providing a control storage circuit 3 
+
+for storing a micro- instruction for controlling the 
+execution of a request for a process issued by another 
+
+processing system in the information processing 
+apparatus, a function circuit for executing the 
+
+microinstruction, a read and correct circuit 5 for 
+determining whether there is an error in the microinstruction 
+
+to be executed by the function circuit and 
+for correcting the data of the error portion, a retry 
+
+control register 6 for rewriting the corrected 
+microinstruction in the control storage circuit and for 
+
+outputting an instruction for a retry at the execution 
+of the request for a process and an auxiliary circuit 
+
+for controlling the execution and retry operations on 
+the request for a process. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+FUJITSU LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+FUJITSU LIMITED
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+MATSUZAKI SHIGEHARU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YAMASHITA HIDEO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MATSUZAKI, SHIGEHARU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YAMASHITA, HIDEO
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a retry method and
+device for a control processor included in an
+instruction processing apparatus.Rapid advances in information processing techniques
+in recent years have made a variety of information
+processing services available. This has resulted in
+increasing needs for improvement in a RAS (reliability,
+availability and serviceability) function of information
+processing apparatus as well as improvement in the
+processing speed.In order to achieve RAS, methods such as parity
+check on data, ECC (error check and correction) on a CS
+(control storage), instruction retries in the case of an
+error are employed.There is a previously proposed information processing
+apparatus wherein a control processor to be exclusively
+used for executing the above-described RAS function is
+provided in addition to a function circuit for executing
+predetermined instructions and wherein the control
+processor is controlled using microcodes. The use of a control processor has an advantage in
+that the circuit configurations of an interface circuit
+and a control portion can be simplified by providing a
+control bus for transferring commands and data between
+the control processor and the control portions
+subordinate to the control processor and by providing a
+sense bus for sensing the data in the control portion
+(see Fig. 8).Further, by controlling the control processor using
+microcodes, advanced functions can be simply achieved by
+controlling the control processor using microcodes, and
+alterations and additions to the functions thereof can
+be flexibly made. In addition, it is possibly to
+easily confirm whether the control processor and the
+control portions subordinate thereto are functioning
+properly by the use of microcodes for diagnosis.To achieve the RAS function using the above-described
+control processor, high reliability is
+required also for the control processor.An example of a recovery circuit in a previously
+proposed processor is shown in Fig. 9.In the figure, a Hamming code check portion 201 is
+used as an error detection means in a control storage
+(CS) 130. The Hamming code check portion 201 detects
+one-bit errors and two-bit errors in one word.The Hamming code check portion 201 analyzes data
+output by the control storage portion (CS) 130 word by 
+word to determine whether there is a bit error or not.If the Hamming code check portion 201 detects a
+one-bit error, an error trigger circuit (ERR TRIG) 205
+informs an auxiliary circuit 150 of the detection of an
+error. The auxiliary circuit 150
+</DESCRIPTION>
+<CLAIMS>
+A retry control method for a control processor
+for performing maintenance and management functions on
+
+an information processing apparatus through control
+portions subordinate thereto having a control interface
+
+with each of processing portions in said information
+processing apparatus, wherein said control processor
+
+executes:
+
+a process request storing step for temporarily
+storing a request for a process issued by another
+
+processing system in said information processing
+apparatus
+ in a process request storing means;
+a microinstruction outputting step for outputting a
+microinstruction associated with said request for a
+
+process from a control storage means which stores
+microinstructions for controlling the execution of said
+
+request for a process;
+a microinstruction executing step for executing the
+microinstruction output at said microinstruction
+
+outputting step;
+an error detecting step for analyzing the microinstruction
+output at said microinstruction outputting
+
+step to determine whether an error exists or not;
+an error correcting step for correcting an error
+portion detected in said microinstruction;
+a storage position determining step for determining 
+the position in said control storage means where said
+
+micro- instruction is stored;
+a rewriting step for accessing the storage position
+determined at said storage position determining step and
+
+rewriting the microinstruction corrected at said error
+correcting step therein;
+a process retry step for causing said control
+processor to retry the process of executing said request
+
+for a process; and
+a process request executing step for executing said
+request for a process in accordance with said microinstruction
+
+if no error is detected in said
+microinstruction at said error detecting step.
+The retry control method for a control processor
+according to Claim 1, wherein said microinstruction
+
+executing step includes:
+
+a step of determining whether a microinstruction
+output by said control storage means is an instruction
+
+to said subordinate control portions or not;
+a step of converting said microinstruction into a
+command format which can be processed by said
+
+subordinate control portions if said microinstruction is
+an instruction to said subordinate control portions; and
+a step of issuing said converted microinstruction
+to said subordinate control portions.
+The retry control method for a control processor 
+according to Claim 1 or 2 comprising a step of resetting the
+
+contents of said process request storing means when the
+execution of said request for a process has been
+
+properly completed.
+The retry control method for a control processor
+according to Claim 1, 2 or 3, comprising a process retry step for
+
+causing said control processor to retry the process of
+executing said request for a process when an error
+
+occurs during the execution of said microinstruction or
+during the execution of said microinstruction by said
+
+subordinate control portions.
+The retry control method for a control processor
+according to Claim 1, 2, 3 or 4 comprising;
+
+
+a retry counting step for counting the number of
+retries of said executing process;
+a process retry process for referring to the number
+of retries counted at said retry counting step in
+
+retrying said process and for retrying the process of
+executing said request for a process if said number of
+
+retries is less than a predetermined value; and
+an error information step for informing said
+processing system of the occurrence of an error when
+
+said number of retries is equal to the predetermined
+value.
+A retry controller for a control processor for
+performing maintenance and management functions on an 
+
+information processing apparatus through control
+portions subordinate thereto having a control interface
+
+with each of processing portions in said information
+processing apparatus, comprising:
+
+
+a process request storing means for temporarily
+storing a request for a process issued by another
+
+processing system in said information processing
+apparatus;
+a state control means for activating said control
+processor when a request for a process is written in
+
+said process request storing means;
+a control storage means for storing a
+microinstruction for controlling the execution of each
+
+request for a process and for outputting the
+microinstruction associated with said request for a
+
+process when the control processor is activated;
+an error detection/correction means for analyzing
+the microinstruction output by said control storage
+
+means to determine whether there is an error or not and
+for correcting an error portion if any;
+a retry control means for determining the position
+in said control storage means where said
+
+microinstruction is stored if an error is detected by
+said error detection/ correction means to rewrite the
+
+microinstruction corrected by said error
+detection/correction means therein and for causing said
+
+control processor to retry the process of executing said 
+request for a process; and
+a microinstruction executing means for executing
+said request for a process in accordance with said
+
+microinstruction
+if there is no error in said
+
+microinstruction.
+The retry controller for a control processor
+according to Claim 6, wherein, in executing a microinstruction
+
+output by said control storage means, said
+microinstruction executing means determines whether said
+
+microinstruction is an instruction to said subordinate
+control portions, converts said microinstruction into a
+
+command format which can be processed by said
+subordinate control portions if said microinstruction is
+
+an instruction to said subordinate control portions and
+causes said subordinate control portions to execute the
+
+converted microinstruction.
+The retry controller for a control processor
+according to Claim 6, or claim 7, wherein said state control means
+
+resets the contents of said process request storage
+means when the execution of said request for a process
+
+has been properly completed.
+The retry controller for a control processor
+according to Claim 6, 7 or 8, wherein said retry control means
+
+causes said control processor to retry the process of
+executing said request for a process when an error
+
+occurs during the execution of said microinstruction or 
+during the execution of said microinstruction by said
+
+subordinate control portions.
+The retry controller for a control processor
+according to Claim 6,7, 8 or 9, wherein said retry
+
+control means includes a retry counter for counting the
+number of retries at said executing process, refers to
+
+the value in said retry counter in retrying said
+process, causes a retry at the process of executing said
+
+request for a process if said counter value is less than
+a predetermined value and
+
+informs said processing system of the occurrence of an
+error when said counter value is equal to the
+
+predetermined value.
+</CLAIMS>
+</TEXT>
+</DOC>

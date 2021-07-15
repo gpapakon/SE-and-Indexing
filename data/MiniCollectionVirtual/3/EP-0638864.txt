@@ -1,0 +1,198 @@
+<DOC>
+<DOCNO>EP-0638864</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Development support system for microcomputer with internal cache
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1128	G06F1136	G06F1136	G06F1128	G06F1208	G06F1208	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F11	G06F11	G06F11	G06F11	G06F12	G06F12	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A microcomputer development support system for a 
+microprocessor, comprises an instruction substituting circuit tracing a 
+
+memory access performed by the microprocessor and substituting a 
+predetermined branch instruction for an instruction which is read out 
+
+from a predetermined address of a user memory by the microprocessor, 
+and a background monitor configured to give the microprocessor a 
+
+memory space which is separated from the user memory but is peculiar to 
+the microcomputer development support system. After the predetermined 
+
+branch instruction has been substituted and after a break acknowledge 
+signal informing an execution of the predetermined branch instruction has 
+
+been activated, the microcomputer development support system executes a 
+program stored in the background monitor. At the same time, the 
+
+microcomputer puts the cache memory into the "cache off" condition 
+when it starts to execute the program of the background monitor. When 
+
+the execution of the program of the background monitor is terminated, 
+the microcomputer returns the cache memory into the "cache on" 
+
+condition. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+NIPPON ELECTRIC CO
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+NEC CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+MAEMURA KOUJI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MAEMURA, KOUJI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a microcomputer development
+support system, and more specifically to a microcomputer development
+support system used for development of a microprocessor having a cache
+memory therein.Recent microprocessors are apt to internally contain a cache
+memory for attaining a high speed memory access. Accordingly, the
+performance of microprocessors has become high, but, the work for
+debugging a system constituted of this type of microprocessor internally
+containing the cache memory, has become difficult. The reason for this is
+that this type of microprocessor outputs its execution states only when a
+memory access is mishit in the cache memory, and therefore, it is not
+possible to monitor the current execution state of the program by tracing
+the memory access.In the case of debugging a system having this type of
+microprocessor, a microcomputer development support system is used.
+When only the executing process of a program is to be traced by the 
+microcomputer development support system, all memory accesses
+required by the microprocessor can be outputted to an external of the
+microprocessor by making the cache memory of the microprocessor
+inactive (this state is called "cache off"). However, this tracing under the
+"cache off" state is greatly different in an executing time from a real
+operation of the microprocessor performed using the cache memory, and
+therefore, this debugging method is not so effective for a system required
+to have a real-time operation.In order to debug a real time operation while using the
+microcomputer development support system, a break function is used to
+obtain the real time result. This break function is that the microprocessor
+is caused to execute a branch instruction at an arbitrary address of a
+program, and on the other hand, at a branch destination address there is
+beforehand prepared a program for outputting an internal condition of
+the microprocessor and an intermediate result of the program execution
+which the user wishes to know, so that the user can observe whether or
+not an expected processing has been executed.One typical conventional break function is disclosed in Japanese
+Patent Application Laid-open Publication No. Hei 03-078038 (JP-A-3-078038)
+entitled "In-Circuit Emulator".Now, this typical conventional break function will be described with
+reference to Figure 1 which is a block diagram of the "In-Circuit
+Emulator" shown in JP-A-3-078038 and also with reference to Figure 2
+which is a timing chart illustrating an operation of the
+</DESCRIPTION>
+<CLAIMS>
+A microcomputer development support system for a
+microprocessor, said microprocessor including therein at least an
+
+execution unit for executing a program and a cache memory associated to
+said execution unit, said microprocessor having a function for inhibiting a
+
+cache registration in a cache replace access to said cache memory, and
+another function for putting said cache memory into a "cache off"
+
+condition in a programmed manner, said microprocessor being
+configured to generate a break acknowledge signal when said execution
+
+unit has executed a predetermined branch instruction, the microcomputer
+development support system comprising:
+
+
+instruction substituting means for tracing a memory access of said
+microcomputer and responding to a break request signal to supply to said
+
+execution unit of said microcomputer said predetermined branch
+instruction in place of an instruction which has been read from a
+
+predetermined address of a user memory to be supplied to said
+microcomputer;
+a background monitor configured to give said microprocessor a
+memory space which is separated from a user space but is peculiar to the
+
+microcomputer development support system,
+a breakpoint register for registering an address where a break
+processing is to be performed;
+a comparator comparing a content of said breakpoint register with
+an address outputted from said microcomputer, for generating said break
+
+request signal when coincidence is detected;
+a memory space switching circuit receiving said break acknowledge
+signal and said address outputted from said microprocessor, for 
+
+separating said background monitor from said user memory, so that said
+background monitor functions as the memory space which is separated
+
+from the user space but is peculiar to the microcomputer development
+support system, whereby after said break request signal is activated, a
+
+processing is performed on the basis of a program of said background
+monitor,
+said microcomputer being configured to respond to said break
+request signal to put said cache memory into said "cache off" condition
+
+when it starts to execute said program of said background monitor, said
+microcomputer returning said cache memory into a "cache on" condition
+
+when the execution of said program of said background monitor is
+terminated.
+A microcomputer development support system claimed in Claim 1
+
+wherein said background monitor generates a cache registration
+invalid signal when said execution unit of said microcomputer is supplied
+
+with said predetermined branch instruction in place of the instruction
+which has been read from said user memory to be supplied to said
+
+microcomputer,
+wherein said instruction substituting means is located at an outside
+of said microprocessor, and there is provided an OR circuit receiving said
+
+break request signal and said cache registration invalid signal for
+generating a cache registration control signal, and
+wherein said microcomputer is configured to generate a logical
+product of said cache registration control signal and a cache write signal
+
+outputted from said execution unit toward said cache memory, and to 
+inhibit, when said logical product is active, said branch instruction from
+
+being registered into said cache memory.
+A microcomputer development support system claimed in Claim 2
+wherein said microprocessor includes an AND circuit having its one input
+
+connected to receive said cache write signal and its other input connected
+to receive said cache registration control signal through an inverter, an
+
+output of said AND circuit being supplied to said cache memory as a
+cache write signal.
+A microcomputer development support system claimed in Claim 1
+wherein said instruction substituting means is included in the
+
+microprocessor.
+A microcomputer development support system claimed in Claim 4
+wherein said instruction substituting means is composed of a multiplexer,
+
+which receives said predetermined break instruction and the content read
+from said user memory, said multiplexer being controlled by said break
+
+request signal so as to output to said execution unit said predetermined
+break instruction only when said break request signal is active and the
+
+content read from said user memory in the other situations.
+A microcomputer development support system claimed in Claim 5
+wherein said microprocessor includes an AND circuit having its one input
+
+connected to receive a cache write signal outputted from said execution
+unit toward said cache memory and its other input connected to receive 
+
+said break request signal through an inverter, an output of said AND
+circuit being supplied to said cache memory as a cache write signal.
+</CLAIMS>
+</TEXT>
+</DOC>

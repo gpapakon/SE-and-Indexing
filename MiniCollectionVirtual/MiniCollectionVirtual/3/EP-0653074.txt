@@ -1,0 +1,83 @@
+<DOC>
+<DOCNO>EP-0653074</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+NAVIGATION SYSTEM FOR ADAPTIVE WEIGHTING OF GPS AND DEAD-RECKONING INFORMATION.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G01C2100	G01C2100	G01C2110	G01C2116	G01C2128	G01C2128	G01S502	G01S502	G01S514	G01S514	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G01C	G01C	G01C	G01C	G01C	G01C	G01S	G01S	G01S	G01S	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G01C21	G01C21	G01C21	G01C21	G01C21	G01C21	G01S5	G01S5	G01S5	G01S5	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An embodiment of the present invention is a combined GPS and dead-reckoning (DR) navigation sensor for a vehicle in which a pair of modifications are made to an otherwise conventional Kalman filter. Process noise is adpated to cope with scale factor errors associated with odometer and turning rate sensors, and correlated measurement error processing is added. When only two Doppler measurements (PRRs), or three with an awkward three-satellite geometry, are available, DR error growth can nevertheless be controlled. The measurement error correlations in the conventional Kalman filter covariance propagation and update equations are explicitly accounted for. Errors induced by selective availability periods are minimized by these two modifications.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+TRIMBLE NAVIGATION LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+TRIMBLE NAVIGATION LIMITED
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+GEIER GEORGE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HESHMATI ARDALAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+JOHNSON KELLY
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MCLAIN PATRICIA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GEIER, GEORGE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HESHMATI, ARDALAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+JOHNSON, KELLY
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MCLAIN, PATRICIA
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+ NAVIGATION SYSTEM FOR ADAPTIVE WEIGHTING OF GPS AND DEAD-RECKONING INFORMATIONBACKGROUND OF THE INVENTION1. Technical FieldThe invention relates generally to navigation systems and more specifically to global positioning system (GPS) devices that use dead-reckoning apparatus to fill in as backup during periods of GPS shadowing such as occur amongst obstacles, e.g., tall buildings in large cities.2. Background Art Global positioning system receivers typically use signals received from three or more overhead satellites to determine navigational data such as position and velocity, and such systems may also provide altitude and time. GPS signals are available worldwide at no cost and can be used to determine the location of a vehicle, such as a car or truck, to within one city block, or better. Dual-frequency carrier GPS receivers typically track a pair of radio carriers, l and L2, associated with the GPS satellites to generate pseudo range measurements (PR) from precision code (P-code) or coarse acquisition code (C/A-code) modulation on those carriers. Carrier Ll is allocated to 1575.42 MHz and carrier L2 is positioned at 1227.78 MHz. Less expensive receivers tune to only one carrier frequency, and therefore cannot directly observe the local ionospheric delays that contribute to position error. At such frequencies, radio carrier signals travel by line-of-sight, thus buildings, mountains and the horizon can block reception.The constellation of GPS satellites in orbit about the earth comprises individual satellites that each transmit a unique identifying code in a code multiple access arrangement. This allows the many GPS satellites to all transmit in spread spectrum mode at the same frequency (plus or minus a Doppler 
+
+shift from that frequency as results from the satellite's relative velocity) . Particular satellites are sorted out of a resulting jumble of signals and noise by correlating a 1023 "chip" code to a set of predefined codes that are preassigned to individual GPS satellites. These codes do not arrive in phase with one another at the receiver. Therefore, "finding" a GPS satellite initially involves searching various carrier frequencies, to account for Doppler shift and oscillator inaccuracies, and searching for a code match, using 1023 different code phases and up to twenty-four possible correlation code templates.In large cities with many tall buildings, one or more of the GPS satellites that a particular receiver may be tracking may be temporarily blocked. In some situations, such blockage can
+</DESCRIPTION>
+<CLAIMS>
+ IN THE CLAIMS
+1. A terrestrial vehicle navigational system with raw measurement data and/or position and velocity solutions from a global position system (GPS) receiver blended with odometer and heading information from a dead-reckoning instrument, comprising: input interface means for accepting a plurality of raw GPS pseudo range (PR) and pseudo range rate (PRR) measurement data, GPS position and GPS velocity solutions from a GPS receiver; first computational means for modeling an error effect on said raw measurement data and/or position and velocity solutions due to selective availability (SA) ; second computational means for modeling a scale factor error effect on an accumulated heading error of a dead- reckoning turning rate sensor; third computational means for modeling a scale factor error effect of a dead-reckoning odometer sensor; and Kalman filter means for blending a plurality of outputs from the first through third computational means such that heading error and odometer scale factor error outputs are estimated from at least one of said raw GPS PRR measurements and said GPS velocity solutions.
+2. The system of claim 1, further comprising: adaptive blending means for combining GPS position and velocity solutions with information from said dead- reckoning sensors, wherein:
+GPS velocity information is used in a first single-state speed filter to estimate a scale factor error associated with the odometer; said GPS-derived heading is used in a second single-state heading filter to remove a heading drift of said gyro and errors caused by a gyro scale factor error, and GPS position is used in one of a 
+
+
+ two-state and two single-state filters whose gains are coupled to said speed and heading filters to correct an accumulated error of a dead reckoned position; each of said filters represents an extension to a basic Kalman filter in that measurement noise modeling represents correlated measurement errors present in GPS generally dominated by said SA; and each of said filters includes a modified basic Kalman filter process noise model that represents the effects of correlated errors in dead reckoning.
+3. The system of claim 1, further comprising: adaptive blending means for combining individual GPS PR and PRR measurements with information from said dead- reckoning sensors, wherein: individual GPS PRR measurements are processed by a four-state speed and heading filter which estimates heading error, odometer scale factor error, terrain slope, and receiver clock frequency error; individual GPS PR measurements are processed by a four-state position and receiver clock phase error filter whose gain calculation is coupled to said speed and heading filter; each said filter further includes a modified basic Kalman filter measurement noise model for representing the effects of correlated errors; each of said filters include modified basic Kalman filters for representing the effects of correlated process error; said dual four-state filters operate as a full eight-state Kalman filter with a factor of four improved computational efficiency; and said dual four-state filters reduce dead reckoning error growth when less than three GPS satellites are in view. 
+
+
+ 4. The system of claim 1, further comprising: adaptive blending means for combining individual GPS PR and PRR measurements with information from said dead- reckoning sensors and including two coupled four-state filters, wherein: position and receiver clock phase error changes are estimated using an over-determined weighted least squares (WLS) solution based on dead reckoning position changes and available PR measurements from said GPS; and heading error, odometer scale factor error, terrain slope, and receiver clock frequency error are estimated using an over-determined WLS solution based on a dead reckoning velocity and available PRR measurements from said GPS.
+5. The system of claim 1, further comprising: continuous calibration means for correcting a turning rate sensor bias based upon one of a stationary measurement or a low-angular rate measurement using one of a fixed gain or Kalman filter.
+6. The system of claim 2, further comprising: means for adapting said heading filter to a turning sensor anomalous behavior and including a gyro bias monitor for operating on an output of a calibration filter to adjust a process noise model of said heading filter.
+7. The system of claim 3, further comprising: means for adapting said speed and heading filter to a turning sensor anomalous behavior and including a gyro bias monitor for operating on an output of a calibration filter to adjust a process noise model of said speed and heading filter.
+8. The system of claim 4, further comprising: means for adapting said WLS speed and heading filter 
+
+
+to a turning sensor anomalous behavior and inςluding a gyro bias monitor for operating on an output of a calibration filter to adjust the process noise model of said WLS speed and heading filter.
+9. The system of claim 2, further comprising: calibration means for calibrating a scale factor error associated with said turning rate sensor, including a digital filter for outputs of said heading filter for refining a set of initial estimates of sensor scale factors and separate clockwise and counterclockwise rotation filters.
+10. The system of claim 3, further comprising: calibration means for calibrating a scale factor error associated with said turning rate sensor, including a digital filter for outputs of said speed and heading filter for refining a set of initial estimates of sensor scale factors and separate clockwise and counterclockwise rotation filters.
+11. The system of claim 4, further comprising: calibration means for calibrating a scale factor error associated with said turning rate sensor, including a digital filter for said WLS speed and heading filter for refining a set of initial estimates of sensor scale factors and separate clockwise and counterclockwise rotation filters.
+12. The system of claim 1, further comprising: isolation means for isolating an integrated GPS/dead reckoning solution from a GPS failure that results from signal reflection and interference and including means for statistical rejection testing.
+13. The system of claim 1, further comprising: gross error recovery means for a reinitialization to
+GPS when a statistical rejection test indicates a GPS failure. 
+
+
+ 14. The system of claim 1, further comprising: gross error recovery means for a reinitialization to GPS when a residual test of a WLS filter indicates a failure in dead reckoning. 
+
+</CLAIMS>
+</TEXT>
+</DOC>

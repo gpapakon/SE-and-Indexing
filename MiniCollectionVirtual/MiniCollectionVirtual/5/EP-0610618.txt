@@ -1,0 +1,360 @@
+<DOC>
+<DOCNO>EP-0610618</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method and apparatus for address translation
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1210	G06F1202	G06F1210	G06F1202	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F12	G06F12	G06F12	G06F12	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+In a method and apparatus for address translation 
+for translating a 64-bit virtual address into a real 
+
+address, the 64-bit virtual address comprises a segment 
+number (60), a page index (62) and a page offset (64). 
+
+When this virtual address is translated into a real 
+address, high order bits of the segment number are first 
+
+input to a hash generation circuit (34) to obtain a hash 
+address of a link table (22), and this link table (22) is 
+
+retrieved by an address obtained by adding lower order 
+bits of the segment number as an offset to obtain tag 
+
+information of the virtual address and a base address of 
+a page table (26). Next, the tag information of the 
+
+virtual address obtained in this manner is compared with 
+the original segment number, and the base address of the 
+
+page table (26) is judged as correct when they coincide 
+with each other. The page table (26) is retrieved by an 
+
+address obtained by adding a page index (62) as an offset 
+to this base address to obtain a page frame number, and 
+
+the virtual address is obtained by combining the original 
+page offset (64). According to this construction, 
+
+address translation can be carried out at a higher speed 
+while maintaining compatibility with the 32-bit virtual 
+
+address. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+FUJITSU LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+FUJITSU LIMITED
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+MIYAOKU HITOSHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TAKAHASHI HIROMASA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MIYAOKU, HITOSHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TAKAHASHI, HIROMASA
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a method and
+apparatus for address translation for translating a
+virtual address in a virtual memory system into a real
+address. More specifically, the present invention
+relates to a method and apparatus for translating a
+64-bit virtual address into a real address.Recently, a 64-bit configuration of data and
+addresses has been required with the demand for a higher
+operation speed of computer systems. To satisfy this
+demand, several methods of translating 64-bit virtual 1-addresses
+into real addresses have been proposed, but an
+address translation method capable of easily maintaining
+compatibility with a 32-bit virtual address and also
+capable of rapid translation, has not yet been realized.
+Accordingly, an address translation method of a 64-bit
+virtual address, which can satisfy both compatibility
+with the 32-bit virtual address and high speed address
+translation, has been required.To begin with, a virtual memory system using a
+conventional virtual address of up to 32 bits will be
+explained. In the case of a virtual memory system using
+a 32-bit virtual address, for example, the virtual
+address comprises a segment number 104, a page index 62
+and a page offset 64, as shown in Fig. 1.Here, the segment number 104 represents the
+position where the virtual space, which is a variable-length
+block as a constituent element of a program, is
+divided into segment units, and the page index 62
+represents the position where the segment region is
+divided into page units. Further, the page offset 64
+represents the position inside the page region 
+corresponding to the real space.To translate a virtual address into a real
+address, a two-stage translation method which obtains the
+real address by retrieving a segment table 108 and a page
+table 112 as shown in Fig. 2, has ordinarily been used.In other words, a base address of the segment
+table 108 is obtained from a segment table base
+register 106, and retrieval is then carried out by adding
+a segment number 104 of the virtual address as an offset
+to this base address to obtain a base address (PTB) 110
+of the page table 112. Next, a page index 62 inside the
+virtual address is added as the offset to the base
+address 110 obtained from the segment table 108 so as to
+retrieve the page table 112 to obtain a page frame number
+(PFN) 114. Finally, the real address can be obtained by
+combining the page frame number 114 obtained from the
+page table 112 with the page offset 64 in the virtual
+address.Fig. 3 shows the relationship between the
+virtual
+</DESCRIPTION>
+<CLAIMS>
+A method of address translation for
+translating a virtual address into a real address,
+
+including:
+
+a virtual address holding step of holding, as
+a translation object, a virtual address comprising a
+
+segment number (60), a page index (62) and a page
+offset (64) and having bits exceeding 32 bits, in such
+
+a manner as to correspond to a structure wherein a
+virtual space is divided into segment units and each
+
+segment unit is divided into page units corresponding
+to a real space and compatibility with a virtual memory
+
+system using a 32-bit or less virtual address is
+maintained by constituting said page index (62) and
+
+said page offset (64) of said virtual address with the
+same construction as those of the 32-bit or less
+
+virtual address;
+a hash processing step of inputting a
+predetermined number of the higher order bits of said
+
+segment number into a hash generation circuit (34) and
+generating a hash address to serve as a base address of
+
+a link table (22);
+a link table retrieving step for
+retrieving said link table (22) by adding a
+
+predetermined number of bits of lower order bits of
+said segment number (60) as an offset to said hash
+
+address to thereby obtain tag information of said
+virtual address, a base address of a page table (26)
+
+and a link pointer used for retrieving an auxiliary
+link table (24), comparing said tag information of said
+
+virtual address with a predetermined number of high
+order bits of said segment number, and outputting said
+
+base address of said page table (26) as being a correct
+base address if the result of comparison proves 
+
+coincident;
+an auxiliary link table retrieving step of
+retrieving said auxiliary link table (24) by said link
+
+pointer if said tag information of said virtual address
+obtained in said link table retrieving step does not
+
+coincide with said predetermined number of high order
+bits of said segment number to thereby obtain tag
+
+information of a virtual address, a base address of a
+page table and a link pointer, and continuing retrieval
+
+of said auxiliary link table (24) on the basis of said
+link pointer until the base address of the page table
+
+(26) corresponding to the segment number can be
+obtained;
+a page table retrieving step of adding, as an
+offset, a part of said virtual address to said base
+
+address of said page table (26) obtained in said link
+table retrieving step or in said auxiliary link table
+
+retrieving step so as to retrieve said page table (26),
+and obtaining a page frame number; and
+a real address generating step of combining a
+part of said virtual address as an offset with said
+
+page frame number obtained in said page table
+retrieving step, and generating a real address.
+An address translation method as set forth in
+claim 1, wherein said virtual address is a 64-bit
+
+virtual address.
+An address translation method as set forth in
+claim 1, wherein said page table retrieving step
+
+retrieves said page table (26) by adding said page
+index (62) of said virtual address held by said virtual
+
+address holding step as an offset to said base address
+of said page table (26) obtained in said link table
+
+retrieving step or in said auxiliary link table
+retrieving step.
+An address translation method as set forth in
+claim 1, wherein said real address generation step 
+
+generates said real address by combining said page
+offset (64) of said virtual address held by said
+
+virtual address holding step with said page frame
+number obtained by said page table retrieving step.
+A method of address translation according to
+any preceding claim, further including 
+a process ID
+holding step of holding an ID number of a process for
+
+address translation, wherein
+
+the link table retrieving step further
+retrieves said process ID from said link table,
+
+compares said process ID with said process ID held by
+said process ID holding step and only outputs said base
+
+address of said page table (26) as a correct base
+address when both the tag information comparison and
+
+the process ID comparison are coincident.
+An apparatus of address translation for
+translating a virtual address into a real address,
+
+comprising:
+
+virtual address holding means for holding, as
+a translation object, a virtual address comprising a
+
+segment number (60), a page index (62) and a page
+offset (64) and having bits exceeding 32 bits, in such
+
+a manner as to correspond to a structure wherein a
+virtual space is divided into segment units and each
+
+segment region is divided into page units corresponding
+to a real space and compatibility with a virtual memory
+
+system using a 32-bit virtual address is maintained by
+constituting said page index (62) and said page offset
+
+(64) of said 64-bit virtual address with the same
+construction as those of said 32-bit virtual address;
+hash generation means for inputting a
+predetermined number of the higher order bits of said
+
+segment number into a hash generation circuit
+(34) and generating a hash address to serve as a base
+
+address of a link table (22);
+link table retrieving means for retrieving
+said link table (22) by adding a predetermined
+
+number of bits of lower order bits of said segment
+number (60) as an offset to said hash 
+
+address to thereby
+obtain tag information of said virtual address, a base
+
+address of a page table (26) and a link pointer used
+for retrieving an auxiliary link table (24), comparing
+
+said tag information of said virtual address with a
+predetermined number of high order bits of said segment
+
+number and outputting said base address of said page
+table (26) as being a correct base address if the
+
+result of comparison proves coincident;
+auxiliary link table retrieving means for
+retrieving said auxiliary link table (24) by said link
+
+pointer if said tag information of said virtual address
+obtained by said link table retrieving means does not
+
+coincide with said predetermined number of high order
+bits of said segment number to thereby obtain tag
+
+information of a virtual address, a base address of a
+page table and a link pointer, and continuing retrieval
+
+of said auxiliary link table (24) on the basis of said
+link pointer until the base address of the page table
+
+(26) corresponding to the segment number can be
+obtained;
+page table retrieving means for adding, as an
+offset, a part of said virtual address to said base
+
+address of said page table (26) obtained by said link
+table retrieving means or by said auxiliary link table
+
+retrieving means so as to retrieve said page
+table (26), and obtaining a page frame number; and
+real address generation means for combining a
+part of said virtual address as an offset with said
+
+page frame number obtaining by said page table
+retrieving means, and generating a real address.
+An address translation apparatus as set forth
+in claim 6, wherein said virtual address is a 64-bit
+
+virtual address.
+An address translation apparatus as set forth
+in claim 6, wherein said page table retrieving means
+
+retrieves said page table (26) by said page index (62) 
+of said virtual address held by said virtual address
+
+holding means as an offset to said base address of said
+page table (26) obtained by said link table retrieving
+
+means or by said auxiliary link table retrieving means.
+An address translation apparatus as set forth
+in claim 6, wherein said real address holding means
+
+generates said real address by combining said page
+offset (64) of said virtual address held by said
+
+virtual address holding means with said page frame
+number obtained by said page table retrieving means.
+An address translation apparatus as set forth
+in claim 6, wherein said auxiliary link table
+
+retrieving means comprising software.
+An apparatus according to any of claims 6 to
+10, further including a process ID holding means for
+
+holding an ID number of a process for address
+translation, wherein
+
+
+the link table retrieving means further
+retrieves said process ID from said link table and
+
+compares it with the process ID held by the process ID
+holding means, and only outputs the base address of the
+
+page table (26) as a correct base address when both the
+tag information comparison and the process ID
+
+comparison are coincident.
+</CLAIMS>
+</TEXT>
+</DOC>

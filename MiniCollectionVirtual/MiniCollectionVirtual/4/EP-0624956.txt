@@ -1,0 +1,176 @@
+<DOC>
+<DOCNO>EP-0624956</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+System and method for fast Huffman decoding.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H03M740	H03M740	H03M742	H03M742	H04N1411	H04N1411	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H03M	H03M	H03M	H03M	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H03M7	H03M7	H03M7	H03M7	H04N1	H04N1	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method is provided for performing statistical decoding 
+if a symbol in a data stream having byte boundaries wherein 
+
+the symbol may have varying alignments with respect to the byte 
+boundaries. The next byte of data is fetched from the data 
+
+stream wherein the fetched byte contains at least a portion of 
+the symbol. Based on this byte and on the current bit position, 
+
+which is maintained by a state machine, either (a) a decoded 
+value is obtained from a lookup table, or (b) further bytes are 
+
+fetched and used to determine the decoded value. Each symbol has 
+a prefix and free bits wherein the entire symbol may be included 
+
+in the next byte, a boundary of the next byte may fall within a 
+prefix, or a boundary of the next byte may fall within the free 
+
+bits depending on the alignment of the symbol. Differing action 
+routines, corresponding to differing symbols, may be selected for 
+
+execution according to the decoded values determined in the 
+symbols. 
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+INTEL CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTEL CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+KEITH MICHAEL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KEITH, MICHAEL
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to the field of signal 
+processing and in particular to decompression of statistically 
+encoded digital signals. Huffman encoding of numerical data, or more broadly 
+variable bit length encoding of numerical data, is an important 
+part of many data compression algorithms in the field of video 
+processing. Huffman encoding is effective to compress numerical 
+data by taking advantage of the fact that most data sets contain  
+ 
+non-uniform probability distributions of data values. When using 
+the Huffman method the data values are encoded using codes of 
+different bit lengths. The more frequently occurring data values 
+are assigned shorter codes and the less frequently occurring data 
+values are assigned longer codes. Thus, the average code length 
+for the data values in the data set is minimized. For typically 
+skewed probability distributions of data values the use of 
+Huffman encoding may achieve a compression factor of between one 
+and one-half and two times. Many important compression algorithms do involve 
+Huffman decoding, however, and the decoding of such algorithms on 
+general purpose processors is becoming increasingly widespread. 
+The reason that a fast algorithm for Huffman decoding is required 
+is that conventional algorithms for decoding Huffman data are too 
+slow. The conventional algorithms for decoding a Huffman symbol 
+require traversing a binary tree using successive individual bits 
+from the compressed data bit stream at each node of the tree. 
+When a terminal node of the binary tree is reached, the traversal 
+is complete and the decoded value of the Huffman symbol is 
+determined from a table. At best, this tree traversal decoding algorithm requires 
+five instructions per bit of the encoded symbol on conventional 
+video processors. In many applications Huffman symbols 
+tend to average about four bits each. Thus, approximately twenty 
+instructions or about eighty cycles per symbol are required on a  
+ 
+conventional video processor. At approximately three hundred 
+thousand symbols per second, a typical symbol rate for thirty 
+frame per second video displays, this results in twenty-four 
+megahertz. A bit-by-bit method such as this thus requires most 
+of the available cycles on a conventional twenty-five megahertz 
+video processor. Even on a more powerful video processor, a 
+large fraction of the available cycles are required to execute 
+this type of bit-by-bit algorithm. This is not acceptable 
+because Huffman decoding is typically only a small par of the 
+total
+</DESCRIPTION>
+<CLAIMS>
+A method for statistical decoding of a symbol in a 
+data stream divided into a plurality of bytes having byte boundaries 
+
+to provide an output value, said symbol having an alignment 
+with respect to said byte boundaries, comprising the steps 
+
+of: 
+
+(a) fetching a first byte of data from said data 
+stream, said first byte of data containing at least a 
+
+portion of said symbol; 
+(b) determining said alignment of said at least a 
+portion within said first byte with respect to a byte 
+
+boundary of said first byte; 
+(c) fetching a second byte of data in accordance 
+with said determined alignment; and, 
+(d) determining said decoded value in accordance 
+with said fetched data. 
+The method for the statistical decoding of a 
+symbol of Claim 1, wherein step (d) comprises performing a table 
+
+lookup. 
+The method for the statistical decoding of a 
+symbol of Claim 1, comprising the step of extracting a determined 
+
+number of bits from said second byte of data. 
+The method for the statistical decoding of a 
+symbol of Claim 3, comprising the step of forming an index 
+
+according to said first byte of data and said extracted bits. 
+The method for the statistical decoding of a 
+symbol of Claim 4, wherein step (d) comprises determining said 
+
+decoded value according to said index. 
+The method for the statistical decoding of a 
+symbol of Claim 3, wherein said determined number of bits is 
+
+determined in accordance with said data said first byte. 
+The method for the statistical decoding of a 
+symbol of Claim 1, wherein there is provided a plurality of 
+
+symbols and a plurality of action routines corresponding to the 
+symbols of said plurality of symbols, comprising the further step 
+
+of executing a selected action routine of said plurality of 
+action routines in accordance with said decoded value. 
+The method for statistical decoding of a symbol of 
+Claim 1, wherein there is provided a plurality of variable length 
+
+symbols including a prefix and free bits, step (b) comprising the 
+steps of: 
+
+
+(e) determining whether both said prefix and said 
+free bits fall within said first byte; 
+(f) determining whether a byte boundary of said 
+first byte falls within said free bits; and, 
+(g) determining whether a byte boundary of said 
+first byte falls within said prefix. 
+The method for the statistical decoding of a 
+symbol of Claim 8, wherein the determination of step (e) is 
+
+affirmative comprising the step of determining said decoded value 
+only in accordance with the data of said first byte of data. 
+The method for the statistical decoding of a 
+symbol of Claim 8, wherein the determination of step (f) is 
+
+affirmative comprising the step of extracting a number of free 
+bits from said second byte of data determined n accordance with 
+
+the data of said first byte of data. 
+The method for the statistical decoding of a 
+symbol of Claim 8, wherein the determination of step (g) is 
+
+affirmative determining whether to fetch a third byte of data in 
+accordance said data. 
+</CLAIMS>
+</TEXT>
+</DOC>

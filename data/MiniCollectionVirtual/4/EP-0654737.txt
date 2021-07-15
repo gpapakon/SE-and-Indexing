@@ -1,0 +1,291 @@
+<DOC>
+<DOCNO>EP-0654737</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method and apparatus for controlling command retry
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1114	G06F1114	G06F938	G06F938	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F11	G06F11	G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A command retry control apparatus, for use with an 
+information processor which executes a program under 
+
+pipeline control, translates an instruction contained 
+in the program into commands in a processable form and 
+
+executes the processing on a command basis. The 
+command retry control apparatus determines (405), if an 
+
+error occurs during the execution of the command, 
+whether or not an operand value is a normal value and 
+
+executes (408), when the operand value is the normal 
+value, a command retry by stopping inputting a next 
+
+command. The command retry control apparatus continues 
+the processing by resuming (410, 411) the inputting of 
+
+the next command when normally finishing the command 
+retry. If the error reoccurs in the middle of the 
+
+command retry, the command retry control apparatus 
+decides (412) that the command is inexecutable and 
+
+notifies (413) a management system of the occurrence of 
+error. 
+Such apparatus can enhance the applied range of a 
+retry function in the pipeline control program of the 
+
+information processor, thereby improving a reliability, 
+an availability and a serviceability of the information 
+
+processor. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+FUJITSU LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+FUJITSU LIMITED
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+MATSUZAKI SHIGEHARU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YAMASHITA HIDEO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MATSUZAKI, SHIGEHARU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YAMASHITA, HIDEO
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a method of and an
+apparatus for controlling a command retry when detecting
+a hard error during command processing in an information
+processor for performing the processing under pipeline
+control.An advancement of techniques pertaining to
+information processing has been remarkable in recent
+years. With this advancement, a variety of services
+have been offered.Take enterprises for instance, a commercial goods
+stock management, a personnel working management, an
+accounting management and a transaction information
+management are performed by general-purpose computer-based
+information processors. If a system down of the
+information processor is caused, its influence will be
+exerted on not only the enterprise concerned but also
+other related enterprises. Accordingly, it is of
+importance that the information processor be constructed
+in consideration of improving RAS (Reliability
+Availability Serviceability) as well as improving a
+processing speed at a stage of designing the processor.In one method of achieving such RAS, for example,
+a data parity check, ECC (Error Check and Correction) of
+a CS (Control Storage) and an instruction retry are 
+performed when an error happens.FIG. 7 illustrates an architecture of a
+previously-considered information processor.The information processor is constructed of three
+units, i.e., an instruction control unit (I unit), a
+main storage unit (S unit) and an arithmetic processing
+unit (E unit).Herein, the instruction control unit (I unit)
+sequentially executes a step (1) of reading an
+instruction address expressed by program status words, a
+step (2) of effecting an address translation of the
+instruction address, a step (3) of reading the
+instruction on the basis of the address after being
+translated, a step (4) of decoding the thus read
+instruction and translating it into commands processable
+by the arithmetic processing unit (E unit) and a step
+(5) of notifying the arithmetic processing unit (E unit)
+of the commands.Hereat, step (4) includes a step of discriminating
+a microprogram for arithmetically controlling the
+instruction and detecting an entry address of this
+microprogram and also a step of discriminating operands
+required for the relevant instruction and detecting
+identification data of an operand register for storing
+the operands. Further, the instruction control unit (I
+unit) creates a command to which the entry address
+detected in step (4) and the operand register 
+identification data are added. Then, the instruction
+control unit (I
+</DESCRIPTION>
+<CLAIMS>
+A method of controlling a command retry,
+comprising:
+
+
+an instruction control step of reading, when
+receiving an indication to execute a program from a
+
+management system for maintaining and managing an
+information processor for executing pipeline process
+ing,
+the program in accordance with the indication,
+
+translating an instruction contained in this program
+into commands in such a form as to be processable in a pipeline processing manner by
+
+said information processor and inputting the commands;
+an arithmetic executing step of sequentially
+executing the commands pipeline processing inputted in said instruction
+
+control step; the method characterized by:
+an error detecting step of determining whether or
+not an error occurs in the middle of executing the
+
+command in said arithmetic executing step;
+an operand checking step of analyzing, when
+detecting the occurrence of an error in said error
+
+detecting step, the operand to be referred when
+executing the command and checking whether or not the operand value is normal with reference to operand data on the basis of an operand
+
+address contained in the command, i.e. normal meaning that the operand value has not been rewritten or erased;
+a command stopping step of stopping inputting a pipeline processing
+command to be executed next to the foregoing pipeline processing command
+
+when the value of the operand is the normal value;
+a retry control step of reexecuting the foregoing
+command;  
+a command inputting step of resuming the inputting
+of the command to be executed next to the foregoing
+
+command when normally finishing the reexecution of the
+foregoing command; and
+an error notifying step of giving, when the error
+reoccurs during the reexecution of the foregoing command
+
+in said retry control step, a notice of the occurrence
+of error to said managing system.
+A method of controlling a command retry
+according to claim 1, wherein said arithmetic executing
+
+step includes a step of outputting, when the execution
+of the command has been normally finished, an end-of-execution
+
+notice of the command, and
+
+wherein said instruction control step includes a
+step of inputting, after receiving the end-of-execution
+
+notice, a command next to the foregoing command.
+A method of controlling a command retry
+according to claim 1 or 2, wherein said retry control
+
+step includes:
+
+a step of determining whether or not the end-of-execution
+notice of the foregoing command is outputted
+
+when detecting the occurrence of error in said error
+detecting step; and
+a step of reexecuting the foregoing command if the
+end-of-execution notice is not outputted.
+A method of controlling a command retry
+according to any preceding claim, wherein said retry
+
+control step includes:
+
+a step of counting the number of reexecutions of
+the foregoing command; and
+a step of determining whether or not the number of
+executions is less than a specified value with reference
+
+to the number of reexecutions which is counted in said
+retry counting step before performing the reexecution
+
+processing of the foregoing command; and
+a step of reexecuting the foregoing command when
+the number of reexecutions is less than the specified
+
+value.
+An apparatus for controlling a command retry,
+comprising:
+
+
+instruction control means (1,7) for reading, when
+receiving an indication to execute a program from a
+
+management system for maintaining and managing an
+information processor for executing pipeline processing,
+
+the program in accordance with the indication,
+translating an instruction contained in this program
+
+into commands in such a form as to be processable in a pipeline processing manner by
+said information processor and inputting the commands;
+arithmetic executing means (2,8a) for sequentially
+executing the pipeline processing commands inputted by said instruction
+
+control means; the apparatus characterized by: 
+error detecting means (3) for determining whether or
+not an error occurs in the middle of the execution of the command
+
+by said arithmetic executing means (2,8a);
+operand checking means (4,8d) for analyzing, when said
+error detecting means detects the occurrence of an error,
+
+the operand to be referred when executing the command
+and checking whether or not the operand value is normal with reference to operand data on the basis of an operand
+
+address contained in the command, i.e. normal meaning that the operand value has not been rewritten or erased;
+and
+retry control means (5,8c) for causing, when the value of
+the operand is the normal value, said arithmetic
+
+executing means (2,8a) to reexecute the foregoing pipeline processing command by
+stopping inputting a command to be executed next to the
+
+foregoing command, resuming the inputting of the command
+to be executed next to the foregoing pipeline processing comand and
+
+notifying said management system of the occurrence of
+error when the error reoccurs during the reexecution of
+
+the foregoing pipeline processing command.
+An apparatus for controlling a command retry
+according to claim 5, wherein said arithmetic executing
+
+means (2,8a) outputs, when the execution of the command has
+been normally finished, an end-of-execution notice of
+
+the command, and
+
+wherein said instruction control means (1,7) inputs,
+after receiving the end-of-execution notice, a command
+
+next to the foregoing command.
+An apparatus for controlling a command retry
+according to claim 5 or 6, wherein said retry control
+
+means (5,8e) determines whether or not the end-of-execution
+notice of the foregoing command is outputted when
+
+detecting the occurrence of error by said error
+detecting means (3) and causes said arithmetic executing
+
+means (2,8a) to reexecute the foregoing command if the end-of-execution
+notice is not outputted.
+An apparatus for controlling a command retry
+according to any one of claims 5 to 7, wherein said
+
+retry control means (5,8e) includes a retry counter (6,8f) for
+counting the number of reexecutions of the foregoing
+
+command, determines whether or not a counter value is
+less than a specified value with reference to a value
+
+of said retry counter (6,8f) before performing the reexecution
+processing of the foregoing pipeline processing command and causes said
+
+arithmetic executing means (2,8a) to reexecute the foregoing
+pipeline processing command when the counter value is less than the
+
+specified value.
+</CLAIMS>
+</TEXT>
+</DOC>

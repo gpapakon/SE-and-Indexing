@@ -1,0 +1,244 @@
+<DOC>
+<DOCNO>EP-0611051</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Image processing method and apparatus
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04N1413	H04N1413	H04N726	H04N164	G06K936	G06T900	H04N141	G06T900	H04N141	H04N164	H04N140	G06K920	H04N726	G06K920	G06K936	H04N140	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04N	H04N	H04N	H04N	G06K	G06T	H04N	G06T	H04N	H04N	H04N	G06K	H04N	G06K	G06K	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04N1	H04N1	H04N7	H04N1	G06K9	G06T9	H04N1	G06T9	H04N1	H04N1	H04N1	G06K9	H04N7	G06K9	G06K9	H04N1	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An image processing apparatus, as well as an image 
+processing method, capable of executing area separation 
+
+accurately using a small block size includes a wavelet 
+transforming circuit for converting image data, which 
+
+has entered from an image input circuit, into a 
+plurality of band-limited image data, an edge detecting 
+
+circuit for detecting edge information in the image data 
+based upon the band-limited image data, a character-area 
+
+detecting circuit for detecting character areas in the 
+image data from the distribution of the edge 
+
+information, and an expansion/contraction circuit for 
+unifying the character areas based upon the character-area 
+
+information detected. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+CANON KK
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+CANON KABUSHIKI KAISHA
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+ISHIDA YOSHIHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KATAYAMA AKIHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ISHIDA, YOSHIHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KATAYAMA, AKIHIRO
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to an image processing
+method and apparatus. More particularly, the invention
+relates to an image processing method and apparatus, for
+use in a facsimile machine, copier or the like, through
+which an input image is separated into a variety of
+images, as in the manner of a character area and a non-character
+area, and processing such as encoding is
+executed for each area into which the image has been
+separated.A method that relies upon the distribution of high-frequency
+components contained in an image often is used
+as a method of separating the image into character and
+non-character areas. This method is as follows:
+(1) the image is separated into m x n blocks;(2) edge blocks are detected as by a Laplacian
+operation;(3) the edge blocks are counted; and(4) based upon the relationship between the number
+n of edge blocks and a threshold value T, the m x n
+blocks are discriminated in the following manner: a
+block is a character block if n > T holds, and a block 
+is a non-character image block if n ≤ T holds.Further, a color facsimile apparatus in which
+character areas and non-character areas are encoded by
+an appropriate method has been proposed (US-A-5416606
+and US-A-5361147).
+However, a problem encountered in the prior art
+described above is that when the size of the m x n
+blocks is small, it is difficult to distinguish between
+an edge portion of a character area and an edge portion
+of a non-character area. This means that when it is
+attempted to perform precise discrimination, a fairly
+large block size is required. This is disadvantageous
+in that hardware of larger scale becomes necessary.Furthermore, when conventional block processing of
+the kind described above is executed, edge detection is
+difficult if an edge is present at the boundary between
+one cell of m x n blocks and an adjacent cell of m x n
+blocks. A problem that arises is that a character area
+may be judged as being a non-character area.Another problem in the aforementioned prior art is
+that the portion underlying a character area (namely a
+color or pattern underlying the character area)
+vanishes, as a result of which part of the image
+information is lost.An object of the present invention is to make it 
+possible to accurately identify the characteristics of
+an input image.According to a first aspect of the present
+invention, the foregoing object is attained by providing
+an image processing apparatus comprising input means for
+entering image data, conversion means for converting the
+first image data into a series of
+</DESCRIPTION>
+<CLAIMS>
+An image processing apparatus comprising:
+
+input means (1) for entering first image data;
+conversion means (2) for converting the first image
+data into a series of sets of band-limited image data by
+
+successively performing a plurality of spatial filtering
+operations, the first set of band-limited data being
+
+produced by spatially filtering the first image data, and
+each subsequent set of band-limited image data being
+
+produced by performing spatial filtering on the previous
+set of band-limited image data; and
+discrimination means (3) for discriminating a
+characteristic of an image which is represented by the
+
+first image data, on the basis of at least one of the
+plurality of band-limited second image data;
+
+   
+characterized in that
+:
+
+   said discriminating means (3) selects said at least
+one of the plurality of sets of band-limited second image
+
+data for use in the discrimination from the plurality of
+band-limited second image data, each set being produced
+
+by applying a spatial filtering process a predetermined
+number of times or by applying different kinds of spatial
+
+filtering processes.
+The apparatus according to claim 1, wherein said
+conversion means (2) performs a two-dimensional wavelet
+
+transformation. 
+The apparatus according to claim 1, wherein said
+conversion means (2) comprises a low-pass filter (L) and
+
+a high-pass filter (H).
+The apparatus according to claim 1, wherein said
+band-limited second image data represents an edge
+
+component.
+The apparatus according to claim 4, wherein said
+discrimination means (3) discriminates an image
+
+characteristic using said edge component.
+The apparatus according to claim 1, further
+comprising correcting means for correcting the results
+
+of said discrimination.
+The apparatus according to claim 1, further
+comprising encoding means (103) for encoding the first
+
+image data, which has been entered by said input means
+(1), in conformity with results of said discrimination.
+The apparatus according to claim 7, wherein said
+encoding means has a first encoding circuit (255) for
+
+encoding a character area and a second encoding circuit
+(257) for encoding other areas.
+The apparatus according to claim 8, wherein said 
+first encoding circuit (255) performs entropy encoding
+
+and said second encoding circuit (257) performs
+information non-preserving coding.
+An image processing method comprising the steps of:
+
+entering first image data;
+converting the first image data into a series of
+sets of band-limited image data by successively
+
+performing a plurality of spatial filtering operations,
+the first set of band-limited data being produced by
+
+spatially filtering the first image data, and each
+subsequent set of band-limited image data being produced
+
+by performing spatial filtering on the previous set of
+band-limited image data; and
+discriminating a characteristic of an image, which
+is represented by the first image data, on the basis of
+
+at least one of the plurality of band-limited second
+image data,
+
+   
+characterized in that
+:
+
+   the discriminating step selects said at least one
+of the plurality of band-limited second image data for
+
+use in the discrimination from the plurality of sets of
+band-limited second image data, each set being produced
+
+by performing a spatial filtering process a different
+number of times or by performing different kinds of
+
+spatial filtering processes.
+A method according to claim 10, wherein said
+conversion step performs a two-dimensional wavelet 
+
+transformation.
+A method according to claim 10, wherein said
+conversion step performs a low-pass filtering and a high-pass
+
+filtering.
+A method according to claim 10, wherein said band-limited
+second image data represents an edge component.
+A method according to claim 10, wherein said
+discrimination step discriminates an image characteristic
+
+using said edge component.
+A method according to claim 10, further comprising
+the step of correcting the results of said
+
+discrimination.
+A method according to claim 10, further comprising
+the step of encoding the first image data, which has been
+
+entered at said input step, in conformity with the
+results of said discrimination.
+A method according to claim 16, wherein said
+encoding step comprises a first encoding process for
+
+encoding a character area and a second encoding process
+for encodin
+g other areas. 
+A method according to claim 17, wherein said first
+encoding process performs entropy encoding and said
+
+second encoding process performs information non-preserving
+coding.
+A read-only memory carrying processor-implementable
+instructions for performing the method according to any
+
+of claims 10 to 18.
+</CLAIMS>
+</TEXT>
+</DOC>

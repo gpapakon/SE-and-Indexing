@@ -1,0 +1,220 @@
+<DOC>
+<DOCNO>EP-0637800</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Data processor having cache memory
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1208	G06F1208	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F12	G06F12	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A data processor has a main memory (203) which 
+stores data and instructions to be used by the 
+
+processor, an instruction processor (201) and two 
+cache memories (100,101). The first cache memory 
+
+(101) is a large capacity port direct mapped cache 
+memory, and the second cache memory (100) is a small
+ 
+capacity two port set associative cache memory. The 
+
+instruction processor (201) controls the transfer of 
+data to/from the cache memories (100,102) on the 
+
+basis of instruction from the main memory, so that 
+data needed frequently is stored in the first cache 
+
+memory (101) and data needed less frequently is 
+stored in the second cache memory (100). With such 
+
+an arrangement, data stored in the second cache 
+memory (100) can be removed therefrom after it has 
+
+been accessed, and other data stored therein, 
+thereby increasing the probability that data needed 
+
+at any time will be in the first or second cache 
+memories (101,100), without storing useless data on 
+
+the first cache memory (101). 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+HITACHI LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+HITACHI, LTD.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+HOTTA TAKASHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KURIHARA TOSHIHIKO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+OSUMI AKIYOSHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SAITO KOJI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SAWAMOTO HIDEO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SHIMAMURA KOTARO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TANAKA SHIGEYA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HOTTA, TAKASHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KURIHARA, TOSHIHIKO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+OSUMI, AKIYOSHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SAITO, KOJI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SAWAMOTO, HIDEO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SHIMAMURA, KOTARO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TANAKA, SHIGEYA
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a data processor 5
+having a cache memory, particularly to software prefetch
+for efficiently using two types of cache memories and
+control for most favorably controlling
+the access of the cache memories.
+Moreover, the present invention relates to a data
+processor having a controller for these operations.In general, a computer having, a cache memory
+stores data to be frequently used in a small-capacity
+high-speed cache memory out of the data stored in a
+large-capacity low-speed main memory, in which an
+instruction unit such as a CPU makes high-speed data
+access to the cache memory and accesses the main memory
+only when no data is present in the cache memory.However, because the machine cycle of the CPU is
+suddenly shortened compared with that of the memory, the
+penalty in the case of a cache miss (a time until
+requested data is obtained from the main memory)
+increases. The method called software prefetch for solving the
+above problem is described in David Callhan et al.,
+"Software Prefetching" Fourth International Conference
+on Architectural Support for Programming Languages and
+Operating Systems, 1991, pp. 40-52. In the case of the
+first prior art, an address is computed by a prefetch
+instruction before an instruction unit requires data, it
+is checked if data indicated by the address is present
+in a cache memory, 5 and if not, the data is transferred
+from the main memory to the cache memory. Therefore, it
+is possible to improve the hit ratio of the cache memory
+and minimize the penalty because data is previously
+stored in the cache memory by the prefetch instruction
+whenever data is required.A cache memory comprising two buffers with
+different purposes which are properly used by hardware
+is disclosed in JP-A-4 303 248.In the case of the second prior art, the cache
+memory has an S buffer and a P buffer. The S buffer
+stores data to be accessed frequently over time. The P
+buffer stores data of which the addresses to be
+referenced from now on by program are close to the
+currently referenced address, i.e., the P buffer stores
+the array data to be accessed in array computation. Any 
+one of the two buffers is used selectively depending on
+the addressing mode in effect and on the type of the
+register being used for address calculation.In general, a computer stores instructions or data
+to be frequently called and processed by a processor in
+a high-speed small-capacity memory called a cache memory
+in addition to a comparatively low-speed large-capacity
+main memory. Thus, the
+</DESCRIPTION>
+<CLAIMS>
+A data processor comprising:
+
+(a) a main memory (203) storing data and
+instructions;
+(b) an instruction processor (201) for processing
+the data in accordance with the instructions;
+(c) a cache memory part storing only data and
+connected between the main memory and the instruction
+
+processor, wherein the cache memory part includes a first
+cache memory (101) and a second cache memory (100)
+
+having a storage capacity
+less than or equal to the storage capacity of the first
+
+cache memory;
+
+   
+characterised in that
+:
+
+   the first cache memory (101) has one port,
+the second cache memory (100) has two or more ports, and
+
+the data processor further comprises:
+(d) a controller (1600,104), included in the cache
+memory part, for receiving information for indicating
+
+instruction to be executed and address from the
+instruction processor, and for selecting one of the first
+
+and second cache memories based on the information and
+address, and storing data into the selected cache memory;
+
+and 
+(e) the controller being arranged to control either
+the first cache memory or the second cache memory to
+
+store data thereinto, with data of high access frequency
+being stored into the first cache memory (101) and data
+
+of low access frequency being stored into the second
+cache memory (100).
+A data processor according to claim 1, wherein said
+first cache memory (101) is a direct mapped cache memory.
+A data processor according to claim 1, wherein said
+second cache memory (100) is a fully associative cache
+
+memory.
+A data processor according to claim 1, wherein said
+second cache memory (100) is arranged to execute in one
+
+machine cycle both the transfer of data from said main
+memory (203) and the referencing to data in said second
+
+cache memory (100) as designated by said instruction
+processor (201).
+A data processor according to claim 1, wherein said
+controller includes a prefetch queue and a control
+
+processor (1600), said prefetch queue retaining at least
+one address of the data being transferred from said main
+
+memory (203), said control processor (1600) being
+arranged to control data access to either said first
+
+cache memory or said second cache memory based on the
+retained address.
+A data processor according to claim 5, wherein said 
+prefetch queue is arranged to retain write information
+
+for designating the writing of prefetched data to one of
+said first cache memory (101) and said second cache
+
+memory (100).
+</CLAIMS>
+</TEXT>
+</DOC>

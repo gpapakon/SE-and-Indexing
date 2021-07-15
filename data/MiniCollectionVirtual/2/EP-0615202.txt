@@ -1,0 +1,247 @@
+<DOC>
+<DOCNO>EP-0615202</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Apparatus and method for logic description conversion
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F945	G06F945	G06F1750	G06F1750	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	G06F17	G06F17	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A logic description conversion apparatus and a logic description 
+conversion method are obtained according to which logic descriptions which 
+
+include a long-term operation logic part which operates at an operation clock 
+which is longer than a reference operation clock are converted into more 
+
+advanced logic descriptions from which a logic circuit will be created accurately. 
+Conversion-into-table means (1) receives a source code (SC1) which is formed 
+
+by logic descriptions which include a multi-clock transfer path (long-term 
+operation logic part), and generates a reference table (D1) which includes 
+
+information about input control logic of an extracted register. Based on an 
+indicator (D2) in which register name information of a receiving side of the 
+
+multi-clock transfer path is registered and the reference table (D1), extraction 
+and separation means (2) converts the source code (SC1) into a source code 
+
+(SC2) which is formed by logic descriptions in which the long-term operation 
+logic part and the input control logic are logically separated from each other. 
+
+Since the long-term operation logic part and the input control logic are logically 
+separated from each other, a logic circuit is accurately created by logic 
+
+synthesis. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MITSUBISHI ELECTRIC CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MITSUBISHI DENKI KABUSHIKI KAISHA
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+KOYAMA MASAYUKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KOYAMA, MASAYUKI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a logic description conversion apparatus
+for and a logic description conversion method of converting a logic description
+into a more accurate logic description.In a conventional technique of synthesizing logic, in general, optimum
+logic is synthesized from a logic description by register extraction means for
+extracting a corresponding register, Boolean means for processing the logic
+description by Boolean computation and logic optimization means for optimizing,
+based on circuit information and timing information for logic optimization, the
+Boolean logic descriptions which were created by the Boolean means.In the following, operation of the present invention will be described in
+detail. The register extraction means extracts a part of logic descriptions which
+is described in the register format as a register. Then, the Boolean means
+processes logic descriptions which are sandwitched between registers or included
+in a range which is partitioned by input/output ports, that is, logic descriptions
+other than registers. During the process performed by the Boolean means,
+whether the logic descriptions are logic of a control computation family or logic
+of a data computation family (i.e., data transfer family) is not examined.
+Following this, the logic optimization means optimizes the logic in accordance
+with the circuit information and the timing information for logic optimization, 
+to thereby generate a logic circuit having optimized logic descriptions.In the conventional logic synthesis technique, since the Boolean means
+processes logic descriptions without distinguishing logic descriptions of the
+control computation family and logic descriptions of the data computation
+family, if logic synthesis is to be performed on logic descriptions including a
+sequence circuit, all computation on logic sandwitched between registers must
+finish within the frequency of a predetermined reference operation clock.However, as shown in the timing chart of Fig. 17, in reality, while logic
+computation is carried out at a one-clock frequency T, i.e., the frequency of a
+reference operation clock, data computation functionlogic ALU between a register
+reg-A and a register reg-B occasionally requires an especially long three-clock
+frequency 3T. The data computation family such as the functionlogic ALU is
+called a multi-clock transfer path in which register-to-register data transfer does
+not complete within a one-clock frequency but a computation time lingers over
+a multi-clock period. In Fig. 17,
+</DESCRIPTION>
+<CLAIMS>
+A logic description conversion apparatus (20, 30) for
+converting logic descriptions (SC1) from which a logic
+
+circuit will be formed by logic synthesis into higher level
+logic descriptions (SC2) from which a logic circuit as it
+
+is exactly defined in specifications will be created,
+comprising:
+
+
+logic description providing means (30) for providing
+first logic descriptions (SC1) which define at least one
+
+long-term operation logic part (12, 12') which performs
+data computation at a clock rate (3T) which is longer than
+
+a reference operation clock rate (T);
+long-term logic input register information providing
+means (22) for providing long-term logic input register
+
+information (D2) that designates a register (reg-B) having
+said long-term operation logic part (12, 12') on an input
+
+side thereof and defined by said first logic descriptions
+(SC1) as a long-term logic input register (reg-B);
+extracted register input control information
+generating means (1; 23, 25) for extracting a description
+
+(D1) that serves as a register from said first
+logic descriptions (SC1) and for generating extracted
+
+register input control information (D1) that comprises, in
+correspondence with said register, input control
+
+logic that designates an input timing and the like for said
+register; and
+logic description conversion means (2; 23) for
+converting said first logic descriptions (SC1) into second
+
+logic descriptions (SC2) based on said long-term logic
+input register information (D2) and said extracted register
+
+input control information (D1) and outputting said second
+logic descriptions (SC2), said second logic descriptions
+
+(SC2) being logic descriptions in which said input control
+logic of said long-term logic input register (reg-B) and 
+
+said long-term operation logic part (12, 12') are logically
+separated from each other.
+The logic description conversion apparatus (20, 30) of
+claim 1, wherein said extracted register input control
+
+information (D1) consists of a name which specifies said
+extracted register, information about said input control
+
+logic of said extracted register and input data to be given
+to said extracted register.
+The logic description conversion apparatus (20, 30) of
+claim 1 or 2, wherein said logic description providing
+
+means (30) comprises first memory means (30) in which said
+first logic descriptions (SC1) are stored and said long-term
+
+logic input register information providing means (22)
+comprises second memory means (22) in which said long-term
+
+logic input register information (D2) is stored,
+
+   and wherein said logic description conversion
+apparatus (20, 30) further comprises third memory means
+
+(21) for temporarily storing said extracted register input
+control information (D1).
+The logic description conversion apparatus (20, 30) of
+any of the preceding claims, wherein:
+
+
+said logic description conversion apparatus (20, 30)
+is formed by a microcomputer;
+said extracted register input control information
+generating means (1; 23, 25) is a CPU (23) which operates
+
+in accordance with a preliminarily prepared first program
+(25); and
+said logic description conversion means (2; 23) is
+said CPU (23) which operates in accordance with a
+
+preliminarily prepared second program (26).
+The logic description conversion apparatus (20, 30) of
+claim 4, further comprising fourth memory means (24) in 
+
+which said first (25) and said second (26) programs are
+stored.
+The logic description conversion apparatus (20, 30) of
+claim 5, wherein said second (22) and said third (21)
+
+memory means are RAMs, said first memory means is a hard
+disk (30), said fourth memory means (24) is a ROM,
+
+   and wherein said second, said third and said fourth
+memory means (21-23) and said CPU (23) are formed as one
+
+computation processing part of a single chip (20).
+A logic description conversion method of converting
+logic descriptions (SC1) from which a logic circuit will be
+
+formed by logic synthesis into higher level logic
+descriptions (SC2) from which a logic circuit as it is
+
+exactly defined in specifications will be created,
+comprising the steps of:
+
+
+(a) for extracting (S1) a description (D1) that serves
+as a register from said first logic descriptions
+
+(SC1) and for generating (S2-S4) extracted register input
+control information (D1) that comprises, in correspondence
+
+with said register, input control logic that
+designates an input timing and the like for said
+
+register; and
+(b) converting (S5), based on said extracted register
+input control information (D1) and long-term logic input
+
+register information (D2) that designates a register (reg-B)
+defined by said first logic descriptions (SC1) having a
+
+long-term operation logic part (12, 12') at a input side
+thereof as a long-term logic input register (reg-B), said
+
+first logic descriptions (SC1) into second logic
+descriptions (SC2) in which said input control logic of
+
+said long-term logic input register (reg-B) and said long-term
+operation logic part on an input side of said long-term
+
+logic input register (reg-B) are logically separated
+from each other.
+The logic description conversion method of claim 7,
+wherein said step (a) comprises the steps of:
+
+
+(a-1) extracting (S1) a description (D1) that serves
+as an extracted register from said first logic descriptions
+
+(SC1) ;
+(a-2) extracting (S2) information about said input
+control logic of said extracted register;
+(a-3) extracting (S3) input data to be given to said
+extracted register; and
+(a-4) outputting (S4) said extracted register input
+control information (D1) in which said extracted register,
+
+said information about said input control logic and said
+input data are stored as a set.
+</CLAIMS>
+</TEXT>
+</DOC>

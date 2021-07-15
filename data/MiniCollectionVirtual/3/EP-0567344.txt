@@ -1,0 +1,791 @@
+<DOC>
+<DOCNO>EP-0567344</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method and apparatus for character recognition
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06K932	G06K920	G06K934	G06K934	G06K932	G06K920	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06K	G06K	G06K	G06K	G06K	G06K	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06K9	G06K9	G06K9	G06K9	G06K9	G06K9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method and apparatus for recognizing 
+characters in pixel image data and for forming a 
+
+text file of the characters. Pixel image data is 
+inputted and, if the pixel image data is not binary 
+
+image data then the pixel image data is converted 
+into binary pixel image data. Blocks of pixel image 
+
+data are selected by outlining contours of connected 
+components in the pixel image data, determining 
+
+whether the outlined connected components include 
+text unit or non-text units based on the size of the 
+
+outlined connected components, selectively 
+connecting text units widthwisely to form text lines 
+
+based on proximity of adjacent text units, and 
+selectively connecting text lines vertically to form 
+
+text blocks based on proximity of adjacent text 
+lines and on the position of non-text units between 
+
+text lines. A hierarchical tree is formed based on 
+the outlined connected components. Text blocks are 
+
+segmented into text lines of pixel data by 
+adaptively dividing the text blocks into at least 
+
+one column based on a horizontal projection of pixel 
+density across the column, and characters are cut 
+
+from the segmented lines in two cutting steps in 
+which the first cutting step cuts between non-touching 
+
+and non-overlapping characters and the 
+second cutting step cuts between touching 
+
+characters. The cut characters are recognized and 
+character codes are derived based on such 
+
+recognition. The character codes are stored in a 
+computer text file in accordance with the order 
+
+established by the hierarchical tree. If desired, 
+the non-text units may be interspersed with the 
+
+stored character codes in accordance with the order 
+established by the hierarchical tree. The pixel 
+
+image data may be pre-processed by, for example,  
+ 
+
+image compression or image enhancement, and the 
+recognized characters may be subjected to post-processing, 
+
+for example, context checking. 
+Designators may be appended to non-text units based 
+
+on characteristics of the non-text units. For 
+example, white contour tracing may be employed on 
+
+the interior of non-text units, non-grid-arranged 
+white contours may be recombined, and the fill rate 
+
+of the white contours may be calculated, and table 
+designators appended to the non-text unit based on 
+
+the number of white contours or the recombination 
+rate of non-grid-arranged white contours or the fill 
+
+rate of white contours. Cutting between non-touching 
+and non-overlapping characters may be 
+
+accomplished by sparsely stepping through the line 
+segment, and cutting between touching characters may 
+
+be accomplished in accordance with whether 
+information concerning the spacing between touching 
+
+characters is known. If information concerning the 
+spacing is known, then cutting may be accomplished 
+
+based on the spacing statistics. If information is 
+not known, then cutting between touching characters 
+
+may be accomplished in accordance with rotated 
+projections of pixel density so as to make an 
+
+oblique cut through the touching characters at an 
+angle and position determined by the rotated 
+
+projection. Inadvertently characters may be 
+recombined. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+CANON KK
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+CANON KABUSHIKI KAISHA
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+SHERRICK CHRISTOPHER A
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+VAEZI MEHRZAD R
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WANG SHIN-YWAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SHERRICK, CHRISTOPHER A.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+VAEZI, MEHRZAD R.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WANG, SHIN-YWAN
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This application is being filed with an
+appendix of computer program listings.A portion of the disclosure of this patent
+document contains material which is subject to-copyright
+protection. The copyright owner has no
+objection to the facsimile reproduction by anyone of
+the document or the patent disclosure, as it appears
+in the Patent Office file or
+records, but otherwise reserves all copyright rights
+whatsoever.The present invention relates to a method
+and apparatus for character recognition, and
+particularly to such a method and apparatus in
+which, prior to recognition, blocks of image data
+are classified and selected based on the 
+characteristics of the image data. For example,
+blocks of image data may be selected and classified
+based on whether the image data is text image data
+or non-text image data such as halftone (or grey-scale)
+images, line drawings, frames or the like.The present invention further relates to a
+method and apparatus in which lines of text are
+identified and segmented from text blocks and in
+which individual characters within lines of text are
+identified and cut from other characters in the
+lines in preparation for recognition processing.In recent years, it has become possible to
+analyze images of text data so as to recognize
+individual characters in the text data and form a
+computer readable file of character codes
+corresponding to the recognized characters. Such
+files can then be manipulated in word-processing or
+data-processing programs. Such systems, which are
+hereinafter referred to as "character recognition
+systems", are advantageous because they eliminate
+the need to re-type or otherwise re-enter text data.
+For example, it is possible to character-recognize a
+document which has been transmitted by facsimile or
+reproduced from microfilm or by a photocopier so as
+to form computer text files that contain character
+codes (e.g., ASCII) of the characters and numerals
+in the document thereby to permit further word-processing
+or data-processing of the document
+without the need to re-type or re-enter the
+document.Documents to be character-recognized often
+contain many different types of image data, not all
+of which can be recognized. For example, while it
+is possible currently to recognize text image data,
+it is not now possible to recognize non-text image 
+data. Typically, documents to be character-recognized
+include blocks of text image data, and
+blocks of non-text image data such as halftone
+images, line drawings, lines and the like. In
+addition, the documents may include tables
+</DESCRIPTION>
+<CLAIMS>
+A method of selecting blocks of pixels from pixel
+image data comprising the steps of:
+
+
+outlining contours of connected components in the
+pixel data (S401);
+forming a rectangle (37,39,40,41) around each
+connected component outlined in said outlining step
+
+(S402);
+forming a hierarchical tree based on the outlined
+connected components (S403), including designating as a
+
+descendent a connected component which is entirely within a
+rectangle formed around another connected component;
+a first connecting step in which rectangles are
+selectably connected widthwisely based on size and
+
+proximity to other rectangles to form text lines (S802);
+a second connecting step in which a plurality of
+text lines formed in the first connecting step are
+
+selectably connected vertically based on size and
+proximity to other formed text lines to form text blocks,
+
+at least one formed text block having a plurality of
+formed text lines (S904); and
+modifying the hierarchical tree based on the first
+and second connecting steps (S804, S906).
+A method according to claim 1, further comprising
+the step of inputting pixel image data (S201), wherein
+
+said input step includes the step of converting the pixel
+image data into binary pixel image data in the event that
+
+the pixel image data is not binary pixel image data.
+A method according to claim 1, wherein in said
+forming step the smallest rectangle is formed around each
+
+connected component (S402).
+A method according to claim 1, wherein said
+hierarchical tree is based on the position of
+
+corresponding rectangles formed in said rectangle forming
+step (S403).
+A method according to claim 4, further comprising
+the step of classifying the rectangles formed in said
+
+forming step into text and non-text units (S204; S404).
+A method according to claim 5, further comprising
+the step of recognizing character images in blocks of
+
+text units.
+A method according to claim 5, wherein said
+classifying step is performed in accordance with a 
+
+predetermined threshold of unit height (S404).
+A method according to claim 6, wherein said
+classifying step is performed in accordance with
+
+statistical information concerning the height of said
+rectangles formed in said forming step (S404).
+A method according to claim 6, wherein said first
+connecting step (S802) and said second connecting step
+
+(S904) are not performed for non-text units.
+A method according to claim 6, further comprising
+the step of deriving white contours for non-text units
+
+(S439).
+A method according to claim 10, wherein non-text
+units are designated as table units in accordance with
+
+the number of white contours.
+A method according to claim 10, further comprising
+the step of calculating the white contour filing rate
+
+(S420).
+A method according to claim 12, wherein the non-text
+unit is not designated as image data in the event that 
+
+the filling rate is high (S441).
+A method according to claim 12, further comprising
+the step of recombining non-grid-arranged white contours
+
+(S422).
+A method according to claim 14, wherein the non-text
+unit is designated as a table in the event that the
+
+recombination rate is not high (S424).
+A method according to claim 10, wherein white
+contours are calculated in 4- directions (S439).
+A method according to claim 1, wherein contours of
+connected components are outlined in at least 8-directions
+
+(S425).
+A method according to claim 1, wherein in said
+outlining step, contours of connected components are
+
+outlined only at exterior portions of the connected
+components.
+A method according to claim 1, further comprising
+the step of detecting gaps in the pixel image data, and
+
+wherein in said first connecting step (S802) rectangles 
+are not connected into lines in the event that a gap
+
+(108) separates the rectangles.
+A method according to claim 19, wherein columns are
+detected in accordance with vertically extending gaps
+
+between rectangles.
+A method according to claim 1, wherein said second
+connecting step (S904)
+ includes the step of determining
+non-text boundaries (119) between lines of text data
+
+connected in said first connecting step, and wherein said
+second connecting step (S904) does not connect lines
+
+vertically into blocks in the event that there is an
+intervening non-text boundary (119).
+A method according to claim 1, further comprising
+the step of compressing the pixel image data before said
+
+outlining step (S202).
+A method for recognizing characters in pixel image
+data comprising the steps of:
+
+
+selecting blocks of pixels from the pixel image
+data, said selecting step including, in order, the steps
+
+of outlining contours of connected components in the
+pixel image data (S402); and 
+determining whether the outlined connected
+components include text units or non-text units (S404);
+forming a hierarchical tree (37-41) based on the
+outlined connected components ;
+a first connecting step of
+selectively connecting text units widthwisely to form
+
+text lines (S802);
+a second connecting step of vertically
+connecting a plurality of text lines formed in the first
+
+connecting step to form text blocks, at least one formed
+text block including a plurality of formed horizontal
+
+text lines (S904);
+modifying the hierarchical tree based
+on the first and second connecting steps (S804, S906) and
+
+designating as a descendent a connected component which
+is within a rectangle formed around another connected
+
+component;
+the method further including the steps of:
+
+segmenting text blocks into lines of pixel image
+data;
+cutting characters from the line segmented in said
+segmenting step; and
+recognizing characters cut in said cutting step; and
+storing characters recognized in said recognizing step in
+
+accordance with an order established in said block
+selecting step.
+A method according to claim 23, further comprising
+the step of recognizing character images in blocks of
+
+text units (S204-S208).
+A method according to claim 23, further comprising
+a pre-processing step in which the pixel image data is
+
+pre-processed (S202).
+A method according to claim 25, wherein said pre-processing
+step (S202) includes the step of image
+
+compression.
+A method according to claim 25, wherein said pre-processing
+step (S202) includes the step of filtering so
+
+as to enhance pixel image data.
+A method according to claim 23, further comprising
+the step of post-processing the characters recognized in
+
+said recognizing step (S211).
+A method according to claim 28, wherein said post-processing
+(S211) includes context checking.
+A method according to claim 23, further comprising
+the step of inputting pixel image data (S201), wherein 
+
+said input step includes the step of converting the pixel
+image data into binary pixel image data in the event that
+
+the pixel image data is not binary pixel image data.
+A method according to claim 23, further comprising
+the step of forming a rectangle around the connected
+
+components outlined in said outlining step.
+A method according to claim 31, wherein the
+hierarchical tree is formed based on the position of the
+
+rectangles formed in said forming step.
+A method according to claim 23, further comprising
+the step of classifying the connected contours as text
+
+units or non-text units.
+A method according to claim 33, wherein said first
+and second connecting steps connect text units but do not
+
+connect non-text units.
+A method according to claim 33, further comprising
+the step of white-contour tracing the interior of non-text
+
+units.
+A method according to claim 35, further comprising 
+the step of designating non-text units as tables based on
+
+the number of white contours contained therein (S424).
+A method according to claim 35, further comprising
+the step of recombining non-grid-arranged white contours
+
+(S422).
+A method according to claim 37, wherein non-text
+units are designated as tables based on recombination in
+
+said recombining step (S424).
+A method according to claim 33, further comprising
+calculating the fill rate of white contours in non-text
+
+units (S421).
+A method according to claim 39, wherein the non-text
+unit is not designated as a table in the event that the
+
+fill rate is high.
+A method for forming a text file of characters in
+pixel image data comprising the steps of:
+
+
+inputting pixel image data, wherein said inputting
+step includes the step of converting the pixel image data
+
+into binary pixel image data in the event that the pixel
+image data is not binary pixel image data (S201); and 
+selecting blocks of pixel image data, said selecting
+step including the steps of outlining contours of
+
+connected components in the pixel image data;
+determining whether the outlined connected
+components include text units or non-text units based on
+
+the size of the outlined connected components,
+selectively connecting text units widthwisely to form
+
+text lines based on proximity of adjacent text units, and
+selectively connecting text lines vertically to form text
+
+blocks based on proximity of adjacent text lines and on
+the position of non-text units between text lines;
+forming a hierarchical tree (S403) based on the
+connected components outlined in said outlining step;
+modifying the hierarchical tree based on the
+connecting steps (S804, S906);
+segmenting text blocks into lines of pixel image
+data (S206);
+cutting characters from the line segmented in said
+segmenting step (S207);
+recognizing characters (S208) cut in said cutting
+step and deriving character codes based on said
+
+recognition; and
+storing the character codes in a computer text file 
+in accordance with an order established by said
+
+hierarchical tree (S213).
+A method according to claim 41, further comprising
+a pre-processing step in which the pixel image data is
+
+pre-processed (S202).
+A method according to claim 42, wherein said pre-processing
+step includes the step of image compression.
+A method according to claim 43, wherein said pre-processing
+step includes the step of enhancing pixel
+
+image data.
+A method according to claim 41, further comprising
+the step of post-processing the characters recognized in
+
+said recognizing step, said post-processing including
+context checking.
+A method according to claim 41, further comprising
+the step of white-contour tracing the interior of non-text
+
+units.
+A method according to claim 46, further comprising
+the step of appending designators to non-text units. 
+A method according to claim 47, further comprising
+the step 
+of appending table designators to non-text units
+based on the number of white contours contained therein
+
+(S424).
+A method according to claim 47, further comprising
+the step of recombining non-grid arranged white contours,
+
+wherein table designators are appended to non-text units
+based on the recombination rate in said recombining step
+
+(S422).
+A method according to claim 47, further comprising
+calculating the fill rate of white contours in non-text
+
+units, wherein table designators are appended to non-text
+units in the event that the fill rate is not high.
+A method for forming a text file of characters in
+pixel image data, comprising the steps of:
+
+
+inputting pixel image data, wherein said inputting
+step includes the step of converting the pixel image data
+
+into binary pixel image data in the event that the pixel
+image data is not binary image data (S201);
+selecting blocks of pixel image data (S203), said
+selecting step including the step of outlining contours
+
+of connected components in the pixel image data (S402), 
+forming a hierarchical tree (S403) based on the
+connected components outlined in said outlining step;
+during the step of outlining, determining whether
+outlined connected components include text units or non-text
+
+units based on the size of the outlined connected
+components (S404), selectively connecting text units
+
+widthwisely to form text lines based on proximity of
+adjacent text units (S802), and selectively connecting
+
+text lines vertically (S904) to form text blocks based on
+proximity of adjacent text lines and on the position of
+
+non-text units between text lines;
+modifying the hierarchical for based on the connecting steps;
+segmenting text blocks into lines of pixel data by
+adaptively dividing text blocks into at least one column
+
+based on a horizontal projection of pixel density across
+said at least one column (S1705);
+cutting characters from the lines segmented in said
+segmenting step, said cutting step including a first
+
+cutting layer step (S261) in which non-touching and non-overlapping
+characters are cut from the line segment and
+
+at least one additional cutting layer step in which
+touching characters are cut (S266);
+recognizing the characters cut in said cutting step
+and deriving character codes based on said recognition
+
+(S267); and 
+storing the character codes in a computer text file
+in accordance with an order established by the
+
+hierarchical tree.
+A method according to claim 51, further comprising
+a pre-processing step in which the pixel image data is
+
+pre-processed (S202).
+A method according to claim 52, wherein said pre-processing
+step includes the step of image compression.
+A method according to claim 53, wherein said pre-processing
+step includes the step of enhancing pixel
+
+image data.
+A method according to claim 51, further comprising
+the step of post-processing the characters recognized in
+
+said recognizing step, said post-processing including
+context checking (S211).
+A method according to claim 51, wherein said first
+cutting layer step includes the step of sparsely stepping
+
+through the line segment (S2101).
+A method according to claim 51, wherein said 
+additional cutting layer step (S266) is selectable in
+
+accordance with whether characteristics are known about
+the characters in the pixel image data.
+A method according to claim 57, wherein said
+additional cutting layer step cuts based on spacing
+
+statistics of a known character set.
+A method according to claim 57, wherein said
+additional cutting layer step cuts in accordance with a
+
+rotated projection of pixel density.
+A method according to claim 59, wherein the rotated
+projection of pixel density is obtained at an angle
+
+determined. based on a vertical projection of pixel
+density (S2303).
+A method according to claim 51, further comprising
+an intermediate cutting layer step between said first
+
+cutting layer and said at least one additional cutting
+layer step.
+A method according to claim 61, wherein said
+intermediate cutting layer step includes the step of
+
+outlining overlapping pixel images in the line segment 
+(S2501).
+A method according to claim 61, further comprising
+the step of recombining characters cut in said
+
+intermediate cutting layer step in the event that the
+characters were cut inadvertently (S2502).
+A method according to claim 63, wherein said
+recognizing step recognizes characters cut in said first
+
+cutting layer step before said additional cutting layer
+step, and wherein said additional cutting layer step is
+
+applied to characters that are not recognized in said
+recognizing step.
+A method according to claim 64, further comprising
+the step of recombining the characters cut in said at
+
+least one additional cutting layer step in the event that
+characters are not recognized in said recognizing step.
+A method according to claim 51, further comprising
+the step of white-contour tracing the interior of non-text
+
+units (S417).
+A method according to claim 66, further comprising
+the step of appending designators to non-text units 
+
+(S443, S445, S447).
+A method according to claim 67, wherein table
+designators are appended to non-text units based on the
+
+number of white contours contained therein (S431, S429).
+A method according to claim 67, further comprising
+the step of recombining non-grid-arranged white contours,
+
+wherein table designators are appended to non-text units
+based on the recombination rate in said recombining step
+
+(S424).
+A method according to claim 67, further comprising
+the step of calculating the fill rate of white contours
+
+in non-text units, wherein table designators are appended
+to non-text units in the event that the fill rate is not
+
+high.
+A computer program for controlling a computer to
+carry out all the steps of a method according to at least
+
+one of the preceding claims when said program is run on
+the computer.
+A carrier medium carrying the computer program of
+claim 71. 
+An apparatus for recognizing characters in pixel
+image data comprising:
+
+
+means for selecting blocks of pixels from the pixel
+image data (10, 17), including means for, in order,
+
+outlining contours of connected components in the pixel
+image data, and determining whether the outlined
+
+connected components include text units or non-text units
+(S404);
+means for forming a hierarchical tree (37-41) based
+on the outlined connected components;
+means for performing a first connecting step of
+selectively connecting text units widthwisely to form
+
+text lines;
+means for performing a second connecting step of
+vertically connecting a plurality of text lines formed in
+
+the first connecting step to form text blocks, at least
+one formed text block including a plurality of formed
+
+horizontal text lines, modifying the hierarchical tree
+
+based on the first and second connecting steps and
+designating as a descendent a connected component which
+
+is within a rectangle formed around another connected
+component;
+means for segmenting text blocks into lines of pixel
+image data; 
+means for cutting characters from the line segmented
+by said means for segmenting;
+means for recognizing characters cut by said means
+for cutting (17, 19); and
+means (20) for storing characters recognized by said
+means for recognizing in accordance with the order
+
+established by said block selecting means.
+An apparatus for forming a text file of characters
+in pixel image data comprising;
+
+
+means (12) for inputting pixel image data;
+means for converting the pixel image data into
+binary pixel image data in the event that the pixel image
+
+data is not binary pixel image data; and
+means for selecting blocks of pixel image data (10,
+17), including means for outlining contours of connected
+
+components in the pixel image data;
+means for determining whether the outlined connected
+components include text units or non-text units based on
+
+the size of the outlined connected components;
+means for selectively connecting text units
+widthwisely to form text lines based on proximity of
+
+adjacent text units; and 
+means for selectively connecting text lines
+vertically to form text blocks based on proximity of
+
+adjacent text lines and on the position of non-text units
+between text lines;
+means for forming a hierarchical tree based on the
+connected components outlined by said outlining means;
+means for modifying the hierarchical tree based on
+said selective connecting;
+means for segmenting text blocks into lines of pixel
+image data;
+means for cutting characters from the line segmented
+by said segmenting means;
+means for recognizing characters cut by said cutting
+means (17, 19) and deriving character codes based on said
+
+recognition; and
+means for storing (20) the character codes in a
+computer text file in accordance with an order
+
+established by said modified hierarchical tree.
+An apparatus for forming a text file of characters
+in pixel image data, comprising:
+
+
+means for inputting pixel image data (12);
+means for converting the pixel image data into
+binary pixel image data in the event that the pixel image
+
+data is not binary image data; and 
+means for selecting blocks of pixel image data (10,
+17) including means for outlining contours of connected
+
+components in the pixel image data;
+means for determining during the outlining whether
+outlined connected components include text units or non-text
+
+units based on the size of the outlined connected
+components;
+means for selectively connecting text units
+widthwisely to form text lines based on proximity of
+
+adjacent text units;
+means for selectively connecting text lines
+vertically to form text blocks based on proximity of
+
+adjacent text lines and on the position of non-text units
+between text lines;
+means for forming a hierarchical tree based on the
+connected components outlined by said outlining means;
+means for modifying the hierarchical tree based on
+said selective connecting;
+means for segmenting text blocks into lines of pixel
+data by adaptively dividing text blocks into at least one
+
+column based on a horizontal projection of pixel density
+across said at least one column;
+means for cutting characters from the lines
+segmented by said segmenting means in a first cutting
+
+layer step in which non-touching and non-overlapping
+characters are cut from the line segment and at least one 
+
+additional cutting layer step in which touching
+characters are cut;
+means for recognizing (17, 19) the characters cut in
+said cutting step and deriving character codes based on
+
+said recognition; and
+means for storing (20) the character codes in a
+computer text file in accordance with an order
+
+established by the hierarchical tree.
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,98 @@
+<DOC>
+<DOCNO>EP-0651324</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Speculative instruction queue for variable byte length instructions
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F932	G06F930	G06F938	G06F932	G06F930	G06F938	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	G06F9	G06F9	G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A speculative instruction queue for a superscalar 
+processor of the type having a variable byte-length 
+
+instruction format, such as the X86 format, is organized as a 
+16-byte FIFO. The head of the queue is always the beginning 
+
+byte of an X86 instruction, and the queue always shifts by 
+one or more X86 instruction boundaries as X86 instructions 
+
+are decoded and dispatched. Each byte position within the 
+queue includes a valid bit for indicating whether the byte 
+
+position within the queue contains valid information, the raw 
+X86 instruction byte as originally fetched from an 
+
+instruction source and stored within a preceeding cache, and 
+a group of predecode bits assigned to the raw X86 instruction 
+
+byte when initially pre-fetched and cached, and which 
+predecode bits indicate the starting byte, ending byte, and 
+
+the opcode byte of an X86 instruction, as well as the number 
+of internal RISC-like operations into which the corresponding 
+
+X86 instruction is mapped. Each byte position further 
+includes a branch marker bit for indicating whether the byte 
+
+is the last byte of a predicted-taken X86 branch instruction, 
+and a column field to facilitate correction of a mis-predicted 
+
+branch by directly indicating which column of a 
+preceeding set-associative cache contains the mis-predicted 
+
+branch instruction byte. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+ADVANCED MICRO DEVICES INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+ADVANCED MICRO DEVICES, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+WITT DAVID B
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WITT, DAVID B.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to super-scalar processors as would typically be implemented on a single integrated circuit, and more specifically relates to instruction queue arrangements for super-scalar processors incorporating a variable byte-length instruction format.The term superscalar describes a computer implementation that improves performance by a concurrent execution of scalar instructions--the type of instructions typically found in general-purpose microprocessors. Because the majority of existing microprocessor applications are targeted toward scalar computation, superscalar microprocessors are the next logical step in the evolution of microprocessors. Using today's semiconductor processing technology, a single processor chip can incorporate high performance techniques that were once applicable only to large-scale scientific processors. However, many of the techniques applied to large scale processors are either inappropriate for scalar computation or too expensive to be applied to microprocessors.Microprocessors by definition must be implemented on one or a very small number of semiconductor chips. Semiconductor technology provides ever increasing circuit densities and speeds for implementing a microprocessor, but the interconnection with the microprocessor's memory is quite constrained by packaging technology. Though on-chip interconnections are extremely cheap, off-chip connections are very expensive; often the processor's package and pins are more expensive than the processor chip itself. Any technique intended to improve microprocessor performance must take advantage of increasing circuit densities and speeds while remaining within the constraints of packaging, technology and the physical separation between the processor and its memory. At the same time, though increasing circuit densities provide a path to ever more complex designs, the operation of the microprocessor must remain simple and clear enough that users can understand how to use it.An application program comprises a group of instructions. The processor fetches and executes instructions in some sequence. There are several steps involved in the execution of a single instruction, including fetching the instruction, decoding it, assembling its operands, performing the operations specified by the instruction, and writing the results of the instruction to storage. The execution of instructions is controlled by a periodic clock signal. The period of the clock signal is the processor cycle time.The time taken by a processor to
+</DESCRIPTION>
+<CLAIMS>
+A speculative instruction queue for a processor of the type having a variable byte-length instruction format, the speculative instruction queue comprising:
+
+a FIFO array (100) having a FIFO head and a FIFO tail, said array having a plurality of byte positions for storing up to a corresponding plurality of instruction bytes in speculative execution order, each of said byte positions having an output coupled to an instruction decoder of said processor for simultaneously communicating each of said plurality of instruction bytes respectively stored therewithin to said instruction decoder and having an indicator field for indicating, if asserted, whether a respective instruction byte stored therewithin is an instruction byte valid for decode, dispatch, and speculative execution and, if deasserted, that the respective byte position is available for loading an additional instruction byte, retrieved from an instruction memory, in speculative order;
+shift means (108) coupled to said array and responsive to said instruction decoder for shifting instruction bytes stored within said array by a variable number of byte positions corresponding to complete instructions stored therewithin;
+load means (112) coupled to said array for loading a plurality of instruction bytes retrieved from an instruction memory into available byte positions of said array;
+
+wherein said array is loaded and shifted so that said FIFO head at all times contains a start byte of an instruction to be next decoded by said instruction decoder; and
+
+wherein each of said byte positions of said array includes at least one indicator field for storing information descriptive of a respective instruction byte stored therewithin.
+A speculative instruction queue as claimed in claim 1, wherein- the array comprises a first byte position representing the FIFO head and a second byte position representing the FIFO tail and wherein the FIFO array is circular so that the FIFO head and the FIFO tail correspond to byte positions that dynamically change as the FIFO shifts.
+A speculative instruction queue as claimed in claim 2, wherein said load means comprises:
+
+fetch means (106) for retrieving a plurality of instruction bytes from a cache memory; and
+pre-fetch means (112) for retrieving a plurality of instruction bytes from a memory external to said processor.
+A speculative instruction queue as claimed in claim 3, wherein said load means comprises:
+
+alignment means (110) for generating an aligned plurality of instruction bytes representing a rotation of said plurality of instruction bytes retrieved from said instruction memory; and
+first drive means for selectively loading certain bytes of said plurality of aligned instruction bytes into said array.
+A speculative instruction queue as claimed in claim 4, wherein said shift means comprises:
+
+first rotation means (302) for generating a plurality of instruction bytes representing a rotation of the instruction bytes stored within said array; and
+second drive means (304) for selectively loading certain of said rotated plurality of stored instruction bytes into said array.
+A speculative instruction queue as claimed in claim 5, wherein each of the byte positions comprises:
+
+an indicator field for indicating whether a respective instruction byte stored therewithin represents an ending byte of an instruction;
+an indicator field for indicating whether a respective instruction byte stored therewithin represents an opcode byte of an instruction;
+an indicator field for indicating whether a respective instruction byte stored therewithin was retrieved from said instruction memory using a non-sequential
+ address compared to that of an instruction byte stored within an immediately preceding byte position of said array; and
+an indicator field for indicating whether a respective instruction byte stored therewithin was retrieved from said instruction memory using a non-sequential address compared to that of an instruction byte stored within an immediately succeeding byte position of said array.
+</CLAIMS>
+</TEXT>
+</DOC>

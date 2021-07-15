@@ -1,0 +1,294 @@
+<DOC>
+<DOCNO>EP-0651329</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Frame buffering of network packets.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F506	G06F510	G06F512	G06F946	G06F946	G06F1300	G06F1300	H04L1256	H04L1256	H04L1308	H04L1308	H04L2906	H04L2906	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06F	H04L	H04L	H04L	H04L	H04L	H04L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F5	G06F5	G06F5	G06F9	G06F9	G06F13	G06F13	H04L12	H04L12	H04L13	H04L13	H04L29	H04L29	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An improved buffering mechanism for network packets is provided. In a 
+preferred embodiment of the present invention, a circular buffer is used when sending and 
+
+receiving network packets. The circular buffer is accessible by V86 mode network drivers 
+and protected mode applications. Said circular buffer stores packets in a first-in-first-out 
+
+manner, facilitates asynchronous communications across the network and services multiple 
+clients. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MICROSOFT CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MICROSOFT CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+OGUS AARON WILLIAM
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+OGUS, AARON WILLIAM
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates generally to data processing systems and, 
+more particularly, to the buffering of packets sent to or received from a network. Many modem microprocessors are part of an evolving product line of 
+microprocessors provided by their respective manufacturers. The 80386 
+microprocessor, sold by Intel Corporation of Cupertino, California, is an example of 
+such a microprocessor. The 80386 microprocessor evolved from the 80286 
+microprocessor, which, in turn, evolved from the 8086 and the 8088 microprocessors. 
+The later developed microprocessors of the 80x86 family have been designed to be 
+compatible with their earlier developed counterparts and the 8088. Hence, the 80386 
+microprocessor can run programs that are written for the 8086 or the 8088 
+microprocessor (i.e., the Intel microprocessors exhibit upward compatibility). The 8088 microprocessor is designed to run in a single mode of 
+operation, known as "real mode." Figure 1 depicts the addressing scheme that is 
+employed by the 8088 microprocessor in real mode. In real mode, a 16 bit segment 100 
+and a 16 bit offset 102 are combined to form a 20 bit physical address 104 that specifies 
+a location within a physical address space. The physical address 104 is formed by 
+shifting the segment 100 four bits to the left and then adding the segment 100 with the 
+offset 102 as shown in Figure 1. The result is a physical address 104 that identifies a 
+memory location 110 within a segment 108 of physical memory 106. Since 20 bits are 
+used for physical addresses in the 8088 microprocessor, the microprocessor can only 
+address one megabyte of memory (i.e., 2²⁰ Bytes). This limitation is due to the use of a 
+20 bit address bus in the microprocessor. The 80386 microprocessor has the ability to run in three modes: real 
+mode, protected mode and virtual 8086 mode (also known as V86 mode). The 80386 
+real mode of operation is sufficiently analogous to that of the 8088 microprocessor so as 
+to facilitate upward compatibility with programs written on the 8088 microprocessor. 
+That is, computer programs written for the 8088 microprocessor can execute in V86 
+mode on the 80386 microprocessor. Therefore, programs executing in V86 mode on 
+the 80386 microprocessor can only access the first megabyte of memory.  The 80386 protected mode of operation provides for both segmentation 
+and paging. Segmentation divides the physical memory into variable length blocks of 
+memory called segments. Addressing is then done in terms of an offset within a 
+segment
+</DESCRIPTION>
+<CLAIMS>
+In a distributed system having computer systems, at least one of said 
+computer systems having a storage device, a network adapter and a V86 mode driver for 
+
+interfacing with the network adapter, said distributed system including a network for 
+transmitting network packets, a method comprising the steps of: 
+
+   storing network packets in a single buffer in a portion of the memory that is 
+accessible by the V86 mode driver; and 
+
+   retrieving network packets from the buffer using the V86 mode driver. 
+A method as recited in claim 1 wherein the buffer is comprised of a 
+sequence of portions and has a beginning and an end, wherein the step of storing network 
+
+packets includes the steps of: 
+   while storing a packet, 
+
+   storing information contained in the packet in sequential portions in the buffer; 
+   detecting if the end of the buffer is reached before all of the information 
+
+contained in the packet is stored; and 
+   if the end of the buffer is reached before all of the information in the packet is 
+
+stored, storing the information contained in the packet that has not yet been stored in the 
+buffer in sequential positions starting at the beginning of the buffer. 
+A method as recited in claim 1 wherein the step of storing network 
+packets includes the step of storing each packet in a next sequential section of the buffer 
+
+based upon the order in which the packet was received at the buffer. 
+A method as recited in claim 1 wherein said V86 mode network driver 
+interfaces with a protected mode computer program, and the method further comprising the 
+
+step of the buffer receiving said network packets from the protected mode computer program. 
+A method as recited in claim 1, further comprising the step of the 
+buffer receiving said network packets from the V86 mode network driver. 
+A method as recited in claim 1 wherein said V86 mode network driver 
+interfaces with a protected mode computer program, and the method further comprising the 
+
+step of sending said network packets from the buffer to the protected mode computer 
+program. 
+A method as recited in claim 1, further comprising the step of sending 
+said network packets from the buffer to the V86 mode network driver. 
+In a distributed system, the distributed system comprising of a plurality 
+of computer systems, each computer system being interconnected, at least one computer 
+
+system having a memory and a microprocessor, the microprocessor having the ability to run 
+in V86 mode and protected mode, a method for sending and receiving packets comprising the 
+
+steps of: 
+   allocating at least one fixed-length buffer in a portion of the memory that is 
+
+accessible in V86 mode; 
+   storing a plurality of packets in the buffer, each packet being stored 
+
+sequentially; and 
+   retrieving packets from the buffer. 
+A method as recited in claim 8 wherein the buffer is comprised of a 
+sequence of portions and has a beginning and an end, wherein the step of storing a packet 
+
+includes the steps of: 
+   while storing a packet, 
+
+   storing information contained in the packet in sequential portions in the buffer; 
+   detecting if the end of the buffer is reached before all of the information 
+
+contained in the packet is stored; and 
+   if the end of the buffer is reached before all of the information in the packet is 
+
+stored, storing the information contained in the packet that has not yet been stored in the 
+buffer in sequential positions starting at the beginning of the buffer. 
+A method as recited in claim 8 wherein the buffer comprises a 
+sequence of sections and wherein the step of storing network pa
+ckets includes the step of 
+storing each packet in a next sequential section of the buffer based upon the order in which 
+
+the packet was received at the buffer. 
+A method as recited in claim 8 wherein the buffer has a logical tail, 
+wherein the method further comprises the steps of maintaining a count of the number of 
+
+packets in the buffer, and maintaining a count of available space in the buffer; wherein the 
+step of storing packets includes the steps of updating the pointer to the logical tail of the 
+
+ 
+buffer, incrementing the count of the number of packets in the buffer and incrementing the 
+
+count of available space within the buffer. 
+A method as recited in claim 8 wherein the buffer has a logical head 
+wherein the method further comprises the steps of maintaining a count of the number of 
+
+packets in the buffer; and maintaining a count of available space within the buffer; wherein 
+the step of retrieving packets includes the steps of updating a pointer to the logical head of 
+
+the buffer, decrementing the count of the number of packets in the buffer and decrementing a 
+count of available space within the buffer. 
+A distributed system comprising: 
+   a network for transmitting network packets; 
+
+   a storage device connected to the network having a portion that is accessible 
+by V86 mode programs and said portion holding a buffer for buffering network packets; and 
+
+   a processing means connected to the network comprising: 
+   a packet loader for loading network packets into the buffer; and 
+
+   a packet retriever for retrieving packets from the buffer. 
+A computer system for sending and receiving packets, comprising: 
+   a network connected to the computer system; 
+
+   a network adapter connected to the network for sending and receiving packets 
+across the network; 
+
+   a network driver for sending and receiving packets from the network adapter; 
+   a computer program for sending packets to the network driver and for 
+
+receiving packets from the network driver, said computer program operating in protected 
+mode; 
+
+   a circular buffer for holding packets that are being received from the computer 
+program and for holding packets that are destined for the network driver, said circular buffer 
+
+being accessible by programs executing in V86 mode; and 
+   a circular buffer for holding packets that are being received from the network 
+
+driver and for holding packets that are destined for the computer program, said circular buffer 
+being accessible by programs executing in V86 mode. 
+A method in a computer system for sending packets, the computer 
+system having a memory and a microprocessor, the microprocessor having the ability to 
+
+execute in V86 mode and protected mode, the computer having a circular buffer, the circular 
+ 
+
+buffer having a physical beginning and a logical end, the packets consisting of a plurality of 
+bytes, comprising the steps of: 
+
+   while the microprocessor is executing in V86 mode, 
+allocating a fixed-length circular buffer in the memory of the computer; and 
+
+   for each packet, 
+   determining if the circular buffer has enough available space for the 
+
+packet; 
+   storing an indication that signifies whether a portion of the buffer is 
+
+being used or not at the next location after the logical end of the circular buffer; 
+   storing the length of the packet after the indication; 
+
+   for each byte in the packet, 
+   if sufficient free buffer space exists for the byte after the logical end, 
+
+copying the byte to the next location after the logical end of the circular buffer; 
+   if there is not sufficient free buffer space after the logical end of the 
+
+buffer and before the physical end of the buffer for the byte, copying the byte to the physical 
+beginning of the circular buffer; and 
+
+   updating the logical end of the buffer. 
+A method in a computer system for receiving packets, the computer 
+system having a memory and a microprocessor, the microprocessor having the ability to run 
+
+in V86 mode and protected mode, the computer system having a circular buffer and a 
+network driver, the circular buffer having a physical beginning and a logical end, the circular 
+
+buffer interfacing with the network driver, the network driver sending a receive complete 
+message when a packet has been received, the packets consisting of a plurality of bytes, the 
+
+method comprising the steps of: 
+   while the microprocessor is executing in V86 mode, 
+
+   allocating a fixed-length circular buffer in the memory of the 
+computer; and 
+
+   for each packet, 
+   determining if the circular buffer has enough available space for the 
+
+packet; 
+   storing an indication that signifies whether a portion of the buffer is 
+
+being used or not at the next location after the logical end of the circular buffer; 
+   storing the length of the packet after the indication 
+
+   for each byte in the packet,
+ 
+
+   if sufficient free buffer space exists for the byte after the logical end, 
+copying the byte to the next location after the logical end of the circular buffer; 
+
+   if there is not sufficient free buffer space after the logical end of the 
+buffer and before the physical end of the buffer for the byte, copying the byte to the physical 
+
+beginning of the circular buffer; and 
+   updating the logical end of the buffer. 
+A method as recited in claim 16 wherein the step of storing the in use 
+flag includes the step of detecting if a receive complete is outstanding and storing an 
+
+identifier signifying that the circular buffer is a quick circular buffer. 
+A method in a computer system for freeing memory associated with a 
+packet contained in a circular buffer, the computer system having a microprocessor, wherein 
+
+the microprocessor has the ability to run in V86 mode and protected mode, the circular buffer 
+contains a plurality of packets, each packet resides in a different portion of the circular buffer, 
+
+each portion of the circular buffer has an in use flag that may be set as in use or not in use, 
+and a length field, the circular buffer has a logical head, a logical tail, a count of the available 
+
+memory in the circular buffer and a count of the number of packets in the circular buffer, the 
+method comprising the steps of: 
+
+   while the microprocessor is executing in V86 mode, 
+   for each portion of the circular buffer to be freed, 
+
+   setting the in use flag to not in use; 
+   if the logical head of the circular buffer points to the portion of 
+
+the buffer, for each subsequent portion of the buffer, 
+   if the in use flag of the subsequent portion is set to not 
+
+in use, increasing the logical head pointer by the value in the length field of the subsequent 
+portion; 
+
+   decreasing the count of the number of packets by the number of the 
+portions of the buffer that were freed; and 
+
+   decreasing the count of the available memory by the amount of 
+memory that was allocated for all of the portions of the buffer that were freed. 
+</CLAIMS>
+</TEXT>
+</DOC>

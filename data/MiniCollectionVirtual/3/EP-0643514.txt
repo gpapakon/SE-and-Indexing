@@ -1,0 +1,499 @@
+<DOC>
+<DOCNO>EP-0643514</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Dynamic bandwidth estimation and adaptation for packet communications networks
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04L1256	H04Q300	H04Q300	H04L1256	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04L	H04Q	H04Q	H04L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04L12	H04Q3	H04Q3	H04L12	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Access control for a packet communications network includes a 
+dynamic bandwidth updating mechanism which continuously monitors the mean 
+
+bit rate of the signal source and the loss probability of the connection. These 
+
+values are filtered to remove noise and then used to test whether the values fall 
+within a pre-defined acceptable adaptation region in the mean bit rate, loss 
+
+probability plane. Values falling outside of this region trigger bandwidth 
+updating procedures which, in turn, result in acquiring a new connection 
+
+bandwidth, and determining new filter parameters and new parameters for a 
+leaky bucket access mechanism. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+DERBY JEFFREY HASKELL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DRAKE JOHN ELLIS JR
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GALAND CLAUDE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GUN LEVENT
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MARIN GERALD ARNOLD
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ROGINSKY ALLEN LEONID
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TEDIJANTO THEODORE ERNEST
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DERBY, JEFFREY HASKELL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DRAKE, JOHN ELLIS, JR.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GALAND, CLAUDE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GUN, LEVENT
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MARIN, GERALD ARNOLD
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ROGINSKY, ALLEN LEONID
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TEDIJANTO, THEODORE ERNEST
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to traffic management in packet
+communications networks and, more particularly, to traffic monitoring, traffic
+measurement filtering, and adaptive bandwidth adjustment for such networks.In order to avoid congestion and insure adequate traffic flow in
+packet communication networks, it is common to control the access of packet
+sources to the network on an ongoing basis. In order to successfully control
+traffic access, it is necessary, first, to accurately characterize the traffic so as to
+provide appropriate bandwidth for carrying that traffic. Simple measurements
+which provide accurate estimates of the bandwidth requirements of a source are
+taught in the copending application US-A-5 274 625, filed September
+10, 1992, and assigned to applicants' assignee. In this application, the
+parameters used to characterize traffic include R, the peak bit rate of the
+incoming traffic in bits per second, m, the mean bit rate of the incoming traffic
+in bits per second, and b, the mean burst length of the traffic in bits. Rather
+than using the actual burst length, however, a so-called "exponential substitution"
+technique is used to calculate and equivalent burst length which would produce
+the same packet loss probability if the traffic were a well behaved exponentially
+distributed on/off process. For traffic widely differing from such an exponential
+process, this equivalent burst length produces a much more accurate
+characterization of the actual traffic and therefore permits a higher density of
+traffic on the same transmission facilities.The measured parameters are used to control the access of signal
+sources to the network when the actual traffic behavior departs significantly from
+the initial assumptions. A leaky bucket mechanism is one technique for
+controlling access to the network when the traffic exceeds the initial assumptions,
+but yet permits transparent access to the network when the traffic remains within
+these initial assumptions. One such leaky bucket mechanism is shown in the
+copending application US-A-5 311 513, filed September 10, 1992, and
+assigned to applicant's assignee. More particularly, the leaky bucket mechanism 
+of this application prevents saturation of the network by low priority packets by
+limiting the number of low priority packets which can be transmitted in a fixed
+period of time while imposing a minimum on the number of red packets
+transmitted at a given time. Such leaky bucket control mechanisms optimize the
+low priority throughput of the packet network. High
+</DESCRIPTION>
+<CLAIMS>
+A packet communications network for interconnecting source
+nodes and destination nodes for establishing a connection for the transmission of
+
+digital packets of information from a source node to a destination node in said
+network, said communications system including a dynamic access control
+
+mechanism comprising
+
+   means (45) for monitoring the mean bit rate of signals from said
+source,
+
+   a leaky bucket control circuit (34) for controlling the flow of said signals
+from said source into said network,
+
+   means (47) for monitoring the loss probability of packets introduced by
+said leaky bucket control circuit,
+
+   means (41) for establishing boundaries of corresponding pairs of
+measurements from said mean bit rate monitoring means and said loss
+
+probability measuring means, and
+
+   means (42) responsive to a pair of said mean bit rate and loss
+probability measurements falling outside of said boundaries for updating the
+
+bandwidth of said connection.
+The packet communications network according to claim 1
+wherein said means for establishing boundaries comprises
+
+   means for determining an order of magnitude range around said
+mean bit rate and said loss probability measurements.
+The packet communications network according to claim 1
+wherein said means for monitoring said mean bit rate comprises
+
+   filtering means for filtering a plurality of said mean bit rate
+measurements.
+The packet communications network according to claim 1
+wherein said means for monitoring said loss probability comprises
+
+   filtering means for filtering a plurality of said loss probability
+measurements.
+The packet communications network according to claim 2
+wherein said boundaries represent values of the mean bit rate 
+m
+ and the packet
+loss probability ξ satifying the relationships 
+
+
+R
+ (γ - 
+m
+)exp(-η/
+b
+ef
+)
+(
+R
+ - 
+m
+)γ - 
+m
+ (
+R
+ - γ)exp(-η/
+b
+ef
+)
+ = 
+k
+1
+ξ
+T
+,
+
+where
+
+η = 
+M
+g
+ (γ - 
+m
+)
+R
+2
+(
+R
+ - 
+m
+)(
+R
+ - γ)γ
+,
+
+and
+
+m
+γδ
+ = 
+k
+2
+ν
+,
+
+where
+
+δ = 
+(γ - 
+m
+)
+R
+2
+(
+R
+ - 
+m
+)(
+R
+ - γ)γ
+b
+ef
+.
+
+and
+
+R
+ × 
+y
+ - 
+X
+ + 
+(
+y
+ - 
+X
+)
+2
+ + 4
+yXm
+/
+R
+2
+y
+ = 
+k
+3
+γ,
+
+where γ is the current token generation rate and
+
+y
+ = 
+(
+R
+ - 
+m
+)
+R
+b
+ef
+ ln
+1
+ε
+T
+,
+R
+ is the maximum bit rate of signals from said source node,
+γ is the green token source rate of said leaky bucket control
+circuit,
+b
+ef
+ is the effective burst length of signals from said source node,
+k
+1
+ is a constant between two and ten,
+ξ
+T
+ is the target red token loss probability of said leaky bucket
+control circuit, 
+M
+g
+ is the size of the green token buffer in said leaky bucket
+control circuit,
+k
+2
+ is a constant between 1.1 and infinity,
+ν
+ is the average buffer content of signals at said source node,
+ε
+T
+ is the target loss probability,
+k
+3
+ is a constant between zero and 0.9.
+A method of dynamically adapting access to a packet
+communications network for interconnecting source nodes and destination nodes
+
+for the transmission of digital packets of information from said source node to
+said destination node, said method including the steps of
+
+   monitoring the mean bit rate of signals from said source node,
+
+   utilizing a leaky bucket control circuit to control the flow of said
+signals from said source node into said network,
+
+   monitoring the loss probability of packets introduced into said
+network by said leaky bucket control circuit,
+
+   establishing boundaries of corresponding pairs of measurements
+from said mean bit rate monitoring step and said loss probability monitoring
+
+step, and
+
+   updating the
+bandwidth of a connection between said source node and said destination node responsive to a pair of said mean bit rate and loss
+
+probability measurements falling outside of said boundaries.
+The method according to claim 6 wherein said step of
+establishing boundaries comprises the step of
+
+   determining an order of magnitude range around said mean bit
+rate and said loss probability measurements.
+The method according to claim 6 wherein said step of
+monitoring said mean bit rate comprises comprises the step of
+
+   filtering a plurality of said mean bit rate measurements.
+The method according to claim 6 wnerein said step of
+monitoring said loss probability comprises comprises the step of
+
+   filtering a plurality of said loss probability measurements.
+The method according to claim 7 wherein said step of
+establishing boundaries further include the step of
+ 
+   determining values of said mean bit rate 
+m
+ and said packet loss
+probability ξ ratifying the relationships
+
+
+R
+ (γ - 
+m
+)exp(-η/
+b
+ef
+)
+(
+R
+ - 
+m
+)γ - 
+m
+ (
+R
+ - γ)exp(-η/
+b
+ef
+)
+ = 
+k
+1
+ξ
+T
+,
+
+where
+
+η = 
+M
+g
+ (γ - 
+m
+)
+R
+2
+(
+R
+ - 
+m
+)(
+R
+ - γ)γ
+,
+
+and
+
+m
+γδ
+ = 
+k
+2
+ν
+,
+
+where
+
+δ = 
+(γ - 
+m
+)
+R
+2
+(
+R
+ - 
+m
+)(
+R
+ - γ)γ
+b
+ef
+.
+
+and
+
+R
+ × 
+y
+ - 
+X
+ + 
+(
+y
+ - 
+X
+)
+2
+ + 4
+yXm
+/
+R
+2
+y
+ = 
+k
+3
+γ,
+
+where γ is the current token generation rate and
+
+y
+ = 
+(
+R
+ - 
+m
+)
+R
+b
+ef
+ ln
+1
+ε
+T
+,
+R
+ is the maximum bit rate of signals from said source node,
+γ is the green token source rate of said leaky bucket control
+circuit,
+b
+ef
+ is the effective burst length of signals from said source node, 
+k
+1
+ is a constant between two and ten,
+ξ
+T
+ is the target red token loss probability of said leaky bucket
+control circuit,
+M
+g
+ is the size of the green token buffer in said leaky bucket
+control circuit,
+k
+2
+ is a constant between 1.1 and infinity,
+ν
+ is the average buffer content of signals at said source node,
+ε
+T
+ is the target loss probability,
+k
+3
+ is a constant between zero and 0.9.
+</CLAIMS>
+</TEXT>
+</DOC>

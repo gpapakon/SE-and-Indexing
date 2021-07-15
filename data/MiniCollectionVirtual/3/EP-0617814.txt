@@ -1,0 +1,165 @@
+<DOC>
+<DOCNO>EP-0617814</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+OPEN OFFICE DIRECTORY DATABASE VIEWS
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1200	G06F1200	G06F1300	G06F1730	G06F1730	G06F1300	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F12	G06F12	G06F13	G06F17	G06F17	G06F13	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An open office directory system stores information in the form of entries in a global database and views in a local database along with a time stamp indicating the date the view was originally written or last modified. Subsets of the selected global entries are stored as views in a local database with the time stamp of the last generation or modification of that view in the global database. The entries in the global database are queried periodically by the local site to compare the time stamps of the local views with the respective entries in the global database. The result of a non-comparison is to update the local view including its time stamp to agree with the global database entry(s).
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+WANG LABORATORIES
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+WANG LABORATORIES, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+LAVALLE ARTHUR R
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+O'HARA ABIGAIL LAMONTAGNE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+PYLIK BOGAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LAVALLE, ARTHUR, R.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+O'HARA, ABIGAIL, LAMONTAGNE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+PYLIK, BOGAN
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to Data Processing Systems, and more
+specifically to the ability of providing selected and automatically
+updated database views.In the fall of 1988 two of the worlds foremost standards
+organizations, the Consultative Committee on Internal Telephone and
+Telegraph (CCITT) and the International Standards Organization (ISO),
+set forth a standard for global Directory Service.Even through the two organizations collaborated on setting this
+standard, they each maintain their own name for it. To the CCITT it is
+knows as CCITT recommendation X.500, whereas for the ISO it is
+known as International Standard 9594. To simplify the disparate
+naming for the virtually identical standard, most people refer to it as
+the Open Systems Interconnection Directory Service - or the OSI
+Directory.The architecture of this OSI directory can be described as a
+group of cooperating server processes which collectively hold a single
+global information base about objects of interest and provide read and
+write access to this information through a query based interface. In
+essence, the OSI Directory is an iteration of a Distributed Data Base
+which exhibits some very specific characteristics.Four characteristics of the OSI Directory which placed some
+constraints on directory use are:
+Access to the Directory Information is through an interactive
+query/response mechanism. The scope of distribution for the OSI Directory is global in nature.The information held about objects tends to be long lived in nature
+and is thus rarely changed.All the information for a particular object of interest is maintained in
+a single Directory entry at only one of the cooperating servers.Because of the access mechanism used and the global nature of the
+Directory Information base, any service request could be distributed across a
+number of widely separated but cooperating Directory servers. And real
+performance constraints can arise when the Directory is used in a local
+manner. The effect is that any Directory Operation which is targeted to
+gather information from a number of widely distributed Directory entries can
+be an extremely time consuming and cumbersome operation to handle in an
+on-line fashion.One popular method of eliminating the burden of such lengthy request
+times is to provide an adjunct process which issues the global queries in a
+scheduled but off-line fashion. The results are then subsequently stored in a
+non-volatile cache, typically a local file, and are available for quick local
+access by the end service consumers. Given
+</DESCRIPTION>
+<CLAIMS>
+A method of formulating a search for changed entries in a
+global database (20) comprised of at least one data tree, each
+
+data tree including non-leaf and leaf entries, wherein each entry
+in the global database (20) comprises a time stamp value,
+
+and for updating local views (18), including the steps of:
+
+A) determining from a scheduler entry (12) a time for updating
+installed local views (18) and, upon reaching the time
+
+for updating the installed local views, searching (22-10)
+locally for the names of all installed local views (18),
+
+each local view (18) comprising a subset of the global database
+entries, each local view entry (68, 70, 72) comprising a subset
+
+of the attributes from a corresponding entry in the global
+database (20), the local views (18) residing in a system
+
+separate from the global database (20) and directly accessible
+to a user of the local views (18), wherein the contents
+
+of each local view (18) are defined by a corresponding
+definition (58) in a views definition (16) wherein
+
+each definition (58) of a local view (18) in the view
+definition (16) comprises the name of a parent entry (51)
+
+in the global database (20), said parent entry name establishing
+a downward starting point for querying into the
+
+data tree of the global database (20) for all subordinate
+children entries, and the definition of selected attributes
+
+of the leaf entries (59, 61, 63), wherein a directory
+server (10) associated with the global database (20) accesses
+
+the global database (20) in response to each definition
+(58) of a local view (18) and reads from the global
+
+database (20) the corresponding subsets of the global database
+entries corresponding to the definitions (58) of
+
+local views (18),
+B) building (22-12) a list of all installed view names,
+C) searching (22-14) for listed view definitions (16),
+D) searching (22-16) for listed view control entries (60, 62,
+64, 66), 
+E) searching (22-18) for entries in the global database (20)
+corresponding to the data obtained in step C) and possibly
+
+also to the data obtained in step D),
+F) determining (22-20) if the entry returned in step E) is a
+non-leaf entry (53, 55, 57) or a leaf entry (59, 61, 63),
+G) if the entry is a non-leaf entry (53, 55, 57), creating
+and/or updating (22-24) a corresponding view control entry
+
+(60, 62, 64, 66), each view control entry comprising a non-leaf name attribute
+which defines the tree path to said corresponding non-leaf
+
+entry (53, 55, 57) in the global database, and a highest
+time stamp attribute wherein the highest time stamp attribute
+
+is set equal to an initial value when the view
+control entry (60, 62, 64, 66) is first created and is
+
+thereafter updated to the highest timestamp value of the
+global database entries one level down from the corresponding
+
+non-leaf entry (53, 55, 57) in the global database
+(20),
+H) if the entry is a leaf entry (59, 61, 63), adding or up-dating
+(22-22) a corresponding local view entry (68, 70,
+
+72) if the leaf entry (59, 61, 63) has changed since the
+last update,
+I) repeating (22-26) steps E) to H) until all entries are
+processed, and
+J) repeating (22-28, 22-30) step C) to I) until all view
+names in the list are processed, and updating the time
+
+stamp value representing the last update of the installed
+local views stored in the view update to represent the
+
+time of the current update of the installed local views.
+</CLAIMS>
+</TEXT>
+</DOC>

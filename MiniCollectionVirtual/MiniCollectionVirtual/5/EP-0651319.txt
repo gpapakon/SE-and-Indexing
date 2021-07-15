@@ -1,0 +1,190 @@
+<DOC>
+<DOCNO>EP-0651319</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+System for transferring data
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1338	G06F514	G06F506	G06F1338	G06F506	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F13	G06F5	G06F5	G06F13	G06F5	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The invention relates to a system for transferring data between 
+computers having asynchronous clocks. A FIFO having multiple levels 
+
+holds the data while en route from a sender to a receiver. The system 
+includes a status register (FF0-FF15) for monitoring the FIFO. When 
+
+all levels of the FIFO become full, the status register (FF0-FF15) 
+issues a FIFO_FULL signal. When all levels become empty, the status 
+
+register (FF0-FF15) issues a FIFO_EMPTY signal. In these signals, 
+there are four events whose timing is important. (1) The 
+
+ACTUATION of the FIFO_FULL occurs immediately after a WRITE 
+signal is sent by the sender to the status register (FF)-FF15); (2) the 
+
+ACTUATION of the FIFO_EMPTY signal occurs immediately after a 
+READ signal is sent by the receiver to the status register (FF0-FF15); 
+
+(3) the DE-ACTUATION of the FIFO_FULL signal is synchronous 
+with the clock of the computer writing to the FIFO; (4) the DE-ACTUATION 
+
+of the FIFO_EMPTY signal is synchronous with the 
+clock of the computer reading from the FIFO. The system allows 
+
+throughput through the FIFO to proceed at a very high speed, even 
+though the sender and receiver are asynchronous. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+HYUNDAI ELECTRONICS AMERICA
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+NCR INT INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SYMBIOS INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+HYUNDAI ELECTRONICS AMERICA
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+NCR INTERNATIONAL, INC.
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SYMBIOS, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+HOLT NANCY
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+JOHNSON STEPHEN M
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HOLT, NANCY
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+JOHNSON, STEPHEN M.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The invention relates to a system for transferring data from a
+sender to a receiver. The invention has application, for example, to a
+system for transferring data between two computers.There are numerous different ways for a computer, named B, to
+transfer data to a computer, A. For example, if the two computers
+operate at different clock frequencies, they may use a FIFO (First In,
+First Out) buffer for the transfer. The FIFO is a holding station for
+the data while en route from computer B to computer A.The FIFO may be viewed as a pipeline. Computer B, the
+sender, loads a sequence of data words, such as W1, followed by W2,
+then W3, and so on, into the pipeline. The pipeline holds the data
+words, and makes them available to computer A in serial fashion.
+Computer A, the receiver, reads data from the pipeline in the same
+order as they were loaded: W1 first, W2 next, and so on.The fact that the order of reading the FIFO, by computer A, is
+the same as the order of loading, by computer B, gives rise to the name
+"First In, First Out."Two problems arise in such an approach. First, the FIFO has a
+limited capacity. The sender must not attempt to load data words into
+a fully loaded FIFO. Second, the receiver must not attempt to read
+data words from an empty FIFO.There are several approaches to solving these problems. One is
+to divide the data into blocks which are exactly the size of the FIFO.
+For example, if the FIFO holds eight words, the sender fully loads the
+FIFO with a burst of eight data words. Then, the sender waits an
+appropriate length of time, while the receiver reads the eight words.
+Then the sender loads another eight words. Plainly, this approach imposes a delay on the transfer.Another approach will be explained with reference to Figure 1. Assume that a
+COUNTER produces an output which indicates the number of words presently contained
+in the FIFO. (Figure 1 indicates a 74-193 COUNTER, which is commercially available.)Before any data words are loaded into the FIFO, the counter output is set to 0000,
+as indicated by the sketch in the upper left quadrant of Figure 1. Assume that the
+SENDER, B, places four words, W1 through W4, into the FIFO, as indicated in the upper
+right quadrant of Figure 1.As each word is loaded, the SENDER issues a pulse to the COUNT UP input of
+the COUNTER. Each pulse increments the COUNTER's output. The final output is 0100
+(which equals 4 in decimal notation). The COUNTER's output of 0100 indicates that it
+contains four words.Then the RECEIVER reads the words. As the RECEIVER
+</DESCRIPTION>
+<CLAIMS>
+A system for transferring data from a sender (B) having a first clock to a receiver
+(A) having a second clock, said first and second clocks running at different speeds and
+
+being non-synchronous, a FIFO register for holding the data while en route from the sender
+(B) to the receiver (A), and status means (FFO-FF15) for producing a first signal when the
+
+FIFO register is full, and for producing a second signal when the FIFO register is empty,
+characterized by first means (13-figure 24) for de-actuating said first signal
+
+after a delay in
+synchronism with said first clock, and
+
+by second means (10-figure 24) for de-actuating said second signal
+after a delay in synchronism with said second clock.
+A system according to Claim 1, characterized by first status means (FF8-FF15)
+arranged to produce said first signal in response to a write signal applied to said first status
+
+means by the sender (B) after a propagation delay which is short compared with a period
+of said first or second clocks, and by second status means (FFO-FF7) arranged to produce
+
+said second signal in response to a read signal applied to said second status means by the
+receiver (A) after a propagation delay which is small compared with said period of said
+
+first or second clocks.
+A system according to Claim 2, characterized in that said FIFO register has a
+plurality of levels for respectively holding a plurality of words, a word being loaded into
+
+a level of said FIFO register for a clock pulse of said first clock, and a 
+word being read from a level of said FIFO register for a clock
+
+pulse of said second clock.
+A system according to claim 3, characterized in that
+that one of the sender (B) and the receiver (A) having the
+
+slower clock has the capability of writing a word into, or
+reading a word from, a level of said FIFO register for each
+
+clock pulse of said slower clock.
+A system according to either claim 3 or claim 4,
+characterized in that for each level of said FIFO register said
+
+first status means (FF8-FF15) is arranged to set a full flag for
+that level when a word is loaded into that level, said first
+
+status means being arranged to produce said first signal when
+full flags are set for all levels of said FIFO register, and in that
+
+for each level of said FIFO register said second status means
+(FF0-FF7) is arranged to set an empty flag for that level when
+
+a word is read from that level, said second status means being
+arranged to produce said second signal when empty flags are
+
+set for all levels of said FIFO register.
+A system according to claim 5, characterized in that
+said first status means includes a plurality of first circuit
+
+means (FF8-FF15) respectively associated with the plurality of
+levels of said FIFO register, each of said first circuit means
+
+being arranged to produce an output signal representing a full
+flag in synchronism with a clock pulse of said first clock, and
+
+in that said second status means includes a plurality of second
+circuit means (FFO-FF7) respectively associated with the 
+
+plurality of levels of said FIFO register, each of said second
+circuit means being arranged to produce an output signal
+
+representing an empty flag in synchronism with a clock pulse
+of said second clock.
+A system according to claim 6, characterized in that
+each of said first and second circuit means (FF8-FF15;FF0-FF7)
+
+includes a D-type flip-flop (D1,D2) whose output is connected
+to the input of an associated circuit (SYNCHRP) which
+
+replicates at its output the signal at its input and whose output
+represents the relevant flag and is clocked by a clock pulse of
+
+the relevant first or second clock.
+</CLAIMS>
+</TEXT>
+</DOC>

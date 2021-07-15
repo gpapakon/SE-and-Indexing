@@ -1,0 +1,297 @@
+<DOC>
+<DOCNO>EP-0631239</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Serial data transfer method and system
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1342	G06F1300	G06F1342	G06F1300	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F13	G06F13	G06F13	G06F13	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A data transfer system including a plurality of
+microcomputers connected to a serial data bus in parallel to
+
+each other, one of which is designated as a controller and
+remainder as targets each having its own sending order of data
+
+allocated beforehand, in which the controller asserts a
+control line of the serial data bus to start a data frame or
+
+a null frame sending to a data line of the serial data bus and
+each target outputs an output for asserting the control line
+
+during the control line is kept in an asserted state by the
+controller if it has a data frame sending request, and outputs
+
+a data frame or a null frame when its sending order has come.
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC IND CO LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC INDUSTRIAL CO., LTD.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+IITSUKA HIROYUKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NISHIMURA TAKUYA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+IITSUKA, HIROYUKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NISHIMURA, TAKUYA
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a data transfer
+method for transferring data frames between plural devices
+such as one-chip microcomputers (hereafter "microcomputers")
+using a serial data bus comprising three signal lines,
+specifically a data line, clock line, and control line.Data transfer methods can be broadly categorized as
+parallel transfer methods using a parallel data bus, or serial
+transfer methods using a serial data bus (hereafter "serial
+bus"). While parallel transfer is well-suited to high speed
+data transfers, this method also tends to increase the number
+of pins required in the communicating devices, i.e., microcomputers
+and ICs. While serial transfer methods tend to be
+slower than parallel transfers, fewer pins are required and
+the transfer rate is still sufficient for many microcomputer
+applications, including the microcomputers used in
+audio/visual equipment and home appliances which typically use
+serial transfer methods. With the increasing functionality
+of consumer electronics, plural microcomputers are often used
+in single products such as video cassette recorders and
+camcorders. In products such as these, the microcomputers do not
+operate independently, but by exchanging data over serial
+buses. Various other IC and LSI devices can also be connected
+to this serial bus in addition to the microcomputers.A data transfer method using a three-line serial bus
+is described in JP-4-332065.
+The data transfer method described
+in this application uses, in addition to the data line and
+clock line, a control line for identifying the data being
+transferred as a token or a data frame. The microcomputer
+functioning as the controller distributes a token to each
+microcomputer connected to the serial bus in sequence when the
+control line is HIGH. When a microcomputer receives the
+token, obtains the access rights to the serial bus, and
+attempts to transfer a data frame over the bus, the microcomputer
+sets the control line to LOW to become the master and
+notify the other microcomputers of its use of the serial bus.
+If the control line is changed to LOW, the controller stops
+token distribution, and outputs the clock required for data
+frame transmission. The master begins data frame transmission
+based on this clock. When data frame transfer ends, the
+master resets the control line to HIGH. The controller thus
+detects when the control line is again HIGH to begin token
+distribution.This data transfer method makes it possible to 
+prevent data collisions on the bus, does not require
+modulation for transfers,
+</DESCRIPTION>
+<CLAIMS>
+A data transfer method for serially sending data frames between one
+controller (10) and one or more targets (11, 12) which are mutually connected to
+
+a signal bus comprising a bidirectional data line (1) for serially sending at least the
+data comprising a data frame, a clock line (2) for supplying a send clock for the
+
+data sent over the data line (1) from the controller (10) to the targets (11, 12), and
+a bidirectional wired-or control line (3),
+characterized in that
+
+the controller (10) starts data frame or null frame sending to said data line (1),
+according to whether or not a data sending request exists for the controller (10),
+
+after outputting a LOW level to the control line (3) when the control line (3) is
+HIGH, and stopping LOW output to the control line (3) after ending data frame or
+
+null frame sending,
+
+the sending order is predetermined for the targets (11, 12),
+targets (11, 12) with a data frame send request begin LOW level output to the
+
+control line (3) while the control line (3) is held LOW by the controller (10),
+if the control line (3) remains LOW even though the controller (10) stops LOW
+
+output to the control line (3) after ending data frame or null frame sending, the
+controller (10) outputs the send clock until the control line (3) becomes HIGH, and
+
+the target (11, 12) outputting a LOW level to the control line (3) begins transmission
+of a data frame in synchronization with the send clock, after the controller
+
+(10) and all targets (11, 12) earlier in the sending order complete data frame or null
+frame sending, and stops LOW output to the control line (3) after it completes data
+
+frame transmission. 
+A data transfer method according to claim 1,
+
+further 
+characterized in that
+
+the one controller (10) and the one or more targets (11, 12) are connected with
+the bidirectional data line (1) for serially sending data constituting at least one data
+
+frame in a transfer unit,
+
+the clock line (2) intermittently supplies, as said send clocks, unit clocks required
+for sending one transfer unit of data at a pretermined output timing from the
+
+controller (10) to the one or more targets (11, 12),
+
+the controller (10) sends a data frame or null frame through the data line (1) in
+synchronization with the unit clocks,
+
+the controller (10) outputs the unit clocks after resuming a LOW level output to the
+control line (3) if the control line (3) remains LOW even though the controller (10)
+
+stops a LOW output to the control line (3) at an output timing of the unit clock
+after finishing transmission of the data frame or null frame, and
+
+each target (11, 12) stops the LOW output to the control line (3) by the next
+output timing of a unit clock after completing transmission of the data frame.
+A data transfer method according to claim 2, wherein the target sending a
+data frame changes the data line to LOW when send preparations for one transfer
+
+unit of data comprising a data frame are completed,
+
+the controller outputs the unit clock if the data line is LOW at the unit clock output
+timing,
+
+and the target sends one transfer unit of data synchronized to the unit clock, and
+changes the data line to HIGH when it stops data sending.
+A data transfer method according to claim 1 or 3 wherein the null frame
+comprises a fixed length null header,
+
+the data frame comprises a fixed length data header and variable length user data,
+ 
+   and the data header contains data indicating
+
+the type and length of the user data,
+
+   and the target (11,12) outputting a LOW to the control line (3)
+detects the data frame end by counting the data length of the
+
+user data,
+
+   and detects the end of data frame or null frame
+sending by the controller (10) and all targets (11,12) earlier in the
+
+sending order by counting the number of data frames and null
+frames. 
+A data transfer method according to Claim 4 wherein
+the controller (10) calculates an error detecting code for all data
+
+sent over the data line (1) while the control line (3) is LOW using
+the data sent over the data line (1) by the controller (10) and the
+
+data received by the controller (10) from the data line (1),
+
+   and outputs the error detecting code after the
+control line (3) becomes HIGH,
+
+   and all targets (11,12) detect send errors using the data
+sent by that respective target over the data line (1), the data
+
+received from the data line (1), and the received error detecting
+code,
+
+   and send at a predetermined timing a request
+code in which at least one error detecting bit. is set TRUE
+
+when an error is detected.
+A data transfer method according to Claim 5 wherein
+the data header further comprises an error detecting code for 
+
+detecting send errors in the data header,
+
+   the controller (10) sends a request code with a TRUE
+error detecting bit when a send er
+ror is detected in the data
+header,
+
+   and the targets (11,12) stop output if outputting a LOW to
+the control line (3) when a send error is detected in the data
+
+header, and send a request code with a TRUE error detecting
+bit.
+A data transfer method according to Claim 5 wherein
+the controller (10) and targets (11,12) send a request code with at least
+
+one TRUE data frame request bit if a data frame that should
+be received is not received,
+
+   and when the data frame request bit of the received
+request code is TRUE, the controller (10) and each target (11,12) sequentially
+
+send all data frames that each device should send until
+a request code with a FALSE data frame request bit is
+
+received.
+A data transfer method according to Claim 5 wherein
+the controller (10) sends a request code with a TRUE error
+
+detecting bit when the control line (3) becomes HIGH before the
+sending target sends all of the data indicated by the user
+
+data length specification of the data header.
+A data transfer method according to Claim 5 wherein
+the targets (11,12) send a request code with a TRUE error detecting
+
+bit if the control line (3) is LOW when the target boots up. 
+A data transfer method according to Claim 5 wherein
+the controller (10) outputs the clock to the clock line (2) until the
+
+control line (3) becomes HIGH and sends a request code with a TRUE
+error detecting bit if the control line (3) is LOW when the
+
+controller boots up,
+
+   and if the control line (3) is HIGH when the
+controller (10) boots up, the controller (10) outputs a request code
+
+with a TRUE error detecting bit at least twice before
+outputting LOW to the control line (3). 
+A data transfer system comprising a plurality of microcomputers one of
+which is designated as a controller (10) and remainder of which are designated as
+
+targets (11, 12), and a serial data bus including a bidirectional data line (1) through
+which data sending and data receiving is made, a clock line (2) which sends clock
+
+signals generated by said controller to each of said targets (11, 12), and a
+bidirectional wired-or control line (3) which is assertable end negatable by any one
+
+of said controller (10) and targets (11, 12),
+
+   
+characterized in that
+
+said controller (10) sends a data frame or null frame to said data line (1), according
+to whether or not a data sending request exists for the controller, after the controller (10) asserting
+
+said control line (3) when the control line (3) is HIGH, and, if the control line (3) remains LOW even though the
+controller (10) stops LOW output to the control line (3) after ending data frame or
+
+null frame sending, said controller (10) outputs the clock signal until the control
+line (3) becomes HIGH, and
+
+each target (11, 12) having its own sending order of data allocated beforehand,
+outputs an output for asserting said control line (3) while said control line (3) is
+
+kept in an asserted state by said controller (10) if it has a sending request of a data
+frame, and, when said controller (10) and foregoing targets (11, 12) have completed
+
+data frame or null frame sending, starts a data frame transmission in synchronization
+with the clock signals from the controller (10) and, if it has not any
+
+sending request of a data frame, outputs a null frame to said data line (1) without
+outputting any output for asserting said control line (3), and when it has completed
+
+said frame sending, stops said output for asserting said control line (3).
+</CLAIMS>
+</TEXT>
+</DOC>

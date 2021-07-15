@@ -1,0 +1,332 @@
+<DOC>
+<DOCNO>EP-0643491</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method and system for data compression
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F500	G06F306	H03M740	G06F306	G06T900	G06F500	H03M730	H03M730	H03M740	G06T900	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	H03M	G06F	G06T	G06F	H03M	H03M	H03M	G06T	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F5	G06F3	H03M7	G06F3	G06T9	G06F5	H03M7	H03M7	H03M7	G06T9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Disclosed is a method and system for data compression. In a preferred 
+embodiment, an input stream of data bytes are compressed (30A,30B) into 
+
+an encoded stream using an 
+LZ77-based scheme. The preferred method searches for a matching 
+
+sequence of already 
+processed data bytes that is identical to a current sequence of bytes. 
+
+Sequences of literals 
+(bytes not forming part of a matching sequence) or match codes (encoded 
+
+matching 
+sequences) are identified by count values indicating the number of 
+
+literals or match codes 
+in the sequence. Preferably, the encoded stream is transmitted from a 
+
+first computer (A) to a 
+second computer (B), where the encoded stream is decompressed (32B). 
+
+The method uses matching 
+circular history buffers for compression (30A,30B) and decompression 
+
+(32A,32B), the history buffers (72) being 
+synchronized using a coherency byte included with each frame of encoded 
+
+data 
+transmitted. If an encoded frame is not received by the decompression 
+
+device (32A,32B), the 
+decompression device transmits a flush request to the compression device 
+
+(30A,30B). The 
+compression device flushes its history buffer (72) in response to the 
+
+flush request, the flushing 
+step making the previously processed bytes stored in the history buffer 
+
+(72) incapable of 
+becoming part of a matching sequence. The compression device (30A,30B) 
+
+includes in the coherency 
+code of the next encoded frame a control code (28A,28B) indicating 
+
+whether a flush request has been received by the compression device. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MICROSOFT CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MICROSOFT CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+DIMITRI THOMAS J
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DIMITRI, THOMAS J.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates generally to a method and system for data
+compression, and more particularly to a method and system for compressing data
+using LZ77-based compression in an inter-computer communication environment.A variety of data compression algorithms derive from work published
+in Ziv, Jacob and Lempel, Abraham, "A Universal Algorithm for Sequential Data
+Compression," IEEE Transactions on Information Theory 23(3):337-343, May 1977.
+These algorithms are commonly referred to as LZ77 compression schemes. LZ77
+compression schemes are based on the principle that repeated strings of characters
+can be replaced by a pointer to the earlier occurrence of the string. A pointer is
+typically represented by an indication of the position of the earlier occurrence
+(typically an offset from the start of the repeated string) and the number of characters
+that match (the length). The pointers are typically represented as <offset, length>
+pairs. For example, the following string
+   "abcdabcdacdacdacdaeaaaaaa"
+may be represented in compressed form by the following
+   "abcd<4,5><3,9>ea<1,5>"
+Since the first characters "abcd" do not match any previous character, they are output
+in uncompressed form as literals. The pair <4,5> indicates that the string starting at
+an offset of 4 and extending for 5 characters is repeated "abcda". The pair <3,9>
+indicates that the string starting at an offset of 3 and extending for 9 characters is
+repeated. The "ea" are output as literals and the pair <1,5> indicate a string starting
+at an offset of 1 and extending for 5 characters ("aaaaa").Compression is achieved by representing the repeated strings as a
+pointer with fewer bits than it would take to repeat the string. Typically, an
+unmatched single byte, known as a literal, is not represented as a pointer. Rather,
+literals are output with a flag indicating literal encoding followed by the byte itself.
+A pointer is typically differentiated from a literal encoding by a different flag that is
+followed by the offset and length. The offset and length can be encoded in a variety
+of ways. By adding a flag to each literal and each pointer, the prior art LZ-based
+systems provide less than optimal compression and may even cause expansion. The great majority of prior art compression systems are directed to
+compression of data stored in a single medium, such as a floppy disk or computer
+hard drive. However, very little work has been in the area of lossless generic data
+compression over an unreliable link, such as in a network or modem
+</DESCRIPTION>
+<CLAIMS>
+A data compression method for encoding an input stream, said input stream
+comprising packets of data bytes, said method comprising the steps of:
+
+
+receiving (34: Y) a current packet for storage into a history buffer (72;
+144) in sequential order with a previous packet, said history buffer (72;
+
+144) having a beginning and an end, said beginning logically following
+said end;
+searching (38) said history buffer (72; 144) for a matching sequence of
+already processed data bytes that is identical to a current sequence of
+
+data bytes;
+appending (60) to an encoded data stream each unmatched data byte not
+forming part of an identical sequence in case that a matching sequence
+
+has not been found, said unmatched data byte being referred to as literal;
+appending (48) to said encoded data stream a match code identifying
+both the location of said matching sequence in said history buffer (72;
+
+144) and the number of data bytes in said matching sequence in case that
+said matching sequence has been found;
+dividing (78) said encoded data stream into a plurality of encoded frames;
+
+   
+characterized by
+:
+
+determining whether said current packet fits into said history buffer (72;
+144) between said previous packet and said end;
+in case that said current packet is determined to fit into said history buffer
+(72; 144):
+
+
+inserting said current packet into said history buffer (72; 144);
+in case that said current packet is determined not to fit into said history
+buffer (72; 144):
+
+
+inserting a first portion of said current packet into said history buffer
+(72; 144) between said previous packet and said end,
+inserting a second portion of said current packet at said beginning,
+and
+inserting said second portion into an overflow buffer (146), said
+overflow buffer (146) immediately logically following said end.
+The method according to claim 1, further comprising the steps of:
+
+transmitting an encoded frame to a remote decompression device (32A;
+32B);
+transmitting (114) a flush request from the decompression device (32A;
+32B) to the compression device (32B; 32A) if the encoded frame is not
+
+received by the decompression device (32A; 32B); and
+flushing (88) the history buffer (72; 144) in response to the flush request,
+the flushing step (88) making the bytes stored in the history buffer (72;
+
+144) incapable of becoming part of a matching sequence.
+The method according to claim 2, further comprising the step of:
+
+appending (90) a coherency code to an encoded frame, the coherency
+code including a control code indicating whether a flush request has been
+
+received (86: N) and a sequential code indicating where in a sequence of
+encoded frames the encoded frame is located.
+The method according to claim 1, further comprising the steps of:
+
+determining (62) a sequence of a predetermined number of literals in the
+encoded data stream, said sequence being referred to as identified literal
+
+sequence; and
+appending (64) to the identified literal sequence a count value indicating
+the number of literals in the identified literal sequence.
+The method according to claim 4, further comprising the steps of:
+
+appending (58) a literal flag to the encoded data stream adjacent each
+literal not forming part of a literal sequence; and
+appending (58) a literal flag to each literal sequence.
+The method according to claim 1, further comprising the steps of:
+
+transmitting (80) the encoded data stream to a remote decompression
+device (32A; 32B); and
+decompressing the encoded data stream into a decompressed stream
+identical to the input stream.
+The method according to claim 1, further comprising the steps of:
+
+determining (50) a sequence of a predetermined number of match codes
+in the encoded data stream, said sequence being referred to as identified
+
+match code sequence; and
+appending (52) to the identified match code sequence a count value
+indicating the number of match codes in the identified match code
+
+sequence.
+The method according to claim 7, further comprising the steps of:
+
+appending (49) a match code flag to the encoded data stream adjacent
+each match code not forming part of a match code sequence; and
+appending (49) a match code flag to each match code sequence.
+A data transmission method, comprising the steps of:
+
+compressing an input stream according to the method of claim 7;
+transmitting (80) the encoded data stream to a remote decompression
+device (32A; 32B); and
+decompressing the encoded data stream into a decompressed stream
+identical to the input stream.
+The method according to claim 9, wherein the decompressing step includes: 
+
+locating (128) a match count value;
+decoding (130) a number of match codes equal to the match count value;
+and
+appending (132) the decoded match codes to the decompressed stream.
+The method according to claim 1, further comprising the steps of:
+
+determining (34) whether a packet has fewer than a predetermined
+minimum number of data bytes; and
+appending (34: N) the packet onto the encoded data stream without
+searching for matching sequences of identical data bytes if the packet is
+
+determined to have fewer than the predetermined minimum number of
+data bytes.
+A data compression apparatus (30A, 30B) for encoding an input stream, said
+input stream comprising packets of data bytes, said apparatus (30A, 30B)
+
+comprising:
+
+a history buffer (72; 144) having an end and a beginning that logically
+follows the end, said history buffer (72; 144) storing a current packet in
+
+sequential order with a previous packet;
+means (70) for searching (38) said history buffer (72; 144) for a matching
+sequence of already processed data bytes that is identical to a current
+
+sequence of data bytes;
+means for appending (60) to an encoded data stream each unmatched
+data byte not forming part of an identical sequence in case that a
+
+matching sequence has not been found, said unmatched data byte being
+referred to as literal;
+means for appending (48) to said encoded data stream a match code
+identifying both the location of said matching sequence in said history
+
+buffer (72; 144) and the number of data bytes in said matching sequence
+in case that said matching sequence has been found;
+means for dividing (78) said encoded data stream into a plurality of
+encoded frames;
+characterized by
+:
+
+means for determining whether said current packet fits into said history
+buffer (72; 144) between said previous packet and said end;
+means for inserting said current packet into said history buffer (72; 144),
+in case that said current packet is determined to fit into said history buffer
+
+(72; 144);
+means for inserting a first portion of said current packet into said history
+buffer (72; 144) between said previous packet and said end, in case that
+
+said current packet is determined not to fit into said history buffer (72;
+144);
+means for inserting a second portion of said current packet at said
+beginning, in case that said current packet is determined not to fit into
+
+said history buffer (72; 144); and
+means for inserting said second portion into an overflow buffer (146), said
+overflow buffer (146) immediately logically following said end.
+The apparatus (30A, 30B) according to claim 12, further comprising:
+
+means for determining (50) a sequence of a predetermined number of
+match codes in the encoded data stream, said sequence being referred to
+
+as identified match code sequence; and
+means for appending (52) to the identified match code sequence a count
+value indicating the number of match codes in the identified match code
+
+sequence.
+The apparatus (30A, 30B) according to claim 13, further comprising:
+
+means (16, 20A, 20B, 22A, 22B, 24A, 24B, 26A, 26B) for transmitting (80)
+the encoded data stream to a remote decompression device (32A; 32B);
+
+and
+means (32A; 32B) for decompressing the encoded data stream into a
+decompressed stream identical to the input stream.
+The apparatus (30A, 30B) according to claim 14, wherein the means (32A;
+32B) for decompressing includes:
+
+
+means for locating (128) a match count value;
+means for decoding (130) a number of match codes equal to the match
+count value; and
+means for appending (132) the decoded match codes to the
+decompressed stream.
+The apparatus (30A, 30B) according to claim 13, further comprising:
+
+means for appending (49) a match code flag to the encoded data steam
+adjacent each match code not forming part of a match code sequences;
+
+and
+means for appending (49) a match code to each match code sequence.
+The apparatus (30A, 30B) according to claim 12, further comprising:
+
+means for determining (62) a sequence of a predetermined number of
+literals in the encoded data stream, said sequence being referred to as
+
+identified literal sequence; and
+means for appending (64) to the identified literal sequence a count value
+indicating the number of literals in the identified literal sequence.
+The apparatus (30A, 30B) according to claim 17, further comprising:
+
+means for appending (58) a literal flag to the encoded data stream
+adjacent each literal not forming part of a literal sequence; and
+means for appending (58) a literal flag to each literal sequence.
+A data transmission system (10), comprising:
+
+the apparatus (30A, 30B) according to claim 18;
+means (16, 20A, 20B, 22A, 22B, 24A, 24B, 26A, 26B) for transmitting (80)
+the encoded data stream to a remote decompression device (32A; 32B);
+
+and 
+means (32A; 32B) for decompressing the encoded data stream into a
+decompressed stream identical to the input stream.
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,304 @@
+<DOC>
+<DOCNO>EP-0632367</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Meta-data structure and handling
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1200	G06F1200	G06F1730	G06F306	G06F306	G06F1730	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F12	G06F12	G06F17	G06F3	G06F3	G06F17	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A file system stores data and meta-data in a like 
+fashion. The lowest level of stored file data on disk is a 
+
+stream, which constitutes a logically contiguous group of 
+bytes. Related streams, such as found in a file, a directory 
+
+or a subdirectory, are stored in a variable-sized onode data 
+structure. Variable-sized onode data structures are stored in 
+
+an array of fixed-sized buckets of disk space. Related onode 
+data structures are stored within catalog data structures. 
+
+The catalog data structures are stored within the array of 
+fixed-sized buckets of disk space. The array of buckets of 
+
+fixed-sized buckets of disk space is, in turn, stored as a 
+stream. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MICROSOFT CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MICROSOFT CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BERKOWITZ BRIAN T
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FERGUSON ROBERT I
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ZBIKOWSKI MARK
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BERKOWITZ, BRIAN T.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FERGUSON, ROBERT I.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ZBIKOWSKI, MARK
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates generally to data
+processing systems and, more particularly, to storage of
+data on disk by a file system.Conventional file systems have had difficulty in
+storing file data on disk in an efficient manner. Many
+conventional systems have adopted an approach wherein all
+data is stored in a single-sized storage unit on disk.
+Unfortunately, this approach does not efficiently store
+file data on disk. In particular, file data may vary in
+size and, thus, may not be well-matched for the
+predetermined storage unit size. Other conventional
+systems have provided a user with an option of adopting
+one of numerous different formats. The decision as to
+which format to adopt must be made before the file data is
+available to the user: As a result, the choice of format
+by the user is merely speculative and often does not
+correspond well with the actual file data. As a result,
+the file data is often inefficiently stored.In conventional operating systems, each file is
+allocated a fixed number of blocks of disk space for
+storing file data and control information about the file.
+The blocks are fixed-sized so that the units may be
+quickly allocated and deallocated. The control
+information for the files and the file data are often
+variable-sized, which poses at least two problems. First,
+when the file data and/or control information is not large
+enough to fill a block, disk space within the allocation
+unit is wasted. Second, when the file data and/or control
+information is too large to be stored in a single block,
+it must be stored in multiple blocks and multiple pointers 
+are maintained to specify where the data are stored.EP-A 0 347 032 discloses a method and system wherein count, key, data
+(CKD) datas are stored on fixed block (FBA) disk recorders (DASD). A virtual track
+is created which emulates a physical CKD track such that the byte displacement of
+each CKD record on the virtual CKD track is the same as the byte displacement
+would be on a physical CKD track. This enables computer programs using CKD
+formatted data to record on the FBA recorder in an emulation mode. Each FBA
+block includes a header outside the addressing of the virtual CKD track which
+includes a byte displacement pointer to the beginning of a first CKD record stored in
+the FBA block, if any begins in such FBA block; otherwise the header indicates that
+no CKD record begins in the block. A last record indicator is included in the count
+field emulation for assisting in finding end of the virtual track.In conventional file systems,
+</DESCRIPTION>
+<CLAIMS>
+A method, for use in a data processing system (10) having disk storage (16)
+and a processing means (12) for running an operating system (24), of storing
+
+data in the disk storage (16), the method being 
+characterized in that
+
+it comprises:
+
+a) storing the data in the disk storage (16) in a first variable-sized stream
+data structure (60) for holding logically contiguous data bytes, the first
+
+stream data structure (60) having a first identifier (62);
+b) storing meta-data (68, 70, 72, 73, 102, 104, 112, 114, 116, 117) in the
+
+disk storage (16) in a second variable-sized stream data structure (66,
+110) for holding logically contiguous data bytes, the meta-data (68, 70,
+
+72, 73, 102, 104, 112, 114, 116, 117) describing storage of the data and
+comprising an entry (117) for locating the data via the first identifier (62),
+
+the second stream data structure (66, 110) having a second identifier (70,
+WorkID 0) that is predefined for locating the meta-data (68, 70, 72, 73,
+
+102, 104, 112, 114, 116, 117) via the second identifier (70, WorkID 0);
+and
+c) for each of the stream data structures (60, 66, 110), storing a stream
+descriptor (28) of a predefined format that includes a description identifier
+
+(34) that holds a description of the corresponding stream data structure
+(60, 66, 110), such that data and meta-data may be accessed by using
+
+said description identifier (34); and a type identifier (32) that specifies a
+type of representation of the stream data structure (60, 66, 110) in the
+
+disk storage (16), such that data and meta-data are described in a like
+fashion.
+The method recited in claim 1 wherein the step of storing the meta-data (68,
+70, 72, 73, 102, 104, 112, 114, 116, 117) further comprises:
+
+
+storing an index (117) to a third stream data structure (60; 78, 80, 82, 84)
+that holds related data (86, 88, 90, 92, 94, 96, 98, 100).
+The method recited in claim 2 wherein the step of storing the index (117)
+further comprises:
+
+
+storing a B-tree index to the third stream data structure (60; 78, 80, 82,
+84).
+The method recited in one of claims 1 to 3 wherein the step of storing the
+stream descriptor (28) for each of the stream data structures (60, 66, 110)
+
+further comprises:
+
+storing a stream descriptor (28) for each of the stream data structures (60,
+66, 110) in the respective first and second variable-sized stream data
+
+structures (60, 66, 110).
+The method recited in one of claims 1 to 4 wherein the step of storing the data
+in the first variable-sized stream data structure (60) further comprises:
+
+
+storing a stream of data in the disk storage (16) in a fourth stream data
+structure (34; 36, 42) comprising logically contiguous bytes of data; and
+storing a stream descriptor (28) for the fourth stream data structure (34;
+36, 42) in the disk storage (16).
+The method recited in claim 5 wherein the step of storing the stream descriptor
+(28) for the fourth stream data structure (34; 36, 42) further comprises:
+
+
+storing the stream descriptor for the fourth stream data structure (34; 36,
+42) in another stream data structure (60).
+The method recited in one of claims 1 to 6 further comprising:
+
+storing stream data structures (34; 36, 42) which store data of a file and
+their associated stream descriptors (28) in the second variable-sized
+
+stream data structure (66, 110) in the disk storage (16).
+The method recited in one of claims 1 to 6, further comprising:
+
+storing stream data structures (34; 36, 42) which store data of a directory
+and their associated stream descriptors (28) in the second variable-sized
+
+stream data structure (66, 110) in the disk storage (16).
+The method recited in one of claims 1 to 6, further comprising:
+
+storing stream data structures (34; 36, 42) which store data of a
+subdirectory and their associated stream descriptor (28) in the second
+
+variable-sized stream data structure (66, 110) in the disk storage (16).
+The method recited in one of claims 1 to 9, further comprising:
+
+storing groups of the variable-sized stream data structures (66, 110)
+which store related data in a catalog data structure (110).
+The method recited in one of claims 1 to 10, further comprising:
+
+storing a stream data structure (78, 80, 82, 84) that is not stored in the
+second variable-sized data structure (66, 110) and that stores related
+
+data (86, 88, 90, 92, 94, 96, 98, 100), and its associated stream descriptor
+(28) in a fifth variable-sized stream data structure (66) in the disk storage
+
+(16).
+The method recited in claim 11, further comprising:
+
+storing the second variable-sized stream data structure (66, 110) and the
+fifth variable-sized stream data structure (66) in an array (102) of fixed-sized
+
+buckets (Buckets 1 to N) of disk space in the disk storage (16).
+The method recited in claim 12, further comprising the step of:
+
+storing the array (102) of fixed-sized buckets (Buckets 1 to N) in a sixth
+stream data structure (110).
+The method recited in claim 13, further comprising:
+
+storing a stream descriptor (28) for the sixth stream data structure (110) in
+one of the variable-sized data structures which store related data.
+The method recited in claim 14, further comprising:
+
+storing the catalog data structure (110) in a predetermined fixed-sized
+bucket of the array (102) of fixed-sized buckets (Buckets 1 to N).
+The method recited in one of claims 1 to 15, further comprising:
+
+storing variable-sized stream data structures (66, 110) in an array (102) of
+fixed-sized buckets (Buckets 1 to N) of disk space in the disk storage (16),
+
+each of the buckets (Buckets 1 to N) having an associated identifier;
+storing a mapping structure (104) holding entries (106, 108) that specify a
+bucket identifier for a bucket (Buckets 1 to N) in the array (102), said
+
+entries (106, 108) being indexed by the identifiers (70) of the variable-sized
+data structures (66, 110); and
+using the mapping structure (104) to locate one of the variable-sized data
+structures (66, 110) in the array (102) given its identifier (70).
+The method recited in claim 16 wherein the array (102) is stored in the disk
+storage (16) in one of the stream data structures (110) and a stream descriptor
+
+(28) for the stream storing the array (102) is stored in disk storage (16).
+The method recited in claim 16 or 17 wherein the mapping structure (104) is
+stored in the disk storage (16) in one of the stream data structures (110) and a
+
+stream descriptor (28) for the stream storing the mapping structure (104) is
+stored in disk storage (16).
+The method recited in claim 18 wherein the stream descriptor (28) for the
+stream storing the array (102) and the stream descriptor (28) for the stream
+
+storing the mapping structure (104) are stored in a selected one of the variable-sized
+data structures (66, 110).
+The method recited in claim 19 wherein the selected variable-sized data
+structure (66, 110) is stored in one of the buckets (Buckets 1 to N) of the array
+
+(102).
+The method recited in one of claims 1 to 20 wherein the description field (34) of
+a particular stream descriptor (28) stores an associated stream data structure 
+
+in case that the type identifier (32) indicates an immediate representation of the
+stream data structure.
+The method recited in one of claims 1 to 21 wherein the description field (34) of
+a particular stream descriptor (28) stores a reference (36) to an extent (42) that
+
+stores an associated stream data structure in case that the type identifier (32)
+indicates an extent representation of the stream data structure.
+A data processing system (10), comprising:
+
+disk storage (16);
+a processing means (12) for running an operating system (24),
+characterized by
+
+   means (12) for storing the data in the disk storage (16) in a first variable-sized
+stream data structure (60) for holding logically contiguous data
+
+bytes, the first stream data structure (60) having a first identifier (62);
+
+   means (12) for storing meta-data (68, 70, 72, 73, 102, 104, 112, 114, 116,
+117) in the disk storage (16) in a second variable-sized stream data
+
+structure (66, 110) for holding logically contiguous data bytes, the meta-data
+(68, 70, 72, 73, 102, 104, 112, 114, 116, 117) describing storage of
+
+the data and comprising an entry (117) for locating the data via the first
+identifier (62), the second stream data structure (66, 110) having a
+
+second identifier (70, WorkID 0) that is predefined for locating the meta-data
+(68, 70, 72, 73, 102, 104, 112, 114, 116, 117) via the second
+
+identifier (70, WorkID 0); and
+
+   means (12) for storing, for each of the stream data structures (60, 66,
+110), a stream descriptor (28) of a predefined format that includes a
+
+description identifier (34) that holds a description of the corresponding
+stream data structure (60, 66, 110), such that data and meta-data may be
+
+accessed by using said description identifier (34); and a type identifier
+(32) that specifies a type of representation of the stream data structure
+
+(60, 66, 110) in the disk storage (16), such that data and meta-data are
+described in a like fashion. 
+A computer-readable medium comprising computer-executable instructions
+adapted to enable the data processing system (10) to perform the method as
+
+claimed in one of claims 1 to 22.
+</CLAIMS>
+</TEXT>
+</DOC>

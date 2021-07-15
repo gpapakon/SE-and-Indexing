@@ -1,0 +1,672 @@
+<DOC>
+<DOCNO>EP-0637139</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+METHOD FOR REMOVING INTERFERENCE WAVE, RECEIVER AND COMMUNICATION SYSTEM WHICH USE THE METHOD
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04L2503	H04L2502	H04B112	H04L2502	H04L2503	H04B112	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04L	H04L	H04B	H04L	H04L	H04B	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04L25	H04L25	H04B1	H04L25	H04L25	H04B1	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A state estimator (40) generates a plurality of candidates of estimated desired signal sequences corresponding 
+to the transitions of state of desired signals estimated to be received, and a plurality of candidates of estimated 
+
+undesired signal sequences corresponding to the transitions of state of undesired signals sequentially. The candidates 
+are sent to a desired signal estimator (10) and a undesired signal estimator (20), respectively. In accordance with the 
+
+conversion parameters set from a channel parameter estimator (50), the estimators (10 and 20) generate an estimated 
+desired signal and an estimated undesired signal by use of the respective candidates. An error estimator (30) subtracts 
+
+a signal of the sum of these signals from the received signal and generates an estimated error signal ε. The state 
+estimator (40) estimates estimated error of desired signal sequences and undesired signal sequences with respect to 
+
+the generated sequence candidates. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+NIPPON TELEGRAPH 
+&
+ TELEPHONE
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+NTT MOBILE COMMUNICATIONS NETWORK INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+FUKAWA KAZUHIKO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SUZUKI HIROSHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YOSHINO HITOSHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FUKAWA, KAZUHIKO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SUZUKI, HIROSHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YOSHINO, HITOSHI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to an interference
+signal cancelling method and a receiver using the same
+and, more particularly, to an interference signal
+cancelling method which compensates for the degradation of
+transmission characteristics due to co-channel or similar
+interference signals from other adjacent cells in digital
+mobile radio communication and a receiver and a
+communication system using such an interference signal
+cancelling method.There have already been proposed several types of
+receivers that generate replicas from transmission symbol
+candidates for desired and interference signals and
+transmission line parameters corresponding to these two
+signals, subtract these replicas from a received signal to
+obtain an error signal, multiply the square of the error
+signal by -1 and use the resulting signal as a log
+likelihood to make a maximum likelihood decision by a
+maximum likelihood sequence estimator for desired and
+inter-channel interference signals under inter-symbol
+interference generating environment.For example, W. Van Etten has proposed, as a
+maximum likelihood sequence estimator, a receiver using
+the Viterbi algorithm (W. Van Etten, "Maximum Likelihood
+Receiver for Multiple channel Transmission System," IEEE
+Trans. on Comm., Feb., 1976). However, this receiver is
+based on the assumption that the value of the impulse
+response of the transmission line is preknown. A receiver
+of the type that estimates transmission line parameters
+and employs a maximum likelihood sequence estimator has 
+been proposed by Howard E. Nicols, Arithur A. Giordano and
+Jhon G. Proakis. According to their proposal, the
+transmission line parameters are estimated and updated by
+an adaptation algorithm through use of an estimated value
+for a symbol detection which is outputted from the maximum
+likelihood sequence estimator after being delayed for the
+same period of time as a received signal sample delayed
+for a fixed period of time. This receiver operates well
+when the radio channel undergoes relatively slow time-variations.
+In the mobile radio channel, however, since
+the amplitudes and phases of desired and interference
+signals vary at high speed, the estimated value of the
+received signal sample which is delayed for a fixed period
+of time, as proposed by Howard E. Nicols, Arithur A.
+Giordano and Jhon G. Proakis, is no longer a current
+estimated value, the transmission characteristic is
+seriously degraded.To improve the characteristic of an adaptive
+equalizer based on the maximum likelihood sequence
+estimation
+</DESCRIPTION>
+<CLAIMS>
+A receiver for an M-ary signal modulating system, M being an integer equal to or greater
+than 2, comprising:
+
+
+desired signal estimation means (10) which performs convolution operation on each of a
+plurality of desired signal symbol sequence candidates each formed of Ld+1 symbols with a set of
+
+Ld+1 desired signal channel parameters defining characteristics of desired signal multipaths having
+relative delay periods of up to Ld symbols to produce an estimated received desired signal and
+
+outputs said estimated received desired signal, Ld being an integer equal to or greater than 1;
+error estimation means (30) which generates an estimation error signal by subtracting said
+estimated received desired signal from a received signal;
+state estimation means (40) that outputs in succession said plurality of desired signal
+symbol sequence candidates each corresponding to a respective one of all possible state transitions
+
+of the desired signal from a previous time point to a present time point on a trellis diagram
+determined by all possible sequences of Ld+1 symbols each allowed to take any one of M values,
+
+provides said plurality of desired signal symbol sequence candidates to said desired signal
+estimation means (10), produces a metric value for each of said desired signal symbol sequence
+
+candidates by using a corresponding estimation error signal, estimates one of said desired signal
+symbol sequence candidates as a most likely transmitted signal symbol sequence of the desired
+
+signal by using said metric values, and outputs the desired signal bits or symbols obtained from the
+estimated desired signal symbol sequence candidate; and
+control means (50) which controls said channel parameters of said desired signal
+estimation means (10) with an adaptation algorithm by using said estimation error signal and said
+
+plurality of desired signal symbol sequence candidates provided by said state estimation means
+(40);
+
+   
+characterized by
+interference signal estimation means (20) that performs convolution operation on each of a
+plurality of interference signal symbol sequence candidates each formed of Lu+1 symbols with a set
+
+of Lu+1 interference signal channel parameters defining characteristics of interference signal
+multipaths having relative delay periods of up to Lu symbols to produce an estimated received
+
+interference signal and outputs said estimated received interference signal, Lu being an integer
+equal to or greater than 1;
+
+   wherein:
+
+said error estimation means (30) generates said estimation error signal by subtracting both
+said estimated received interference signal and said estimated received desired signal from said
+
+received signal to produce said estimation error signal;
+said state estimation means (40) outputs in succession, in combination with said desired
+signal symbol sequence candidates, said plurality of interference signal symbol sequence
+
+candidates each corresponding to a respective one of all possible state transitions of the
+interference signal from the previous time point to the present time point on a trellis diagram
+
+determined by all possible sequences of Lu+1 symbols each allowed to take any one of M values,
+provides said plurality of interference signal symbol sequence candidates to said interference signal 
+
+estimation means (20), produces said metric value for each of said interference signal symbol
+sequence candidates in combination with each said desired signal symbol sequence candidate by
+
+using a corresponding estimation error signal, estimates one of said interference signal symbol
+sequence candidates as a most likely transmitted signal sequence of said interference signal in
+
+combination with the most likely desired signal sequence by using said metric values, and outputs
+desired signal bits or symbols and provides said transmitted interference signal sequences to said
+
+desired signal estimation means (10) and said interference signal estimation means (20); and
+said control means (50) controls the channel parameters of both said desired signal
+estimation means (10) and said interference signal estimation means (20) with an adaptation
+
+algorithm by using said estimation error obtained by the subtraction of both the estimated desired
+and interference signals from the received signal.
+The receiver of claim 1, wherein said desired signal estimation means (10) and said
+interference signal estimation means (20) are formed by first and second transversal filters (11, 21)
+
+with Ld+1 taps and Lu+1 taps, respectively, and wherein said control means (50) generates, as said
+channel parameters, first and second tap coefficient vectors representing estimated channel impulse
+
+responses to said desired and interference signals, respectively, and provides said first and second
+tap coefficient vectors to said first and second transversal filters.
+The receiver of claim 2, wherein said state estimation means (40) comprises:
+
+first maximum likelihood sequence estimation means (42) which generates in succession a
+plurality of desired signal sequence candidates each corresponding to a respective one of possible
+
+state transitions of said desired signal, and makes a maximum likelihood sequence estimation for
+said desired signal sequence candidates using said estimation error signal from said error estimation
+
+means (30);
+desired signal modulated signal generating means (44) which modulates said desired
+signal sequence candidates from said first maximum likelihood sequence estimation means (42) to
+
+produce said plurality of desired signal symbol sequence candidates;
+second maximum likelihood sequence estimation means (43) which generates in
+succession all interference signal sequence candidates each corresponding to a respective one of
+
+possible state transitions of said interference signal, and makes a maximum likelihood sequence
+estimation for said interference signal sequence candidates using said estimation error signal from
+
+said error estimation means (30); and
+interference signal modulated signal generating means (45) which modulates said
+interference signal sequence candidates from said second maximum likelihood sequence estimation
+
+means (43) to produce said plurality of interference signal symbol sequence candidates to said
+interference signal estimation means (20).
+The receiver of claim 2, wherein said state estimation means (40) comprises:
+
+maximum likelihood sequence estimation means (46) which generates in succession a
+plurality of sets of desired and interference signal sequence candidates each corresponding to a
+
+respective combination of possible state transitions of said desired signal and said interference
+signal, and which makes a maximum likelihood estimation for said sets of desired and interference 
+
+signal sequence candidates using the corresponding estimation error signals from said error
+estimation means (30); and
+desired signal modulated signal generating means (44) and interference signal modulated
+signal generating means (45) which respectively modulate said desired signal sequence candidates
+
+and said interference signal sequence candidates which are provided from said maximum likelihood
+sequence estimation means (46) to produce, said plurality of desired signal symbol sequence
+
+candidates and said plurality of interference signal symbol sequence candidates, respectively.
+The receiver of claim 2, wherein said state estimation means (40) comprises:
+
+maximum likelihood sequence estimation means (42) which generates in succession a
+plurality of desired signal sequence candidates each corresponding to a respective one of possible
+
+state transitions of said desired signal, and makes a maximum likelihood sequence estimation for
+each of said desired signal sequence candidates by using the corresponding estimation error signal
+
+from said error estimation means (30);
+desired signal modulated signal generating means (44) which modulates each of said
+desired signal sequence candidates from said maximum likelihood sequence estimation means (42)
+
+to produce said plurality of desired signal symbol sequence candidates;
+maximum likelihood decision means (48) which generates in succession a plurality of
+interference signal sequence candidates each of which consists of a present signal candidate
+
+corresponding to the possible state transition of said Interference signal and signals which were
+decided by previous maximum likelihood decisions, and makes a maximum likelihood decision for
+
+said interference signal sequence candidates by using the corresponding estimation error signal
+from said error estimation means (30); and
+interference signal modulated signal generating means (45) which modulates each of said
+interference signal sequence candidates to produce corresponding one of said interference signal
+
+symbol sequence candidates.
+The receiver of claim 2, wherein said state estimation means (40) comprises:
+
+maximum likelihood decision means (47) which generates in succession a plurality of
+desired signal sequence candidates, each of which consists of a present signal candidate
+
+corresponding to the possible state transition of said desired signal and signals which were decided
+by previous maximum likelihood decisions, and makes a maximum likelihood decision for said
+
+desired signal sequence candidates by using the corresponding estimation error signals from said
+error estimation means (30);
+desired signal modulated signal generating means (44) which modulates each of said
+desired signal sequence candidates from said maximum likelihood decision means (47) to produce
+
+said plurality of desired signal symbol sequence candidates;
+maximum likelihood sequence estimation means (43) which generates in succession a
+plurality of interference signal sequence candidates each corresponding to a respective one of
+
+possible state transitions of said interference signal, for each state of said interference signal, and
+makes a maximum likelihood sequence estimation for each state of said interference signal
+
+sequence candidates by using the corresponding estimation error signal from said error estimation
+means (30); 
+and interference signal modulated signal generating means (45) which modulates each of
+said interference signal sequence candidates to produce corresponding one of said interference
+
+signal symbol sequence candidates.
+The receiver of claim 2, wherein said state estimation means (40) comprises:
+
+first maximum likelihood decision means (47) which generates in succession a plurality of
+desired signal sequence candidates , each of which consists of a desired signal present signal
+
+candidate corresponding to the possible state transition of said desired signal and signals which
+were decided by previous maximum likelihood decisions, and makes a maximum likelihood decision
+
+for said desired signal present signal candidate by using the corresponding estimation error signal
+from said error estimation means (30);
+desired signal modulated signal generating means (44) which modulates each of said
+desired signal sequence candidates to produce corresponding one of said desired signal symbol
+
+sequence candidates;
+second maximum likelihood decision means (48) which generates in succession a plurality
+of interference signal candidates, each of which consists of an interference signal present signal
+
+candidate which corresponds to the possible state transition of said interference signal and signals
+which were decided by previous maximum likelihood decisions, and makes a maximum likelihood
+
+decision for said interference signal present signal candidate by using the corresponding estimation
+error signal from said error estimation means (30); and
+interference signal modulated signal generating means (45) which modulates each of said
+interference signal candidates to produce corresponding one of said interference signal symbol
+
+sequence candidates.
+The receiver of claim 2, wherein said state estimation means (40) comprises:
+
+maximum likelihood sequence estimation means (42) which generates in succession a
+plurality of desired signal sequence candidates each corresponding to a respective one of possible
+
+state transitions of said desired signal, and makes a maximum likelihood sequence estimation for
+each of said desired signal sequence candidates by using the corresponding estimation error signal
+
+from said error estimation means (30);
+desired signal modulated signal generating means (44) which modulates each of said
+desired signal sequence candidates to produce said plurality of desired signal symbol sequence
+
+candidates;
+inverse filter means (411) whose tap coefficient vector is set to be the inverse of a vector of
+estimated channel impulse response and which generates estimated interference signal symbol
+
+sequences which are estimated to be transmitted at the transmitter side, by using said estimation
+error signal; and
+symbol decision means (412) which makes a symbol-by-symbol decision for said estimated
+interference signal s
+ymbols and outputs the symbols as one of said interference signal symbol
+sequence candidates.
+The receiver of any one of claims 2 through 7, wherein said control means (50)
+comprises: 
+
+
+tap coefficient update means (513) which is supplied with a combination of each of said
+desired signal symbol sequence candidates and each of said interference signal symbol sequence
+
+candidates by said state estimation means (40) for each transition state and is also provided with
+said estimation error signal by said error estimation means (30), and which updates said first and
+
+second tap coefficient vectors that are stored for every transition state, so as to minimize said
+estimation errors for said desired and said interference signals by using said adaptive algorithm;
+tap coefficient holding means (511) which holds a pair of said updated first and second tap
+coefficient vectors for each state transition; and
+tap coefficient switching means (512) which selects, for each state transition, the
+corresponding first and second tap coefficient vectors which are stored in said tap coefficient holding
+
+means (511) and sets said first and second tap coefficient vectors in said first and second
+transversal filters (11, 21).
+The receiver of any one of claims 3 through 6, wherein said maximum likelihood
+sequence estimation means is means which makes said estimation following a Viterbi algorithm.
+The receiver of any one of claims 3 through 7, wherein each of the desired signal and
+interference signal includes training signal periods, which further comprises:
+
+
+training signal storage means (65) having stored therein a plurality of predetermined
+training signal sequences corresponding to a plurality of transmitting sides; and
+first switching means (62) whereby, during each of training signal periods of a received
+desired signal, said desired signal sequence candidates from said state estimation means (40) are
+
+switched off and one of the training signal sequences read out as a desired signal training signal
+sequence from said training signal storage means (65) is switched on a to provide said desired
+
+signal training signal sequence as said desired signal sequence candidate to said first transversal
+filter (11) and to said control means (50);
+
+   wherein said control means (50) adaptively updates, using said estimation error signal
+provided by said error estimation means (30) and said desired training signal sequence provided by
+
+said training signal storage means (65), said first tap coefficient vector for each transition state of
+said desired signal sequence during said training signal period.
+The receiver of claim 11, which further comprises
+
+second switching means (61) whereby, during each of training signal periods of a received
+interference signal, said interference signal sequence candidates from said state estimation means
+
+(40) are switched off and another one of the training signal sequences read out from said training
+signal storage means (65) as an interference training signal sequence for said interference signal is
+
+switched on to provide said interference training signal sequence to said second transversal filter
+(21) and to said control means (50);
+
+   wherein said control means (50) adaptively updates, using said estimation error signal
+provided by said error estimation means (30) and said interference signal training signal sequence
+
+provided by said training signal storage means (65), said second tap coefficient vector for each
+transition state of said interference signal training signal sequence during said training signal period.
+The receiver of claim 11 or 12, wherein said switching means (62 or 61) is provided at
+the input side of said modulated signal generating means (44 or 45).
+The receiver of claim 2, wherein at least one of said desired signal estimation means
+(10) and said interference signal estimation means (20) includes complex multiplier means (22, 23)
+
+which rotates the phase of a complex signal output from said transversal filter (21) in accordance
+with a frequency difference between carrier center frequencies of desired and interference signals.
+The receiver of claim 1, wherein
+
+said desired signal estimation means (10
+1
+), said interference signal estimation means
+(20
+1
+), said error estimation means (30
+1
+) and said control means (50
+1
+) constitute a first diversity
+branch, and a second diversity branch (10
+2
+, 20
+2
+, 30
+2
+, 50
+2
+) of the same construction as said first
+diversity branch is provided,
+said error estimation means (30
+1
+, 30
+2
+) of said first and second diversity branches being
+supplied with quasi-coherently detected signal sample values obtained from different received
+
+signals which come from different antennas located at different positions, respectively, and
+said state estimation means (40) comprises first and second square means (41
+1
+, 41
+2
+) for
+calculating the squares of estimation errors from said error estimation means (30
+1
+, 30
+2
+) of said first
+and second diversity branches and adder means (410) which adds the outputs from said first and
+
+second square means (41
+1
+, 41
+2
+) and outputs the added results as a likelihood signal corresponding
+to its likelihood, said state estimation means (40) generating in succession all sets of a desired
+
+signal symbol sequence candidate and an Interference signal symbol sequence candidate in
+accordance with the possible state transitions of desired and interference signals and providing each
+
+set to said desired signal estimation means (10
+1
+, 10
+2
+), said interference signal estimation means
+(20
+1
+, 20
+2
+) and said control means (50
+1
+, 50
+2
+) of said first and second diversity branches.
+The receiver of claim 1, wherein said state estimation means (40) comprises: state
+sequence candidate generating means (46) which generates in succession all possible combinations
+
+of a first transition state sequence candidate corresponding to one of said desired signal sequence
+candidates and a second transition state sequence candidate corresponding to one of said
+
+interference signal sequence candidates; and first and second modulated signal generating means
+(44, 45) which generate, as said desired signal symbol sequence candidates and said interference
+
+signal symbol sequence candidates, first and second symbol sequence candidates which correspond
+to said first and second transition state sequence candidates, respectively.
+The receiver of claim 16, wherein said first and second modulated signal generating
+means (44, 45) respectively comprise: first and second mapping logic circuit means (44A) which
+
+convert said first and second transition state sequence candidates provided thereto into first and
+second symbol sequence candidates of desired modulated forms; and first and second converting
+
+means (44B) which convert said first and second symbol sequence candidates from said first and
+second mapping logic circuit means (44A) into said desired signal symbol sequence candidate and
+
+said interference signal symbol sequence candidate, respectively. 
+A method for canceling an interference signal from a received signal in a receiver for
+an M-ary signal modulating system which comprises error es
+timation means (30), state estimation
+means (40), desired signal estimation means (10) and control means (50), M being an integer equal
+
+to or greater than 2, said method comprising:
+
+A. a step wherein upon each Input of a quasi-coherently detected signal sample value into
+said error estimation means (30), said state estimation means (40) generates in succession a
+
+plurality of desired signal symbol sequence candidates each formed of Ld+1 symbols, Ld being an
+integer equal to or greater than 1;
+B. a step wherein said desired signal estimation means (10) performs convolution
+operation on each of said desired signal symbol sequence candidates with a set of Ld+1 desired
+
+signal channel parameters defining characteristics of desired signal multipaths having relative delay
+periods of up to Ld symbols to produce an estimated received desired signal and outputs said
+
+estimated received desired signal, Ld being an integer equal to or greater than 1;
+C. a step wherein said error estimation means (30) subtracts said estimated received
+desired signal from a received signal to generate an estimation error signal; and
+D. a step wherein said state estimation means (40) outputs in succession a plurality of
+desired signal symbol sequence candidates each corresponding to a respective one of all possible
+
+state transitions of the desired signal from a previous time point to a present time point on a trellis
+diagram determined by all possible sequences of Ld+1 symbols each allowed to take any one of M
+
+values, provides said plurality of desired signal symbol sequence candidates to said desired signal
+estimation means (10), produces a metric value for each of said desired signal symbol sequence
+
+candidates by using a corresponding estimation error signal, estimates one of said desired signal
+symbol sequence candidates as most likely transmitted signal sequence of the desired signal by
+
+using said metric values, and outputs the desired signal bits or symbols obtained from the estimated
+desired signal symbol sequence candidate; and
+E. a step wherein said control means (50) controls said channel parameters of said desired
+signal estimation means (10) with an adaptation algorithm by using said estimation error signal and
+
+said plurality of desired signal symbol sequence candidates provided by said state estimation means
+(40);
+
+   
+characterized in that
+when said system further comprises an interference signal estimation means (20);
+in said step B, said interference signal estimation means (20) performs convolution
+operation on each of a plurality of interference signal symbol sequence candidates each formed of
+
+Lu+1 symbols with a set of Lu+1 interference signal channel parameters defining characteristics of
+interference signal multipath having relative delay periods of up to Lu symbols to produce an
+
+estimated received interference signal and outputs said estimated received interference signal, Lu
+being an integer equal to or greater than 1;
+in said step C, said error estimation means (30) generates said estimation error signal by
+subtracting both said estimated received interference signal and said estimated received desired
+
+signal from said received signal to produce said estimation error signal;
+in said step A, said state estimation means (40) outputs in succession, in combination with
+said desired signal symbol sequence candidates, said plurality of interference signal symbol
+
+sequence candidates each corresponding to a respective one of all possible state transitions of the 
+interference signal from the previous time point to the present time point on a trellis diagram
+
+determined by all possible sequences of Lu+1 symbols each allowed to take any one of M values,
+provides said plurality of interference signal symbol sequence candidates to said interference signal
+
+estimation means (20), produces said metric value for each of said interference signal symbol
+sequence candidates in combination with each said desired signal symbol sequence candidate by
+
+using a corresponding estimation error signal, estimates one of said interference signal symbol
+sequence candidates as a most likely transmitted signal sequence of said interference signal in
+
+combination with the most likely desired signal sequence by using said metric values, and outputs
+desired signal bits or symbols and provides said transmitted interference signal sequences to said
+
+desired signal estimation means (10) and said interference signal estimation means (20); and
+in step E, said control means (50) controls the channel parameters of both said desired
+signal estimation means (10) and said interference signal estimation means (20) with an adaptation
+
+algorithm by using said estimation error obtained by the subtraction of both the estimated desired
+and interference signals from the received signal.
+The method of claim 18, wherein said receiver has prestored in a storage means (65)
+training signal sequences corresponding to different transmitting sides and wherein during a desired
+
+signal training period, one of the training signal sequences is provided as a desired signal training
+signal sequence from said storage means (65), instead of each of said desired signal symbol
+
+sequence candidates from said state estimation means (40), to said desired signal estimation means
+(10) and said control means (50), and said control means (50) estimates said channel impulse
+
+response estimated values for said desired signal using said desired signal training signal sequence
+that provides the maximum likelihood, and outputs said estimated channel impulse response
+
+estimated values for said estimated signal to said desired signal estimation means (10).
+The method of claim 18, wherein during an interference signal training period at least
+another one of the training signal sequences is provided as an interference signal training signal
+
+sequence, instead of each of said interference signal symbol sequence candidates, to said
+interference signal estimation means (20) and said control means (50), and said control means (50)
+
+estimates channel impulse response estimated values for said interference signal using said
+interference signal training sequence that provides the maximum likelihood, channel impulse
+
+response estimated values to said interference signal estimation means (20).
+The method of claim 18, wherein said step A is a step wherein, in a predetermined
+period of a received signal, said control means (50) defines the number of states to a value larger
+
+than the number of possible transition states for both desired and interference signals and increases
+the number of said possible desired and interference signal symbol sequence candidates
+
+accordingly, and said control means (50) estimates possible sets of channel impulse response
+estimated values with all possible sets of said desired and interference signal symbol sequence
+
+candidates for said desired and interference signals, and outputs the one set of channel impulse
+response vectors which corresponds to the set of desired and interference signal symbol sequence
+
+candidates that has the maximum likelihood among all candidate sets of desired and interference
+sequence candidate vectors during said predetermined period, to said desired 
+
+signal estimation means (10) and said interference signal estimation means (20).
+The method of claims 19 and 20, which further comprises a step wherein during said
+desired and interference signal training periods, training signal sequences for said desired and
+
+interference training signals are provided to said desired signal estimation means (10), said
+interference signal estimation means (20) and said control means (50), instead of said desired and
+
+interference sequence candidate vectors, said control means (50) estimates channel impulse
+
+response estimated values for said desired and interference signals so that said estimation error
+signal from said error estimation means (30) is minimized in said training signal periods.
+The method of claim 22, wherein said receiver has pre-stored in memory means (65) a
+plurality of pre-known training patterns corresponding to different predetermined training signal
+
+sequences which are possibly received, selects one of said training signal sequences that has the
+highest correlation with a received training signal sequence and decides to use said selected
+
+training signal sequence as said training signal sequence.
+The method of claim 22 or 23, wherein the training signal sequences for said desired
+and interference signals are those which are high in the auto-correlation of their own sequences but
+
+low in the cross-correlation between said training signal sequences.
+The method of claim 24, wherein said training signal sequences are determined so that
+their symbol sequences are orthogonal to one another.
+The method of claim 18, which further comprises a step of selecting a path which
+provides the maximum state transition path metric, by Viterbi algorithm, for each of all predetermined
+
+possible transition states of a combination of said desired and interference signals and, upon each
+selection of said path for each state at each point in time, updating channel parameters for said
+
+desired and interference signals on the basis of said desired and interference signal symbol
+sequence candidates corresponding to said selected path.
+The method of claim 18, which further comprises a step wherein state groups
+composed of combinations of possible state transitions of said desired signal and possible transition
+
+states of said interference signal are defined; the state transition between adjacent points in time is
+limited only to one path which provides the maximum path metric between respective state groups;
+
+and upon each selection of one path on the basis of said path metric, channel impulse responses for
+said desired and interference signals are updated in accordance with said desired and interference
+
+signal symbol sequence candidates of said desired and interference signals corresponding to the
+selected state transition.
+A communication system which uses the receiver of claim 1 to receive a desired signal
+among signals transmitted from a plurality of transmitting stations (200, 300), said plurality of
+
+transmitting stations each including random generating means (201, 301) for generating a pseudo-random 
+number and phase shift means (203, 303) for shifting the phase of the signal to be
+
+transmitted, by an amount corresponding to said pseudo-random number.
+The communication system of claim 28, which includes timing generating means (90)
+for applying a common timing signal to at least two of said transmitting stations, said transmitting
+
+stations including transmitting power control means (204, 304) for controlling the amplitudes of said
+signals to be transmitted on the basis of said timing signal so that said signals have different
+
+amplitudes.
+A communication system which uses the receiver of claim 1 to receive a desired signal
+among signals transmitted from a plurality of transmitting stations (200, 300), each transmitting
+
+station including random generating means (205, 305) for generating a pseudo-random number and
+power control means (204, 304) for changing the amplitude of the signal to be transmitted In
+
+accordance with said pseudo-random number.
+The communication system of claim 30, wherein each transmitting station includes
+second random generating means (201, 301) for generating a second pseudo-random number and
+
+phase shift means (203, 303) for changing the phase of said signal to be transmitted by an amount
+corresponding to said second pseudo-random number.
+The communication system of claim 28, 29, or 31, wherein each transmitting station
+transmits the signal with a burst and said phase shift means (203, 303) changes the phase of said
+
+signal to be transmitted on the basis of said random number for each burst.
+</CLAIMS>
+</TEXT>
+</DOC>

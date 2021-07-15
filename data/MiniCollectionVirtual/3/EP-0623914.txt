@@ -1,0 +1,349 @@
+<DOC>
+<DOCNO>EP-0623914</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Speaker independent isolated word recognition system using neural networks
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G10L1502	G06F1518	G10L	G06N300	G06N308	G10L1516	G10L1514	G06F1518	G10L1508	G10L1500	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G10L	G06F	G10L	G06N	G06N	G10L	G10L	G06F	G10L	G10L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G10L15	G06F15	G10L	G06N3	G06N3	G10L15	G10L15	G06F15	G10L15	G10L15	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The method for speaker independent isolated word recognition is based on a hybrid 
+recognition system, which uses neural networks, availing itself of its parallel processing to 
+
+improve recognition and optimize system for what concerns time and memory while it keeps 
+some of the consolidated aspects of recognition techniques. 
+Complete words are modeled with left-to-right Markov model automata with recursion 
+on states, each of which corresponds to an acoustic portion of the word, and recognition is 
+
+obtained by performing a dynamic programming according to the Viterbi algorithm on all 
+automata in order to detect the one having the minimum cost path to which corresponds the 
+
+recognized word,
+ 
+
+the emission probabilities being computed through a neural network with feedback, trained 
+in an original way, and the transition probabilities being suitably estimated. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+CSELT CENTRO STUDI LAB TELECOM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+CSELT CENTRO STUDI E LABORATORI TELECOMUNICAZIONI S.P.A.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+ALBESANO DARIO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GEMELLO ROBERTO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MANA FRANCO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ALBESANO, DARIO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GEMELLO, ROBERTO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MANA, FRANCO
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to an automatic speech recognition method, and
+more particularly it concerns a speaker independent isolated word recognition method
+wherein neural networks are used, as stated in the preamble of claim 1.It is well known that the supply of vocal services on a telephone line requires
+the presence of equipment capable of recognising at least a short dictionary, generally
+comprising some ten words pronounced separately one at a time by the user. It is also
+well-known that recognition on a telephone line entails additional difficulties with
+respect to normal recognition because of the poor quality of the audio signal, which is
+limited in bandwidth and is affected by noises introduced by the switching and transmitting
+equipment.The recognition technique presently more used is based on the so called
+Markov models, as described in D. B. Paul's article "Speech Recognition Using Hidden
+Markov Models", The Lincoln Laboratory Journal, vol. 3, n. 1 (1990).A Markov model, e. g. of the type described by L. R. Rabiner in the article
+"An introduction to Hidden Markov Models", IEEE ASSP Magazine, January 1986, is
+a stochastic automaton characterized by two types of parameters: the transition probabilities
+from one state to another of the automaton and the probabilities for each state of 
+recognizing an input symbol, also called the emission probability of such a symbol.When applied to speech recognition, the Markov model automaton structure
+is selected by setting a certain number of constraints due to the sequential nature of
+voice. So, only "left-to-right" automata are being considered where after a state is
+abandoned it cannot be visited again and any transitions are limited to the recursion on
+one state and to the transition to the next state.Complete words are hence modeled by left-to-right automata (with recursion
+on states) where each state corresponds to an acoustic word portion, which is automatically
+determined during training. The states of the different models are characterized by
+a probability of recognizing a portion of the input word.Word recognition takes place by carrying out a dynamic programming
+according to Viterbi algorithm on all the automata, so as to find the path through the
+states maximizing the recognition probability by the automaton related to the examined
+word. The path detected is that of the minimum cost and the automaton where this path
+was found corresponds to the recognized word.The Markov models have achieved satisfactory performances and now are at
+the
+</DESCRIPTION>
+<CLAIMS>
+Speaker independent isolated word recognition method, where the input speech signal
+is digitized and submitted to spectral analysis at constant temporal intervals by using
+
+fast Fourier transform, the analysis result is submitted to an orthogonal transformation
+to obtain cepstral parameters and the logarithm of the total energy contained in each
+
+temporal interval is calculated, then the numerical derivatives of these values are
+calculated, obtaining the characteristic parameters of the speech signal for each
+
+temporal interval, the word ends are detected through the energy level of the signal,
+
+and the word is analysed by a recogniser (RNA), in which complete words are
+modelled with Markov model automata of the left-to-right type with recursion on the
+
+states, each of which corresponds to an acoustic portion of the word, and in which
+the recognition is carried out through a dynamic programming according to Viterbi
+
+algorithm on all automata for finding the one with the minimum cost path, which
+corresponds to the recognized word indicated at the output (PR), the emission probabilities
+
+being calculated with a neural network with feedback specially trained and the
+transition probabilities being calculated in a different way, wherein the training
+
+method is characterized in that it comprises the following operations:
+
+Initialization:
+
+a. initialization of the neural network with small random synaptic weights;
+b. creation of the first segmentation by segmenting the training set words uniformly.
+Iteration:
+
+1. initialization of the training set with all the segmented words;
+2. random choice of a word not already learnt, a word being considered learnt if
+the mean error for that word is sufficiently low; 
+3. updating of the synaptic weights w
+ij
+ for the considered word, by applying a back
+propagation type of training wherein for the modification of the network weights
+
+the error between the desired output and the real output is minimized; more particularly
+the neural network input is made to vary according to a window sliding
+
+from left to right on the word and for every input window a suitable objective
+vector is supplied at the output, constructed by setting a 1 on the neuron corresponding
+
+to the state to which the input window belongs, according to the current
+segmentation, and by setting 0 on all the other neurons;
+4. segmentation recomputation for the considered word, by using the neural network
+trained until now, and performing a dynamic programming only with the
+
+correct model;
+5. updating of the current segmentation S
+t+1
+;
+6. if there still are non considered words in the training set, going to step 2;
+7. recomputation of the transition probabilities of said automata;
+8. if the number of iterations on the training set is greater than a maximum preset
+number NMAX, termination, or otherwise going to step 1.
+Speaker independent isolated word recognition method as in claim 1, characterized in
+that said training applied for updating the synaptic weights w
+ij
+ includes the following
+steps, repeated for each sample of the training set:
+
+
+1. considering input value vector X and objective vector T;
+2. positioning input values on input units;
+3. executing the network by forward propagating said values from input units up to
+output units, and obtaining output vector O, according to the well known formulas: 
+
+
+o
+i
+ = F (net 
+i
+)
+
+with
+
+
+where o
+i
+ is the output of a generic neuron i in the output level of the network and
+hence is the i-th component of output vector O and 
+i
+ is a constant value, typical
+of the neuron;
+4. calculating error E, defined as square error between output vector O and objective
+vector T, according to the formula:
+
+
+
+where the objective is defined according to the correlation formula of outputs:
+
+t
+k
+ = o
+k
+ · o
+h
+ if t
+k
+ ≠ + 1 and t
+h
+ = 1
+
+   t
+k
+ unvaried if t
+k
+ = 1
+
+where t
+h
+, t
+k
+ are the h-th and the k-th element of the objective vector T, and o
+k
+ and
+o
+h
+ are the outputs of the k-th and h-th neuron of the output level of the network;
+5. calculating the partial derivative  ∂ E / ∂ w
+ij
+ of the error with respect to weights,
+used in the updating equation of synaptic weights
+
+
+Δw
+ij
+ ( t ) = η 
+∂ E
+∂w
+ij
+ + βΔw
+ij
+ (t - 1) = ηδ
+i
+ o
+j
+ + βΔw
+ij
+ (t - 1)
+
+where w
+ij
+ is the synaptic weight from neuron j to neuron i, η is a coefficient
+determining learning speed, β is a coefficient, called moment, determining the
+
+inertia in weight updating, δ
+i
+ is the backpropagated error on neuron i and o
+j
+ is the
+output of neuron j in the output level of the network; starting from the error defined
+
+at step 4 the new backpropagation error laws for training are obtained,
+defined as follows:
+ 
+for output neurons:
+
+
+δ
+i
+ = (t
+i
+ - o
+i
+) F' (net
+i
+) if t
+i
+ = 1
+δ
+i
+ = - ο
+i
+ (o
+h
+ - 1)
+2
+ F' (net
+i
+) if t
+i
+ ≠ 1 t
+h
+ = 1
+
+for internal neurons:
+
+
+where F' (net
+i
+) is the first derivative of F (net
+i
+) and index k moves on neurons of
+the upper level;
+6. updating every synaptic weight w
+ij
+, according to the equation:
+
+Δw
+ij
+ ( t ) = -η 
+∂E
+∂w
+ij
+ + βΔw
+ij
+ (t - 1) = ηδ
+i
+o
+j
+ + βΔw
+ij
+ (t - 1)
+Speaker independent isolated word recognition method as in claim 1 or 2, characterized
+in that transition probability into the state i + 1 of the word w at the time t + 1,
+
+given the fact that it is in the state i at the time t, is calculated in the following way:
+
+
+where min is the function which gives back the minimum between the considered
+fraction and 1, and
+
+
+P
+T
+(S
+w,i
+ (t + 1) |S
+w,i
+ (t)) = 1   if t ≻ K
+
+if t ≺ K
+ 
+where, in this last equation, Freq (S
+w,i
+ (h)) is the number of words which remain in S
+w,i
+
+for h times.
+Speaker independent isolated word recognition method as in claim 2 or in claim 3 if
+referred to claim 2, characterized in that the following parameters are used:
+
+
+moment β = 0.2;
+batchsize, i. e. number of corrections which are accumulated before they are
+actually applied to weights = 10;
+learning speed η linearly decreasing from 0.1 of 0.001.
+Speaker independent isolated word recognition method as in any of claims 1 to 4,
+characterized in that each word is modeled by an automaton containing a central sequence
+
+of states belonging to the word (3, ..., 7), preceded and followed by an initial (2) and
+final (8) silence state specific of the word, which respectively contain the transitions
+
+silence-word and word-silence, in their turn preceded and followed by two further states
+of generic background noise (1, 9).
+</CLAIMS>
+</TEXT>
+</DOC>

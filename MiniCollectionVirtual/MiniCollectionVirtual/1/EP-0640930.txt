@@ -1,0 +1,221 @@
+<DOC>
+<DOCNO>EP-0640930</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+A multiprocessor system and a method of controlling such a system.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F946	G06F946	G06F950	G06T120	G06T120	G06T1100	G06T1100	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06T	G06T	G06T	G06T	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	G06F9	G06T1	G06T1	G06T11	G06T11	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The present invention provides a multiprocessor system for 
+processing instruction arrays comprising attribute setting instructions 
+
+and tasks. When an attribute setting instruction is transmitted to the 
+system, it is first written into a first TSL buffer. Then a comparator 
+
+determines the difference between the corresponding addresses in the 
+first TSL buffer and a second TSL buffer, and a TAG circuit stores the 
+
+changed parts. When a task, or primitive, is allotted, the contents of 
+the TAG circuit are referenced and only the changed parts are copied from 
+
+the first to second TSL buffer. Then the second TSL buffer is locked to 
+retain the instantaneous value of the TSL. An MPU performs drawing with 
+
+reference to the snapshot of the TSL retained by the second TSL buffer. 
+By the above technique a graphic system according to the invention 
+can use a multiprocessor to perform fast parallel processing by 
+
+efficiently assigning drawing instructions to each node, since a TSL 
+snapshot at any time can be obtained quickly for use. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+KAWASE KEI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MORIYAMA TAKAO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ONO MAKOTO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KAWASE, KEI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MORIYAMA, TAKAO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ONO, MAKOTO
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a multiprocessor system which 
+assigns instructions sent sequentially to each processor and executes 
+them in parallel, and a method for controlling such a multiprocessor. In three-dimensional graphics interfaces such as the Programmer's 
+Hierarchical Interactive Graphics System (PHIGS), data is usually stored 
+in a storage area as a hierarchical structure. Therefore, during 
+drawing, this data structure is evaluated and expanded (traversal) to 
+generate a sequential instruction array, or a display list, which is then 
+sent to a graphic system. The display list consists of attribute setting instructions and 
+drawing instructions (primitives), as shown in Figure 4. The attribute 
+setting instructions are instructions for the attributes of each 
+primitive, for example, the color, lighting parameter, or transformation 
+matrices to be set, which are shown as symbols 41, 42, and 44 in Figure 
+4. The primitives are instructions for the drawing of graphic elements 
+such as points, lines, and polygons, and are shown as symbols 43 and 45 
+in Figure 4. When an attribute setting instruction is issued, its attribute 
+value is written into the corresponding entry (address) in the storage 
+position in the system referred to as a traversal state list (TSL). When 
+an attribute value is set again for the same attribute, it overwrites the 
+previous entry and the new value is validated. Therefore, the contents 
+of the TSL are changed every time an attribute setting instruction is 
+sent. In addition, drawing is executed with reference to the 
+instantaneous value (snapshot) of the attribute value in the TSL at the 
+time when a primitive is issued. For example, in Figure 4, the attribute 
+value which relates to an interior color instruction effective for the 
+primitive "Polygon3" 43 is the snapshot of that time "CYAN" 41 and not 
+the "PINK" 44 following it in the display list 40. Since traversal processing itself is sequential, parallel 
+processing cannot be executed for the overall process. However, 
+traversal operations and the processing of primitives sequentially 
+generated during traversal can be executed in parallel. It is efficient,  
+ 
+for example, to sequentially assign one processor to each primitive to 
+execute parallel processing because primitives do not affect each other. 
+However, each processor must hold the snapshot of the TSL for the 
+primitive for which it is responsible and ensure that attribute values 
+subsequently issued can be referenced. The reason for this is that if
+</DESCRIPTION>
+<CLAIMS>
+A multiprocessor system having a plurality of nodes (20) arranged 
+to execute allotted tasks in parallel, the system comprising: 
+
+   a distribution means (10) for receiving sequentially data sets and 
+tasks, for broadcasting data sets to all of the nodes, and for allotting 
+
+a task to one of the nodes for processing; 
+   an integration means (30) for in
+tegrating the results of processing 
+by each node; 
+
+   each node being in a locked state during processing of a task, and 
+comprising: 
+
+   a first temporary storage means (61) for receiving and writing each 
+item of data sent by the distribution means (10) at a corresponding 
+
+address; 
+   a second temporary storage means (62) having the same set of 
+
+addresses as the first temporary storage means (61) and retaining the 
+instantaneous value of the data set at the time the node entered its 
+
+locked state; 
+   a comparison means (65) for comparing the data stored in the 
+
+corresponding addresses in the first and second temporary storage means 
+(61, 62) to detect a difference, and a third storage means (63) for 
+
+storing the addresses at which a difference exists; 
+   a task processing means (21) for processing the allotted task with 
+
+reference to the data set stored in the second storage means (62) and 
+driving the node into an unlocked state when the processing of the task 
+
+is finished; 
+   a storage control means (66) for controlling the referencing of the 
+
+task processing means (21) to the second temporary storage means (62), 
+and with reference to the third storage device during the unlocked state 
+
+copying the data set at an address in the first temporary storage means 
+to the corresponding address in the second temporary storage means for 
+
+each address where a difference existed. 
+A multiprocessor system as claimed in Claim 1 wherein in copying a 
+data set, the storage control means (66) sends the data set's address to 
+
+the task processing means (21), and the task processing means (21) has a 
+built-in cache memory and invalidates the area of the cache memory that 
+
+corresponds to the address received from the storage control means (66). 
+A method for controlling a multiprocessor system having a plurality 
+of nodes (20) arranged to execute allotted tasks in parallel, the method 
+
+comprising the steps of: 
+   broadcasting, via a distribution means (10), a data set received by 
+
+the multiprocessor system to each node; 
+   employing a first temporary storage means (61) in each node (20) to 
+
+write said data set into a corresponding address; 
+   comparing said data set with the data set stored in a corresponding 
+
+address of a second temporary storage means (62) in each node to detect 
+any difference, 
+
+   associating said difference with the address and storing it in a 
+third storage means (63) in each node; 
+
+   employing the distribution means to receive tasks and to allot a 
+task to one of the nodes (20); 
+
+   in response to the allotment of the task, causing the allotted node 
+to read from the third storage means (63) the addresses with the 
+
+difference detected and to copy the data set stored in each such address 
+in the first temporary storage means (61) to the corresponding address in 
+
+the second temporary storage means (62); 
+   after copying all the addresses with a difference detected is 
+
+completed, driving the node into a locked state; 
+   in response to the locked state, employing a task processing means 
+
+(21) to process the task with reference to the second temporary storage 
+means (62);
+
+ 
+   driving the node into an unlocked state when the task processing 
+
+means finishes processing the task; and 
+   employing an integration means (30) to integrate the results of 
+
+processing by each node. 
+A method as claimed in Claim 3 wherein if a node receives a data 
+set from the distribution means whilst in the locked state, the first 
+
+temporary storage means (61) is employed to write said data set into the 
+corresponding address, said data set is compared with the data set stored 
+
+in the corresponding address in the second temporary storage means (62) 
+to detect a difference, and said difference is stored with the address in 
+
+the third storage means, but the data set is not copied from the first to 
+second temporary storage means until the node has been driven into the 
+
+unlocked state. 
+A method as claimed in Claim 3 or Claim 4 wherein the task 
+processing means (21) has a built-in cache memory, and the method 
+
+comprises the further steps of: 
+   when a data set is copied, sending the data set's address to the 
+
+task processing means (21); and 
+   invalidating the area of the cache memory that corresponds to the 
+
+address received by the task processing means (21). 
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,290 @@
+<DOC>
+<DOCNO>EP-0642893</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method for optimizing the motion of a multi-axis robot
+</INVENTION-TITLE>
+<CLASSIFICATIONS>B25J918	G05B19416	G05B1941	B25J918	B25J916	G05B19416	G05B194103	B25J916	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>B25J	G05B	G05B	B25J	B25J	G05B	G05B	B25J	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>B25J9	G05B19	G05B19	B25J9	B25J9	G05B19	G05B19	B25J9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method for determining an optimal trajectory and velocity 
+for an open loop stepper motor driven robot (1) is disclosed, 
+
+as is an open loop robotic system suitable for use in, by 
+example, a rapid prototyping system (10). The method utilizes 
+
+a deflection angle calculation of a maximal velocity for each 
+vertex of a set of vertices that define a desired trajectory, 
+
+a heap sort for globally ensuring that none of the vertices 
+have an excessive velocity, and a vertex adding technique that 
+
+ensures that the robot is performing straight line moves as 
+rapidly as is possible. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+STRATASYS INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+STRATASYS INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BATCHELDER JOHN SAM
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BATCHELDER, JOHN SAM
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates generally to the control of motors and,
+in particular, to the control of stepper motors such as those
+employed in robotics and rapid prototyping applications.High performance robotic systems may use closed loop control
+such as position, velocity, and acceleration sensors, feedback
+and feed forward calculations, and signal filtration. The use
+of feedback enables a level of performance near optimal levels
+of speed and accuracy for point-to-point moves.As an example, a robotic system that is adapted for a rapid
+prototyping system (RPS), and that employs feedback to control
+a position of an extrusion nozzle in an x-y-z coordinate
+reference frame is disclosed in US-A-5,303,141 published on 12.04.1994
+which does however not form part of the prior art.An example of the generally applied use of feedback in
+robotics, through the use of encoders and possibly
+tachometers, is shown in US-A-4,749,347.However, for low cost robot actuators the additional cost of
+providing feedback sensors and servo amplifiers may be
+prohibitive.Synchronization of multiple axis motion may also be required
+in robotic applications. Master/slave techniques are
+typically used, such as described in "Multi-axis Controller",
+by R.C. Russell, US-A-4,415,967.The closest prior art EP-A-0440805 discloses generally a method
+according to the preamble of claim 1, for controlling the
+feed speed of a tool moving along a machining path in accordance
+with a machining programm. The method derives a correct feed speed. Optimization of a point-to-point move time may not, however,
+optimize the total move time over a trajectory. In an
+application of particular interest, the problem that is
+addressed by this invention can be understood by comparing two
+simple trajectories.In a first case, 1000 line segments each 2.54 x 10-4m (0.01
+inches) long are concatenated to form a circle with a diameter
+of 8.08 x 10-2m (3.18 inches). Ignoring truncation effects due
+to the finite step size possible along each axis, the maximum
+speed that a robot should make this circular move is dictated
+by the amount of centripetal acceleration that the mechanism
+can accurately sustain. For a typical case of 0.3 g's of
+acceleration, the robot should be able to negotiate the circle
+at an average peak speed of 0.345m (13.6 inches) per second,
+not including the portions required for longitudinal
+acceleration and deceleration.In a second case, 1000 moves of 2.54 x 10-4m (0.01 inches) form
+a stair case so that there is a 90 degree turn between each
+segment. If it is
+</DESCRIPTION>
+<CLAIMS>
+A method for reducing a time required for an object to be
+driven by a plurality of motors over a predetermined
+
+trajectory through an n-dimensional space, wherein n is
+equal to or greater than two, the trajectory being
+
+defined by a plurality of vertices each having
+coordinates that define a location within the n-dimensional
+
+space, characterized by the steps of:
+
+providing a set of vertices that define a desired
+trajectory, each vertex being separated from at least one
+
+other vertex by a line segment;
+for each vertex, determining a maximum velocity that can
+be sustained while translating the object through a point
+
+in the trajectory that corresponds to the vertex;
+modifying the vertex list, if required, to achieve a
+velocity profile over the trajectory that causes the
+
+object to traverse the trajectory in the shortest period
+of time, without exceeding the maximum velocity at any
+
+vertex; and
+translating the modified vertex list into motor drive
+signals for causing the plurality of motors to translate
+
+the object in accordance with the modified vertex list.
+The method as set forth in claim 1, wherein the motors are
+stepper motors that move a step distance of d in response
+
+to drive signal pulse, wherein translating the object
+through a point in the trajectory from a vertex i-1 to i
+
+to i+1 results in a deflection of angle 
+i
+, and wherein a
+value of 
+cos
+i
+ is employed to determine a delay time
+between drive signal pulses for a stepper motor
+
+associated with an axis having a fastest movement. 
+The method as set forth in claim 2, wherein the step of
+modifying includes the steps of:
+
+
+determining a velocity profile over a run length
+corresponding to the desired trajectory, the velocity
+
+profile being determined in accordance with a dynamic
+characteristic of the stepper motor;
+testing an effect of maximum accelerations and maximum
+decelerations between pairs of vertices to determine if a
+
+resulting velocity would exceed the determined maximum
+velocity at one of the vertices of the pair; and
+adjusting the velocities of vertices to enable the use of
+maximum accelerations and decelerations between vertices,
+
+and inserting, if required, one or more intermediate
+vertices between the vertices of the pair.
+The method as set forth in claim 3 wherein the dynamic
+characteristic is torque.
+The method of claim 1,
+comprising the steps of:
+
+
+(a) determining a maximum velocity that can be
+maintained for each vertex as the object changes
+
+direction when being driven from one line segment to
+the next;
+(b) sorting the vertices by ascending maximum velocity; 
+(c) examining a pair of vertices consisting of the
+slowest vertex and a subsequent vertex in the
+
+trajectory;
+
+if the determined maximum velocity at the subsequent
+vertex is found to be exactly achieved by
+
+accelerating as fast as possible from the slowest
+vertex,
+(d) marking determined maximum velocity at the
+subsequent vertex as correct;
+
+if the determined maximum velocity at the subsequent
+vertex is found to be greater than the determined
+
+maximum velocity,
+(e) reducing the maximum velocity for the subsequent
+vertex to the value achieved by accelerating as fast
+
+as possible from the slowest vertex; and
+(f) marking the reduced maximum velocity at the
+subsequent vertex as correct;
+
+if the determined maximum velocity at the subsequent
+vertex is found to be less than the determined
+
+maximum velocity,
+(g) marking the subsequent vertex for a subsequent
+addition of at least one intermediate vertex;
+(h) examining a pair of vertices consisting of the
+slowest vertex and a previous vertex in the
+
+trajectory;
+
+if the determined maximum velocity at the slowest
+vertex is found to be exactly achieved by
+
+decelerating as fast as possible from the previous
+vertex to the slowest vertex, 
+(i) marking the maximum velocity at the previous vertex
+as correct;
+
+if the determined maximum velocity at the previous
+vertex is found to be greater than the determined
+
+maximum velocity,
+(j) reducing the maximum velocity for the previous
+vertex to the value achieved by decelerating as fast
+
+as possible from previous vertex to the slowest
+vertex; and
+(k) marking the reduced maximum velocity of the previous
+vertex as correct;
+
+if the determined maximum velocity at the subsequent
+vertex is found to be less than the determined
+
+maximum velocity,
+(l) marking the previous vertex for a subsequent
+addition of at least one intermediate vertex;
+(m) removing the vertex having the lowest maximum
+velocity from the vertex list;
+(n) determining if all vertex pairs have been examined;
+(o) if NO, repeating the steps (b) through (n); else
+(p) if YES, adding at least one intermediate vertex
+between each vertex pair previously marked for
+
+vertex addition; and
+(q) determining from the resulting vertex list a
+sequence of motor control signals so as to cause the
+
+object to be driven over the trajectory so as to
+achieve the indicated velocities at each vertex of
+
+the resulting vertex list.
+The method as set forth in claim 5, wherein the motors are
+stepper motors, and wherein the step (q) adds a single
+
+vertex if a full acceleration from the first of the pair
+of vertices, and a full deceleration to the second of the
+
+pair of vertices, results in a position, along the line
+segment connecting the pair of vertices, where the
+
+accelerating and decelerating velocities are the same,
+and which is an integer number of stepper motor steps
+
+from both vertices, and where the velocity at the
+intersection is less than a maximum allowable velocity.
+The method as set forth in claim 5, wherein if a full
+acceleration, followed by full deceleration, along the
+
+line segment between the pair of vertices will cause the
+velocity to reach a maximum allowable velocity, the step
+
+(q) adds a first vertex at a point on the line segment
+where the velocity first reaches the maximum allowable
+
+value, and a second vertex at a point on the line segment
+whereat a full acceleration will result in the second
+
+vertex being reached at the determined maximum velocity.
+The method as set forth in claim 7, wherein the motors are
+stepper motors, and wherein if a full acceleration ramp
+
+and a full deceleration ramp intersect at a non-integer
+number of stepper motor steps, the step (q) adds two
+
+vertices along the line segment that are separated by one
+stepper motor step that results in neither an
+
+acceleration or a deceleration.
+The method as set forth in claim 5, wherein the step (b) is
+accomplished with a heap sort.
+The method as set forth in claim 5, wherein the motors are
+stepper motors, wherein translating the object through a
+
+point in the trajectory from a vertex i-1 to i to i+1
+results in a deflection of angle 
+i
+, and wherein step (a)
+employs a value of 
+cos
+i
+ to determine the maximum velocity
+for the vertex i.
+</CLAIMS>
+</TEXT>
+</DOC>

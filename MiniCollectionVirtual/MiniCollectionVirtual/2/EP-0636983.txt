@@ -1,0 +1,253 @@
+<DOC>
+<DOCNO>EP-0636983</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Information processing system.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F100	G06F100	G06F906	G06F906	G06F9445	G06F9445	G06F1114	G06F1114	G06F1200	G06F1200	G06F1216	G06F1216	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F1	G06F1	G06F9	G06F9	G06F9	G06F9	G06F11	G06F11	G06F12	G06F12	G06F12	G06F12	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A series of operations for hibernation and wake-up are executed at high 
+speed in a system in which an address for saving the content of the main 
+
+memory serves as a hibernation file managed by the OS file system. 
+When the information processing system enters hibernation mode, the 
+system accesses an area on an external storage device where there is 
+
+stored file allocation information managed by the OS file system thereby 
+obtaining allocation information of the hibernation file. This 
+
+information is input into a buffer (steps 805, 806). The system uses 
+allocation information in the buffer to save the content of the main 
+
+memory and VRAM as well as allocation information into the hibernation 
+file (steps 808, 810 and 811). In addition, the address information at 
+
+the location on the external storage device where allocation information 
+is saved is stored in a predetermined control information area (step 
+
+813). When the system is woken up, allocation information already 
+residing in the hibernation file is used to restore the main memory and 
+
+VRAM from the hibernation file. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+SHIMOTONO SUSUMU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SHIMOTONO, SUSUMU
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to information processing systems that 
+operate with a low power consumption, and more particularly to a 
+portable information processing system such as a notebook computer. As a result of recent technological innovation, small-size and lightweight 
+portable computers have become common. When such portable 
+computers are used outdoors, electric power is supplied to them with 
+batteries. However batteries mounted on portable computers are 
+restricted to small-size batteries. Thus the period for which personal 
+computers can be operated without recharging the batteries is short. 
+Consequently various kind of facilities or devices are provided for 
+reducing the consumption of power in many portable computers. A suspend/resume function is one of such facilities. When the 
+suspend/resume function operates, the computer enters into a suspend 
+mode. This may be in response to a situation such as no activity of an 
+I/O device being detected for a certain time. In the suspend mode all 
+tasks are suspended, and the main memory saves data required later for 
+resuming the tasks. In the suspend mode, the main memory and the video 
+memory (VRAM) are powered on, but CPU or the like are powered off. 
+However, portable computers have a drawback in that the power of 
+batteries are consumed when the suspend mode continues for a very long 
+time with only the support of the suspend/resume function. This can 
+result in the contents of the memory and the VRAM being erased. Therefore portable computers which are supported with hibernation mode, 
+such as the LTE Lite/25 manufactured by Compaq Company (Compaq and LTE 
+are registered trademarks of Compaq Computer Corporation), have been 
+proposed and marketed. When hibernation mode is enabled, the computer 
+enters a low battery-use state. Otherwise, when the suspend mode 
+continues for a certain time, the computers enter hibernation mode after  
+ 
+saving onto the hard disk all the data required later for resuming the 
+task. In hibernation mode, the whole system, including the memory and 
+the VRAM, is powered off. When users power on the system later, the 
+data stored in the hard disk is restored in the memory and the VRAM and 
+the tasks which had been suspended are automatically resumed. The 
+series of operation accompanying power-on is also referred to as wake-up. It is necessary to secure in advance a space in a hard disk device for 
+saving the content of the main memory and the VRAM. Some of the 
+currently known systems secure it on a hard disk in
+</DESCRIPTION>
+<CLAIMS>
+An information processing system including a CPU, a volatile main 
+memory and a non-volatile external storage device, and supporting a 
+
+hibernation function by which, upon occurrence of predetermined 
+conditions, a task is suspended and the contents of said main memory is 
+
+saved, before said memory is powered off, into a hibernation file 
+residing in said external storage device and being managed by an OS file 
+
+system, said information processing system comprising: 
+
+(a) a means, operative when entering hibernation mode, for accessing 
+an area in said external storage device where file allocation 
+
+information managed by said OS system is stored, obtaining the 
+allocation information for said hibernation file, and inputting 
+
+the obtained information into a buffer in said information 
+processing system; 
+(b) a means for saving said allocation information in said buffer into 
+said hibernation file by using said information itself; 
+(c) a means for saving the contents of said main memory into said 
+hibernation file by using said allocation information in said 
+
+buffer; and 
+(d) a means for storing the address information of the location in 
+said external device where said allocation information has been 
+
+saved, into a predetermined control information area in said 
+external storage device. 
+An information processing system according to claim 1 wherein the 
+means (a) converts the allocation information for the hibernation file 
+
+managed by said OS file system into information indicating the start 
+address and the length in each series of sector blocks constituting said 
+
+file on said external storage device to input converted information into 
+said buffer. 
+An information processing system according to claim 1 or claim 2, 
+including a video memory the content of which is saved in said 
+
+hibernation file together with the content of main memory. 
+An information processing system according to claim 3 wherein the 
+content of said main memory and the content of said video memory are 
+
+classified and managed in said hibernation file and said information 
+control area stores address information indicating a location where the 
+
+content of said main memory is saved and a location where the content of 
+said video memory is saved. 
+An information processing system according to any one of the 
+preceding claims, including means for saving work data including 
+
+hardware context information in said hibernation file, said control 
+information area storing address information indicating a location where 
+
+said work data on said external storage device is saved. 
+An information processing system according to any one of the 
+preceding claims, including a CMOS means for storing system 
+
+configuration information and means for storing said system 
+configuration information in said control information area from said 
+
+CMOS means. 
+An information processing system according to any one of the 
+preceding claims, including means for storing in said control 
+
+information area a hibernation signature indicating that the system is 
+powered off via a series of saving operations for entering hibernation 
+
+mode. 
+An information processing system according to claim 7, including 
+means for selecting either a normal boot operation or a boot operation 
+
+accompanying a restoration from said external storage device based on 
+the presence of said hibernation signature when said system is powered 
+
+on or reset. 
+An information processing system according to any one of the 
+preceding claims, including means for rejecting a hibernation execution 
+
+when the size of said hibernation file is insufficient. 
+An information processing system including a CPU, a volatile main 
+memory and a non-volatile external storage device and supporting a wake-up 
+
+function by which, in response to power-on of the system in 
+ 
+
+hibernation mode, the content of said main memory is restored from a 
+hibernation file under the control of an OS file on said external 
+
+storage device, enabling a task or tasks which had been suspended to be 
+resumed; 
+
+   wherein said hibernation file includes allocation information 
+thereof and said control information, including address information of a 
+
+location where said allocation information in said hibernation file 
+resides, is stored in a predetermined control information area on said 
+
+external storage device; 
+   said system being characterized in that it comprises: 
+
+
+(a) a means for accessing said control information area, obtaining 
+said address information, and inputting said allocation 
+
+information into a buffer in said information processing system; 
+and 
+(b) a means for restoring the content of said main memory from said 
+hibernation file by using said allocation information in said 
+
+buffer. 
+An information processing system according to claim 10 wherein 
+said allocation information of said hibernation file residing in said 
+
+file includes information indicating the start address and the length in 
+each series of sector blocks constituting said file on said external 
+
+storage device. 
+An information processing system according to claim 10 or claim 
+11, including means for invalidating said control information as a final 
+
+step of a series of processing for wake-up. 
+A system according to any one of claims 10 to 12, including a 
+video memory the content of which is restored from said hibernation file 
+
+in addition to the content of main memory. 
+An information processing system according to claim 13 wherein the 
+content of said main memory and the content of said video memory are 
+
+classified and managed in said hibernation file, said information 
+ 
+
+control area stores address information indicating a location where the 
+content of said main memory is saved and a location where the content of 
+
+said video memory is saved, said means (b) using address information of 
+the content of said main memory and address information of the content 
+
+of said video memory. 
+An information processing system according to any one of claims 10 
+to 14, wherein work data, including hardware context information, is 
+
+saved in said hibernation file, said control information area storing 
+address information indicating a location where said work data is saved; 
+
+and wherein 
+   said system comprises means for restoring said work data from said 
+
+hibernation file by using said allocation information and address 
+information on said work data. 
+An information processing system according to any one of claims 10 
+to 15, wherein said control information area stores system configuration 
+
+information when hibernation mode is executed, and said system compares 
+the current configuration information with the system configuration 
+
+information when hibernation mode is executed so that a wake-up sequence 
+is stopped when the two conf
+iguration systems do not agree with each 
+other. 
+</CLAIMS>
+</TEXT>
+</DOC>

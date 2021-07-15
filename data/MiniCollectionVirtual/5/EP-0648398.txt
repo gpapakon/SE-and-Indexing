@@ -1,0 +1,308 @@
+<DOC>
+<DOCNO>EP-0648398</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+MOTION COMPENSATED VIDEO PROCESSING
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04N726	G06T900	H04N726	H04N701	H04N701	G06T900	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04N	G06T	H04N	H04N	H04N	G06T	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04N7	G06T9	H04N7	H04N7	H04N7	G06T9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Method of motion-compensated video processing such as standards conversion, uses motion vectors assigned on a pixel-by-pixel basis. The pixels of an input video signal are written to locations in a video store (24) determined by the motion vector assigned to that pixel. Multiple vectors can address a single written pixel to enable mixing of backward and forward vectors. A confidence value governs the accumulation of pixels and the later interpolation between motion compensated fields.
+ 
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SNELL 
+&
+ WILCOX LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SNELL 
+&
+ WILCOX LIMITED
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BORER TIMOTHY JOHN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LYON DAVID
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MARTIN PHILIP DAVID
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BORER, TIMOTHY JOHN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LYON, DAVID
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MARTIN, PHILIP DAVID
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to video processing techniques and apparatus in which
+use is made of the measured motion in sequences of video images. In an
+important example, the invention relates to motion compensated standards
+conversion.Standards conversion is the process of converting television signals between
+different scanning standards, particularly between European (PAL) and American
+(NTSC) television signals. The present invention, in this aspect, is concerned
+with the temporal interpolation of fields at new instants of time, rather than
+colour encoding and decoding which is also required for standards conversion.
+The description below describes processing of luminance signals; processing of
+the colour signals is performed in parallel in a similar manner.Standards conversion is conventionally performed using linear filtering
+techniques. The techniques are, essentially, the application of a linear, vertical-temporal
+filter to the television signal. The quality of the conversion process,
+using this technique, is critically dependant on the details of the interpolation
+aperture (filter coefficients) which is used. The design of the filter aperture is a
+compromise between removing aliasing in the signal, which produces
+undesirable artifacts such as judder and flicker, and removing detail or blurring
+moving images. Although acceptable results can be achieved with this
+technique, the results are a compromise and picture artifacts, such as judder or
+blurring, can easily be seen on some types of pictures. To avoid the problems inherent in conventional standards conversion the
+technique of motion compensated interpolation has been suggested. This uses
+information of the apparent movement of objects in television scenes to improve
+the conversion process.If motion compensation can be achieved it largely eliminates the aliasing
+impairments which are unavoidable in conventionally standards converted
+pictures. Since the aliasing impairments are avoided there is no need to
+compromise the filter coefficients used for interpolation. Therefore, in addition
+to giving a picture which is free from alias impairments, the use of motion
+compensation allows much more of the resolution, present in the original
+pictures, to be retained following standards conversion.It is an object of one aspect of this invention to provide high
+quality motion compensated interpolation for standards conversion. The
+invention is concerned in this respect with the manner in which motion vectors
+are used for improved interpolation of images,
+</DESCRIPTION>
+<CLAIMS>
+Claims for the following Contracting States : AT, BE, CH, LI, DK, IE, PT
+A method of motion-compensated video processing utilising motion vectors
+assigned substantially on a pixel-by-pixel basis, wherein pixels of an input video
+
+signal are written to locations in a video store determined by the respective motion vectors
+assigned to those pixels.
+A method according to Claim 1, wherein a confidence level is derived for
+each motion vector.
+A method according to Claim 2, wherein pixels are accumulated in the video store with
+weightings determined by the respective confidence levels of the motion vectors controlling
+
+the address to which the respective pixels are written.
+A method according to Claim 2, wherein each motion vector is scaled in
+relation to the confidence level.
+A method according to any one of the preceding claims, in which an
+interlace to sequential conversion is conducted prior to motion compensation.
+A method according to any one of the preceding claims, an output pixel to
+which no data is written is flagged as a hole and is subsequently filled by
+
+interpolation. 
+A method of motion-compensated video processing utilising motion
+vectors assigned substantially on a pixel-by-pixel basis, wherein pixels of
+
+an input video signal are written to associated locations in a video store
+determined by the motion vector assigned to that pixel and, in the case
+
+where more than one pixel is associated with a location in the video store, a
+combination of the said pixels is written to the location in the video store.
+A method according to Claim 7, wherein the write side of the video
+store is operated in a read-modify-write cycle.
+A method according to Claim 7 or Claim 8, wherein each motion
+vector is accompanied by a confidence level and wherein pixels are
+
+accumulated at said location in the video store with a weighting determined by
+the confidence level of the respective motion vectors.
+A method according to Claim 9, wherein the output of the video store
+is divided by the accumulated confidence level of motion vectors associated
+
+with the respective location.
+A method according to any one of Claims 7 to 10, wherein any
+motion vector corresponding to non-integral pixel shifts, is divided into a
+
+sub-pixel vector component and an integral pixel vector component and
+wherein an interpolated pixel from the input video signal, related to the
+
+actual pixels in the input video signal through the sub-pixel vector
+component, is written to a location in the video store determined by the
+
+integral pixel vector component.
+A method of motion-compensated video processing utilising motion
+
+vectors assigned substantially on a pixel-by-pixel basis, wherein pixels of
+an input video signal are written to locations in a video store determined by
+
+the motion vector assigned to that pixel to create motion compensated input
+fields F and wherein an output field F
+out
+ is generated from at least four
+successive input fields F
+1
+, F
+2
+, F
+3
+ and F
+4
+. 
+A method according to Claim 12, wherein an output field F
+out
+ is
+created by combining motion compensated input fields F
+1
+ and F
+2
+ to create a
+forward field in which predominantly high frequency information is taken from
+
+field F
+1
+; combining motion compensated input fields F
+3
+ and F
+4
+ to create a
+rearward field in which predominantly high frequency information is taken
+
+from field F
+4
+; and combining said forward and rearward fields in a ratio which
+takes into account the temporal phase of output field F
+out
+ relative to input
+fields F
+1
+, F
+2
+, F
+3
+ and F
+4
+.
+A method according to Claim 13, wherein each motion vector is
+accompanied by a confidence level; pixels are accumulated at said location in
+
+the video store with weightings determined by the confidence levers of the
+respective motion vectors; an aggregate confidence level is derived for each
+
+of the input fields F
+1
+, F
+2
+, F
+3
+ and F
+4
+; and wherein said forward and rearward
+fields are combined in a ratio which takes into account said aggregate
+
+confidence levels.
+Claims for the following Contracting States : DE, ES, FR, GB, IT, NL, SE
+A method of motion-compensated video processing utilising motion
+vectors assigned substantially on a pixel-by-pixel basis, wherein pixels of
+
+an input video signal are written to associated locations in a video store
+determined by the respective motion vectors assigned to those pixels and, in the case
+
+in which more than one pixel is associated with a location in the video
+store, a combination of the said pixels is written to the location in the
+
+video store.
+A method according to Claim 1, wherein the write side of the video
+store is operated in a read-modify-write cycle.
+A method according to Claim 1 or Claim 2, wherein each motion
+vector is accompanied by a confidence level and wherein pixels are
+
+combined at said location in the video store with weightings determined
+by the confidence levels of the respective motion vectors.
+A method according to Claim 3, wherein the output of the video
+store is divided by the accumulated confidence level of motion vectors
+
+associated with the respective location.
+A method according to Claim 3 or Claim 4, wherein each motion
+vector is scaled in relation to the confidence level.
+A method according to any one of the preceding claims, wherein
+any motion vector corresponding to non-integral pixel shifts, is divided
+
+into a sub-pixel vector component and an integral pixel vector component
+and wherein an interpolated pixel from the input video signal, related to
+
+the actual pixels in the input video signal through the sub-pixel vector
+component, is written to a location in the video store determined by the
+
+integral pixel vector component. 
+A method according to any one of the preceding claims, in which
+an interlace to sequential conversion is conducted prior to motion
+
+compensation.
+A method according to any one of the preceding claims, in which
+an output pixel to which no data is written is flagged as a hole and is
+
+subsequently filled by interpolation.
+A method according to any one of the preceding claims wherein an
+output field F
+out
+ is generated from at least four successive input fields F
+1
+,
+F
+2
+, F
+3
+ and F
+4
+.
+A method according to Claim 9, wherein an output field F
+out
+ is
+created by combining motion compensated input fields F
+1
+ and F
+2
+ to create
+a forward field in which predominantly high frequency information is
+
+taken from field F
+1
+; combining motion compensated input fields F
+3
+ and F
+4
+
+to create a rearward field in which predominantly high frequency
+information is taken from field F
+4
+; and combining said forward and
+rearward fields in a ratio which takes into account the temporal phase of
+
+output field F
+out
+ relative to input fields F
+1
+, F
+2
+, F
+3
+ and F
+4
+.
+A method according to Claim 9 or Claim 10, wherein each motion
+vector is accompanied by a confidence level; pixels are accumulated at said
+
+location in the video store with weightings determined by the confidence
+levels of the respective motion vectors; an aggregate confidence level is
+
+derived for each of the input fields F
+1
+, F
+2
+, F
+3
+ and F
+4
+; and wherein said
+forward and rearward fields are combined in a ratio which takes into
+
+account said aggregate confidence levels.
+</CLAIMS>
+</TEXT>
+</DOC>

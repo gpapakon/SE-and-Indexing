@@ -1,0 +1,438 @@
+<DOC>
+<DOCNO>EP-0610080</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Apparatus and method for defocusing images
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T520	G06T520	G06T1740	G06T500	G06T500	G06T1500	G06T1740	G06T1500	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	G06T	G06T	G06T	G06T	G06T	G06T	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T5	G06T5	G06T17	G06T5	G06T5	G06T15	G06T17	G06T15	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The present invention discloses an image defocusing 
+apparatus for defocusing an image formed on a screen by 
+
+modeling an object in a boundary box by updating pixel values 
+on the image to approximate a lens's focusing effects and a 
+
+method thereof. The apparatus comprises a unit for computing 
+data related to a circle of confusion for each point in the 
+
+boundary box, the circle of confusion being a measure how 
+defocused an out-of-focus point is on the screen, a unit for 
+
+checking a reference pixel whose corresponding point's circle 
+of confusion overlaps a pixel selected as a target pixe
+l, and 
+a unit for updating an original value of the target pixel by 
+
+taking into account a value of the reference pixel and the data 
+of the target pixel's circle of confusion. 
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC IND CO LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC INDUSTRIAL CO., LTD.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+MAENOBU KIYOSHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NAGAMINE SATOSHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NISHIMURA AKIO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WAKAYAMA YORIHIKO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MAENOBU, KIYOSHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NAGAMINE, SATOSHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NISHIMURA, AKIO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WAKAYAMA, YORIHIKO
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to an image defocusing
+apparatus capable of applying a real lens's focusing effects on
+an image formed by computer graphics, and to a method thereof.The rapid progress in the field of computer graphics makes
+it possible to synthesize an image formed by the computer
+graphics into a video taken by a video camera. The synthetic
+image, however, will be unrealistic unless a depth distance is
+taken into account, for example, by a process called
+"defocusing".With the "defocusing", an object in focus appears clear and
+sharp while the front and rear of the object, or out-of-focus
+points, fuzzy and blurred in a resulting image in an approximate
+way when seen through a camera. (Rendering an image by modelling
+an object with a boundary box is a known art and the explanation
+thereof is omitted herein.)Typically, a method called "ray-tracing" is used for the
+"defocusing". However, the "ray-tracing" or other applicable
+methods involve a considerable amount of computation, and thus
+the entire process takes quite a long time. To solve this 
+problem, a simpler, faster method has been disclosed in
+Japanese Laid-Open Patent Application No. 63-259778. In this
+method, a region of defocus for each sample point is determined
+with their respective Z values that represent a distance from
+a view point to each sample point, and a focal point of a lens
+being used; the intensities within the region of defocus are
+averaged to update the original intensities with the mean
+intensity.The more detailed explanation will be given by referring
+to FIG. 1, which shows the relation between the Z values and
+regions of defocus relative to the focal point. Here, a view
+point is fixed at z = 0 coordinate, and several points, Za,
+Zb, Zc(focal point), Zd, and Ze, are fixed along the z
+coordinate, the direction in which an eye ray is aimed. Assume
+that Z is the z coordinate of the sample point, i.e, the Z
+value, then the region of defocus of the sample point is
+determined as follows:
+ConditionsRegion of Defocus1) Zd≥Z>Zbnone2) Ze≥Z>Zd or Zb≥Z>Za3 x 33) Z>Ze or Za≤Z5 x 5
+In the drawing, a square 501 represents a pixel
+corresponding to the sample point, while squares 502, 503 the
+regions of defocus under the conditions 1), 2), respectively. Given the region of defocus, either an arithmetic mean
+or a weighted mean of the intensities is computed, and the
+original intensities of all the pixels within the region of
+defocus are updated by the mean intensity. Since the area of
+the region of defocus is proportional to a distance
+</DESCRIPTION>
+<CLAIMS>
+An image defocusing apparatus for defocusing an image formed on a screen (S1) by
+modelling an object in a boundary box by updating pixel values on the image to approximate a
+
+lens's focusing effects, the apparatus comprising:
+
+means (102) for computing data related to a circle of confusion for each point in the
+boundary box, the circle of confusion being a measure how defocused an out-of-focus point is on
+
+the screen (S1);
+means (105) for selecting for a given target pixel reference pixels in the boundary box
+whose corresponding points' circles of confusion overlap the target pixel; and
+means (106) for updating an original value of the target pixel by taking into account the
+values of the reference pixels and the data related to the target pixel's circle of confusion, said
+
+updating means including:
+
+a distributing unit for weighting a value of each reference pixel to determine a distribution
+within their own circles of confusion, the distribution being distributed to the target pixel;
+a target-pixel weighting unit for weighting the original value of the target pixel with the
+area of its circle of confusion; and
+an updating unit for accumulating the distributions and the weighted value of the target
+pixel to yield a mean value, the original value of the target pixel being updated by the mean
+
+value; end
+
+   wherein the data related to the circle of confusion comprises
+a radius and an area of each circle of confusion, and
+
+   wherein the circle-of-confusion computing means (102) includes:
+
+a radius calculating unit for computing a radius C of each circle of confusion 
+and said means for updating an original value
+
+of the target pixel further includes an area
+calculating unit for computing an area of each
+
+circle of confusion using their respective radius C
+and wherein said means for selecting includes:
+
+
+a distance computing unit for computing a linear
+distance from said target pixel to each neighbouring
+
+pixel; a comparing unit for comparing said linear
+distance with the radius C relative to each neighbouring
+
+pixel by referring to their x,y coordinates;
+a comparison result outputting means for selecting neighbouring pixels whose radius C is longer than
+said linear distance, and subsequentely outputting
+
+the selected neighbouring pixel as the reference
+pixel.
+The apparatus of claim 1 wherein said radius
+calculating unit uses the following expression
+
+to calculate said radius C of each circle of
+
+confusion
+
+C = |1-p(d-f)/d(p-f)| * f/F
+
+   where p is a distance from a view point (C1) to a focal point, d is a Z value that represents
+a distance from the view point (C1) to each point, f is a focal length, and F is an iris value of a
+
+lens being used.
+The apparatus of Claim 2, wherein the circle-of-confusion computing means (102)
+further includes a storage unit (103) for storing the radiuses C of the circles of confusion in
+
+relation with their respective pixels' x, y coordinates.
+The apparatus of Claim 1, wherein the distributing unit includes a reference-pixel
+weighting unit for multiplying a value of each reference pixel by a reciprocal of an area of their
+
+respective circles of confusion.
+The apparatus of Claim 1, wherein the selecting means further includes:
+
+ a spatial-location comparing unit for comparing Z values of the target pixel and the
+reference pixels, the Z value representing a distance from the view point (C1) to their
+
+corresponding points, and
+
+   wherein the image defocusing apparatus (100) further comprises:
+
+means for preventing said updating means from updating the original value of the target
+pixel when the reference pixel has a larger Z value than the target pixel.
+The apparatus of Claim 1, wherein said selecting means further includes:
+
+an output unit comprising (104) means for comparing the Z values of the target pixel and the neighbouring
+pixels to select a neighbouring pixel whose Z value is smaller than the target pixel, and means for
+
+subsequently outputting the selected neighbouring pixel to the distance computing unit, the Z
+value representing a distance from the view point (C1) to their corresponding points.
+The apparatus of Claim 1, wherein said selecting means (105) comprises a first and a
+second selecting means (305, 309) and said updating means (106) comprises a first and a second
+
+updating means (306, 310),
+
+   the first selecting means (305) being adapted to select a first reference pixel whose
+corresponding point's circle of confusion overlaps a target pixel in a first direction;
+
+   the first updating means (306) being adapted to update an original value of the target
+pixel by taking into account a value of the first reference pixel and the data related to the target
+
+pixel's circle of confusion;
+
+   the second selecting means (309) being adapted to select a second reference pixel whose
+corresponding point's circle of confusion overlaps the target pixel in a second direction, the
+
+second direction being orthogonal with respect to the first direction; and
+
+   the second updating means (310) being adapted to update the values updated by the first
+updating means by taking into account a value of the second reference pixel and the data related
+
+to the target pixel's circle of confusion. 
+The apparatus of Claim 7,
+
+   wherein the circle-of-confusion computing means (102) includes:
+
+a radius calculating unit for computing a radius C of each circle of confusion using an
+expression:
+
+
+C = |1p(d-f)/d(p-f)| * f/F
+
+   where p is a distance from a view point (C1) to a focal point, d is a Z value that represents
+a distance from the view point (C1) to each point, f is a focal length, and F is an iris value of a
+
+lens being used, and
+
+   wherein the updating means (106, 306, 310) includes:
+
+an area calculating unit for computing an area of each circle of confusion using their
+respective radiuses C.
+The apparatus of Claim 8, wherein the circle-of-confusion computing means (102)
+further includes a storage unit (103) for storing the radiuses C of the circles of confusion in
+
+relation with their respective pixels' x, y coordinates.
+The apparatus of Claim 9, wherein the first selecting means (305) includes:
+
+a first distance computing unit for counting the number of pixels between the target pixel
+and each pixel aligned in an array that contains the target pixel in the first direction, the number
+
+thus counted being a distance;
+a first comparing unit for comparing the distance and the radius C relative to each pixel
+aligned in the target pixel's array in the first direction by referring to their x, y coordinates; 
+a first comparison-result outputting unit for outputting a pixel aligned in the first direction
+whose radius is longer than the distance to the first updating means as the first reference pixel,
+
+and
+
+   wherein the second selecting means (309) includes:
+
+a second distance computing unit for counting the number of pixels between the target
+pixel and each pixel aligned in an array that contains the target pixel in the second direction, the
+
+number thus counted being a distance;
+a second comparing unit for comparing the distance and the radius C relative to each
+pixel aligned in the target pixel's array in the second direction by referring to their x, y
+
+coordinates; and
+a second comparison-result outputting unit for outputting a pixel aligned in the second
+direction whose radius is longer than the distance to the second updating means as the second
+
+reference pixel.
+The apparatus of any of Claims 7 to 10, wherein the distributing unit includes:
+
+a first distributing unit for weighting a value of the first reference pixel to determine a
+distribution within their own circles of confusion, the distribution being distributed to the target
+
+pixel; and
+a second distributing unit for weighting a value of the second reference pixel to determine
+a distribution within their own circles of confusion, the distribution being distributed to the target
+
+pixel.
+The apparatus of Claim 11, wherein the target-pixel weighting unit includes a first
+reference-pixel weighting unit associated with the first distribution unit for multiplying an
+
+original value of each reference pixel by a reciprocal of an area of their respective circles of
+confusion, and a second reference-pixel weighting unit associated with the second distribution 
+
+unit for multiplying an original value of each reference pixel by a reciprocal of an area of their
+respective circles of confusion.
+The apparatus of Claim 12, further comprising:
+
+means (307) for withholding the value of the target pixel updated by the first updating
+means (306) to transfer them to the second updating means (310).
+The apparatus of Claim 11, wherein the first selecting means (305) includes:
+
+a first spatial-location comparing means (304) for comparing Z values of the target pixel
+and the first reference pixel, the Z value representing a distance from the view point (C1) to their
+
+corresponding points, and
+
+   wherein the second selecting means (309) includes:
+
+a second spatial-location comparing means (308) for comparing the Z values of the target
+pixel and the second reference pixel, and
+
+   wherein the first updating means (306) includes:
+
+
+a first disallowing unit for preventing the first updating means from updating the original
+value of the target pixel when the target pixel has a smaller Z value, and
+
+   wherein the second updating means (310) includes:
+
+a second disallowing unit for preventing the second updating means (310) from updating
+the original value of the target pixel when the target pixel has a smaller Z value.
+The apparatus of Claim 11, wherein the first selecting means (305) further includes:
+
+a first output unit for comparing the Z values of the target pixel and the neighbouring
+pixels to select a neighbouring pixel whose Z value is smaller than the target pixel, and for
+
+subsequently outputting the selected neighbouring pixel to the first distance computing unit, the
+Z value representing a distance from the view point (C1) to their corresponding points, and
+
+   wherein the second selecting means (309) further includes: 
+
+a second output unit for comparing the Z values of the target pixel and the neighbouring
+pixels to select a neighbouring pixel whose Z value is smaller than the target pixel, and for
+
+subsequently outputting the selected neighbouring pixel to the second distance computing unit.
+The apparatus of any preceding claim, further comprising at least one further
+updating means arranged in parallel with the existing updating means.
+A method of defocusing an image by updating pixel values on the image formed on a
+screen (S1) by modelling an object in a boundary box, the method comprising:
+
+
+computing (S 102) data related to a circle of confusion for each point in the boundary box,
+the circle of confusion being a measure of how defocused an out-of-focus point is on the screen
+
+(S1);
+for each target pixel, selecting reference pixels in the boundary box whose corresponding
+point's circle of confusion overlaps the target pixel; and
+updating an original value of the target pixel by taking into account the value of the
+reference pixel and the data related to the target pixel's circle of confusion, the updating step
+
+comprising
+weighting a value of each reference pixel to determine a distribution to the target pixel;
+computing an area of each overlapping circle of confusion and the target pixel's circle of
+confusion to weight the original value of the target pixel with the area of its circle of confusion;
+accumulating the distributions and the weighted value of the target pixel to yield a mean
+value, and updating the original value of the target pixel with the mean value;
+selecting another target pixel; and
+repeating the above weighting, computing, accumulating and selecting steps until all the
+pixels have been selected as the target pixel.
+
+   and, wherein the computing step comprises
+computing a radius C of each circle of confusion
+
+and wherein the selecting step comprises:
+computing a distance from the target pixel to
+
+each neighbouring pixel; comparing said distance
+with a radius C of the overlapping circle of
+
+confusion relative to each neighbouring pixel;
+selecting a neighbouring pixel whose radius C
+
+is longer than the distance of the reference pixel;
+selecting another target pixel; and
+
+repearing the above computing, comparing and
+selecting steps until all the pixels on the image
+
+have been selected as the target pixel. 
+The method of claim 17 wherein in said computing step,
+a radius C of each circle of confusion is
+
+computed using the following expression:
+
+C = 1-p(d-f)/d(p-f)| * f/F
+
+   where p is a distance from a view point (C1) to a focal point, d is a Z value that represents
+a distance from the view point (C1) to each point, f is a focal length, and F is an iris value of a
+
+lens being used.
+The method of Claim 17, further comprising:
+
+comparing Z values of the target pixels and neighbouring pixels, the Z value representing
+a distance from a view point (C1) to their corresponding points, and
+preventing updating of the original value of the target pixel when the neighbouring pixel
+has a larger Z value than the target pixel.
+The method of Claim 17, wherein the selecting step further comprises:
+
+comparing Z values of the target pixels and neighbouring pixels to select a neighbouring
+pixel whose Z value is smaller than the target pixel prior to computing the distance from the 
+
+target pixel to each neighbouring pixel, the Z value representing a distance from a view point
+(C1) to their corresponding points.
+The method of Claim 17, wherein the selecting step comprises a first and second
+selecting steps and the updating step comprises first and second updating steps,
+
+   the first selecting step comprising selecting a first reference pixel whose corresponding
+point's circle of confusion overlaps a target pixel along a first direction;
+
+   the first updating step comprising updating an original value of the target pixel by taking
+into account a value of the first reference pixel and the data related to the target pixel's circle of
+
+confusion;
+
+   the second selecting step comprising selecting a second reference pixel whose
+corresponding point's circle of confusion overlaps the target pixel along a second direction, the
+
+second direction being orthogonal with respect to the first direction; and
+
+   the second updating step comprising updating the value updated at the first updating step
+by taking into account a value of the second reference pixel and the data related to the target
+
+pixel's circle of confusion.
+The method of Claim 21, wherein the first and second selecting steps respectively
+comprise:
+
+
+comparing Z values of the target pixels and neighbouring pixels, the Z value representing
+a distance from a view point (C1) to their corresponding points, and
+
+   wherein the first and second updating steps respectively comprise:
+
+preventing updating of the original value of the target pixel when the neighbouring pixel
+has a larger Z value than the target pixel.
+The method of Claim 22, wherein the first and second selecting steps further and
+respectively comprise: 
+
+
+comparing the Z values of the target pixels and neighbouring pixels to select a
+neighbouring pixel whose Z value is smaller than the target pixel prior to the comparing Z values
+
+step of the first and second selecting steps, respectively.
+</CLAIMS>
+</TEXT>
+</DOC>

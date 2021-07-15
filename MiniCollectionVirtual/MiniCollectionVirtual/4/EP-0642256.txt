@@ -1,0 +1,391 @@
+<DOC>
+<DOCNO>EP-0642256</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+A single pass marker enclosed area detection system and method for a photocopier
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04N1387	G06T100	H04N162	H04N138	H04N138	G03G1501	G03G1536	H04N162	H04N1387	G03G1501	G06T100	G03G1536	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04N	G06T	H04N	H04N	H04N	G03G	G03G	H04N	H04N	G03G	G06T	G03G	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04N1	G06T1	H04N1	H04N1	H04N1	G03G15	G03G15	H04N1	H04N1	G03G15	G06T1	G03G15	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A marker detection and thinning process for a photocopier which is executed 
+during a single scan of a document and does not require a prescan of the document. The 
+
+system realtime analyzes pixel image data, which is stored in a memory during the 
+scanning process, to detect a marker line of a predetermined color and to thin the marker 
+
+line. This analysis begins with image data stored in the memory that corresponds to a first 
+pixel. The first pixel is associated with the scanline being presently scanned. It is 
+
+determined if the image data of the first pixel represents a color that is equivalent to the 
+predetermined color. Marker data is then stored in a buffer at a location corresponding to 
+
+the first pixel if it is determined that the image data of the first pixel represents a color 
+that is equivalent to a predetermined marker color. The data, stored in the buffer at a 
+
+second pixel location, is analyzed. The second pixel is associated with a scanline that is 
+prior in time to the scanline of the first pixel. It is determined if the data at the second 
+
+pixel location is marker data. Also, the data stored in pixel locations adjacent to the 
+second pixel location is analyzed to determine if this data is marker data. The marker data 
+
+at the second pixel location is eliminated if it is determined, upon examining data of pixel 
+locations adjacent to the second pixel location, that the elimination of this marker data 
+
+would maintain the connectivity of the marker line. However, the data at the second pixel 
+location is maintained if it is determined that, upon examining the data of pixel locations 
+
+adjacent to the second pixel location, the elimination of this marker data would cause 
+disconnectivity of the marker line. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+</APPLICANTS>
+<INVENTORS>
+</INVENTORS>
+<DESCRIPTION>
+The present invention is directed to a marker editing system for a
+photocopier. More specifically, the present invention is directed to a marker editing
+system which provides marker editing while using only a single pass in the image scanning
+process of a document.Conventional photocopiers have utilized a variety of marker editing features.
+These marker editing features allow a user to specify an area of the document with a color
+marker for special processing. In these systems, the photocopier detects an area enclosed
+by a marker and applies image processing steps to the pixels within the enclosed area
+specified by the user. These image processing steps could be, for example, deleting the
+image inside the color marker, changing the color of the image inside the color marker,
+highlighting the area inside the color marker, inserting graphical material or text within
+the color marker, or utilizing different image recognition processes upon the text within
+the color markers, using the color marker as a boundary for the processes. Although the
+conventional devices utilize a marker editing feature, most conventional devices require a
+prescanning of the document to detect the enclosed area or color marker.Marker editing can be accomplished in several steps. First, the color markers
+from the document are detected by analyzing pixels which represent the scanned image.
+In other words, the pixels representing a color marker are determined. Each non-marker
+pixel is then classified as either belonging to an interior or an exterior of the marker curve.
+For the interior pixels, the image can remain unchanged, or user specified color conversion
+or other image processing steps can be performed thereon. For the exterior pixels, the
+image can remain unchanged, or user specified color conversion or other image processing
+steps can be performed thereon.For the marker pixel itself, the image data associated with the marker pixel is
+replaced by a predetermined background value to erase the color marker from the output
+image.To detect the color marker pixels, for example, the RGB values of each pixel of
+the document being scanned can be analyzed directly. However, a preferred approach is
+to convert RGB image data into hue, chroma (saturation) and lightness (intensity) (L*C*h)
+data. By comparing the chroma value of a pixel against a minimum chroma value to
+determine that the pixel is a color pixel and the hue angle of the pixel against a window 
+surrounding a known marker hue value hm, the color marker pixels can be readily
+iden
+</DESCRIPTION>
+<CLAIMS>
+A color copier for processing marker data during a
+single pass scanning of a document, comprising:
+
+
+scanning means (1) for scanning the document using a
+single pass scanning operation and for generating image and
+
+marker data therefrom, the marker data representing a
+marker line;
+marker data buffer means (6) for buffering the marker
+data;
+first analyzing means (8), operatively connected to
+said marker data buffer means, for analyzing that data; and
+
+thinning means (8) for selectively thinning the data,
+
+
+characterized in that
+ the first analyzing means analyzes
+during the single pass scanning operation of said scanning
+
+means, the buffered marker data associated with pixels
+adjacent to a first pixel, the first pixel being a pixel in
+
+a first scanline, the first scanline having been scanned
+prior in time to a second scanline, said second scanline
+
+being presently scanned in the single pass scanning
+operation by said scanning means; and 
+in that
+ the copier
+further comprises
+determining means (8), responsive to said first
+analyzing means, for determining a connectivity
+
+relationship of a marker line, the connectivity
+relationship being between the first pixel and pixels
+
+adjacent to the first pixel, wherein the
+thinning means eliminates, during the single pass
+scanning operation of said scanning means, marker data in
+
+said marker data buffer means associated with the first
+pixel when said first analyzing means determines that
+
+elimination of the marker data associated with the first
+pixel is not required to maintain connectivity of the
+
+marker line; second analyzing means (7) for analyzing
+marker data at a second pixel, the second pixel being a
+
+pixel in a third scanline, the third scanline being scanned
+prior in time to the first scanline, to determine if the 
+
+marker data associated with the second pixel represents a
+crossover of the marker line; and
+flag means for establishing a marker/crossover flag
+value when said second analyzing means determines that the
+
+marker data of the second pixel represents a crossover of
+the marker line.
+The color copier as claimed in claim 1, wherein said
+thinning means (8) during the single pass scanning
+
+operation of said scanning means, maintains the marker data
+associated with the first pixel when said first analyzing
+
+means determines that maintaining of the marker data
+associated with the first pixel is required to maintain
+
+connectivity of the marker line.
+The color copier as claimed in claim 1 or claim 2,
+wherein said first analyzing means includes a memory (85)
+
+which has prestored therein a look-up table representing
+possible relationships between the first pixel and pixels
+
+adjacent thereto, the look-up table having data associated
+with each possible relationship indicating connectivity or
+
+disconnectivity.
+The color copier as claimed in any of claims 1 to 3,
+further comprising:
+
+
+third analyzing means (7) for analyzing, when said
+marker/crossover flag value is set, the image data
+
+associated with a third pixel when said marker/crossover
+flag value is set, the third pixel being scanned subsequent
+
+in time to said second pixel and in the third scanline and
+for determining if the image data associated with the third
+
+pixel represents a color equivalent to a predetermined
+source color;
+color converting means (3) for converting the image
+data of the third pixel to image data representing a
+
+destination color when said third analyzing means
+determines that the image data of the third pixel
+
+represents a color equivalent to the predetermined source
+color; and 
+printer means (4) for producing a colored hardcopy of
+the scanned document with at least one original color being
+
+printed as a destination color according to said color
+converting means.
+A method for analyzing, during a single pass scanning
+process, pixel image data stored in a memory to detect
+
+marker data of a predetermined color and to thin the marker
+data, comprising the steps of:
+
+
+(a) buffering, during the single pass scanning
+process, marker data representing a marker line, in a
+
+buffer;
+(b) analyzing, during the single pass scanning
+process, buffered marker data associated with a first
+
+pixel, the first pixel being a pixel in a first scanline,
+the first scanline having been scanned prior in time to a
+
+scanline being presently scanned in the single pass
+scanning process, to determine if the data associated with
+
+the first pixel is marker data;
+(c) analyzing, during the single pass scanning
+process, marker data associated with pixels adjacent to the
+
+first pixel stored in the buffer in response to said step
+(b) determining that the buffered marker data associated
+
+with the first pixel represents the marker line;
+(d) eliminating, during the single pass scanning
+process, the buffered marker data associated with the first
+
+pixel in response to said step (c) determining that the
+elimination of the buffered marker data associated with the
+
+first pixel would maintain connectivity of the marker line;
+(e) analyzing marker data in the buffer associated
+with a second pixel, the second pixel being a pixel in a
+
+second scanline, the second scanline having been scanned
+prior in time to the first scanline, to determine if the
+
+marker data associated with the second pixel represents a
+crossover of the marker line; and
+(f) establishing a marker/crossover flag value
+representing a crossover of the marker line when said step 
+
+(e) determines that the marker data associated with the
+second pixel represents a crossover of the marker line.
+The method as claimed in claim 5, further comprising
+the steps of:
+
+
+(g) analyzing the image data stored in the memory
+associated with a third pixel, the third pixel having been
+
+scanned subsequent in time to the second pixel and being in
+the second scanline, when the marker/crossover flag value
+
+is set, to determine if the image data associated with the
+third pixel represents a color equivalent to a
+
+predetermined source color; and
+(h) converting the image data of the third pixel to
+image data representing a destination color when said step
+
+(g) determines that the image data of the third pixel
+represents a color equivalent to a predetermined source
+
+color.
+The method as claimed in claim 6, further comprising
+the steps of:
+
+
+(i) selecting a target source color and a
+corresponding target destination color; and
+(j) converting, electronically, the selected target
+source color into first, second, and third target source
+
+values representing a three-dimensional color space, the
+first target source value representing a source hue value,
+
+and converting, electronically, the selected target
+destination color into first, second, and third target
+
+destination values representing a same three-dimensional
+color space, the first target destination value
+
+representing a destination hue value;
+said step (g) including the substep of,
+
+(g1) determining if the first color value
+corresponds to the first target source value;
+
+said step (h) including the substeps of,
+(h1) receiving image data associated with
+the fourth pixel from the memory and converting,
+
+electronically, the image data into first,
+second, and third color values representing the 
+
+same three-dimensional color space, the first
+color value representing a hue value,
+(h2) generating a second destination value
+using a first function when the second color
+
+value is in a range from the second source
+target value to a predetermined minimum second
+
+source value,
+(h3) generating a second destination value
+using a second function when the second color
+
+value is in a range from the second source
+target value to a predetermined maximum second
+
+source value,
+(h4) generating a third destination value
+using a third function when the third color
+
+value is in a range from the third target source
+value to a predetermined minimum third source
+
+value,
+(h5) generating the third destination value
+using a fourth function when the third color
+
+value is in a range from the third target source
+value to a predetermined maximum third source
+
+value, and
+(h6) generating output color data
+representing the destination color based on the
+
+first destination target value and the generated
+second and third destination values for the
+
+fourth pixel when said substep (g1) determines
+that the first color value corresponds to the
+
+first target source value.
+The method as claimed in claim 7, wherein the first
+function is a first straight line from the predetermined
+
+minimum second source value to the second target source
+value, the second function is a second straight line from
+
+the predetermined maximum second source value to the second
+target source value, the third function is a third straight
+
+line from the predetermined minimum third source value to
+the third target source value, and the fourth function is 
+
+a fourth straight line from the predetermined maximum third
+source value to the third target source value.
+The method as claimed in any of claims 5 to 8, further
+comprising the step of:
+
+   (k) maintaining, during the single pass scanning
+process, the buffered marker data associated with the first
+
+pixel when said step (c) determines that the elimination of
+the buffered marker data associated with the first pixel
+
+would cause disconnectivity of the marker line.
+The method as claimed in any of claims 5 to 9, further
+comprising the steps of:
+
+   (1) storing image data in the memory during the
+single pass scanning process.
+The method as claimed in any of claims 5 to 10,
+further comprising the step of:
+
+   erasing the image data associated with the third pixel
+in the memory when the marker/crossover flag value is set.
+The method as claimed in any of claims 5 to 11,
+further comprising the step of:
+
+   inserting new image data associated with the third
+pixel in the memory when the marker/crossover flag value is
+
+set.
+The method as claimed in any of claims 5 to 12, when
+dependent on claim 9, further comprising the steps of:
+
+
+storing a value representing the color of the marker
+data on a stack memory when said step (k) maintains the
+
+marker data associated with the first pixel; and
+tracking a positional relationship between two or more
+marker lines using the color values stored on the stack
+
+memory.
+The method as claimed in claim 6, further comprising
+the step of:
+
+   printing a colored hardcopy of the scanned document
+with at least one original color being printed as a
+
+destination color according to the color conversion of said
+step (h).
+</CLAIMS>
+</TEXT>
+</DOC>

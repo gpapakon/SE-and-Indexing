@@ -1,0 +1,277 @@
+<DOC>
+<DOCNO>EP-0652681</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method of mobile radio unit registration and IC card registration for a mobile radio communication system
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G09C100	G09C100	G06F2124	G06F2100	H04W824	H04W1206	H04W822	H04W1200	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G09C	G09C	G06F	G06F	H04W	H04W	H04W	H04W	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G09C1	G09C1	G06F21	G06F21	H04W8	H04W12	H04W8	H04W12	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+To prevent illegal duplication of an ID containing type 
+mobile unit, and illegal duplication of an IC card for an IC 
+
+card insertion type mobile unit, in manufacturing a COB 
+device, a public key KE
+COB
+, corresponding to a common secret 
+key KD
+COB
+ determined through consultation among 
+communications carriers, is stored into a ROM in an 
+
+unalterable form. In manufacturing a mobile unit, KE
+Cj
+ that 
+corresponds to a secret key KD
+Cj
+ uniquely assigned to each 
+communications carrier, is signature-encrypted with KD
+COB
+. 
+The result E(KD
+COB
+, KE
+Cj
+) is entered into a COB device (22) 
+write in K
+E
+Cj
+; the COB device (22) is then assembled, prior to 
+shipment, into the mobile unit into which a mobile unit 
+
+secret key KD
+MSNi
+ and public key KE
+MSNi
+ have been stored. 
+In registration of the mobile unit, E(KD
+Cj
+, ID) received 
+from the communications carrier is entered into the COB 
+
+device (22), thereby writing personal information ID. For a 
+readout, KD
+MSNi
+ is input to read out the ID. 
+
+</ABSTRACT>
+<APPLICANTS>
+</APPLICANTS>
+<INVENTORS>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a method of registering an ID (identification) information containing type mobile unit for use in a mobile communications network and a method of registering an IC (integrated circuit) card used with an IC card insertion type mobile unit for use in a mobile communications network. The invention also relates to an ID information containing type mobile unit,an IC card, and an IC card insertion type mobile unit implementing such methods.For mobile units used for mobile telephones such as car telephones, portable telephones, etc., Japan currently employs a leasing system under which the subscriber leases the mobile equipment from the communications carrier that provides the telephone network, but a purchase system of the mobile equipment is expected to be introduced soon. While it is hoped that the introduction of the purchase system will help to further increase the use of mobile telephones, such problems as illegal duplication of mobile units (clone mobile units) are expected to arise. In fact, other countries where purchase plans are employed are facing such problems.There are two types of information stored in a memory of a mobile unit: information, such as built-in software, whose contents are identical with other mobile units of the same model, and information different for each individual mobile unit and used to authenticate the mobile unit to the communications network for connection. The former information need not be read out or written in from the outside, and also, the amount of information is large; therefore, it is so designed that external readout or write-in is difficult or impossible. On the other hand, the latter individualized information includes information concerning the telephone number (Mobile Subscriber Number: MSN) assigned to each subscriber of the telephone network, the mobile unit number (Mobile Station Identity: MSI) for identifying the mobile unit, the authentication key (MSN-key) for the communications network to authenticate the subscriber, and the authentication key (MSI-key) for the communications network to authenticate the mobile unit. The amount of such personal information is relatively small. After the mobile unit purchase system is put into effect, it is required when a contract is made between the communications carrier and the subscriber who purchased the mobile unit, that after sale of the product, personal information should be written into the mobile unit for registration with the communications carrier as soon as possible.
+</DESCRIPTION>
+<CLAIMS>
+A method of registering a mobile unit (70) for use in a mobile communications network, comprising the steps of:
+
+a) determining identification information (KE
+MSNi
+) for identifying each individual mobile unit;
+b) generating first information data (E(KD
+cj
+, KE
+MSNi
+)) by signature-encrypting said identification information with a carrier secret key (KD
+cj
+) of a communications carrier providing said mobile communications network; and
+c) writing said identification information into a memory module (22) contained in said mobile unit by entering an identification information write command containing said first information data, into said memory module from which said identification information can be read out only when an identification information readout command containing a mobile unit secret key (KD
+MSNi
+) of a manufacturer of said mobile unit, is entered.
+A method according to claim 1, further comprising the steps of:
+
+d) writing a carrier public key (KE
+cj
+) corresponding to said carrier secret key (KD
+cj
+) into said memory module during the manufacturing process of said mobile unit; and
+e) decrypting, within said memory module, said first information data entered in said step c) by using said carrier public key, thereby recovering said identification information.
+A method according to claim 2, further comprising the steps of:
+
+f) generating second information data by signature-encrypting a mobile unit public key (KE
+MSNi
+) corresponding to said mobile unit secret key (KD
+MSNi
+) by using said carrier secret key;
+g) entering a mobile unit public key write command, containing said second information data, into said memory module;
+h) decrypting, within said memory module, said second information data by using said carrier public key, thereby recovering said mobile unit public key ; and
+i) storing said recovered mobile unit public key into said memory module,
+
+wherein said memory module outputs said identification information only when an identification information readout command, containing a mobile unit secret key corresponding to said stored mobile unit public key, is entered.
+A method according to claim 3, further comprising the step of:
+
+j) in the manufacturing process of said memory module, writing a common public key (KE
+COB
+) corresponding to a common secret key (KD
+COB
+) held in common by a
+ plurality of communications carriers into said memory module in an unalterable form,
+
+wherein the step d) includes signature-encrypting said carrier public key with said common secret key for input into said memory module, and decrypting the same with said common public key within said memory module, to recover said carrier public key.
+A method according to claim 4, wherein the values of said mobile unit secret key and said mobile unit public key are different for each mobile unit model.
+A method according to claim 5, wherein said identification information includes a fixed pattern (48, 56) for testing the correctness of data.
+A method according to claim 6, further comprising the steps of:
+
+k) connecting said mobile unit to a carrier's terminal (74) installed at said communications carrier via a communication line;
+1) issuing from said mobile unit a personal information transmit request to said carrier's terminal via said communication line; and
+m) in response to said request, transmitting from said carrier's terminal said first and said second information data to said mobile unit via said communication line.
+A method according to claim 7, further comprising the steps of:
+n) generating a random number within said memory module;
+o) reading the generated random number out of said memory module;
+p) transmitting the read-out random number from said mobile unit to said carrier's terminal via said communication line;
+q) signature-encrypting said random number with said carrier secret key in said carrier's terminal; and
+r) transmitting said signature-encrypted random number from said carrier terminal to said mobile unit via said communication line,
+
+wherein said identification information write command contains said signature-encrypted random number, and said identification information is stored in said memory module only when the random number recovered by using said carrier public key coincides with said generated random number.
+A method according to claim 8, further comprising the steps of:
+
+s) prestoring, in said carrier's terminal, a mobile unit public key corresponding to a mobile unit model that can be connected to said mobile communications network; and
+t) transmitting the mobile unit public key of the mobile unit requesting a transmission in said step 1) to said carrier's terminal via said communication line,
+
+wherein in the above step m), transmission of said first and said second information data is allowed only when the mobile unit public key transmitted in said step t) coincides with the mobile unit public key stored in said step s).
+A method according to claims 7, 8, or 9, wherein in said step k), said mobile unit is connected to said communication line via a mobile unit registration terminal that is connected to said mobile unit by a cable.
+A method according to claims 7, 8, or 9, wherein in said step k), said mobile unit is connected to said communication line via a mobile unit registration terminal that is coupled to said mobile unit by power-conserving radio.
+A method according to any one of claims 7 to 11, further comprising the step u) in which said carrier's terminal automatically runs an on-line credit check on a registering applicant who is requesting a transmission of identification information in said step 1).
+A method of registering an IC card (130) for an IC card insertion type mobile unit for use in a mobile communications network, comprising the steps of:
+
+a) determining identification information (KE
+MSNi
+) for identifying each individual IC card;
+b) generating first information data (E(KD
+cj
+, KE
+MSNi
+)) by signature-encrypting said identification information with a carrier secret key (KD
+cj
+) of a
+ communications carrier providing said mobile communications network; and
+c) writing said identification information into said IC card (130) by entering an identification information write command, containing said first information data, into said IC card from which said identification information can be read out only when an identification information readout command, containing a mobile unit secret key of a manufacturer of said mobile unit, is entered.
+A method according to claim 13, further comprising the steps of:
+
+d) writing a carrier public key corresponding to said carrier secret key into said IC card; and
+e) decrypting, within said IC card, said first information data entered in said step c) by using said carrier public key, thereby recovering said identification information.
+A method according to claim 14, further comprising the steps of:
+
+f) generating second information data by signature-encrypting, with said carrier secret key, a mobile unit public key corresponding to a mobile unit secret key assigned to a mobile unit that can be used with said IC card inserted therein;
+g) entering a mobile unit public key write command, containing said second information data, into said IC card;
+h) decrypting, within said IC card, said second information data by using said carrier public key, thereby recovering said mobile unit public key; and
+i) storing said recovered mobile unit public key into said IC card,
+
+wherein said IC card outputs said identification information only when an identification information readout command, containing a mobile unit secret key corresponding to said stored mobile unit public key, is entered.
+A method according to claim 15, wherein in said step d), said carrier public key is written into said IC card in an unalterable form in a manufacturing process of said IC card.
+A method according to claim 15 or 16, wherein said identification information includes a fixed pattern for testing the correctness of data.
+A method according to claim 17, further comprising the steps of:
+
+j) inserting said IC card into an IC card registration terminal;
+k) connecting said IC card registration terminal to a carrier's terminal installed at said communications carrier via a communication line;
+1) issuing from said IC card registration terminal a personal information transmit request to said carrier's terminal via said communication line; and
+m) in response to said request, transmitting from said carrier's terminal said first and said second information data to said IC card registration terminal via said communication line.
+A method according to claim 18, further comprising the steps of:
+
+n) generating a random number within said IC card;
+o) reading the generated random number out of said IC card;
+p) transmitting the readout random number from said IC card registration terminal to said carrier's terminal via said communication line;
+q) signature-encrypting said random number with said carrier secret key in said carrier's terminal; and
+r) transmitting said signature-encrypted random number from said carrier's terminal to said IC card registration terminal via said communication line,
+
+wherein said identification information write command contains said signature-encrypted random number, and said identification information is stored in said IC card only when the random number recovered by using said carrier public key coincides with said generated random number.
+A method according to claim 18 or 19, further comprising the step of s) in which said carrier's terminal automatically runs an on-line credit check on a registering applicant who is requesting a transmission of identification information in said step 1).
+A method according to claim 15, further comprising the steps of:
+
+storing, in said IC card insertion type mobile unit, signature data generated by signature-encrypting a mobile unit public key for said mobile unit with the carrier secret key of the communications carrier providing the mobile communications network with which said mobile unit can be used; and
+when the mobile unit public key for said IC card insertion type mobile unit is not stored in the IC card inserted into said mobile unit, writing said mobile unit public key into said IC card by entering a mobile unit public key write command, containing said signature data, into said IC card.
+A method according to claim 14, further comprising the steps of:
+
+storing, in said IC card insertion type mobile unit, signature data generated by signature-encrypting a mobile unit public key for said mobile unit with the carrier secret key of the communications carrier providing the mobile communications network with which said mobile unit can be used;
+entering a mobile unit public key write command, containing said signature data, into the IC card inserted into said IC card insertion type mobile unit;
+decrypting, within said IC card, said second information data by using said carrier public key, thereby recovering said mobile unit public key; and
+storing said recovered mobile unit public key into said IC card,
+
+wherein said IC card outputs said identification information only when an identification information readout command, containing a mobile unit secret key corresponding to said stored mobile unit public key, is entered.
+A method according to claim 13, further comprising the step of storing, in said IC card insertion type mobile unit, signature data generated by signature-encrypting a mobile unit public key for said mobile unit with the carrier secret key of the communications carrier providing the mobile communications network with which said mobile unit can be used, wherein said identification information readout command further contains said signature data.
+A method according to claim 19, further comprising the step of s) in which said carrier's terminal automatically runs an on-line credit check on a registering applicant who is requesting a transmission of identification information in said step 1).
+A mobile unit for use in a mobile communications network, comprising:
+
+a memory module (22) into which identification information (KE
+MSNi
+) for identifying each individual mobile unit is written only when an identification information write command is entered that contains first information data (E(KD
+cj
+, KE
+MNSi
+)) generated by signature-encrypting said identification information with a carrier secret key (KD
+cj
+) of a communications carrier providing said mobile communications network, and from which said identification information is read out only when an identification information readout
+ command, containing a mobile unit secret key (KD
+MSNi
+) of a manufacturer of said mobile unit, is entered;
+means for writing (29) said identification information into said memory module (22) by entering said identification information write command; and
+means for reading out (29) said identification information by entering said identification information readout command into said memory module.
+A mobile unit according to claim 25, wherein said memory module contains
+
+means for holding (22) a carrier public key corresponding to said carrier secret key in an unalterable form, and
+
+means for decrypting (16) said entered first information data by using said carrier public key to recover said identification information.
+A mobile unit according to claim 26 further comprising:
+
+means for entering (24, 29), into said memory module, a mobile unit public key write command that contains second information data by generated by signature-encrypting a mobile unit public key corresponding to said mobile unit secret key with said carrier secret key,
+
+wherein said memory module decrypts said second information data by using said carrier public key to recover said mobile unit public key, stores said recovered mobile unit public key in said memory module, and outputs said identification information only when an identification information readout command, containing a
+ mobile unit secret key corresponding to said stored mobile unit public key, is entered.
+A mobile unit according to claim 27, wherein the values of said mobile unit secret key and said mobile unit public key are different for each mobile unit model.
+A mobile unit according to claim 28, wherein said identification information includes a fixed pattern (48, 56) for testing the correctness of data.
+A mobile unit according to claim 29, further comprising:
+
+means for being connected (29) to a carrier's terminal (74) installed at said communications carrier via a communication line;
+means for issuing (24) an identification information transmit request to said carrier's terminal via said communication line; and
+means for receiving (24) said first and said second information data transmitted from said carrier's terminal over said communication line in response to said request.
+A mobile unit according to claim 30, further comprising:
+
+means for reading out (16) of said memory module a random number generated in said memory module;
+means for transmitting (24) the readout random number to said carrier's terminal via said communication line; and
+means for receiving (24) data from said carrier's terminal via said communication line, said data
+ containing said random number signature-encrypted with said carrier secret key in said carrier's terminal,
+
+wherein said identification information write command contains said signature-encrypted random number, and said identification information is written into said memory module only when the random number recovered by using said carrier public key coincides with said generated random number.
+A mobile unit according to claim 30 or 31, wherein said connecting means connects to said communication line via a mobile unit registration terminal connected by a cable.
+A mobile unit according to claim 30 or 31, wherein said connecting means connects to said communication line via a mobile unit registration terminal connected by power-conserving radio.
+An IC card for an IC card insertion type mobile unit for use in a mobile communications network, comprising:
+
+an input/output terminal (38);
+means for holding (36) identification information (KE
+MSNi
+) used for connection to said mobile communications network;
+means for decrypting (30) identification information and writing the same into said identification information holding means when an identification information write command, containing the identification information signature-encrypted with a carrier secret key (KD
+cj
+) of a communications carrier providing said mobile communications network, is entered via said input/output terminal; and
+means for reading out (30) said identification information from said identification information holding means and outputting the same at said input/output terminal when an identification information readout command is entered via said input/output terminal, which command contains a mobile unit secret key (KD
+MSNi
+) of a manufacturer of said mobile unit for a model that can be used with said IC card inserted therein, or a signature-encrypted version of a mobile unit public key corresponding to the mobile unit secret key of the manufacturer of said mobile unit, said signature encryption being performed using the carrier secret key of the communications carrier providing said communications network.
+An IC card according to claim 34, further comprising:
+
+means for storing (36) a carrier public key corresponding to said carrier secret key; and
+means for decrypting (30) a mobile unit public key with said carrier public key and storing the same when a mobile unit public key write command is entered via said input/ output terminal, which command contains mobile unit public keys, signature-encrypted with said carrier secret key, corresponding to mobile unit secret keys for all models of mobile units that can be used with said IC card inserted therein,
+
+wherein said personal information writing means decrypts said identification information by using said carrier public key, and said personal information output means, in response to said personal information readout command, encrypts said personal information with said mobile unit public key and further encrypts the same
+ with the mobile unit secret key contained in said personal information readout command, for output.
+An IC card according to claim 35, wherein said identification information includes a fixed pattern for testing the correctness of data.
+An IC card insertion type mobile unit for use in a mobile communications network, comprising:
+
+means for storing (20) a mobile unit secret key (KD
+MSNi
+) of a manufacturer of said mobile unit or signature data generated by signature-encrypting a mobile unit public key (KE
+MSNi
+) corresponding to a mobile unit secret (KD
+MSNi
+) key of a manufacturer of said mobile unit by using a carrier secret key (KD
+cj
+) of a communications carrier providing said communications network; and
+means for reading (16) identification information from an IC card (130) inserted into said mobile unit by entering an identification information readout command, containing the mobile unit secret key or the signature data stored in said storing means, into said IC card.
+An IC card insertion type mobile unit according to claim 37, further comprising:
+
+means for storing information concerning services available with said mobile unit;
+means for reading, from an IC card inserted in said mobile unit, information concerning services registered on said IC card; and
+means for comparing the service information read out by said service information reading means with the service information stored in said service information storing means, and for determining the kinds of services not available with said mobile unit and displaying the same.
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,263 @@
+<DOC>
+<DOCNO>EP-0633531</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Memory management system and method
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F946	G06F950	G06F1202	G06F946	G06F1202	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	G06F12	G06F9	G06F12	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A memory management system for managing a 
+memory block in an operating system, which adopts 
+
+variable length memory block management, and in 
+which a memory area of a memory block management 
+
+table that is appended when acquiring the memory 
+block is used as an object management table. The 
+
+memory block management system includes at least, 
+a memory block address calculator for calculating a 
+
+low-order and a high-order addresses of the memory 
+block, a memory pool address preservation portion 
+
+preserves a memory pool address stored in the memory 
+block management table in a memory pool address 
+
+storage area when acquiring the memory block for the 
+object management table from a memory pool, a memory 
+
+pool address return portion reading out a memory 
+pool address held in the memory pool address 
+
+preservation portion when returning the memory block 
+or the object management table to the memory pool; 
+
+and a memory block management table reproduction 
+portion reproducing the memory block management 
+
+table for the object management table from the low-order 
+and high-order memory block addresses 
+
+calculated by the memory block address calculator 
+and also from the memory pool address restored by 
+
+the memory pool address returned portion. 
+
+</ABSTRACT>
+<APPLICANTS>
+</APPLICANTS>
+<INVENTORS>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a memory
+management system in an operating system and, more
+particularly, to a system and a method of memory
+management in an operating system using variable
+length memory block management.Heretofore, in an operating system (hereinafter
+abbreviated as OS) which adopts variable length
+memory block management, a memory block which is cut
+out (or acquired) from a memory pool is always
+appended with a management table (also called memory
+block management table) for its managing.The publications, IBM TECHNICAL DISCLOSURE BULLETIN vol. 34, no. 12, May 1992,
+NEW YORK US pages 37 - 38 'Memory manager for application programs in OS/2'
+and IBM TECHNICAL DISCLOSURE BULLETIN vol. 33, no. 8, January 1991, NEW YORK
+US pages 474 - 479 'Linked list search table array for free storage blocks' describe the prior
+art of managing memory blocks of variable length used by application programs.The memory block management table is a data
+structure for all the memory block purposes.
+However, where the memory block is used as an object
+management table for the management of objects such
+as tasks, semaphores, etc. in the OS, almost all the
+areas of the memory block management table that is
+always appended to the object management table is
+not utilized in the object operation. That is,
+where the memory block is used as the object
+management table, information in the memory block
+management table is required only when the memory
+block is returned to the memory pool.A process in the prior art memory management
+system for producing or returning an object
+management table by the memory block in order to 
+produce or delete an object will now be described.Fig. 2 shows an example of the memory block
+management table configuration, and Fig. 3 shows an
+example of the prior art object management table
+configuration.Fig. 4 is a flow chart illustrating an object
+management table production routine in a prior art
+memory management system, and Fig. 5 is a flow chart
+illustrating an object management table deletion
+routine in the prior art memory management system.Now, an acquisition process of a memory block
+for an object management table when an object
+production request is made to the OS will be
+described with reference to Fig. 4. When the object
+production request is made to the OS, a step S1 in
+Fig. 4 is executed, in which a memory block having a
+size of (an area necessary for an object management
+table) + (an area necessary for a memory block
+management table) is cut out from a memory pool. In
+a subsequent
+</DESCRIPTION>
+<CLAIMS>
+A memory management system for managing a
+memory block in an operating system (3), which adopts
+
+variable length memory block management, and in
+which a memory area of a memory block management
+
+table (10) that is appended when acquiring the memory
+block is used as an object management table (9), the
+
+memory block management system comprising at least:
+
+memory pool access address preservation means (4);
+memory block address calculation means (5);
+memory pool address return means (6); and
+memory block management table reproduction
+means (7);
+said memory block address calculation means (5)
+including means for calculating a low-order address (13)
+
+of the memory block and means for calculating a
+high-order address (14) of the memory block; 
+characterised in that
+said memory pool address preservation means (4)
+preserves a memory pool address stored in the memory
+
+block management table (10) in a memory pool address
+storage area (8) when acquiring the memory block for the
+
+object management table (9) from a memory pool;
+the memory pool address return means (6) reading
+out a memory pool address held in the memory pool
+
+address preservation means (4) when returning the memory
+block or the object management
+ table (9) to the memory
+pool;
+the memory block management table reproduction 
+means (7) reproducing the memory block management table (10)
+
+for the object management table (9) from the low-order (13)
+and high-order (14) memory block addresses calculated by
+
+the memory block address calculation means (5) and also
+from the memory pool address returned by the memory
+
+pool address returned means (7).
+The memory management system according to
+claim 1, wherein a memory pool address storage area (8)
+
+is provided in a system management table.
+The memory management system according to
+claim 1, wherein a memory pool address storage area (8)
+
+is provided in the object management table (9), said
+memory pool address preservation means (4) preserves a
+
+memory pool address in the memory pool address
+storage area (8) of the object management table (9) when the
+
+memory block for the object management table (9) is
+acquired from the memory pool.
+A memory management method for managing a
+memory block in an operating system (3) adopting
+
+variable length memory block management, comprising:
+
+a step of acquiring a memory block used as an
+object management table (9) from a memory pool by:
+
+
+cutting a memory block corresponding to the
+size of the object management table out the memory
+
+pool (56); 
+assigning the cut-out memory block to a memory
+block management table (10) for managing the memory block
+
+of the object management table (9) from the leading
+address of the cut-out memory block (57); 
+characterised in
+preserving a memory pool address stored in the
+memory block management table (10) in a predetermined
+
+preservation area; and
+using a memory area of the memory block
+management table (10) as the object management table (9); and
+a step (S9 to S11) of returning the memory block having
+been used as the object management table (9) to the
+
+memory pool by:
+
+calculating a low-order address (13) of the memory
+block to be returned from the leading address of the
+
+cut-out memory block and the size of the memory
+block management table (10) and also calculating a high-order
+
+address (14) of the memory block to be returned
+from the leading address of the memory block and the
+
+size of the object management table area (9),
+returning the preserved memory pool address;
+and
+re-constructing the memory block management
+table (10) for managing the memory block to be returned.
+The memory management method according to
+claim 4, wherein the memory pool address is
+
+preserved in a system management table. 
+The memory management method according to
+claim 4, wherein the address of an attribute memory
+
+pool in a system having a plurality of memory pools
+is preserved in the acquired object management
+
+table.
+A memory block management system according to claim 1 having a
+task (2), said operating system (3), said memory pool access
+
+address preservation means (4), said memory block address
+calculation means (5), said memory pool address return
+
+means (6), said memory block management table reproduction
+means (7) in a main memory (1), and said object management
+
+table (9), wherein
+
+in response to a request for producing an
+object from said task (2), said memory pool access
+
+address preservation means (4) preserves a memory pool
+address in said memory pool address storage area (8) to
+
+cut out a memory block of said object management
+table (9);
+said memory block address calculation means (5)
+calculates a high-order (14)/low-order (13) address of a
+
+memory block area from a leading address of the
+object management table (9) and sizes of the memory
+
+block management table (10) and object management table (9);
+said memory pool address return means (6) records a
+memory pool address that has been preserved in the
+
+memory pool address storage area (8) to a predetermined
+area thereof corresponding to a memory block 
+
+management table in the cut-out object management
+table; and
+said memory block management table reproduction
+means (7) reproduces a memory block management table for
+
+the object management table (9) on the basis of the
+high-order (14)/low-order (13) addresses of the memory block
+
+area obtained by the memory block address
+calculation means (5) and the information returned by
+
+the memory pool address return means (6).
+</CLAIMS>
+</TEXT>
+</DOC>

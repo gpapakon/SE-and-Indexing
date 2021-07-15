@@ -1,0 +1,431 @@
+<DOC>
+<DOCNO>EP-0654752</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Analyzing an image to obtain a stable number of groups
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T760	G06K934	G06T760	G06K934	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06K	G06T	G06K	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T7	G06K9	G06T7	G06K9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+To group items (12,14,16,18) in an array, gap data (20) are obtained indicating gaps 
+between items. The gap data are used to obtain threshold data, which are then used to obtain 
+
+grouping data (22,24,26,28,30). The gaps could, for example, be distances between items in a 
+two-dimensional array or differences between values at which items occur in a 
+
+one-dimensional array. The threshold data indicate a threshold. The threshold would produce 
+a number of groups of the items (12,14,16,18) that is stable across a range of thresholds, and 
+
+the range of thresholds meets a criterion for largeness of a range. The criterion can require, for 
+example, that the range be larger than the stable range of thresholds of any other number in a 
+
+set of numbers of groups. The threshold can be obtained iteratively by applying a candidate 
+threshold for each iteration. The candidate thresholds can be incremented, and the iterations 
+
+can be counted to find a number of groups meeting the criterion. Or the candidate thresholds 
+can be increased by differences between gaps, and a running sum of threshold ranges can be 
+
+used to find a number of groups meeting the criterion. The threshold can also be obtained 
+directly by finding the largest difference between gap extents and obtaining a threshold 
+
+within the largest difference. Many types of grouping can be performed, including spatial 
+clustering, segmentation of partially bounded regions, segmentation by local width, and 
+
+global and local similarity grouping. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+XEROX CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+XEROX CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+MAHONEY JAMES V
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+RAO SATYAJIT
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MAHONEY, JAMES V.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+RAO, SATYAJIT
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to techniques for analyzing data, such as data defining
+an image, to obtain information about groupings.Mahoney, US-A 5,239,596, describes techniques for labeling pixels in an image based
+on near neighbor attributes. A discussion of linked group labeling through grouping
+operations begins at col. 15 line 63."Pattern classification and scene analysis" by R. O. Duda and P. E. Hart, 1973,
+Chichester, Sussex, UK, Wiley-Interscience, UK, ISBN 0-471-22361-1 discloses in section 6.7
+that the most obvious measure for the similarity between two samples is the distance between
+them. The distance is calculated by a suitable distance function. The two samples are assumed
+to belong to the same cluster, if the distance between them is less than some threshold distance
+d0. The section 6.10 describes how to obtain the threshold distance d0. This method is described
+with reference to figure 6.15 in which six samples are grouped. Level 1 shows the six samples
+as singleton clusters. At each level, the two clusters being most similar, i.e. having the smallest
+distance, are combined to one cluster.In more abstract terms, figure 6.15 shows that different clusterings correspond to different
+measures of similarity between clusters. Amongst all possible clusterings some appear
+intuitively natural while another grouping obtained by collapsing, two other clusters may
+appear forced if this collapsing corresponds to a large reduction in similarity.It is the object of this invention to provide a method, a machine and an article of
+manufacture for analysing data to obtain information about groupings, the method, the machine
+and the article of manufacture only requiring a reasonable computational effort.This object is achieved by the subject matters of the independent claims.Preferred embodiments are the subject matters of the dependent claims. The invention is to overcome problems that arise in analyzing data to
+obtain information about groupings or equivalence classes. Sometimes the part of an image
+array or other body of data that is relevant to an analysis task is a collection of items rather
+than an individual item. In image analysis, this may be true because coherent physical processes
+tend to produce collections of pixels that are coherent in space or in their geometric properties.
+Therefore, it is useful to be able to operate on a collection or group rather than on each
+individual item.The problems relate to techniques for finding an appropriate number of groups.
+There is a tension between, on the
+</DESCRIPTION>
+<CLAIMS>
+A method of operating a machine to analyze an image, the method comprising
+the steps of:
+
+
+receiving input image data (196; 542) defining an input image;
+using the input image data to obtain (50) initial array data (10; 82); the initial array
+data defining an initial array of value items (12,14,16,18), each value item
+
+indicating a value; the initial array including a set of value items that indicate
+values that meet a reference criterion;
+storing the initial array data in a memory;
+accessing the initial array data in the memory and using the initial array data to
+obtain (52) gap data (20; 220) indicating, for each value item in the initial array, a
+
+distance to the closest value item that is in the set of value items indicating values
+meeting a reference criterion;
+comparing the obtained gap data to a plurality of candidate thresholds; each
+candidate threshold being above or below said gap data;
+for each candidate threshold determining the number of groups of value items
+which are separated by a gap associated with gap data larger than the
+
+candidate threshold;
+fixing a threshold indicated by threshold data (222; 544) in a range of
+thresholds in which the number of said groups is stable and said range is
+
+larger than a range of thresholds across which any other number of groups in 
+a set of numbers of groups is stable; and
+using the threshold data to obtain (56) grouping data (224; 546) indicating a
+
+grouping of the value items in the initial array.
+The method of claim 1 in which the grouping data indicate groups of value
+items, each group meeting a transitive closure criterion subject to the threshold
+
+in the initial array.
+The method of claim 1 or 2 in which the number of groups of the value items is
+one of a set of numbers of groups.
+The method of claim 3 in which the numbers in the set of numbers of groups
+are all greater than a minimum number of groups.
+The method of claim 4 in which the minimum number of groups is one or two.
+The method of one of claims 1 to 5 in which the gap data indicate, for each
+value item in the initial array, a distance; the threshold data indicating a
+
+threshold gap value; the act of using the threshold data to obtain grouping
+data comprising:
+
+
+comparing (274) the threshold gap value with each (262, 270, 272) distance
+indicated by the gap data.
+The method of one of claims 1 to 6 in which the reference criterion requires a
+value item indicating a value that is ON or OFF.
+The method of claim 1 in which the act of using the threshold data to obtain
+grouping data comprises:
+
+
+obtaining thresholded data that indicate a set of the value items in the initial
+array; each value item in the set having a distance to another value item that
+
+meets a reference criterion; the distances of all the value items in the set 
+meeting a comparison criterion in relation to the threshold; the set of value
+
+items including two or more subsets of value items, each subset meeting a
+transitive closure criterion subject to the threshold in the initial array; and
+using the thresholded data to obtain the grouping data by obtaining, for each
+subset of value items, a group identifier.
+The method of claim 8 in which the thresholded data include a binary value for
+each value item in the initial array, the comparison criterion requiring a value
+
+item's distance to be above the threshold; each value item's binary value being
+ON if the value item's distance is above the threshold; or
+
+
+each value item's binary value being ON if the value item's distance is below
+the threshold; or
+each value item's binary value indicating whether the value item's distance
+meets the comparison criterion; the transitive closure criterion requiring a
+
+subset of value items to be a connected component; or
+the initial array data defining an image that includes pixels, each value item in
+the initial array being a pixel value; the grouping data defining a version of the
+
+image indicating, for each value item that is in a group of value items defined
+by the thresholded data, the group's identifier.
+The method of claim 9 in which the value items in the initial array define
+connected components; the grouping data defining groups that cluster the
+
+connected components and, optionally in which the grouping data define
+groups that segment the image.
+The method of one of claims 1 to 10 in which values of a parameter define the
+initial array; the method further comprising, before the act of storing initial array
+
+data:
+
+obtaining parameter data indicating a set of values of the parameter; and 
+using the parameter data to obtain the initial array data; each value item in the
+initial array indicating, for one of the values of the parameter, whether its value is
+
+in the set of values indicated by the parameter data;
+using the initial array data to obtain gap data comprising:
+
+using the initial array data to obtain difference data indicating a difference
+between adjacent values of the parameter for which value items in the initial array
+
+indicate that their values are in the set of values indicated by the parameter data;
+and
+using the difference data to obtain the gap data.
+The method of claim 11 in which the act of using the threshold data to obtain
+grouping data comprises:
+
+
+using the initial array data and the threshold data to obtain, for each value item
+in the initial array that indicates that its value is in the set of values, a group
+
+identifier that identifies a group that includes the value item; and
+using the group identifiers to obtain the grouping data.
+The method of claim 12 in which the parameter data indicate, for each position
+in a parameter array, a value of the parameter; the parameter data indicating
+
+values that are in the set of values for a set of the positions; the act of using
+the group identifiers to obtain the grouping data comprising:
+
+
+for each position in the set of positions, using the value indicated for the
+position by the parameter data and the group identifiers to obtain a group
+
+identifier for the position; the grouping data indicating a group identifier for
+each position in the set of positions.
+The method of claim 13 in which the parameter data define an image; the
+grouping data defining a version of the image indicating, for each position, a 
+
+group identifier.
+The method of claim 13 in which the parameter is an attribute of features in
+images, each value of the parameter indicating a value of the attribute.
+The method of claim 15 in which the attribute is area, elongation, aspect ratio,
+width, horizontal center of area, vertical center of area, or orientation.
+The method of one of claims 1 to 16 in which the gap data indicate a gap for
+each value item in the initial array; the acts of comparing the gap data,
+
+determining the number of groups and fixing a threshold comprising:
+
+performing a sequence of iterations, the iterations including a first iteration and
+a number of following iterations, each following iteration having a preceding
+
+iteration, each iteration having threshold candidate data indicating a candidate
+threshold, the threshold candidate data of each following iteration indicating a
+
+candidate threshold that is greater than the preceding iteration's candidate
+threshold; each iteration comprising:
+
+
+using the iteration's threshold candidate data to obtain thresholded data, the
+thresholded data indicating, for each value item in the initial array, whether the
+
+gap indicated by the gap data for the value item is above or below the
+iteration's candidate threshold; the thresholded data defining a number of
+
+groups of the value items in the initial array; and
+using the iteration's thresholded data to obtain group count data indicating the
+number of groups defined by the thresholded data.
+The method of claim 17 in which the acts of comparing the gap data,
+determining the number of groups and fixing a threshold further comprise:
+
+
+using the iterations' group count data to obtain subsequence length data
+indicating a number of iterations in each subsequence of iterations with group
+
+count data indicating equal numbers of groups; and 
+using the subsequence length data to obtain the threshold data; the threshold
+
+data indicating the candidate threshold of an iteration with group count data
+indicating a first number of groups; the subsequence length data indicating
+
+that a subsequence of iterations with group count data indicating the first
+number of groups includes a range of thresholds that meets the criterion for
+
+largeness of a range.
+The method of claim 17 in which each following iteration further comprises:
+
+using the preceding iteration's threshold data to obtain the following iteration's
+threshold data, the following iteration's threshold data indicating a threshold
+
+that is greater than the preceding iteration's threshold by a gap difference, the
+gap difference being a difference between gaps indicated by the gap data
+
+between which no indicated gaps occur;
+the acts of comparing the gap data, determining the number of groups and
+fixing a threshold further comprising:
+
+
+using the iterations' group count data to obtain threshold range data indicating
+a range of thresholds in each subsequence of iterations with group count data
+
+indicating equal numbers of groups; and
+using the threshold range data to obtain the threshold data; the threshold data
+indicating the candidate threshold of an iteration with group count data
+
+indicating a first number of groups; the threshold range data indicating that a
+subsequence of iterations with group count data indicating the first number of
+
+groups includes a range of thresholds that meets the criterion for largeness of
+a range.
+The method of claim 1 in which the gap data indicate a gap for each value item
+in the initial array; the acts of comparing the gap data, determining the number
+
+of groups and fixing a threshold comprising: 
+
+using the gap data to obtain largest difference data, the largest difference data
+indicating, for the gaps indicated by the gap data, a largest difference between
+
+gaps between which no indicated gaps occur; the largest difference occurring
+between a lower gap and an upper gap; and
+using the largest difference data to obtain the threshold data, the threshold
+data indicating a threshold that is above the lower gap and below the upper
+
+gap;
+the act of using the threshold data to obtain grouping data comprising:
+
+using the initial array data to obtain distance data indicating a distance for
+each value item in the initial array; and
+using the threshold data and the distance data to compare the threshold to
+each value item's distance.
+The method of claim 20 in which the gap data indicate, for value items in the
+initial array that meet a foreground neighbor border criterion, a distance to a
+
+near neighbor in the initial array; the distance data indicating a distance to a
+near neighbor for each value item in the initial array; the act of using the
+
+threshold data to obtain grouping data further comprising:
+
+grouping value items together that have distances that are below the threshold
+or
+grouping value items together that have distances that are above the threshold
+or
+
+in which the gap data indicate, for value items in the initial array that meet an
+opposing background neighbor border criterion, a distance to a near neighbor
+
+in the complement of the initial array; the distance data indicating a distance to
+a near neighbor in the complement of the initial array for each value item in the
+
+initial array; the act of using the threshold data to obtain grouping data further
+comprising: 
+
+
+grouping value items together that have distances that are above the
+threshold.
+A machine comprising:
+
+memory (68; 192, 194; 520, 540) for storing data; and
+a processor (66; 190; 520) connected for accessing data stored in the memory;
+the data stored in the memory comprising initial array data (10; 82) defining an
+initial array of value items (12, 14 16, 18), each value item indicating a value; the
+
+initial array including a set of value items that indicate values that meet a
+reference criterion;
+the data stored in the memory further comprising instruction data (192; 520)
+indicating grouping instructions (112; 530) the processor can execute; the
+
+processor, in executing the grouping instructions:
+
+accessing the initial array data in the memory and using the initial array data to
+obtain (52) gap data (20; 220) indicating, for each value item in the initial array, a
+
+distance to the closest value item that is in the set of value items indicating values
+meeting a reference criterion;
+comparing the obtained gap data to a plurality of candidate thresholds; each
+candidate threshold being above or below said gap data;
+for each candidate threshold determining the number of groups of value items
+which are separated by a gap associated with gap data larger than the
+
+candidate threshold;
+fixing a threshold indicated by threshold data (222; 544) in a range of
+thresholds in which the number of said groups is stable and said range is
+
+larger than a range of thresholds across which any other number of groups in
+a set of numbers of groups is stable; and 
+using the threshold data to obtain (56) grouping data (224; 546) indicating a
+grouping of the value items in the initial array.
+The machine of claim 22 in which the machine further comprises input image
+circuitry (70) for obtaining data defining images as input; the instruction data
+
+further indicating image processing instructions (204; 528) the processor can
+execute; the processor further, in executing the image processing instructions:
+
+
+receiving input image data from the image input circuitry, the input image data
+defining an input image; and
+using the input image data to obtain (50) the initial array data and providing the
+initial array data to the memory.
+The machine of claim 23 in which the input image circuitry is connected for
+receiving facsimile transmissions (72).
+The machine of claim 22 in which the machine is an image processing server
+(498); the image processing server being connected to a network (492) for
+
+receiving requests for image processing operations; the network including the
+image input circuitry; the instruction data further indicating request handling
+
+instructions the processor can execute; the processor, in executing the request
+handling instructions, determining whether to execute the grouping
+
+instructions.
+The machine of claim 22 in which the machine is a fax server (500) or
+a copier (560).
+An article of manufacture for use in a machine that includes:
+
+a storage medium access device (64) for accessing a medium (62) that stores
+data;
+memory (68; 192, 194; 520, 540) for storing data; the data stored in the memory
+comprising initial array data defining an initial array of value items, each value 
+item indicating a value; the initial array including a set of value items that indicate
+values that meet a reference criterion; and
+a processor (66; 190; 502) connected for receiving data from the storage medium
+access device and a
+lso connected for accessing data in the memory;
+the article comprising:
+
+a storage medium (62) that can be accessed by the storage medium access
+device when the article is used in the machine; and
+data (80) stored by the storage medium so that the storage medium access
+device can provide the stored data to the processor when the article is used in the
+
+machine; the stored data comprising instruction data indicating instructions (192;
+520) the processor can execute; the processor, in executing the instructions:
+
+
+accessing the initial array data in the memory and using the initial array data to
+obtain (52) gap data (20; 220) indicating, for each value item in the initial array, a
+
+distance to the closest value item that is in the set of value items indicating values
+meeting a reference criterion;
+comparing the obtained gap data to a plurality of candidate thresholds; each
+candidate threshold being above or below said gap data;
+for each candidate threshold determining the number of groups of value items
+which are separated by a gap associated with gap data larger than the
+
+candidate threshold;
+fixing a threshold indicated by threshold data (222; 544) in a range of
+thresholds in which the number of said groups is stable and said range is
+
+larger than a range of thresholds across which any other number of groups in
+a set of numbers of groups is stable; and
+using the threshold data to obtain (56) grouping data (224; 546) indicating a
+grouping of the value items in the initial array.
+</CLAIMS>
+</TEXT>
+</DOC>

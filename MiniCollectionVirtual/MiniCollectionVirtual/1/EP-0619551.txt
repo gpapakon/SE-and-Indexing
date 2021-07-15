@@ -1,0 +1,538 @@
+<DOC>
+<DOCNO>EP-0619551</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Determining offset between images of an IC
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T520	G06T100	G06T520	G06T700	G06T700	G01R3128	H01L2166	G01R31307	G06T100	H01L2166	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	G06T	G06T	G06T	G01R	H01L	G01R	G06T	H01L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T5	G06T1	G06T5	G06T7	G06T7	G01R31	H01L21	G01R31	G06T1	H01L21	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Offset between a pair of images is determined using parallel processing techniques in a 
+general-purpose digital serial processor. For each image, a patch of pixels is selected and 
+
+convolved with a Laplacian kernel. The result is convolved with a Gaussian kernel in 
+each of the x- and y- directions to produce a registration image. The registration images 
+
+are binarized, bit-packed, and correlated to one another by performing an EXOR 
+operation for each pixel location at each of a plurality of relative offsets of the images. 
+
+The results of the EXOR operation are summed to produce an image-correlation value for 
+each relative offset. The image-correlation indicating highest correlation determines 
+
+relative offset of the images. The determined offset can be used for a variety of purposes 
+in automating control of E-beam and FIB systems, to register images to one another or to 
+
+identify a location in one image which corresponds to a selected location of the other 
+image. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SCHLUMBERGER TECHNOLOGIES INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SCHLUMBERGER TECHNOLOGIES, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BARNARD RICHARD D
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BARNARD, RICHARD D.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to determining offset between images such as images of an
+integrated circuit device, useful in automating operation of charged-particle beam
+systems.Charged-particle beam systems are used in verification, characterization, design debug
+and modification of devices such as ICs. Electron-beam (E-beam) systems are used to
+acquire and observe waveforms on internal nodes of a device as the device is exercised,
+and to produce voltage-contrast images. Focused-ion-beam (FIB) systems are commonly
+used for: (1) etching/milling, such as cutting metal lines and drilling holes, (2) depositing
+material, such as forming metal connectors and pads, and (3) scanning ion microscope
+(SIM) observation.Figure 1 shows three main elements of a charged-particle beam system 110: electron-beam
+or FIB probe 112, circuit exerciser 114, and data processing system 116 with
+display terminal 118. Data processing system 116 has a processor P with memory M and
+data store D. Circuit exerciser 114 applies a test-vector pattern via bus 124 to device 126
+in vacuum chamber 128. The beam is directed at locations of device 126 under control of
+data processing system data sent to probe 112 by data processing system 116 over bus
+122. System 110 is controlled by commands supplied through display terminal 118.Figure 2 shows a prior-art test probe 112 having three elements mounted to surface 225:
+a stage 226, a probe card 228, and a focused-beam column 229. Column 229 generates a 
+charged-particle beam directed along axis 236. The beam passes through openings in
+surface 225 and probe card 228. The point at which the beam strikes device 126 (shown
+as a wafer) is determined by the position of column 229 (controllable by means of an x-y
+stage 240) and by the deflection of the beam (controllable by means of x-y deflection
+coils 241).Such systems combine the display of a schematic circuit diagram, layout mask data and a
+live scanning-electron microscope (SEM) or scanning-ion microscope (SIM) image of
+the chip, along with analog and/or digital waveforms. The SEM (or SIM), layout and
+schematic displays are linked together to facilitate navigation around the IC chip. When
+the user pans (moves laterally) or zooms (changes magnification) one of the linked
+displays, the others pan or zoom accordingly. When the user places a probe icon at a
+point on one of the linked displays, expected waveforms and actual measured waveforms
+at that point may be displayed for comparison.The SEM (or SIM) image is related to the layout image much as
+</DESCRIPTION>
+<CLAIMS>
+A method of operating a processor to determine offset of a second image relative
+to a first image, wherein each image is defined by stored pixel data describing a
+
+respective plurality of pixels in which each pixel is defined by a location within
+an x-y grid and an intensity value, comprising the steps of:
+
+
+a. retrieving from said stored pixel data a set of data describing a first patch
+(710) comprising nxn pixels from a first image (700);
+b. preparing data defining a first Laplacian patch (1010) by convolving
+intensity values of pixels of the first patch with values of a zero-mean
+
+Laplacian kernel (900), the data defining the first Laplacian patch
+describing a plurality of pixels in which each pixel is defined by a location
+
+within an x-y grid and an intensity value having a sign;
+c. preparing data defining a first registration image (1810) by convolving
+intensity values of pixels of the first Laplacian patch with a Gaussian
+
+kernel (1200) along two axes of an x-y grid, the Gaussian kernel having a
+plurality of Gaussian kernel values (e.g., 1, 6, 15, 20) which can be
+
+arranged to approximate a Gaussian sequence (e.g., 1, 6, 15, 20, 15, 6, 1),
+the data defining the first registration image describing a plurality of
+
+pixels (e.g., 1720) in which each pixel is defined by a location within an
+x-y grid and an intensity value having a sign;
+d. preparing data defining a first binarized image by converting intensity
+values of pixels of the first registration image to respective binary values
+
+in dependence upon the sign of the intensity value, the data defining the
+first binarized image describing a plurality of pixel locations within an x-y
+
+grid and a binary value for each pixel location;
+e. retrieving from said stored pixel data a set of data describing a second
+patch (810) of mxm pixels from a second image (800), where m is a value
+
+less than n; 
+f. preparing data defining a second Laplacian patch (1110) by convolving
+intensity values of pixels of the second patch with values of a zero-mean
+
+Laplacian kernel (900), the data defining the second Laplacian patch
+describing a plurality of pixels in which each pixel is defined by a location
+
+within an x-y grid and an intensity value having a sign;
+g. preparing data defining a second registration image (1910) by convolving
+intensity values of pixels of the second Laplacian patch with a Gaussian
+
+kernel (1200) along two axes of an x-y grid, the Gaussian kernel having a
+plurality of Gaussian kernel values (e.g., 1, 6, 15, 20) which can be
+
+arranged to approximate a Gaussian sequence (e.g., 1, 6, 15, 20, 15, 6, 1),
+the data defining the second registration image describing a plurality of
+
+pixels in which each pixel is defined by a location within an x-y grid and
+an intensity value having a sign;
+h. preparing data defining a second binarized image by converting intensity
+values of pixels of the second registration image to respective binary
+
+values in dependence upon the sign of the intensity value, the data
+defining the second binarized image describing a plurality of pixel
+
+locations within an x-y grid and a binary value for each pixel location;
+i. for each of a plurality of possible offset of the second binarized image
+relative to the first binarized image for which mxm pixels of the second
+
+binarized image are aligned with mxm pixels of the first binarized image,
+
+(1) performing an EXOR operation for each of mxm pixel locations
+between the binary value of the binarized first registration image
+
+and the binary value of the binarized second registration image to
+produce a binary pixel-correlation value per pixel location; and
+(2) determining a sum of the binary pixel-correlation values to obtain
+an image-correlation value; and
+j. comparing the image-correlation values to identify an offset of the second
+binarized image relative to the first binarized image which results in a 
+
+maximum correlation between the second binarized image and the first
+binarized image; and
+k. storing a representation of the identified offset, said stored representation
+being indicative of offset of the second image relative to the first image.
+The method of claim 1, wherein step c. comprises the steps of:
+
+(1) for each Gaussian kernel value, multiplying the intensity values of the first
+Laplacian patch by the Gaussian kernel value to prepare d
+ata defining a
+respective first multiplier image (e.g., 1400, 1410, 1420, 1430), such that
+
+the data defining a first multiplier image for a given Gaussian kernel value
+describes a plurality of pixels in which each pixel is defined by a location
+
+in an x-y grid and an intensity value comprising the product of the given
+Gaussian kernel value and a corresponding intensity value of the first
+
+Laplacian patch;
+(2) summing intensity values selected from pixels (e.g., 1525 - 1560) of said
+first multiplier images to prepare data defining a first resultant image
+
+(1510) such that the first resultant image approximates a convolution of
+the first Laplacian image with the Gaussian kernel along one of said axes
+
+(e.g., the x-axis), the data defining the first resultant image describing a
+plurality of pixels (e.g., 1520) in which each pixel is defined by a location
+
+within an x-y grid and an intensity value;
+(3) for each Gaussian kernel value, multiplying the intensity values of the first
+resultant image by the Gaussian kernel value to prepare data defining a
+
+respective second multiplier image (e.g., 1510, 1610, 1620, 1630), such
+that the data defining a second multiplier image for a given Gaussian
+
+kernel value describes a plurality of pixels in which each pixel is defined
+by a location in an x-y grid and an intensity value comprising the product
+
+of the given Gaussian kernel value and a corresponding intensity value of
+the first resultant image; and 
+(4) summing intensity values selected from pixels (e.g., 1725 - 1760) of said
+second multiplier images to prepare the data defining the first registration
+
+image (1810) such that the first registration image approximates a
+convolution of the first resultant image with the Gaussian kernel along the
+
+other of said axes (e.g., the y-axis).
+The method of claim 2, wherein each pixel of the first Laplacian patch has an
+intensity value ϑ , and wherein step c.(1) comprises for each pixel of the first
+
+Laplacian patch:
+
+(a) storing in a first register a binary number representing the intensity value
+ϑ of the pixel,
+(b) left-shifting the binary number stored in the first register to produce a
+binary number representing a value 2 ϑ and storing said binary number
+
+representing value 2 ϑ in a second register,
+(c) left-shifting the binary number stored in the second register to produce a
+binary number representing a value 4 ϑ and storing said binary number
+
+representing value 4 ϑ in a third register,
+(d) left-shifting the binary number stored in the third register to produce a
+binary number representing a value 16 ϑ and storing said binary number
+
+representing value 16 ϑ in a fourth register,
+(e) summing the binary numbers stored in said second and third registers to
+produce a binary number representing a value 6 ϑ and storing said binary
+
+number representing value 6 ϑ in a fifth register,
+(f) subtracting the binary number stored in said first register from the binary
+number stored in said fourth register to produce a binary number
+
+representing a value 15 ϑ and storing said binary number representing
+value 15 ϑ in a sixth register,
+(g) summing the binary numbers stored in said third and fourth registers to
+produce a binary number representing a value 20 ϑ and storing said binary
+
+number representing value 20 ϑ in a seventh register, and 
+(h) storing the binary numbers representing values ϑ , 6 ϑ , 15 ϑ and 20 ϑ in
+a data structure,
+
+such that, when steps c.i.(a) through c.i.(h) are completed for each pixel of the
+first Laplacian patch, the data structure contains data describing a first multiplier
+
+image for each Gaussian kernel value.
+The method of claim 1, wherein:
+
+step c. further comprises storing the data defining the first registration image as a
+series of 2
+p
+-bit digital words in which each digital word contains an intensity
+value of a respective pixel of the first registration image, and wherein step d.
+
+further comprises the step of storing said binary values of the data defining the
+first binarized image as a single 2
+p
+-bit digital word for each 2
+p
+ pixels of the first
+binarized image;
+step g. further comprises storing the data defining the second registration image
+as a series of 2
+p
+-bit digital words in which each digital word contains an intensity
+value of a respective pixel of the second registration image, and wherein step d.
+
+further comprises the step of storing said binary values of the data defining the
+second binarized image as a single 2
+p
+-bit digital word for each 2
+p
+ pixels of the
+second binarized image;
+step i.(1) comprises, for each block of 2
+p
+ pixel locations, performing an EXOR
+operation for each of the 2
+p
+ pixel locations in a single processor instruction to
+thereby produce a digital matching word representing correlation of the first
+
+binarized image and the second binarized image over the 2
+p
+ pixel locations; and
+step i.(2) comprises, for each block of 2
+p
+ pixel locations, looking up the digital
+matching word in a stored look-up table in which a sum of binary correlation
+
+values of 2
+p
+ pixel locations is provided for each possible value of the digital
+matching word to thereby obtain a partial-correlation value representing the sum
+
+of binary correlation values for 2
+p
+ pixel locations, and summing partial-correlation
+image-correlation values of all of said blocks of 2
+p
+ pixel locations to obtain said
+value.
+The method of claim 1, wherein said possible offsets comprise a first plurality of
+possible offsets along the x-axis and a second plurality of possible offsets along
+
+the y-axis, the method further comprising the step of:
+
+preparing from said data defining a first binarized image, for each possible offset
+along the x-axis, data defining a strip of nxm pixel locations of the first binarized
+
+image, and
+wherein step i.(1) comprises, for each said strip of nxm pixel locations of the first
+binarized image and for each possible offset along the y-axis, performing an
+
+EXOR operation for each of nxn pixel locations between the binary value of the
+first binarized image and the binary value of the second binarized image.
+The method of claim 1, wherein said second image comprises a CAD layout
+image of an IC and said first image comprises a SEM image of an IC, and
+
+wherein step g. further comprises preparing data defining a second registration
+image by convolving intensity values of pixels of the second Laplacian patch with
+
+a plurality of Gaussian kernels.
+The method of claim 1, wherein said first image comprises a layout image of an
+IC and said second image comprises a SEM image of an IC device, the method
+
+further comprising the steps of selecting from said first image a first x-y
+coordinate representing a selected location of said IC device at which a probe
+
+beam is to be placed, preparing a second x-y coordinate shifted from said first x-y
+coordinate by said identified offset, aiming an electron-beam at the IC device in a
+
+direction corresponding to said second x-y coordinate, detecting secondary
+electrons emitted from the IC as the electron beam is aimed at said IC device
+
+during a first time interval to thereby acquire a first portion of a waveform
+appearing at the selected location of the IC device, acquiring an updated SEM
+
+image of the IC, replacing said second image with said updated SEM image,
+repeating steps a. through k. to identify an updated offset, preparing
+ an updated
+second x-y coordinate shifted from said first x-y coordinate by said updated 
+
+offset, aiming the electron-beam during a second time interval at the IC device in
+a direction corresponding to the updated second x-y coordinate, and detecting
+
+secondary electrons emitted from the IC as the electron beam is aimed at said IC
+device during the second time interval to thereby acquire a second portion of a
+
+waveform appearing at the selected location of the IC device.
+The method of claim 1, wherein said first image comprises a SEM reference
+image of a first stack of images representing correct operation of an IC device and
+
+said second image comprises a SEM reference image of a second stack of images
+representing failing operation of an IC device and each image of the second stack
+
+corresponds to an image of the first stack, the method further comprising the steps
+of shifting each image of the second stack relative to the corresponding image of
+
+the first stack by an amount equal to the identified offset and, for each image of
+the first stack, preparing a difference image by taking the difference between the
+
+intensity values of pixels of image of the first stack and the intensity values of
+pixels of the shifted image of the second stack.
+The method of claim 1, wherein said first image comprises a SIM image of a first
+IC device and said second image comprises a SIM image of a second IC device,
+
+the method further comprising the steps of selecting from said first image a first
+x-y coordinate representing a location of said second IC device at which a FIB is
+
+to be directed, preparing a second x-y coordinate shifted from said first x-y
+coordinate by said identified offset, and aiming a FIB at the second IC device in a
+
+direction corresponding to said second x-y coordinate.
+Apparatus for determining offset of a second image relative to a first image,
+comprising:
+
+
+a. means for storing the first image (700) and the second image (800) as
+pixel data describing a respective plurality of pixels in which each pixel is
+
+defined by a location within an x-y grid and an intensity value; 
+b. means for retrieving from said storing means a set of data describing a
+first patch (710) comprising nxn pixels of the first image;
+c. means for preparing data defining a first Laplacian patch (1010) by
+convolving intensity values of pixels of the first patch with values of a
+
+zero-mean Laplacian kernel (900), the data defining the first Laplacian
+patch describing a plurality of pixels in which each pixel is defined by a
+
+location within an x-y grid and an intensity value having a sign;
+d. means for preparing data defining a first registration image (1810) by
+convolving intensity values of pixels of the first Laplacian patch with a
+
+Gaussian kernel (1200) along two axes of an x-y grid, the Gaussian kernel
+having a plurality of Gaussian kernel values (e.g., 1, 6, 15, 20) which can
+
+be arranged to approximate a Gaussian sequence (e.g., 1, 6, 15, 20, 15, 6,
+1), the data defining the first registration image describing a plurality of
+
+pixels (e.g., 1720) in which each pixel is defined by a location within a
+x-y grid and an intensity value having a sign;
+e. means for preparing data defining a first binarized image by converting
+intensity values of pixels of the first registration image to respective
+
+binary values in dependence upon the sign of the intensity value, the data
+defining the first binarized image describing a plurality of pixel locations
+
+within an x-y grid and a binary value for each pixel location;
+f. means for retrieving from said stored pixel data a set of data describing a
+second patch (810) of mxm pixels from the second image, where m is a
+
+value less than n;
+g. means for preparing data defining a second Laplacian patch (1110) by
+convolving intensity values of pixels of the second patch with values of a
+
+zero-mean Laplacian kernel (900), the data defining the second Laplacian
+patch describing a plurality of pixels in which each pixel is defined by a
+
+location within an x-y grid and an intensity value having a sign;
+h. means for preparing data defining a second registration image (1910) by
+convolving intensity values of pixels of the second Laplacian patch with a 
+
+Gaussian kernel (1200) along two axes of an x-y grid, the Gaussian kernel
+having a plurality of Gaussian kernel values (e.g., 1, 6, 15, 20) which can
+
+be arranged to approximate a Gaussian sequence (e.g., 1, 6, 15, 20, 15, 6,
+1), the data defining the second registration image describing a plurality of
+
+pixels in which each pixel is defined by a location within an x-y grid and
+an intensity value having a sign;
+i. means for preparing data defining a second binarized image by converting
+intensity values of pixels of the second registration image to respective
+
+binary values in dependence upon the sign of the intensity value, the data
+defining the second binarized image describing a plurality of pixel
+
+locations within an x-y grid and a binary value for each pixel location;
+j. means for performing, for each of a plurality of possible offsets of the
+second binarized image relative to the first binarized image for which
+
+mxm pixels of the second binarized image are aligned with mxm pixels of
+the first binarized image, an EXOR operation for each of mxm pixel
+
+locations between the binary value of the binarized first registration image
+and the binary value of the binarized second registration image to produce
+
+a binary pixel-correlation value per pixel location;
+k. means for determining, for each of the possible offsets of the second
+binarized image relative to the first binarized image for which mxm pixels
+
+of the second binarized image are aligned with mxm pixels of the first
+binarized image, a sum of the binary pixel-correlation values to obtain an
+
+image-correlation value;
+l. means for comparing the image-correlation values to identify an offset of
+the second binarized image relative to the first binarized image which
+
+results in a maximum correlation between the second binarized image and
+the first binarized image; and
+k. means for storing a representation of the identified offset, said stored
+representation being indicative of offset of the second image relative to
+
+the first image.
+Use of the method of Claim 1 for modifying an IC device, comprising the steps
+of:
+
+
+a. acquiring a first SIM image of an IC device at a selected field of view;
+b. storing the first image as a plurality of pixels, each pixel defined by a
+location within an x-y grid and an intensity value;
+c. storing first coordinates defining the selected field of view;
+d. storing operating parameters defining a FIB operation to be carried out on
+an IC device at a selected location within the selected field of view;
+e. retrieving a first patch comprising of nxn pixels of the first image;
+f. preparing a first Laplacian patch by convolving intensity values of pixels
+of the first patch with values of a zero-mean Laplacian kernel, the first
+
+Laplacian patch comprising a plurality of pixels in which each pixel is
+defined by a location within an x-y grid and an intensity value having a
+
+sign;
+g. preparing a first registration image by convolving intensity values of pixels
+of the first Laplacian patch with a Gaussian kernel along two axes of an x-y
+
+grid, the first registration image describing a plurality of pixels in which
+each pixel is defined by a location within an x-y grid and an intensity value
+
+having a sign;
+h. preparing a first binarized image by converting intensity values of pixels of
+
+the first registration image to respective binary values in dependence upon
+the sign of the intensity value, the data defining the first binarized image
+
+describing a plurality of pixel locations within an x-y grid and a binary
+value for each pixel location;
+i. acquiring a second SIM image of an IC device to be modified at
+approximately the selected field of view;
+j. selecting a second patch comprising mxm pixels of the second image;
+k. preparing a second Laplacian patch by convolving intensity values of
+pixels of the second patch with values of a zero-mean Laplacian kernel, the
+
+second Laplacian patch comprising a plurality of pixels in which each 
+pixel is defined by a location within an x-y grid and an intensity value
+
+having a sign;
+k. preparing a second registration image by convolving intensity values of
+pixels of the second Laplacian patch with a Gaussian kernel along two
+
+axes of an x-y grid, the second registration image comprising a plurality of
+pixels in which each pixel is defined by a location within an x-y grid and
+
+an intensity value having a sign;
+l. preparing a second binarized image by converting intensity values of
+pixels of the second registration image to respective binary values in
+
+dependence upon the sign of the intensity value, the first binarized image
+comprising a plurality of pixel locations within an x-y grid and a binary
+
+value for each pixel location;
+m. for each of a plurality of possible offset of the second binarized image
+relative to the first binarized image for which mxm pixels of the second
+
+binarized image are aligned with mxm pixels of the first binarized image,
+
+(1) performing an EXOR operation for each of mxm pixel locations
+between the binary value of the binarized first registration image
+
+and the binary value of the binarized second registration image to
+produce a binary pixel-correlation value per pixel location; and
+(2) determining a sum of the binary pixel-correlation values to obtain
+an image-correlation value;
+n. comparing the image-correlation values to identify an offset of the second
+binarized image relative to the first binarized image which results in a
+
+maximum correlation between the second binarized image and the first
+binarized image;
+o. preparing corrected operating parameters by correcting the stored
+operating parameters in accordance with the identified offset; and
+p. carrying out the FIB operation defined by the corrected operating
+parameters.
+</CLAIMS>
+</TEXT>
+</DOC>

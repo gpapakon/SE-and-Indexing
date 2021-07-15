@@ -1,0 +1,563 @@
+<DOC>
+<DOCNO>EP-0615199</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Video compression/decompression using discrete cosine transformation.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F501	G06F501	G06F748	G06F7544	G06F1714	G06F1714	G06T900	G06T900	H04N726	H04N726	H04N750	H04N750	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06T	G06T	H04N	H04N	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F5	G06F5	G06F7	G06F7	G06F17	G06F17	G06T9	G06T9	H04N7	H04N7	H04N7	H04N7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A vision processor includes a control section, a motion 
+estimation section, and a discrete cosine transform ("DCT") 
+
+section. The motion estimation section includes two 
+memories, an image memory with two read ports and a write 
+
+port, and a search memory with two read ports and a write 
+port. The DCT section includes a DCT memory configurable as 
+
+a two read, two write port memory and as a four read, four 
+write port memory. The ports of these memories are 
+
+selectively applied to various elements in the motion 
+estimation path and the DCT path. In motion vector 
+
+searching, the ALU performs averaging and difference 
+operations on pixels in the frame and search memories. Data 
+
+from the search memory is shifted for certain operations, 
+before arithmetic operations in the ALU are performed. In 
+
+DCT operations, transposition is done on word data read from 
+the DCT memory in a shifter/transposer, which is shared with 
+
+the motion estimation section, and the results written back 
+to the DCT memory through the ALU operating in pass through 
+
+mode. Multiply-accumulate operations are done in a 
+multiplier-accumulator, which reads and writes-back to the 
+
+DCT memory. Data transfers from the frame and search 
+memories to the DCT memory may be performed in parallel with 
+
+multiply-accumulate operations. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+INTEGRATED INFORMATION TECH
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTEGRATED INFORMATION TECHNOLOGY, INC.,
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+FANDRIANTO JAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MARTIN BRYAN R
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+RAINNIE HEDLEY K J
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SUTARDJA SEHAT
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WANG CHI SHIN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FANDRIANTO, JAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MARTIN, BRYAN R.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+RAINNIE, HEDLEY K. J.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SUTARDJA, SEHAT
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WANG, CHI SHIN
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This application is related to a copending application 
+of Fandrianto et al. entitled "Programmable Architecture and 
+Methods for Motion Estimation," attorney docket number M-1916 
+US, filed on even date herewith, which is hereby 
+incorporated herein by reference in its entirety. The present invention relates to video 
+compression/decompression processing and processors, and 
+more specifically to a programmable architecture and related 
+methods for video signal processing using the discrete 
+cosine transform and motion estimation. Applications such as video telephone, digital 
+television, and interactive multimedia using such digital 
+storage technology as CD-ROM, digital audio tape, and 
+magnetic disk require digital video coding, or video 
+compression, to achieve the necessary high data transfer 
+rates over relatively low bandwidth channels. Various 
+standards have been proposed for video coding. A standard 
+for the storage and transmission of still images has been  
+ 
+adopted by the International Standards Organization ("ISO"), 
+Joint Photographic Expert Group ("JPEC"); see "JPEC 
+Technical Specification, Revision 5," JPEG-8-R5, January 
+1980. A standard for digital television broadcast coding at 
+30/45 Mb/s is under consideration; see CCIR-CMTT/2, "Digital 
+Transmission of Component-Coded Television Signals at 30-34Mb/s 
+and 45 Mb/s Using the Discrete Cosine Transform," 
+Document CMTT/2-55. A standard for video telephony and 
+video conferencing at 64 to 1920 kb/s has been adopted by 
+the International Consultative Committee for Telephone and 
+Telegraph ("CCITT"); see "Draft Revision of Recommendation 
+H.261," Document 572, CCITT SG XV, Working Party XV/1, Spec. 
+Grp. on Coding for Visual Telephony. A standard for storage 
+applications below 1.5 Mb/s, which are similar to the 
+applications targeted by the CCITT standard, is under 
+consideration by the Moving Picture Experts Group ("MPEG") 
+of the ISO. Video coding algorithms have been proposed as 
+contributions to the standardization activity of ISO/MPEG; 
+see Wong et al., "MCPIC: A Video Coding Algorithm for 
+Transmission and Storage Applications," IEEE Communications 
+Magazine, November 1990, pp. 24-32. The Motion-Compensated Predictive/Interpolative Coding 
+("MCPIC") proposed by Wong et al. is reasonably compatible 
+with the CCITT standard, as the basic algorithm is a 
+predictive transform coding loop with motion compensation. 
+MCPIC provides greater flexibility, however. The basic 
+algorithm is used to code every second frame of the source 
+video,
+</DESCRIPTION>
+<CLAIMS>
+An apparatus for multiplying and accumulating 
+numeric quantities, comprising: 
+
+   a multiplier receiving the numeric quantities, said 
+multiplier having a sum output and a carry output; 
+
+   a first shift register having an input coupled to the 
+sum output of said multiplier, and an output; 
+
+   a second shift register having an input coupled to the 
+carry output of said multiplier, and an output; 
+
+   an accumulator having an input and an output; 
+   an adder having a first input coupled to the output of 
+
+said first shift register, a second input coupled 
+to the output of said second shift register, a 
+
+third input coupled to the output of said 
+accumulator, and an output; 
+
+   a third shift register having an input coupled to the 
+output of said adder and an output, the input of 
+
+said accumulator being coupled to the output of 
+said third shift register. 
+An apparatus as in claim 1, wherein said adder 
+
+comprises: 
+   a full adder having an input coupled to the output of 
+
+said first shift register, an input coupled to the 
+output of said second shift register, an input 
+
+coupled to the output of said accumulator, a sum 
+output, and a carry output; and 
+
+   a carry select adder having an input coupled to the sum 
+output of said full adder, an input coupled to the 
+
+carry output of said full adder, and an output. 
+An apparatus as in claim 2 further comprising 
+an overflow clamp, said overflow clamp having an input 
+
+connected to the output of said carry select adder, and an 
+output connected to the input of said third shift register. 
+An apparatus as in claim 1, further comprising: 
+   a first pipeline register having an input connected to 
+
+the output of said first shift register, and an 
+output connected to the first input of said adder; 
+
+and 
+   a second pipeline register having an input connected to 
+
+the output of said second shift register, and an 
+output connected to the second input of said adder. 
+An apparatus as in claim 1, further comprising 
+   a second accumulator having an input and an output; and 
+
+   a multiplexer, said multiplexer having a first input 
+connected to the output of said first-mentioned 
+
+accumulator, a second input connected to the output 
+of said second accumulator, and an output connected 
+
+to the third input of said adder. 
+An apparatus for performing shifting and 
+transposition of binary data, comprising: 
+
+   a first multiplexer having a first set of inputs, a 
+second set of inputs, and an output, a first group 
+
+of binary data being applied to said first set of 
+inputs and a second group of binary data being 
+
+applied to said second set of inputs; and 
+   a second multiplexer having a third set of inputs, a 
+
+fourth set of inputs, and an output, a third group 
+of binary data being applied to said third set of 
+
+inputs and a fourth group of binary data being 
+applied to said fourth set of inputs; 
+
+wherein said first and third sets of inputs correspond to 
+one another and said third group of binary data is a 
+
+transposed arrangement of said first group, and said second 
+and fourth sets of inputs correspond to one another and said 
+
+second and fourth groups of binary data are progressive 
+subsets of a group of binary data. 
+An arithmetic logic unit for processing 
+operandi representing pixel data and discrete cosine 
+
+transform data in the data path of a vision processor to 
+provide sum, difference, average, and absolute difference 
+
+results from said operandi, comprising: 
+   an adder having inputs for receiving the operandi and an 
+
+output for furnishing a sum of the operandi; 
+   a divide-by-two circuit having an input coupled to the 
+
+output of said adder and an output for furnishing 
+an average of the operandi; 
+
+   a subtractor having inputs for receiving the operandi, 
+a first output for furnishing a difference of the 
+
+operandi, including a sign bit, and a second output 
+for furnishing a difference of the operandi plus 
+
+one; 
+   an inverter having an input coupled to the second output 
+
+of said subtractor and an output; and 
+   a multiplexer having a first input coupled to the first 
+
+output of said subtractor, a second input coupled 
+to the output of said inverter, a select input 
+
+coupled to the sign bit of the first output of said 
+subtractor, and an output for furnishing an 
+
+absolute value of the operandi. 
+An apparatus for transposing data in a two 
+dimensional discrete cosine transform calculation, 
+
+comprising: 
+   a memory having a plurality of separately addressable 
+
+banks, each of said banks having an input and an 
+output and being readable and writable in the same 
+
+address cycle; and 
+   a parallel transpose circuit having inputs coupled to 
+
+the outputs of the banks of said memory, and 
+outputs coupled to the inputs of said memory. 
+An apparatus as in claim 8, wherein said memory 
+comprises four banks having outputs denoted A, B, C and D, 
+
+and wherein said transpose circuit selectively performs the 
+transpositions A-B-C-D, B-A-D-C, C-D-A-B, and D-C-B-A. 
+A method of transposing data for a two 
+dimensional discrete cosine transform, comprising the steps 
+
+of: 
+   storing data items in a plurality of memory banks; 
+
+   addressing each of said memory banks; 
+   reading a data item from each of said memory banks in 
+
+accordance with the addressing established in said 
+addressing step; 
+
+   transposing the respective data items from said reading 
+step; and 
+
+   writing data items from said transposing step 
+respectively to said memory banks in accordance 
+
+with the addressing established in said addressing 
+step. 
+A method as in claim 10, wherein said 
+addressing step comprises the steps of: 
+
+   applying N addresses within the same address cycle to N 
+of said memory banks, wherein N is a number less 
+
+than the number of said address banks, each of said 
+banks having N outputs corresponding to said N 
+
+addresses; and 
+   selecting without duplication one of said N outputs of 
+
+each of said banks for said transposing step. 
+An apparatus for performing multiplications 
+and accumulations for a two dimensional discrete cosine 
+
+transform calculation, comprising: 
+   a memory having a plurality of jointly addressable 
+
+banks, each of said banks having an input and two 
+outputs and being readable and writable in the same 
+
+ 
+address cycle; and 
+
+   a plurality of multiplier-accumulator units having 
+inputs coupled to the outputs of the banks of said 
+
+memory, and outputs coupled to the inputs of said 
+memory. 
+An apparatus as in claim 12, further 
+comprising: 
+
+   a register for storing data including mode decision 
+parametric data and quantization data; and 
+
+   a plurality of multiplexers, each having one input 
+connected to said register, another input connected 
+
+to the output of a corresponding one of said banks, 
+and an output connected to a corresponding one of 
+
+said multiplier-accumulator units. 
+A method of data management in performing 
+multiply and accumulation operations in a two dimensional 
+
+discrete cosine transform, comprising the steps of: 
+   storing data items in a plurality of memory banks; 
+
+   multiply addressing each of said memory banks; 
+   reading multiple data items from each of said memory 
+
+banks in accordance with the addressing established 
+in said addressing step; 
+
+   performing multiply-accumulate operations on the 
+respective data items from said reading step; 
+
+   writing single data items from said multiply-accumulate 
+performing step respectively to said memory banks 
+
+in accordance with the addressing established in 
+said addressing step; and 
+
+   writing additional data items to said memory banks in 
+parallel with said single data item writing step, 
+
+in accordance with the addressing established in 
+said addressing step. 
+A vision processor, comprising: 
+   an image memory having two read ports and a write port; 
+
+   a search memory having two read ports and a write port; 
+   a discrete cosine transform ("DCT") memory configurable 
+
+as a two read, two write port memory and as a four 
+read, four write port memory; 
+
+   a shifter having an input coupled to a read port of said 
+search memory, and an output; 
+
+   a shifter/transposer having an input selectively coupled 
+to one of the other read port of said search memory 
+
+and to two read ports of said DCT memory configured 
+
+as a two read, two write port memory; 
+   an arithmetic logic unit having: 
+
+   a first input selectively coupled to one of 
+the two read ports of said frame memory, 
+
+to the output of said shifter, and to two 
+read ports of said DCT memory configured 
+
+as a four read, four write port memory, 
+and 
+
+   a second input selectively coupled to one of 
+the outputs of said shifter and said 
+
+shifter/transposer, to the output of said 
+shifter/transposer, and to the other two 
+
+read ports of said DCT memory configured 
+as a four read, four write port memory; 
+
+and 
+   an output selectively configurable as an 
+
+average of operandi and a difference of 
+operandi coupled to the write ports of 
+
+said image memory and search memory; 
+   an output configured as an absolute difference 
+
+of operandi; and 
+   an output configured as a sum of operandi and 
+
+a difference of operandi coupled to the 
+write ports of said DCT memory; 
+
+   a tree adder having an input coupled to the absolute 
+ 
+
+difference output of said arithmetic logic unit; 
+and 
+
+   a multiplier-accumulator having an input coupled to the 
+four read ports of said DCT memory configured as a 
+
+four read, four write port memory. 
+A method of selectively compressing or 
+decompressing digitized video data in accordance with a 
+
+video compression / decompression algorithm utilizing the 
+discrete cosine transform ("DCT") function, comprising the 
+
+steps of: 
+   storing first data derived from said video data in a 
+
+first memory; 
+   processing said first data in a first operation selected 
+
+from a group of operations including addition, 
+subtraction, multiplication, accumulation, 
+
+scaling, rounding, normalization, and 
+transposition, wherein said first operation is 
+
+an element of a calculation selected from a 
+group of calculations including discrete 
+
+cosine transform, quantization, mode decision 
+parametric, and filter calculations; 
+
+   concurrently with said first data processing step, 
+transferring second data comprising pixels of 
+
+the video data in conjunction with a second 
+memory; and 
+
+   processing said second data in an operation selected 
+from a group of operations including addition, 
+
+subtraction, and averaging, wherein said 
+second operation is an element of a motion 
+
+calculation. 
+A method of selectively compressing or 
+decompressing digitized video data in accordance with a 
+
+video compression / decompression algorithm utilizing the 
+discrete cosine transform ("DCT") function, comprising the 
+
+ 
+steps of: 
+
+   storing first data derived from said video data in a 
+first memory; 
+
+   storing second data comprising pixels of the video data 
+in a second memory; 
+
+   processing said first data in a first operation selected 
+from a group of operations including 
+
+multiplication, accumulation, scaling, rounding, 
+and normalization, wherein said first operation is 
+
+an element of a calculation selected from a group 
+of calculations including discrete cosine 
+
+transform, quantization, mode decision parametric, 
+and filter calculations; and 
+
+   concurrently with said first data processing step, 
+processing said second data in an operation 
+
+selected from a group of operations including 
+addition, subtraction, and averaging, wherein said 
+
+second operation is an element of a motion 
+calculation. 
+An apparatus for compressing or decompressing 
+digitized video data stored in an external memory in 
+
+accordance with a video compression / decompression 
+algorithm utilizing the discrete cosine transform ("DCT") 
+
+function, comprising: 
+   a programmable controller; 
+
+   a motion calculation path including a first memory for 
+storing image data, a second memory for storing 
+
+search data, and a first arithmetic logic unit; and 
+   a transform/coding path including a third memory for 
+
+storing data derived from the video data, a 
+multiplier-accumulator, a transposer, and a second 
+
+arithmetic logic unit; 
+wherein said programmable controller is operatively 
+
+coupled to said motion calculation path and to said 
+transform/coding path to implement input/output 
+
+ 
+operations between said external memory and one of said 
+
+first and second memories concurrently with operations 
+in said transform/coding path. 
+An apparatus for compressing or decompressing 
+digitized video data stored in an external memory in 
+
+accordance with a video compression / decompression 
+algorithm utilizing the discrete cosine transform ("DCT") 
+
+function, comprising: 
+   a programmable controller; 
+
+   a motion calculation path including a first memory for 
+storing image data, a second memory for storing 
+
+search data, and a first arithmetic logic unit; and 
+   a transform/coding path including a third memory for 
+
+storing data derived from the video data, a 
+multiplier-accumulator, a transposer, and a second 
+
+arithmetic logic unit; 
+wherein said programmable controller is operatively 
+
+coupled to said motion calculation path and to said 
+transform/coding path to implement arithmetic operations 
+
+in said motion calculation path concurrently with 
+multiply-accumulate operations in said transform/coding 
+
+path. 
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,68 @@
+<DOC>
+<DOCNO>EP-0619896</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+METHOD FOR PERFORMING DISK ARRAY OPERATIONS USING A NONUNIFORM STRIPE SIZE MAPPING SCHEME.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F306	G06F306	G06F1110	G06F1110	G06F1216	G06F1216	G11B2018	G11B2018	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G11B	G11B	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F3	G06F3	G06F11	G06F11	G06F12	G06F12	G11B20	G11B20	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method and apparatus for improving disk performance in a disk array subsystem. A nonuniform mapping scheme is used wherein the disk array includes regions having varying sizes of data stripes. The disk array includes a region comprised of data stripes having a stripe size that corresponds to the size of the internal data structures frequently used by the file system, in addition to a region comprised of a number of data stripes having a larger stripe size which are used for general data storage. When a write operation occurs involving one of the data structures, the data structure is preferably mapped to the small stripe region in the disk array having a size which matches the size of the data structure. In this manner, whenever a file system data structure is updated, the operation is a full stripe write. This removes the performance penalty associated with partial stripe write operations.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+COMPAQ COMPUTER CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+COMPAQ COMPUTER CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+NEUFELD E DAVID
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NEUFELD, E., DAVID
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+ METHOD FOR PERFORMING DISK ARRAY OPERATIONS USING A NONUNIFORM STRIPE SIZE MAPPING SCHEMEThe present invention is directed toward a method for improving performance for multiple disk drives in computer systems, and more particularly to a method for performing write operations in a disk array utilizing parity data redundancy and recovery protection.Microprocessors and the computers which utilize them have become increasingly more powerful during the recent years. Currently available personal computers have capabilities in excess of the mainframe and minicomputers of ten years ago. Microprocessor data bus sizes of 32 bits are widely available whereas in the past 8 bits was conventional and 16 bits was common.Personal computer systems have developed over the years and new uses are being discovered daily. The uses are varied and, as a result, have different requirements for various subsystems forming a complete computer system. With the increased performance of computer systems, it became apparent that mass storage subsystems, such as fixed disk drives, played an increasingly important role in the transfer of data to and from the computer system. In the past few years, a new trend in storage subsystems, referred to as a disk array subsystem, has emerged for improving data transfer performance, capacity and reliability. One reason for building a disk array subsystem is to create 
+
+ a logical device that has a very high data transfer rate. This may be accomplished by "ganging" multiple standard disk drives together and transferring data to or from these drives in parallel. Accordingly, data is stored "across" each of the disks comprising the disk array so that each disk holds a portion of the data comprising a data file. If n drives are ganged together, then the effective data transfer rate may be increased up to n times. This technique, known as striping, originated in the supercomputing environment where the transfer of large amounts of data to and from secondary storage is a frequent requirement. In striping, a sequential data block is broken into segments of a unit length, such as sector size, and sequential segments are written to sequential disk drives, not to sequential locations on a single disk drive. The unit length or amount of data that is stored "across" each disk is referred to as the stripe size. The stripe size affects data transfer characteristics and access times and is generally chosen to optimize data transfers to and from the disk array. If the data block is longer than n unit lengths,
+</DESCRIPTION>
+<CLAIMS>
+Claims :
+1. A method for improving disk array performance in a computer system disk array including a first region comprised of a plurality of data stripes having a first stripe size and a second region comprised of a plurality of data stripes having a stripe size larger than said first stripe size, wherein said first stripe size corresponds to the size of data structures used in the disk array, the method comprising: generating a data write operation to the disk array; determining if said data comprises one of the data structures; writing said data to a data stripe in the first region having said first stripe size if said data comprises one of the data structures; and writing said data to a data stripe in the second region if said data does not comprise one of the data structures.
+2. The method of claim 1, wherein said data structure writing to the first region is a full stripe write operation.
+3. The method of claim 1, wherein said step of data write determining is performed by a disk controller coupled to the disk array.
+4. The method of claim 1, wherein said step of data write determining is performed by a system processor in the computer system.
+5. The method of claim 1, further comprising: generating a read operation to request data from the disk array; 
+
+
+ determining whether said read operation is intended to access said first stripe size region or said second stripe size region; and providing said requested data from either said first or second stripe size regions depending on said step of read operation determining.
+6. The method of claim 1, wherein the disk array utilizes parity fault tolerance techniques, the method further comprising: generating parity information for said data; writing said parity information to the first region if said data comprises one of the data structures; and writing said parity information to the second region if said data does not comprise one of the data structures.
+7. A computer system which performs disk array write operations, comprising: a system bus; a disk array coupled to said system bus including a first region comprised of a plurality of data stripes having a first stripe size and a second region comprised of a plurality of data stripes having a stripe size larger than said first stripe size, wherein said first stripe size corresponds to the size of data structures used in the disk array; means coupled to said system bus for generating a data write operation to the disk array; means coupled to said system bus and said generating means for determining if said data comprises one of the data structures; means coupled to said determining means and said system bus for writing said data to a data stripe 
+
+
+ in said first stripe size region if said data comprises one of the data structures; and means coupled to said determining means and said system bus for writing said data to a data stripe in said second stripe size region if said data does not comprise one of the data structures.
+8. The apparatus of claim 7, wherein said data structure write operation to said first stripe size region is a full stripe write operation.
+9. A method for improving disk array performance in a computer system disk array having a plurality of data stripes of varying sizes for storing data, wherein a first stripe size corresponds to the size of data structures used in the disk array, the method comprising: generating a data write operation to the disk array; determining if said data comprises one of the data structures; writing said data to a data stripe having the first size corresponding to the size of the data structure if said data comprises one of the data structures; and writing said data to a data stripe not having the first size if said data does not comprise one of the data structures.
+10. The method of claim 9, wherein said data structure writing to said data stripe having the first size is a full stripe write operation.
+11. The method of claim 9, wherein the disk array includes a region having the first stripe size for 
+
+
+storing the data structures and a region having a second stripe size, the method further comprising: generating a read operation to request data from the disk array; determining whether said read operation is intended to access said first stripe size region or said second stripe size region; and providing said requested data from either said first or second stripe region depending on said read operation determining.
+12. A computer system which performs disk array write operations, comprising: a system bus; a disk array coupled to said system bus having a plurality of data stripes of varying sizes for storing data, wherein a first stripe size corresponds to the size of data structures used in the disk array; means coupled to said system bus for generating a data write operation to the disk array; means coupled to said generating means and said system bus for determining if said data comprises one of the data structures; means coupled to said determining means and said system bus for writing said data structure to a data stripe having said first size corresponding to the size of said data structure if said data comprises one of the data structures; and means coupled to said determining means and said system bus for writing said data to a data stripe not having said first size if said data does not comprise one of the data structures. 
+
+
+ 13. A method for improving disk array performance in a computer system disk array which utilizes parity fault tolerance techniques, comprising: creating a file system on the disk array, partitioning the disk array to create a first region comprised of a plurality of data stripes having a first stripe size and a second region comprised of a plurality of data stripes having a stripe size larger than said first stripe size, wherein said first stripe size corresponds to the size of data structures used in the disk array; generating a data write operation to the disk array; determining if said data comprises one of the data structures; writing said data to a data stripe in the first region having said first stripe size if said data comprises one of the data structures; and writing said data to a data stripe in the second region if said data does not comprise one of the data structures.
+14. The method of claim 13, wherein said data structure writing to the first region is a full stripe write operation.
+15. The method of claim 13, further comprising: generating a read operation to request data from the disk array; determining whether said read operation is intended to access said first stripe size region or said second stripe size region; and providing said requested data from either said first or second stripe size regions depending on said step of read operation determining. 
+
+
+ A method and apparatus for improving disk performance in a disk array subsystem. A nonuniform mapping scheme is used wherein the disk array includes regions having varying sizes of data stripes. The disk array includes a region comprised of data stripes having a stripe size that corresponds to the size of the internal data structures frequently used by the file system, in addition to a region comprised of a number of data stripes having a larger stripe size which are used for general data storage. When a write operation occurs involving one of the data structures, the data structure is preferably mapped to the small stripe region in the disk array having a size which matches the size of the data structure. In this manner, whenever a file system data structure is updated, the operation is a full stripe write. This removes the performance penalty associated with partial stripe write operations. 
+
+</CLAIMS>
+</TEXT>
+</DOC>

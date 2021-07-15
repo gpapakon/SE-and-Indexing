@@ -1,0 +1,252 @@
+<DOC>
+<DOCNO>EP-0627699</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Command preprocessor for a high performance three dimensional graphics accelerator
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T1100	G06T1500	G06T1500	G06T1740	G06T1100	G06T1740	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	G06T	G06T	G06T	G06T	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T11	G06T15	G06T15	G06T17	G06T11	G06T17	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A command preprocessor for a high performance three dimensional 
+graphics accelerator in a computer system is disclosed, wherein the command 
+
+preprocessor translates geometry input data from differing formats. The 
+command preprocessor contains a set of reformatting control registers that are 
+
+preprogrammed with translation parameters by a host processor. The translation 
+parameters in the reformatting control registers specify translation operations. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SUN MICROSYSTEMS INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SUN MICROSYSTEMS, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+DEERING MICHAEL F
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DEERING, MICHAEL F.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to the field of computer graphics systems. More
+particularly, this invention relates to a command preprocessor for a high
+performance three dimensional graphics accelerator in a computer system.A three dimensional graphics accelerator is a specialized graphics
+rendering subsystem for a computer system. An application program executing
+on a host processor of the computer system generates three dimensional
+geometry input data that defines three dimensional graphics elements for display
+on a display device. The application program typically transfers the geometry
+input data from the host processor to the graphics accelerator. Thereafter, the
+graphics accelerator renders the corresponding graphics elements on the display
+device.A typical application program generates the three dimensional geometry
+input data according to a predefined format for defining three dimensional
+graphics elements. An example of a predefined format is the PHIGS standard.
+However, a proliferation of differing predefined formats and variations of
+existing formats has recently occurred. A high performance graphics accelerator
+is typically required to support many of the differing predefined formats, even
+though the differing formats define similar drawing functions. Some prior graphics systems support the differing predefined formats by
+micro-coding the graphics accelerator to process geometry data according to
+many of the differing predefined formats. In such systems, the graphics
+accelerator includes micro-code tasks for disassembling and translating the
+differing formats prior to rendering the corresponding graphics elements.
+Unfortunately, such micro-code tasks greatly increase the size and complexity of
+the graphics accelerator micro-code, thereby increasing graphics accelerator cost
+and decreasing rendering performance.Other prior graphics systems support the differing predefined formats by
+employing the host processor to translate the differing formats into a simplified
+format for the graphics accelerator. Unfortunately, the format translation by the
+host processor is a system bottleneck that may severely decrease throughput to
+the graphics accelerator, thereby decreasing overall graphics system
+performance.C.R. PRIEM : 'Developping the GX Graphics Accelerator Architecture', IEEE MICRO, February
+1990, pages 44 to 54 discloses an architecture of a graphics accelerator comprising a FBC
+(Frame Buffer Controller) for rendering and drawing algorithms and a TEC (Transformation
+Engine and Cursor Chip) for 3D
+</DESCRIPTION>
+<CLAIMS>
+A method of preprocessing graphics geometry data in a
+graphics accelerator (24), comprising the steps of:
+
+
+reading a set of translation parameters from
+reformatting control registers (552), said translation
+
+parameters specifying translation operations and a data
+format for a reformatted vertex packet;
+receiving an input vertex packet over the host bus (28)
+and storing the input vertex packet in a bucket buffer (542),
+
+the input vertex packet containing geometry input data that
+defines a geometry object;
+generating the reformatted vertex packet by reading the
+input vertex packet from the bucket buffer(542), translating
+
+the input vertex packet according to the translation
+parameters into said reformatted vertex packet, and storing
+
+the reformatted vertex packet in a vertex buffer (549);
+generating an output geometry packet by reading the
+reformatted vertex packet from the vertex buffer (549),
+
+translating the reformatted vertex packet according to the
+translation parameters into said output geometry packet, and
+
+transferring the output geometry packet to a floating-point
+processor (40-45) over a command to floating-point processor
+
+bus (82), and 
+characterised in that
+,
+prior to the reading step, the set of translation
+parameters is received from a host processor (20) over a host
+
+bus (28), and is stored in reformatting control registers;
+and 
+in that
+the step of receiving an input vertex packet over the
+host bus (28) comprises the step of performing a direct 
+
+memory access (546) over the host bus (28) to read the input
+vertex packet from a geometry data array stored in a memory
+
+subsystem (22) coupled to the host bus (28).
+The method of claim 1, wherein the translation
+parameters specify whether the reformatted vertex packet
+
+contains a primitive for a triangle, a vector, or a dot, such
+that the primitive for a triangle comprises three vertices in
+
+the reformatted vertex packet, the primitive for a vector
+contains two vertices in the reformatted vertex packet and
+
+the primitive for a dot contains one vertex in the
+reformatted vertex packet.
+The method of claim 1, wherein the translation
+parameters specify a set of tupples from the bucket buffer
+
+(542) for the reformatted vertex packet.
+The method of claim 1, wherein the translation
+parameters specify a vertex or constant register source for a
+
+header of the reformatted vertex packet.
+The method of claim 1, wherein the translation
+parameters specify a reordering of vertices contained in the
+
+input vertex packet in the bucket buffer (542).
+The method of claim 1, wherein the translation
+parameters specify at least one data conversion operation on
+
+the geometry input data. ,
+The method of claim 1, wherein the translation
+parameters specify at least one alternate tupple, such that
+
+the alternative tupples replace selected tupples from the
+geometry input data. 
+The method of claim 1, wherein the translation
+parameters specify a micr
+o-code dispatch table index for the
+floating-point processor (40-45).
+The method of claim 1, wherein the translation
+parameters specify a sub-element pick ID value for the
+
+reformatted vertex packet, such that a sub-element pick ID
+value is a label specifying a particular atomic graphics
+
+primitive within an aggregate graphics primitive.
+An apparatus for preprocessing graphics geometry data in
+a graphics accelerator (24) comprising:
+
+
+means (30) for receiving a set of translation parameters
+from a host processor (20) over a host bus (28), the
+
+translation parameters specifying translation operations and
+a data format for a reformatted vertex packet;
+means (541) for receiving an input vertex packet over
+the host bus (28), and storing the input vertex packet in a
+
+bucket buffer (542), the input vertex packet containing
+geometry input data that defines a geometry object;
+means (543,544,545) for generating the reformatted vertex packet
+by reading the input vertex packet from the bucket buffer
+
+(542), translating the input vertex packet according to the
+translation parameters into said reformatted vertex packet
+
+and storing the reformatted vertex packet in a vertex buffer
+(549,540);
+means (547,548) for generating an output geometry
+packet by reading the reformatted vertex packet from the
+
+vertex buffer (549), translating the reformatted vertex
+packet according to the translation parameters into said
+
+output geometry packet, and transferring the output geometry 
+packet to a floating-point processor (40-45) over a command
+
+to floating-point processor bus (82).
+The apparatus of claim 10, wherein the means (541) for
+receiving an input vertex packet over the host bus (28)
+
+comprises means for performing a direct memory access over
+the host bus (28) to read the input vertex packet from a
+
+geometry data array stored in a memory subsystem (22) coupled
+to the host bus (28).
+The apparatus of claim 10, wherein the translation
+parameters are stored in a register (200) that specifies
+
+whether the reformatted vertex packet contains a primitive
+for a triangle, a vector, or a dot, such that the primitive
+
+for a triangle comprises three vertices in the reformatted
+vertex packet, the primitive for a vector contains two
+
+vertices in the reformatted vertex packet, and the primitive
+for a dot contains one vertex in the reformatted vertex
+
+packet.
+The apparatus of claim 10, wherein the translation
+parameters are stored in a register that specifies a set of
+
+tupples from the bucket buffer for the reformatted vertex
+packet.
+The apparatus of claim 10, wherein the translation
+parameters are stored in a register that specifies a vertex
+
+or constant register source for a header of the reformatted
+vertex packet.
+The apparatus of claim 10, wherein the translation
+parameters are stored in a register that specifies a 
+
+reordering of vertices contained in the input vertex packet
+in the bucket buffer.
+The apparatus of claim 10, wherein the translation
+parameters are stored in a register that specifies at least
+
+one data conversion operation on the geometry input data.
+The apparatus of claim 10, wherein the translation
+parameters are stored in a register that specifies at least
+
+one alternate tupple, such that the alternative tupples
+replace selected tupples from the geometry input data.
+The apparatus of claim 10, wherein the translation
+parameters are stored in a register that specifies a micro-code
+
+dispatch table index for the floating-point processor.
+The apparatus of claim 10, wherein the translation
+parameters are stored in a register that specifies a sub-element
+
+pick ID value for the reformatted vertex packet,
+such that a sub-element pick ID value is a label specifying a
+
+particular atomic graphics primitive within an aggregate
+graphics primitive.
+</CLAIMS>
+</TEXT>
+</DOC>

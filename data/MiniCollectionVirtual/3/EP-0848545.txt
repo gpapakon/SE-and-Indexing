@@ -1,0 +1,230 @@
+<DOC>
+<DOCNO>EP-0848545</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method for estimating and adjusting digital image contrast
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T500	G06T500	G06T700	G06T700	H04N1407	H04N1407	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	G06T	G06T	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T5	G06T5	G06T7	G06T7	H04N1	H04N1	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method of estimating the scene contrast
+from a digital image, the method comprises the steps
+
+of: forming a Laplacian histogram distribution;
+determining, from the Laplacian histogram, first and
+
+second thresholds which eliminate substantially uniform
+areas or a substantially textured portion of the
+
+digital image; selecting pixels which are based on the
+first and second thresholds from the digital image;
+
+forming a histogram from the sampled pixels; computing
+a standard deviation of the sampled histogram; and
+
+estimating contrast of the digital image by comparing
+the computed standard deviation with a predetermined
+
+contrast for determining contrast of the input image in
+relationship with the predetermined contrast.
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+EASTMAN KODAK CO
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+EASTMAN KODAK COMPANY
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+KWON HEEMIN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LEE HSIEN-CHE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KWON, HEEMIN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LEE, HSIEN-CHE
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to digital
+imaging processing and, more particularly, to a method
+for estimating and thereafter adjusting contrast of a
+digital image.The disclosure in the appendix of this patent
+document contains material to which a claim of
+copyright protection is made. The copyright owner has
+no objection to the facsimile reproduction of any one
+of the patent documents or the patent disclosure, as it
+appears in the U.S. Patent and Trademark Office patent
+file or records, but reserves all other rights
+whatsoever.A typical digital imaging system captures an
+image and, after various automatic or interactive
+manipulations, displays the image on a monitor or
+prints a hardcopy of the image both for permitting
+human visual viewing. The perceived contrast of the
+printed or displayed image, as a pleasing reproduction
+of the original scene contrast, depends mainly on two
+factors: the scene contrast and the system reproduction
+contrast.The scene contrast is affected by the scene
+illumination (the lighting contrast), the distribution
+of object reflectance factors (the object contrast),
+and the distribution of object color (the color
+contrast).The system reproduction contrast is
+determined by the various steps along the imaging
+chain, such as sensor calibration, tone scale mapping, 
+and output device characteristics. In order to achieve
+automatic contrast adjustment in digital
+photofinishing, one needs a method for estimating the
+scene contrast, and based on this estimate, a method
+for adjusting the reproduced image contrast or system
+contrast for optimal visual reproduction.US-A-4,731,671 teaches a method for contrast
+adjustment in digital image processing. This method
+creates a plurality of predetermined Laplacian response
+intervals and then computes the Laplacian for each
+pixel in an input image. The code value for each pixel
+in the image is then placed in its corresponding
+Laplacian response interval for accumulating several
+code value histograms, one for each Laplacian response
+interval. It then selects the histogram whose shape is
+closest to a normal distribution The standard
+deviation of the selected histogram is taken as an
+estimate of the scene contrast. The standard deviation
+is used as an estimate of the scene contrast because of
+the correlation between the standard deviation and the
+scene contrast. That is, a high standard deviation
+corresponds to a high scene contrast and a low standard
+deviation corresponds to a low scene contrast.The estimated contrast is then compared with
+a
+</DESCRIPTION>
+<CLAIMS>
+A method of estimating the scene
+contrast from a digital image, the method comprising
+
+the steps of:
+
+a) forming a Laplacian histogram
+distribution;
+b) determining, from the Laplacian
+histogram, first and second thresholds which eliminate
+
+substantially uniform areas or substantially textured
+portion of the digital image;
+c) selecting pixels which are based on the
+first and second thresholds from the digital image;
+d) forming a histogram from the sampled
+pixels;
+e) computing a standard deviation of the
+sampled histogram; and
+f) estimating contrast of the digital image
+by comparing the computed standard deviation with a
+
+predetermined contrast for determining contrast of the
+input image in relationship with the predetermined
+
+contrast.
+The method of claim 1, wherein the step
+of determining the first and second thresholds includes
+
+finding a local maxima of a second derivative of the
+
+Laplacian histogram.
+The method of claim 1, wherein the step
+of selecting the pixels includes selecting the pixels
+
+that exceed substantially the first threshold.
+The method of claim 1, wherein the step
+of selecting the pixels includes selecting the pixels
+
+that are less than substantially the second threshold.
+A method of estimating the scene contrast
+from a digital image, the method comprising the steps
+
+of:
+
+a) forming a Laplacian histogram
+distribution;
+b) determining, from the Laplacian
+histogram, first and second thresholds;
+c) selecting pixels which are based on the
+first and second thresholds from the digital image;
+d) forming a histogram from the sampled
+pixels;
+e) forming a target histogram from the
+sampled histogram by convolving the sampled histogram
+
+with a pre-defined function; and
+f) constructing a tone scale curve by
+transforming the sampled histogram to the target
+
+histogram.
+The method as in claim 13, wherein the
+step of forming a target histogram includes convolving
+
+the sampled histogram with a Gaussian distribution.
+The method as in claim 14, wherein the
+step of forming a target histogram includes convolving
+
+the sampled histogram with the Gaussian distribution
+having a standard deviation substantially the same as
+
+the sampled histogram.
+A finite-difference method for
+constructing a transformation curve, y(x) that maps an
+
+input histogram K(x) to an output target histogram
+Q(y), so that the instantaneous slope of the curve is
+
+within specified limits, the method comprising the
+steps of:
+
+
+a) choosing a fixed point (x0, y0) where x0
+corresponds to a predetermined percentile of the input
+
+histogram K(x) and y0 corresponds to the same
+predetermined percentile of the output target histogram
+
+Q(y);
+b) defining a slope function, S(x,y), as the
+ratio of the input histogram K(x), to that of the
+
+target histogram Q(y); and
+c) computing the transformation curve, step
+by step, for N points on the input histogram, xi, i= 1
+
+to N, using the equation: y(xi+1) = y(xi) + S(xi,y(xi))
+(xi+1 - xi), starting with y(x1) = y(x0) + S(x0, y(x0))
+
+(x1 - x0) where y(x0)=x0; at each step, the value of the
+slope function, S(xi,y(xi)) is maintained between the
+
+specified limits.
+A method for excluding pixels from a
+uniform portion or a texture portion of a digital
+
+image, comprising the steps of:
+
+a) forming a Laplacian histogram
+distribution;
+b) determining, from the Laplacian
+histogram, first and second thresholds which eliminate
+
+substantially the uniform portion or substantially the
+textured portion of the digital image; and
+c) selecting pixels which are based on the
+first and second thresholds from the digital image.
+The method of claim 22, wherein the step
+of determining the first and second thresholds includes
+
+finding a local maxima of a second derivative of the
+Laplacian histogram.
+</CLAIMS>
+</TEXT>
+</DOC>

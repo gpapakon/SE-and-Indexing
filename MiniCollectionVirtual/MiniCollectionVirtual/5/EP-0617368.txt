@@ -1,0 +1,323 @@
+<DOC>
+<DOCNO>EP-0617368</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Arbitration process for controlling data flow through an I/O controller
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1336	G06F13362	G06F1320	G06F1330	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F13	G06F13	G06F13	G06F13	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An arbiter of an I/O controller implements an 
+arbitration process for controlling bi-directional data flow 
+
+between a local area network and a main memory connected to 
+a system bus having variable latency. A receive state 
+
+machine of the controller manages inbound data bursts from 
+the network by temporarily storing the data in a receive 
+
+buffer before transfer to the main memory. Outbound data 
+bursts from the main memory are managed by a 
+transmit
+ state 
+machine of the controller, and are temporarily stored in a 
+
+transmit buffer prior to transmission onto the network. The 
+arbitration process assigns each of the 
+receive
+ and 
+transmit
+ 
+state machines priority for accessing the system bus 
+
+depending upon certain status conditions of the controller. 
+These conditions include: (i) whether one or both of the 
+
+state machines are contending for access to the system bus; 
+(ii) whether the controller is configured for full-duplex or 
+
+half-duplex communication over the network; (iii) the current 
+status of the transmit and receive network ports; and (iv) 
+
+the current state of the receive and transmit buffers. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+DIGITAL EQUIPMENT CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+DIGITAL EQUIPMENT CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+DANIELY GADY
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KAMAKRISHNAN KADANGODE K
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WERTHEIMER AVIAD
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YANG HENRY S
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DANIELY, GADY
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KAMAKRISHNAN, KADANGODE K.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WERTHEIMER, AVIAD
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YANG, HENRY S.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates generally to the transfer of data
+through an I/O controller of a computer system and, more
+particularly, to an arbitration process for accessing a
+shared resource of the computer to enable bi-directional data
+flow through the I/O controller.An I/O controller, such as a disk controller or a
+network controller, typically moves data between a disk
+subsystem or a network subsystem, and other units of a
+computer system. When inbound data is received from the
+subsystem, the controller typically transfers the data to a
+main memory unit, to await further processing. The memory
+unit may be connected to a system bus, which is shared by
+other units of the computer connected thereto. Outbound
+data, retrieved from the memory unit, are subsequently
+transferred by the controller to the subsystem. A DMA
+function located on the controller directs the movement of
+data through the controller. Within the DMA function, there
+is typically a set of data paths and a control function, the
+latter often being implemented by a state machine. The data 
+paths and the state machine may also be shared between the
+inbound and outbound data transfers. Consequently, the main
+memory, the system bus and the DMA function may be
+considered shared resources requiring arbitration to gain
+access to effectuate data transfers in different directions.The controller is typically configured for half-duplex
+communication with the subsystem, i.e., it is capable of
+either transmitting and receiving data at any given time, but
+not simultaneously. However, the controller can be
+configured for full-duplex communication to transmit outbound
+data and receive inbound data at the same time. For either
+type of communication, the controller must be capable of
+transmitting and receiving "blocks" of data to and from the
+subsystem. A block of data may represent a fixed group of
+data for the disk or a fixed packet of data for the network.Inbound data received from the subsystem are moved
+through the controller and onto the system bus in accordance
+with direct memory access (DMA) transfers on the bus. A DMA
+transfer typically involves (i) a request for access to a
+shared resource followed by a subsequent grant of access, and
+(ii) a "burst" of data of a predetermined size. Because it
+may be busy performing operations with other units of the
+computer system, the shared resource is not always
+immediately available for use. The time between when a 
+request is issued to access the shared resource and when
+access to that resource is granted
+</DESCRIPTION>
+<CLAIMS>
+In a computer system, a method for managing bi-directional
+data flow between a shared resource (15) and a
+
+subsystem through an I/O controller (20) having a receive
+buffer (210) and a transmit buffer, (220) said method
+
+comprising the steps of:
+
+   initiating one of an inbound transfer of data to said
+shared resource and an outbound transfer of data from said
+
+shared resource in response to status inquiries of said
+controller comprising:
+
+
+(i) determining (32) whether requests for one of said
+inbound transfer and said outbound transfer are pending and
+
+initiating said transfer of said pending request;
+(ii) if each said requests is pending, determining
+(40)whether one of transmission and reception of data blocks
+
+with said subsystem is pending, and initiating said inbound
+transfer when s
+aid transmission is not pending; and
+(iii) if each said transmission and said reception is
+pending, determining whether occupancy criteria for said
+
+receive buffer and said transmit buffer are satisfied, and
+when said occupancy criteria are not satisfied for said
+
+receive buffer but are satisfied for said transmit buffer,
+initiating (42) said inbound transfer, and when said
+
+occupancy criteria are satisfied for said receive buffer, 
+initiating (44) said outbound transfer,
+
+   whereby said method increases the efficiency of data
+flow through said controller by minimizing overflow of said
+
+receive buffer and underflow of said transmit buffer, and
+preventing transmission starvation.
+The method of Claim 1 wherein said status inquiries
+further comprise, if each said requests are pending:
+
+   determining (44) whether said controller is configured
+for one of full-duplex and half-duplex communication with
+
+said subsystem.
+The method of Claim 2 wherein said status inquiries
+further comprise, if said controller is configured for full-duplex
+
+communication:
+
+   initiating (58) one of said inbound transfer and said
+outbound transfer in accordance with a round-robin scheduling
+
+technique when said transmission and said reception are not
+pending.
+A process for accessing a shared resource of a
+computer to enable bi-directional data flow between said
+
+shared resource and a subsystem through an I/O controller,
+said I/O controller including a receive buffer and a transmit
+
+buffer, said process comprising the steps of: 
+
+issuing one of a receive request for initiating an
+inbound transfer of data from said receive buffer to said
+
+shared resource and a transmit request for initiating an
+outbound transfer of data from said shared resource to said
+
+transmit buffer;
+assigning priority access to said shared resource to one
+of said receive request and said transmit request in response
+
+to a plurality of status inquiries including:
+
+(i) whether said transmit and receive requests are
+currently pending;
+(ii) whether said controller is configured for one
+of full-duplex and half-duplex communication with said
+
+subsystem;
+(iii) whether one of transmission and reception of
+data with said subsystem is pending; and
+(iv) whether predetermined occupancy criteria of
+said receive and transmit buffers are satisfied; and
+
+   accessing said shared resource in response to said
+status inquiries so as to initiate one of said inbound burst
+
+and said outbound burst with said shared resource.
+A method for accessing a shared resource of a
+computer to enable bi-directional data flow through a
+
+controller connected between a subsystem and said shared 
+resource, the subsystem configured to operate on a large
+
+packet of data and said shared resource configured to operate
+on a small burst of data, said method comprising the steps
+
+of:
+
+   receiving a packet of inbound data from the subsystem at a
+receive buffer of said controller;
+
+
+transmitting a packet of outbound data to the subsystem
+from a transmit buffer of said controller;
+assigning priority access to said shared resource to one
+of a receive request for initiating an inbound burst of data
+
+from said receive buffer to said shared resource and a
+transmit request for initiating an outbound burst of data
+
+from said shared resource to said transmit buffer in response
+to status inquiries of said controller; and
+accessing said shared resource in response to said step
+of assigning priority so as to initiate one of said inbound
+
+burst and said outbound burst,
+
+whereby said method increases the efficiency of data flow
+through said controller by minimizing overflow of said
+
+receive buffer and underflow of said transmit buffer, and
+preventing transmission starvation.
+The method of Claim 5 wherein the step of assigning
+priority comprises the steps of:
+
+
+determining whether said requests are pending for
+initiating said inbound burst and said outbound burst; and 
+if only one of said requests is pending, assigning
+priority access to the shared resource to said pending
+
+request;
+asserting a receive-last flag if said pending request is
+a receive request; and
+deasserting said receive-last flag if said pending
+request is a transmit request.
+Apparatus for accessing a shared resource (15) of a
+computer to enable bi-directional data flow through a
+
+controller (20) connected between a subsystem (12) and a
+shared resource (15), the subsystem configured to operate on
+
+a large packet of data and said shared resource configured to
+operate on a small burst of data, said apparatus comprising:
+
+
+means (26) for receiving a packet of inbound data from
+the subsystem at a receive buffer of said controller;
+means (28) for transmitting a packet of outbound data to
+the subsystem from a transmit buffer of said controller;
+means (25) for assigning priority to one of a receive
+request for initiating an inbound burst of data from said
+
+receive buffer to said shared resource and a transmit request
+for initiating an outbound burst of data from said shared
+
+resource to said transmit buffer in response to status
+conditions of said controller; and
+means for accessing said shared resource in response to 
+said means for assigning priority so as to initiate one of
+
+said inbound burst and said outbound burst,
+
+whereby said apparatus increases the efficiency of data flow
+through said controller by minimizing overflow of said
+
+receive buffer and underflow of said transmit buffer, and
+preventing transmission starvation.
+The apparatus of Claim 7 wherein said assigning
+means further includes means for determining which request
+
+was last granted access to said shared resource to initiate
+one of said inbound burst and said outbound burst, wherein
+
+said means for receiving inbound data comprises a first state
+machine of said controller, wherein said means for
+
+transmitting outbound data comprises a second state machine
+of said controller, wherein said means for assigning priority
+
+comprises an arbiter (25) of said controller.
+The apparatus of Claim 7 wherein said shared resource
+is a system bus, (15) wherein said shared resource is a main
+
+memory unit coupled to a system bus (24).
+The apparatus of Claim 7 wherein said subsystem is
+a disk subsystem, and wherein said determining means is a
+
+receive-last flag.
+</CLAIMS>
+</TEXT>
+</DOC>

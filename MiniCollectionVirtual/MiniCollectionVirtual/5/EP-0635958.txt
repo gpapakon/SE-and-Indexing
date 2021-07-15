@@ -1,0 +1,793 @@
+<DOC>
+<DOCNO>EP-0635958</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Design and managing method for communication networks
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04L1224	H04M300	H04L1256	H04L1224	H04Q300	H04Q300	H04M300	H04L1256	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04L	H04M	H04L	H04L	H04Q	H04Q	H04M	H04L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04L12	H04M3	H04L12	H04L12	H04Q3	H04Q3	H04M3	H04L12	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A designing and managing system for a
+communications network comprising a physical network
+
+and a logical network provides a designing system for
+flexibly corresponding to a traffic fluctuation
+
+through a simple procedure, and a managing system for
+quickly selecting an applicable communications path in
+
+response to a path connection request and a path
+capacity change request. The designing system
+
+comprises units (1 and 2) for respectively determining the
+topologies of the physical network and the logical
+
+network independently of traffic conditions, units (3 and 4)
+for setting the path capacities of the physical
+
+network and the logical network respectively based
+upon a long-term traffic demand and an actual request.
+
+The managing system comprises a unit for registering
+the limited number of detour path candidates, a unit
+
+for determining the existence of a detour path in
+response to a virtual path connection request, and a
+
+unit, provided in a start point node of a
+communications path, for determining the acceptability
+
+of a change in the capacity of a path based on a value
+of a space size of each link forming part of the
+
+communications path.
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+FUJITSU LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+FUJITSU LIMITED
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+ABE SHUNJI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+IWAKAWA AKINORI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NIU ZHISHENG
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ABE, SHUNJI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+IWAKAWA, AKINORI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NIU, ZHISHENG
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a method of
+designing a communications network comprising a
+physical network and a logical network, and to a
+method of managing the designed communications
+network. The designing method aims to have a system
+quickly and flexibly respond to, for example, the
+fluctuation of traffic using simple designing
+procedures by individually designing the topology and
+the capacity of the communications network. The
+managing method aims to shorten the time taken for
+selection of an applicable communications path in
+response to a request to connect a virtual path, and
+to enable the capacity to be altered, in response to a
+request to alter the capacity of a communications
+path, by quickly selecting one of a plurality of
+virtual paths defined between two nodes in the
+communications path.The present invention has been developed based on 
+the following background. First, the concept of a
+logical network has been introduced into the concept
+of an ATM network, that is, forming a communication
+network of a new generation. Second, the topology and
+the capacity of the logical network can be flexibly
+set and independently controlled. Third, as
+communications networks grow in scale and
+communications services are vigorously diversified, it
+has become very hard to precisely estimate the traffic
+demand and characteristics accommodated in a
+communications network, and their values are subject
+to constant changes.Thus, a conventional complicated optimization
+design method using a specific traffic pattern does
+not work effectively, and such a simple and flexible
+method of designing a communications network is needed
+which flexibly handles various traffic conditions.
+Since both a physical network and a logical network
+are required in designing a communications network,
+respective shares of both networks should be carefully
+considered to design the simplest possible network.According to the conventional technology of
+designing a communications network comprising a
+physical network and a logical network, the logical
+network is optimally designed, first based on a 
+specific traffic condition and request quality, and
+then in accordance with the result the physical
+network is designed for optimal accommodation.
+Accordingly, if a traffic condition or a request
+quality of a service is changed, then the above
+described design cycle must be reconsidered from the
+very beginning, thereby falling into the problem that
+traffic fluctuation cannot be quickly reflected.Furthermore, with remarkable progress in
+informati
+</DESCRIPTION>
+<CLAIMS>
+A communications network wherein
+
+   said communications network has a physical network
+and a logical network established among a plurality of
+
+nodes, and
+
+   said communications network comprises a traffic and
+topol
+ogy independent communications network designing
+system, comprising:
+
+
+physical network topology designing means (1) for
+setting a topology of the physical network independently
+
+of a traffic condition of the communications network by
+executing a physical network topology design algorithm
+
+according to contents of a first database (35);
+logical network topology designing means (2) for
+setting a topology of the logical network independently
+
+of the traffic condition by executing a logical network
+topology design algorithm according to data on a number
+
+of nodes stored in the first data base (35);
+physical network capacity setting means (3), coupled
+to said physical network topology designing means, for
+
+setting, based on a long-term traffic demand in the
+communications network, a capacity of a physical
+
+transmission line in the physical network having the
+topology defined by said physical network topology
+
+designing means, by executing a physical network capacity
+design algorithm; and
+
+logical network capacity setting means (4), coupled to
+said logical network topology designing means, for
+
+setting, based on an actual traffic demand in the
+communications network, a capacity of a virtual path in 
+
+the logical network having the topology defined by said
+logical network topology designing means, by executing a
+
+logical network capacity design algorithm using a short-term
+traffic demand stored in a second data base (36),
+
+
+characterised in that
+ said physical network topology designing means
+(1) is adapted to design the topology of the physical
+
+network corresponding to the topology of the logical
+network topology designed by said logical network
+
+topology designing means (2), by:
+making a number of physical transmission links
+accommodated in each of a plurality of cross-connects to
+
+not exceed a predetermined value in a topology of a
+network whose number of physical transmission links
+
+connecting said plurality of cross-connects in the
+physical network corresponding to either a start
+
+connection point, an end connection point or an
+intermediate connection point of each virtual path
+
+connection connecting start and end points of each of
+virtual paths required in the logical network is a
+
+minimum;
+making a total number of the physical transmission
+links to realize all virtual path connections to be a
+
+minimum when counted for each virtual path connection;
+and
+making a total length of the physical transmission
+links to be a minimum.
+The communications network according to claim 1,
+wherein
+
+   corresponding to the topology of the logical network
+topology designed independently of the traffic condition,
+
+said logical network topology designing means (2) is
+adapted to set path information including an
+
+identification number and route information of each 
+virtual path required in the logical network, to set to
+
+"0" a capacity of a path as a part of the path
+information, and to enable an optional virtual path to be
+
+used by only assigning the capacity without selecting a
+route at a time of using the virtual path in actual
+
+communications.
+The communications network according to claim 1,
+further comprising:
+
+   long-term demand change detecting means for
+detecting a change in a long-term traffic demand and
+
+requesting said physical network capacity setting means
+(3) to redesign the capacity of the transmission line in
+
+the physical network when a change amount of the long-term
+demand exceeds a predetermined value.
+The communications network according to claim 3,
+wherein
+
+   said long-term demand change detecting means is
+adapted to monitor a use rate of each of a plurality of
+
+transmission lines through accommodation of virtual paths
+in the physical network and to request a redesign of the
+
+capacity of the transmission line in the physical network
+when the use rate is higher than a predetermined upper
+
+limit or lower than a predetermined lower limit, that is,
+when the change amount of the long-term demand is other
+
+than the predetermined value.
+The communications network according to claim 1,
+further comprising:
+
+   actual traffic demand change detecting means for
+detecting a fluctuation in an actual traffic demand and
+
+requesting said logical network capacity setting means
+(4) to redesign the capacity of virtual paths in the 
+
+logical network when a fluctuation amount of the actual
+traffic demand exceeds a predetermined value.
+The communications network according to claim 5,
+wherein
+
+   said actual traffic demand change detecting means is
+adapted to monitor a lost-call rate, a discarded-cell
+
+rate, and a cell delay time in the physical network
+through accommodation of virtual paths in the logical
+
+network and to request a redesign of the capacity of the
+virtual path in the logical network when the lost-call
+
+rate, the discarded-cell rate, or the cell delay time is
+higher than a predetermined upper limit, that is, when
+
+the fluctuation amount of the actual traffic demand
+exceeds the predetermined value.
+The communications network according to claim 1,
+wherein
+
+   said communications network has a logical network
+established among a plurality of nodes, and
+
+   said communications network comprises a network
+design management center for designing the logical
+
+network, comprising:
+
+a first signal processing means for receiving a
+traffic condition of the communications network from one
+
+of the nodes in the communications network and outputting
+traffic information;
+circuit control means for controlling a design
+change of a capacity of a virtual path based on said
+
+traffic information and a present capacity of the virtual
+path in the logical network;
+said logical network capacity setting means (4),
+
+wherein said logical network capacity setting means is
+for changing a design of the capacity of the virtual path 
+
+according to a virtual path capacity change request from
+said circuit control means by executing a logical network
+
+capacity design algorithm using a short-term traffic
+demand stored in the second data base (36);
+
+   a second signal processing means for outputting to
+the node a virtual path capacity design change
+
+instruction output from said logical network capacity
+setting means; and
+
+   said logical network topology designing means (2).
+The communications network according to claim 7,
+wherein
+
+   said circuit control means comprises:
+
+comparing means for comparing the traffic
+information from the node with the present capacity of
+
+the virtual path;
+determining means coupled to said comparing means,
+for determining whether or not a redesigning should be
+
+performed based on an output of said comparing means and
+a redesign determination criterion; and
+redesigning request means, coupled to said
+determining means, for requesting according to an output
+
+of said determining means, said logical network capacity
+setting means to change said design of the capacity of
+
+the virtual path of the logical network.
+The communications network according to claim 7,
+further comprising:
+
+
+actual traffic demand change detecting means for
+detecting a fluctuation in an actual traffic demand and
+
+requesting said logical network capacity setting means
+(4) to redesign the capacity of virtual paths in the
+
+logical network when a fluctuation amount of the actual
+traffic demand exceeds a predetermined value.
+The communications network according to claim 9,
+wherein
+
+   said actual traffic demand fluctuation detecting
+means is adapted to monitor a lost-call rate, a
+
+discarded-cell rate, and a cell delay time in the
+physical network through accommodation of virtual paths
+
+in the logical network and to request said logical
+network capacity setting means to redesign the capacity
+
+of the virtual path in the logical network when the lost-call
+rate, the discarded-cell rate, or the cell delay
+
+time is higher than a predetermined upper limit, that is,
+when a fluctuation amount of the actual traffic demand
+
+exceeds the predetermined value.
+The communications network according to claim 1,
+wherein
+
+   said communications network has a physical network
+and a logical network established among a plurality of
+
+nodes, and
+
+   said communications network comprises a
+communications node, comprising:
+
+
+storing means for storing corresponding to a
+transmission line in the physical network, a band
+
+capacity of each virtual path in the logical network
+passing through the transmission line in the physical
+
+network; and
+call acceptability determining means for determining
+acceptability of a band capacity of a communication call
+
+from a terminal within a maximum capacity of the band
+capacity of the virtual path of the transmission line of
+
+the physical network determined for a communication
+destination requested by the terminal, wherein 
+said band capacity stored in said storing means is
+changed when a virtual path band capacity change
+
+notification is issued.
+The communications network according to claim 11,
+wherein
+
+   said virtual path band capacity change notification
+received by the communications node is issued by a
+
+network design managing center for designing the logical
+network.
+The communications network according to claim 1,
+wherein
+
+   said communications network has a physical network
+established among a plurality of nodes, and
+
+   said communications network comprises a network
+design managing center for designing the physical
+
+network, comprising:
+
+a first signal processing unit for receiving traffic
+information of the communications network;
+circuit control means for controlling a capacity
+design change of a transmission line of the physical
+
+network based on the traffic information received from
+said first signal processing unit and a present capacity
+
+of the physical network;
+said physical network topology designing means (1);
+and
+said physical network capacity setting means (3),
+
+wherein said physical network capacity setting means is
+for setting the capacity of said transmission line of the
+
+physical network of the topology set by said physical
+network topology designing means by executing a physical
+
+network capacity design algorithm and changing a capacity
+design of the transmission line according to a physical 
+
+transmission line capacity change request from said
+circuit control means by executing a logical network
+
+capacity design algorithm using a short-term traffic
+demand stored in the second data base (36).
+The communications network according to claim 13,
+further comprising:
+
+
+long-term demand change detecting means for
+detecting a change in a long-term traffic demand and
+
+requesting said physical network capacity setting means
+(3) to redesign the capacity of the transmission line of
+
+the physical network when a change amount of the long-term
+demand exceeds a predetermined value.
+The communications network according to claim 14,
+wherein
+
+   said long-term demand change detecting means is
+adapted to monitor a use rate of the transmission line
+
+through accommodation of virtual paths in the physical
+network and to request said physical network capacity
+
+setting means to redesign the capacity of the
+transmission line in the physical network when the use
+
+rate is higher than a predetermined upper limit or lower
+than a predetermined lower limit, that is, when a change
+
+amount of the long-term demand is other than the
+predetermined value.
+The communications network according to claim 1,
+wherein
+
+   said communications network has a physical network
+and a logical network with topologies and capacities of
+
+the physical network and the logical network
+independently designed, and
+ 
+   said communications network comprises a
+
+communications network managing system, wherein
+
+   each node in the communications network comprises:
+
+band managing means for managing a band of a
+physical transmission link from one node to an adjacent
+
+node in the physical network after dividing the band into
+a reserved area to be assigned to a high-priority virtual
+
+path having a high-priority communication among a
+plurality of virtual paths through which communications
+
+are performed through a transmission link in the logical
+network, and a shared band to be used regardless of
+
+priority of the communications; and
+communications path connection request acceptability
+determining means (6) for determining acceptability of a
+
+connection request for a communications path starting
+from one node only in the shared band when the connection
+
+request is related to a low-priority communication and
+both in the shared band and the reserved band when the
+
+connection request is related to a high-priority
+communication.
+The communications network according to claim 16,
+further comprising:
+
+
+detour path candidate registering means (7) for
+preliminarily registering a plurality of communications
+
+path candidates which are available for the connection
+request for a communication path and providing the
+
+communications path candidates for said communications
+path connection request acceptability determining means
+
+(6) at a determination of the acceptability in response
+to the connection request for a communication path.
+The communications network according to claim 17,
+wherein
+ 
+   said detour path candidate registering means (7) is
+
+adapted to unconditionally select and register a
+predetermined number of communications paths as detour
+
+path candidates which meet a communications path
+condition indicated by the connection request from all
+
+communications paths from start-point nodes to end-point
+nodes of the communications path, and
+
+   said communications path connection request
+acceptability determining means (6) is adapted to
+
+unconditionally select one communications path candidate
+from the detour path candidates, determine the
+
+acceptability in response to the connection request for a
+communication path, allocate to a selected communications
+
+path a band indicated by the connection request if the
+connection request is acceptable, and repeat determining
+
+the acceptability of another detour path candidate after
+selecting it from the detour path candidates registered
+
+in said detour path candidate registering means (7).
+The communications network according to claim 17,
+wherein
+
+   said detour path candidate registering means (7) is
+adapted to sequentially register the predetermined number
+
+of communications paths in an ascending order starting
+from a shortest length to a longest length of the
+
+physical transmission link corresponding to the
+communications path as detour path candidates which meet
+
+a communications path condition indicated by the
+connection request for a communication path among all
+
+communications paths from start-point nodes to end-point
+
+nodes of the communications path, and
+
+   said communications path connection request
+acceptability determining means (6) is adapted to select
+
+a detour path candidate having a shortest length of the 
+physical transmission link from the detour path
+
+candidates, determine the acceptability in response to
+the connection request, allocate to a selected
+
+communications path a band indicated by the connection
+request if the request is acceptable, and repeat
+
+determining the acceptability of detour path candidate in
+response to the connection request after selecting from
+
+the shortest to the longest length of the physical
+transmission link, the detour path candidate from the
+
+detour path candidates registered in said detour path
+candidate registering means.
+The communications network according to claim 17,
+wherein
+
+   said detour path candidate registering means (7) is
+adapted to sequentially register the predetermined number
+
+of communications paths from a smallest number to a
+largest number of the physical transmission links as
+
+detour path candidates which meet a communications path
+condition indicated by the connection request for a
+
+communication path among all communications paths from
+start-point nodes to end-point nodes of the
+
+communications path; and
+
+   said communications path connection request
+acceptability determining means (6) is adapted to select
+
+a communications path having a smallest number of the
+physical transmission links from the detour path
+
+candidates, determine the acceptability in response to
+the connection request, allocate to a selected detour
+
+path candidate a band indicated by the connection request
+if the request is acceptable, and repeat determining the
+
+acceptability of detour path candidate after selecting
+from the smallest number of the physical transmission
+
+links the detour path candidate from the detour path 
+candidates registered in said detour path candidate
+
+registering means.
+The communications network according to claim 1,
+wherein
+
+   said communications network has a physical network,
+and
+
+   said communications network comprises a
+communications network managing system, comprising:
+
+
+information packet sending means (8), provided in an
+end-point node of a communications path set to pass
+
+through optional nodes among a plurality of nodes in the
+communications network, for sending through the
+
+communications path an information packet in which spare
+capacity information about the communications path is
+
+sent toward a start-point node of the communications
+path;
+spare capacity information adding means (9),
+provided in each node in the communications path, for
+
+adding spare capacity information in the communications
+path toward an adjacent node to the information packet
+
+received from the adjacent node, and sending the
+information back to the start-point node through the
+
+communications path; and
+capacity change determining means (10), provided in
+the start-point node in the communications path, for
+
+determining based on contents of the information packet
+acceptability of a communication capacity change request
+
+for the communications path, wherein
+said capacity change determining means (10) is
+adapted to select a communications path satisfying the
+
+communication capacity change request, in response to the
+communication capacity change request, from a plurality
+
+of communications paths between start-point nodes and 
+end-point nodes according to a determination result of
+
+said capacity change determining means.
+The communications network according to claim 21,
+wherein
+
+   said capacity change determining means (10) is
+adapted to determine the acceptability of the
+
+communication capacity change request based on the
+contents of the information packet received at a
+
+plurality of time points.
+The communications network according to claim 22,
+wherein
+
+   said plurality of time points are two time points.
+The communications network according to claim 23,
+wherein
+
+   said capacity change determining means (10) is
+adapted to determine the acceptability of the
+
+communications capacity change request through a linear
+prediction based on the contents of the information
+
+packet received at the two time points.
+The communications network according to claim 22,
+wherein
+
+   said plurality of time points consists of three or
+more time points; and
+
+   said capacity change determining means (10) is
+adapted to determine the acceptability of the
+
+communication capacity change request based on existing
+change patterns of spare capacity in the communications
+
+path. 
+The communications network according to claim 25,
+wherein
+
+   said capacity change determining means (10) is
+adapted to determine the acceptability of the
+
+communication capacity change request based on the
+existing change pattern through a neural network.
+The communications network according to claim 1,
+wherein
+
+   said communications system has a physical network,
+and
+
+   said communications network comprises a
+communications network managing system, comprising:
+
+
+information packet sending means (8), provided in an
+end-point node of one communications path not completely
+
+included in another communications path among a plurality
+of communications paths set to pass through optional
+
+nodes in a plurality of nodes in the communications
+network, for sending through the communications path an
+
+information packet in which spare capacity information
+about the communications path is sent toward a start-point
+
+node of the communications path;
+spare capacity information adding means (9),
+provided in each node in the communications path not
+
+completely included in said another communications path,
+for adding spare capacity information in the
+
+communications path toward an adjacent node to the
+information packet received from the adjacent node, and
+
+sending the information back to the start-point node
+through the communications path; and
+capacity change determining means (10), provided in
+the start-point node in the communications path not
+
+completely included in said another communications path,
+and in the start-point node of the communications path 
+
+completely included in the communications path not
+completely included in another communications path among
+
+the nodes, for determining acceptability of a
+communication capacity change request for the
+
+communications path for which a present node is a start
+point, wherein
+said capacity change determining means (10) is
+adapted to select a communications path satisfying the
+
+communication capacity change request, in response to the
+communication capacity change request, from a plurality
+
+of communications paths between start-point nodes and
+end-point nodes according to a determination result of
+
+said capacity change determining means.
+</CLAIMS>
+</TEXT>
+</DOC>

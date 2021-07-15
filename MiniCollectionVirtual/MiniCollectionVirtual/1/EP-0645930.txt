@@ -1,0 +1,293 @@
+<DOC>
+<DOCNO>EP-0645930</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+METHOD AND APPARATUS FOR CODING IMAGE
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04N5926	H04N584	G06T900	H04N979	H04N979	H04N5926	H04N5781	H04N750	H04N730	H04N730	H04N9804	H04N746	H04N726	H04N585	H04N750	H04N5781	G06T900	H04N9804	H04N746	H04N726	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04N	H04N	G06T	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	G06T	H04N	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04N5	H04N5	G06T9	H04N9	H04N9	H04N5	H04N5	H04N7	H04N7	H04N7	H04N9	H04N7	H04N7	H04N5	H04N7	H04N5	G06T9	H04N9	H04N7	H04N7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Inputted image signals are coded, for example, by performing prediction encoding, DCT conversion, 
+quantization in predetermined quantization step sizes, and variable-length coding so as to generate first coded data. 
+
+From the amount of the first coded data per unit of time, for example, per frame or GOP and the total amount of data 
+usable, the amount of codes assigned per frame or GOP is determined. On the basis of this amount of codes assigned, 
+
+the inputted image signals are coded every given period of time to generate second coded data. Thus variable rate 
+coding in which the coding rate changes every period of time is implemented to provide high-quality images which are 
+
+uniform as a whole without increasing the quantization step sizes of images even though there are continuous frames 
+whose patterns are complicated, unlike a conventional apparatus. The second coded data thus generated are variable 
+
+rate ones. Therefore, by recording them on an image recording medium, it is possible to utilize a limited capacity of 
+storage effectively, and prolong the recording time of the image recording medium. Then, from this image recording 
+
+medium, it is possible to reproduce high-quality images which are uniform as a whole. 
+
+</ABSTRACT>
+<APPLICANTS>
+</APPLICANTS>
+<INVENTORS>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to encoding source video data.
+A preferred form of implementation of the invention
+described hereinbelow provides a picture encoding method
+and apparatus which are used in a system for implementing
+encoding for storage to a video signal of a moving picture
+to record the coded signal onto a picture recording medium
+such as an optical disc, a magnetic disc, or a magnetic
+tape, etc., or a system for transmitting a video signal of
+a moving picture through a transmission path.Hitherto, in a system for transmitting a video signal
+of a moving picture to a remote place, for example, as in
+the television conference system, the television telephone
+system, etc., or a system for recording a video signal of
+moving picture onto a picture recording medium such as an
+optical disc, a magnetic disc or magnetic tape, etc., or
+reproducing a recorded video signal of moving picture,
+there is adopted for the purpose of efficiently utilizing
+transmission path (or picture recording medium), a scheme
+to implement so called efficient encoding to a video signal
+by making use of correlation between lines or correlation
+between frames that video signal has to reduce 
+redundancies in the spatial axis direction and the time axis
+direction to transmit only significant information, thus to
+improve transmission efficiency.For example, in encoding processing in the spatial axis
+direction (hereinafter intra-frame coding processing), e.g.,
+correlation between lines of a video signal is utilized as shown
+in FIG. 7A. In the case of attempting to transmit respective
+pictures PC1, PC2, PC3 ··· constituting a moving picture at times
+t1, t2, t3 ···, picture data to be transmission-processed is
+caused to undergo one-dimensional coding, e.g., within the same
+scanning line, or a picture is divided into, e.g., a plurality
+of blocks to allow picture data of respective blocks to undergo
+two-dimensional coding to thereby carry out data compression,
+thus to improve transmission efficiency.Moreover, in coding processing in the time axis direction
+(hereinafter referred to as intra-frame coding processing),
+intra-frame correlation of video signal is utilized to determine,
+by so called predictive coding, for example, picture data PC12,
+PC23 ··· comprised of deficiencies (so called predictive errors)
+of picture data every corresponding pixels between adjacent
+pictures PC1 and PC2, PC2 and PC3 ··· in succession to transmit
+these picture data PC12, PC23, ··· to thereby carry out data
+compression, thus to improve transmission
+</DESCRIPTION>
+<CLAIMS>
+A method of encoding source video data, the method
+comprising the steps of:
+
+
+encoding (10) said source video data to generate first
+encoded data;
+detecting (31,32) a difficulty of encoding said source
+video data
+
+every predetermined time unit
+based on an amount of said first encoded data;
+deciding (33)
+a quantization step size every predetermined time unit on the
+
+basis of said amount of said first encoded data and the total
+quantity of data that may be used, said
+
+quantization step size
+being varied depending on said difficulty so that said
+
+quantization step size becomes smaller when said source
+video data is more complex and said quantization step size
+
+becomes larger when said source video data is more simple;
+and
+encoding (40) said source video data
+every predetermined time unit
+
+using said
+decided quantization step size.
+A method according to claim 1, wherein at least a
+portion of said source video data is quantized (16) by a
+
+fixed quantization step size to generate the first encoded
+data.
+A method according to claim 1 or claim 2, wherein the
+difficulty detection step comprises detecting (31) an
+
+amount of said first encoded data every predetermined time
+unit, and determining (32) an encoding rate every
+
+predetermined time unit on the basis of the total quantity
+of data and said amount of said first encoded data 
+
+detected every predetermined time unit.
+A method according to claim 3, wherein the determining
+(32) of the encoding rate comprises proportionally
+
+allocating the total quantity of data in dependence
+upon said amount of said first encoded data detected every
+
+predetermined time unit.
+A method according to claim 3 or claim 4, wherein the
+encoding rate is determined every one frame on the basis of
+
+the total quantity of data and the amount of said
+first encoded data detected every one frame.
+A method according to claim 3 or claim 4, wherein the
+encoding rate is determined every group of pictures (GOP)
+
+consisting of a plurality of frames on the basis of the
+total quantity of data and the amount of said first
+
+encoded data detected in at least a portion of every group
+of pictures (GOP).
+A method according to claim 6, wherein the encoding
+rate for every group of pictures (GOP) is determined on the
+
+basis of the amount of said first encoded data detected in
+an intra-frame encoded picture and a forward predictive
+
+encoded picture in the group of pictures (GOP).
+A method according to any one of claims 1 to 7,
+wherein: 
+
+
+a motion vector of a macro block of said source video
+data is detected (11);
+the first-mentioned encoding step (10) comprises
+encoding said macro block of said source video data using
+
+said detected motion vector to generate said first encoded
+data; and
+the second-mentioned encoding step (40) comprises
+encoding said macro block of said source video data using
+
+said optimum quantization step and said detected motion
+vector.
+A method according to any one of claims 1 to 7,
+wherein:
+
+
+a predictive mode of a macro block of said source
+video data is selected;
+the first-mentioned encoding step (10) comprises
+encoding said macro block of said source video data using
+
+said selected predictive mode to generate said first
+encoded data; and
+the second-mentioned encoding step (40) comprises
+encoding said macro block of said source video data using
+
+said optimum quantization step and said selected predictive
+mode.
+Apparatus for encoding source video data, the
+apparatus comprising:
+
+
+first encoding means (10) for encoding said source
+video data to generate first encoded data; 
+encoding control means (31,32) for detecting a
+difficulty of encod
+ing said source video data
+every predetermined time unit
+
+based on an
+amount of said first encoded data;
+quantization step size control means (33) for deciding
+a quantization step size every predetermined time unit on the
+
+basis of said amount of said first encoded data and the total
+quantity of data that may be used, said
+
+quantization step size being varied depending
+on said difficulty so that said quantization step size
+
+becomes smaller when said source video data is more complex
+and said quantization step size becomes larger when said
+
+source video data is more simple; and
+second encoding means (40) for encoding said source
+video data
+
+every predetermined time unit
+using said decided quantization step size.
+Apparatus according to claim 10, wherein the first
+encoding means (10) comprises quantizing means (16) for
+
+quantizing at least a portion of said source video data
+by a fixed quantization step size.
+Apparatus according to claim 10 or claim 11, wherein
+the encoding control means (31,32) comprises detection
+
+means (31) for detecting an amount of said first encoded
+data every predetermined time unit, and determining means
+
+(32) for determining an encoding rate every predetermined
+time unit on the basis of the total quantity of data
+
+and said amount of said first encoded data detected every
+predetermined time unit. 
+Apparatus according to claim 12, wherein the
+determining means (32) is operative proportionally to
+
+allocate the total quantity of data in dependence
+upon said amount of said first encoded data detected every
+
+predetermined time unit.
+Apparatus according to claim 12 or claim 13, wherein
+the encoding control means (31,32) is operative to
+
+determine the encoding rate every one frame on the basis of
+the total quantity of data and the amount of said
+
+first encoded data detected every one frame.
+Apparatus according to claim 12 or claim 13, wherein
+the encoding control means (31,32) is operative to
+
+determine the encoding rate every group of pictures (GOP)
+consisting of a plurality of frames on the basis of the
+
+total quantity of data and the amount of said first
+encoded data detected in at least a portion of every group
+
+of pictures (GOP).
+Apparatus according to claim 15, wherein the encoding
+control means (31,32) is operative to determine an encoding
+
+rate for every group of pictures (GOP) on the basis of the
+amount of said first encoded data detected in an intraframe
+
+encoded picture and a forward predictive encoded
+picture in the group of pictures (GOP).
+Apparatus according to any one of claims 10 to 16,
+wherein:
+
+
+means (11) is provided for detecting a motion vector 
+of a macro block of said source video data;
+said first encoding means (10) is operative to encode
+said macro block of said source video data using said
+
+detected motion vector to generate said first encoded data;
+and
+said second encoding means (40) is operative to encode
+said macro block of said source video data using said
+
+optimum quantization step and said detected motion vector.
+Apparatus according to any one of claims 10 to 16,
+wherein:
+
+
+means is provided for selecting a predictive mode of
+a macro block of said source video data;
+said first encoding means (10) is operative to encode
+said macro block of said source video data using said
+
+selected predictive mode to generate said first encoded
+data; and
+said second encoding means (40) is operative to encode
+said macro block of said source video data using said
+
+optimum quantization step and said selected predictive
+mode.
+</CLAIMS>
+</TEXT>
+</DOC>

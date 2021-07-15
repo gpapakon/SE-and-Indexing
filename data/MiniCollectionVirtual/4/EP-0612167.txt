@@ -1,0 +1,452 @@
+<DOC>
+<DOCNO>EP-0612167</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+METHOD AND APPARATUS FOR ACCURATELY ESTIMATING A CLOCK FREQUENCY AND FOR SIMULATING A PRECISION CLOCK OSCILLATOR.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04L7027	H04L7027	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04L	H04L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04L7	H04L7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method for estimating the frequency of the symbol clock in an 
+incoming signal so as to match the frequency of the local symbol 
+
+clock to the frequency of the remote symbol clock. An analog 
+front end (15) samples an incoming signal to provide a sampled 
+
+signal. A frequency estimator and clock recovery circuit (16) 
+recovers the symbol clock in the incoming signal and performs a 
+
+Discrete Time Fourier Transform (DTFT) at two frequencies, F1 
+and F2. The amplitude of the DTFT at F1 is compared with the 
+
+amplitude of the DTFT at F2 to provide an estimate of the 
+frequency of the symbol clock in the incoming signal. A master 
+
+clock (20) provides a clock signal to a clock adjustment circuit 
+(23), which divides the clock signal to provide the transmitter 
+
+symbol clock for the modem (10). The estimate of the frequency 
+of the symbol clock in the incoming signal is used to adjust the 
+
+divide ratio in the clock adjustment circuit (23) so that the 
+frequency of the transmitter symbol clock of the modem (10) 
+
+matches the frequency of the symbol clock of the incoming signal. 
+The present invention matches these frequencies within 10 parts 
+
+per million (ppm). Therefore, a precision symbol clock can be 
+generated using a master clock having an accuracy of only 100 
+
+ppm. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+HAYES MICROCOMPUTER PROD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+HAYES MICROCOMPUTER PRODUCTS, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+EASLEY MATTHEW F
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+RIFE DAVID C
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TJAHJADI TARUNA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+EASLEY, MATTHEW F.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+RIFE, DAVID C.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TJAHJADI, TARUNA
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to clock oscillators for 
+modems and more particularly to method and an apparatus for 
+accurately estimating a clock frequency and for generating a 
+symbol clock frequency which has a frequency extremely close to 
+the symbol clock frequency of a connected modem. When two quadrature amplitude modulation (QAM) 
+modems are communicating in a half-duplex mode they each 
+alternately transmit and receive. When a first modem is 
+receiving it synchronizes its sampling clock with the symbol rate 
+clock of the second, transmitting modem. When the first modem 
+is transmitting the receiver in this modem is not receiving a signal 
+from the second modem and the receiver sampling clock in the 
+first modem free-runs because it does not have a signal with 
+which it can synchronize. When the first modem completes 
+transmitting and the second modem resumes transmitting, the 
+receiver in the first modem will again have a signal with which it 
+can synchronize. Although the clocks in the first modem may be 
+very accurate (for example, within 10 ppm) they are not  
+ 
+absolutely accurate (0 ppm) and tend to drift, however slightly. 
+In addition, the clocks in the second modem may also be very 
+accurate, but are not absolutely accurate, and will also drift, 
+however slightly. If the clocks in the first and second modems 
+have approximately the same frequency, and if the relative drift 
+between these clocks is small, and if the transmission period is not 
+excessive then the two clocks will stay in synchronization, or 
+nearly so, and the receiver in the first modem will be able to 
+quickly resynchronize with the symbol clock in the second 
+modem when the second modem resumes transmitting. If the 
+drift is excessive then synchronisation will be lost and the first 
+modem will not be able to synchronize with the second modem. 
+The first modem will then have to instruct the second modem to 
+send a retraining sequence in order for the clock in the first 
+modem to resynchronize with the clock in the second modem. Generally, most or all of the clock signals in a 
+modem are derived from a common source, such as a crystal 
+oscillator. Therefore, unless some action is taken, all of the 
+clocks in the modem will tend to be off by the same degree, and 
+in the same direction, and will tend to drift similarly. In these 
+modems, in order for the sampling clock in the first modem to 
+stay synchronized with the symbol clock in the second modem 
+when the first modem is transmitting, the first modem will 
+generally use
+</DESCRIPTION>
+<CLAIMS>
+A method for matching a local clock to a remote 
+clock, comprising the steps of: 
+
+   receiving a incoming signal, said incoming signal 
+containing said remote clock, said remote clock having a remote 
+
+clock frequency; 
+   determining the magnitude of the Discrete Time 
+
+Fourier Transform (DTFT) of said remote clock at a first 
+frequency; 
+
+   determining the magnitude of the Discrete Time 
+Fourier Transform (DTFT) of said remote clock at a second 
+
+frequency; 
+   comparing said magnitude at said first frequency 
+
+with said magnitude at said second frequency to provide an 
+estimated remote clock frequency; 
+
+   generating said local clock; and 
+   adjusting the frequency of said local clock to be said 
+
+estimated remote clock frequency. 
+The method of Claim 1 wherein said step of 
+receiving said incoming signal comprises converting said 
+
+incoming signal at a predetermined sampling rate to provide a 
+digital incoming signal as said remote clock for said steps of 
+
+determining said magnitude. 
+The method of Claim 1 wherein said step of 
+receiving said incoming signal comprises: 
+
+   converting said incoming signal at a predetermined 
+sampling rate to provide a digital incoming signal; and 
+
+   processing said digital incoming signal in a non-linear 
+manner to provide a recovered remote clock as said remote 
+
+clock for said steps of determining said magnitude. 
+The method of Claim 1 wherein said first 
+frequency is below a predetermined frequency and said second 
+
+frequency is above said predetermined frequency. 
+The method of Claim 4 wherein said first 
+frequency is approximately 0.02 percent below a predetermined 
+
+reference symbol clock frequency and said second frequency is 
+approximately 0.02 percent above said predetermined reference 
+
+symbol clock frequency. 
+The method of Claim 2 or 3 wherein said step of 
+sampling is repeated at intervals of T to obtain N samples of said 
+
+incoming signal, and N*T is selected to be less than a 
+predetermined value. 
+An apparatus for matching a local clock to a 
+remote clock, comprising: 
+
+   first means for receiving an incoming signal, said 
+incoming signal containing said remote clock, said remote clock 
+
+having a remote clock frequency; 
+   second means, connected to said first means, for 
+
+determining the magnitude of a first Discrete Time Fourier 
+Transform (DTFT) of said remote clock at a first frequency, and 
+
+for determining the magnitude of a second DTFT of said remote 
+clock at a second frequency; 
+
+   third means for comparing said magnitude at said 
+first frequency with said magnitude at said second frequency to 
+
+provide an estimated remote clock frequency; 
+   a clock for generating said local clock; and 
+
+   fourth means for adjusting the frequency of said 
+local clock to be said estimated remote clock frequency. 
+The apparatus of Claim 7 and further comprising 
+means for processing said incoming signal in a non-linear manner 
+
+to provide a recovered remote clock as said remote clock to said 
+second means. 
+The apparatus of Claim 7 wherein said second 
+means comprises a microprocessor having a program for 
+
+performing Discrete Time Fourier Transforms. 
+The apparatus of Claim 7 wherein said third 
+means comprises a microprocessor having a program for 
+
+estimating said remote clock frequency based upon said 
+amplitudes. 
+A method for estimating the frequency of a 
+remote clock, comprising the steps of: 
+
+   receiving an incoming signal, said incoming signal 
+containing said remote clock; 
+
+   determining the magnitude of the Discrete Time 
+Fourier Transform (DTFT) of said remote clock at a first 
+
+frequency; 
+   determining the magnitude of the DTFT of said 
+
+remote clock at a second frequency; and 
+   comparing said magnitude at said first frequency 
+
+with said magnitude at said second frequency to provide an 
+estimated remote clock frequency for said incoming signal. 
+The method of Claim 11 wherein said step of 
+receiving said incoming signal comprises converting said 
+
+incoming signal at a predetermined sampling rate to provide a 
+digital incoming signal as said remote clock for said steps of 
+
+determining said magnitude. 
+The method of Claim 11 wherein said step of 
+receiving said incoming signal comprises: 
+
+   converting said incoming signal at a predetermined 
+sampling rate to provide a digital incoming signal; and 
+
+   processing said digital incoming signal in a non-linear 
+manner to provide a recovered remote clock as said remote 
+
+clock for said steps of determining said magnitude. 
+The method of Claim 11 wherein said first 
+frequency is below a predetermined frequency and said second 
+
+frequency is above said predetermined frequency. 
+The method of Claim 14 wherein said first 
+frequency is approximately 0.02 percent below a predetermined 
+
+reference symbol clock frequency and said second frequency is 
+approximately 0.02 percent above said predetermined reference 
+
+symbol clock frequency. 
+The method of Claim 12 or 13 wherein said step 
+of sampling is repeated at intervals of T to obtain N samples of 
+
+said incoming signal, and N*T is selected to be less than a 
+predetermined value. 
+An apparatus for estimating the frequency of a 
+remote clock, comprising: 
+
+   first means for receiving an incoming signal, said 
+incoming signal containing said remote clock; 
+
+   second means, connected to said first means, for 
+
+determining the magnitude of a first Discrete Time Fourier 
+Transform (DTFT) of said remote clock at a first frequency, and 
+
+for determining the magnitude of a second DTFT of said remote 
+clock at a second frequency; and 
+
+   third means for comparing said magnitude at said 
+first frequency with said magnitude at said second frequency to 
+
+provide an estimated remote clock frequency for said incoming 
+signal. 
+The apparatus of Claim 17 and further 
+comprising means for processing said incoming signal in a non-linear 
+
+manner to provide a recovered remote clock as said remote 
+clock to said second means. 
+The apparatus of Claim 17 wherein said second 
+means comprises a microprocessor having a program for 
+
+performing Discrete Time Fourier Transforms. 
+The apparatus of Claim 17 wherein said third 
+means comprises a microprocessor having a program for 
+
+estimating said remote clock frequency based upon said 
+amplitudes. 
+A method for a first modem to estimate the 
+frequency of a remote clock in a second modern, comprising: 
+
+   a second modem procedure comprising the steps of: 
+   receiving a signal from said first modem, said 
+
+signal containing a first clock; 
+   determining the magnitude of the Discrete 
+
+Time Fourier Transform (DTFT) of said first clock at a first 
+frequency; 
+
+   determining the magnitude of the DTFT of 
+said first clock at a second frequency; and 
+
+   comparing said magnitude at said first 
+frequency with said magnitude at said second frequency to 
+
+provide an estimated clock frequency for said first clock; and 
+   providing said estimated clock frequency to 
+
+said first modem; and 
+   a first modem procedure comprising the steps of: 
+
+   providing said signal containing said first clock 
+to said second modem; 
+
+   receiving said estimated clock frequency from 
+said second modem; and 
+
+   determining said frequency of said remote 
+clock from said estimated clock frequency. 
+The method of Claim 21 wherein said step of 
+determining said frequency of said remote clock comprises: 
+
+   determining the difference between said estimated 
+clock frequency and the frequency of said first clock; and 
+
+   subtracting said difference from said frequency of 
+said first clock to provide said frequency of said remote clock. 
+A method for a first modem to obtain an estimate 
+of the frequency of a clock in said first modem from a second 
+
+modem, comprising a second modem procedure comprising the 
+steps of: 
+
+   receiving a signal from said first modem, said signal 
+containing said clock; 
+
+   determining the magnitude of the Discrete Time 
+Fourier Transform (DTFT) of said clock at a first frequency; 
+
+   determining the magnitude of the DTFT of said clock 
+at a second frequency; and 
+
+   comparing said magnitude at said first frequency 
+with said magnitude at said second frequency to provide an 
+
+estimated clock frequency for said first clock; and 
+   providing said estimated clock frequency to said first 
+
+modem. 
+A method for a first modem to estimate the 
+frequency of a remote clock in a second modem, comprising a 
+
+first modem procedure comprising the steps of: 
+   providing a signal to said second modem, said 
+
+signal containing a first clock; 
+   receiving said estimated clock frequency from 
+
+said second modem; and 
+   determining said frequency of said remote 
+
+clock from said estimated clock frequency. 
+The method of Claim 24 wherein said step of 
+determining said frequency of said remote clock comprises: 
+
+   determining the difference between said estimated 
+clock frequency and the frequency of said first clock; and 
+
+   subtracting said difference from said frequency of 
+said first clock to provide said frequency of said remote clock. 
+An apparatus for matching a local clock to a 
+remote clock, comprising: 
+
+   a receiver circuit operative to receive an incoming 
+signal, said incoming signal containing said remote clock, said 
+
+remote clock having a remote clock frequency; 
+   a filter circuit connected to said receiver circuit and 
+
+responsive to said incoming signal to provide a recovered remote 
+clock signal; 
+
+   a discrete time Fourier transform and comparison 
+circuit, connected to said filter circuit, and responsive to said 
+
+recovered remote clock signal to provide the magnitude of a first 
+Discrete Time Fourier Transform (DTFT) of said recovered 
+
+remote clock at a first frequency, to provide the magnitude of a 
+second DTFT of said recovered remote clock at a second 
+
+frequency, and to compare said magnitude at said first frequency 
+with said magnitude at said second frequency to provide an 
+
+estimated remote clock frequency; 
+   a clock for generating said local clock; and 
+
+   a clock adjustment circuit connected to said local 
+clock and to said discrete time Fourier transform and comparison 
+
+circuit and responsive to said estimated remote clock frequency to 
+adjust the frequency of said local clock to be said estimated 
+
+remote clock frequency. 
+The apparatus of Claim 26 wherein said filter 
+circuit processes said incoming signal in a non-linear manner to 
+
+provide said recovered remote clock. 
+The apparatus of Claim 26 wherein said filter 
+circuit and said discrete time Fourier transform and comparison 
+
+circuit are embodied in a microprocessor. 
+An apparatus for estimating the frequency of a 
+remote clock, comprising: 
+
+   a receiver circuit operative to receive an incoming 
+signal, said incoming signal containing said remote clock; 
+
+   a filter circuit connected to said receiver circuit and 
+responsive to said incoming signal to provide a recovered remote 
+
+clock signal; and 
+   a discrete time Fourier transform and comparison 
+
+circuit, connected to said filter circuit, and responsive to said 
+recovered remote clock signal to provide the magnitude of a first 
+
+Discrete Time Fourier Transform (DTFT) of said remote clock 
+at a first frequency, to provide the magnitude of a second DTFT 
+
+of said remote clock at a second frequency, and to compare said 
+magnitude at said first frequency with said magnitude at said 
+
+second frequency to provide an estimated remote clock 
+frequency. 
+The apparatus of Claim 29 wherein said filter 
+circuit processes said incoming signal in a non-linear manner to 
+
+provide said recovered remote clock. 
+The apparatus of Claim 29 wherein said filter 
+circuit and said discrete time Fourier transform and comparison 
+
+circuit are embodied in a microprocessor. 
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,327 @@
+<DOC>
+<DOCNO>EP-0635795</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method and computer system for detecting error strings in a text.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1721	G06F1721	G06F1727	G06F1727	G10L1500	G10L1522	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G10L	G10L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F17	G06F17	G06F17	G06F17	G10L15	G10L15	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The invention relates to a method and a computer system for detecting 
+and/or correcting an error string F
+i
+ in a text stored in 
+the computer system. Hereby, in step 10 an error-free string S
+i
+ 
+is first selected. In step 11, the error-free string S
+i
+ is 
+modified such that a possible error string is produced, which 
+
+serves to calculate a value α
+ij
+ in step 12, whereby the value 
+α
+ij
+ represents an indication of the probability that the possible 
+error string f
+ij
+ is an actual error string F
+i
+. If, accordingly, 
+the value α
+ij
+ exceeds a threshold value β, the result is 
+output in step 14. Otherwise, step 15 is executed to produce another 
+
+possible error string f
+ij
+ in step 11. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+ARNING ANDREAS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ARNING, ANDREAS
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The invention relates to a method and a computer system for detecting 
+and/or correcting an error string in a text. In known word processing systems, the entered text is stored 
+separate from a dictionary. The dictionary belonging to a word 
+processing system is a file that contains a reasonably complete 
+list of known words and possibly their inflected forms, i.e., 
+their conjugations and declinations. When searching for errors 
+in the text, each individual word is searched for in the dictionary. 
+If a word is not contained in the dictionary, the word 
+processing system issues an error message and asks the user to 
+check the word. Such systems have been disclosed, for example, 
+in U.S. Patents 4 689 678, 4 671 684, and 4 777 617. A word processing system has also been disclosed in U.S. Patent 
+4 674 065, for example, which is based on a statistical N-gram 
+analysis technique. When an incorrect word is detected, the user 
+is offered a list of possible correct alternatives to select 
+from. An overview of known techniques for automatic correction of 
+words in a text is provided by the publication "Techniques for 
+Automatically Correcting Words in Text," by Caron Kukich, ACM 
+Computing Surveys, Volume 24, No. 4, December 1992. The known methods for error detection and correction share the 
+characteristic that a dictionary separate from the text is used 
+as the standard for comparison. The known systems thus require a 
+relatively large amount of memory for storing the dictionary, 
+and this memory is thus not available to other applications.  Further disadvantages of using a dictionary are that in general 
+the dictionary itself contains some errors and is thus not reliable 
+as a standard. After all, the dictionary itself cannot be 
+checked for errors by the word processing system, since a dictionary 
+is considered to be the most reliable standard. Moreover, 
+the dictionary must be continually updated, enabling additional 
+errors to creep in. The use of known word processing systems 
+is practically unsuitable for checking multilingual texts, 
+since all foreign words not present in the dictionary will be 
+flagged as errors. The same also holds true for monolingual 
+texts which employ unusual words or newly-coined words, as well 
+as for computer code or texts that contain phonetic information 
+or formatting controls. In these cases, known word processing 
+systems flag a large number of correct strings as incorrect, 
+since they do not occur in the dictionary. This problem is especially 
+evident when the text
+</DESCRIPTION>
+<CLAIMS>
+Method for detecting and/or correcting an error string Fi in 
+a text using a computer system, 
+
+characterized in that 
+the frequency H(Si) of the corresponding error-free string 
+
+Si in the text is used to detect and/or correct the error 
+string Fi, 
+
+whereby the error-free string Si occurs in the text and the 
+text is stored in the computer system. 
+Method in accordance with Claim 1, characterized in that 
+
+a) the error-free string Si is modified in accordance with 
+a rule Rj so that a possible error string fij is generated, 
+b) the frequency H(fij) of the string fij in the text is 
+determined, 
+c) the frequencies H(fij) and H(Si) are compared, and 
+d) based on the comparison in step c), a decision is made 
+whether the possible error string fij is an actual error 
+
+string Fi. 
+Method in accordance with Claim 2, characterized in that in 
+step a) of Claim 2, possible error sources, psychological 
+
+and/or technically related to the computer system used, in 
+particular its display screen or keyboard, are simulated by 
+
+suitable selection of the rules Rj. 
+Method in accordance with Claim 2 or 3, characterized in 
+that, in comparing the frequency H(fij) of the possible error 
+
+string fij and the frequency H(Si) of the error-free 
+string Si in step c) of Claim 2, the values H(fij) and H(Si) 
+
+are evaluated according to a computing rule:(1)   Φij (H(fij),H(Si)) = αij
+ 
+
+and in step d) of Claim 2 the value αij is compared with a 
+threshold value β. 
+Method in accordance with Claim 4, characterized in that the 
+computing rule Φ is defined as 
+
+ 
+where Ψ is a factor and κ an exponent, whereby the exponent 
+
+κ is preferably 1 or -1. 
+Method in accordance with Claim 5, characterized in that the 
+factor Ψ is defined asΨ = [L(Si)]
+p, 
+ 
+
+where L(Si) is the number of characters in the error-free 
+string Si and p is an exponent, whereby the exponent p is 
+
+preferably equal to 2 or 3. 
+Method in accordance with Claim 4, 5, or 6, characterized in 
+that in the computer system a dictionary-based method is implemented 
+
+that can be used to determine valid strings Gi, 
+ 
+
+that for a possible error string fij having a frequency 
+H(fij) 
+>
+ 0, the dictionary-based method is used to determine 
+whether the string fij is a valid string Gi, and that 
+
+the value αij of the possible error string fij is modified 
+if the possible error string fij is a valid string Gi. 
+Method in accordance with any one of the Claims 4 to 7, 
+characterized in that in the computer system a method for 
+
+automated learning is implemented that assigns to a rule Rj 
+a variable factor δj(B) so that the value αij of a possible 
+
+error string fij generated by applying the rule Rj in step 
+a) of Claim 2 is modified accordingly. 
+Method for detecting and/or correcting error strings Fi in a 
+text, characterized in that 
+
+
+a) the frequencies H(Zi) of different strings Zi in the 
+text are determined, whereby those strings Zi having a 
+
+frequency H(Zi) exceeding a threshold value γ are defined 
+as error-free strings Si, 
+b) the error string Fi associated with an error-free 
+string Si is detected and/or corrected in accordance 
+
+with the method of any one of the Claims 1 to 8. 
+Method in accordance with Claim 9, characterized in that the 
+strings Zi are sorted and stored with their corresponding 
+
+frequencies H(Zi) in the computer system and a binary search 
+of the sorted strings Zi is conducted to determine the frequency 
+
+H(fij) in step b) of Claim 2. 
+Method in accordance with Claim 10, characterized in that 
+the storing of the strings Zi with their corresponding frequencies 
+
+ 
+H(Zi) is accomplished using a hashing method or a 
+
+tree structure, preferably a binary tree or a linked trie. 
+Method in accordance with any one of the Claims 9 to 11, 
+characterized in that for various possible error strings fij 
+
+of various error-free strings Si, the corresponding values 
+αij are calculated and those possible error strings fij 
+
+that are error strings Fi according to the decision in step 
+d) of Claim 2 are preferably automatically replaced by the 
+
+corresponding error-free strings Si in the stored text. 
+Method in accordance with Claim 12, characterized in that 
+
+a) the various possible error strings fij are sorted according 
+to their corresponding values αij, and that 
+b) a criterion is chosen for the values αij such that only 
+those possible error strings fij in step d) of Claim 2 
+
+are used whose value αij satisfies the criterion, 
+whereby the criterion is preferably a threshold value 
+
+β. 
+Computer system, in particular a word processing system, for 
+detecting and/or correcting an error string Fi in a text, 
+
+whereby the corresponding error-free string Si occurs in the 
+text, 
+
+with first storage means (1) for storing the text, 
+with second storage means for storing the frequency H(Si) of 
+
+the error-free string Si, and 
+with processor means (2) for using the frequency H(Si) of 
+
+the error-free string Si in detecting and/or correcting the 
+error string Fi. 
+Computer system in accordance with Claim 14, 
+with third storage means (3) for storing the frequency 
+
+H(fij) of a possible error string fij, 
+with fourth storage means (4) for storing a rule Rj, 
+
+whereby the processor means (2) include 
+means (5) for modifying the error-free string Si according 
+
+to the rule Rj such that a possible error string fij can be 
+generated, as well as 
+
+means (6) for determining the frequency H(fij) of a possible 
+error string fij, 
+
+means (7) for comparing the frequencies H(Si) and H(fij), 
+and 
+
+means (8) for associating the possible error string fij to 
+the error string Fi based on an output signal from the means 
+
+(7) for comparing. 
+Computer system in accordance with Claim 15, whereby the 
+means (7) for comparing contained in the processor means (2) 
+
+include computing means (9) for computing a value αij in 
+accordance with a computing rule(1)   Φij (H(fij),H(Si)) = αij
+
+ 
+and the output signal transmits the value αij, 
+
+and the means (8) for associating include means (10) for 
+storing a threshold value β for comparison with the value 
+
+αij. 
+Computer system in accordance with any one of the Claims 14 
+to 16, 
+
+with means (11) for determining the frequency H(Zi) of different 
+strings Zi in the text, 
+
+with fifth storage means (12) for storing the frequency 
+H(Zi), 
+
+with means (14) for storing a threshold value γ, and 
+with comparison means (13) for comparing the threshold value 
+
+γ with a frequency H(Zi), whereby those strings Zi having a 
+frequency H(Zi) exceeding the threshold value γ are defined 
+
+to be error-free strings Si. 
+System for character recognition 
+with a system for automated optical character recognition 
+
+and with a computer system in accordance with any one of the 
+Claims 14 to 17, 
+
+whereby the system for automated optical character recognition 
+generates a raw text and enters the raw text into the 
+
+computer system for detecting and/or correcting one or 
+possibly more than one error string Fi. 
+System for automatic recording of dictation, with a speech 
+recognition system and with a computer system in accordance 
+
+with any one of the Claims 14 to 17, 
+whereby the speech recognition system generates a raw text 
+
+and enters the raw text into the computer system for detecting 
+and/or correcting one or possibly more than one error 
+
+string Fi. 
+Storage medium, in particular a diskette, for a programmable 
+computer system, whereby a program for executing a method in 
+
+accordance with any one of the Claims 1 to 13 is recorded on 
+the storage medium using physical and/or chemical means, 
+
+and the storage medium can interact with the computer system 
+such that, through the program recorded on the storage medium 
+
+together with an operating program associated with the 
+computer system, the computer system is constituted in accord
+ance 
+with any one of the Claims 14 to 17. 
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,559 @@
+<DOC>
+<DOCNO>EP-0646876</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Message passing system for distributed shared memory multiprocessor system and message passing method using the same
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1517	G06F1516	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F15	G06F15	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+In a multiprocessor system, each processor module 
+PM comprises a processor, a distributed shared memory, a 
+
+distributed memory coupler for controlling copying between 
+distributed shared memories and a distributed memory 
+
+protector for protecting said on the distributed shared 
+memory against illegal access. The distributed shared 
+
+memories are assigned with global addresses common to all 
+the processor modules, and the distributed shared memory 
+
+of each processor module PM has its addresses shared with 
+the distributed shared memory of each processor module 
+
+which is the destination of data transfer. Message 
+buffers MB and message control areas on the distributed 
+
+shared memory are divided into areas specified by a 
+combination of sending and receiving processor modules and 
+
+arranged. A processing request area on the distributed 
+shared memory is divided corresponding to each receiving 
+
+processor module and arranged accordingly. The processing 
+request area on the receiver's side distributed shared 
+
+memory has a FIFO structure. The sender's side 
+distributed memory coupler stores identifying information 
+
+of the destination processor module between the processor 
+module communication and, upon occurrence of a write into 
+
+the distributed shared memory, sends a write address and 
+write data to the destination processor module. 
+
+Furthermore, the receiver's side distributed memory 
+coupler copies the received write data into the 
+
+distributed shared memory of the processor module to which 
+the distributed shared memory coupler belongs, by 
+
+receiving write address and write data from the sender's 
+side distributed memory coupler. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+NIPPON TELEGRAPH 
+&
+ TELEPHONE
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+NIPPON TELEGRAPH AND TELEPHONE CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+KUBOTA MINORU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MARUYAMA KATSUMI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TANAKA SATOSHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YAMADA SHIGEKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KUBOTA, MINORU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MARUYAMA, KATSUMI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TANAKA, SATOSHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YAMADA, SHIGEKI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a method and
+apparatus which implement a high-speed, high-reliability
+message transfer between processors in a multiprocessor
+system with a distributed shared memory and, more
+particularly, to a parallel multiprocessor system suitable
+for handling highly-frequent, relatively small-sized
+message communications and a message passing method using
+the same.With a view to effectively improving the
+efficiency of software development, object-oriented
+programming techniques are now coming into widespread use
+in which the objects, each encapsulating a procedure and
+data are executed by exchanging messages.A description will be given, with reference to
+Figs. 1 and 2, of a conventional multiprocessor system
+which executes object-oriented programs. For detailed
+information, see T. Shimizu et al., "Low-Latency
+Communication Support for the AP1000," Proceedings of the
+19th International Symposium on Computer Architecture, pp.
+288-297, 1992. In Fig. 1, reference numerals 1-1 and 1-2
+denote processor modules (hereinafter referred to simply
+as PMs) in the multiprocessor system; 2-1 and 2-2 denote
+processors; 3-1 and 3-2 denote local memories accessible
+from the processors 2-1 and 2-2, respectively; 4-1 and 4-2
+denote DMA (Direct Memory Access) controllers for message.
+transfer between the PMs 1-1 and 1-2; 5 denotes an 
+interprocessor communication network; 3B-1 denotes a
+message buffer area provided on the local memory 3-1; and
+3B-2 denotes a message buffer area provided on the local
+memory 3-2. The local memories 3-1 and 3-2 have areas for
+storing objects to be executed by the processors 2-1 and
+2-2 and areas for storing kernels which control and manage
+the execution of the processors 2-1 and 2-2.Now, consider a message transfer from the PM 1-1
+to the PM 1-2 in the system of Fig. 1. In response to a
+request (step S1 in Fig. 2) from a sender object (10 in
+Fig. 2) which is being executed by the processor 2-1, a
+kernel (11-1 in Fig. 2) which is a main program of an
+operating system reserves the message buffer area 3B-1 in
+the local memory 3-1 in step S2 and reports it to the
+sender object 10. Then, the sender object 10 writes a
+message in the message buffer area 3B-1 in step S3 in Fig.
+2. This is indicated by the thick arrow L10 in Fig. 1.
+The sender object 10 issues a send request to the kernel
+11-1 in step S4, and in step S5 the kernel 11-1 sets in
+the DMA controller 4-1 control information such as the
+base address (ADR1 in Fig. 1) of the message buffer area
+3B-1, the message size (n)
+</DESCRIPTION>
+<CLAIMS>
+A multiprocessor system which has a plurality of processor modules (PM#1, PM#2,
+PM#3) which are interconnected via a channel (25) for communication and which each have
+
+unique identifying information and execute an application object, each one of said plurality of
+processor modules comprising:
+
+
+a distributed shared memory (21) which has addresses common to all of said processor
+modules and includes a plurality of communication areas (Ap, Aff) for sending use which are
+
+dedicatedly assigned to respective ones of all possible combinations of point-to-point
+communication between said one of the plurality of processor modules as a sender's side and
+
+each of the other ones of said plurality of processor modules as a receiver's side, and a plurality
+of communication areas (Ap, Aff) for receiving use which are dedicatedly assigned to respective
+
+ones of all possible combinations of point-to-point communication between said one processor
+module as a receiver's side and each of said other processor modules as a sender's side, each of
+
+said communication areas for sending use and for receiving use having message buffers (21B)
+each for writing therein a message to be transferred, each pair of sender's side and receiver's
+
+side processor modules defining a point-to-point communication being assigned shared
+addresses of a dedicated communication area, by which said shared addresses are associated
+
+with said identifying information of said sender's side and receiver's side processor modules
+forming a respective pair;
+message buffer management means (Fig. 17A) which responds to a request by said
+application object for writing a message into one of said communication areas corresponding to
+
+a desired one of said processor modules designated as a receiver's side processor module to
+acquire a vacant one of said message buffers in said communication area at said sender's side
+
+processor module; and
+distributed shared memory control means (22) which, as said application object writes
+said message into said acquired vacant message buffer in said sender's side communication
+
+area, sends the address of said acquired message buffer and said message to said receiver's side
+processor module specified by said application object to copy said message into a receiver's side
+
+message buffer of the same address shared with said acquired message buffer;
+characterized in that
+ said communication areas (Aff) in each processor module
+comprise processing request areas exclusive for requests to a respective one of said processor
+
+modules (PM#1, PM#2, PM#3), these processing request areas comprising processing request
+source areas for writing therein a processing request destined for a respective one of the other
+
+processor modules, and a processing request destination area for reading therefrom processing
+requests received from the other processor modules, wherein the processing request destination
+
+area has a FIFO structure, such that a processing request including information on said address
+of the acquired message buffer is written, on the sender's side, to that one of the processing
+
+request source areas that corresponds to the receiver's side processor module, and is copied by
+said distributed shared memory control means (22) to the processing request destination area of
+
+the receiver's side processor module for receiving and holding processing requests in the order
+of their arrival.
+The system of claim 1, wherein said distributed shared memory control means (22)
+of each of said processor modules (PM#1, PM#2, PM#3) has a data memory in which pieces of
+
+identifying information of all of said processor modules with which said each processor module
+communicates are prestored as a table in correspondence with their shared addresses, and said
+
+distributed shared memory control means sends the address of said acquired message buffer
+(21B) and said message to said receiver's side processor module specified by the identifying
+
+information obtained by referring to said table in said data memory to write said message into
+said receiver's side message buffer of the same address shared with said acquired message
+
+buffer.
+The system of claim 1, wherein the identifying information of said sender's side
+processor module and the identifying information of said receiver's side processor module of said
+
+each pair defined by each of said shared addresses are defined in different bit positions of said
+each shared address.
+The system of claim 1, wherein each of said communication areas of said distributed
+shared memory (21) of said each processor module includes a control area for storing control
+
+data which controls a message transfer, said distributed shared memory control means (22)
+responds to a write request to write said control data into an address shared between said
+
+sender's side processor module and said receiver's side processor module, and said receiver's
+side processor module responds to a processing request from said sender's side processor
+
+module to process said message written in said receiver's side message buffer (21B) specified
+by said control data stored in said control area at the receiver's side.
+The system of claim 4, wherein said control area of said each communication area
+includes a descriptor ring for storing the address of said message buffer (21B) where to write a
+
+message to be transferred and execution right information which specifies the execution right of
+processing by said sender's side and receiver's side processor modules (PM#1, PM#2, PM#3),
+
+said distributed shared memory control means (22) responds to said write request to write said
+descriptor ring in the corresponding address of said distributed shared memory (21) of said
+
+receiver's side processor module, and said receiver's side processor module responds to said
+processing request from said sender's side processor module to process said message written in
+
+said receiver's side message buffer specified by said descriptor ring.
+The system of claim 4, wherein said message buffer management means of said
+each processor module 
+includes a management map area provided in said control area of said
+each of said communication area, for indicating the state of use of each of said message buffers
+
+(21B) in said each communication area.
+The system of claim 1 or 4, wherein said each processor module further comprises
+memory protection means (23) including: memory capability storage means for storing the
+
+access right for said each message buffer (21B) of said distributed shared memory (21); current
+capability storage means for storing access right information for an application object being
+
+executed in said each processor module; and capability comparison means for comparing the 
+stored contents of said memory capability storage means and said current capability storage
+
+means to decide whether access to said each message buffer (21B) is legal.
+A communication method using the multiprocessor system defined in claim 1
+comprising the following steps:
+
+
+a) said sender's side processor module (PM#1, PM#2, PM#3) acquires, by said
+message buffer management means, a vacant sender's side message buffer (X12-1,
+
+X12-2,
+Y12-1, Y12-2) in said communication area corresponding to said receiver's side processor
+
+module (PM#1, PM#2, PM#3);
+b) said sender's side processor module writes a message in said acquired sender's side
+message buffer (21B);
+c) said sender's side distributed memory control means (22) extracts the identifying
+information of said receiver's side processor module on the basis of said sender's side message
+
+buffer and transfers the address of said sender's side message buffer and write data on said
+message written therein to said receiver's side processor module;
+d) said receiver's side distributed shared memory control means (22) copies said
+message to that one of receiver's side message buffers in said receiver's side distributed shared
+
+memory which has the same address as that of said sender's side message buffer, on the basis
+of the address of said sender's side message buffer and said write data; and
+e) said receiver's side processor module reads out said message from said receiver's
+side message buffer;
+
+said method further comprising the steps:
+
+wherein when said plurality of sender's side processor modules send processing
+requests to one of said receiver's side processor modules, said sender's side processor modules
+
+each write processing request data in said processing request source area in said sender's side
+distributed shared memory for writing processing requests to said one receiver's side processor
+
+module;
+wherein said each sender's side distributed shared memory control means takes out the
+identifying information of said receiver's side processor module on the basis of the address of
+
+said processing request area and transfers said processing request area address and write data
+to said one receiver's side processor module;
+wherein, on the basis of said processing request area address and said write data
+transferred thereto, said receiver's side distributed shared memory control means writes said
+
+processing request data in said FIFO memory processing request area which has its address
+shared with said processing request area at said sender's side, thereby storing in said FIFO-memory
+
+processing request destination area a plurality of pieces of processing request data in
+the order of their arrival; and
+wherein said one receiver's side processor module detects said processing requests by
+reading out said plurality of pieces of processing request data from said FIFO-memory
+
+processing
+request destination area on said receiver's side distributed shared memory in a sequential order.
+The method of claim 8, wherein said distributed shared memory control means (22)
+of each of said processor modules (PM#1, PM#2, PM#3) has a data memory in which pieces of
+
+identifying information of all of said processor modules with which said each processor module 
+communicates are prestored as a table in correspondence with their shared addresses, and said
+
+distributed shared memory control means sends the address of said acquired message buffer
+(21B) and said message to said receiver's side processor module specified by the identifying
+
+information obtained by referring to said table in said data memory to write said message into
+said receiver's side message buffer of the same address shared with said acquired message
+
+buffer.
+The method of claim 8, wherein the identifying information of said sender's side
+processor module and the identifying information of said receiver's side processor module of said
+
+each pair defined by each of said shared addresses are defined in different bit positions of said
+each shared address.
+The method of claim 8, wherein each of said communication areas of said
+distributed shared memory (21) of said each processor module includes a control area for storing
+
+control data which controls the transfer of said message, said method further comprising the
+following steps:
+
+
+f) said sender's side distributed shared memory control means (22) extracts the
+identifying information of said receiver's side processor module on the basis of the address of
+
+said control area and transfers the address of said control area and write data to said receiver's
+side processor module;
+g) said receiver's side distributed shared memory control means (22) copies said control
+data to the control area of said receiver's side distributed shared memory which has its address
+
+shared with said sender's side control area, on the basis of the address of said sender's side
+control area and said write data;
+h) said receiver's side processor module reads out said control data from said receiver's
+side control area, recognizes the contents of control on said message, executes the
+
+corresponding process and writes response control data in said receiver's side control area;
+i) said receiver's side distributed shared control means takes out the identifying
+information of said sender's side processor module on the basis of the address of said receiver's
+
+side control area and transfers the address of said receiver's side control area and write data on
+said response control data to said sender's side processor module;
+j) said sender's side distributed shared memory control means copies said control data
+to said sender's side control area of said sender's side distributed shared memory which has its
+
+address shared with said receiver's side control area, on the basis of the address of said
+receiver's side control area and said response control data received from said receiver's side
+
+distributed shared memory control means; and
+k) said sender's side processor module reads out said response control data from said
+sender's side control area and recognizes the results of processing at the receiver's side, thereby
+
+implementing a bidirectional communication between said processor modules (PM#1, PM#2,
+PM#3).
+The method of claim 11, wherein: said sender's side and receiver's side control
+areas each includes a descriptor ring area for writing thereinto the address of said message
+
+buffer (21B) where said message to be transferred is written and enqueue data indicating the 
+transfer of the process execution right from said sender's side to said receiver's side; said step f)
+
+includes a step wherein said sender's side distributed shared memory control means (22) writes
+said enqueue data in said descriptor ring area to cause it to copy said enqueue data to said
+
+receiver's side descriptor ring area having its address shared with said sender's side descriptor
+
+ring area; and said step i) includes a step wherein dequeue data indicating the return of the
+process execution right from said receiver's side to said sender's side is written in said receiver's
+
+side descriptor ring area to cause it to copy said dequeue data to said sender's side descriptor
+ring area having its address shared with said receiver's side descriptor ring area.
+The method of claim 11, wherein: said control area of each of said communication
+areas includes a message buffer management map area corresponding to one of said message
+
+buffers (21B); said step a) includes a step wherein said sender's side distributed shared memory
+control means (22) acquires a vacant one of said message buffers and writes data indicating the
+
+occupied state of said acquired message buffer in the corresponding message buffer
+management map area to cause it to copy said occupied state data to the message buffer
+
+management map area of said receiver's side distributed shared memory (21) which has its
+address shared with said sender's side message buffer management map area; and said step i)
+
+includes a step wherein when an application object at said receiver's side completes the readout
+of said message from said receiver's side message buffer, said receiver's side distributed shared
+
+memory control means writes data indicating the vacant state of said receiver's side message
+buffer in the corresponding message buffer management map area to cause it to copy said
+
+vacant state data to the message buffer management map area of said sender's side distributed
+shared memory which has its address shared with said receiver's side message buffer
+
+management map area.
+The method of claim 8 or 10, wherein said each processor module further
+comprises memory protection means (23) including: memory capability storage means for storing
+
+the access right for said each message buffer (21B) of said distributed shared memory (21);
+current capability storage means for storing access right information for an application object
+
+being executed in said each processor module; and capability comparison means for comparing
+the contents of said memory capability storage means and said current capability storage means
+
+to decide whether access to said each message buffer is legal; when a sender object which is
+executed by one of said processor modules (PM#1, PM#2, PM#3) transfers a message to a
+
+receiver application object which is executed by a different one of said processor modules, said
+method performs the steps:
+
+
+wherein said receiver's side processor module acquires a sender's side message buffer
+on said distributed shared memory in said sender's side processor module and sets said access
+
+right information in said current capability storage means and said memory capability storage
+means in said sender's side processor module corresponding to said sender's side message
+
+buffer, and upon each occurrence of memory access from a processor in said sender's side
+processor module to said sender's side message buffer on said distributed shared memory
+
+thereof, said capability comparison means compares the contents of said memory capability
+storage means and said current capability storage means to make a check to determine if said
+
+memory access is legal; and 
+wherein when the message written in said sender's side message buffer is transferred
+to said distributed shared memory of said receiver's side processor module, said receiver's side
+
+processor module sets said access right information in said current capability storage means and
+said memory capability storage means corresponding to said receiver's side message buffer, and
+
+upon each occurrence of memory access from said processor in said receiver's side processor
+module to said receiver's side message buffer on said receiver's side distributed shared memory,
+
+said capability comparison means compares the contents of said memory capability storage
+means and said current capability storage means to make a check to determine if said memory
+
+access is legal.
+The method of claim 14, wherein when a sender application object which is
+executed by one of said sender's side processor modules (PM#1, PM#2, PM#3) transfers a
+
+message to a receiver application object which is executed by a different one of said processor
+modules, said method performs the steps:
+
+
+wherein said sender's side processor module transfers said access right information
+from said sender's side to said receiver's side while holding it in one of a message buffer (21B)
+
+and message control area on said sender's side distributed shared memory (21); and
+wherein said receiver's side processor module receives said access right information
+from said sender's side by reading it out from one of a message buffer and message control area
+
+on said receiver's side distributed shared memory corresponding to said one of the message
+buffer and the message control area on said sender's side distributed shared memory.
+The method of claim 8, wherein when said sender's side processor module and said
+receiver's side processor module are the same, said receiver's side processor module reads out a
+
+message directly from said sender's side processor module to thereby implement message
+communication in the same processor module.
+The method of claim 16, wherein said each communication area of said distributed
+shared memory (21) of said each processor module includes a descriptor ring area in which the
+
+address of said message buffer (21B) for writing a message to be transferred and execution right
+information specifying the execution right for processing by said sender's side and receiver's
+
+side processor modules (PM#1, PM#2, PM#3) are stored in correspondence with each other,
+said method further comprising the step: :
+
+
+wherein said receiver's side processor module reads out control data directly from said
+sender's side control area, recognizes the contents of message control, executes the
+
+corresponding process and writes response control data in said sender's side control area, and
+said sender's side processor module reads out said response control data from said sender's side
+
+control area and recognizes the result of processing at the receiver's side, thereby implementing
+a bidirectional communication in the same processor module.
+The method of claim 16, wherein: said control area of said each communication
+area includes a message buffer management map area corresponding to each of said message
+
+buffers (21B); said step a) includes a step wherein said sender's side distributed shared memory
+control means (22) acquires a vacant one of said message buffers and writes data indicating the 
+
+occupied state of said acquired message buffer in the corresponding message buffer
+management map area; and another step is included wherein when an application object at said
+
+sender's side completes the reads out said message from said receiver's side message buffer,
+said receiver's side distributed shared memory control means writes data indicating the vacant
+
+state of said receiver's side message buffer in the corresponding message buffer management
+map area.
+The method of claim 8, wherein said receiver's side processor module is a sending
+relay processor having a network adaptor (24) connected to another multiprocessor system via a
+
+communication network (26), said method further comprising the steps:
+
+f) wherein when the identifying information of a receiver object contained in said
+received message is identifying information of an application object belonging to said another
+
+processor system, said sending relay processor module enqueues an adaptor sending descriptor
+
+for said received message;
+g) wherein said network adaptor detects said enqueued adaptor sending descriptor,
+reads out said message from said message buffer (21B) of said relay processor module and
+
+provides it on said communication network, using as its destination the identifying information
+of said receiver object indicated in said message;
+h) wherein a network adaptor of a third processor module of the multiprocessor system
+specified by said identifying information of said receiver object stores said received message in a
+
+local buffer and enqueues an adaptor receiving descriptor; and
+i) wherein, upon detection of said enqueued adaptor receiving descriptor, said third
+processor module makes a check to determine if the destination of said message stored in said
+
+message buffer is said third processor module itself, and processes said message in accordance
+with the result of said check.
+The method of claim 19, wherein said step i) is a step wherein when the
+destination of said message is another processor module other than said third one, a vacant
+
+message buffer (21B) in the distributed shared memory (21) corresponding to said destination
+processor module is acquired, said message is written in said vacant message buffer, and at the
+
+same time, said message is copied to the corresponding message buffer of said distributed
+shared memory of said destination processor module by said distributed shared memory control
+
+means (22).
+The method of claim 8, wherein said receiver's side processor module is a sending
+relay processor module having a network adaptor (24) connected to another multiprocessor
+
+system via a communication network (26), said method further comprising the steps:
+
+f) wherein when the identifying information of a receiver object contained in said
+received message is identifying information of another multiprocessor system, said sending relay
+
+processor module enqueues an adaptor sending descriptor for said received message;
+g) wherein said network adaptor detects said enqueued adaptor sending descriptor,
+reads out said message from said message buffer (21B) and provides it onto said communication
+
+network, using as its destination the identifying information of said receiver object indicated in
+said received message; and 
+h) wherein a network adaptor of a third processor module of the multiprocessor system
+specified by said identifying information of said receiver object writes said message directly into
+
+a communication area in the distributed shared memory (21) corresponding to the processor
+module of the destination specified by the identifying information of said receiver object
+
+indicated in said message.
+</CLAIMS>
+</TEXT>
+</DOC>

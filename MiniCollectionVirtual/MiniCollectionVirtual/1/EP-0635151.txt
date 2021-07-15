@@ -1,0 +1,308 @@
+<DOC>
+<DOCNO>EP-0635151</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+METHOD OF DETERMINING THE INTERIOR POINTS OF AN OBJECT IN A BACKGROUND
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T700	G06T500	G06T100	G06K948	G06T700	G06T100	G06T500	G01V810	G06T1140	G06K948	G06T920	G01V810	G06T920	G06T1140	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	G06T	G06K	G06T	G06T	G06T	G01V	G06T	G06K	G06T	G01V	G06T	G06T	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T7	G06T5	G06T1	G06K9	G06T7	G06T1	G06T5	G01V8	G06T11	G06K9	G06T9	G01V8	G06T9	G06T11	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The present invention relates to an image analysis method for determining the interior points of an object in a background when the countour, or perimeter points, of the object are known. By accessing the interior points of an object, textural and color information can be derived, thereby allowing for object recognition. Further, the ability to determine interior points of an object allows for complete identification of all objects in an image. By determining the interior points, one may "blacken out", or effectively remove previously identified objects from an image, creating a remainder image for further searching.
+</ABSTRACT>
+<APPLICANTS>
+</APPLICANTS>
+<INVENTORS>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to an image analysis
+method for determining the interior points of an object
+in a background. The present invention also relates to
+a method of identifying at least one valid object
+having at least one predetermined attribute value in a
+background. By determining the interior points of the
+object, one may "blacken out" or effectively remove
+previously identified objects from an image of the
+object and the background, thus creating a remainder
+image for further searching. The ability to access interior points of a region
+when its contour is given is a classic problem in image
+processing. Previous solutions to this problem have
+been described by L. W. Chang and K. L. Leu in an
+article entitled "A Fast Algorithm for the Restoration
+of Images Based on Chain Codes Description and Its
+Applications", Computer Vision, Graphics, and Image
+Processing 50, 296-307 (1990). One algorithm
+described, connectivity filling, requires that every
+pixel in the object be interrogated. Since the number
+of pixels within an object is greater than the number
+of pixels which comprise the perimeter of the object,
+such a technique is relatively slow. Another method
+described is parity checking which is based on the fact
+that the intersection of a straight line with the
+contour regions of an object delineates an even number
+of points on the perimeter of the object. Designation
+of the interior points is determined by an arbitrary
+filling rule where all points between each odd point
+and the next even point on the contour in each line of
+the image are designated as interior points. Such a
+parity checking algorithm will not work with objects of
+complex shape.In the same article cited above, Chang and Leu
+propose an enhanced parity checking algorithm which
+relies on characterizing the perimeter points into one
+of four categories based on direction code values.
+Characterizing the points leads to the creation of a
+new buffer of perimeter points wherein some points have
+been duplicated and others eliminated. By applying the
+parity checking algorithm to the newly created buffer,
+interior points of objects with complex shapes may be
+identified. However, the enhanced algorithm presented
+by Chang and Leu is an indirect method for solving the 
+problem of interior point determination, requiring an
+excessive number of steps.Japanese Patent Publication Number 62-60069 to
+Hitachi Electronic Engineering Co. Ltd., published
+12/14/87, discloses a colony screening device which
+distinguishes colonies based on color. Colonies
+</DESCRIPTION>
+<CLAIMS>
+A method for determining the interior points
+of an object in a background, comprising the steps of:
+
+
+(a) generating an image of the object and the
+background;
+(b) searching the image for the object
+using at least one automatically calculated threshold;
+(c) determining the perimeter points of the
+object;
+(d) creating a perimeter buffer, the
+perimeter buffer comprising the perimeter points, each
+
+perimeter point having a row position coordinate value,
+a column position coordinate value and a direction code
+
+vector, the direction code vector comprising a first
+and a second direction code value for each perimeter
+
+point, the first direction code value describing the
+relationship of each respective perimeter point to the
+
+next perimeter point and the second direction code
+value describing the relationship of each respective
+
+perimeter point to the previous perimeter point;
+(e) sorting the perimeter points in the
+perimeter buffer in a predetermined order to create a
+
+sorted perimeter buffer;
+(f) assigning to each perimeter point in the
+sorted perimeter buffer a status variable having one of
+
+a first and a second value, the value of the status
+variable being determined by the first and second
+
+direction code values; and
+(g) designating as the interior points of the
+object each point on the same line segment as the
+
+perimeter point being examined and lying between the
+examined perimeter point and the next perimeter point
+
+in the sorted perimeter buffer, the examined perimeter
+point being assigned the first value of the status
+
+variable.
+The method of Claim 1, further including the
+'steps of:
+
+
+(h) determining the gray level value of each
+interior point, and
+(i) characterizing the object by using the
+gray level values of the interior points.
+The method of Claim 2, wherein the
+characterizing step comprises determining the texture
+
+of the object.
+The method of Claim 2, wherein the
+characterizing step comprises determining the color of
+
+the object.
+The method of Claim 2, wherein the
+characterizing step comprises determining the patterns
+
+in the object.
+The method of any preceding claim, further comprising the
+step of labeling the object by assigning a
+
+predetermined gray level value to each interior point
+designated in step (g).
+The method of any preceding claim, further comprising the
+step of checking for each redundant perimeter point.
+The method of Claim 7, further comprising the
+step of designating all points lying between each
+
+redundant perimeter point and the next perimeter point
+on the line segment as the interior points of the
+
+object only when all instances of each redundant
+perimeter point are assigned the first value of the
+
+status variable.
+The method of any preceding claim, wherein the step of
+searching the image includes the sub-steps of:
+
+
+(i) generating a gray level histogram of the
+image, the gray level histogram having an entropy
+
+function, 
+(ii) entropically selecting a threshold gray
+level value such that the entropy function of the
+
+histogram is maximized,
+(iii) scanning the image for at least one object
+using the entropically selected threshold gray level
+
+value, and
+(iv) tracing the candidate object having boundary
+gray level values determined by the entropically
+
+selected threshold gray level value.
+The method of Claim 1, further comprising the steps of:
+
+(h) characterizing the candidate object by
+the candidate object attribute value; and
+(i) validating the candidate object having
+the valid object predetermined attribute value;
+
+thereby identifying at least one valid object having at least
+one predetermined attribute value in a background.
+The method of Claim 10, wherein the step of
+searching the image comprises searching only a portion
+
+of the object.
+The method of Claim 10, wherein the step of
+searching the image includes the sub-steps of:
+
+
+(i) generating a gray level histogram of the
+image, the gray level histogram having an entropy
+
+function,
+(ii) entropically selecting a threshold gray
+level value such that the entropy function of the
+
+histogram is maximized,
+(iii) scanning the image for at least one object
+using the entropically selected threshold gray level
+
+value, and
+(iv) tracing the candidate object having boundary
+gray levels determined by the entropically selected
+
+threshold gray level value.
+The method of Claim 12, further comprising
+the steps of:
+
+
+(j) subdividing the gray level histogram into
+an upper histogram and a lower histogram using the
+
+entropic threshold gray level value as defined by
+step (b)(ii) as an upper delimiter and a lower
+
+delimiter, and
+(k) recursively repeating steps (b) (ii) and
+(b) (iii) and step (b)(i) for each of the upper and
+
+lower histograms, wherein the repetition of
+step (b) (ii) selects a next successive entropic
+
+threshold gray level value, thereby recursively
+partitioning the gray level histogram until a
+
+predetermined minimum number of new valid objects is
+identified.
+The method of Claim 13, further including the
+steps of:
+
+
+(l) determining the gray level value of each
+interior point, and
+(m) characterizing the object by using the
+gray level values of the interior points after
+
+designating step (g).
+The method of Claim 14, wherein the
+characterizing step comprises determining the texture
+
+of the object.
+The method of Claim 14, wherein the
+
+characterizing step comprises determining the color of
+the object.
+The method of Claim 14, wherein the
+characterizing step comprises determining the patterns
+
+in the object.
+The method of any one of claims 14 to 17, further comprising
+the step of labeling the object by assigning a
+
+predetermined gray level value to each interior point
+designated in step (g). 
+The method of Claim 10, further comprising
+the steps of:
+
+
+(j) selecting a predetermined gray level
+value,
+(k) scanning the image to determine all
+points having the predetermined gray level value,
+(l) re-assigning the gray level value of each
+point having the predetermined gray level value a new
+
+predetermined gray level value,
+(m) assigning the predetermined gray level
+value to all interior points of all valid objects,
+(n) generating a gray level histogram of a
+remainder image, the remainder image comprising all the
+
+points having a gray level value other than the
+predetermined gray level value,
+(o) selecting N global entropic threshold
+level values,
+(p) subdividing the gray level histogram into
+N + 1 sub-histograms using each of the entropically
+
+selected threshold gray level values,
+(q) searching portions of the image
+corresponding to each sub-histogram using each global
+
+entropically selected threshold gray level value for at
+least one new candidate object, wherein the new
+
+candidate object has at least one candidate object
+attribute value, and
+(r) validating the new candidate object
+having the valid object predetermined attribute value
+
+for each of the sub-histograms to identify the valid
+object.
+The method of Claim 19, further including the
+step of determining whether the gray level value of the
+
+center of mass of the candidate object is different
+than the predetermined gray level value. 
+The method of Claim 20, further including the
+step of applying a post-scan filter based on the
+
+attribute value of the valid object validated in
+step (i).
+The method of Claim 20 or Claim 21, further including the
+step of merging the list of non-redundant, valid, newly
+
+identified objects with the valid object validated in
+step (i).
+</CLAIMS>
+</TEXT>
+</DOC>

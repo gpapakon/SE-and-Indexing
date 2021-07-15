@@ -1,0 +1,539 @@
+<DOC>
+<DOCNO>EP-0611054</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Polynomial-set deriving apparatus and method
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H03M1300	H03M1315	H03M1303	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H03M	H03M	H03M	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H03M13	H03M13	H03M13	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A set of minimal polynomials for generating a multidimensional 
+array for decoding algebraic geometric codes is 
+
+derived at a high speed. In order to obtain a set of minimal 
+polynomials F for generating a given multidimensional array, 
+
+when sequentially updating a set of polynomials F, df
+n
+(i)
+ 
+are not directly calculated, and a newly introduced set of 
+
+polynomials B and the set of polynomials F are updated using 
+the highest-degree coefficient d
+i
+ of polynomials which 
+belong to the set of polynomials B. An array memory for 
+
+storing a given multidimensional array u, and first and 
+second polynomial memories for storing the set of polynomials 
+
+F to be obtained and a set of auxiliary polynomials G, 
+respectively, are provided. In the calculation of polynomials 
+
+f
+(k)
+ and df
+n+1
+(k)
+ , accessing operations for respective 
+memories and accessed addresses are controlled in parallel 
+
+depending on the degrees of polynomials f
+(k)
+. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+CANON KK
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+CANON KABUSHIKI KAISHA
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+IWAMURA KEIICHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+IWAMURA, KEIICHI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to error correction, in which in
+a digital communication system and a digital storage system,
+errors produced in a communication channel or a storage
+medium are corrected at the reception side using error correction
+codes. More particularly, the invention relates to a
+polynominal -set deriving apparatus and method, in which in a
+decoding operation using algebraic geometric codes as error
+correction codes, a set of minimal polynomials for generating
+a given multidimensional array corresponding to a
+syndrome in received words is obtained.RS (Reed-Solomon codes) codes and BCH (Bose-Chaudhuri-Hocquenghem)
+codes are well known as error correction codes
+for correcting errors produced in a communication channel or
+a storage medium at the reception side in a digital communication
+system and a digital storage system. These codes
+are actually used in apparatuses which deal with compact 
+discs, satellite communication and the like.Recently, however, codes named algebraic geometric
+codes utilizing the algebraic curve theory have been widely
+studied (see references (1) - (3)). Algebraic geometric
+codes belong to a code system which has a very wide applicational
+range, and which includes the above-described RS
+codes and BCH codes. It has gradually become clear that this
+system includes new codes having better properties than
+those of conventional codes (see reference (4)).Decoding methods have always been a problem while such
+excellent codes have been discovered, and development of an
+efficient decoding algorithm has been requested. However, an
+efficient decoding algorithm has not been obtained at all until
+Justesen et al. have proposed a generalized Peterson algorithm
+(see reference (5)) in 1989. Justesen et al. have
+shown that by applying the Sakata algorithm (see reference
+(6)) proposed by Sakata to their generalized Peterson algorithm
+to provide an efficient algorithm for obtaining a two-dimensional
+linear feedback shift register, having a minimum
+number of storage elements, for generating a two-dimensional
+array having a given finite size, an error locator function
+can be derived at a high speed with a small amount of calculation.However, since the generalized Peterson algorithm has a
+limitation in its correction capability, Skorobogatov et 
+al. have proposed a Modified decoding algorithm (see
+reference (7)) which guarantees a higher correction
+capability.Furthermore, since the Sakata algorithm includes a
+large amount of useless calculation not directly relating to
+the Modified decoding
+</DESCRIPTION>
+<CLAIMS>
+A polynomial-set deriving apparatus for obtaining a
+set of minimal polynomials for generating a given multi-dimensional
+
+array, said apparatus comprising:
+
+first storage means for storing a first set of polynomials
+to be obtained;
+second storage means for storing a first set of
+auxiliary polynomials for the first set of polynomials;
+third storage means for storing a second set of polynomials
+different from the first set of polynomials;
+fourth storage means for storing a second set of
+auxiliary polynomials for the second set of polynomials;
+first discrimination means for discriminating if the
+coefficient of a predetermined degree of each polynomial of
+
+the second set of polynomials stored in said third storage
+means equals zero;
+determination means for newly determinating a defining
+point if a polynomial, in which the coefficient of a
+
+predetermined degree does not equal zero, is present as a
+result of the discrimination by said first discrimination
+
+means;
+first derivation means for deriving polynomials which
+belong to the second set of polynomials based on the value
+
+of the defining point determined by said determination 
+means, the second set of polynomials stored in said third
+
+storage means, and the second set of auxiliary polynomials
+stored in said fourth storage means;
+first updating means for erasing all polynomials, in
+which the coefficient of a predetermined degree does not
+
+equal zero, from said third storage means, and for storing
+the polynomials derived by said first derivation means in
+
+said third storage means;
+second derivation means for deriving polynomials which
+belong to the first set of polynomials based on the value of
+
+the defining point determined by said determination means,
+the first set of polynomials stored in said first storage
+
+means, the first set of auxiliary polynomials stored in said
+second storage means, and the coefficient of a polynomial of
+
+the second set of polynomials relating to the determined
+defining point;
+second updating means for erasing all polynomials corresponding
+to the polynomials erased by said first updating
+
+means from said first storage means, and for storing the
+polynomials derived by said second derivation means in said
+
+first storage means;
+second discrimination means for discriminating the
+presence of a change of the defining point;
+third updating means for updating the first set of
+auxiliary polynomials stored in said second storage means 
+
+based on the first set of auxiliary polynomials stored in
+said second storage means, and the polynomials erased by
+
+said second updating means, when said second discrimation
+means has discrimated the presence of a change in the defining
+
+point; and
+fourth updating means for updating the first set of
+auxiliary polynomials stored in said second storage means
+
+based on the second set of auxiliary polynomials stored in
+said fourth storage means, and the polynomials erased by
+
+said first updating means, when said second discrimation
+means has discrimated the presence of a change in the defining
+
+point.
+A polynomial-set deriving apparatus according to
+Claim 1, wherein the updating operation by said first updating
+
+means and the updating operation by said second updating
+means are executed in parallel.
+A polynomial-set deriving apparatus according to
+Claim 1 or 2, wherein said first updating means and said second
+
+updating means are realized by common circuit means.
+A polynomial-set deriving apparatus according to
+Claim 1, 2 or 3 wherein said second updating means performs the
+
+following calculation: 
+
+b
+q
+(k)
+ = z
+rs
+ · b
+n
+(i)
+ - (d
+i
+/d
+j
+)·z
+rt
+·b
+m
+(j)
+,
+
+where b
+n
+(i)
+ and b
+m
+(j)
+ are polynomials which belong to the
+second set of polynomials, and d
+i
+ and d
+j
+ are the coefficients
+of predetermined degrees of the corresponding polynomials
+
+b
+n
+(i)
+ and b
+m
+(j)
+, respectively.
+A polynomial-set deriving apparatus according to
+Claim 1, 2 or 3 wherein said second updating means performs the
+
+following calculation:
+
+b
+q
+(k)
+ = d
+j
+ ·z
+rs
+·b
+n
+(i)
+ - d
+i
+·z
+rt
+·b
+m
+(j)
+,
+
+where b
+n
+(i)
+ and b
+m
+(j)
+ are polynomials which belong to the
+second set of polynomials, and d
+i
+ and d
+j
+ are the coefficients
+of the highest degree or the lowest degree of the
+
+corresponding polynomials b
+n
+(i)
+ and b
+m
+(j)
+, respectively.
+A method for obtaining a set of minimal polynomials
+for generating a given multidimensional array, said method
+
+comprising the steps of:
+
+setting initial values for a first memory for storing a
+first set of polynomials to be obtained, a second memory for
+
+storing a first set of auxiliary polynomials for the first
+set of polynomials, a third memory for storing a second set
+
+of polynomials different from the first set of polynomials,
+and a fourth memory for storing a second set of auxiliary
+
+polynomials for the second set of polynomials; 
+discriminating if the coefficient of a predetermined
+degree of each polynomial of the second set of polynomials
+
+stored in the third memory equals zero;
+newly determining a defining point if a polynomial, in
+which the coefficient of a predetermined degree does not
+
+equal zero, is present as a result of the discrimination;
+deriving polynomials which belong to the second set of
+polynomials based on the value of the determined defining
+
+point, the second set of polynomials stored in the third
+memory, and the second set of auxiliary polynomials stored
+
+in the fourth memory;
+erasing all polynomials in which the coefficient of a
+predetermined degree does not equal zero, and updating the
+
+third memory by storing the polynomials derived by first
+derivation means;
+deriving polynomials which belong to the first set of
+polynomials based on the value of the determined-defining
+
+point, the first set of polynomials stored in the first
+memory, the first set of auxiliary polynomials stored in the
+
+second memory, and the coefficient of a polynomial of the
+second set of polynomials relating to the determined defining
+
+point;
+erasing all polynomials corresponding to the polynomials
+erased by the updating operation of the third memory,
+
+and updating the first memory by storing the derived 
+polynomials;
+discriminating the presence of a change of the defining
+
+point;
+updating the first set of auxiliary polynomials stored
+in the second memory based on the first set of auxiliary
+
+polynomials stored in the second memory, and the polynomials
+erased by the updating operation of the first memory, when
+
+it has been discriminated that the defining point has
+changed by the discrimination operation; and
+updating the first set of auxiliary polynomials stored
+in the second memory based on the second set of auxiliary
+
+polynomials stored in the fourth memory, and the polynomials
+erased by the updating operation of the third memory, when
+
+it has been discriminated that the defining point has
+changed.
+A polynomial-set deriving method according to Claim
+6, wherein the updating operation of the first set of polynomials
+
+and the updating operation of the second set of
+polynomials are executed in parallel.
+A polynomial-set deriving apparatus for obtaining a
+set of minimal polynomials for generating a given multi-dimensional
+
+array, said apparatus comprising:
+
+array storage means for storing a given multidimensional 
+array u;
+first polynomial storage means for storing a set of
+polynomials F to be obtained;
+second polynomial storage means for storing a set of
+auxiliary polynomials G for the set of polynomials F;
+first calclulation means for obtaining polynomials f
+(k)
+
+which belong to the set of polynomials F based on polynomials
+f
+(i)
+ stored in said first polynomial storage means,
+polynomials g
+(j)
+ stored in said second polynomial storage
+means, and deviations of polynomials df
+n
+(i)
+;
+second calculation means for obtaining deviations of
+polynomials df
+n+1
+(k)
+ based on the coefficients of the polynomials
+f
+(k)
+ calculated by said first calculation means and
+the multi-dimensional array u stored in said array storage
+
+means; and
+control means for controlling accessing operations for
+said first polynomial storage means and said second polynomial
+
+storage means and accessed addresses in parallel
+depending on the degrees of the polynomials f
+(k)
+,
+wherein the calculation by said first calculation means
+and the calculation by said second calculation means are executed
+
+in parallel.
+A polynomial-set deriving apparatus according to
+Claim 8, wherein said first polynomial storage means or said 
+
+second polynomial storage means includes a plurality of
+memories, and wherein a plurality of polynomials are stored
+
+in different memories.
+A polynomial-set deriving apparatus according to
+Claim 8, wherein said first polynomial storage means or said
+
+second polynomial storage means includes a plurality of
+memories, and wherein respective variables and respective
+
+degrees of a plurality of polynomials are stored in different
+memories.
+A polynomial-set deriving apparatus according to
+Claim 8 or 9 wherein said control means controls said first
+
+polynomial storage means and said second polynomial storage
+means so that a plurality of polynomials are stored in different
+
+addresses.
+A polynomial-set deriving apparatus according to
+Claim 8 or 10 wherein said control means controls said first
+
+polynomial storage means or said second polynomial storage
+means so that respective variables and respective degrees of
+
+a plurality of polynomials are stored in different addresses.
+A polynomial-set deriving apparatus according to 
+any of claims 8-12, wherein said first calculation means performs the
+
+following calculation:
+
+f
+(k)
+ = z
+rs
+·f
+(i)
+ - (df
+n
+(i)
+/df
+m
+(j)
+)·z
+rt
+ ·g
+(j)
+.
+A polynomial-set deriving apparatus according to
+any of claims 8-12, wherein said second calculation means performs the
+
+following calculation:
+
+df
+n+1
+(k)
+ = f
+m
+(k)
+·u
+m+n+1-s
+,
+
+based on polynomials f
+(k)
+ = Σf
+m
+(k)
+·z
+m
+ calculated by said
+first calculation means and the multidimensional array u
+
+stored in said array storage means.
+A method for obtaining a set of minimal polynomials
+for generating a given multidimensional array, said method
+
+comprising the steps of:
+
+storing a given multidimensional array u in an array
+memory;
+obtaining polynomials f
+(k)
+ which belong to a set of
+polynomials F to be obtained, based on polynomials f
+(i)
+
+stored in a first polynomial memory for storing the set of
+polynomials F, polynomials g
+(j)
+ stored in a second polynomial
+memory for storing a set of polynomials G different
+
+from the set of polynomials F, and deviations of polynomials
+df
+n
+(i)
+;
+obtaining deviations of polynomials df
+n+1
+(k)
+ based on 
+the polynomials f
+(k)
+ obtained by the first calculation
+operation and the multidimensional array u stored in the array
+
+memory; and
+controlling accessing operations for the first polynomial
+memory, the second polynomial memory and accessed addresses
+
+in parallel depending on the degrees of the polynomials
+f
+(k)
+, and executing the first and second calculation
+operations in parallel.
+A method of decoding data received from a
+storage medium or communication channel, the method
+
+including deriving a polynomial set using a method or
+apparatus according to any preceding claim.
+An apparatus for decoding data received from
+the storage medium or communication channel, the
+
+apparatus including means for deriving a polynomial set
+in accordance with any of claims 1 to 15.
+</CLAIMS>
+</TEXT>
+</DOC>

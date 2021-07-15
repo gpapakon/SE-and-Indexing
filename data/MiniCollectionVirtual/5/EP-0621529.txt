@@ -1,0 +1,292 @@
+<DOC>
+<DOCNO>EP-0621529</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method and apparatus for recording data on a rewritable optical disk.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F306	G06F306	G11B700	G11B700	G11B70045	G11B70055	G11B730	G11B1100	G11B1110	G11B11105	G11B2010	G11B2010	G11B2012	G11B2012	G11B2700	G11B2700	G11B27031	G11B27034	G11B27036	G11B2711	G11B2711	G11B2732	G11B2732	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G11B	G11B	G11B	G11B	G11B	G11B	G11B	G11B	G11B	G11B	G11B	G11B	G11B	G11B	G11B	G11B	G11B	G11B	G11B	G11B	G11B	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F3	G06F3	G11B7	G11B7	G11B7	G11B7	G11B7	G11B11	G11B11	G11B11	G11B20	G11B20	G11B20	G11B20	G11B27	G11B27	G11B27	G11B27	G11B27	G11B27	G11B27	G11B27	G11B27	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A system (10) for recording on a rewritable (erasable) optical disk 
+(12) is provided which reduces the data integrity exposure and negative 
+
+performance impact of separate erase and write passes when writing data 
+to such a disk in a disk drive. In a preferred embodiment, the system 
+
+includes a non-volatile storage buffer established and maintained by a 
+driver at a level below the file system. Space in the buffer is kept 
+
+pre-erased for temporarily storing blocks of data transmitted by a host 
+device (38) and destined for sectors in a logical partition on a 
+
+rewritable optical disk. Mapping and control information are also 
+maintained in the buffer. In a background operation, transparent to the 
+
+host, the blocks of data are copied from the buffer to their destination 
+sectors in the logical partition. The buffer can be located on the 
+
+optical disk itself or can be on a separate device, such as non-volatile 
+random access memory or magnetic media. The present invention eliminates 
+
+data exposure between the erase and write passes of a typical two- or 
+three-pass write operation while enhancing performance by eliminating the 
+
+erase pass immediately before a write. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+DAY KENNETH FAIRCLOUGH III
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DEWEY DOUGLAS WILLIAM
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TRUTY MICHAEL ALLEN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DAY, KENNETH FAIRCLOUGH III
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DEWEY, DOUGLAS WILLIAM
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TRUTY, MICHAEL ALLEN
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to rewritable (erasable) optical 
+disks and, in particular, to a method and apparatus for reducing the data 
+integrity exposure and negative performance impact of separate erase and 
+write passes when writing data to such a disk. The recording surface of optical disks, like the recording surface 
+of magnetic disks, is divided into a series of data recording tracks 
+(concentric or spiral) having a common rotational center. Each track is 
+subdivided into sectors; data is typically written to and read from a 
+disk in logical blocks. Hereinafter, the term "block" will refer to the 
+data and the term "sector" will refer to a physical location on a disk to 
+which a single block of data can be written. Data can include 
+directories, volume table of contents and control structures, as well as 
+user or file data (collectively referred to herein as file system data) 
+and maintained by file system software. The logical block structures 
+used by the present invention, however, are implemented and maintained by 
+driver software at a system level below the file system software (through 
+which the user interacts with the system). Using known processes, certain optical media, such as magneto-optical 
+(MO) and phase change disks, are rewritable but currently require 
+that data previously recorded onto a particular sector of the disk be 
+erased before a new or revised block of data is recorded on that sector. 
+Therefore, writing new or revised data onto a sector of such a disk 
+requires a first rotation or pass of the disk while the sector 
+(containing obsolete data) is erased and a second rotation while the data 
+is written. Verification is generally desired and may require a third 
+rotation. A significant disadvantage of the erase-before-write procedure is 
+that the integrity of revised data to be written to the disk is 
+jeopardized between the erase pass and the write pass. If, for example, 
+power is lost or the system fails during this time, the data to be 
+written will be lost from the memory of the processor or drive 
+controller, but the original version of the data, just erased from the 
+disk, will also be lost thereby impeding recovery.  The erase-before-write procedure presents an additional 
+disadvantage. In addition to the time delays imposed by the erase, write 
+and verify passes themselves, delays are also incurred while the optical 
+head moves radially inwardly or outwardly seeking the desired track for 
+the erase pass (seek delay) and while the head waits for the desired 
+secto
+</DESCRIPTION>
+<CLAIMS>
+Apparatus for recording data on a rewritable optical disk when the 
+disk is mounted in a disk drive, the apparatus comprising: 
+
+   means for establishing a driver partition in a nonvolatile storage 
+buffer; 
+
+   means for erasing a first portion of the driver partition; 
+   means for receiving from a file system a block of file system data 
+
+to be recorded in a predetermined target sector of a logical partition of 
+a rewritable optical disk when it is mounted in a disk drive; 
+
+   means for storing the block of file system data in the first 
+portion of the driver partition; 
+
+   means for storing a second portion of the driver partition mapping 
+information identifying the target sector in the logical partition; and 
+
+   means for background processing the stored block of data, including 
+means for erasing the target sector and for copying the stored block of 
+
+data from the first portion of the driver partition to the erased target 
+sector. 
+Apparatus as claimed in claim 1 wherein the non-volatile storage 
+buffer is located on the rewritable optical disk. 
+Apparatus as claimed in claim 1 wherein the non-volatile storage 
+buffer comprises non-volatile random access memory. 
+Apparatus as claimed in claim 1 wherein the non-volatile storage 
+buffer comprises magnetic media. 
+Apparatus as claimed in any of the preceding claims further 
+comprising an automated optical storage and retrieval unit, comprising: 
+
+   an optical disk drive; 
+   a plurality of cells for storing a plurality of optical disks; and
+
+ 
+   a mechanical accessor for transferring an optical disk between one 
+
+of the cells and the drive. 
+Apparatus as claimed in claim 5 wherein the logical partition is 
+located on one of the plurality of optical disks and the driver partition 
+
+is located on a different one of the plurality of optical disks. 
+Apparatus as claimed in any of the preceding claims wherein the 
+means for background processing comprises means for erasing the target 
+
+sector and copying the stored block of file system data while the disk 
+drive is otherwise inactive. 
+Apparatus as claimed in any of the preceding claims wherein: 
+   the first portion of the driver partition comprises a plurality of 
+
+entry areas; and 
+   the means for storing the block file system data comprises means 
+
+for storing a plurality of blocks of data in the plurality of entry 
+areas. 
+Apparatus as claimed in claim 8 further comprising means for 
+storing a control block in a third portion of the driver partition to 
+
+identify an available erased entry area. 
+Apparatus as claimed in claim 8 or claim 9 further comprising means 
+for determining whether any target sectors of the plurality of stored 
+
+blocks of data are contiguous in the logical partition. 
+Apparatus as claimed in claim 10 wherein the means for background 
+processing comprises means for erasing the contiguous target sectors 
+
+while the disk drive is otherwise inactive. 
+Apparatus as claimed in claim 10 wherein the means for background 
+processing comprises means for copying the stored blocks of data from the 
+
+entry areas to the contiguous target sectors while the optical disk drive 
+is otherwise inactive. 
+Apparatus as claimed in any of claims 1 to 10 wherein the means for 
+background processing comprises means for erasing the target sector while 
+
+ 
+the file system is executing a seek to a sector close to the target 
+
+sector. 
+Apparatus as claimed in any of claimed 1 to 10 wherein the means 
+for background processing comprises means for copying the stored block of 
+
+data from the first portion of the driver partition to the target sector 
+after the file system has executed a seek to a sector close to the target 
+
+sector. 
+An optical library system, comprising: 
+   a library controller interconnected with a host device; 
+
+   at least one optical disk drive interconnected with the library 
+controller for recording blocks of file system data onto predetermined 
+
+target sectors of a rewritable optical disk; 
+   a plurality of cells for storing a plurality of rewritable optical 
+
+disks; 
+   a mechanical accessor for transferring at least one of the optical 
+
+disks between the cells and the at least one drive; 
+   a non-vol
+atile storage buffer having a pending write entry area, 
+with a plurality of entry areas, and a map area; and 
+
+   a machine executable driver for directing that the blocks of data 
+be stored in said entry areas, directing that mapping information 
+
+identifying the target sectors be stored in said map area, directing that 
+the target sectors be erased and directing that the blocks of data be 
+
+copied from the entry areas to the erased target sectors in the 
+background. 
+An optical library system as claimed in claim 15 wherein said 
+non-volatile storage buffer comprises a dedicated one of the plurality of 
+
+optical disks. 
+A method for recording information on a rewritable optical disk 
+mountable in a disk drive, comprising the steps:
+
+ 
+   initializing a driver program; 
+
+   establishing a logical partition on a rewritable optical disk; 
+   establishing a driver partition in a non-volatile storage buffer to 
+
+be managed by the driver program, the driver partition having a pending 
+write entry area and a map area; 
+
+   erasing the pending write entry area of the driver partition; 
+   receiving a block of file system data from a file system to be 
+
+recorded in a predetermined target sector of the logical partition; 
+   storing the block of data in the pending write entry area of the 
+
+driver partition; 
+   storing mapping information in the map area identifying the block 
+
+of data and the predetermined target sector; 
+   notifying the file system that the block of data was stored; 
+
+   background processing the stored block of data, including erasing 
+the target sector and copying the stored block of data from the pending 
+
+write entry area to the erased target sector; and 
+   erasing the block of data from the pending write entry area. 
+A method as claimed in claim 17 wherein the step of background 
+processing comprises the step of erasing the target sector and copying 
+
+the stored block of data while the disk drive is otherwise inactive. 
+A method as claimed in claim 17 or claim 18 wherein the step of 
+storing the block of file system data comprises the step of storing a 
+
+plurality of blocks of file system data in a plurality of entry areas 
+within the pending write entry area. 
+A method as claimed in claim 19 further comprising the step of 
+storing a control block in a control block area of the driver partition 
+
+to indicate an available entry area in the pending write entry area of 
+the driver partition. 
+A method as claimed in claim 20 further comprising the step of 
+reading a flag in the control block area when the optical disk is mounted 
+
+in a disk drive, the flag having a TRUE state and a FALSE state. 
+A method as claimed in claim 21 further comprising the steps of: 
+   setting the state of the flag to FALSE if the state of the flag is 
+
+TRUE; and 
+   then reading the mapping information from the map area. 
+A method as claimed in claim 21 or claim 22 further comprising the 
+steps of: 
+
+   reading a header from each entry area if the state of the flag is 
+FALSE; and 
+
+   finding an available erased entry area in the pending write entry 
+area. 
+A method as claimed in claim 23 further comprising the step of 
+rebuilding the mapping information in the map area. 
+A method as claimed in claim 21 further comprising the step of 
+storing the mapping information in the map area and setting the flag to 
+
+TRUE before the optical disk is unmounted from the disk drive. 
+A method as claimed in any of claims 19 to 25 further comprising 
+the step of determining whether any target sectors of the plurality of 
+
+stored blocks of data are contiguous in the logical partition. 
+</CLAIMS>
+</TEXT>
+</DOC>

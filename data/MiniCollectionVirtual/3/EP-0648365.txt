@@ -1,0 +1,284 @@
+<DOC>
+<DOCNO>EP-0648365</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+METHOD AND APPARATUS FOR GENERATING VOCAL HARMONIES
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G10H138	G10H136	G10H100	G10H500	G10G700	G10H138	G10H106	G10H110	G10G702	G10H136	G10K1504	G10K1504	G10H500	G10H100	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G10H	G10H	G10H	G10H	G10G	G10H	G10H	G10H	G10G	G10H	G10K	G10K	G10H	G10H	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G10H1	G10H1	G10H1	G10H5	G10G7	G10H1	G10H1	G10H1	G10G7	G10H1	G10K15	G10K15	G10H5	G10H1	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Disclosed are a method and apparatus for analyzing an input vocal signal to produce a plurality of harmony signals that are combined with the input vocal signal to produce a multivoice signal. The method makes a current estimate of the fundamental frequency of the input vocal signal and determines if the current estimate is the correct estimate of the fundamental frequency. If the current estimate is correct, a reference note is assigned to correspond to the current estimate and a plurality of harmony notes are selected to correspond to the reference note. The method then generates a plurality of harmony signals by scaling the input vocal signal with a piecewise linear approximation of a Hanning window to extract a portion of the input vocal signal and by replicating the extracted portion at a plurality of rates equal to the fundamental frequencies of each of the harmony notes. The plurality of harmony signals and the input vocal signal are combined to produce the multivoice signal. The steps of the method are carried out with a microprocessor and a signal processing circuit.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IVL TECHNOLOGIES LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+IVL TECHNOLOGIES LTD.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BERTSCH JOHN PAUL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GIBSON BRIAN C
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BERTSCH, JOHN, PAUL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GIBSON, BRIAN, C.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates generally to an apparatus and method for 
+generating musical harmonies and, in particular, to an apparatus and method for 
+generating vocal harmonies. Musical harmony generators are machines that operate to produce a set of 
+harmony signals that correspond to a given musical input signal. With such a 
+machine, a musician can play a melody line while the machine generates the 
+harmony lines, thereby allowing one musician to sound like several. Harmony 
+generators that work with signals from musical instruments, such as guitars or 
+synthesizers, have been well known for many years. Such devices generally 
+operate by sampling an input signal and shifting its frequency to generate the 
+harmonies. In a periodic musical signal, there is always a fundamental frequency that 
+determines the particular pitch of the signal as well as numerous harmonics, which 
+provide character to the musical signal. It is the particular combination of the 
+harmonic frequencies with the fundamental frequency that make, for example, a 
+guitar and a violin playing the same note sound different from one another. In a 
+musical instrument such as a guitar, flute, saxophone, or a keyboard, as the pitch 
+of a note varies, the spectral envelope of the fundamental frequency and the 
+harmonics expand or contract as the pitch is shifted up or down. Therefore, for 
+musical instruments one can create harmony notes by sampling sound from the 
+instrument and playing the sampled sound back at a rate either faster or slower, 
+without the harmony notes sounding artificial. Although this method of 
+generating harmonies works for musical instruments, it does not work well for 
+generating vocal harmonies.  
+ In a vocal signal, there is typically a fundamental frequency that 
+determines the pitch of a note an individual is singing, as well as a set of 
+harmonic frequencies that add character and timbre to the note. In 
+contrast with a musical instrument, as the pitch of a vocal signal varies, 
+the spectral envelope of the harmonics retains the same shape but the 
+individual frequencies that make up the spectral envelope may change in 
+magnitude. Therefore, generating harmony signals for the voice, by 
+sampling a note as it is sung and varying its frequency, does not sound 
+natural, because that method varies the shape of the spectral envelope. In 
+order to generate harmony notes for a vocal signal, a method is required 
+for varying the frequency of the fundamental, while maintaining the 
+overall shape of the spectral
+</DESCRIPTION>
+<CLAIMS>
+A method for shifting the pitch of a digitally sampled signal 
+by extracting a portion of the signal and replicating the extracted portion 
+
+at a predetermined rate, comprising: 
+
+analyzing an input vocal signal and generating one or more 
+harmony signals that have a predefined musical relationship to the input 
+
+vocal signal, which in turn comprises the steps of: 
+sampling the input vocal signal to create a digital representation of 
+the input vocal signal; 
+repetitively analyzing the digital representation of the input vocal 
+signal to de
+termine a current estimate of the fundamental frequency of the 
+input vocal signal; 
+testing the current estimate based on a set of parameters derived 
+from a previous estimate of the fundamental frequency to determine if the 
+
+current estimate is a correct estimate of the fundamental frequency; 
+selecting one or more harmony frequencies that define the one or 
+more harmony signals based upon the current estimate of the fundamental 
+
+frequency of the input vocal signal; 
+extracting a portion of the digital representation of the input vocal 
+signal; and 
+replicating the extracted portion of the digital representation of the 
+input vocal at one or more rates that are a function of the harmony 
+
+frequencies that define the one or more harmony signals. 
+The method of claim 1, wherein the step of testing the 
+current estimate of the fundamental frequency further comprises the step 
+
+of:
+  
+ 
+
+   determining if the current estimate of the fundamental frequency is 
+within a range of frequencies related to the previous estimate. 
+The method of claim 2, further comprising the step of:
+ 
+   determining whether an integer multiple or fraction of the current 
+
+estimate lies within the range of frequencies and, if so, adjusting the 
+current estimate to lie within the range of frequencies.  
+
+ 
+The method of Claim 1, further comprising the step of:
+ 
+   assigning a reference note to correspond to the current estimate of the 
+
+fundamental frequency if the current estimate is the correct estimate of the 
+fundamental frequency of the input vocal signal. 
+The method of Claim 4, wherein the input vocal signal can range over 
+a plurality of octaves, and wherein the step of assigning a reference note 
+
+corresponding to the current estimate further comprises the steps of: 
+
+reiteratively making an estimate of the octave of the input vocal signal; 
+determining whether the estimate of the octave of the input vocal signal is 
+incorrect; and 
+updating the estimate of the octave if the estimate is incorrect. 
+The method of Claim 5, wherein the step of dctermining if the initial 
+estimate of the octave is incorrect comprises the steps of: 
+
+
+determining a length of time for which the reference note has been assigned; 
+counting the number of times the estimate of the octave of the input vocal 
+signal varies an octave above or an octave below an initial estimatc of the octave; 
+determining a first variable that is a function of the number of times the 
+estimate of the octave of the input vocal signal varies an octave above the initial 
+
+estimate of the octave and the time the reference note has been assigned; and 
+determining a second variable that is a function of the number of times the 
+estimate of the octave of the input vocal signal varies an octave below the initial 
+
+estimate of the octave and the time the reference note has been assigned. 
+The method of Claim 6, further comprising the steps of: 
+
+updating the initial estimate of the octave of the input vocal signal, setting it 
+equal to an octave above the initial estimate of the octave if the first variable exceeds 
+
+a first predefined limit; or 
+updating the initial estimate of the octave of the input vocal signal, setting it 
+equal to an octave below the initial estimate of the octave if the second variable 
+
+exceeds a second predefined limit. 
+The method of Claim 5, wherein the step of determining if the 
+estimate of the octave is incorrect further comprises the steps of: 
+
+
+computing a 0th lag autocorrelation of the input vocal signal; 
+computing a P/2th lag autocorrelation of the input vocal signal; 
+calculating a ratio of the 0th and the P/2th lag autocorrelation of the input 
+vocal signal; and 
+updating the estimate of the octave of the input vocal signal to equal an octave 
+below the initial estimate if the ratio exceeds a predefined limit. 
+The method of Claim 1, wherein the step of extracting a portion of 
+the digital representation of the input vocal signal comprises the step of:
+ 
+   scaling the input vocal signal by a window function to extract a portion of the 
+
+digital representation of the input vocal signal. 
+The method of Claim 8, wherein the step of scaling the input vocal 
+signal by a window function further comprises the step of:
+ 
+   generating a piecewise linear approximation of a Hanning window having a 
+
+duration substantially greater than a period of the current estimate of the fundamental 
+frequency. 
+The method of Claim 1, further comprising the step of:
+ 
+   determining if the input vocal signal is representative of a sibilant sound and 
+
+only generating one or more harmony signals if the input vocal signal is not 
+representative of a sibilant sound. 
+The method of Claim 6, wherein the set of parameters derived from a 
+previous estimate of the fundamental frequency comprises: 
+
+
+the length of time for which the reference note has been assigned; 
+a length of time between when a previous note ends and the reference note is 
+assigned; 
+a range of frequencies related to the previous estimate of the fundamental 
+frequency; and 
+a level of the input vocal signal. 
+A system for shifting the pitch of a digitally sampled signal 
+by extracting a portion of the signal and replicating the extracted portion 
+
+at a predetermined rate, comprising: 
+
+an apparatus (10) for analyzing an input signal (20) representative 
+of a musical note in order to produce a plurality of harmony signals (22) 
+
+that are combined with the input vocal signal to produce a multivoice 
+signal, which in turn comprises: 
+signal processing means (50) for sampling the input vocal signal 
+and storing the sampled input vocal signal in a digital memory (44); 
+a frequency detector (40) for determining a current estimate of the 
+fundamental frequency of the input vocal signal; 
+computing means (40) for determining the fundamental frequency 
+of the plurality of harmony signals based on the fundamental frequency of 
+
+the input vocal signal and for testing the current estimate of the 
+fundamental frequency based on a set of parameters derived from a 
+
+previous estimate of the fundamental frequency of the input vocal signal 
+to determine if the current estimate is a correct estimate of the 
+
+fundamental frequency of the input vocal signal; 
+a plurality of timing means (558) for producing trigger signals 
+having frequencies substantially equal to the fundamental frequencies of 
+
+the plurality of harmony signals; 
+a plurality of fader means (568) responsive to the trigger signals 
+for extracting portions of the input vocal signal and for replicating the 
+
+extracted portions at a rate substantially equal to the fundamental 
+frequencies of the plurality harmony signals; and 
+a mixer (64) connected to receive the extracted portions of the 
+input vocal signal and the input vocal signal in order to combine them to 
+
+produce the multivoice signal. 
+The apparatus as in claim 13, wherein the fader means (568) 
+for extracting portions of the sampled input vocal signal scale the sampled 
+
+input vocal signal with a window function. 
+The apparatus as in claim 14, further comprising:
+ 
+   means (40) for generating a piecewise linear approximation of a 
+
+Hanning window having a duration greater than a period of the current 
+estimate of the fundamental frequency of the input vocal signal. 
+The apparatus as in claim 13, further comprising:
+ 
+   sibilant detecting means (40) for determining if the input vocal 
+
+signal is representative of a sibilant sound. 
+The apparatus as in claim 16, further comprising:
+ 
+   a bypass switch (620) that is responsive to the sibilant detecting 
+
+means for disconnecting the mixer means (64) from receiving the plurality 
+of harmony signals such that the multivoice signal excludes the harmony 
+
+signals when the input vocal signal is representative of a sibilant sound. 
+The apparatus as in claim 13, wherein the input vocal signal 
+can range over a plurality of octaves and wherein the computing 
+
+means (40) further make an initial estimate of the octave of the input 
+vocal signal to determine if the initial estimate is incorrect and update the 
+
+initial estimate of the octave if the initial estimate is incorrect. 
+The apparatus as in claim 18, wherein the computing 
+means (40) calculate the 0th lag autocorrelation of the input vocal signal 
+
+and the P/2th lag autocorrelation of the input vocal signal and update the 
+initial estimate of the octave to equal an octave below the initial estimate  
+
+ 
+if a ratio of the 0th lag autocorrelation divided by the P/2th lag 
+
+autocorrelation exceeds a predefined limit. 
+The apparatus as in claim 13, further comprising:
+ 
+   means (40) for maintaining the selection of harmony signals despite 
+
+variations in the fundamental frequency of the input vocal signal such that 
+the harmony signals do not change until the fundamental frequencies of 
+
+the input vocal signal change by more than a predefined interval. 
+</CLAIMS>
+</TEXT>
+</DOC>

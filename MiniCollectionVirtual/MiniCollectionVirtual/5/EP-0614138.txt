@@ -1,0 +1,315 @@
+<DOC>
+<DOCNO>EP-0614138</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+A data processor with most recently allocated register bit.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F938	G06F938	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A data processor has a plurality of execution units (12), a 
+rename buffer (14) coupled to at least one of the execution units 
+
+and a plurality of architectural registers (16) coupled to at least 
+one execution unit and to the rename buffer. The rename buffer 
+
+periodically receives and stores the result and periodically 
+receives requests for the operand. Each received result and 
+
+operand is associated with an architectural register. The rename 
+buffer periodically forwards one of a set of received results to an 
+
+execution unit. Each received result of the set is associated with 
+the same architectural register. The rename buffer is operable to 
+
+determine which entry is the most recently allocated among 
+several that will update the same architectural register. This 
+
+ability to both manage results destined for the same architectural 
+register and to forward only the appropriate value increases data 
+
+processor throughput and reduces instruction stalls. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MOTOROLA INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MOTOROLA, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+DENMAN MARVIN A JR
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DENMAN, MARVIN A., JR.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention generally relates to digital computing 
+systems, and more specifically to a data processor having out of 
+order instruction execution or completion. Many data processor architectures now incorporate multiple 
+execution units to simultaneously perform more than one 
+instruction at a time. Such an architecture can greatly increase 
+the throughput of a data processing system with respect to 
+another system that has a single general purpose execution unit or 
+that waits until a first instruction completes before beginning a 
+second subsequent instruction. For instance, a data processor may 
+have an integer execution unit, a floating point execution unit, a 
+data execution unit and an instruction execution unit. Each of 
+these execution units is only able to perform a few instructions. 
+Collectively, however, they can perform a complete set of 
+instructions required by a general purpose data processor. In 
+addition, these four execution units may perform up to four 
+separate instructions at the same time depending upon various 
+factors. Data processors that incorporate multiple execution units 
+may be further classified by the protocol they follow when 
+"writing back" instruction results to architectural registers. 
+Write back is the procedure a data processor follows when it 
+writes the results of a completed instruction to an architectural 
+register. The data processor may either write back "in-instruction-order" 
+or "out-of-instruction-order." The selection of 
+a write back protocol is a compromise between hardware and 
+software complexity. It is simpler to program an in-instruction-order  
+ 
+data processor to handle interrupts and exceptions, for 
+instance, than it is to program an out-of-instruction-order data 
+processor to handle the same events. Conversely, it is simpler to 
+design an out-of-instruction-order data processor than it is to 
+design an in-instruction-order data processor. An "in-instruction-order" data processor is one that updates 
+architectural registers with the result of an instruction in the 
+order in which the instructions appear in the original instruction 
+stream. An in-instruction-order data processor may use a rename 
+buffer to temporarily store its results prior to write back 
+because the results may not necessarily complete in the original 
+instruction order. Instructions may complete out of order because 
+they began out of order, because different types of instructions 
+take different amounts of time to complete, or both. In operation, 
+the first result
+</DESCRIPTION>
+<CLAIMS>
+A data processor (10) comprising: 
+   a plurality of execution units (12), the execution units 
+
+operable to perform an instruction set, at least 
+one instruction of the instruction set requiring 
+
+an operand, at least one instruction of the 
+instruction set generating a result; 
+
+   a plurality of architectural registers (16) coupled to 
+at least one execution unit, the architectural 
+
+registers periodically receiving the result of the 
+at least one instruction generating a result; and 
+
+   a rename buffer (14) coupled to at least one of the 
+execution units and to the plurality of 
+
+architectural registers, the rename buffer 
+periodically receiving and storing the result of 
+
+the at least one instruction generating a result, 
+each received result being associated with a 
+
+selected one of the architectural registers, the 
+rename buffer periodically receiving requests 
+
+for the operand from the at least one instruction 
+requiring an operand, the operand being requested 
+
+being associated with a first selected one of the 
+architectural registers, the rename buffer being 
+
+operable to forward a received result to the 
+requesting execution unit, the forwarded 
+
+received result of a set of received results, each 
+received result of the set of received results 
+
+associated with the first selected one of the 
+architectural registers. 
+The data processor of claim 1 wherein the rename buffer 
+further comprises: 
+
+   a plurality of memory elements (35), each memory 
+element operable to store the received result, a 
+
+tag representative of the architectural register 
+associated with the received result and a first-most-recently-allocated 
+
+bit associated with the 
+received result (MRA); and 
+
+   forwarding circuitry (14, 18) coupled to the plurality 
+of memory elements, the forwarding circuitry 
+
+periodically receiving a first tag identifying one 
+of the architectural registers, storing the tag in 
+
+a predetermined one of the memory elements, 
+setting the first-most-recently-allocated bit 
+
+associated with the predetermined one of the 
+memory elements to a first logic state, setting 
+
+each first-most-recently-allocated bit of a 
+subset of memory elements to a second logic 
+
+state, each memory element within the subset of 
+memory elements comprising a second tag 
+
+logically equivalent to the first tag of the 
+predetermined one of the memory elements, and 
+
+the forwarding circuitry forwarding a selected 
+received result to one of the execution units. 
+The data processor of claim 2 wherein each of the memory 
+elements comprises a second-most-recently-allocated bit 
+
+(SHADOW MRA) associated with each of the first-most-recently-allocated 
+bits and wherein the forwarding 
+
+circuitry is operable to store each first-most-recently-allocated 
+bit in an associated second-most-recently-allocated 
+
+bit location responsive to a predetermined 
+condition. 
+The data processor of claim 3 wherein the predetermined 
+condition is a speculative branch instruction. 
+The data processor of claim 4 wherein the forwarding 
+circuitry comprise
+s tag circuitry to forward an address of 
+the selected received result to the one of the execution 
+
+units (RENAME TAG). 
+The data processor of claim 5 wherein each of the plurality 
+of memory elements further comprises a valid bit (V) and a 
+
+data present bit (DATA PRESENT), the valid bit 
+representative of a valid tag in a first logic state, the data 
+
+present bit representative of a valid received result in a 
+first logic state and wherein the selected received result 
+
+comprises a tag (ARCHITECTURAL REGISTER FILE TAG), a 
+valid bit, a first-most-recently-allocated bit and a data 
+
+present bit corresponding in logic state to the first selected 
+one of the architectural registers, to the first logic state of 
+
+the valid bit, to the first logic state of the first-most-recently-allocated 
+bit, and to the first logic state of the 
+
+data present bit, respectively. 
+A data processor (10) comprising: 
+   a plurality of execution units (12), the execution units 
+
+operable to perform an instruction set, at least 
+one of the instructions of the instruction set 
+
+requiring an operand, at least one of the 
+instructions of the instruction set generating a 
+
+result; 
+   a plurality of architectural registers (16) coupled to 
+
+at least one of the execution units, the 
+architectural registers periodically receiving 
+
+the result of the at least one instruction 
+generating a result; 
+
+   a plurality of memory means (35), each memory means 
+operable to store a result (DATA), a tag 
+
+representative of the architectural register 
+associated with the result (ARCHITECTURAL 
+
+REGISTER FILE TAG) and a first-most-recently-allocated 
+bit associated with the result (MRA); 
+
+   allocation (14, 18) means coupled to at least one of 
+the execution units and to the plurality of 
+
+memory means, the allocation means periodically 
+receiving a first tag identifying an architectural 
+
+register, storing the first tag in a predetermined 
+one of the memory means, setting the first-most-recently-allocated 
+
+bit associated with the 
+predetermined one of memory means to a first 
+
+logic state, setting each first-most-recently-allocated 
+bit of a subset of the memory elements 
+
+to a second logic state, the subset of memory 
+elements comprising a tag logically equivalent 
+
+to the first tag; and
+ 
+
+   forwarding means (14, 18) coupled to at least one of 
+the execution units and to the plurality of 
+
+memory means, the forwarding means forwarding 
+a selected result to an execution unit requesting 
+
+an operand associated with a first one of the 
+architectural registers, the selected result 
+
+associated with one of the memory means, the 
+one memory means comprising a tag and a first-most-recently-allocated 
+
+bit corresponding in 
+logic state to the first one of the architectural 
+
+registers and to the first logic state of the 
+first-most-recently-allocated bit, respectively. 
+A method of operating a data processor comprising the steps 
+of: 
+
+   at a first time, storing a first tag and a first first-most-recently-allocated 
+bit as a first set of a 
+
+plurality of sets in a first memory element, the 
+first memory element one of a plurality of 
+
+memory elements, the first tag identifying an 
+address of a first memory cell associated with a 
+
+first result, the first first-most-recently-allocated 
+bit associated with the first result, 
+
+the first first-most-recently-allocated bit 
+assuming a first logic state; and 
+
+   at a second subsequent time, storing a second tag and 
+a second first-most-recently-allocated bit as a 
+
+second set in the plurality of sets in a second 
+memory element, the second memory element one 
+
+of the plurality of memory elements, the second 
+tag identifying an address of a memory cell 
+
+associated with a second result and the second 
+first-most-recently-allocated bit associated 
+
+with the second result, the second first-most-recently-allocated 
+bit assuming a first logic 
+
+state, and storing a second logic state in a 
+subset of first-most-recently-allocated bits, 
+
+each of the tags associated with the subset of 
+first-most-recently-allocated bits logically 
+
+equivalent to the second tag. 
+</CLAIMS>
+</TEXT>
+</DOC>

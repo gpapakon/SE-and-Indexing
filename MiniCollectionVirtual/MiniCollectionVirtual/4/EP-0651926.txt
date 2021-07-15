@@ -1,0 +1,913 @@
+<DOC>
+<DOCNO>EP-0651926</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+TRANSMITTING AND RECEIVING APPARATUS AND METHOD INCLUDING PUNCTURED CONVOLUTIONAL ENCODING AND DECODING
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04L100	H04N720	H04N708	H04J322	H03M1300	H04M1106	H04L25493	H04N726	H04N708	H04J322	H04N720	H04L2718	H04N766	H04B715	H03M1323	H04L100	H04N726	H04L25493	H04L2718	H04N764	H04B715	H04M1106	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04L	H04N	H04N	H04J	H03M	H04M	H04L	H04N	H04N	H04J	H04N	H04L	H04N	H04B	H03M	H04L	H04N	H04L	H04L	H04N	H04B	H04M	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04L1	H04N7	H04N7	H04J3	H03M13	H04M11	H04L25	H04N7	H04N7	H04J3	H04N7	H04L27	H04N7	H04B7	H03M13	H04L1	H04N7	H04L25	H04L27	H04N7	H04B7	H04M11	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Digital data (particularly encoded television program signals) are communicated from a transmitter to a terrestrial receiver by convolutional encoding the data into a first and a second signal during different periods representing a rate 1/2 signal. During the different periods, the two signals are combined and punctured into one serial punctured bit stream for producing a forward error correction convolutional encoded signal having a manually or automatically selected rate e.g. rate 2/3 or 6/7. Signals being encoded into different variable rates are transmitted at mutually exclusive times at first and second power levels to the receiver via a satellite. At the variable rates, parallel punctured bit streams are simultaneously derived and modulate simultaneously the pair of orthogonal carriers (QPSK). The improved puncturing method is capable of handling all of the optimum punctured codes and uses a punctured clock, multiplexer, FIFO, RAM, ROM, rate control source. The punctured clock is used to derive a pair of wavetrains comprising the I and Q channels sequential bits and dummy bits inserted into the serial signal. The receiver responds to the QPSK carrier and derives first a serial signal having one sequential bit stream of alternating both I and Q sequential bits. Further they are sequentially re-arranged as signals I and Q at the same time slots.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+CONEXANT SYSTEMS INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+CONEXANT SYSTEMS, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+ESSERMAN JAMES NEIL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TZUKERMAN SHIMON
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ESSERMAN, JAMES, NEIL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TZUKERMAN, SHIMON
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates generally to feed
+forward error correction transmitters, receivers, systems
+and methods employing punctured convolutional encoding
+and decoding and more particularly to such transmitters,
+receivers, systems and methods wherein (a) a serial bit
+stream at the transmitter and/or receiver is divided into
+a pair of bit streams and/or (b) feed forward error
+correction data signals having 2/3 and 6/7 punctured
+codes are radiated at mutually exclusive times from a
+geosynchronous satellite at first and second power
+levels, respectively, to a terrestrial receiving site
+including an antenna dish having a diameter of no more
+than approximately one meter.In a convolutional encoded feed forward error
+correction transmitter, a binary bit stream is divided
+into first and second bit streams respectively including
+sequential bits P1(0), P1(1), P1(2), P1(3), P1(4) etc.
+and P2(0), P2(1), P2(2), P2(3), P2(4) etc. In one-half
+rate convolutional encoding, the first and second bit
+streams are formed by combining adjacent bits in the
+original bit stream in accordance with a modulo 2
+function, i.e., by using half adders responsive to the
+adjacent bits.Because of the redundancy in the first and second
+bit streams, it is possible to remove some of the bits
+from these bit streams without substantial loss of 
+information; such removal of bits from the first and
+second bit streams is generally referred to in the art as
+puncturing. Optimum puncturing codes for these bit
+streams are disclosed by Yasuda et al., "Development of
+Variable-Rate Viterbi Decoder and its Performance
+Characteristics," 6th International Conference on Digital
+Satellite Communications, Phoenix, Arizona, September
+1983. Yasuda et at. discloses optimal puncturing rates
+from 2/3 to 16/17. The 2/3 puncturing code or rate is
+represented by:
+1011Lines 1 and 2 of Table I respectively indicate
+puncturing operations performed on the bits of the first
+and second bit streams. The first place in line 1
+indicates the puncturing operations to be performed on
+bits P1(0), P1(2), P1(4) etc. of the first bit stream;
+the second place in line 1 indicates puncturing
+operations performed on bits P1(1), P1(3), P1(5) etc. of
+the first bit stream; the first place in line 2 of Table
+I indicates the puncturing operations performed on bits
+P2(0), P2(2), P2(4) etc. of the second bit stream; the
+second place in line 2 indicates the operations on bits
+P2(1), P2(3), P2(5) etc. Values of 1 and 0 in Table I
+respectively indicate there is no puncturing and there is
+punc
+</DESCRIPTION>
+<CLAIMS>
+A method of communicating a digital data signal from
+a transmitter (10.1-28,32) to a receiver (36-78) during
+
+mutually exclusive transmitting periods including the step of
+encoding (20) the digital data signal into a 1/2 rate
+
+convolutional encoded signal during each of said periods;
+characterised in that the method further includes, during the
+
+first transmission period, the steps of(1) encoding (22) the
+convolutional encoded signal into a first forward error
+
+correction convolutional encoded signal having a 2/3 punctured
+code and (2) transmitting (26-28,32) the encoded first forward
+
+error correction signal to the receiver via a geosynchronous
+satellite (30); during the second transmission period the step
+
+of (1) encoding the convolutional encoded signal into a second
+forward error correction convolutional encoded signal having
+
+a 6/7 punctured code and (2) transmitting the encoded second
+forward error correction signal to the receiver via the
+
+geosynchronous satellite; during both the first and second
+periods the steps of receiving the encoded forward error
+
+correction signals emitted from the satellite at the receiver
+with an antenna including a dish (36) having a diameter no
+
+greater than about 1 meter, and decoding (64-68) the received
+encoded forward error correction signals into a further signal
+
+that is an approximate replica of the digital data signal, and
+the step of controlling the power emitted from the satellite
+
+so that the power emitted from the satellite of the encoded
+forward er
+ror correction signal having the 2/3 punctured code 
+during the first period is appreciably lower than the power
+
+emitted from the satellite of the encoded forward error
+correction signal having the 6/7 punctured code during the
+
+second period.
+The method of claim 1 wherein the transmitter
+responds to an intelligence signal to form the digital data
+
+signal by:
+
+encoding (20) input bits representing the intelligence
+signal into first and second parallel different sequential bit
+
+streams (P
+1
+,P
+2
+) such that a plurality of the input bits is
+converted into multiple bits of each of the first and second
+
+parallel bit streams, the first and second parallel bit
+streams (P
+1
+,P
+2
+) having corresponding sequential time slots 1,
+2...j...M so there is in each time slot a bit of each bit
+
+stream;
+combining (204) and puncturing (212) the first and
+second parallel bit streams into a serial punctured bit stream
+
+having time slots 1,2...k...N; so that
+
+(a) for the time slot j
+1
+ of the first and second bit
+streams, having no undeleted bits, (i) time slots k
+1
+ and (k
+1
++1)
+respectively have therein the bits in time slot j
+1
+ of the first
+and second bit streams, (ii) time slot (k
+1
+-1) has a bit
+therein resulting from a bit in time slot (j
+1
+-1) of the first
+and second bit streams provided time slot (j
+1
+-1) of the first
+and second bit streams has at least one undeleted bit, and 
+
+(iii) time slot (k
+1
++2) has a bit therein resulting from a bit
+in time slot (j
+1
++1) of the first and second bit streams
+provided time slot (j
+1
++1) of the first and second bit streams
+has at least one undeleted bit; (b) for the time slot j
+2
+ of the
+first and second bit streams having one undeleted bit and one
+
+deleted bit, (i) time slot k
+2
+ has the undeleted bit, (ii) time
+slot (k
+2
+-1) has a bit therein resulting from a bit in time
+slot (j
+2
+-l) of the first and second bit streams provided time
+slot (j
+2
+-l) of the first and second bit streams has at least
+one undeleted bit, time slot (k
+2
++l) has a bit therein
+resulting from a bit in time slot (j
+2
++l) of the first and
+second bit streams provided time slot (j
+2
++l) of the first and
+second bit streams has at least one undeleted bit; and (c) for
+
+the time slot j
+3
+ of the first and second bit streams having
+only deleted bits there is no time slot in the serial deleted
+
+bit stream; and
+responding (242) to the serial stream to derive plural
+parallel punctured bit streams including the bits of the
+
+serial bit stream;
+modulating (206) a carrier in response to bits of the
+plural parallel punctured bit streams so that the carrier is
+
+simultaneously modulated by the plural parallel bit streams.
+The method of claim 1 or 2 wherein a forward error
+correction convolutional encoded signal having a first
+
+convolutional encoded bit stream of sequential bits P
+1
+(0),
+P
+1
+ (1), P
+1
+(2), P
+1
+(3), P
+1
+(4) and a second convolutional encoded 
+bit stream of sequential bits P
+2
+(0), P
+2
+(l), P
+2
+(2), P
+2
+(3), P
+2
+(4)
+is derived by puncturing (212) only every other bit of the
+
+first bit stream to derive a punctured first bit stream and
+responding (242) to the punctured first bit stream and the
+
+second bit stream to derive parallel I and Q channels wherein
+four sequential time slots t
+k
+, t
+k+1
+, t
+k+2
+, t
+k+3
+ of the I
+channel respectively consist of bits P
+1
+(0), P
+2
+(l), P
+2
+(2), P
+1
+(4)
+and the corresponding time slots t
+k
+, t
+k+1
+, t
+k+2
+, t
+k+3
+ of the Q
+channel respectively consist of bits P
+2
+(0), P
+1
+(2), P
+2
+(3),
+P
+2
+(4), the carrier being simultaneously modulated by the two
+bits of the I and Q channels in four sequential time slots t
+k
+,
+t
+k+1
+, tk+
+2
+, tk+
+3
+.
+The method of claim 3 further including combining
+(204, 212) the first and second bit streams (P
+1
+,P
+2
+) into a
+serial bit stream having sequential bits P
+1
+(0), P
+2
+(0), P
+2
+(l),
+P
+1
+ (2), P
+2
+(2), P
+2
+(3), P
+1
+(4), P
+2
+(4) in the stated order to derive
+the I and Q channels.
+A receiver responsive to a digital data signal
+transmitted from a transmitter (10.1-28,32) via a
+
+geosynchronous satellite to the receiver (36-78) during
+mutually exclusive transmitting periods wherein during each
+
+of the periods the digital data signal is encoded into a 1/2
+rate convolutional encoded signal; during a first transmission
+
+period the convolutional encoded signal is encoded into a 
+first forward error correction convolutional encoded signal
+
+having a 2/3 punctured code; during a second transmission
+period the convolutional encoded signal is encoded into a
+
+second forward error correction convolutional encoded signal
+having a 6/7 punctured code; the power emitted from the
+
+satellite for the encoded forward error correction signal
+having the 2/3 punctured code during the first period being
+
+appreciably lower than the power emitted from the satellite
+of the encoded forward error correction signal having the 6/7
+
+punctured code during the second period; the receiver
+including an antenna having a dish (36) with a diameter no
+
+greater than approximately 1 metre responsive to the encoded
+forward error correction signals emitted from the satellite
+
+during both the first and second periods, means for decoding
+(64-68) the received encoded forward error correction
+
+signals into a further signal that is an approximate replica
+of the digital data signal, first circuit means (38,62)
+
+responsive to the signal transduced by the antenna for
+deriving a first received signal containing substantially
+
+the same data as in (1) the forward error correction
+convolutional coded signal having the 2/3 punctured code
+
+while the data in the first signal is being received by the
+receiver, and in (2) the forward error correction
+
+convolutional coded signal having the 6/7 punctured code while
+the data in the second signal is being received by the
+
+receiver, and means (64) responsive to the signal derived by 
+the circuit means for deriving a third signal that is an
+
+approximate replica of the digital data signal.
+The receiver of claim 5 wherein the digital data
+signal is derived from a television program signal and the
+
+receiver further includes means (66-76) for converting the
+third signal into a signal for a household television
+
+receiver.
+The receiver of claim 5 or 6 wherein the forward
+error correction convolutional encoded signal having the 2/3
+
+punctured code includes I and Q parallel channels having
+sequential bits P
+1
+(0), P
+2
+(l), P
+2
+(2), P
+1
+(4) and P
+2
+(0), P
+1
+(2),
+P
+2
+(3), P
+2
+(4) respectively in corresponding time slots t
+k
+,
+t
+k+1
+, t
+k+2
+, t
+k+3
+, the circuit means responding to the bits of
+the I and Q channels for (a) forming first and second
+
+parallel sequential bit streams such that the sequential
+bits of the first bit stream in time slots t
+k
+, t
+k+1
+, t
+k+2
+,
+t
+k+3
+ are respectively P
+1
+(0), X
+1
+, P
+1
+(2), X
+2
+ (where X
+1
+ and X2
+are dummy bits) and the sequential bits of the second bit
+
+stream in the corresponding time slots t
+k
+, t
+k+1
+, t
+k+2
+, t
+k+3
+
+are respectively P
+2
+(0), P
+2
+(1), P
+2
+(2), P
+2
+(3), and (b)
+signalling that bits X
+1
+ and X
+2
+ of the first bit stream are
+dummy bits.
+The receiver of any of claims 5 to 7 wherein the 
+circuit means for forming the first and second parallel
+
+sequential bit streams punctured at the rate 2/3 includes
+means (304 or 508) for coupling the sequential bits of the
+
+I and Q channels into a serial bit stream having sequential
+bits P
+1
+(0), P
+2
+(0), P
+2
+(l), P
+1
+(2), P
+2
+(2), P
+2
+(3), P
+1
+(4), P
+2
+(4).
+The receiver of any of claims 5 to 8 wherein the
+forward error correction convolutional encoded signal
+
+punctured at the rate 6/7 includes I and Q parallel
+channels (300 and 302) having sequential bits P
+1
+(0), P
+2
+(1),
+P
+1
+(3), P
+1
+(5), P
+2
+(6), P
+2
+(8), P
+2
+(10), and P
+2
+(0), P
+2
+(2), P
+2
+(4),
+P
+1
+(6), P
+2
+(7), P
+1
+(9),P
+1
+(11) respectively in corresponding time
+slots t
+k
+, t
+k+1
+, t
+k+2
+, t
+k+3
+, t
+k+4
+, t
+k+5
+, t
+k+6
+, the circuit means
+responding to the bits of the I and Q channels for (a) forming
+
+first and second parallel sequential bit streams (343 and 344)
+such that the sequential bits of the first bit stream in time
+
+slots t
+k+1
+, t
+k+2
+, t
+k+3
+, t
+k+4
+, t
+k+5
+, t
+k+6
+, t
+k+7
+, t
+k+8
+, t
+k+9
+,
+t
+k+10
+, t
+k+11
+, t
+k+12
+, are respectively P
+1
+(0), X
+3
+, X
+4
+,
+
+P
+1
+(3), X
+5
+, P
+1
+(5), P
+1
+(6), X
+6
+, X
+7
+, P
+1
+(9), X
+8
+, P
+1
+(11) and the
+sequential bits of the second bit stream in the corresponding
+
+time slots are t
+k+1
+, t
+k+2
+, t
+k+3,
+ t
+k+4
+, t
+k+5
+, t
+k+6
+, t
+k+7
+, t
+k+8
+,
+t
+k+9
+, t
+k+10
+, t
+k+11
+, t
+k+12
+, are respectively P
+2
+(0), P
+2
+(l), P
+2
+(2),
+X
+9
+, P
+2
+(4), X
+10
+, P
+2
+(6), P
+2
+(7), P
+2
+(8), X
+11
+, P
+2
+(10), X
+12
+ (where X
+3
+-X
+12
+
+are dummy bits), and (b) signalling that the bits in time
+slots t
+k+2
+, t
+k+3
+, t
+k+5
+, t
+k+8
+, t
+k+9
+, t
+k+11
+, of the first bit
+stream and that the bits in time slots t
+k+4
+, t
+k+6
+, t
+k+10
+, 
+t
+k+12
+, of the second bit stream are dummy bits.
+The receiver of any of claims 7 to 9 wherein the
+circuit means for forming the first and second parallel
+
+sequential bit streams at the 6/7 rate includes means (304)
+for coupling the sequential bits of the I and Q channels into
+
+a serial bit stream having sequential bits P
+1
+(0), P
+2
+(0),
+P
+2
+(1), P
+2
+(2), P
+1
+(3), P
+2
+(4), P
+1
+(5), P
+1
+(6), P
+2
+(6), P
+2
+(7), P
+2
+(8),
+P
+1
+(9), P
+2
+(10), P
+1
+(11).
+The receiver of any of claims 7 to 10 wherein the
+forward error correction convolutional encoded signal
+
+punctured at the rate 2/3 includes I and Q parallel channels
+(300 and 302) having sequential bits R
+1
+(0), R
+2
+(1), R
+2
+(2),
+R
+1
+(4) and R
+2
+(0), R
+1
+(2), R
+2
+(3), R
+2
+(4), respectively in
+corresponding time slots t
+j
+, t
+j+1
+, t
+j+2
+, t
+j+3
+ the circuit means
+responding to the bits of the I and Q channels for (a) forming
+
+third and fourth parallel sequential bit streams (343,344)
+such that the sequential bits of the third bit stream in time
+
+slots t
+j
+, t
+j+1
+, t
+j+2
+, t
+j+3
+ are respectively R
+1
+(0), X
+1
+, R
+1
+(2), X
+2
+
+(where X
+1
+ and X
+2
+ are dummy bits), and the sequential bits of
+the fourth bit stream in the corresponding time slots t
+j
+,
+t
+j+1
+, t
+j+2
+, t
+j+3
+ are respectively R
+2
+(0), R
+2
+(1), R
+2
+(2), R
+2
+(3)and
+(b) signalling that bits X
+1
+ and X
+2
+ of the third bit stream are
+dummy bits. 
+The receiver of any of claims 7 to 11 wherein the
+circuit means for forming the third and fourth parallel
+
+sequential bit streams 343, 344) includes means (304) for
+coupling the sequential bits of the I and Q channels (300,
+
+302) into a serial bit stream having sequential bits R
+1
+(0),
+R
+2
+(0), R
+2
+(1), R
+1
+(2), R
+2
+(2), R
+2
+(3), R
+1
+(4), R
+2
+(4).
+The receiver of any of claims 7 to 12 wherein the
+forward error correction convolutional encoded signal
+
+punctured at the rate 2/3 includes I and Q parallel channels
+(300, 302) having sequential bits R
+1
+(0), R
+2
+(1), R
+2
+(2), R
+1
+(4)
+and R
+2
+(0), R
+1
+(2), R
+2
+(3), R
+2
+(4) respectively in corresponding
+time slots t
+j
+, t
+j+1
+, t
+j+2
+, t
+j+3
+ the circuit means responding to
+the bits of the I and Q channels for (a) deriving third and
+
+fourth parallel sequentil bit streams (343, 344) such that the
+sequential bits of the third bit stream in time slots t
+j
+, t
+j+1
+,
+t
+j+2
+, t
+j+3
+ are respectively R
+1
+(0), X
+1
+, R
+1
+(2), X
+2
+ (where X
+1
+ and
+X
+2
+ are dummy bits) and the sequential bits of the fourth bit
+stream in the coresponding time slots t
+j
+, t
+j+1
+, t
+j+2
+, t
+j+3
+ are
+respectively R
+2
+(0), R
+2
+(1), R
+2
+(2), R
+2
+(3), and (b) signalling
+that bits X
+1
+ and X
+2
+ of the third bit stream are dummy bits.
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,361 @@
+<DOC>
+<DOCNO>EP-0642081</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+DIGITAL STORAGE SYSTEM AND METHOD HAVING ALTERNATING DEFERRED UPDATING OF MIRRORED STORAGE DISKS.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F306	G06F306	G06F1120	G06F1120	G06F1200	G06F1200	G06F1216	G06F1216	G11B2700	G11B2700	G11C2900	G11C2900	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G11B	G11B	G11C	G11C	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F3	G06F3	G06F11	G06F11	G06F12	G06F12	G06F12	G06F12	G11B27	G11B27	G11C29	G11C29	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A fault-tolerant high performance mirrored disk subsystem is 
+described which has an improved disk writing scheme that 
+
+provides high throughput for random disk writes and at the same 
+time guarantees high performance for disk reads. The subsystem 
+
+also has an improved recovery mechanism which provides fast 
+recovery in the event that one of the mirrored disks fails and 
+
+during such recovery provides the same performance as during 
+non-recovery periods. 
+Data blocks or pages which are to be written to disk are 
+temporarily accumulated and sorted (or scheduled) into an order 
+
+(or schedule) which can be written to disk efficiently, which 
+in a preferred embodiment is in accordance with the physical 
+
+location on disk at which each such block will be written. 
+This also generally corresponds to an order which is 
+
+encountered by a write head during a physical scan of a disk. 
+The disks of a mirrored pair are operated out of phase with 
+
+each other, so that one will be in read mode while the other is 
+in write mode. Updated blocks are written out to the disk that 
+
+is in write mode in sorted order, while guaranteed read 
+performance is provided by the other disk that is in read mode. 
+
+When a batch of updates has been applied to one disk of a 
+mirrored pair, the mirrored pair switch their modes, and the 
+
+other disk is updated. Preferably the updates are kept in a 
+non-volatile memory, which furthermore advantageously may be 
+
+made fault-tolerant as well. 
+During recovery a pair of spare alternating mirrored disks is 
+introduced to which new updates are directed, while a 
+
+background scan process copies data from the surviving disk to 
+the new mirrored pair. 
+
+
+ 
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BHIDE, ANUPAM KESHAV
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DIAS, DANIEL MANUEL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+POLYZOIS, CHRISTOS ALKIVIADIS
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates generally to fault tolerant digital 
+storage disk systems and more particularly to digital storage 
+disk systems of the mirrored disk type in which reliability is 
+provided by storing digital information in duplicate on two 
+separate storage disks. As the requirements for On-Line Database Transaction Processing 
+(OLTP) grow, high transaction rates on the order of thousands 
+of transactions per second must be supported by OLTP systems. 
+Furthermore, these applications call for high availability and 
+fault tolerance. In applications such as OLTP, a large fraction 
+of the requests are random accesses to data. Since a large 
+fraction of the data resides on disks, the disk sub-systems 
+must therefore support a high rate of random accesses, on the 
+order of several thousands of random accesses per second. 
+Furthermore, the disks need to be fault tolerant to meet the 
+availability needs of OLTP. Whenever a random access is made to a disk, in general the disk 
+must rotate to a new orientation such that the desired data is 
+under a disk arm and the read/write head on that disk arm must 
+also move along the arm to a new radial position at which the 
+desired data is under the read/write head. Unfortunately 
+performance of this physical operation, and therefore random 
+disk Input/Output (I/O) performance is not improving as fast as 
+other system parameters such as CPU MIPS. Therefore, 
+applications such as OLTP, where random access to data 
+predominates, have become limited by this factor, which is 
+referred to in this art as being disk arm bound. In systems 
+which are disk arm bound, the disk cost is becoming an ever 
+larger fraction of the system cost. Thus, there is a need for a  
+ 
+disk sub-system which can support a larger rate of random 
+accesses per second with a better price-performance 
+characteristic than is provided by traditional disk systems. Both mirrored disk systems and RAID disk systems (for Redundant 
+Array of Independent Disks) have been used to provide fault 
+tolerant disk systems for OLTP. In a mirrored disk system, the 
+information on each disk is duplicated on a second (and 
+therefore redundant) disk. In a RAID array, the information at 
+corresponding block locations on several disks is used to 
+create a parity block on another disk. In the event of 
+failure, any one of the disks in a RAID array can be 
+reconstructed from the others in the array. RAID architectures 
+require less disks for a specified storage capacity, but 
+mirrored disks generally perform better. In an
+</DESCRIPTION>
+<CLAIMS>
+A fault-tolerant disk storage subsystem for storing data 
+blocks of digital information for a computer system, 
+
+comprising: 
+a mirrored pair of disks for storing data blocks of 
+
+digital information in duplicate on both disks of said 
+mirrored pair; 
+
+a controller for said mirrored pair of disks, said 
+controller having a memory; 
+
+said controller temporarily accumulating data blocks 
+provided by said computer system in said memory until 
+
+storage thereof in duplicate on both disks of said 
+mirrored pair; 
+
+said controller scheduling said data blocks accumulated in 
+said memory in an order for efficient writing to said 
+
+mirrored pair of disks; 
+said controller having a first mode of operation in which 
+
+one disk of said mirrored pair is in write mode while the 
+other disk of said mirrored pair is in read mode and a 
+
+second mode of operation in which said one disk is in read 
+mode while said other disk is in write mode; 
+
+said controller copying from said memory onto said one 
+disk during said first mode of operation data blocks in 
+
+scheduled order that have not been already written to said 
+one disk and copying from said memory onto said second 
+
+disk during said second mode of operation data blocks in 
+scheduled order that have not been already written to said 
+
+other disk;
+ 
+
+said controller operating said mirrored pair of disks in 
+said first mode of operation during spaced time intervals 
+
+and in said second mode of operation during at least a 
+portion of the time between said spaced time intervals; 
+
+and 
+said controller providing a requested data block to said 
+
+computer system from said memory if said requested data 
+block is in said memory, and otherwise from said other 
+
+disk if said mirrored pair of disks is operating in said 
+first mode of operation and from said one disk if said 
+
+mirrored pair of disks is operating in said second mode of 
+operation, 
+
+whereby data blocks are written onto said mirrored pair of 
+disks in scheduled order without interference from or with 
+
+the reading of data blocks requested by said computer 
+system. 
+A fault-tolerant disk storage subsystem as defined in 
+Claim 1 wherein said controller is implemented by software 
+
+in said computer system and said memory of said controller 
+is a portion of the general storage resources of said 
+
+computer system. 
+A fault-tolerant disk storage subsystem as defined in 
+Claim 1 wherein said controller and memory are implemented 
+
+with dedicated hardware. 
+A fault-tolerant disk storage subsystem as defined in 
+Claim 1 wherein said memory is non-volatile. 
+A fault-tolerant disk storage subsystem as defined in 
+Claim 1 wherein said memory is fault-tolerant. 
+A fault-tolerant disk storage subsystem as defined in 
+Claim 1 wherein said first mode of operation is scheduled 
+
+to start periodically. 
+A fault-tolerant disk storage subsystem as defined in 
+Claim 1 wherein said data blocks are scheduled in an order 
+
+which corresponds to a physical scan of an entire disk. 
+A fault-tolerant disk storage subsystem as defined in 
+Claim 1 wherein said controller makes a single scan 
+
+through accumulated data blocks in scheduled order during 
+said first mode of operation before changing modes. 
+A fault-tolerant disk storage subsystem as defined in 
+Claim 1 wherein said controller also has a third mode of 
+
+operation during which both of said disks of said mirrored 
+pair are in read mode and a requested data block may be 
+
+retrieved from either of said disks of said mirrored pair 
+in the event said requested data block is not in said 
+
+memory. 
+A fault-tolerant disk storage subsystem as defined in 
+Claim 9 wherein said controller operates said mirrored 
+
+pair of disks in said third mode of operation whenever 
+said first mode of operation is terminated prior to a next 
+
+scheduled start of said second mode of operation and 
+whenever said second mode of operation is terminated prior 
+
+to a next scheduled start of said first mode of operation. 
+A fault-tolerant disk storage subsystem as defined in 
+Claim 9 wherein during said third mode of operation, when 
+
+a data block is requested by said computer system and is 
+not present in said memory, said controller determines 
+
+which one of said disks in said mirrored pair can deliver 
+said requested data block in the shortest time and 
+
+retrieves said requested data block from said determined 
+disk. 
+A fault-tolerant disk storage subsystem as defined in 
+Claim 1 wherein said controller also has a fourth mode of 
+
+operation during which both of said disks of said mirrored 
+pair are operated in write mode. 
+A fault-tolerant disk storage subsystem as defined in 
+Claim 9 wherein said controller operates said mirrored 
+
+pair of disks in said fourth mode of operation whenever 
+all data blocks in scheduled order at the start of said 
+
+first mode of operation have not been written to said one 
+disk by the time said second mode of operation 
+is 
+scheduled to start again and whenever all data blocks in 
+
+scheduled order at the start of said second mode of 
+operation have not been written to said other disk by the 
+
+time said first mode of operation is scheduled to start 
+again. 
+A fault-tolerant disk storage subsystem as defined in 
+Claim 1 wherein said subsystem includes a spare pair of 
+
+storage disks and in the event that only one of said disks 
+of said mirrored pair remains operational, said controller 
+
+augments said mirrored pair with said spare pair during a 
+recovery mode of operation. 
+A fault-tolerant disk storage subsystem as defined in 
+Claim 14 wherein said controller during said recovery mode 
+
+of operation places said disk that remains operational in 
+read mode continuously until all blocks on said remaining 
+
+operational disk have been transferred either to said 
+memory or to one or both of the disks of said spare pair, 
+
+at which time said spare pair replaces said mirrored pair, 
+said remaining operational disk becomes a spare disk and 
+
+said recovery mode of operation terminates. 
+A method of storing data blocks of digital information 
+received from a computer system in a storage subsystem 
+
+having a mirrored pair of storage disks and for retrieving 
+data blocks from said storage subsystem upon request from 
+
+said computer system, comprising the steps of: 
+temporarily accumulating a group of data blocks to be 
+
+stored;
+ 
+
+scheduling said accumulated group of data blocks in an 
+order for efficient writing to said mirrored pair of 
+
+disks; 
+operating said mirrored pair of disks in a first mode of 
+
+operation in which one disk of said mirrored pair is in 
+write mode while the other disk of said mirrored pair is 
+
+in read mode and in a second mode of operation in which 
+said one disk is in read mode while said other disk is in 
+
+write mode; 
+copying onto said one disk during said first mode of 
+
+operation ordered data blocks in said accumulated group 
+that have not been already written to said one disk; 
+
+copying onto said other disk during said second mode of 
+operation ordered data blocks in said accumulated group 
+
+that have not been already written to said other disk; 
+operating said mirrored pair of disks in said first mode 
+
+of operation during spaced time intervals and in said 
+second mode of operation during at least a portion of the 
+
+time between said spaced time intervals; and 
+retrieving a data block requested by said computer system 
+
+from said accumulated group if said requested data block 
+is in said accumulated group, and otherwise from said 
+
+other disk if said mirrored pair of disks is operating in 
+said first mode of operation and from said one disk if 
+
+said mirrored pair of disks is operating in said second 
+mode of operation, 
+
+whereby data blocks are written onto said mirrored pair of 
+disks in scheduled order without interference from or with 
+
+the reading of data blocks requested by said computer 
+system. 
+A method of storing data blocks of digital information as 
+defined in Claim 16 and further comprising the step of 
+
+deleting from said accumulated group any data blocks that 
+have been written to both of said disks of said mirrored 
+
+pair. 
+A method as defined in Claim 17 and further comprising the 
+step of associating first and second flags with each 
+
+accumulated data block in said group, said first flag 
+associated with any particular data group indicating 
+
+whether or not said particular data group has been copied 
+to said one disk and said second flag associated with said 
+
+particular data group indicating whether or not said 
+particular data group has been copied to said other disk. 
+</CLAIMS>
+</TEXT>
+</DOC>

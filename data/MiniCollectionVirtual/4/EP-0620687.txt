@@ -1,0 +1,381 @@
+<DOC>
+<DOCNO>EP-0620687</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Encoding method and apparatus
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04N141	H04N730	H04N750	H04N750	H04N141	G06T900	H04N730	H03M730	H03M730	G06T900	H03M744	H03M744	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04N	H04N	H04N	H04N	H04N	G06T	H04N	H03M	H03M	G06T	H03M	H03M	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04N1	H04N7	H04N7	H04N7	H04N1	G06T9	H04N7	H03M7	H03M7	G06T9	H03M7	H03M7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An encoding method and apparatus uses energy 
+characteristic of discrete cosine transform (DCT) domains 
+
+for determination of a quantization level. The DCT domain 
+is divided into four sub-domains. The energy 
+
+characteristic of each macroblock is represented as one 
+among the four domains such as simple, complicated, edge 
+
+and plain domains. A buffer (31) generates a first 
+quantization level which is varied according to the buffer 
+
+fullness in units of a slice. The energy characteristic 
+information and the first quantization level of the buffer 
+
+are used for determination of a second quantization level 
+supplied to quantizers (12, 22). The quantizers (12, 22) 
+
+quantize the transformation coefficient data according to 
+the second quantization level generated in units of the 
+
+macroblock. Thus, the viewer can see less quantization 
+error. The encoding apparatus generates a second 
+
+quantization level just by an addition operation of the 
+varied value of the first quantization level which is 
+
+determined by the energy characteristic information to the 
+first quantization level, thereby providing a quantization 
+
+level generator capable of being implemented with simple 
+hardware an example of which is disclosed. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SAMSUNG ELECTRONICS CO LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SAMSUNG ELECTRONICS CO., LTD.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+JO JAE MOON
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+JO, JAE MOON
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to an encoding method and
+apparatus and to the technology of encoding image data to
+compress an amount of the data, and more particularly, to
+an encoding method and apparatus in which a quantization
+level is varied according to an energy characteristic of
+a spatial frequency domain.Recently, there is known a system for transmitting and
+receiving an image signal and an audio signal which
+chiefly uses a method for converting an analog image and
+audio signal into a digital image and audio signal and
+encoding the converted digital signal to transmit the
+encoded signal and store the converted signal in a storage
+device, and for receiving the transmitted signal or
+reading out the stored signal to reproduce the received
+signal by decoding the received signal or the read-out
+signal and converting the decoded signal into an analog
+signal. Such an encoding and decoding system requires a
+technology of compressing a large amount of the
+transmitted data to maximise a transmission efficiency of
+the data.There exist a transformation encoding method, a differential
+pulse code modulation method, a vector quantization method
+and a variable length coding method etc, as general
+methods for encoding an image signal. The encoding
+methods remove redundancy data included in digital image
+signals for use in compression of a total amount of the
+data. To perform such an encoding method, a picture is divided
+into blocks each of which has a predetermined magnitude,
+and image data is transformed into a transformation
+coefficient of a frequency domain by way of a
+predetermined transformation with respect to each block or
+a difference signal between the blocks. There exist a
+discrete cosine transform a Walsh-Hadamard transform, a
+discrete cosine transform and a discrete sine transform,
+etc, as data transformation methods with respect to the
+respective blocks. Technologies for properly encoding
+such transformation coefficients according to the data
+characteristics, storing or transmitting the encoded
+signal, and decoding the encoded signal for reproduction
+have been recognised as very important technologies in
+high definition TV (HDTV), high definition VTR (HD-VTR),
+digital camcorders, multimedia equipment, video phones,
+etc.Meanwhile, when an image signal is compressed using a
+variable length coding and decoding apparatus, a buffer is
+used for maintaining a transfer bit rate of the encoded
+and transmitted signal. A quantization level is
+controlled according to the fullness of the buffer to
+avoid an
+</DESCRIPTION>
+<CLAIMS>
+An encoding apparatus which quantizes and encodes
+image data to transmit the encoded data, said encoding
+
+apparatus comprising:
+
+buffer means (31) which receives the encoded data to
+transmit the received data at a predetermined transfer
+
+rate, and generates a first quantization level which
+is varied so as to maintain the transfer rate
+
+invariably;
+transformation means (11, 21) for transforming image
+data of an image domain into image data of a frequency
+
+domain in block units to generate
+transformation coefficient data of the frequency
+
+domain;
+image characteristic discrimination means (41) for
+dividing a unit of a block of transform coefficients
+
+in the frequency domain into a plurality of frequently sub-domains
+according to the frequency components
+
+corresponding to the transform coefficients, summing up absolute
+values of the transformation coefficients of each of the
+
+sub-domains, calculating domain average values by averaging the
+summed values of respective sub-domains for a plurality of
+
+blocks defining a macroblock
+and generating energy characteristic
+
+information
+by selecting the domain of the macroblock
+
+as one among a simple domain,
+an edge domain, a complicated domain and a plain
+
+domain
+according to the relationship between the domain average values
+
+corresponding to the respective sub-domains;
+quantization level determination means (42) for
+receiving the energy characteristic information and
+
+the first quantization level and determining a second
+quantization level according to the energy
+
+characteristic information and the first quantization 
+level to generate the determined second quantization
+
+level; and
+means (12, 22) for receiving the transformation
+coefficient data from the transformation means and
+
+quantizing the transformation coefficient data
+according to the second quantization level.
+An encoding apparatus according to Claim 1,
+wherein said energy characteristic information is
+
+determined as one among a simple domain, an edge
+domain, a complicated domain and a plain domain
+
+according to the following relationship between the
+domain average values corresponding to the four sub-domains:
+
+
+under the condition of A
+<
+AVG(DC)
+<
+B,
+
+i) if AVG(E)+AVG(H)
+<
+C and AVG(L)
+>
+D, it is defined
+as a "simple domain";
+ii) if AVG(L)+AVG(E)
+>
+k AVG(H) and it is not the case
+of i), it is defined as an "edge domain"; 
+iii) if AVG(L)+AVG(E)
+<
+k AVG(H), and it is not the
+case of i) nor ii), it is defined as a
+
+"complicated domain"; and
+iv) if it is neither of i), ii) nor iii), it is
+defined as a "plain domain", wherein reference
+
+characters A, B, C, D and k are preset
+constants, and AVG(E), AVG(H) and AVG(L)
+
+represent an edge average value, a high
+frequency domain average value and a low
+
+frequency domain average value, respectively.
+An encoding apparatus according to any preceding
+claim, wherein said quantization level determination
+
+means (42) receives said first quantization level and
+said energy characteristic information, and generates
+
+said second quantization level in which the level is
+reduced if said energy characteristic information
+
+represents the simple domain or the edge domain while
+said quantization level determination means generates
+
+said second quantization level in which the level is
+increased if said energy characteristic information
+
+represents the complicated domain.
+An encoding apparatus according to any preceding
+Claim, wherein said second quantization level (MQUANT)
+
+is determined as follows:
+
+if said energy characteristic information is the
+simple domain information, MQUANT=SQUANT-SQUANT/2;
+if said energy characteristic information is the edge
+domain information, MQUANT=SQUANT-SQUANT/4; and 
+if said energy characteristic information is the
+complicated domain information, MQUANT=SQUANT+
+
+SQUANT/4
+
+wherein SQUANT represents said first quantization
+level.
+An encoding method which quantizes and encodes image data to transmit the
+encoded data through a buffer (31), the encoding method comprising the steps of:
+
+
+receiving the encoded data to generate a first quantization level which is varied in
+order to transmit the received data at a predetermined transfer rate;
+transforming image data in an image domain into image data in a frequency
+domain in block units to generate transform coefficient data in the frequency
+
+domain;
+dividing a unit of a block of transform coefficients in the frequency domain into a
+plurality of frequency sub-domains according to the frequency components
+
+corresponding to the transform coefficients, summing up the absolute values of
+the transformation coefficients for each of the sub-domains, calculating domain
+
+average values by averaging the summed values of each of the respective sub-domains
+for a plurality 
+of blocks defining a macroblock, and generating energy
+characteristic information by selecting the domain of the macroblock as one of a
+
+simple domain, an edge domain, a complicated domain and a plain domain
+according to the relationship between the domain average values corresponding
+
+to the respective sub-domains;
+determining a second quantization level according to the energy characteristic
+information and the first quantization level; and
+quantizing the transformation coefficient data according to the second
+quantization level.
+An encoding method according to Claim 5, wherein said
+energy characteristic information is determined as one
+
+among a simple domain, an edge domain, a complicated
+domain and a plain domain according to the following
+
+relationship between the domain average values
+corresponding to the four sub-domains:
+
+
+under the condition of A
+<
+AVG(DC)
+<
+B, 
+
+i) if AVG(E)+AVG(H)
+<
+C and AVG(L)
+>
+D, it is defined
+as a "simple domain";
+ii) if AVG(L)+AVG(E)
+>
+k AVG(H) and it is not the case
+of i), it is defined as an "edge domain";
+iii) if AVG(L)+AVG(E)
+<
+k AVG(H), and it is not the
+case of i) nor ii), it is defined as a
+
+"complicated domain"; and
+iv) if it is neither of i), ii) nor iii), it is
+defined as a "plain domain", wherein reference
+
+characters A, B, C, D and k are preset
+constants, and AVG(E), AVG(H) and AVG(L)
+
+represent an edge average value, a high
+frequency domain average value and a low
+
+frequency domain average value, respectively.
+An encoding method according to any one of claims 5 or 6,
+wherein said second quantization level determination
+
+step reduces said second quantization level it said
+energy characteristic information represents the
+
+simple domain or the edge domain while said
+quantization level determination step increases said
+
+second quantization level if said energy
+characteristic information represents the complicated
+
+domain.
+An encoding method according to Claim 7, wherein said
+second quantization level (MQUANT) is determined as
+
+MQUANT=SQUANT-SQUANT/2 if said energy characteristic
+information is the simple domain information with
+
+respect to said first quantization level (SQUANT). 
+An encoding method according to Claim 7 or Claim 8,
+wherein said second quantization level (MQUANT) is
+
+determined as MQUANT=SQUANT-SQUANT/4 if said energy
+characteristic information is the edge domain
+
+information with respect to said first quantization
+level (SQUANT).
+An encoding method according to any one of Claims 7
+to 9, wherein said second quantization level (MQUANT)
+
+is determined as MQUANT=SQUANT+SQUANT/4 if said energy
+characteristic information is the complicated domain
+
+information with respect to said first quantization
+level (SQUANT). 
+An encoding apparatus which quantizes and encodes image data to transmit the
+encoded data, said encoding apparatus comprising:
+
+
+buffer means (31) which receives the encoded data to transmit the received data
+at a predetermined transfer rate, and generates a first quantization level which is
+
+varied so as to maintain the transfer rate invariably;
+transformation means (12,21) for transforming units image data in an image
+domain into image data in a frequency domain in block units to generate
+
+transform coefficient data in the frequency domain;
+image characteristic discrimination means (41) for dividing a unit of a block of
+transform coefficients in the frequency domain into a plurality of frequency sub-domains
+
+according to the frequency components corresponding to the transform
+coefficients, summing up the absolute values of the transformation coefficients for
+
+each of the sub-domains, calculating domain average values by averaging the
+summed values of each of the respective sub-domains for a plurality of blocks
+
+defining a macro block, and generating energy characteristic information by
+selecting the domain of the macroblock as one of a simple domain, an edge
+
+domain, a complicated domain and a plain domain according to the relationship
+between the domain average values corresponding to the respective sub-domains;
+means for varying the quantization level according to the energy characteristics
+whereby the transfer rate from the buffer means is maintained constant.
+</CLAIMS>
+</TEXT>
+</DOC>

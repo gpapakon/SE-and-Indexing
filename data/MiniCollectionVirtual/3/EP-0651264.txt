@@ -1,0 +1,485 @@
+<DOC>
+<DOCNO>EP-0651264</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Automatic detection method of fixed or moving objects in the natural environment of a real time image sequence
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G08B13194	G01V810	G06T700	G08B13194	G06T700	G01V810	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G08B	G01V	G06T	G08B	G06T	G01V	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G08B13	G01V8	G06T7	G08B13	G06T7	G01V8	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Method and circuit arrangement for automatically detecting fixed or moving objects in the natural environment of a real-time image sequence by using an electrooptic sensor which scans the environment and has a downstream evaluation unit and an image-representing device which has possibly been provided. As much information as possible is processed from the digital images in a series of method steps or circuitry measures, with the result that the detection of relatively large objects is also rendered possible. 
+<
+IMAGE
+>
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+LFK GMBH
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+LFK LENKFLUGKOERPERSYSTEME GMBH
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+KIESLICH WOLFGANG ING-GRAD
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NAHAPETIAN VAHE DIPL-ING
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NIEDERHOFER KARL-HEINZ DR-ING
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KIESLICH, WOLFGANG, ING.-GRAD.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NAHAPETIAN, VAHE, DIPL.-ING.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NIEDERHOFER, KARL-HEINZ, DR.-ING.
+</INVENTOR-NAME>
+</INVENTORS>
+<CLAIMS>
+A method for the automatic detection of stationary or
+moving objects in the natural environment of a real time image
+
+sequence using an electrooptical sensor that scans the environment,
+with a downstream evaluation unit and an optionally
+
+provided image display device, comprising the following steps:
+
+a) scanning a digital image supplied by the sensor by at least
+three matrices each containing a plurality of pixels, each
+
+matrix being assigned a reference quantity outside the associated
+matrix centre and the reference quantities of each
+
+matrix differing from one another,
+b) determining the maximum and minimum of the brightness values
+of each reference quantity,
+c) marking the pixel corresponding to the respective matrix
+centre when firstly that pixel is brighter by a first
+
+threshold value than the maximum of the brightness values of
+the associated reference quantity and secondly when the
+
+spread of the associated reference quantity is smaller than
+a further fixed threshold value, the difference of the maximum
+
+and the minimum being used here as a measure of the
+spread of the brightness values,
+d) determining for an image the number of intermediate results,
+that is to say marked pixels of the digital image, and comparing
+
+the current count results with an upper and a lower
+fixed limit and using them to regulate the respective first
+
+threshold values by
+
+raising the first threshold value when the current count
+results are greater than the upper limit, 
+lowering the first threshold value when the current count
+results are smaller than the lower limit, and
+leaving the first threshold value unchanged when the
+current count results lie within the range defined by the
+
+upper and lower specified limit or are equal to the upper
+or lower limit, and
+e) marking the adjacent pixels of each marked pixel of the
+digital image, so that all the marked pixels form a dilated
+
+quantity, and AND-ing the dilated quantity elements obtained
+from a reference quantity with the other dilated quantity
+
+elements each obtained from a reference quantity,
+
+characterised by the following further steps:
+f) reducing the digital image supplied by the sensor by the
+factor 2
+n
+ in at least a first of n reduction stages forming
+a reduction pyramid in order to produce digital partial
+
+images the number of which in the x- and y-direction of the
+digital image respectively corresponds to the reduction
+
+factor 2
+n
+ of the associated reduction stage n,
+g) carrying out steps a to e in succession for each produced
+digital partial image of an associated reduction stage, the
+
+"AND-ed" dilated quantity elements of each digital partial
+image forming a partial end result, that is to say a result
+
+quantity representing a detected object, in an associated
+reduction stage of the reduction pyramid, and, as further
+
+partial end results, redundant result quantities of different
+reduction stages which each mark the same object in
+
+various similar partial images forming "horizontal redundancies",
+and redundant result quantities of the different
+
+reduction stages which each mark the same object when that 
+object has a given intensity di
+stribution in size and shape
+forming "vertical redundancies";
+h) "OR-ing" the horizontal redundancies for each marked object
+by horizontal fusion to form a single detection result for
+
+each detected object, consisting of x/y-coordinates, reduction
+stage and size, and
+i) storing the detection results for the detected objects in a
+result memory (6), the detected objects being ordered in a
+
+list in dependence upon allocated overall priorities in such
+a manner that detected objects lying above an adjustable
+
+horizon have a higher priority than detected objects lying
+below the horizon.
+A method according to claim 1, characterised in that the
+higher priority objects are used in a target-tracking process
+
+to track all significant objects in real time.
+A method according to claim 1, characterised in that
+
+for the detection results of each detected object a partial
+amplitude a is determined in accordance with the formula
+
+
+a = S * wch
+, wherein S is the size of the associated object
+and wch is a weighting factor dependent upon the reduction
+
+stage,
+for each reduction stage the partial amplitudes a determined
+and the associated coordinate values as vectors are stored
+
+in a respective list as partial amplitude vectors,
+for all partial amplitude vectors of each list the partial
+amplitude vectors of other lists lying within a fusion
+
+radius are identified and combined, and
+for every detected object the fusion priority thereof contributing
+to the overall priority is determined by summing 
+
+all the associated partial amplitudes within the fusion
+circle.
+A method according to claim 3, characterised in that the
+fusion radius rf determined by the number of reduction stages
+
+to be fused is ascertained in dependence upon the largest
+reduction stage n by the formula 
+rf = 2 
+(n=1)
+ + 2
+.
+A method according to claim 1, characterised in that a
+partial multi-stage priority pmch contributing to the overall
+
+priority of a detected object is determined by the formula
+
+pmch = A x total-ch
+, wherein A is a scaling factor and total-ch
+indicates the total number of the reduction stages in which the
+
+detected object is marked and, where appropriate, stored as an
+object characteristic in an object list.
+A method according to claim 1, characterised in that a
+measure for structured regions of each matrix of the digital
+
+image supplied by the sensor is determined in a clutter processor
+(9) by marking a pixel corresponding to the respective
+
+matrix centre when the difference between the intensity of that
+pixel and the intensity minimum of each reference quantity is
+
+greater than a given threshold value, fusing the markings by an
+"OR operation" to produce a binary image, feeding the binary
+
+image to a filter for the adding-up of each pixel by the four
+nearest horizontally adjacent pixels, and determining the
+
+structured regions cl by the formula 
+(cl)
+ij
+ = (rb)
+ij-2
+ + (rb)
+ij-1
+ +
+(rb)
+ij+1
+ + (rb)
+ij+2
+, wherein (rb) is the binary image and i,j
+indicate the index for the vertical and the horizontal direction.
+A method according to claim 6, characterised in that a
+priority pc of the structured regions cl that is to be deducted 
+
+from the overall priority of a detected object is determined
+according to the relationship 
+pc = B x cl
+2
+, wherein B is a
+scaling factor to be optimised with the other system parameters.
+A method according to claim 6, characterised in that,
+during horizontal filtering of the binary image, two variables
+
+that serve as control parameters for the determination of two
+thresholds for the structured regions cl are determined.
+A method according to claim 8, characterised in that the
+variables (N0, N4) are determined from the total numbers of all
+
+the structured regions having the values 0 and the values 4,
+respectively.
+A method according to claim 1, 6, 7, 8 or 9, characterised
+in that the structured regions cl are used to determine the
+
+adjustable horizon as follows:
+
+by adding up the values of the structured regions in the
+horizontal direction a cumulative value of a structured
+
+region (hc)
+i
+ in the horizontal direction is determined
+according to the relationship 
+(hc)
+i
+ = (cl)
+i1
+ + (cl)
+i2
+ + ...
++ (cl)
+in
+,
+the cumulative values of the structured regions (hc)
+i
+ in
+the vertical direction are filtered, the filtered cumulated
+
+value for each row being 
+(hcf)
+i
+ = (hc)
+i-1
+ + (hc)
+i
+ +
+(hc)
+i+1
+, and
+beginning at the top row, each filtered cumulated value
+(hcf)
+i
+ is compared with an upper and a lower limit in such
+a manner that a row is marked as the position of the horizon
+
+when the filtered cumulated value (hcf)
+i
+ of that row
+is greater than the upper limit, and the old position of 
+
+the horizon is ignored when the filtered cumulated value
+(hcf)
+i
+ of a row is smaller than the lower limit.
+A method according to claim 10, characterised in that the
+partial horizon priority ph is determined by the formula
+
+
+ph = y-H
+, wherein y represents the vertical coordinate of a
+detected object and H represents the position of the horizon.
+A method according to any one of claims 1 to 11, characterised
+in that the overall priority p for each detected object
+
+is determined by algebraic addition of all the partial priorities
+according to the relationship 
+p = pf + pmch + pc + ph +
+...
+ .
+A circuit arrangement for carrying out the method according
+to any one of claims 1 to 12 using an electrooptical sensor
+
+that scans the environment, with a downstream evaluation unit
+and an optionally provided image display device, wherein there
+
+are arranged downstream of the optoelectronic sensor a preliminary
+filter (1), a time-delay circuit (3) and a number of
+
+parallel-arranged maximum-minimum filters (11.1 to 11.4) corresponding
+to the number of reference quantities examined, which
+
+determine the maxima and minima of the brightness values of the
+associated reference quantities, the outputs of the
+
+maximum-minimum filters (11.1 to 11.4) being connected to the
+inputs of a respective downstream control processor (12.1 to
+
+12.4) to determine the number of marked pixels of the digital
+image as intermediate results, the outputs of which control
+
+processors are connected, on the one hand, to a respective
+input of an event counter (16) to determine the current count
+
+results for the purpose of comparing the current count results
+
+with an upper and a lower fixed limit and for controlling the
+respective first threshold values in the control processors 
+
+(12.1 to 12.4) and, on the other hand, to the inputs of a
+respective one of four matrices (18.1 to 18.4) for expansion of
+
+the dilation of the marked pixels corresponding to the
+respective matrix centres by marked neighbouring pixels to form
+
+dilated quantity elements and for AND-ing the dilated quantity
+elements of a reference quantity with the quantity elements
+
+obtained from another reference quantity, characterised in that
+
+there is arranged downstream of the electrooptical sensor
+an image spot matrix (7) which processes the image data
+
+stream consisting of seven adjacent columns to give four
+reference quantities with a pixel corresponding to the
+
+respective matrix centre,
+there is arranged between the preliminary filter (1) and
+the time-delay circuit (3) an image memory (2) for storing
+
+each digital image of a real time image sequence provided
+by the electrooptical sensor and having at least three
+
+reference quantities,
+there is arranged downstream of the time-delay circuit (3)
+an object and clutter detector (4) the object processor of
+
+which comprises, in addition to the maximum-minimum
+filters (11.1 to 11.4), the control processors (12.1 to
+
+12.4), the event counter (16), the matrices (18.1 to 18.4)
+and the AND logic element (20), also four OR logic
+
+elements, arranged downstream of the matrices (18.1 to
+18.4), for the dilation (19.1 to 19.4), the outputs of
+
+which are connected to the inputs of the AND logic element
+(20) and of a second OR logic element (21) to produce
+
+binary images for area markings of the structured regions,
+and a third OR logic element (22), connected to the AND
+
+logic element (20), for the fusion of the horizontal
+redundancies, at the output of which the object markings
+
+appear as a binary image and the second input of which is 
+connected to the output of an AND element (24) for controlling
+
+the horizontal redundancy fusion,
+and there is arranged downstream of the object and clutter
+detector (4) a result memory (6) for storing the coordinates
+
+and priorities of the detected objects and as an
+intermediate store for calculating the object coordinates
+
+and priorities by means of a control device (5) which
+addresses the digital images read into the image memory
+
+(2) pixel-by-pixel and controls two sets of thresholds of
+the object processor in dependence upon the determined
+
+position of the horizon.
+A circuit arrangement according to claim 13, characterised
+in that the sets of thresholds each comprise a threshold value
+
+memory (13a, 13b and 14a, 14b) for storing a threshold value
+lying above the horizon and a threshold value lying below the
+
+horizon (T1 and T2, respectively), and there is arranged down-stream
+of the threshold memories (13a, 13b and 14a, 14b) of
+
+each set of thresholds a selection threshold (15.1 and 15.2,
+respectively) the outputs of which are connected to the
+
+threshold value inputs of the control processors (12.1 to
+12.4).
+A circuit arrangement according to claim 13, characterised
+by two respective series-connected delay lines (17.1 to 17.8)
+
+of the length of a column of the digital image of a real time
+image sequence, one respective delay line (17.1, 17.3, 17.5 and
+
+17.7) being connected to a respective second input and the
+serial delay lines (17.1, 17.2; 17.3, 17.4; 17.5, 17.6 and
+
+17.7, 17.8) being connected to a respective third input of the
+matrices (18.1 to 18.4). 
+A circuit arrangement according to claim 13, characterised
+in that, for further processing of the binary image of the
+
+object marking, one input of a matrix (26) is connected to the
+output of the OR logic element (22), a second input of the
+
+matrix (26) is connected to the output of the OR logic element
+(22) via a delay line (25.1) of the length of the column of a
+
+digital image, and a third input of the matrix (26) is connected
+to the output of the OR logic element (22) via two
+
+series-connected delay lines (25.1 and 25.2) each of the length
+of the column of a digital image, the outputs of the matrix
+
+(26) are connected to the inputs of a summing element (27) in
+order to calculate the marking amplitudes, and there are
+
+arranged downstream of the summing element (27) two further
+series-connected delay lines (28.1, 28.2), a matrix (29) for
+
+providing the marking amplitudes for a maximum detector (30)
+for marking the amplitude maximum and an AND logic element (31)
+
+for suppressing the amplitudes that do not represent a maximum
+and for outputting the marking amplitude.
+A circuit arrangement according to claim 13, characterised
+in that the clutter processor (9) of the object-clutter detector
+
+(4) arranged downstream of the image spot matrix (7) has a
+number of parallel-arranged minimum-filters (32.1 to 32.4)
+
+corresponding to the number of reference quantities examined,
+which minimum-filters determine the minima of the brightness
+
+values of associated structured regions, the outputs of the
+minimum-filters (32.1 to 32.4) are connected to the first
+
+inputs of a respective downstream control processor (33.1 to
+33.4), to the second inputs of which the pixels corresponding
+
+to the respective matrix centres are applied and to the third
+inputs of which the output of a threshold value memory (34) is
+
+connected, and the outputs of the control processors (33.1 to
+33.4) are connected to the inputs of an OR logic element (35) 
+
+which fuses the marked pixels of the structured regions to
+produce a binary image.
+A circuit arrangement according to claim 17, characterised
+in that there are arranged downstream of the OR logic element
+
+(35) two series-connected delay lines (36.1 to 36.2) each of
+the length of a column of the digital image, a matrix (37) for
+
+dilation of the binary image in the horizontal and vertical
+direction and a further OR logic element (38) for outputting
+
+the marked structured regions.
+</CLAIMS>
+</TEXT>
+</DOC>

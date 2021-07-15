@@ -1,0 +1,429 @@
+<DOC>
+<DOCNO>EP-0614312</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Noise reduction system using multi-frame motion estimation, outlier rejection and trajectory correction
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04N521	H04N732	H04N593	H04N726	H04N514	H04N726	H04N514	H04N593	H04N750	H04N750	H04N732	H04N521	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04N5	H04N7	H04N5	H04N7	H04N5	H04N7	H04N5	H04N5	H04N7	H04N7	H04N7	H04N5	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A Video signal noise reduction system is 
+disclosed in which image pixels are tracked across 
+
+multiple frames and then averaged to produce respective 
+noise reduced pixel values. In the disclosed exemplary 
+
+embodiment of the invention, a motion estimator 
+identifies a motion block within several video frames and 
+
+determines an approximate velocity vector using a trimmed 
+square estimation procedure. Trajectory correction is 
+
+applied to each pixel in the motion block based on the 
+velocity vector in order to determine a revised 
+
+trajectory for the pixels. This correction is 
+accomplished by determining a difference in position of a 
+
+motion block between successive video frames. Based upon 
+this revised trajectory, appropriate pixels corresponding 
+
+to the motion block are obtained. These pixels are used 
+in conjunction with pixel values obtained from each of 
+
+the processed frames to produce an averaged video frame. 
+Each pixel of the averaged video frame replaces the 
+
+corresponding pixel in the original frame if the 
+difference between the original pixel and the 
+
+corresponding averaged pixel is less than the median 
+difference between all of the original and averaged 
+
+pixels. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC IND CO LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MATSUSHITA ELECTRIC INDUSTRIAL CO., LTD.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+IU SIU-LEONG
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+IU, SIU-LEONG
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to noise
+reduction in general and specifically to the reduction of
+noise in video signals. In particular, a method and
+apparatus are disclosed for reducing noise in a video
+signal by averaging video information over several frame
+intervals using multi-frame motion estimation with pixel
+based trajectory correction. Noise reduction (NR) in image sequences can
+improve both image quality and performance of subsequent
+video coding. This is so because noise in image
+sequences adds spurious uncorrelated image components
+which are visually offensive and which may reduce the
+effectiveness of any compression scheme which relies on
+image correlations from frame to frame.As set forth in a book by J.S. Lim, entitled
+Two Dimensional Signal and Image Processing, Prentice
+Hall, 1990, pages 568 et seq., the simplest method for
+performing temporal filtering is through frame averaging.
+Frame averaging is very effective in processing a
+sequence of image frames which are contaminated by random
+noise but in which there is not much change in image
+information from frame to frame.As is well known in the art, there are many
+different ways of performing frame averaging. Although
+frame averaging may be very simple and effective, precise
+signal registration from frame to frame is essential for
+success. In practical applications such as motion
+pictures and television, the image may change from frame
+to frame. Parts of the image may move by translation or
+rotation, by changing in size or by combinations of the
+above. In some prior-art systems, frame averaging was 
+only applied to still areas of an image, that is to say,
+those areas which did not exhibit motion from frame to
+frame. Other prior-art systems attempted to estimate the
+movement of in image from one frame to the next and to
+compensate for this motion in applying frame averaging.
+In order to perform this motion-compensated image
+restoration, the image frames are averaged along
+approximate motion trajectories.In an article by J.M. Boyce entitled "Noise
+Reduction of Image Sequences Using Adaptive Motion
+Compensated Frame Averaging", IEEE ICASSP-92, pages III-461
+through III-464, a scheme is proposed to noise reduce
+image sequences by adaptively switching between simple
+(non-displaced) frame averaging and motion-compensated
+frame averaging on a block by block basis. In
+particular, a method is disclosed to adaptively switch
+between a displaced frame averaging method (i.e., motion-compensated
+frame averaging) and a non-displaced
+averaging (simple
+</DESCRIPTION>
+<CLAIMS>
+Apparatus for reducing noise in a video signal which includes a plurality
+2L+1 of video frames, wherein L is an integer greater than zero, the apparatus comprising:
+
+
+motion estimator means (20) for identifying a motion block in one of said
+plurality of video frames and for determining a single approximate motion vector
+
+(MV) for the motion block across all of the plurality of video frames, wherein the
+motion vector (MV) indicates an approximate trajectory of the motion block across
+
+the plurality of video frames;
+trajectory correction means (30) for receiving the approximate motion vector
+(MV) from the motion estimator means (20) and for determining a revised trajectory
+
+(CMV) for the motion block across the plurality of video frames by determining a
+difference in position of respective components the motion block between each pair
+
+of the plurality of video frames relative to respective positions indicated by the
+approximate motion vector (MV); and
+image averaging means (50) for obtaining a plurality of the components of
+the motion block along the revised trajectory (CMV) and for calculating a single
+
+averaged component from the plurality of components.
+Apparatus according to claim 1, further comprising breakdown detection
+means (60) for replacing one of the components of the motion block with the
+
+averaged component if a ratio defined by a) an arithmetic difference between the
+one component and the averaged component and b) the median of the arithmetic
+
+differences between each component of the one video frame and its corresponding
+averaged component, is less than a threshold value. 
+Apparatus according to claim 2, further including:
+
+means for processing image pixel values in the one video frame to determine
+a spatial frequency spectrum for the video frame;
+means for decreasing the predetermined threshold value in response to
+increasing levels of relatively high spatial frequency components in the spatial
+
+frequency spectrum of the video frame.
+Apparatus according to one of the preceding claims, wherein the motion
+estimator means (20) includes:
+
+
+means for generating a respective noise tolerant estimation error value for
+each of a plurality of trial velocity vectors; and
+means for selecting, as the approximate motion vector (MV), one of said
+plurality of trial velocity vectors which has estimated error value that is less than
+
+the estimated error value of any other one of the plurality of trial velocity vectors.
+Apparatus according to one of the preceding claims, wherein the trajectory
+correction means (30) includes:
+
+
+means for modifying the approximate motion vector (MV) with a plurality of
+trial displacements to produce a respective plurality of modified motion vectors;
+means for generating a plurality of error values for one component of the
+motion block, the plurality of error values corresponding, respectively, to the
+
+plurality of trial displacements;
+means for selecting, as the revised trajectory, one of the plurality of trial
+displacements which has the corresponding error value that is less than any other
+
+one of the plurality of error values.
+Apparatus according to claim 5, wherein:
+
+the motion block is a matrix of image pixel values and the one component is
+one of the image pixel values located at the center of the matrix; and
+the means for generating a plurality of error values includes: 
+means for selecting a further matrix of pixel values from another one of the
+plurality of frames which is different from the one frame that includes the motion
+
+block, which further matrix corresponds to the motion block projected to the other
+frame along one of the plurality of modified motion vectors;
+means for generating a matrix of difference values, each value representing
+a respective difference between one of the pixel values in the matrix and the corresponding
+
+pixel value in the further matrix;
+means for assigning a first weighting factor to the difference value at the
+center of the difference matrix and for assigning a second weighting factor, less
+
+than the first weighting factor, to the other difference values in the difference
+matrix; and
+means for summing the difference values as modified by their assigned
+weighting factors to produce an error value for the further matrix of pixel values;
+
+and
+the image averaging means (50) includes means for calculating an average of
+pixel values along the revised trajectory with the one pixel value to produce an
+
+average pixel value.
+Apparatus according to claim 6, wherein the image averaging means includes
+outlier rejection means for rejecting, from the calculated average pixel value, pixel
+
+values along the revised trajectory which have error values that differ, by more than
+
+a predetermined threshold value, from an expected error between pixel values along
+the revised trajectory.
+Apparatus according to claim 7, further including:
+
+means for processing image pixel values in the one video frame to determine
+a spatial frequency spectrum for the video frame;
+means for decreasing the predetermined threshold value in response to
+increasing levels of relatively high spatial frequency components in the spatial
+
+frequency spectrum of the video frame.
+Apparatus according to claim 8, wherein the image averaging means (50)
+includes means for calculating the expected error value as the average of N selected
+
+error values corresponding to the pixels along the revised trajectory, where there
+are a total of M pixel values along the trajectory, M and N being integers and M
+
+being greater than N, and where each of the N error values is less than any of the
+error values which are not selected.
+A method of reducing noise in a video signal which includes a plurality 2L+1
+of video frames where L is an integer greater than zero, the method comprising the steps of:
+
+
+identifying a motion block, having a plurality of component parts, in one of
+said plurality of video frames;
+determining a single approximate motion vector (MV) for the motion block
+across all of the plurality of video frames, wherein the motion vector (MV) indicates
+
+an approximate trajectory of the motion block across the plurality of video
+frames;
+determining a difference in position of respective components of the motion
+block between each pair of the plurality of video frames relative to respective
+
+positions indicated by the approximate motion vector (MV), to produce a revised
+trajectory (CMV) for the motion block across the plurality of video frames; and
+averaging a plurality of the components of the motion block along the
+revised trajectory (CMV) to produce a single averaged component from the plurality
+
+of components.
+A method according to claim 10, wherein the step of determining a single
+approximate motion vector (MV) for the motion block across all of the plurality of
+
+video frames includes the steps of:
+
+a) defining a plurality of trial velocity vectors (v1 - vm);
+b) selecting one velocity vector from the plurality of velocity vectors
+(v1 - vm);
+c) obtaining respective blocks of pixel values, corresponding to the motion
+block as indicated by the selected velocity vector; 
+d) generating a noise tolerant estimated error value representing an average
+error among a subset of the obtained blocks and the motion block and associating
+
+the noise tolerant estimated error value with the selected velocity vector;
+e) repeating steps b) through d) until a noise tolerant estimated error value
+has been associated with each of the plurality of velocity vectors (v1 - vm);
+f) selecting, as the motion vector (MV), one of the plurality of velocity
+vectors (v1 - vm) which has the associated noise tolerant estimated error value that
+
+is less than the noise tolerant estimated error value associated with any other one of
+the plurality of velocity vectors (v1 - vm).
+A method according to claim 11 further comprising the step of associating the
+motion vector (MV) with the motion block of pixel values in a manner that allows
+
+the motion vector (MV) to be used during motion compensated predictive encoding
+of the motion block of pixel values.
+A method according to claim 12 further including the steps of:
+
+selecting one pixel value from the motion block of pixel values;
+generating a corrected trajectory for the selected pixel value and a
+corresponding pixel value in one of the plurality of successive viedeo frames which
+
+is immediately adjacent in time to the one video frame, including the steps of:
+
+generating a plurality of modified motion vectors;
+selecting a further block of pixel values from the adjacent video
+frame which further motion block corresponds to the motion block as determined
+
+by one of the plurality of motified motion vectors;
+calculating a block of difference values, each value representing a
+respective difference between one of the pixel values in the motion block
+
+and the corresponding pixel value in the further block;
+assigning a first weighting factor to the difference value at the center
+of the difference block and assigning a second weighting value, less than the
+
+first weighting value, to the other difference values in the difference block; 
+summing the difference values, as modified by their assigned
+weighting factors, to produce an error value for the modified motion vector;
+
+and
+selecting the modified motion vector having the error value which is
+less than any other error value as the corrected trajectory.
+A method according to claim 13 further including the step of associating the
+corrected trajectory with the motion block of pixel values in a manner that allows
+
+the corrected trajectory to be used during motion compensated predictive encoding
+of the motion block. of pixel values.
+Apparatus according to claim 1, wherein the motion estimator means (20)
+comprises:
+
+
+a memory (15) for holding the plurality of successive video frames;
+means for defining a plurality of trial velocity vectors (v1 - vm);
+means (22) for obtaining respective blocks of pixel values from the memory
+(15), said blocks of pixel values corresponding to the motion block as indicated by
+
+a respective one of the one velocity vectors;
+means (24a-24z) for generating a plurality of trimmed square error values
+representing respective average errors among a subset of the obtained blocks and
+
+the motion block for the respective plurality of velocity vectors and for associating
+each trimmed square error value with its respective one velocity vector;
+means (28) for selecting, as the motion vector (MV), one of the plurality of
+velocity vectors (v1 - vm) which has an associated trimmed square error value that
+
+is less than the trimmed square error value associated with any other one of the
+plurality of velocity vectors (v1 - vm).
+A method according to claim 10, wherein the step of determining a difference
+in position of respective components of the motion block between each pair of the
+
+plurality of video frames relative to respective positions indicated by the approximate
+motion vector (MV), to produce a revised trajectory (CMV) for the motion block 
+
+across the plurality of video frames includes the steps of:
+
+defining a plurality of correction vectors ((δ
+SL
+)
+1
+-(δ
+SL
+)
+m
+) relative to the
+motion vector (MV);
+selecting one pixel value from the motion block of pixel values;
+calculating a plurality of error values representing respective differences
+along the plurality of correction vectors ((δ
+SL
+)
+1
+-(δ
+SL
+)
+m
+) between the selected pixel
+value and a plurality of pixel values along the respective plurality of correction
+
+vectors from the frame which is next in sequence to the frame containing the motion
+
+block, in the plurality of sequential image frames; and
+selecting the correction vector (CMV) which has the error value that is
+smaller than any other error value as the corrected trajectory for the motion block.
+A method according to claim 16, wherein the step of calculating a plurality of
+error values includes the steps of:
+
+
+a) selecting one of said plurality of correction vectors ((δ
+SL
+)
+1
+-(δ
+SL
+)
+m
+);
+b) locating a further block of pixel values in the next frame which
+corresponds to the motion block of pixels along the selected correction vector;
+c) calculating a block of difference values, each value representing a
+respective difference between one of the pixel values in the motion block and the
+
+corresponding pixel value in the further block;
+d) assigning a first weighting factor to the difference value at the center
+of the difference block and assigning a second weighting value, less than the first
+
+weighting value, to the other difference values in the difference block;
+e) summing the difference values, as modified by their assigned weighting
+factors, to produce an error value for the modified motion vector; and
+f) repeating steps a) through e) for each of said plurality of correction
+vectors ((δ
+SL
+)
+1
+-(δ
+SL
+)
+m
+).
+Apparatus according to claim 1 in which the trajectory correction means
+comprises:
+
+
+a memory (15) for holding the plurality of sequential image frames; 
+means for defining a plurality of correction vectors ((δ
+SL
+)
+1
+-(δ
+SL
+)
+m
+) relative to the
+motion vector (MV);
+means (304a-304z) for calculating a plurality of error values representing
+respective differences along the plurality of correction vectors between a selected
+
+pixel value in the motion block of pixel values and a plurality of pixel values along
+the respective plurality of correction vectors ((δ
+SL
+)
+1
+-(δ
+SL
+)
+m
+) from the frame which is
+next in sequence, in the plurality of sequential image frames, to the frame containing
+
+the motion block; and
+means (306) for selecting the correction vector having the smallest error
+value as the corrected trajectory for the motion block.
+</CLAIMS>
+</TEXT>
+</DOC>

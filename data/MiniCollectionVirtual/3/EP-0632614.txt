@@ -1,0 +1,209 @@
+<DOC>
+<DOCNO>EP-0632614</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+ATM cell detector
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04L1256	H04Q300	H04L704	H04L708	H04L704	H04Q300	H04L708	H04L1256	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04L	H04Q	H04L	H04L	H04L	H04Q	H04L	H04L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04L12	H04Q3	H04L7	H04L7	H04L7	H04Q3	H04L7	H04L12	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Method for detecting data packets, such as ATM data cells. The 
+preamble comprises a bit alignment word (AW) and a unique word (UW). 
+
+Successively, the Hamming distances are calculated from the first detected 
+1-bit, over a length of AW plus UW, then from the next bit over a length of 
+
+UW, and finally from the second 1-bit, again over a length of AW plug UW. 
+The position of the first bit of the detected data packet is then calculated on 
+
+the basis of the hd values thus calculated. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+KONINKL KPN NV
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+KONINKLIJKE KPN N.V.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+ASGARI HAMIDREZA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ASGARI, HAMIDREZA
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The invention relates to a method for detecting,
+from a bit stream, data packets such as ATM data cells, in
+particular where these originate from different sources and
+are combined into one stream of data packets, each data
+packet being preceded by a preamble which comprises at
+least a gap, formed by a number of 0-bits, and a unique
+word UW, whose reference value is formed by a specific
+combination of 0-bits and 1-bits and which has a length of
+b(uw) bits.It is generally known to have data packets preceded
+by a string of 0-bits ("gap") and a recognition
+string, the unique word (UW). using windowing of the
+detected bit stream, the beginning of a new data packet is
+detected as soon as the bit string within the window
+corresponds to the specified UW which is known beforehand
+and stored in the system in which the data packets have to
+be detected. If this method is to have a sufficiently low
+error probability, the UW has to be fairly long, which
+results in the detection thereof being relatively
+processing-intensive and thus requiring a considerable
+amount of time.
+It is also possible to use different synchronisation words,
+as is disclosed as such -viz. within the area of mobile
+radio communication- by GB2172176. GB2172176 discloses a
+method of block synchronisation of data in a mobile radio
+communication system, said method comprising the steps of:
+encoding data to be transmitted and forming the encoded
+data into blocks, adding to the head of said blocked data a
+block synchronising signal having a plurality of different
+successive patterns positioned in a prescribed order, and
+transmitting the blocked data together with said block
+synchronising signal, followed by the steps of receiving
+said transmitted data and recognising one of said patterns 
+constituting the block synchronisation signal, and
+estimating the data start position on the basis of the
+position of the properly recognised pattern within the
+block synchronisation signal, and decoding the blocked data
+beginning from said estimated position as received data.
+Another method for synchronising, however within the area
+of ATM, is disclosed by Takahashi Y et al, New retiming and
+synchronisation scheme for optical ATM switching systems,
+Electronics Letters, vol.26, no.2, pp. 99-100. In this
+disclosure a signal format and retiming method for optical
+ATM switching systems is proposed. An input signal is
+transformed to an optical signal with a unique word as a
+guard time for switching. A common optical receiver can be
+used for bit synchronisation, and logic
+</DESCRIPTION>
+<CLAIMS>
+Method for detecting, from a bit stream, data packets such as
+ATM data cells, in particular where these originate from different sources and
+
+are combined into one stream of data packets, each data packet being
+preceded by a preamble which comprises at least a gap, formed by a number
+
+of 0-bits, and a unique word UW, whose reference value is formed by a
+specific combination of 0-bits and 1-bits and which has a length of b(uw) bits,
+
+
+CHARACTERIZED IN that
+ the UW is preceded by a bit alignment word AW
+whose reference value is formed by, beginning with a 1-bit, a specific
+
+combination of 0-bits and 1-bits and which has a length of b(aw) bits, the
+following steps being carried out successively for the purpose of detecting a
+
+new data packet after a previous data packet has ended:
+
+detect, from the bit stream, the first 1-bit to occur and calculate, for a first
+detected bit string B(d1), which begins with that first detected 1-bit and has a
+
+length b(d1) equal to the number of bits b(aw) of the reference AW plus the
+number of bits b(uw) of the reference UW, the Hamming distance hd(1)
+
+between that first detected bit string B(d1) and a first reference bit string
+B(aw+uw) which is equal to the reference AW plus the reference UW;
+calculate, for a second detected bit string B(d2), which begins with the
+detected bit, (b(aw)-1) bits after the said detected first 1-bit to occur, and has
+
+a length b(d2) equal to the number of bits b(uw) of the reference UW, the
+Hamming distance hd(2) between that detected bit string B(d2) and a second
+
+reference bit string B(uw) which is equal to the reference UW;
+detect, from the bit stream, the second 1-bit to occur and calculate, for a
+third detected bit string B(d3), which begins with that second detected 1-bit
+
+and has a length b(d3) equal to the number of bits b(aw) of the reference AW
+plus the number of bits b(uw) of the reference UW, the Hamming distance 
+
+hd(3) between that third detected bit string B(d3) and the third reference bit
+string B(aw+uw) which is equal to the reference AW plus the reference UW;
+calculate the position of the first bit of the new data packet on the basis of
+one or more of the calculated Hamming distances hd(1), hd(2) and hd(3)
+
+according to the following rules, where p is the number of bits of possible
+further preamble words which follow the said gap, the AW and the UW:
+
+
+if hd(1)=0 or hd(1)=1, then the first bit of the data packet is situated at a
+distance of b(aw+uw)+p bits after the detected first 1-bit;
+if hd(2)=0, then the first bit of the data packet is situated at a distance of
+b(aw+uw)-1+p bits after the detected first 1-bit;
+if hd(3)=0, then the first bit of the data packet is situated at a distance of
+b(aw+uw)+p bits after the detected second 1-bit.
+System for detecting, from a bit stream, data packets such as
+ATM data cells, each data packet being preceded by a preamble which
+
+comprises at least a gap, formed by a number of 0-bits, and a unique word
+UW, whose reference value is formed by a specific combination of 0-bits and
+
+1-bits and which has a length of b(uw) bits, 
+CHARACTERIZED IN THAT
+
+the UW is preceded by a bit alignment word AW whose reference value is
+formed by, beginning with a 1-bit, a specific combination of 0-bits and 1-bits
+
+and which has a length of b(aw) bits, which system, for the purpose of
+detecting a subsequent data packet after a first data packet has ended,
+
+comprises the following units;
+
+a first detection unit (1) for detecting, from the said bit stream, the first
+1-bit after the said first data packet has ended;
+a first computation unit (2) for calculating, for a first detected bit string
+B(d1), which begins with the first 1-bit detected by the first detection unit
+
+and has a length b(d1) equal to the number of bits b(aw) of the reference AW 
+plus the number of bits b(uw) of the reference UW, the Hamming distance
+
+hd(1) between that first detected bit string B(d1) and a first reference bit
+string B(aw+uw) which is equal to the reference AW plus the reference UW;
+a pointer unit (3) for indicating the (b(aw)-1)th bit after the detected 1-bit;
+a second computational unit (4) for calculating, for a second detected bit
+string B(d2), which begins with the bit indicated by the pointer unit,
+
+(b(aw)-1) bits after the first 1-bit detected by the first detection unit, and
+which has a length b(d2) equal to the number of bits b(uw) of the reference
+
+UW, the Hamming distance hd(2) between that detected bit string B(d2) and
+a second reference bit string B(uw) which is equal to the reference UW;
+a second detection unit (5) for detecting the second 1-bit in the bit stream,
+after the said first data packet has ended;
+a third computational unit (6) for calculating, for a third detected bit string
+B(d3) which begins with that second 1-bit detected by the second detection
+
+unit and has a length b(d3) equal to the number of bits b(aw) of the reference
+AW plus the number of bits b(uw) of the reference UW, the Hamming
+
+distance hd(3) between that third detected bit string B(d3) and the third
+reference bit string B(aw+uw) which is equal to the reference AW plus the
+
+reference UW;
+a fourth computational unit (7) for calculating the position of the first bit of
+the said following data packet on the basis of one or more of the Hamming
+
+distances hd(1), hd(2) and hd(3) calculated by one or more of the said
+computational units according to the following 
+rules, where p is the number
+of bits of possible further preamble words which follow the said gap, the AW
+
+and the UW:
+
+if hd(1)=0 or hd(1)=1, then the first bit of the data packet is situated at a
+distance of b(aw+uw)+p bits after the detected first 1-bit; 
+if hd(2)=0, then the first bit of the data packet is situated at a distance of
+b(aw+uw)-1+p bits after the detected first 1-bit;
+if hd(3)=0, then the first bit of the data packet is situated at a distance of
+b(aw+uw)+p bits after the detected second 1-bit.
+</CLAIMS>
+</TEXT>
+</DOC>

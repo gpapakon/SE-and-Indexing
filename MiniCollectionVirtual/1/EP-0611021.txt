@@ -1,0 +1,337 @@
+<DOC>
+<DOCNO>EP-0611021</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Image generator.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T1500	G06T1500	G09B902	G09B930	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	G09B	G09B	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T15	G06T15	G09B9	G09B9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An apparatus for generating an image to be displayed on a display 
+screen from data defining a model including a plurality of opaque and 
+
+translucent features. The image is intended to represent a view of the model 
+from a predetermined eyepoint and is made up from an array of screen space 
+
+pixels to be displayed by a raster scanning process. Each pixel is of uniform 
+colour and intensity, and the pixels together define an image area. The image 
+
+area is divided into an array of sub-areas each of which covers at least one 
+pixel. For each feature in the model that is potentially visible from the 
+
+eyepoint, a test is conducted to determine which of the sub-areas is at least 
+partially covered by that feature. A list of feature identifiers is produced in 
+
+respect of each sub-area, the list for any one sub-area identifying features 
+which at least partially cover that sub-area. The position in screen space of 
+
+at least one sampling point within each sub-area is determined. For each 
+sub-area in turn, and for each sampling point a test is conducted to determine 
+
+which of the features in that sub-area's list cover that sampling point. For 
+each feature which covers a sampling point, a function of the distance from 
+
+the eyepoint to that feature at the sampling point is determined. Feature 
+describing data is stored for each sampling point within a sub-area, the stored 
+
+data being indicative of at least the distance of the opaque feature which 
+covers the sampling point and is nearest to the eyepoint and the distan
+ce and 
+translucency of at least one nearer translucent feature which covers the 
+
+sampling point. An output is produced for each sampling point within a 
+sub-area, the sampling point output corresponding to the combined effects of 
+
+the features identified by the stored data. An output for each pixel within a 
+sub-area is produced, the pixel output corresponding to the combined effects 
+
+of the sampling point outputs for all sampling points which contribute to that 
+pixel, and the pixel outputs are displayed. 
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+REDIFFUSION SIMULATION LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+REDIFFUSION SIMULATION LTD
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BAKER STEPHEN JOHN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+COWDREY DENNIS ALAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+OLIVE GRAHAM JOHN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WOOD KARL JOSEPH
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BAKER STEPHEN JOHN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+COWDREY DENNIS ALAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+OLIVE GRAHAM JOHN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WOOD KARL JOSEPH
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to an image generator, and in particular 
+to a computer image generator suitable for generating information in real 
+time from which an image can be derived for display in for example a flight 
+simulator. Real time image generators for flight simulators are used to generate 
+images which are presented to pilots who are positioned in a mock aircraft 
+cockpit. In early systems, a visual environment was created using film or 
+video images obtained from a servo-driven camera that was manoeuvred 
+above a model of the terrain over which movement was to be simulated. 
+These approaches were widely used but were found to be incapable of 
+producing realistic scenes with true perspective from a wide range of 
+eyepoints. In order to overcome these limitations, image generators 
+producing computer generated imagery were introduced, the first 
+commercially successful systems appearing in the early 1970s. Such systems 
+are now used almost exclusively in flight simulator application, and are 
+usually referred to as CIG (Computer Image Generation) systems. In a CIG system, the intended viewer of the image produced by the 
+system, i.e. the simulator pilot, looks out through an imaginary window into 
+a three dimensional (3-D) world defined by information stored as geometrical 
+and other characteristic attribute data. A line drawn from the eyepoint 
+through the window intersects a point in the 3-D world. The colour and 
+intensity of that point must be "painted" on the window at the point of 
+intersection of that line with the window. The displayed image is made up 
+from a series of picture elements (pixels) each of which is of uniform colour 
+and intensity, the colour and intensity of each pixel being a function of the 
+position of the eyepoint relative to the 3-D world which the stored data  
+ 
+represents. In a real time display where hundreds of thousands of pixels must 
+be updated sufficiently quickly to avoid jumping of the image, it is necessary 
+to perform many millions of calculations per second to maintain image 
+fidelity. In most simulator systems producing a wide angle display the image 
+is made up from three juxtaposed images each derived from a common 
+database but generated by a respective processing channel. The computational 
+load is thus shared between the three channels. We are concerned herein 
+with the processes within a single channel only and therefore the 
+interrelationship between associated channels will not be discussed. A review of the problems confronted in real time
+</DESCRIPTION>
+<CLAIMS>
+An apparatus for producing an image on a display screen of a world space 
+model made up from a plurality of features defined in world space, the model 
+
+including light point and non-light point features and being viewed from an eyepoint 
+defined in world space, wherein the apparatus comprises: 
+
+
+a. means for calculating a finite area in screen space to be occupied by 
+each light point feature, 
+b. means for calculating the intensity of light point features, 
+c. means for calculating a translucency for each light point feature visible 
+from the eyepoint, the calculated translucency being a function of the 
+
+calculated intensity, and 
+d. means for producing outputs to a display device appropriate to a final 
+calculated intensity of the light point feature. 
+An apparatus according to Claim 1, wherein the intensity calculating means 
+calculates intensity of light point features as a function of at least the distance from 
+
+the eyepoint to the light point. 
+An apparatus according to Claim 1 or 2, comprising means for determining 
+the translucency of non-light point features, means for defining the screen space 
+
+position of a plurality of sampling points distributed across the display screen, means 
+for determining the area of screen space which would be occupied by each feature 
+
+if that feature alone was viewed from the eyepoint, means for determining for each 
+sampling point which features occupy the position in screen space of that sampling 
+
+point, and means in respect of each sampling point for storing attributes including 
+translucency for the nearest to the eyepoint opaque feature and any nearer to the 
+
+eyepoint translucent features which occupy the position in screen space of that 
+sampling point, the output producing means producing outputs to the display device 
+
+appropriate to the stored attributes at each sampling point. 
+An apparatus according to Claim 3, wherein the storing means comprises a 
+translucency stack, and data describing light points which are to be displayed in a 
+
+raster made up from a plurality of pixels are stored with data describing non-light 
+point features in the translucency stack in distance from the eyepoint order, the 
+
+output producing means producing an output in respect of each sampling point in 
+accordance with the following equations:R = cT₀.R₀ + cT₁.R₁ + ... cTN.RNG = cT₀.G₀ + cT₁.G₁ + ... cTN.GNB = cT₀.B₀ + cT₁.B₁ + ... cTN.BN
+
+ 
+where 
+
+R, G and B are red, green and blue outputs respectively, 
+   cTN is the cumulative translucency of the Nth feature in distance from the 
+
+eyepoint order stored by the storing means, 
+   RN is the red component of the Nth feature in distance from the eyepoint 
+
+order stored by the storing means, 
+   GN is the green component of the Nth feature in distance from the eyepoint 
+
+order stored by the storing means, and 
+   BN is the blue component of the Nth feature in distance from the eyepoint 
+
+order stored by the storing means. 
+An apparatus according to Claim 4, comprising means for limiting the 
+maximum number of light points to be displayed in the raster which can be stored 
+
+in the translucency stack. 
+An apparatus according to Claim 5, comprising means for limiting the 
+maximum number of light points in the translucency stack to one. 
+An apparatus according to any one of Claims 3 to 6, wherein features 
+intended to represent calligraphic light points to be included in the image as 
+
+calligraphically projected light points are flagged to distinguish them from other 
+features, the apparatus further comprising means for reading out calligraphic light 
+
+point features to the storing means in near to far from the eyepoint order after all 
+ 
+
+non-calligraphic features have been read out, means in respect of each sampling point 
+for calculating the attenuation of calligraphic light points covering that sampling 
+
+point, the attenuation being calculated to take account of at least the translucency of 
+features stored in the storing means that are nearer to the eyepoint than the 
+
+calligraphic light point, means for accumulating for each calligraphic light point the 
+calculated attenuations for all sampling points covered by that light point, and means 
+
+for producing in respect of each calligraphic light point a calligraphic light point 
+intensity output which is a function of the accumulated attenuation, the intensity 
+
+output being provided to a calligraphic light point store which controls a calligraphic 
+light point projection device. 
+An apparatus according to Claim 7, comprising means for determining an 
+aperture for a calligraphic light point, the aperture being equal to the number of 
+
+sampling points potentially covered by the calligraphic light point, means for 
+determining an attenuation factor for a calligraphic light point, the attenuation factor 
+
+being the sum of the attenuations of the calligraphic light point at each covered 
+sampling point, and the attenuation at each sampling point being a calculation of the 
+
+proportion of light emitted by the feature represented as the calligraphic light point 
+which in the modelled world reaches the eyepoint, and means for calculating a 
+
+display intensity for the calligraphic light point by multiplying an intrinsic intensity 
+for the light point by a fraction calculated as the attenuation factor divided by the 
+
+aperture. 
+An apparatus for producing an image on a display screen of a world space 
+model made up from a plurality of features defined by world space co
+ordinates and 
+viewed from an eyepoint defined in world space, the model including light point 
+
+features each defined by world space coordinates determining the position of the light 
+point in world space, wherein the apparatus comprises: 
+
+
+a. means for calculating the screen space coordinates of each light point, 
+b. means for calculating a screen space area for each light point as a 
+ 
+
+function of at least the distance in world space from the light point to 
+the eyepoint, 
+c. means for calculating an intensity for each light point, 
+d. means for defining the screen space positions of a plurality of sampling 
+points distributed across the display screen, 
+e. means for determining for each light point which of the sampling 
+points lie within the calculated area of the light point, and 
+f. means for producing an output to a display device for each light point 
+appropriate to the calculated light point intensity and the particular 
+
+sampling points which lie within the calculated area of the light point. 
+An apparatus according to Claim 9, wherein the intensity calculating means 
+calculates intensity as a function of at least the distance from the eyepoint to the light 
+
+point. 
+An apparatus according to Claim 9 or 10, wherein at least one of the light 
+point features is to be displayed calligraphically, the apparatus further comprising 
+
+means at each sampling point for calculating the attenuation of a calligraphic light 
+point within the area of which that sampling point is located, the attenuation being 
+
+calculated to take account of the presence of any other feature which covers the 
+sampling point and is nearer to the eyepoint than the calligraphic light point, and 
+
+means for calculating a display intensity for the calligraphic light point which is a 
+function of the sum of the attenuations of the calligraphic light point at all the 
+
+sampling points which are positioned within the area of the calligraphic light point 
+and the light point intrinsic intensity. 
+An apparatus according to Claim 11, wherein the intensity calculating means 
+calculates an intrinsic intensity for each light point assuming no occultation of the 
+
+light point by nearer to the eyepoint features, the apparatus further comprising means 
+for calculating a translucency for each calligraphic light point, the translucency being 
+
+calculated as a function of the calculated intrinsic intensity, and means for calculating 
+ 
+
+a display intensity for calligraphic light points which is a function of the intrinsic 
+intensity attenuated by any nearer to the eyepoint opaque or translucent features. 
+An apparatus according to Claim 12, comprising means for processing 
+calligraphic light point features in near to far from the eyepoint order after all 
+
+non-calligraphic light points have been processed, the calligraphic light point 
+processing means comprising means in respect of each sampling point for calculating 
+
+the attenuation of calligraphic light points covering that sampling point, the 
+attenuation being calculated to take account of at least the translucency of features 
+
+that are nearer to the eyepoint than the calligraphic light point, means for 
+accumulating for each calligraphic light point the calculated attenuations for all 
+
+sampling points covered by that light point, and means for producing in respect of 
+each calligraphic light point a calligraphic light point display intensity output which 
+
+is a function of the accumulated attenuations, the light point display intensity being 
+stored for use in a calligraphic light point projection device. 
+An apparatus according to Claim 13, comprising means for determining an 
+aperture for a calligraphic light point, the aperture being equal to the number of 
+
+sampling points potentially covered by the calligraphic light point, means for 
+determining an attenuation factor for a calligraphic light point, the attenuation factor 
+
+being the sum of the attenuations of the calligraphic light point at each covered 
+sampling point, and the attenuation at each sampling point being a calculation of the 
+
+proportion of light emitted by the feature represented as the calligraphic light point 
+which in the modelled world would reach the eyepoint, and means for calculating the 
+
+display intensity for the calligraphic light point by multiplying the intrinsic intensity 
+of the light point by a fraction calculated as the attenuation factor divided by the 
+
+aperture. 
+An apparatus according to Claim 13 or 14, wherein the attenuation calculating 
+means comprises a translucency stack in respect of each sampling point, means for 
+
+storing in the translucency stack data identifying the nearest opaque and any nearer 
+ 
+
+to the eyepoint non-calligraphic light point features which cover that sampling point, 
+a veil store in respect of each sampling point, means for comparing the distance 
+
+from the eyepoint of each calligraphic light point with the distances from the eyepoint 
+of features stored in the translucency stack, and means for storing in the veil store 
+
+a cumulative translucency for the calligraphic light point, the cumulative translucency 
+being representative of the attenuation of the calligraphic light point by nearer to the 
+
+eyepoint features stored in the translucency stack. 
+An apparatus according to claim 15, wherein the calculated attenuation and 
+aperture for each potentially impacted sampling point are combined with those of 
+
+other impacted sampling points and output to the light point store. 
+</CLAIMS>
+</TEXT>
+</DOC>

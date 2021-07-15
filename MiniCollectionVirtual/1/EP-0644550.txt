@@ -1,0 +1,234 @@
+<DOC>
+<DOCNO>EP-0644550</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Dram control Circuit
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G11C700	G11C722	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G11C	G11C	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G11C7	G11C7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A DRAM control circuit according to the present 
+invention, comprising a DRAM, a DRAM controller adapted for 
+
+receiving an address, write data, and a data rewrite 
+command from a host controller and designating a row 
+
+address and a column address to the DRAM, and a column 
+address strobe signal control circuit, causes pseudo 
+
+column address strobe signal DCASq-N to have "L" level to 
+read the contents of the address when column address strobe 
+
+signal DCAS-N and read signal RD-N have "L" level, causes 
+pseudo column address strobe signal DCASq-N to have "H" 
+
+level to set an input/output terminal I/O to high impedance 
+when the read signal RD-N has "H" level, further causes 
+
+pseudo write signal WR-q to have "L" level to output write 
+data to a data bus when the input/output terminal I/O 
+
+remains at the high impedance, and rewrites the contents of 
+the address to the write data when the pseudo column 
+
+address strobe signal DCASq-N is caused to have "L" level. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+OKI ELECTRIC IND CO LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+OKI ELECTRIC INDUSTRY CO., LTD.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+ISHIKAWA OSAMU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ITO TOSHIKAZU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ISHIKAWA, OSAMU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ITO, TOSHIKAZU
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a DRAM (Dynamic
+Random Access Memory) for performing a read modify write
+process.Conventionally, a DRAM control circuit for
+performing a read modify write process comprises a DRAM
+controller and a DRAM. The DRAM controller receives an
+address, write data, and data rewrite command from a
+host controller. The DRAM controller designates a row
+address and a column address to the DRAM. In addition,
+the DRAM controller causes the signal levels of a row
+address strobe signal, a column address strobe signal,
+and a read signal to become "L". After the DRAM
+controller reads the contents of the address through a
+data bus, the DRAM controller causes the signal level of
+the read signal to become "H" level and subsequently the
+write signal to "L" level, then transmits write data to
+the DRAM.On the other hand, when the signal levels of a row
+address strobe terminal, a column address strobe
+terminal, and an output enable terminal of the DRAM are
+"L", the DRAM controller outputs the content of the
+address designated from the input/output terminal to the
+data bus. When the signal level of the read/write 
+terminal is "L", the DRAM controller inputs the write
+data to the DRAM through the input/output terminal
+through the data bus and rewrites the content of the
+designated address with the write data.However, a commercial DRAM is designed so that the
+output enable terminal is grounded. (Refer to
+"HB56G51232 Series, Hitachi IC Memory Data Book 3",
+Semiconductor Division, Hitachi Co., Ltd., 14-th
+edition, pp. 922-924, 1992.Thus, in the DRAM control circuit, after a read
+cycle, although a row address and a column address were
+designated, the signal level of the output enable
+terminal of the DRAM is "L". Thus, the data bus cannot
+be switched for the data write operation. After the
+read cycle, the DRAM controller causes the signal levels
+of the row address strobe signal and the column address
+strobe signal to become "L", designates the row address
+and the column address to the DRAM, and causes the
+signal level of the write signal to become "L", and
+rewrites the content of the address of the DRAM with the
+write data. Thus, the number of cycles of the read
+modify write process becomes long.EP-A-0 503 375 discloses a memory device executing a
+read-modify-write access in a single access cycle. However, this
+memory uses the output enable input for this purposeAn object of the present invention is to provide a
+DRAM control circuit for decreasing the number of bus
+cycles for data rewrite operation so as
+</DESCRIPTION>
+<CLAIMS>
+A memory device comprising a DRAM (13) and a DRAM control circuit having a DRAM
+controller (12), the DRAM controller being adapted for
+
+receiving an address, write data, and a data rewrite
+command from a host controller (11) and designating a row
+
+address and a column address to the DRAM (13) and causing the
+signal levels of a row address strobe signal (DRAS-N), a column
+
+address strobe signal (DCAS-N), and a read signal (RD-N) to become "L", for
+reading the contents of the addresses through a data bus (h)
+
+connected to an input/output terminal of the DRAM (13), thereafter
+causing the signal level of the read signal (RD-N) to become
+
+"H", then causing the signal level of the write signal (WR-N) that
+is output to a read/write terminal (WE) of the DRAM (13) to become
+
+"L", and rewriting the contents of the received address with
+the write data, the memory device further comprising:
+
+
+a column address strobe signal control circuit (16) for
+generating a pseudo column address strobe signal (DCAS
+q
+-N) and a
+pseudo write signal (WR
+q
+-N) depending on the state of the column address
+strobe signal (DCAS-N), the read signal (RD-N), and the write signal (WR-N) and
+
+for inputting the pseudo column address strobe signal (DCAS
+q
+-N)
+and the pseudo write signal (WR
+q
+-N) to a column address strobe
+terminal (CAS) of the DRAM (13) and the read/write terminal (WE) of the
+
+DRAM (13), respectively; and
+means (21,23) for causing the signal level of the pseudo
+column address strobe signal (DCAS
+q
+-N) to become "L" so as to read
+the contents of the received address when the signal levels of
+
+the column address strobe signal (DCAS-N) and the read signal (RD-N) 
+become "L", for causing the signal level of the pseudo
+
+column address strobe signal (DCAS
+q
+-N) to become "H" level so as
+to cause the input/output terminal of the DRAM (13) to become a high impedance
+
+state when the signal level of the read signal (RD-N) becomes
+"H", for causing the signal level of the pseudo write
+
+signal (WR
+q
+-N) to become "L" thereafter so as to output the write data received from the host controller to
+the data bus (h) when the input/output terminal of the DRAM (13) is in a high
+
+impedance state, and for rewriting the contents of the received
+address with the write data received from the host controller (11) when the signal level of
+
+the pseudo column address strobe signal (DCAS
+q
+-N) is "L".
+The memory device as set forth in claim
+1,
+
+   wherein said column address strobe signal control
+circuit (16) includes:
+
+
+pseudo column address strobe signal generating
+means (21,23) for generating said pseudo column address strobe
+
+signal (DCAS
+q
+-N) depending on the state of the column address strobe
+signal (DCAS-N), the read signal (RD-N), and the write signal (WR-N); and
+pseudo write signal generating means (21-26) for generating
+a pseudo write signal (WR
+q
+-N) depending on the state of the pseudo column
+address strobe signal (DCAS
+q
+-N), the column address strobe signal (DCAS-N),
+and the write signal (WR-N).
+The memory device as set forth in claim
+2,
+
+   wherein said pseudo column address strobe signal
+generating means (21,23) includes:
+
+
+an AND gate (21) for inputting the read signal (RD-N) and the 
+write signal (WR-N); and
+an OR gate (23) for inputting an output signal (52) of the
+AND gate (21) and the column address strobe signal (DCAS-N) and for
+
+outputting a pseudo column address strobe signal (DCAS
+q
+-N).
+The memory device as set forth in claim
+3,
+
+   wherein said pseudo write signal generating means (21-26)
+includes:
+
+
+an inverter (24) for inputting the column address strobe
+signal (DCAS-N);
+an NAND (25) gate for inputting output signals of the
+inverter (24) and the OR gate (23);
+a D-type flip-flop (26) for inputting an output signal
+of the NAND gate (25); and
+an AND gate (22) for inputting output signals of the D-type
+flip-flop (26) and the write signal (WR-N) and for outputting a
+
+pseudo write signal (WR
+q
+-N).
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,248 @@
+<DOC>
+<DOCNO>EP-0645685</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method of controlling a line computer for implementing a relocated compiled library program.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F9445	G06F9445	G06F945	G06F945	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The present invention relates to a method of 
+controlling a line computer for implementing a 
+
+relocated compiled library program (C library) with an 
+interpreter type language program (BASIC interpreter 
+
+BSI) to control a line computer. In this method, in a 
+user area (A) of a main memory (MM) BASIC middle word 
+
+area (A1) is set in order to store the middle word of 
+said interpreter type language program (BASIC 
+
+interpreter BSI), and a main processor (102) executes 
+separately, said compiled library (C library) and said 
+
+middle word of the interpreter type language program 
+(BASIC interpreter BSI). In the C library area (A2) in 
+
+said user area (A) said compiled library program (C 
+library) is stored, wherein (a) adapting steps are set 
+
+at an adapter area (A21), which is at the top of said C 
+library area (A2), in which respective arguments in 
+
+said interpreter type language (BASIC interpreter BSI) 
+are stored, and which call main function in said 
+
+compiled library program (C library), (b) a data area 
+(A25) is set at the rear of said C library area (A2), 
+
+which stores the initial data of static variable to be 
+used in the execution of the main function in said 
+
+compiled library program (C library), and (c) an 
+address converting table (A26) is set at the final 
+
+portion of the main function. Further, a relative 
+address (X) between the top address of said compiled 
+
+library program (C library) and the position dependent 
+code address, and relative address (Y) between the top  
+
+ 
+address of said compiled library address and the branch 
+
+destination address indicated in said position 
+dependent code, are set as a pair. When said system 
+
+starts and said interpreter type language program 
+(BASIC interpreter BSI) is executed, (a) said initial 
+
+data in said data area (A25) is copied into said main 
+function in said compiled library program (C library), 
+
+(b) said branch destination address in said main 
+function in said compiled library program (C library) 
+
+is changed, by use of said address converting table 
+(A26), in compliance with said top address of said C 
+
+library area (A2), and (c) when said compiled library 
+program (C library) is called as a subroutine, said 
+
+adapting steps start and said main function in said 
+compiled library program (C library) is executed after 
+
+the arguments in said interpreter language type program 
+(BASIC interpreter) being piled in a stack in said main 
+
+processor (102). 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+YOKOGAWA ELECTRIC CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+YOKOGAWA ELECTRIC CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+INOUE KENICHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ITO CHIAKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TAIRAKU HIROKAZU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TAKIMOTO KENJI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TANIDO SHIGETOSHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+INOUE, KENICHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ITO, CHIAKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TAIRAKU, HIROKAZU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TAKIMOTO, KENJI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TANIDO, SHIGETOSHI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to a method of controlling a 
+line computer for implementing a relocated compiled 
+library program. Prior art document US-A-4 870 590 discloses a 
+manufacturing line control system which uses line 
+computers. In the first place, the configuration of peripheral 
+circuits around a CPU board of the line computer is 
+explained. Fig. 1 shows a main part of the conventional line 
+computer system, in which such a high speed CPU as 
+68020 or 68030 which works at 25 MHz clock or 33MHz 
+clock is used, together with I/O devices which work at 
+low speed. In this figure, CPU 1 is connected to a main memory 
+block 2 and low speed I/O devices 31 and 32 through 
+data bus DB, address bus AB and other signal lines. 
+Address signal ADR, read/write signal R/W, address 
+strobe signal AS, and data strobe signal DS are input 
+to a decoder 4 from CPU 1. From decoder 4, chip select 
+signals CS1 and CS2 are output to I/O devices 31 and  
+ 
+32. Further, data strobe acknowledge signals DSACK, DSACK1, and 
+DSACK2 are transmitted to a single signal line from respective 
+blocks every time when these blocks transmit or receive the data. Fig. 2 is a time chart showing operation of the above 
+system. Assuming that CPU 1 has started read cycle for I/O device 
+31, address ADR, address strobe signal AS(L), and data strobe 
+signal DS(L) are transmitted from CPU 1. Decoder 4 interprets 
+these signals and then sends chip select signal CS1(L) to I/O 
+device 31. In response to this, I/O device 31 transmits read data 
+corresponding to address ADR, to data bus DB. CPU 1 introduces 
+this read data in accordance with data strobe acknowledge signal 
+DSACK1(L). Read cycle ends by this operation. Next, assuming that CPU 1 has started write cycle for I/O 
+device 32, address strobe signal AS(L) is transmitted from CPU1. 
+A little later, data strobe signal DS(L) is transmitted. Decoder 
+4 interprets and then sends chip select signal CS2(L) to I/O 
+device 32. On the other hand, CPU 1 transmits write data to data bus 
+DB. After introducing this write data, I/O device 32 functions 
+to change data strobe acknowledge signal DSACK2 to "L" state. 
+Write cycle ends by this operation. The system shown in this figure repeats the read cycle and 
+the write cycle as mentioned in the above. However, the above 
+mentioned conventional system has the following problems. 
+(1) In the conventional system, address strobe signal AS(L) 
+is asserted immediately after the cycle starts, and negated  
+ 
+immediately before the cycle ends. Therefore, both set
+</DESCRIPTION>
+<CLAIMS>
+Method of controlling a line computer for implementing 
+a relocated compiled library program (C library) with 
+
+an interpreter type language program (BASIC interpreter 
+BSI) to control a line computer, wherein: 
+
+   in a user area (A) of a main memory (MM) BASIC 
+middle word area (A1) is set in order to store the 
+
+middle word of said interpreter type language program 
+(BASIC interpreter BSI); and 
+
+   a main processor (102) executes separately, said 
+compiled library program (C library) and said middle 
+
+word of the interpreter type language program (BASIC 
+interpreter BSI), characterized in that: 
+
+
+(A) in the C library area (A2) in said user area 
+(A) said compiled library program (C library) is 
+
+stored, 
+
+(a) adapting steps are set at an adapter area 
+(A21), which is at the top of said C library area (A2), 
+
+in which respective arguments in said interpreter type 
+language (BASIC interpreter BSI) are stored, and which 
+
+call main function in said compiled library program (C 
+library), 
+(b) a data area (A25) is set at the rear of 
+said C library area (A2), which stores the initial data 
+
+of static variable to be used in the execution of the 
+main function in said compiled library program (C 
+
+library), and 
+(c) an address converting table (A26) is set 
+at the final portion of the main function, wherein: 
+
+   relative address (X) between the top address of said 
+compiled library program (C library) and the position 
+
+dependent code address, and 
+   relative address (Y) between the top address of said 
+
+compiled library address and the branch destination 
+address indicated in said position dependent code, 
+
+   are set as a pair; 
+(B) when said system starts and said interpreter 
+type language program (BASIC interpreter BSI) is 
+
+executed, 
+
+(a) said initial data in said data area 
+(A25) is copied into said main function in said 
+
+compiled library program (C library), 
+(b) said branch destination address in said 
+main function in said compiled library program (C 
+
+library) is changed, by use of said address 
+converting table (A26), in compliance with said top 
+
+address of said C library area (A2), and 
+(c) when said compiled library program (C 
+library) is called as a subroutine, said adapting 
+
+steps start and said main function in said compiled 
+library program (C library) is executed after the 
+
+arguments in said interpreter language type program 
+(BASIC interpreter) being piled in a stack in said 
+
+main processor (102). 
+</CLAIMS>
+</TEXT>
+</DOC>

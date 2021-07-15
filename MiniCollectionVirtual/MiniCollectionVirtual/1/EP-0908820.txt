@@ -1,0 +1,241 @@
+<DOC>
+<DOCNO>EP-0908820</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method and apparatus for dynamically deoptimizing compiled activations
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F940	G06F942	G06F945	G06F945	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Methods and apparatus for dynamically deoptimizing a frame in a control
+stack during the execution of a computer program are disclosed. The described
+
+methods are particularly suitable for use in computer systems that are arranged to
+execute both interpreted and compiled byte codes. According to one aspect of the
+
+present invention, a computer-implemented method for deoptimizing a compiled
+method includes creating a data structure. The data structure, which is separate from
+
+the control stack, is arranged to store information relating to the compiled method. A
+reference indicator, such as a pointer, is created to associate the data structure with the
+
+frame. The method, which is compiled to a first state of optimization, is then
+deoptimized to a second state of optimization, and the method in the first state of
+
+optimization may be discarded, thereby deoptimizing the frame. When control
+returns to the deoptimized frame, a migration routine creates at least one new stack
+
+frame, and execution may continue using the method in the second state of
+optimization.
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SUN MICROSYSTEMS INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SUN MICROSYSTEMS, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BAK LARS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HOLZLE URS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BAK, LARS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HOLZLE, URS
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates generally to methods and apparatus for
+deoptimizing compiled activations in software applications. More particularly, the
+present invention relates to methods and apparatus for performing eager
+deoptimization of compiled activations during the overall execution of a computer
+program.Computer systems are often linked across a network, e.g., local area networks,
+intranets and internets, of computer systems such that they may share resources.
+Share resources often include software applications. In general, software
+applications, or computer programs, may be delivered in different formats to different
+computer systems, due to the fact that each computer system requires software
+applications to be in a specific format. Alternatively, the computer programs may be
+delivered to a computer system in a machine-independent form, i.e., as byte codes, in
+order to enable one form of a computer program to be utilized by many different
+computer systems.When computer programs are delivered in a machine-independent form, the
+programs may be interpreted directly, or the programs may be translated into
+machine-dependent code, i.e., "machine code." Programs which are interpreted 
+directly occupy less space in a computer system than programs which are translated
+into machine code. However, programs which are interpreted directly have slower
+execution speeds than programs which are translated into machine code, in most
+cases. As such, the determination of whether or not to interpret a computer program
+directly, in lieu of translating the computer program into machine code, is often based
+on the relative importance of space in relation to execution speed.Some computer systems may be arranged to support both interpreted code and
+compiled, or machine, code. During the course of executing a program on a system
+which supports both interpreted and compiled code, it may sometimes be beneficial to
+eliminate, or delete, a compiled method. Eliminating a compiled method, which
+contains compiled activations, generally frees space within the computer system.
+Hence, when additional space is needed on a computer system, a compiled method
+may be deleted, and replaced with an interpreter code equivalent, because an
+interpreted method occupies less space than its compiled code equivalent.In addition, compiled code may have to be discarded because the code was
+based on assumptions that are no longer valid. By way of example, compiled code
+may be discarded because a new class was loaded, or because program code was
+c
+</DESCRIPTION>
+<CLAIMS>
+A computer-implemented process for deoptimizing a compiled method, the
+method being in a first state of optimization, the method further being associated with
+
+a frame located on a control stack, the computer-implemented process comprising:
+
+creating a data structure, the data structure being separate from the control
+stack, wherein the data structure includes information related to the method, the
+
+information being obtained from at least one of the method and the frame;
+creating a reference indicator, the reference indicator being associated with the
+frame, wherein the reference indicator is arranged to reference the data structure; and
+deoptimizing the method to a second state of optimization after the data
+structure is created.
+A computer-implemented process as recited in claim 1 wherein the data
+structure is machine independent, and deoptimizing the method includes deleting the
+
+method in the first state of optimization.
+A computer-implemented process as recited in any one of the preceding
+claims wherein the second state of optimization is an interpreted state.
+A computer-implemented process as recited in any one of the preceding
+claims wherein the frame is located in a middle section of the control stack.
+A computer-implemented process as recited in any one of the preceding
+claims wherein decompiling the method includes deoptimizing an optimized
+
+activation included in the method.
+A computer-implemented process as recited in claim 5 further including
+storing the deoptimized activation in the data structure.
+A computer-implemented process as recited in claim 6 further including:
+
+creating a new frame using the deoptimized activation stored in the data
+structure; and
+pushing the new frame onto the control stack in place of the frame.
+A computer-implemented process as recited in any one of the preceding
+claims wherein the data structure is machine independent, the computer-implemented
+
+process further including transferring the data structure from a first computer system
+in the direction of a second computer system.
+A computer-implemented process as recited in claim 8 wherein the data
+structure is created on the first computer system, the computer-implemented process
+
+further including creating a new frame on the second computer system using the
+deoptimized activation stored in the data structure.
+A computer-implemented method for dynamically deoptimizing a first frame
+on a control stack, the first frame having an associa
+ted compiled method, the
+compiled method including a compiled activation, the computer-implemented method
+
+comprising:
+
+deoptimizing the compiled method associated with the first frame, the first
+frame being located beneath a second frame on the control stack, wherein
+
+deoptimizing the compiled method includes deoptimizing the compiled activation,
+deoptimizing the compiled method further including creating an interpreter equivalent
+
+of the compiled activation;
+removing the second frame from the control stack;
+creating at least one interpreter frame from the interpreter equivalent of the
+compiled activation; and
+pushing the at least one interpreter frame onto the stack in place of the first
+frame.
+A computer-implemented method as recited in claim 10 further including
+storing the interpreter equivalent of the compiled activation in a data structure,
+
+wherein the data structure is associated with the first frame.
+A computer-implemented method as recited in claim 11 further including
+deleting the data structure after the at least one interpreter frame is created.
+A computer-implemented method for dynamically deoptimizing a compiled
+method, the compiled method being associated with a first frame selected from a
+
+plurality of frames on a control stack, the control stack including a stack pointer
+arranged to identify a current frame on the control stack, the computer-implemented
+
+method comprising:
+
+creating a data structure, the data structure being separate from the control
+stack, the data structure including interpreter information relating to the first frame
+
+and method information relating to the compiled method, wherein the first frame
+includes a reference to the data structure;
+deleting the compiled method;
+unpacking the interpreter information included in the data structure when the
+stack pointer identifies the first frame as the current frame on the control stack,
+
+wherein unpacking the interpreter information creates at least one interpreter frame;
+pushing the at least one interpreter frame onto the control stack, wherein the
+first frame is replaced by the at least one interpreter frame.
+A computer-implemented method as recited in claim 13 further including:
+
+accessing access information associated with the compiled method; and
+placing the interpreter information into the data structure, wherein placing the
+interpreter information into the data structure includes accessing the interpreter
+
+information using the access information.
+A computer-implemented method as recited in claim 14 wherein placing the
+interpreter information into the data structure includes:
+
+
+extracting the method information from the compiled method;
+extracting the interpreter information from the first frame;
+creating at least one interpreted activation using the interpreter information
+and the method information; and
+migrating the at least one interpreted activation into the data structure.
+A computer-implemented method as recited in any one of claims 13-15
+wherein the compiled method is deleted before the interpreter information is
+
+unpacked.
+A computer-implemented method as recited in any one of claims 13-16 further
+including creating a migrating frame on the stack, wherein the migrating frame is
+
+arranged to associate the at least one interpreter frame with a second frame selected
+from the plurality of frames on the control stack.
+A computer system for deoptimizing a method, the method being in a first
+state of optimization, the method further being associated with a frame located on a
+
+control stack, the computer system comprising:
+
+a data structure, the data structure being separate from the control stack,
+wherein the data structure includes information related to the method;
+a reference indicator, the reference indicator being associated with the frame,
+wherein the reference indicator is arranged to reference the data structure; and
+a deoptimizer arranged to deoptimize the frame to a second state of
+optimization, wherein the second state of optimization is less optimized than the first
+
+state of optimization, the deoptimizer further being arranged to deoptimize the
+method to a second state of optimization.
+A computer system as recited in claim 18 wherein the data structure is
+machine independent, and the deoptimizer is further arranged to delete the method in
+
+the first state of optimization.
+A computer system as recited in one of claims 18 and 19 wherein the second
+state of optimization is an interpreted state.
+A computer-readable medium including computer program code devices
+arranged to deoptimizing a compiled method, the compiled method being in a first
+
+state of optimization, the compiled method further being associated with a frame
+located on a control stack, the computer-readable medium comprising:
+
+
+computer program code devices that create a data structure, the data structure
+being separate from the control stack, wherein the data structure includes information
+
+related to the method;
+computer program code devices that create a reference indicator, the reference
+indicator being associated with the frame, wherein the reference indicator is arranged
+
+to reference the data structure; and
+computer program code devices that deoptimize the method to a second state
+of optimization.
+</CLAIMS>
+</TEXT>
+</DOC>

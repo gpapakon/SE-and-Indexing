@@ -1,0 +1,167 @@
+<DOC>
+<DOCNO>EP-0961210</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Signature file based semantic caching of queries
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1730	G06F1730	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F17	G06F17	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A new mechanism for caching Web queries which is based on so-called signature files, with
+two implementation choices. A first algorithm copes with the relation of semantic containment
+
+between a query and the corresponding cache items. A second algorithm extends this
+processing to more complex cases of semantic intersection.
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+XEROX CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+XEROX CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+CHIDLOVSKII BORIS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+CHIDLOVSKII, BORIS
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to online information retrieval systems (e.g.
+internet/www, intranet), and more particularly to signature file based semantic caching of
+queries.In client-server information systems, local client memory is largely used to cache data
+and to minimise future interaction with the servers. This data caching has a particular
+importance on the Web where the network traffic and slow servers can lead to long delays in
+the answer delivery. As standard page-based caching is improper on the Web and tuple-based
+caching has certain limitations, much effort has been spend to cache user queries and
+answers for possible future reuse (see Y. Arens and C. A. Knoblock, Intelligent Caching:
+Selecting, Representing, and Reusing Data in an Information Server, In Proc. CIKM'94
+Conference, Gaithersburg, Maryland, pp. 433-438, 1994; S. Dar, M. J. Franklin, B. Jonsson,
+D. Srivastava, M. Tan, Semantic Data Caching and Replacement, In Proc 22nd VLDB
+Conference, Bombay, India, pp. 330-341, 1996; P. Godfrey and J. Gryz, Semantic Query
+Caching For Heterogeneous Databases,. In Proc. 4th KRDB Workshop "Intelligent Access to
+Heterogeneous Information", Athens, Greece, pp.6.1-6.6, 1997).Query caching takes a particular advantage when the user refines a query quite
+often, for example, by adding or removing a keyword. In this case, many of answer tuples
+may already be cached and can be delivered to the user right away.A Web-based query system contacts heterogeneous distributed data repositories,
+invokes so-called wrappers to convert user queries into the target query language, and
+controls the data flow from these servers (see Y. Papakonstantinou, H. Garcia-Molina, J.
+Ullman, MedMaker: A Mediation System Based on Declarative Specifications, in Proc
+ICDE'96 Conference, pp.132-141, 1996; and Ch. Reck and B. König-Ries, An Architecture for
+Transparent Access to Semantically Heterogeneous Information Sources, In Proc.
+Cooperative Information Agents, Lect. Note Comp. Science, Vol. 1202, 1997). As data are
+usually transferred over the network in HTML format, the wrappers also extract answer tuples
+from the retrieved HTML files before the final answer is reported to the user (and stored in the
+cache).A typical Web query is a conjunction of terms. Each term in the query is a keyword,
+possibly negated with the operator NOT, and applied to one or more attributes (title, author,
+etc.). In most Web servers, the operator NOT is equivalent to AND NOT to force a query to
+contain at least one non-negated term.Semantic caching
+</DESCRIPTION>
+<CLAIMS>
+A method carried out in an information processing system, the systems comprising a
+processor, memory, and a user interface, a predetermined plurality of locations in said
+
+memory defining a cache, said cache comprising one or more semantic regions, comprising:
+
+(a) receiving a query Q input by a user via the user interface, the query having a
+corresponding query signature SQ;
+(b) in dependence upon said query signature SQ, returning as an answer
+corresponding to said query Q
+(i) the contents of one or more of said regions, or
+(ii) the contents of one or more of said regions together with an
+remainder answer obtained from a server in response to a query
+
+remainder derived from said query Q.
+The method of claim 1, wherein the or each semantic regions have corresponding
+region signatures SR in the cache, and step (b) comprises determining whether SQ = SR, SQ ⊃
+
+SR, SQ ⊂ SRi or none of these, and preferably wherein,
+
+if SQ=SR, indicating that a region exists whose formula is equivalent to the query Q,
+step (b) comprises (b1) returning the contents of said region as the answer to said query,
+if SQ ⊃ SR, indicating that one or more regions contain the query Q, step (b)
+comprises (b1') scanning tuples in the region contents and returning those tuples matching
+
+the query, and
+if SQ ⊂ SRi, indicating that several regions are contained in the query Q, step (b)
+comprises (b1'') using the top m regions, R1 ..., Rm, with the maximal cardinality, returning all
+
+tuples from the regions contents of R1, ..., Rm, discarding duplications.
+The method of claim 3 or 4, wherein step (b) further comprises, after returning said
+answer, updating a replacement function value of the regions(s).
+The method of claim 3 or 4, wherein step (b) further comprises:
+
+(b2'') constructing a query remainder from said query;
+(b3'') sending the query remainder to a server;
+(b4'') upon receiving an answer from said server corresponding to said query
+remainder, replacing regions R1, ..., Rm with query Q; and
+(b5'') setting the most recent value Vtop as the replacement function value for Q.
+The method of claim 5, wherein step (b2'') comprises:
+
+(b2''i) selling the query remainder to Q;
+(b2''ii) for each region Ri providing the region containment,
+(b2''ii1) calculating the difference between the formula for the region and the
+query Q, and
+(b2''ii2) if the difference is one term ai only, constraining the query remainder
+with ¬ai.
+The method of claim 1, wherein the or each semantic regions have corresponding
+region signatures SR in the cache, and step (b) comprises determining whether SQ = SR, SQ ∩
+
+SR = SR, |SQ ∩ SR| ≥SR - k, or none of these, and preferably wherein,
+
+if SQ=SR, indicating that a region exists whose formula is equivalent to the query Q,
+step (b) comprises (b1) returning the contents of said region as the answer to said query,
+if SQ ∩ SR = SR, indicating that one or more regions contain the query Q, step (b)
+comprises (b1') scanning tuples in the region contents and returning those tuples matching
+
+the query, and
+if |SQ ∩ SR| ≥ SR - k, step (b) comprises (b1'') identifying all regions, R0, ..., Rm, m≥0,
+with one term difference from the query, and returning all tuples from the regions contents of
+
+R0, ..., Rm, discarding duplications.
+The method of claim 6, wherein step (b) further comprises:
+
+(b1''i) constructing a query remainder Qr=Q¬R0...¬Rk from said query;
+(b1''ii) sending the query remainder to a server.
+The method of claim 7, wherein step (b1''i) comprises:
+
+(b1''i1) setting the query remainder to query Q, and
+(for each region Ri, l=0,...,m, calculating the difference ai from the query and
+constraining the query remainder with ¬ai.
+The method of any of claims 6 to 8, further comprising (c) scanning the region
+signatures with the condition T, where T is a choice between |SR| -2k ≤ |SR ∩ SQ| 
+<
+ |SR| - k
+and 0 ≤ |SR ∩ SQ| 
+<
+ |SR| - k, and preferably wherein step (c) comprises, for each region R
+fetched, checking the Q ∩ R formula intersection and, if the formula is not null, returning the
+
+tuples from the region contents matching the query.
+The method of any of claims 6 to 9, further comprising (d) upon receiving the answer
+to the query remainder Qn updating the cache, and preferably wherein said step of updating
+
+the cache comprises
+
+(d1) if regions Ri1, ..., Rip contain the query, replace them with a new region with
+
+formula Q,
+(d2) if a region R is complement to query Q and formula R ∪ Q is a disjunction,
+substitute R and Q with a new region, and
+(d3) otherwise, add a new region to the cache with the formula Qr, and
+updating the replacement values for all regions contributed to the partial answer.
+A programmable information processing system when suitably programmed for
+carrying out the method of any of the preceding claims, the system including a processor, and
+
+a memory, and a user interface, the processor being coupled to the memory, user interface,
+and being operable in conjunction therewith for executing instructions corresponding to the
+
+steps of said method(s).
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,167 @@
+<DOC>
+<DOCNO>EP-0657824</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Apparatus for Ethernet packet reception.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1300	G06F1300	G06F1312	G06F1312	H04L1256	H04L1256	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	H04L	H04L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F13	G06F13	G06F13	G06F13	H04L12	H04L12	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An Ethernet controller receives the first part of a packet and stores 
+it in a first buffer. Once this buffer is full, subsequent data are 
+
+stored in a second buffer. The first buffer's contents are passed on to 
+the application, which returns an address in the host computers memory 
+
+where the packet will eventually be stored. Once the second buffer is 
+full, subsequent incoming data is transferred directly to host memory 
+
+without intermediate buffering in the controller, interleaved with 
+transfer(s) of the second buffer's contents, thus making better use of 
+
+the host bus's latency periods. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+ADVANCED MICRO DEVICES INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+ADVANCED MICRO DEVICES INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+DWORK JEFFERY
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FISCHER MATTHEW JAMES
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GIBSON GLEN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+RUNALDUE THOMAS JEFFERSON
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DWORK, JEFFERY
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FISCHER, MATTHEW JAMES
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GIBSON, GLEN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+RUNALDUE, THOMAS JEFFERSON
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to the operation of an ethernet controller 
+and more particularly to the efficient transfer of data by such a controller within 
+a network environment. In some types of networks, e.g. ETHERNET®, once a node begins to 
+transmit or receive a data packet, the data must continue uninterrupted, and at 
+a speed determined by the network, until the entire packet has been processed. 
+A node can be, for example, a computer attached to the network. The 
+computer typically has a network interface coupled to the network and to an 
+internal system bus. The various components, subsystems, and peripherals of 
+the computer are typically coupled to the system bus as well. The components typically include a storage device and a processor of 
+some type. Most computer systems move all data between the various 
+components by use of the system bus. The access to the system bus is strictly 
+controlled, often through use of an interrupt system in which various services 
+have an associated priority, and devices are awarded use of the system bus 
+based partially on their priority level. For data packets received from the network, the computer transfers the 
+data to the storage device through the system bus to await further processing. 
+Immediate access to the storage device is not guaranteed because the other 
+computer components also use the system bus. The storage device access, 
+through the system bus, is said to have variable latency or delay because the 
+access time cannot be predicted in advance.  A well known solution to this problem of variable latency is to provide the 
+computer with a buffer memory between the network and the system bus. 
+When the computer denies the network interface access to the system bus, the 
+network interface stores the data in the buffer memory. When the computer 
+grants access to the storage device through the system bus, the computer 
+empties the buffer memory, and "catches up" with the network. It is possible 
+for the computer to catch up because the data speed of the system bus is 
+typically much faster than the effective data transmission rate of the network. 
+An overflow condition develops when the computer denies the buffer memory 
+access to the system bus for too long and the buffer memory fills to capacity. 
+Additional data from the network is lost because there is no way to suspend the 
+receipt of data. The network protocol handles this situation by detecting an 
+overflow condition and causes a node to retransmit the entire data packet. It 
+is desirable,
+</DESCRIPTION>
+<CLAIMS>
+Apparatus for increasing the speed of receipt of data packet 
+from a network; the apparatus comprising: 
+
+   a plurality of buffer memory means; 
+   a controller means for writing data received from the network to 
+
+plurality of buffer memory means; and 
+   a driver means for controlling the operation of the controller means, 
+
+the driver means including an application memory means; the controller 
+means for generating an interrupt after a first buffer memory means is filled 
+
+with data from the network; the controller means for writing the data to the 
+first buffer means; the controller means for writing the data to the second 
+
+buffer means; the driver means for writing the data from the first buffer 
+memory means to a first portion of the application memory means; the driver 
+
+means for writing data from a second buffer memory means to a second 
+portion of the application memory; the controller writing the remaining data 
+
+from the packet to a final buffer memory means; the controller writing the 
+remaining data to a final portion of the application memory means. 
+Apparatus of claim 1 in which the plurality of buffer memory 
+means comprises three buffer memories. 
+Apparatus of claim 1 in which the driver means sets up a 
+plurality of receive descriptor registers. 
+Apparatus of claim 3 in which the controller means polls a 
+ 
+
+current receive descriptor register. 
+Apparatus of claim 4 in which the interrupt causes the driver 
+means to operate. 
+Apparatus of claim 5 in which the interrupt causes a collection 
+of header information of the data packet and provides the header information 
+
+to the application memory space. 
+Apparatus of claim 6 in which when a specified byte of the 
+data packet is provided to controller means, the controller means performs a 
+
+first lookahead operator to a next-receive descriptor register. 
+Apparatus of claim 7 in which the driver means copying data 
+to the beginning of the application memory area. 
+Apparatus of claim 8 in which the driver means polls a 
+second descriptor register after copying data to the beginning of the 
+
+application memory area until the controller means has filled the second 
+buffer memory means with data from the data packet. 
+Apparatus of claim 9 in which the controller means performs 
+a second lookahead to a third descriptor register, if the second buffer is 
+
+filled, the controller means will change ownership information of the second 
+descriptor register and the controller will write data to the remaining buffer 
+
+memory means. 
+Apparatus of claim 10 in the plurality of descriptor register are 
+in groups of three. 
+Apparatus of claim 11 in which the driver means copies the 
+ 
+
+contents of the first buffer to a beginning portion of the application memory 
+means. 
+Apparatus of claim 12 in which the first and second polling 
+are performed to determine whether ownership of the registers is with the 
+
+controller means or with another device. 
+Apparatus of claim 13 in which the remaining buffer includes 
+a pointer, which allows data to be placed directly in the application memory 
+
+means. 
+</CLAIMS>
+</TEXT>
+</DOC>

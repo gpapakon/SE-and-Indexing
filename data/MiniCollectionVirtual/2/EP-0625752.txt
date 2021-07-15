@@ -1,0 +1,281 @@
+<DOC>
+<DOCNO>EP-0625752</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method and means for archiving in a transaction management system.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1114	G06F1114	G06F1200	G06F1200	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F11	G06F11	G06F12	G06F12	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method and means for archiving files of modifiable pages in a log 
+based phased commit transaction management system (TMS) in which those 
+
+pages which have been modified since the last full or incremental backup 
+do not require during the copy operation any modifications to the page 
+
+itself but merely to a common status page. This is accomplished by 
+management of a pair of global log sequence numbers. Comparison between a 
+
+first number (ICBU_LSN) and each data page LSN as the page is modified 
+permits the common status page to be updated to correctly reflect the 
+
+changed status. Subsequent modifications to the same page do not require 
+amendment of the status page. The status page indicia are reset as part 
+
+of the backup procedure and for ascertaining the page copy set for 
+incremental copying. The ICBU_LSN assumes one of two values as a function 
+
+of the copy operation and another value for processing page modifications 
+after the copy operation. A second number (ICRF_LSN) is used in the 
+
+restoration of a file after the file has been partially restored by a 
+page merge in page number order from full and incremental copies. In this 
+
+case, the ICRF_LSN defines the point in the log for redo since the most 
+recent copy was made. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+MOHAN CHANDRASEKARAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NARANG INDERPAL S
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MOHAN, CHANDRASEKARAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NARANG, INDERPAL S.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to data preservation in an information 
+handling system by full or incremental backup copying, where copying is 
+non-disruptive of executing applications. More particularly, this 
+invention relates to a method and means for archiving files of modifiable 
+pages in a log based phased commit transaction management system (TMS). The following discussion is directed to aspects of multiple phase 
+log based transaction management systems and archiving modified data 
+pages in such systems. A TMS typically includes a CPU, an external DASD subsystem storing 
+a database of modifiable pages, and means for accessing and transferring 
+pages between the store and the CPU. Applications executing on the CPU 
+interact with the pages by way of "transactions". In this regard, a 
+"transaction" is defined to be a logical unit of work comprising a 
+sequence of operations that transforms a consistent state of a 
+recoverable resource (pages) into another consistent state without 
+necessarily preserving consistency at all intermediate points. That is, a 
+transaction is a bounded series of operations changing selected pages in 
+the database from one state to another atomically. Thus, each transaction 
+must be either completed or aborted with no intermediate states 
+permitted. In a log based TMS, all changes to the pages are written to the log 
+in the form of REDO and UNDO records. The physical log can be a reserved 
+portion of DASD or a tape subsystem or the like. Now, REDO/UNDO records 
+themselves are written to the log before writing any of the changed or 
+modified pages back to their DASD storage locations. This is termed write 
+ahead logging. These change records are used to either recreate or REDO a 
+transaction that has progressed to a point of completion or roll back or 
+UNDO a transaction that has failed to progress to that point. A TMS is characterized by the fact each transaction is bounded by a 
+REGIN primitive, and either a COMMIT, or an ABORT and an END primitive 
+i.e. the transaction being of the form
+ 
+ 
+   "BEGIN ops, ops, ..,ops COMMIT/ABORT .. END". In a system capable of multi-tasking or the like, transactions 
+overlap in time and completion such that some transactions would have 
+just initiated, others would be "in-flight", others either committed or 
+aborted, while still others ended in the recent past. This means that a 
+phased commit system guarantees that if a transaction executes some 
+updates against selected pages in a database, and a failure occurs before 
+the transaction reaches
+</DESCRIPTION>
+<CLAIMS>
+A method for archiving a file of modifiable pages in a phased 
+commit transaction management system (TMS) having a log, a processor, and 
+
+a storage subsystem in which pages stored therein are staged to and from 
+the processor, said file having a header page, status page (SMP), and at 
+
+least one data page, the processor being responsive to each transaction 
+and executing selective modifications to predetermined ones of the pages, 
+
+each modification to a page state being recorded in the log and assigned 
+an ascending log sequence number (page_LSN), said page_LSN being recorded 
+
+on the page, comprising the steps of: 
+
+(a) creating and maintaining a first global log sequence number 
+(ICBU_LSN) on said header page and a plurality of status bits (ICB) on 
+
+said SMP, each ICB being counterpart to each of the data pages and 
+indicative of the page having been modified since an immediately prior 
+
+archive or copy operation; 
+(b) setting the ICBU_LSN to a maximum value, and establishing a 
+second global log sequence number (ICRF_LSN) and recording it in a system 
+
+catalog; 
+(c) ascertaining a set of pages subject to archiving by scanning 
+the ICB's in the SMP and resetting that subset otherwise set; 
+(d) executing a copy operation by in turn latching, copying, and 
+unlatching each page of the subset scanned and reset in step (c) for 
+
+incremental copying and for all pages irrespective of their ICB condition 
+for full copying; 
+(e) setting the ICBU_LSN to the current end_of_log_LSN value and 
+recording it in the header page; and 
+(f) responsive to each page modification, setting the counterpart 
+ICB in the SMP if the page_LSN 
+<
+ ICBU_LSN, and recording the action in 
+the log with a REDO only log record. 
+A method as claimed in claim 1, wherein each page in the file has 
+recorded thereon an ascending page number independent of any other 
+
+indicia, wherein said system catalog comprises entries recording 
+ 
+
+information about each full or incremental copy of the file, each entry 
+including a pointer to the location of each archive copy of the file in 
+
+the storage subsystem and an ICRF_LSN set to the end_of_log_LSN as per 
+claim 1, step (e), and wherein said method further comprises the steps 
+
+of: 
+
+(g) making a full copy of each file each time the data is loaded 
+into the file without logging, suspending any data page modifications 
+
+until the full copy is made, and recording the pointer location, copy 
+type (full) and ICRF_LSN in the system catalog; 
+(h) making incremental or full copies of each file on a scheduled 
+
+or opportunistic basis including entries to the system catalog; 
+(i) responsive to the unavailability of a file in the external 
+storage subsystem, recovering said file by merging according to their 
+
+page numbers the contents of the full and incremental copies as defined 
+by the system catalog, and modifying the merged page set according to the 
+
+log records having an LSN equal to or greater than the ICRF_LSN. 
+A method as claimed in claim 1 or claim 2, wherein actions recorded 
+in the log include REDO/UNDO and REDO only log record types, any ICBU_LSN 
+
+modification to the header page being recorded in the log via a REDO only 
+log record. 
+A method as claimed in any of the preceding claims, wherein said 
+TMS maintains a list of pages already modified or in the process of being 
+
+modified, the method steps being modified such they comprise: 
+
+(a') setting the ICBU_LSN to a maximum value and S latching each 
+page in the modified list; 
+(b') setting the ICBU_LSN to a non-maximum value and, selecting a 
+value for the ICRF_LSN; 
+(c') ascertaining a set of pages subject to archiving by scanning 
+the ICB's in the SMP and resetting that subset otherwise set; and 
+(d') executing a copy operation by in turn latching, copying, and 
+unlatching each page of the subset scanned and reset in step (c) for 
+
+ 
+incremental copying and for all pages irrespective of their ICB condition 
+
+for full copying. 
+A method for archiving a database of modifiable pages in a phased 
+commit transaction management system (TMS) having a log, a processor, and 
+
+a storage subsystem in which pages stored therein are staged to and from 
+the processor, the processor being responsive to each transaction and 
+
+executing selective modifications to predetermined ones of the pages, 
+each modification to a page state being recorded in the log and assigned 
+
+an ascending log sequence number (page_LSN), said page_LSN being recorded 
+on the page, comprising the steps of: 
+
+
+(a) initializing a copy operation for a partition of the database 
+by 
+
+
+(1) invoking a database control block (DBCB) for said 
+partition, said partition having a header page, at least one data 
+
+page, and at least one space map page (SMP) including a status bit 
+(ICB) for each data page indicative as to whether the data page has 
+
+been modified since execution of a prior copy operation, 
+(2) atomically setting an LSN of a first kind (ICBU_LSN) to a 
+maximum value in the DBCB, setting an LSN of a second kind 
+
+(ICRF_LSN) to a value set by the current end_of_log LSN, and 
+recording the ICRF_LSN in a system catalog, and 
+(3) ascertaining the set of data page's subject to copying 
+for each SMP by resetting all ICB's of data pages indicative of 
+
+being updated since the last copy operation and recording all of 
+the ICB's so reset in the log; and 
+(b) executing said copy operation by 
+
+(1) for each SMP, latching, copying, and unlatching each 
+data page identified in step (a)(3), and 
+(2) updating the ICBU_LSN in the DBCB and the header page to 
+the current end_of_log LSN value, 
+(3) committing the operation, and 
+(c) responsive to each page modification, setting the counterpart 
+ICB in the status page if the page_LSN 
+<
+ ICBU_LSN and record the action 
+in the log. 
+A data processing system having means for archiving files of 
+modifiable pages in a phased commit transaction management (TMS) 
+
+including a log, a processor, and a storage subsystem in which pages 
+stored therein may be staged to and from the processor, said files each 
+
+having a header page, status page (SMP), and at least one data page, the 
+processor being responsive to each transaction and able to execute 
+
+selective modifications to predetermined ones of the pages, each 
+modification to a page state being recorded in the log and assigned an 
+
+ascending log sequence number (page_LSN), said system including means for 
+recording said page_LSN on the page, comprising: 
+
+
+(a)means for creating and maintaining a first global log sequence 
+number (ICBU_LSN) on said header page and a plurality of status bits 
+
+(ICB) on said SMP, each ICB being counterpart to each of the data pages 
+and indicative of the page having been modified since an immediately 
+
+prior archive or copy operation; 
+(b) means for setting the ICBU_LSN to a maximum value, and 
+establishing a second global log sequence number (ICRF_LSN) and recording 
+
+it in a system catalog; 
+(c) means for ascertaining a set of pages subject to archiving by 
+scanning the ICB's in the SMP and resetting that subset otherwise set; 
+(d) means for executing a copy operation by in turn latching, 
+copying, and unlatching each page of the subset scanned and reset in step 
+
+(c) for incremental copying and for all pages irrespective of their ICB 
+condition for full copying; 
+(e) means for setting the ICBU_LSN to the current end_of_log_LSN 
+value and recording it in the header page; and 
+(f) means responsive to each page modification, for setting the 
+counterpart ICB in the SMP if the page_LSN 
+<
+ ICBU_LSN, and recording the 
+action in the log with a REDO only log record. 
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,246 @@
+<DOC>
+<DOCNO>EP-0651322</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Instruction caches for variable byte-length instructions
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F9318	G06F9318	G06F1208	G06F938	G06F932	G06F930	G06F938	G06F930	G06F1208	G06F932	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	G06F12	G06F9	G06F9	G06F9	G06F9	G06F9	G06F12	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An instruction cache for a superscalar processor of the 
+type having a variable byte-length instruction format, such 
+
+as the X86 format, is organized as a 16K byte 4-way set-associative 
+cache. An instruction store array is organized 
+
+as 1024 blocks of 16 predecoded X86 instruction bytes. The 
+X86 instruction bytes are prefetched from an instruction 
+
+source and predecoded to facilitate the subsequent parallel 
+decoding and mapping of up to four X86 instructions into a 
+
+sequence of one or more internal RISC-like operations (ROPs), 
+and the parallel dispatch of up to 4 ROPs by an instruction 
+
+decoder. Predecode bits are assigned to each X86 instruction 
+byte and are stored with the corresponding X86 instruction 
+
+byte in the instruction store array. The predecode bits 
+include first, second, and third bits for id
+entifying the 
+starting byte, ending byte, and opcode byte, respectively, of 
+
+an X86 instruction, and fourth and fifth bits to collectively 
+specify the number of ROPs that an X86 instruction maps into. 
+
+An address tag array is dual-ported and contains 1024 
+entries, each composed of a 20-bit address tag, a single 
+
+valid bit for the entire block, and 16 individual byte-valid 
+bits, one for each of the 16 corresponding instruction bytes 
+
+within the instruction store array. A successor array is 
+dual-ported and contains 1024 entries, each composed of a 14-bit 
+
+successor index, a successor valid bit which indicates 
+when set that the successor index stored in the successor 
+
+array should be used to access the instruction store array, 
+and indicates when cleared that no branch is predicted taken  
+
+ 
+within the instruction block, and a block branch index which 
+
+indicates, when the successor valid bit is set, the byte 
+location within the current instruction block of the last 
+
+instruction byte predicted to be executed. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+ADVANCED MICRO DEVICES INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+ADVANCED MICRO DEVICES INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+GODDARD MICHAEL D
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WITT DAVID B
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GODDARD, MICHAEL D.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WITT, DAVID B.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to super-scalar processors
+as would typically be implemented on a single integrated
+circuit, and more specifically relates to instruction cache
+arrangements for super-scalar processors incorporating a
+variable byte-length instruction format.The term superscalar describes a computer implementation
+that improves performance by a concurrent execution of scalar
+instructions--the type of instructions typically found in
+general-purpose microprocessors. Because the majority of
+existing microprocessor applications are targeted toward
+scalar computation, superscalar microprocessors are the next
+logical step in the evolution of microprocessors. Using
+today's semiconductor processing technology, a single
+processor chip can incorporate high performance techniques
+that were once applicable only to large-scale scientific
+processors. However, many of the techniques applied to large
+scale processors are either inappropriate for scalar
+computation or too expensive to be applied to
+microprocessors. Microprocessors by definition must be implemented on one
+or a very small number of semiconductor chips. Semiconductor
+technology provides ever increasing circuit densities and
+speeds for implementing a microprocessor, but the
+interconnection with the microprocessor's memory is quite
+constrained by packaging technology. Though on-chip
+interconnections are extremely cheap, off-chip connections
+are very expensive; often the processor's package and pins
+are more expensive than the processor chip itself. Any
+technique intended to improve microprocessor performance must
+take advantage of increasing circuit densities and speeds
+while remaining within the constraints of packaging,
+technology and the physical separation between the processor
+and its memory. At the same time, though increasing circuit
+densities provide a path to ever more complex designs, the
+operation of the microprocessor must remain simple and clear
+enough that users can understand how to use it.An application program comprises a group of
+instructions. The processor fetches and executes
+instructions in some sequence. There are several steps
+involved in the execution of a single instruction, including
+fetching the instruction, decoding it, assembling its
+operands, performing the operations specified by the
+instruction, and writing the results of the instruction to
+storage. The execution of instructions is controlled by a
+periodic clock signal. The period of the clock signal is the
+processor cycle time.The time taken by a processor to
+</DESCRIPTION>
+<CLAIMS>
+An instruction cache (10) for a processor of the type having a variable byte-length
+
+instruction format, comprising:
+
+an array (100) for storing a plurality of instruction blocks, each of the
+instruction blocks comprising a plurality of instruction bytes and a
+
+corresponding plurality of predecode bits for each of the instruction
+bytes;
+first means (110) for prefetching a plurality of instruction bytes from an
+instruction source;
+second means (112) for predecoding each of the prefetched instruction bytes
+to determine each of the corresponding plurality of predecode bits for
+
+each prefetched instruction byte;
+third means (200) for storing the plurality of prefetched instruction bytes and
+corresponding plurality of predecode bits for each prefetched
+
+instruction byte into an instruction block within the array; and
+fourth means (114) for delivering a requested stream of instruction bytes and
+corresponding predecode bits from an instruction block within the array
+
+to an instruction decoder (12) of the processor;
+wherein the plurality of predecode bits corresponding to each of the instruction
+bytes includes a group of predecode bits (bit [10:8]
+) collectively set to:
+
+a first value to indicate that the corresponding instruction byte, as prefetched
+and predecoded, is a prefix byte;
+a second value to indicate that the corresponding instruction byte, as
+prefetched and predecoded, is an opcode byte;
+a third value to indicate that the corresponding instruction byte, as prefetched
+and predecoded, is a byte specifying which register and addressing
+
+mode to use;
+a fourth value to indicate that the corresponding instruction byte, as prefetched
+and predecoded, is a byte specifying the manner in which address 
+
+computation is to be done; and
+a fifth value to indicate that the corresponding byte, as prefetched and decoded,
+contains a displacement field for address computation.
+An instruction cache as in claim 1 wherein the plurality of predecode bits
+corresponding to each of the instruction bytes includes a first bit (bit 12) for indicating,
+
+when asserted, that the corresponding instruction byte, as prefetched and predecoded,
+is a starting byte of an instruction.
+An instruction cache as in claim 1 or 2 wherein the plurality of predecode bits
+corresponding to each of the instruction bytes includes a second bit (bit 11) for
+
+indicating, when asserted, that the corresponding instruction byte, as prefetched and
+predecoded, is an ending byte of an instruction.
+An instruction cache as in any one of claims 1 to 3 wherein said second means
+comprises:
+
+
+a group of registers (400, 402, 404) for storing a plurality of instruction bytes
+prefetched from said instruction source, said group of registers
+
+providing sufficient storage for storing instruction bytes corresponding
+to at least two instruction blocks of said instruction cache;
+an assign block (410) coupled to the group of registers for determining in
+response to a starting point within said group of registers, the location
+
+of various individual instruction bytes corresponding to various
+instruction fields; and
+a lookup table block (412) coupled to the assign block, for receiving therefrom
+a plurality of instruction fields for a given instruction, and for returning
+
+thereto a plurality of status indicators and descriptor fields.
+An instruction cache as claimed in any one of claims 1 to 4 wherein the
+processor is a CISC processor and each CISC instruction is mapped to a
+
+corresponding sequence of one or more internal RISC-like instructions for execution
+within a superscalar RISC-like core processor, and
+
+wherein each of the instruction blocks comprises a plurality of CISC
+instruction bytes and a corresponding plurality of predecode bits for
+
+each of the CISC instruction bytes.
+An instruction cache as in claim 5 wherein the predecode bits include a second
+group of bits (bit [9:8]
+) for indicating, for an opcode byte, the number of internal
+RISC-like instructions that the corresponding CISC instruction, as prefetched and
+
+predecoded, is mapped into.
+An instruction cache as in claim 6 wherein the second group of predecode bits
+includes:
+
+
+a first bit for indicating whether the corresponding CISC instruction byte, as
+prefetched and predecoded, is a CISC opcode byte;
+a second and third bit for indicating the number of internal RISC-like
+instructions that a corresponding CISC instruction is mapped into,
+
+wherein the second and third predecode bits are collectively set to:
+
+a first value to indicate that the corresponding CISC instruction, as prefetched
+and predecoded, is mapped into 1 internal RISC-like instruction;
+a second value to indicate that the corresponding CISC instruction, as
+prefetched and predecoded, is mapped into a sequence of 2 internal
+
+RISC-like instructions;
+a third value to indicate that the corresponding CISC instruction, as prefetched
+and predecoded, is mapped into a sequence of 3 internal RISC-like
+
+instructions; and
+a fourth value to indicate that the corresponding CISC instruction, as
+prefetched and predecoded, is mapped into a sequence of 4 or more 
+
+internal RISC-like instructions.
+An instruction cache as claimed in any preceding claim wherein said fourth
+means comprises a queue of predicted-executed instruction bytes to buffer predicted-executed
+
+instructions from said third means and to present predecoded instruction
+bytes to the instruction decoder in parallel.
+</CLAIMS>
+</TEXT>
+</DOC>

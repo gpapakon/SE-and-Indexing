@@ -1,0 +1,173 @@
+<DOC>
+<DOCNO>EP-0619556</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Anti-aliasing method for animation
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T520	G06T1570	G06T520	G06T1120	G06T1120	G06T1300	G06T1300	G06T1570	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	G06T	G06T	G06T	G06T	G06T	G06T	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T5	G06T15	G06T5	G06T11	G06T11	G06T13	G06T13	G06T15	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Data containing the shape and motion of an 
+object, the eye point and similar data is input to 
+
+generate animation image data. For all frames, the 
+motion of each image point is computed through 
+
+utilization of data on the motion of the object and eye 
+point used for producing the animation and, on the basis 
+
+of the computed motion of the image point, spatio-temporal 
+filtering is performed for anti-aliasing. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+</APPLICANTS>
+<INVENTORS>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates generally to the field of
+computer graphics and, more particularly, to an anti-aliasing
+method to remove spatial aliasing from animations created or
+synthesized on a computer.In synthesizing images by computers through sampling, what is
+called aliasing occurs. Aliasing artifacts have been
+troublesome in the field of graphics for a long time. These
+problems are particularly bad in animation sequences, since
+flickering thin objects and traveling jaggies are very
+noticeable. Conventionally, a super-sampling method is most
+widely used to remove spatial aliasing of this kind (see, for
+example, J. Foley, et al, "Computer Graphics-Principles and
+Practice-," Addison -Wesley Publishing Company, 1990 --
+hereinafter referred to as Literature 1; see in particular chapters 14.10, 17.2 and 21.5). The super-sampling
+method reduces aliasing by sampling the image twice or more
+times per pixel. To enhance the anti-aliasing effect, the
+super-sampling method may sometimes be used in combination with
+a stochastic sampling method as described in Literature 1, chapter 16.12.4, for
+example. This method slightly shifts the positions of sample
+points from their regular positions through use of a random
+number or the like, and hence permits reduction of moiré-like
+aliasing which is caused by sampling the image at the regular
+positions.The above-mentioned spatial anti-aliasing methods enhance the
+effect with an increase in the number of samples per pixel but
+pose a problem in terms of the speeding up of operation since
+the computational complexity and consequently the computing
+time also increases in proportion to the number of samples.The document CUMPUTER GRAPHICS, vol. 17, no. 3, 25 July 1983,
+NEW YORK, pages 377-388, KOREIN AND RDIER: 'TEMPORAL ANTI-ALIASING
+IN COMPUTER GENERATED ANIMATION' discloses two
+different algorithms only for temporal anti-aliasing, a
+continuous algorithm and a supersampling allgorithm. It is therefore an object of the present
+invention to provide a method with which it is possible
+to produce the same anti-aliasing effect as that by the
+super-sampling method at high speed, without increasing
+the number of samples per pixel, for animations that are
+created or synthesized by computers.According to the present invention, information
+about the motion of objects and the eye point during the
+creation of an animation is used to compute the motion of
+each image point on the image plane at a point on each
+object and spatio-temporal filtering is effected based on
+the thus computed
+</DESCRIPTION>
+<CLAIMS>
+A method of eliminating aliasing which occurs in a time-series sequence of frames
+of animation image data representing images of a computer generated animation, said method
+
+comprising the steps of:
+
+(1) synthesizing said time-series sequence of frames by sampling at sample points on
+objects seen from an eye point for each frame;
+(2) computing the motion s(t;x
+0
+,t
+0
+) of each image point on a screen corresponding to a
+sample point on an object through utilization of the motion of the object and the eye point used
+
+in step (1), said motion s(t;x
+0
+,t
+0
+) representing the position x of the respective image point at a time
+t whose position was x
+0
+ at time t
+0
+; and
+(3) performing spatio-temporal filtering on the basis of the motion obtained in step (2),
+including the steps of:
+
+
+(3.1) computing a kernel g(x,t;x
+0
+,t
+0
+) for the linear spatio-temporal filtering operation by the following
+equation: g(x, t;x
+0
+, t
+0
+)=C·w(x
+0
+-s(t
+0
+;x,t))∂s/∂x, where C denotes a normalization constant, w(x)
+denotes a spatial anti-aliasing filter, and ∂s/∂x compensates for image magnification variation due to spatially non-uniform motion, and
+(3.2) subjecting each image frame f(x,t) to spatio-temporal filtering by calculating
+∫∫f(x, t)·g(x, t; x
+0
+, t
+0
+)dxdt, whereby spatial aliasing in the image f(x,t) is eliminated.
+The method of claim 1, wherein step (1) comprises displacing, for each frame, the
+position of each of said sample points from the center of the respective pixel.
+The method of claim 1 wherein step (2) comprises computing the motion of each
+image point by the following equation:
+
+
+x'(t)=x(0)·T
+-1
+(0)·A
+-1
+(0)·A(t)·T(t)
+
+   where T(t) denotes a perspective transformation matrix and A denotes a transformation
+
+
+   R being a rotation matrix representing an orientation of the object and o being the
+center position vector of the object.
+The method of claim 1, wherein said object is a non-rigid body and step (2)
+comprises computing the motion of the image points of said object by x'(t) = f(u,t)·T(t) using a
+
+parametric function f(u,t) representing each point on said object at time t and a perspective
+transformation matrix T(t), where u is a parameter corresponding to the point on said object.
+The method of claim 1, 2, 3, or 4, wherein step (2) comprises computing, as said
+image point on the screen, a mirror image point of a point on said object reflected by a plane
+
+mirror on the basis of a symmetrical transformation. 
+The method of claim 1, 2, 3, or 4, wherein step (2) comprises computing, as the
+motion of said image point on the screen, the motion of a mirror image of a point on said object
+
+reflected by a curved surface on the basis of the paraxial approximation theory.
+The method of claim 1, 2, 3, or 4, wherein step (2) comprises computing, as the
+motion of said image point on the screen, the motion of an image of a point on a reflected image
+
+of said object having passed through an optically transmissive medium based on the paraxial
+approximation theory.
+The method of claim 1, wherein step (3) comprises sequentially conducting a
+weighted summation of color values of pixels tracing paths of sampled image points of a series
+
+of images on the basis of said computed motion.
+The method of any one of the preceding claims, wherein step (3) further comprises
+
+   (3.3) applying said spatio-temporal filtering to image points of objects that cannot be
+seen from said eye point in a currently processed frame.
+The method of claim 9, wherein step (3.3) comprises calculating the path of an
+image point of an object not seen from said eye point in the currently processed frame and
+
+performing, while tracing the calculated path, a weighted summation of color values of pixels of
+a series of frames including frames preceding and frames following the currently processed
+
+frame, but excluding said currently processed frame itself.
+</CLAIMS>
+</TEXT>
+</DOC>

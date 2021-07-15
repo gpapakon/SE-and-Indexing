@@ -1,0 +1,511 @@
+<DOC>
+<DOCNO>EP-0615892</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Vehicle slip angle measuring method and a device therefor
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G01C2120	B62D600	G01C2100	G01C2120	B62D715	B62D600	G01C2100	B62D715	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G01C	B62D	G01C	G01C	B62D	B62D	G01C	B62D	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G01C21	B62D6	G01C21	G01C21	B62D7	B62D6	G01C21	B62D7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A vehicle slip angle measuring device includes an 
+approximate calculation block (26) for deriving an 
+
+approximate value (A) of a vehicle centroid slip angle (β) by 
+use of an approximate expression derived from a linear 
+
+two-degree-of-freedom vehicle model. The approximate 
+value (A) is derived based on outputs from a steering 
+
+wheel sensor (16), vehicle velocity sensor (18) and yaw angular 
+velocity sensor (24). The device further includes a 
+
+preprocessing block (28) for preprocessing outputs from the 
+above three sensors, longitudinal acceleration sensor (20) 
+
+and lateral acceleration sensor (22) to create input 
+information. Finally, the device includes a learned 
+
+neural network (32) for receiving the approximate value and 
+input information and for outputting a correction 
+
+value (C) corresponding to a deviation between an actual 
+slip angle and the approximate value. The correction 
+
+value (C) from the neural network is added to the 
+
+approximate value (A) from the approximate calculation 
+block to derive a precise vehicle centroid slip angle (β). 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MITSUBISHI MOTORS CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MITSUBISHI JIDOSHA KOGYO KABUSHIKI KAISHA
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+KATO MANABU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KATO, MANABU
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to a vehicle slip angle measuring 
+method and a device therefor suitable for a vehicle having a 
+four-wheel steering system. A four-wheel steering system for steering the front and 
+rear wheels of a vehicle when the vehicle is turning to 
+enhance the turning performance and steering stability of the 
+vehicle is typically operable to steer the rear wheels by an 
+angle corresponding to the vehicle velocity and the steering 
+angle of the front wheels. JP-A H3-243411 proposes a four-wheel 
+steering system which determines the vehicle centroid 
+slip angle, and steers the front and rear wheels to set the 
+slip angle to zero. According to the slip angle zeroing 
+control, the vehicle can face in its direction of travel even 
+when it is turning. This is convenient for driving. Conventionally, for example, an optical non-contact type 
+ground speed meter (vector speed meter) is used to detect the 
+vehicle centroid slip angle. In that case, the vehicle 
+centroid slip angle is derived from the longitudinal velocity 
+and lateral velocity of the vehicle measured by the ground 
+speed meter. However, the accuracy of the ground speed meter 
+may be lowered depending on the road surface condition, and 
+the meter large in size and expensive. Therefore, the 
+practical applications of the slip angle zeroing control 
+using the ground speed meter in commercially available 
+vehicles are few. JP-A-4-138 970 (Kayaba) discloses a method for measuring a 
+lateral slip angle of a vehicle comprising the steps of 
+detecting a steering state of front wheels of the vehicle 
+and outputting the steering angle of the front wheels as 
+steering information; detecting a motion state of the vehicle and outputting 
+longitudinal, lateral and vertical acceleration and vehicle 
+speed as motion information; and supplying the front wheel steering information and the 
+motion information to a learned neutral network to estimate 
+an approximate value of a lateral vehicle slip angle based on  
+ 
+the front wheel steering information and the motion 
+information;  
+   and an apparatus including a neural network for carrying 
+out the method. An object of this invention is to provide a vehicle slip 
+angle measuring method and a device therefor capable of 
+determining the vehicle body centroid slip angle with high 
+precision, without using a special detection device. The invention provides a method of determining a slip angle 
+of a vehicle, characterised by: 
+(a) detecting a steering state of front wheels of the 
+vehicle and outputting
+</DESCRIPTION>
+<CLAIMS>
+A method of determining a slip angle of a vehicle,
+ 
+characterised by: 
+
+
+(a) detecting a steering state of front wheels of the 
+vehicle (S1) and outputting front wheel steering information; 
+(b) detecting a motion state of the vehicle (S7) and 
+outputting motion information; 
+(c) deriving an approximate value of a vehicle body 
+centroid slip angle (S8) based on the front wheel steering 
+
+information output in step (a) and motion information 
+comprising at least vehicle velocity and yaw angular velocity 
+
+output in step (b); 
+(d) supplying the front wheel steering information output 
+in step (a) and the motion information comprising at least 
+
+the vehicle velocity, yaw angular velocity and lateral 
+acceleration output in step (b) and the approximate value 
+
+derived in said step (c) to a learned neural network, to 
+estimate a correction value corresponding to an error in the 
+
+approximate value (S10); and 
+(e) outputting a value derived by correcting the 
+approximate value derived in said step (c), by using the 
+
+correction value estimated in said step (d) as the vehicle 
+body centroid slip angle (S11 and S12). 
+A vehicle slip angle determining method acording to 
+claim 1, which includes a step (f) of effecting a learning 
+
+operation for a neural network to construct the learned 
+neural network, said step (f) including the sub-steps of: 
+
+
+(f1) detecting a steering state of the front wheels of the 
+vehicle and outputting front wheel steering information; 
+(f2) detecting a motion state of the vehicle and outputting 
+motion information; 
+(f3) deriving an approximate value of a vehicle body 
+centroid slip angle based on the front wheel steering 
+
+information and the motion information respectively output in 
+said sub-steps (f1) and (f2); 
+(f4) supplying the front wheel steering information and the 
+motion information respectively output in said sub-steps (f1) 
+
+and (f2) and the approximate value derived in said sub-step  
+ 
+
+(f3) to the neural network, to estimate a correction value 
+corresponding to a deviation between the approximate value 
+
+and an actual value of the vehicle body centroid slip angle; 
+(f5) detecting an actual value of the vehicle body centroid 
+
+slip angle; 
+(f6) deriving a deviation between the actual value of the 
+vehicle body centroid slip angle detected in said sub-step 
+
+(f5) and the approximate value derived in said sub-step (f3); 
+and 
+(f7) supplying the front wheel steering information and the 
+motion information respectively output in said sub-steps (f1) 
+
+and (f2), the approximate value derived in said sub-step 
+(f3), and a difference between the correction value estimated 
+
+in said sub-step (f4) and the deviation calculated in said 
+sub-step (f6) to the neural network, and changing an 
+
+input/output characteristic of the neural network such that 
+the difference is reduced to a minimum. 
+A vehicle slip angle measuring method according to claim 
+1, wherein said step (a) includes detecting a steering angle 
+
+of the front wheels of the vehicle (S1); and said step (c) 
+includes deriving the approximate value based on the front 
+
+wheel steering angle, the vehicle velocity and the yaw 
+angular velocity detected in said steps (a) and (b), by using 
+
+an approximate expression which expresses an approximate 
+value of the vehicle body centroid slip angle as a function 
+
+of vehicle velocity, front wheel steering angle and yaw 
+angular velocity of the vehicle (S8), said approximate 
+
+expression being derived from an equation of motion of the 
+vehicle which is in turn derived from a linear mathematical 
+
+vehicle model. 
+A vehicle slip angle measuring method according to claim 
+1, which includes the step (g) of deriving at least one 
+
+quantity of state by preprocessing the front wheel steering 
+information output in said step (a) and/or the motion 
+
+information output in said step (b) (S9); wherein the vehicle 
+body centroid slip angle is expressed by a sum of said at 
+
+least one quantity of state; each of said at least one 
+quantity of state is expressed as a function of a  
+
+ 
+corresponding one or ones among the front wheel steering 
+
+information output in said step (a) and the motion 
+information output in said step (b); and each of said at 
+
+least one quantity of state is input, in said step (d), to 
+the learned neural network as the front wheel steering 
+
+information and/or the motion information (S10). 
+A vehicle slip angle measuring method according to claim 
+4, which includes the step (h) of storing front wheel 
+
+steering information items, sequentially output in said step 
+(a) effected at a plurality of present and/or past timings, 
+
+as time-series data (S1 to S6); and the time-series data is 
+input, in said step (d), to the learned neural netwrk as the 
+
+front wheel steering information (S10). 
+A vehicle slip angle measuring method according to claim 
+4 or claim 5, wherein said step (b) includes detecting at 
+
+least one of a yaw angular velocity, longitudinal 
+acceleration and lateral acceleration of the vehicle and a 
+
+vehicle velocity (S7); and said step (g) includes deriving 
+said at least one quantity of state each expressed as a 
+
+function of a corresponding one or ones of yaw angular 
+velocity, longitudinal acceleration, lateral acceleration and 
+
+vehicle velocity, based on at least one of the yaw angular 
+velocity, longitudinal acceleration, lateral acceleration and 
+
+vehicle velocity detected in said step (b) (S9). 
+A vehicle slip angle measuring method according to claim 
+6, wherein said at least one quantity of state includes at 
+
+least one of the following: (
+lateral acceleration - vehicle 
+velocity x yaw angular velocity
+), (vehicle velocity x yaw 
+angular velocity), (yaw angular velocity ÷ vehicle velocity), 
+
+(yaw angular acceleration), and (longitudinal acceleration x 
+yaw angular velocity) (S9). 
+A vehicle slip angle measuring method according to claim 
+5, wherein said step (a) includes detecting a steering wheel 
+
+angle of the vehicle (S1); said step (g) includes deriving 
+front wheel steering angles at said plurality of timings as 
+
+said at least one quantity of state, based on steering wheel 
+angles sequentially detected in said step (a) (S1 to S6); 
+
+and said step (h) includes storing front wheel steering  
+ 
+
+angles at said plurality of timings as said time-series data 
+(S1 to S6). 
+A vehicle slip angle measuring method according to claim 
+5, wherein said step (a) includes detecting a steering wheel 
+
+angle of the vehicle (S1); said step (b) includes detecting a 
+yaw angular velocity, longitudinal acceleration and lateral 
+
+acceleration of the vehicle and a vehicle velocity (S7); said 
+step (g) includes deriving at least one of the following: 
+
+(
+lateral acceleration - vehicle velocity x yaw angular 
+velocity
+), (vehicle velocity x yaw angular velocity), (yaw 
+angular velocity ÷ vehicle velocity), (yaw angular 
+
+acceleration), (longitudinal acceleration x yaw angular 
+velocity) and (front wheel steering angles at said plurality 
+
+of timings), as said at least one quantity of state, based on 
+the yaw angular velocity, longitudinal acceleration, lateral 
+
+acceleration and vehicle velocity detected in said step (b) 
+and the steering wheel angle detected in said step (a) (S9); 
+
+and said step (h) includes storing front wheel steering 
+angles at said plurality of timings as said time-series data 
+
+(S1 to S6). 
+A vehicle slip angle measuring method according to any 
+one of claims 1 to 9, wherein said step (e) includes 
+
+outputting a value obtained by adding together the 
+approximate value derived in said step (c) and the correction 
+
+value estimated in said step (d) as said vehicle body 
+centroid slip angle (S11 and S12). 
+A device for determining a body centroid slip angle of 
+a vehicle, comprising first detection means (16) for 
+
+detecting a steering state of front wheels of the vehicle and 
+outputting front wheel steering information; second detection 
+
+means (18, 20, 22, 24) for detecting a motion state of the 
+vehicle and outputting motion information; calculating means 
+
+(26) for deriving an approximate value of a vehicle body 
+centroid slip angle based on the front wheel steering 
+
+information output from said first detection means and motion 
+information comprising at least the vehicle velocity and yaw 
+
+angular velocity output from said second detection means; a 
+learned neural network (32) for estimating a correction  
+
+ 
+value, corresponding to a deviation in the approximate value 
+
+of the vehicle slip angle, based on the front wheel steering 
+information output from said first detection means and motion 
+
+information comprising at least vehicle velocity, yaw 
+angular velocity, and lateral acceleration output from said 
+
+second detection means and the approximate value derived by 
+said calculation means; and correction means (36) for 
+
+outputting a value derived by correcting the approximate 
+value derived by said calculation means, by using the 
+
+correction value estimated by said learned neural network, as 
+the vehicle body centroid slip angle. 
+A device according to claim 11, wherein said learned 
+neural network (32) is constructed by supplying a neural 
+
+network (32) with the front wheel steering information and 
+motion information respectively output from said first and 
+
+second detection means (16, 18, 20, 22, 24), the approximate 
+value derived by said calculating means, and a difference 
+
+between the correction value and a deviation of the 
+approximate value from an actual value of the vehicle slip 
+
+angle, and by changing an input/output characteristic of the 
+neural network (32) such that the difference is reduced to a 
+
+minimum. 
+A device according to claim 11 or claim 12, wherein 
+
+said first detection means includes steering angle detection 
+means (16) for detecting a steering angle of the front wheels 
+
+of the vehicle; and said calculating means (26) is so 
+constructed as to derive said approximate value based on the 
+
+front wheel steering angle, the vehicle velocity and the yaw 
+angular velocity respectively detected by said steering angle 
+
+detection means (16), said vehicle velocity detection means 
+(18) and said yaw angular velocity detection means (24), by 
+
+using an approximate expression expressing an approximate 
+value of the vehicle body centroid slip angle as a function 
+
+of front wheel steering angle and yaw angular velocity of 
+the vehicle and vehicle velocity, said approximate expression 
+
+being derived from an equation of motion of the vehicle which 
+is in turn derived from a linear mathematical vehicle model. 
+A device according any one of claims 11 to 13, which  
+ 
+
+includes preprocessing means (28) for preprocessing the front 
+wheel steering information output from said first detection 
+
+means (16) and/or the motion information output from said 
+second detection means (18, 20, 22, 24), to derive at least 
+
+one quantity of state, and for outputting the at least one 
+quantity of state to said learned neural network (32), the 
+
+vehicle slip angle being expressed by a sum of said at least 
+one quantity of state, each of said at least one quantity of 
+
+state being expressed as a function of a corresponding one or 
+ones of the front wheel steering information output from said 
+
+first detection means (16) and the motion information output 
+from said second detection means (18, 20, 22, 24). 
+A device according to claim 14, wherein said 
+preprocessing means (28) includes memory means (30) for 
+
+storing front wheel steering information items, sequentially 
+output from said first detection means (16) at a plurality of 
+
+present and/or past timings, as time-series data, said 
+preprocessing means (28) being operable to output the time-series 
+
+data stored in said memory means (30) to said learned 
+neural network (32) as the front wheel steering information. 
+A device according to claim 14 or claim 15, wherein 
+said second detection means includes at least one of a yaw 
+
+angular velocity sensor (24) for detecting a yaw angular 
+velocity of the vehicle, a longitudinal acceleration sensor 
+
+(20) for detecting a longitudinal acceleration of the 
+vehicle, a lateral acceleration sensor (22) for detecting a 
+
+lateral acceleration of the vehicle, and a vehicle velocity 
+sensor (18) for detecting a vehicle velocity, and said 
+
+preprocessing means (28) includes calculating means (28) for 
+deriving said at least one quantity of state each expressed 
+
+as a function of a corresponding one or ones of yaw angular 
+velocity, longitudinal acceleration, lateral acceleration and 
+
+vehicle velocity, based on at least one of the yaw angular 
+velocity, longitudinal acceleration, lateral acceleration and 
+
+vehicle velocity detected by at least one of said sensors 
+(18, 20, 22, 24). 
+A device according to claim 16, wherein said 
+calculation means (28) derives at least one of the following:  
+
+ 
+(
+lateral acceleration - vehicle velocity x yaw angular 
+velocity
+), (vehicle velocity x yaw angular velocity), (yaw 
+angular velocity ÷ vehicle velocity), (yaw angular 
+
+acceleration), and (longitudinal acceleration x yaw angular 
+velocity) as said at least one quantity of state. 
+A device according to claim 15, wherein said first 
+detection means includes a steering wheel angle sensor (16) 
+
+for detecting a steering wheel angle of the vehicle; said 
+calculating means (28) derives front wheel steering angles at 
+
+said plurality of present and/or past timings, as said at 
+least one quantity of state, based on steering wheel angles 
+
+sequentially detected by said steering wheel angle sensor; 
+and said memory means (30) stores the front wheel steering 
+
+angles at said plurality of timings as said time-series data. 
+A device according to claim 15, wherein said first 
+detection means includes a steering wheel angle sensor (16) 
+
+for detecting a steering wheel angle of the vehicle; said 
+second detection means includes a yaw angular velocity sensor 
+
+(24) for detecting a yaw angular velocity of the vehicle, a 
+longitudinal acceleration sensor (20) for detecting a 
+
+longitudinal acceleration of the vehicle, a lateral 
+acceleration sensor (22) for detecting a lateral acceleration 
+
+of the vehicle and a vehicle velocity sensor (18) for 
+detecting a vehicle velocity; said calculating means (28) 
+
+derives at least one of the following: (
+lateral acceleration 
+- vehicle velocity x yaw angular velocity
+), (vehicle velocity 
+x yaw angular velocity), (yaw angular velocity ÷ vehicle 
+
+velocity), (yaw angular acceleration), (longitudinal 
+acceleration x yaw angular velocity) and front wheel steering 
+
+angles at said plurality of present and/or past timings, as 
+said at least one quantity of state, based on the yaw angular 
+
+velocity, the longitudinal acceleration, the lateral 
+acceleration, the vehicle velocity and the steering wheel 
+
+angle respectively detected by said yaw angular velocity 
+sensor, said longitudinal acceleration sensor, said lateral 
+
+acceleration sensor, said vehicle velocity sensor and said 
+steering wheel angle sensor; and said memory means (30) 
+
+stores the front wheel steering angles at said plurality of  
+ 
+
+timings as said time-series data. 
+A device according to any one of claims 11 to 19, 
+wherein said correction means includes adding means (36) for 
+
+adding together the approximate value derived by said 
+calculating means (26) and the correction value estimated by 
+
+said learned neural network (32), said adding means being 
+operable to output a result of addition as said vehicle body 
+
+centroid slip angle. 
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,187 @@
+<DOC>
+<DOCNO>EP-0623875</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Multi-processor computer system having process-independent communication register addressing
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1516	G06F950	G06F15173	G06F946	G06F946	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F15	G06F9	G06F15	G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A computer system having a plurality of 
+independent processors which can either execute a 
+
+separate process for each processor, or execute 
+parallel process operations across multiple processors 
+
+for one process. The computer system includes a set of 
+communication registers divided into a group of frames 
+
+and a set of semaphores which correspond respectively 
+to the registers. Typical processors having both 
+
+serial and parallel code segments. During serial 
+execution, a process is executed by a single 
+
+processors, but when a parallelization instruction is 
+encountered, which indicates that code can be executed 
+
+in parallel, a semaphore is posted to invite other 
+processors to join in parallel execution of the 
+
+process. If any other processors in the system are 
+idle, those processors detect the semaphore and accept 
+
+a thread of process operation. Two or more processors 
+may join in parallel operation if sufficient operations 
+
+are available. However, if all processors are busy, 
+then the processor conducting the serial operation will 
+
+also execute all of the parallel operations. Thus, the 
+processors are self-allocated, rather than being used 
+
+on a demand or master-servant basis. This permits a 
+
+greater throughput for the system because processors 
+are not held idle when there is available process work 
+
+to be done. 
+
+</ABSTRACT>
+<APPLICANTS>
+</APPLICANTS>
+<INVENTORS>
+</INVENTORS>
+<DESCRIPTION>
+The present invention pertains in general to
+computer systems and in particular to such systems
+having a plurality of independent processors. The computational requirements in the scientific
+data processing field have increased to the point where
+it is difficult to build a single processor which has
+sufficient performance. This is due to limitations in
+the physical technology for building computers. One
+approach to solving this problem is the use of multiple
+processors for increasing data processing power for a
+system. However, many problems are encountered in
+attempting to use multiple processors. Multi-processor
+systems can simultaneously execute several unrelated
+processes (programs) and this has the effect of
+increasing system throughput. However, there is a need
+for a multi-processor system which is capable of
+accelerating the execution of a single process.A number of systems have been described which have
+the goal of increasing the computational rate for a
+single process, but each of these systems suffer from
+one or more deficiencies. One example of such a
+system is described in U.S. Patent No. 4,636,942 to
+Chen et al. This patent describes a system in which
+multiple processors share a set of common registers.
+These registers are divided into clusters, and the
+processors which are assigned to execute the same task
+are assigned access to a common cluster by the
+operating system. The cluster registers, together with
+a set of hardware semaphores, provides fast
+synchronization between the cooperating processors.
+This system has a number of drawbacks which tend to
+slow the performance of the system when used for
+parallel processing. When a process initiates parallel
+operations, the cluster allocation of registers must be
+performed by the operating system. This transfer of
+control from the executing process to the operating 
+system and back is quite time consuming. After
+processor allocation, task synchronization between the
+processors is performed by a run-time library which
+must be embedded in the process code and requires
+substantial execution time to perform the task
+synchronization. Further, the invocation of multi-tasking
+for parallel execution of a process in Chen et
+al, is done explicitly by the programmer. Thus,
+parallelization is invoked only when previously
+selected by the programmer. Basically, the Chen et al
+approach utilizes a substantial time overhead to invoke
+multi-tasking within a process. As a result, the
+system described in the Chen et al patent can be
+efficiently used only if there
+</DESCRIPTION>
+<CLAIMS>
+A computer system (20) having multiple processors (24, 26) for parallel
+execution of a process, the system (20) further having a plurality of communication
+
+register sets (46A-46H), each set comprising a plurality of communication registers, at
+least one respective semaphore register (48) associated with one register in each of said
+
+communication register sets (46A-46H), characterised in that the system (20) further
+comprises:
+
+
+a respective communication index register (66) associated with each of
+said processors (24, 26), each of said communication index registers (66) for
+
+storing a process-independent communication index register (66) value therein
+which comprises a first address segment and serves to address one of said
+
+communication register sets (46A-46H), wherein said communication index
+register (66) values are not set or read by instructions in said process;
+a respective logic circuit associated with each of said processors (24, 26)
+for producing a second address segment which is derived from the execution of
+
+instructions in said process, wherein said second address segment serves as an
+address for one of the registers in each of said communication register sets;
+bus circuits (52, 53, 55) connected to said communication registers, said
+semaphore registers (48), said communication index registers (66) and said logic
+
+circuits for conveying addresses and data associated with said communication
+registers and said semaphore registers (48); and 
+an address circuit connected via one or more of said bus circuits (52, 53,
+55) to said communication index registers (66) and said logic circuits for
+
+receiving said first and second address segments and producing therefrom a
+composite address which corresponds to one of the registers within one of said
+
+communication register sets (46A-46H), wherein a first of said processors (24,
+26) when encountering a parallelization instruction during execution of said
+
+process communicates via one or more of said bus circuits (52, 53, 55) with a
+selected one of said communication register sets (46A-46H) by use of at least said
+
+process-independent first address segment to store process state information
+therein and to set a state of the associated semaphore register (48), and wherein
+
+a second of said processors (24, 26) is connected via one or more of said bus
+circuits (52, 53, 55) to communicate with said selected one communication
+
+register set (46A-46H) by use of at least said process-independent first address
+segment to scan the state of the associated semaphore register (48) and to read
+
+said process state information therefrom when the semaphore register (48) is set
+so that said first and second processors (24, 26) can execute said process in
+
+parallel.
+The computer system (20) having multiple processors (24, 26) according
+to claim 1, characterised by the system (20) further comprising:
+
+
+a respective microcode operation circuit (80) associated with each of said
+processors (24, 26), said microcode operation circuit (80) connected to the
+
+communication index register (66) for the corresponding processor to periodically
+increment the value stored therein when the corresponding processor is in an idle state, 
+
+and said microcode operation circuit (80) is further connected to read said semaphore
+registers (48) by use of at least said first address segment.
+The computer system (20) having multiple processors (24, 26) according
+to claims 1 or 2 wherein at least a second semaphore register (48) is further associated
+
+with each of said communication register sets (46A-46H) and is connected via one or
+more of said bus circuits (52, 53, 55) so that said second semaphore register (48) can
+
+be set by one of said processors (24, 26) to prevent access to the corresponding
+communication register set by others of said processors (24, 26).
+The computer system (20) having multiple processors (24, 26) according
+to claims 1, 2 or 3, wherein said logic circuit comprises an arithmetic logic unit (62)
+
+which responds to said process instructions to generate said second address segment
+therefrom.
+</CLAIMS>
+</TEXT>
+</DOC>

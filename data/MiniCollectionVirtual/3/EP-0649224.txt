@@ -1,0 +1,257 @@
+<DOC>
+<DOCNO>EP-0649224</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Variable length coder and variable length decoder
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H03M742	H03M742	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H03M	H03M	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H03M7	H03M7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A variable length coder and a variable length decoder. The variable length coder 
+comprises a plurality of shifters, each of which inputs a corresponding one of a plurality 
+
+of codewords and a plurality of codelengths, rotates the corresponding codeword by a 
+desired length for interconnection of the codewords and outputs masking bits designating 
+
+a position of the corresponding codeword to be rotated, a first OR gate for ORing output 
+codewords from the shifters, a second OR gate for ORing output masking bits from the 
+
+shifters, a word/mask register for latching output codeword bits from the first OR gate 
+when corresponding output masking bits from the second OR gate are enabled to "1", and 
+
+an FIFO memory for storing an output of the word/mask register and outputting variable 
+length-coded data. The variable length decoder comprises a data shifter for shifting input 
+
+data in response to a previous codelength and a matching signal, a decoding circuit for 
+discriminating a matched state of output data from the data shifter according to the 
+
+previous codelength to generate a current codelength, the matching signal and a decoded 
+word, and a shift controller for controlling a shifting amount of the data shifter in 
+
+response to the current codelength and the matching signal from the decoding circuit and 
+outputting the previous codelength. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+LG ELECTRONICS INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+LG ELECTRONICS INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+HONG SEONG WOOK
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+RIM CHAI YEAL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HONG, SEONG WOOK
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+RIM, CHAI YEAL
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates in general to variable
+length decoders, and more particularly to
+a variable length decoder for performing variable length decoding for the
+entropy-coded video data from the variable length coder in real-time.Generally, entropy coding is used for compressing digital video data with no loss.
+In such an entropy coding technology, variable length coding is adopted in the case where
+a data generation probability is not fixed. Namely, the variable length coding is used to
+represent data of the higher generation probability as a shorter code while data of the
+lower generation probability as a longer code. A Huffman code is well-known as the
+most effective entropy code.In the entropy coding technology, source coding is first performed for the digital
+video data to remove a data redundancy present in a signal source. The digital video data
+is then entropy-coded by run length coding and the variable length coding.Then, the source-coded and entropy-coded data is decoded by a variable length
+decoder.Referring to Fig. 1, there is shown a block diagram of a conventional variable
+length coder as known from US-A-5 173 695. As shown in this drawing, the conventional variable length coder comprises 
+a register 7 for storing temporarily data VLi inputted therein, a code generator 10 for
+generating a codeword VCW and a codelength VCL corresponding to output data from
+the register 7 and outputting the generated codeword VCW and codelength VCL to
+registers 8 and 9, respectively, and barrel shifters 5 and 6 for shifting an output codeword
+from the register 8 and an output codeword from a register 4.The register 4 is adapted to store temporarily an output codeword from the barrel
+shifter 6 and output the temporarily stored codeword to the barrel shifters 5 and 6.Also, the conventional variable length coder comprises a register 3 for storing
+temporarily an output codeword from the barrel shifter 5 and outputting variable length-coded
+data VLCo, and a bit operation unit 1 for performing a logical operation for a reset
+signal RST and output data from a barrel shifter 2 to output an available data signal
+AVLC and apply bit information VL1 to the barrel shifters 2 and 5.The barrel shifter 2 is adapted to accumulate an output codelength from the
+register 9.The bit operation unit 1 includes a latch 14, flags 15-18, an OR gate OR1, a NOR
+gate NOR1 and an AND gate AN1. The code generator 10 is comprised of an uncoded-word
+table 11 of an AND-plane and a codeword table 12 and a codelength table 13 of
+OR-plane
+</DESCRIPTION>
+<CLAIMS>
+A variable length decoder comprising :
+
+data shifting means (700) shifting input data
+(Vi) in response to a previous codelength and a matching
+
+signal ;
+decoding means (720) inputting output data from
+said data shifting means (700) and the previous codelength (RLN1)
+
+discriminating a matched state of the input data on the
+basis of the previous codelength, generating a current
+codelength (LN1), the matching signal (MS1) and a decoded word (Vo) in
+
+accordance with the discriminated result and outputting the
+generated matching signal to said data shifting means ; and
+shift control means (730) controlling a shifting
+amount of said data shifting means in response to the
+
+current codelength (LN1) and the matching signal (MS1) from said
+decoding means and outputting the previous codelength (RLN1) to
+
+said data shifting means and said decoding means.
+A variable length decoder according to claim 1,
+wherein said data shifting means includes :
+
+
+first and second registers for storing sequentially
+the input data in response to a ready signal from said shift
+
+control means ;
+a first barrel shifter for shifting output data from
+said first and second registers and the input data by an
+
+accumulated codelength value from said shift control means ;
+a third register for storing and outputting data
+from said first barrel shifter in response to an available
+
+code signal from said shift control means ;
+a second barrel shifter for shifting output data
+from said third register by the previous codelength from
+
+said shift control means ;
+a fourth register for storing and outputting output
+data from said second barrel shifter in response to the 
+
+matching signal from said decoding means ;
+a third barrel shifter for shifting output data from
+said fourth register and output data from a fifth register
+
+by the previous codelength from said shift control means,
+said fifth register storing temporarily output data from
+
+said third barrel shifter and feeding the stored data back
+
+to said third barrel shifter in response to the matching
+signal from said decoding means ; and
+a sixth register for outputting the output data from
+said third barrel shifter to said decoding means in response
+
+to the matching signal from said decoding means.
+A variable length decoder according to claim 1,
+wherein said decoding means includes :
+
+
+a codelength storage unit for matching the output
+data from said data shifting means with data stored therein
+
+on the basis of the previous codelength from said shift
+control means and outputting the current code length to said
+
+shift control means in accordance with the matched result ;
+a matching detector for generating the matching
+signal according to the matching operation of said codelength
+
+storage unit and outputting the generated matching
+signal to said data shifting means and said shift control
+
+means ;
+a decoded word storage unit for outputting the
+decoded word according to the matching operation of said
+
+codelength storage unit ; and
+a register for storing the decoded word from said
+decoded word storage unit.
+A variable length decoder according to claim 1,
+wherein said shift control means includes :
+
+
+a first register for storing the current codelength
+from said decoding means and outputting the stored codelength
+
+as the previous codelength to said data shifting
+means and said decoding means ; 
+a flip-flop for latching the matching signal from
+said decoding means and outputting the latched signal as an
+
+available code signal to said data shifting means ;
+an inverter for inverting the available code signal
+from said flip-flop ;
+a second register for storing temporarily an
+accumulated codelength value in response to the available
+
+code signal from said flip-flop ;
+an adder for adding the previous codelength from
+said first register and output data from said second
+
+register and outputting the added value as a ready signal
+and a sum signal, the ready signal being applied to said
+
+data shifting means ; and
+a third register for storing the sum signal from
+said adder and outputting the stored signal as the accumulated
+
+codelength value to said data shifting means and said
+second register in response to an output signal from said
+
+inverter.
+A variable length decoder comprising :
+
+data shifting means (700) shifting input data in
+response to a ready signal (RDY); and
+decoding means (720) detecting a current codelength (LN1).
+from the data output by said shifting means on the basis
+
+of a previous codelength, said decoding means further outputting the most significant bit
+of the detected current code length as the ready signal to
+
+said data shifting means and decoding the output data from
+said data shifting means on the basis of the previous
+
+codelength to output a decoded word.
+A variable length decoder according to claim 5,
+wherein said data shifting means includes :
+
+
+first and second registers for storing sequentially
+the input data in response to the ready signal from said
+
+decoding means ; and 
+a third register for shifting output data from said
+first and second registers in response to the ready signal
+
+from said decoding means and outputting the shifted data to
+said decoding means.
+A variable length decoder according to claim 5,
+wherein said decoding means includes :
+
+
+a codeword/codelength storage unit for matching the
+output data from said data shifting means with data stored
+
+therein on the basis of the previous codelength, adding a
+matched codelength to the previous codelength and outputting
+
+the added value as the current codelength ;
+a decoded word storage unit for outputting the
+decoded word according to the matching operation of said
+
+codeword/codelength storage unit ;
+a first register for storing the decoded word from
+said decoded word storage unit ; and
+a second register for storing the current codelength
+from said codeword/codelength storage unit and feeding the
+
+stored codelength as the previous codelength back to said
+codeword/codelength storage unit.
+</CLAIMS>
+</TEXT>
+</DOC>

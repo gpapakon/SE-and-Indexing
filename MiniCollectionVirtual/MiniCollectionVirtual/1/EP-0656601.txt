@@ -1,0 +1,395 @@
+<DOC>
+<DOCNO>EP-0656601</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Automated license plate locator and reader.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06K932	G06K932	G06K942	G06K942	G06K964	G06K964	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06K	G06K	G06K	G06K	G06K	G06K	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06K9	G06K9	G06K9	G06K9	G06K9	G06K9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An automated license plate locator and reader (10) 
+which provides novel methods for 1) correcting for 
+
+perspective distortion (16), 2) locating the license 
+plate (20), 3) reading the license plate (22) and 4) 
+
+improving the confidence rating of the output signal 
+(228). The novel method for accommodating a wide range 
+
+of viewing geometries involves warping the image to 
+eliminate perspective distortion of the plate resulting 
+
+from roadside camera placement. The novel method for 
+locating plates involves correlating an "idealized" edge 
+
+template of a license plate with an edge-enhanced version 
+of the image. Edge enhancement and shadow reduction is 
+
+achieved by applying a Laplacian operator over the input 
+
+image. Performance is further improved by filtering out 
+distracting edges within the resulting correlation 
+
+surface and then locating the highest peaks within this 
+filtered correlation surface. The location of the 
+
+highest peaks provides the location of the plate. The 
+novel method for reading the license plates involves 
+
+performing a modified binary correlation of an image of 
+the plate with reference characters to provide output 
+
+signals indicative of the symbols on the plate. This 
+output is correlated with valid license plate signals to 
+
+improve the confidence rating thereof. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+HUGHES MISSILE SYSTEMS
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+HUGHES MISSILE SYSTEMS COMPANY
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+ALVES JAMES F
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FRAZIER JAMES F
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+REINHART CRAIG C
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ALVES, JAMES F.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FRAZIER, JAMES F.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+REINHART, CRAIG C.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to image processing 
+and recognition systems. More specifically, the present 
+invention relates to license plate locators and readers. While the present invention is described herein with 
+reference to illustrative embodiments for particular 
+applications, it should be understood that the invention 
+is not limited thereto. Those having ordinary skill in 
+the art and access to the teachings provided herein will 
+recognize additional modifications, applications, and 
+embodiments within the scope thereof and additional 
+fields in which the present invention would be of 
+significant utility. For many applications, there is a need for a system 
+for reading a license plate of a motorized vehicle. One 
+such application involves the automated monitoring of 
+traffic flow to identify vehicles traveling at excessive 
+speeds. Another application involves the automatic 
+identification of vehicles passing through toll booths 
+without payment of the toll. Many systems are known in the art for reading 
+license plates. See, for example, "Development and 
+Application of Vehicle-license Number Recognition System  
+ 
+Using Real-time Image Processing", by K. Kanayama et al, 
+published in SystemsandComputersinJapan, vol 22, no. 
+1,, p. 49-58, 1991.; "Automated License Plate Reading", 
+by L. Howington, published in AdvancedImaging, September 
+1989; "Character Recognition in Scene Images", by A. 
+Shio, ProceedingsofAUTOFACT'89, Detroit Michigan, 
+1989; "A Method of License Plate Extraction Using a Fast 
+Pyramid Hierarchical Hough Transformation", by T. Agui, 
+H. Jin Choi, and M. Nakajima, SystemsandComputersinJapan, vol 19, no. 8, pp. 69 - 76, 1988; and "Gray Scale 
+Image Processing Technology Applied to Vehicle License 
+Number Recognition System", by M. Takatoo et al., 
+published in ProceedingsoftheIEEEInternationalWorkshoponIndustrialApplicationsofMachineVisionandMachineIntelligence, pp. 76 - 79, Tokyo, Japan, 1987. See also the following patents, "License Plate 
+Recognition System for Moving Car", pat. no. GB 2246894; 
+"License Plate Character Recognition Apparatus", pat. no. 
+GB 2217498 and US 4,878,248; "Character Recognition 
+System for e.g. Vehicle Number Plate Monitoring", pat no. 
+US 6,479,372 and US 4,567,609; "Apparatus and Method for 
+Reading a License Plate", pat. no. US 5,081,685; Finding 
+and Identifying Apparatus for Image of Car License 
+Plate", pat. no. WO 8707057, US 4,817,166, EP 310611, JP 
+1502371. In addition, Computer Recognition Systems of 
+Massachusetts and Perceptics of
+</DESCRIPTION>
+<CLAIMS>
+A system for reading symbols including characters 
+and numerals on a license plate mounted on a vehicle 
+
+comprising: 
+   camera means for providing an input image of said 
+
+license plate, said input image containing perspective 
+distortion; 
+
+   warp means for mitigating said perspective 
+distortion in said input image to provide a corrected 
+
+image; and 
+   means for processing said corrected image to provide 
+
+an output signal representative of the symbols on said 
+license plate. 
+In a system for reading symbols including 
+characters and numerals on a license plate mounted on a 
+
+vehicle having a camera for providing an input image of 
+the license plate, a system for locating the license 
+
+plate on the vehicle comprising: 
+   first means for providing an idealized edge template 
+
+of the license plate; 
+   second means for providing an edge-enhanced version 
+
+of the input image; and 
+   third means for correlating the idealized edge 
+
+template of the license plate with the edge-enhanced 
+version of the input image to provide a correlation 
+
+surface. 
+The invention of Claim 2 further including means 
+for filtering edges within said correlation surface. 
+The invention of Claim 3 further including means 
+for locating peaks within the filtered correlation 
+
+ 
+surface to provide an output representative of the 
+
+location of the license plate on the vehicle. 
+In a system for reading symbols including 
+characters and numerals on a license plate mounted on a 
+
+vehicle having a camera for providing an input image of 
+the license plate mounted on the vehicle, a system for 
+
+reading the license plate comprising: 
+   means for storing said input image in memory; 
+
+   means for storing images of symbols in memory; and 
+   means for correlating said input image with said 
+
+images of symbols to provide output signals indicative of 
+the symbols on said license plate. 
+The invention of Claim 5 further including means 
+for correlating said output signals indicative of the 
+
+symbols on said license plate with valid license plate 
+symbols to improve a confidence rating of said output 
+
+signals. 
+The invention of Claim 6 further including means 
+comprising synthetic discriminant functions for improving 
+
+said confidence rating. 
+The invention of Claim 5 further including means 
+for predicting symbol locations on said license plate 
+
+based on a spacing of peaks in an output produced by said 
+correlation. 
+A system for reading symbols including characters 
+and numerals on a license pl
+ate mounted on a vehicle 
+comprising: 
+
+   camera means for providing an input image of the 
+license plate mounted on the vehicle; 
+
+   means for applying a Laplacian operator to said 
+ 
+
+input image to enhance edges and reduce the effects of 
+shadows therein; 
+
+   first means for locating said license plate on said 
+vehicle; and 
+
+   second means for reading said symbols on said 
+license plate. 
+A system for reading symbols including 
+characters and numerals on a license plate mounted on a 
+
+vehicle comprising: 
+   camera means for providing an input image of said 
+
+license plate, said input image containing perspective 
+distortion; 
+
+   warp means for mitigating said perspective 
+distortion in said input image to provide a corrected 
+
+image; 
+   means for applying a Laplacian operator to said 
+
+corrected image to enhance edges and reduce the effects 
+of shadows therein; 
+
+   means for locating the license plate on the vehicle 
+comprising: 
+
+      first means for providing an idealized edge 
+template of the license plate; 
+
+      second means for providing an edge-enhanced 
+version of the input image; and 
+
+      third means for correlating the idealized edge 
+template of the license plate with the edge-enhanced 
+
+version of the input image to provide a correlation 
+surface; and 
+
+   means for reading the license plate comprising: 
+      means for storing said input image in memory; 
+
+      means for storing images of reference symbols 
+in memory; and 
+
+      means for correlating said input image with 
+said images of symbols to provide output signals 
+
+ 
+indicative of the symbols on said license plate. 
+The invention of Claim 10 further including 
+means for correlating said output signals indicative of 
+
+the symbols on said license plate with valid license 
+plate symbols to improve a confidence rating of said 
+
+output signals. 
+A method for reading symbols including 
+characters and numerals on a license plate mounted on a 
+
+vehicle comprising the steps of: 
+   providing an input image of said license plate, said 
+
+input image containing perspective distortion; 
+   processing said input image to mitigate said 
+
+perspective distortion therein to provide a corrected 
+image; and 
+
+   processing said corrected image to provide an output 
+signal representative of the symbols on said license 
+
+plate. 
+In a system for reading symbols including 
+characters and numerals on a license plate mounted on a 
+
+vehicle having a camera for providing an input image of 
+the license plate, a method for locating the license 
+
+plate on the vehicle comprising the steps of: 
+   an idealized edge template of the license plate; 
+
+   providing an edge-enhanced version of the input 
+image; and 
+
+   correlating the idealized edge template of the 
+license plate with the edge-enhanced version of the input 
+
+image to provide a correlation surface. 
+The invention of Claim 13 further including the 
+step of filtering edges within said correlation surface. 
+The invention of Claim 14 further including the 
+step of locating peaks within the filtered correlation 
+
+surface to provide an output representative of the 
+location of the license plate on the vehicle. 
+In a system for reading symbols including 
+characters and numerals on a license plate mounted on a 
+
+vehicle having a camera for providing an input image of 
+the license plate mounted on the vehicle, a method for 
+
+reading the license plate comprising the steps of: 
+   storing said input image in memory; 
+
+   storing images of reference symbols in memory; and 
+   correlating said input image with said images of 
+
+symbols to provide output signals indicative of the 
+symbols on said license plate. 
+The invention of Claim 16 further including the 
+step of correlating said output signals indicative of the 
+
+symbols on said license plate with valid license plate 
+symbols to improve a confidence rating of said output 
+
+signals. 
+The invention of Claim 16 further including the 
+step of predicting symbol locations on said license plate 
+
+based on a spacing of peaks in an output produced by said 
+correlation. 
+A method for reading symbols including 
+characters and numerals on a license plate mounted on a 
+
+vehicle comprising the steps of: 
+   providing an input image of the license plate 
+
+mounted on the vehicle; 
+   applying a Laplacian operator to said input image to 
+
+enhance edges and reduce the effects of shadows therein; 
+   locating said license plate on said vehicle; and
+
+ 
+   reading said symbols on said license plate. 
+A method for reading symbols including 
+characters and numerals on a license plate mounted on a 
+
+vehicle comprising the steps of: 
+   providing an input image of said license plate, said 
+
+input image containing perspective distortion; 
+   mitigating said perspective distortion in said input 
+
+image to provide a corrected image; 
+   applying a Laplacian operator to said corrected 
+
+image to enhance edges and reduce the effects of shadows 
+therein; 
+
+   locating the license plate on the vehicle further 
+including the steps of: 
+
+      providing an idealized edge template of the 
+license plate; 
+
+      providing an edge-enhanced version of the input 
+image; and 
+
+      correlating the idealized edge template of the 
+license plate with the edge-enhanced version of the input 
+
+image to provide a correlation surface; and 
+   reading the license plate, further including the 
+
+steps of: 
+      storing said input image in memory; 
+
+      storing images of reference symbols in memory; 
+and 
+
+      correlating said input image with said images 
+of symbols to provide output signals indicative of the 
+
+symbols on said license plate. 
+The invention of Claim 20 further including the 
+step of correlating said output signals indicative of the 
+
+symbols on said license plate with valid license plate 
+symbols to improve a confidence rating of said output 
+
+signals. 
+</CLAIMS>
+</TEXT>
+</DOC>

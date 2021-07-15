@@ -1,0 +1,319 @@
+<DOC>
+<DOCNO>EP-0631241</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Initializing multiple bus networks
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1314	G06F1516	G06F15177	G06F1314	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F13	G06F15	G06F15	G06F13	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The present invention creates a preliminary map of a multiple bus 
+network used to connect peripheral devices (56) to the central processing 
+
+unit (24) of an information handling system (10). This preliminary map 
+is then used by configuration software of the information handling system 
+
+(10) to locate the peripheral devices in the multiple bus network to 
+configure them. If the physical configuration of the multiple bus 
+
+network should change in any way, the invention can make corresponding 
+changes in the preliminary map. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+AMINI NADER
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YAMAUCHI KAZUSHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+AMINI, NADER
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+YAMAUCHI, KAZUSHI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates generally to information handling
+systems and more specifically to a method and apparatus for initializing
+multiple bus networks in an information handling system.Referring generally to information handling systems, they normally
+have as their main component a central processing unit (CPU), which
+directs all communications in the system and orchestrates all commands to
+be executed by the information handling system. Information handling
+systems also usually have a network, or networks, of physical connection
+devices called buses. These networks connect the CPU to any number of
+peripheral devices so that the CPU can communicate with the peripheral
+devices.In order for the CPU to communicate with a particular peripheral
+device in a multiple bus network, it must be able to locate the correct
+bus in the network to which the particular peripheral device is
+connected. Then the CPU must be able to locate the correct peripheral
+device on that bus with which it intends to communicate.Accordingly, a computer system that includes a network of multiple
+buses and peripheral devices must create an "address map" which indicates
+the location of each bus and peripheral device. The address map is
+normally created during the start-up or initialization phase of the
+system which is generally called configuration.During configuration, the CPU will access a software configuration
+program stored in the memory of the information handling system that will
+generate the address map. This configuration program will cause the CPU
+to access each peripheral device connected into the network to determine
+the amount of memory that each bridge and peripheral device requires in
+system memory and their location in the network. Then the CPU will
+reserve memory registers for each device and bus-to-bus bridge in the
+system's memory. After the memory locations are set for each device in
+memory, the configuration software causes the CPU again to access, and to 
+"write" into, each peripheral device in the network the respective
+addresses of the registers in system memory that are reserved for it.During normal communication between the CPU and the multiple bus
+network, each peripheral device is able to communicate with the CPU by
+either decoding or encoding the addresses of the registers reserved for it
+in system memory. Accordingly, by assigning memory locations to each
+peripheral device in the network, the configuration software program
+creates the address map of the network that is used during normal
+communication.
+</DESCRIPTION>
+<CLAIMS>
+An information handling system (10), comprising:
+
+a central processing unit (24);
+system memory (32);
+a system bus (16) which connects said central processing unit to
+said system memory so that said central processing unit can read data
+
+from, and write data to, said system memory;
+at least one peripheral bus (22) connected to said system bus for
+connecting peripheral devices (18) thereto so that said central processing
+
+unit can write data to, and read data from, said peripheral devices;
+said at least one peripheral bus, if more than one, being connected
+together in a plurality of peer and hierarchical combinations by bus-to-bus
+
+bridges, said peripheral buses that are directly connected to said
+system bus being primary peripheral buses (22) and the remainder of said
+
+peripheral buses (96) being arranged below the primary buses in various
+layers of a hierarchy;
+said combinations having the capability of changing;
+said primary peripheral buses each being directly connected to said
+system bus through a corresponding host bridge (20);
+
+characterised in that the system further comprises:
+
+a program stored in said system memory that said central processing
+unit executes to create a map of all of said peripheral buses so that the
+
+central processing unit can locate all of said peripheral devices in order
+to configure said peripheral devices; and
+said program having the capability to change said map without
+rewriting said program if said combinations of said peripheral buses
+
+change;
+
+wherein said program includes the steps of:
+
+counting the number of said primary peripheral buses;
+assigning a minimum value to a variable;
+calling a subroutine for each of said primary peripheral buses that
+counts the number of peripheral buses in each said hierarchy connected to
+
+each said primary peripheral bus and assigns identification numbers to
+each of said buses connected in each of said hierarchies; 
+incrementing said variable after each call to said subroutine by the
+number of buses counted by said subroutine;
+assigning a first range number to each primary bus equal to the
+value of said variable prior to said call to said subroutine corresponding
+
+to said primary bus;
+assigning a second range number to each primary bus equal to the
+number of buses connected in said hierarchy corresponding to said primary
+
+peripheral bus, plus the value of said variable prior to the execution of
+said call to said subroutine for each primary peripheral bus, minus one.
+An information handling system (10) as claimed in claim 1 wherein
+said subroutine includes the steps of:
+
+
+executing a call to said subroutine for each said peripheral bus in
+said hierarchy, a first call to said subroutine being executed for said
+
+primary peripheral bus;
+assigning a first range value to each of said peripheral buses for
+which a particular call to said subroutine is to be executed, before
+
+executing said particular call, equal to said variable plus one;
+incrementing said variable by one before executing said particular
+call;
+counting the peripheral buses attached to each said peripheral bus
+for which a call to said subroutine is executed;
+returning from said particular call of said subroutine only if the
+number of peripheral buses attached to said peripheral bus for which said
+
+particular call was executed is equal to zero, or a call to said
+subroutine has been executed for all peripheral buses attached to said
+
+peripheral bus for which said particular call to said subroutine was
+executed; and
+assigning a second range value to said peripheral bus for which said
+particular call was executed equal to said variable after returning from
+
+said particular call;
+writing said first and second range values for each said peripheral
+bus into separate registers in a corresponding bus-to-bus bridge directly
+
+above each said peripheral bus in said hierarchy.
+An information handling system (10) as claimed in claim 2 including
+the step of: 
+
+
+setting temporary values for said first and second range values for
+each of said peripheral buses attached to a particular peripheral bus
+
+before a call to said subroutine is executed for each of said buses.
+An information handling system (10) as claimed in claim 2 including
+the step of:
+
+
+creating a table of signals for each of said peripheral buses, said
+table indicating the signal on said peripheral buses that will enable each
+
+of said bus-to-bus bridges and said peripheral devices connected to said
+peripheral bus that corresponds to said table, so that said central
+
+processing unit can write data to or read data from each of said bus-to-bus
+bridges and said peripheral devices.
+An information handling system (10) as claimed in claim 2 wherein:
+
+said peripheral buses (96) attached to said peripheral bus for which
+said particular call to said subroutine is executed are counted by
+
+counting the number of said bus-to-bus bridges attached to said peripheral
+bus for which said particular call to said subroutine is executed.
+An information handling system (10) as claimed in claim 5, wherein
+said bus-to-bus bridges include an internal register that has a least
+
+significant bit set to a binary high and said bus-to-bus bridges are
+counted by sampling said least significant bits.
+An information handling system (10) as claimed in claim 1, wherein
+said primary peripheral buses are counted by counting the number of said
+
+host bridges connected to said second system bus.
+An information handling system (10) as claimed in claim 1, including
+a register comprised of a plurality of bits, each of said bits having the
+
+capability of being connected through said second system bus to one of
+said host bridges, such that if one of said bits is a binary high, said
+
+one of said host bridges is enabled so that said central processing unit
+can write data to or read data from said one of said host bridges.
+An information handling system as claimed in claim 1, wherein said
+peripheral buses are PCI buses. 
+An information handling system as claimed in claim 1, wherein said
+program includes the step of:
+
+
+writing said first and second range numbers of each said primary
+peripheral bus into separate registers in said corresponding host bridges.
+A method of creating a dynamic address map of peripheral buses in
+an information handling system, the information handling system,
+
+comprising:
+
+a central processing unit (24);
+system memory (32);
+a system bus (16) which connects said central processing unit to
+said system memory so that said central processing unit can read data
+
+from, and write data to, said system memory;
+at least one peripheral bus (22) connected to said system bus for
+connecting peripheral devices (18) thereto so that said central
+
+processing unit can write data to, and read data from, said peripheral
+devices;
+said at least one peripheral bus, if more than one, being connected
+together in a plurality of peer and hierarchical combinations by bus-to-bus
+
+bridges, said peripheral buses that are directly connected to said
+system bus being primary peripheral buses (22) and the remainder of said
+
+peripheral buses (96) being arranged below the primary buses in various
+layers of a hierarchy;
+said combinations having the capability of changing;
+said primary peripheral buses each being directly connected to said
+system bus through a corresponding host bridge (20);
+
+the method including the steps of:
+
+assigning a minimum value to a variable;
+calling a subroutine for each of said buses that counts the number
+of buses connected in a hierarchy beneath each of said buses and assigns
+
+identification numbers to each of said buses connected in each of said
+hierarchies;
+incrementing said variable after each call to said subroutine by
+the number of buses counted by said subroutine;
+assigning a first range number to each of said buses equal to the
+value of said variable prior to said call to said subroutine
+
+corresponding to each said bus;
+assigning a second range number to each of said buses equal to the
+number of buses connected in said hierarchy beneath each of said buses,
+
+plus the value of said variable prior to said call to said subroutine
+corresponding to each bus, minus one.
+A method as claimed in claim 11, wherein said subroutine includes
+the steps of:
+
+
+executing a call to said subroutine for each of said buses in said
+hierarchy;
+assigning a first range value to each of said buses for which a
+particular call to said subroutine is to be executed equal to said
+
+variable plus one, before executing said particular call;
+incrementing said variable by one before executing said particular
+call;
+counting the buses attached to said bus for which said particular
+call was executed;
+returning from said particular call of said subroutine only if the
+number of peripheral buses attached to said peripheral bus for which said
+
+particular call was executed is equal to zero, or a call to said
+subroutine has been executed for all buses attached to said bus for which
+
+said particular call to said subroutine was executed; and 
+assigning a second range value to said bus for which said particular
+call was executed equal to said variable after returning from said
+
+particular call;
+writing said first and second range values for each said bus into
+separate registers in a corresponding bus-to-bus bridge directly above
+
+each said bus in said hierarchy.
+A method as claimed in claim 12, including the step of:
+
+setting temporary values for said first and second range values for
+each of said buses attached to a particular peripheral bus before a call
+
+to said subroutine is executed for each of said buses.
+A method as claimed in claim 12, including the step of:
+
+creating a table of signals for each of said buses, said table
+listing a signal for each said bus-to-bus bridge and said peripheral
+
+device that is connected to said bus corresponding to said table, said
+signals being used by said central processing unit to enable said bus-to-bus
+
+bridges and peripheral devices to access write data to, or read data,
+from said bus-to-bus bridges and said peripheral devices.
+A method as claimed in claim 12 wherein said buses are PCI buses.
+</CLAIMS>
+</TEXT>
+</DOC>

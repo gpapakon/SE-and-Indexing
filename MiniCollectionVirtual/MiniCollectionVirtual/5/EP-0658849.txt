@@ -1,0 +1,482 @@
+<DOC>
+<DOCNO>EP-0658849</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+System and method for improving 3270 data stream performance.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1338	G06F1338	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F13	G06F13	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An improved 3270 data stream architecture to eliminate 
+data bytes in the 3270 data stream to improve line utilization 
+
+and reduces network costs. First, a 6-bit increment 
+option has been added to the addressing options for 
+
+the buffer control orders to reduce the number of address 
+bytes in the set buffer address (SBA) order, repeat to 
+
+address (RA) order, and the erase unprotected to address 
+(EUA) order. Second, a reduced Start Field (SF) and repeat 
+
+to address (RA) orders are implemented with utilizing 
+a modified Set Attribute (SA) order to designate the field 
+
+attribute character and repeat character. The SF and RA 
+orders following the SA order in the data stream are reduced 
+
+in length. Third, a Modify Existing Format has been 
+implemented which provides a means of modifying a format 
+
+load that is currently in the format storage of the out-board 
+device without having the host application program 
+
+resend the entire format when only a small portion of the 
+format needs to be modified. Specifically, the Load Format 
+
+Structured Field has been modified to add the modify 
+existing format fields to modify specified portions of the 
+
+Load Format Structured Field without having to retransmit 
+the entire field. Lastly, to enable a host application to 
+
+selectively determine when to reset the Format Group rather 
+than resetting the Format Group Selection automatically 
+
+prior to being able to use a loaded format, a modified Set 
+Partition Characteristics structured field is used by the 
+
+host application to selectively enable and disable the 
+Local Format Storage feature. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+MATHEWSON JAMES MERWIN II
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MATHEWSON, JAMES MERWIN, II
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates generally to computer networks, 
+and, more particularly, to techniques which improve 
+the transmission traffic in systems utilizing the IBM 3270 
+Data Stream Architecture. Data processing systems are known where a plurality of 
+display systems communicate with a central host computer 
+via a 3270 data stream. These display systems typically 
+include a base unit which supports a keyboard for operation 
+as a keyboard/display terminal that communicates with 
+the host via a controller. The terminal may interface 
+with a plurality of features connected thereto such as a 
+card reader or a light pen. The base unit and the features 
+receive transmissions from a controller and also transmits 
+to the controller. Typical of such systems are the IBM 
+Information Display System, the IBM 3274 control unit, and 
+the IBM 3278 display stations. In such systems, the display 
+stations are used to access data and run programs on 
+the host computer. One of the critical resources in the exchange of information 
+between the host processors and the various devices 
+is the transmission media that is used to move the information 
+between an application and a user. Because of this, 
+a number of different schemes have been developed to reduce  
+ 
+the amount of data being transmitted to achieve a 
+given operation. One conventional solution to reduce transmission traffic 
+which was implemented in the original 3270 Data Stream 
+architecture was to suppress the nulls in an inbound read 
+modified operation. The reduction in transmission traffic 
+achieved by this approach has resulted in minimal increases 
+in transmission efficiency. Another conventional technique which as been used has been 
+the implementation of format storage techniques. This 
+approach has enabled applications to transmit data one 
+time that could be used many times over. However, this 
+improvement has not been found sufficient to meet the 
+increased host processing speeds and data transmission 
+rates presently available. Thus, what is needed is an improvement to the IBM 3270 
+Data Stream architecture which will increase transmission 
+efficiency by reducing transmission traffic. The present invention is an improvement to the 3270 data 
+stream architecture. Specifically the improvements are to 
+five aspects of the 3270 data stream architecture. They 
+are (1) reduction in buffer control order address size, 
+(2) reduction in the start field order to a single byte, 
+(3) reduction in the length of repeat to address order, 
+(4) implementation
+</DESCRIPTION>
+<CLAIMS>
+In a networked system including a primary logical 
+unit and a secondary logical unit, wherein a data 
+
+stream having a 3270 data stream architecture is 
+passed between the primary logical unit and the secondary 
+
+logical unit, wherein said data stream includes 
+a buffer control order designating a desired 
+
+buffer address which is a specific number of locations 
+from a current buffer address, said buffer 
+
+control order comprising: 
+a buffer control order code indicating a type of 
+
+buffer control order; and 
+a buffer control order address including an increment 
+
+value to designate a number of buffer locations from 
+a current buffer address a desired buffer address is 
+
+located. 
+The system of claim 1, wherein said increment value 
+is a 6-bit increment value configured to designate 
+
+said desired buffer address when said desired buffer 
+address is within 64 buffer locations of said current 
+
+buffer address. 
+The system of claim 1, wherein said buffer control 
+order further comprises flag bits for designating 
+
+that said buffer address contains said increment 
+value, said flag bits utilizing a reserved combination 
+
+of bit values. 
+The system of claim 1, wherein the primary logical 
+unit requests that the secondary logical unit indicate 
+
+its capability of supporting said buffer control 
+order by sending the secondary logical unit a query 
+
+structured field, and
+ 
+
+wherein the secondary logical unit indicates its 
+capability of supporting said increment value by 
+
+responding to said query structured field by sending 
+the primary logical unit a user area query reply 
+
+structured field. 
+The system of claim 1, wherein said buffer control 
+order is a set buffer address buffer control order 
+
+configured to utilize said increment value to specify 
+a desired buffer address from which operations of 
+
+said secondary logical unit are to start and/or continue. 
+The system of claim 1, wherein said buffer control 
+order is a repeat to address buffer control order, 
+
+comprising: 
+a repeat character, wherein said repeat to address 
+
+buffer control order is configured to utilize said 
+increment value to specify a buffer stop address, and 
+
+further wherein the secondary logical unit stores 
+said repeat character from said current buffer address 
+
+to said buffer stop address. 
+The system of claim 1, wherein said buffer control 
+order is an erase unprotected to address buffer control 
+
+order configured to utilize said increment value 
+to specify a buffer stop address, and further wherein 
+
+the secondary logical unit stores a null character 
+from said current buffer address to said buffer stop 
+
+address. 
+The system of claim 5, wherein said set buffer address 
+buffer control order is 2 bytes in length. 
+In a networked system having a primary logical unit 
+and a secondary logical unit, wherein a data stream 
+
+having a 3270 data stream architecture is passed from 
+the primary logical unit to the secondary logical 
+
+unit, and wherein the secondary logical unit includes 
+a display station containing a presentation space of 
+
+one or more formatted data fields having characteristics 
+designated by an attribute character in the data 
+
+stream, the data stream comprising: 
+a set attribute order comprising a first attribute 
+
+designating one or more field attributes; and 
+a start field order configured to create a formatted 
+
+data field in the presentation space, said formatted 
+data field having field attributes designated by said 
+
+attribute in said set attribute order. 
+The system of claim 9, wherein said set attribute 
+order further comprises: 
+
+a set attribute order code; and an attribute type 
+designating that said set. attribute order contains 
+
+said attribute. 
+The system of claim 9, wherein said start field order 
+comprises only a start field order code, said start 
+
+field order code being one byte in length. 
+The system of claim 9, wherein said set attribute 
+order designates that said start field order contains 
+
+a second attribute; and 
+wherein said start field order comprises: a start 
+
+field order code; and said second attribute. 
+The system of claim 12, wherein the formatted data 
+field location of the presentation space corresponding 
+
+to said attribute and said second attribute characters 
+are blank. 
+The system of claim 9, wherein said attributes include: 
+color; extended highlighting; and programmed symbols. 
+The system of claim 9, wherein said attribute character 
+is reset to a default value by a power-on-reset 
+
+and a write-type command. 
+The system of claim 9, wherein said secondary logical 
+unit indicates its ability to support said set attribute 
+
+order and said start field order by sending 
+the primary logical unit a user area query reply self 
+
+defining parameter. 
+In a networked system having a primary logical unit 
+and a secondary logical unit, wherein a data stream 
+
+having a 3270 data stream architecture is passed from 
+the primary logical unit to the secondary logical 
+
+unit, and wherein the secondary logical unit includes 
+a plurality of unprotected buffer locations, the data 
+
+stream comprising: 
+a set attribute order comprising a repeat character; 
+
+and 
+a repeat to address order designating a buffer stop 
+
+address, 
+wherein said secondary logical unit stores said repeat 
+
+ 
+character written to all of said unprotected 
+
+buffer locations from a current buffer address to 
+said buffer stop address. 
+The system of claim 17, wherein said set attribute 
+order further comprises: 
+
+a set attribute order code; and 
+an attribute type indicating that said set attribute 
+
+order contains said repeat character. 
+The system of claim 17, wherein said secondary logical 
+unit indicates its ability to support said set 
+
+attribute order and said repeat to address order by 
+transmitting a user area query reply self defining 
+
+parameter to said primary logical unit. 
+The system of claim 17, wherein said repeat character 
+is reset to a default value by a power-on-reset and a 
+
+write-type command. 
+In a networked system having a primary logical unit 
+and a secondary logical unit, wherein a data stream 
+
+having a 3270 data stream architecture is passed 
+between the primary logical unit and the secondary 
+
+logical unit, the secondary logical unit having load 
+format data located in a load format storage area, 
+
+the data stream comprising: 
+a modify existing format data stream designating one 
+
+or more specific portions of the load format data 
+which are to be modified. 
+The system of claim 21, wherein each of said specific 
+portions begins at a load 
+format data start location 
+and ending at a load format data stop location, and 
+
+ 
+wherein, for each of said specific portions of said 
+
+load format data, said modify existing format data 
+stream comprises a sequence of fields, the sequence 
+
+of fields comprising: 
+an offset field indicating said load format data 
+
+start location; 
+a modification data field containing one or more 
+
+modification data bytes, wherein said modification 
+data replaces one of said one or more specific portions 
+
+of said load format data; and 
+a count field indicating the number of load format 
+
+data bytes which are to be modified, 
+wherein only said one or more specified portions of 
+
+said load format data are transmitted to the secondary 
+logical unit. 
+The system of claim 22, wherein said modify existing 
+format data stream is contained in a load format 
+
+storage structured field. 
+The system of claim 23, wherein said load format data 
+stop location is initialized to zero. 
+The system of claim 23, wherein said secondary logical 
+unit indicates its ability to support said modify 
+
+existing format data stream data field via a self 
+defining parameter appended to a load format storage 
+
+auxiliary query reply. 
+In a networked system comprising a primary logical 
+unit and a secondary logical unit, wherein a data 
+
+ 
+stream having a 3270 data stream architecture is 
+
+passed between the primary logical unit and the secondary 
+logical unit, the system comprising: 
+
+means for controlling the transmission of a select 
+format group structured field from the secondary 
+
+logical unit to the primary logical unit. 
+The system of claim 26, wherein said controlling 
+means comprises: 
+
+a first self defining parameter configured to be sent 
+by the primary logical unit to the secondary logical 
+
+unit, said self defining parameter appended to a set 
+partition attribute structured field. 
+The system of claim 26, wherein said controlling 
+means further comprises: 
+
+a second self defining parameter configured to be 
+sent from the secondary logical unit to the primary 
+
+logical unit, said second self defining parameter 
+indicating that the transmission of a select format 
+
+group structured field by the secondary logical unit 
+may be controlled by the primary logical device. 
+The networked system of claims 1 to 28 further comprising 
+a communication means coupled to said primary 
+
+logical unit and said secondary logical unit, for 
+transferring data control and messages between said 
+
+primary logical unit and said secondary logical unit 
+using said modified 3270 data stream architecture. 
+In a networked system having a primary logical unit 
+which communicates with a secondary logical unit via 
+
+a data stream having a modified 3270 data stream 
+architecture, a method for setting the characteristics 
+
+ 
+of one or more formatted data fields in a presentation 
+
+space of a display station coupled to the 
+secondary logical unit, the method comprising the 
+
+steps of: 
+
+(1) transmitting a set attribute order having a first 
+attribute character designating one or more field 
+
+attributes from the primary logical unit to the secondary 
+logical unit; and 
+(2) transmitting a start field order from the primary 
+logical unit to the secondary logical unit to designate 
+
+the beginning of a first data field of the one 
+or more formatted data fields in the presentation 
+
+space, said first data field having attributes designated 
+by said attribute character of said set first 
+
+attribute order. 
+The method of claim 30, further comprising the steps 
+of: 
+
+
+(3) transmitting a second set attribute order having a 
+second attribute character designating field attributes 
+
+which are different than those designated in 
+said attribute character; and 
+(4) transmitting a second start field order from the 
+primary logical unit to the secondary logical unit to 
+
+designate the beginning of a second formatted data 
+field of the one or more formatted data fields, said 
+
+second formatted data field having attributes designated 
+by said first attribute character modified by 
+
+said second attribute character. 
+In a networked system having a primary logical unit 
+and a secondary logical unit which communicate via a 
+
+modified 3270 data stream architecture, a method for 
+ 
+
+causing a character to be repeated in a plurality of 
+buffer locations in the secondary logical unit, the 
+
+method comprising of the steps of: 
+
+(1) transmitting from the primary logical unit to the 
+secondary logical unit a set attribute order having a 
+
+repeat character; and 
+(2) transmitting a repeat to address order from the primary 
+logical unit to the secondary logical unit to 
+
+said repeat character to one or more of said unprotected 
+buffer locations from a current buffer address 
+
+to a specific stop address. 
+The method of claim 32, wherein said secondary logical 
+unit writes said repeat character to all of said 
+
+unprotected buffer locations from said current buffer 
+address to said stop address. 
+The method of claim 33, further comprising the steps 
+of: 
+
+   (3) transmitting from said secondary logical unit to the 
+primary logical unit a set attribute order indicating 
+
+that said secondary logical unit support said repeat 
+to address order in a user area query reply self 
+
+defining parameter. 
+</CLAIMS>
+</TEXT>
+</DOC>

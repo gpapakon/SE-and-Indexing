@@ -1,0 +1,543 @@
+<DOC>
+<DOCNO>EP-0618532</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Deadlock detecting device
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F946	G06F946	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Start, commit and abort of transactions in a 
+computer system are managed by a task manager (102). 
+
+When a certain transaction locks a certain resource, this 
+information is registered in a lock manager (103). 
+
+Accordingly, when a transaction requests for gaining a 
+resource, the lock manager can determine that the 
+
+resource is already locked, if any, by another 
+transaction. In such a case, the transaction should wait 
+
+for the termination of the other transaction, so that 
+this information is registered in a wait-for-graph table 
+
+(105). A deadlock detector (104) determines whether the 
+deadlock is caused according to the registered 
+
+information in the wait-for-graph table. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+FUJITSU LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+FUJITSU LIMITED
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+FUJITA KAZUHIKO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FUJITA, KAZUHIKO
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to a device of detecting
+deadlock in a multitasking system.In recent years, multitasking systems have been
+developed in which a plurality of tasks or transactions
+are executed at the same time as a mode of operation of
+an information processing system using computers. A
+task is one or more sequence of instructions treated as
+a unit of work to be accomplished by a central
+processing unit (CPU). A transaction is a set of
+operations to carry out one complete data operation.
+The multitasking is a state in which two or more
+programs (tasks, transactions) are executed
+simultaneously in parallel on a single computer system
+or on a plurality of computer systems connected in an
+interleaved manner allowing exchange of information
+therebetween.In the operating systems that support this
+multitasking, two or more tasks may commonly use one
+computer resource. In such a case, each task may use
+exclusively portions of the resources that are necessary
+for the execution of the other task(s). As a result,
+the tasks are simultaneously waiting resources assigned
+to the other(s), each one unable to carry out further 
+processing. Such situation is called deadlock. A term
+"lock" is commonly used as a technical term
+representing "use exclusively", so that a word "lock"
+is used hereinafter also as a verb in place of "use
+exclusively."An example of the deadlock situation is shown in
+Fig. 10. Fig. 10 illustrates an example in a
+distributed system consisting of two computer systems i
+and j. One computer system i executes a task x and the
+other computer j executes a task y. In addition, it is
+assumed that two resources A and B can be accessed by
+the individual computer systems i and j. The term
+"resource", as used herein means software such as
+programs, files and data that can be allocated to the
+tasks. The resource used herein can also refer to the
+contents (pages or records) of a database located
+somewhere other than the computer systems i and j.In Fig. 10, the task x has locked the resource A
+while the task y has locked the resource B. At the
+same time, the task y has asked for the resource A and
+is waiting to lock the resource A. Likewise, the task
+x has asked for the resource B and is awaiting to lock
+the resource B. In such a case, the task y cannot lock
+the resource A until the task x has released the lock
+on the resource A. Likewise, the task x cannot lock
+the resource B until the task y has released the lock
+on the resource B. As a result, the tasks x and y are
+each awaiting the resources locked by
+</DESCRIPTION>
+<CLAIMS>
+A processing system, in which a plurality of
+tasks (100; 200) use a set of common resources (101;
+
+201; 20), comprising:
+
+task managing means (102; 202; 10) for managing
+execution of the tasks so as to permit parallel
+
+execution of two or more of the said tasks;
+lock managing means (103; 203; 12) for managing
+which resource is locked by which task, and operable,
+
+when a first one of the tasks makes a request for a
+resource which is already locked by a second one of the
+
+tasks, to generate a waiting relation indication
+indicating that the first task is waiting for the
+
+second task;
+registering means (105; 205) for registering such
+a generated waiting relation indication; and
+deadlock detecting means (104; 204; 15) operable,
+based on such waiting relation indications registered
+
+in said registering means, to detect a deadlock
+condition in which, for a group of tasks made up of at
+
+least two tasks of the said plurality, each task of the
+group is awaiting such a resource locked by another one
+
+of the tasks of the group and is unable to carry out
+further processing;
+
+characterised in that the said deadlock detecting
+means is operable to perform a deadlock detecting
+
+operation, for detecting such a deadlock condition,
+independently of the task managing means and of the
+
+lock managing means, and is also operable, in the event
+that a waiting relation indication is generated by the
+
+processing system during such an operation, to hold
+back registration of that indication pending completion
+
+of the operation.
+A processing system, for use in distributed
+multitasking apparatus in which a plurality of such
+
+processing systems are distributed and in which a 
+plurality of tasks (100; 200) use a set of common
+
+resources (101; 201; 20), which processing system
+comprises:
+
+
+task managing (102; 202; 10) means for managing
+execution of the tasks so as to permit parallel
+
+execution of two or more of the said tasks;
+lock managing means (103; 203; 12) for managing
+which resource is locked by which task, and operable,
+
+when a first one of the tasks makes a request for a
+resource which is already locked by a second one of the
+
+tasks, to generate a waiting relation indication
+indicating that the first task is waiting for the
+
+second task;
+communication means (104; 204; 15) operable, when
+the said first task is being performed in the claimed
+
+processing system and the said second task is being
+performed in another processing system of the
+
+apparatus, to communicate the said waiting relation
+indication to that other processing system;
+registering means (105; 205) for registering such
+waiting relation indications generated by said lock
+
+managing means or received from another processing
+system of the apparatus; and
+deadlock detecting means (104; 204; 15) operable,
+based on such waiting relation indications registered
+
+in said registering means, to detect a deadlock
+condition in which, for a group of tasks made up of at
+
+least two tasks of the said plurality, each task of the
+group is awaiting such a resource locked by another one
+
+of the tasks of the group and is unable to carry out
+further processing;
+
+characterised by waiting time monitoring means
+(206; 13) operable to detect when such a registered
+
+waiting relation indication persists for a
+predetermined time; and
+retry notification means (206; 204; 13; 15) 
+operable, when such a persisting waiting relation
+
+indication is detected, to cause a retry notification
+to be applied to the task whose said request caused the
+
+persisting waiting relation indication to be generated,
+which notification serves to notify that task that it
+
+should make that request again, such that the waiting
+relation indication concerned can be communicated again
+
+to the said other processing system.
+A system as claimed in claim 1 or 2, wherein
+said registering means includes a table (105; 205) in
+
+which such a generated waiting relation indication is
+registered.
+A processing system as claimed in claim 3
+when read as appended to claim 1, for use in
+
+distributed multitasking apparatus in which a plurality
+
+of such processing systems are distributed, wherein,
+when such a waiting relation indication is generated
+
+for which the said first and second tasks are both
+being executed by the claimed processing system, the
+
+waiting relation indication concerned is registered
+exclusively in the said table of the registering means
+
+of the claimed processing system.
+A processing system as claimed in claim 3
+when read as appended to claim 2, wherein, when such a
+
+waiting relation indication is generated for which the
+said first and second tasks are both being executed by
+
+the claimed processing system, the waiting relation
+indication concerned is registered exclusively in the
+
+said table of the registering means of the claimed
+processing system.
+A processing system as claimed in claim 4 or
+5, wherein, when such a waiting relation indication is
+
+generated for which the said first task is being
+executed by the claimed processing system and the said
+
+second task is being executed by another one of the
+processing systems of the apparatus, the claimed 
+
+processing system is operable to communicate the
+waiting relation indication concerned to that other
+
+processing system for registration in the registeringmeans
+table of that system, thereby to enable that
+
+other system to detect presence or absence of such a
+deadlock condition.
+A processing system as claimed in claim 4, 5
+or 6, wherein, when such a waiting relation indication
+
+is generated for which the said second task is being
+executed by the claimed processing system and the said
+
+first task is being executed by another one of the
+processing systems of the apparatus, the claimed
+
+processing system is operable to receive the waiting
+relation indication concerned from that other
+
+processing system and to register it in its said
+registering-means table and to detect the presence or
+
+absence of such a deadlock condition by means of
+searching that table.
+A system as claimed in any one of claims 3 to
+7, wherein said deadlock detecting means is operable,
+
+following generation of such a waiting relation
+indication, to cause the waiting relation indication to
+
+be registered in said table and to detect the presence
+or absence of the said deadlock condition by means of
+
+searching said table.
+A system as claimed in any one of claims 3 to
+8, wherein said lock managing means causes the waiting
+
+relation indication to be registered in said table and
+issues a deadlock detecting instruction to the deadlock
+
+detecting means only when the waiting relation
+indication is caused by a resource gaining request, and
+
+wherein said lock managing means does not suspend
+execution of the task for a resource gaining request
+
+which does not result in a waiting relation indication
+being generated.
+A system as claimed in any one of claims 3 to 
+9, wherein the registration of the waiting relation
+
+indication is deleted from said table when it is
+detected that, for the indication concerned, the said
+
+first task is no longer in a waiting relationship with
+the second task.
+A system as claimed in any preceding claim,
+wherein said deadlock detecting means comprises a
+
+request queue receiving unit (14) for receiving a
+waiting-relation-indication registering request
+
+indicative of an instruction to detect the deadlock
+condition.
+A system as claimed in any preceding claim,
+wherein the waiting relation indication indicates that
+
+the first task is waiting for release of the resource
+locked by the second task.
+A system as claimed in any one of claims 1 to
+11, wherein the waiting relation indication indicates
+
+that the first task is waiting for termination of the
+second task which is locking the resource requested by
+
+the first task.
+A system as claimed in any preceding claim,
+wherein said task managing means manages the tasks
+
+through a two-phase lock system in which the lock is
+continuously made when a certain processing starts to
+
+lock a data while the lock is continuously released
+when it starts to release the lock.
+A system as claimed in any preceding claim,
+further including a lock table for registering a
+
+relationship between a task and a resource locked by
+the task.
+A system as claimed in claim 1, for use in
+distributed multitasking apparatus in which a plurality
+
+of such processing systems are distributed, further
+comprising:
+
+
+communication means (104; 204; 15) operable, when
+the said first task is being performed in the claimed 
+
+processing system and the said second task is being
+performed in another processing system of the
+
+apparatus, to communicate the said waiting relation
+indication to that other processing system, and the
+
+said registering means is further operable to register
+such waiting relation indications received from such
+
+communication means of another processing system of the
+apparatus;
+waiting time monitoring means (206; 13) operable
+to detect when such a registered waiting relation
+
+indication persists for a predetermined time; and
+retry notification means (206; 204; 13; 15)
+operable, when such a persisting waiting relation
+
+indication is detected, to cause a retry notification
+to be applied to the task whose said request caused the
+
+persisting waiting relation indication to be generated,
+which notification serves to notify that task that it
+
+should make that request again, such that the waiting
+relation indication concerned can be communicated again
+
+to the said other processing system.
+Distributed multitasking apparatus in which a
+plurality of processing systems are distributed, each
+
+being a processing system as claimed in any preceding
+claim.
+Apparatus as claimed in claim 17, wherein
+each processing system is a processing system as
+
+claimed in any one of claims 3 to 10, or in any one of
+claims 11 to 16 when read as appended to claim 3, and
+
+wherein, when such a waiting relation indication is
+generated by a first one (SYSTEM i) of the processing
+
+systems, for which indication the said first task is
+being executed by that first system (SYSTEM i) and the
+
+said second task is being executed by a second one
+(SYSTEM j) of the processing systems of the apparatus,
+
+the waiting relation indication is registered in the
+registering-means table of the first (SYSTEM i), and, 
+
+for each of the first and second systems, the deadlock
+detecting means in the system concerned is operable,
+
+when one of the tasks being executed by the system
+concerned (e.g. SYSTEM i) is waiting for one of the
+
+tasks being executed by the other (SYSTEM j) of the
+first and second systems, to communicate with that
+
+other system (SYSTEM j) so as to cause such waiting
+relation indications registered in the registering-means
+
+table of the other system (SYSTEM j) to be
+transmitted to its own system and to cause the deadlock
+
+detecting means in its own system (SYSTEM i) to employ
+such transmitted indications from that other system
+
+(SYSTEM j) and the indication registered in the
+registering-means table of its own system so as to
+
+enable those deadlock detecting means to determine the
+presence or absence of the deadlock condition.
+Apparatus as claimed in claim 17 or 18,
+wherein a task x being executed in processing system i
+
+is defined as T(i, x) and a task y being executed in
+another processing system j is defined as T(j, y) and
+
+in the registering-means table the waiting relation
+indication indicating that the task T(i, x) is waiting
+
+for the task T(j, y) is registered in the form T(i, x)
+
+→ T(j, y) and the waiting relation indication
+indicating that the task T(j, y) is waiting for the
+
+task T(i, x) is registered in the form T(j, y) → T(i,
+x), and when both of these waiting relation indications
+
+are registered in the table a loop T(i, x) → T(j, y) →
+T(i, x) is detected, whereupon the said deadlock
+
+condition is detected.
+A processing method, for use in a processing
+system in which a plurality of tasks use a set of
+
+common resources, comprising steps of:
+
+managing execution of the tasks so as to permit
+parallel execution of two or more of the said tasks;
+managing which resource is locked by which task, 
+and, when a first one of the tasks makes a request for
+
+a resource which is already locked by a second one of
+the tasks, generating a waiting relation indication
+
+indicating that the first task is waiting for the
+second task;
+registering such a generated waiting relation
+indication; and
+detecting, based on such registered waiting
+relation indications, a deadlock condition in which,
+
+for a group of tasks made up of at least two tasks of
+the said plurality, each task of the group is awaiting
+
+such a resource locked by another one of the tasks of
+the group and is unable to carry out further
+
+processing;
+
+characterised in that a deadlock detection
+operation, for detecting such a deadlock condition, is
+
+performed independently of the task management and lock
+management, and, in the event that a waiting relation
+
+is generated during such an operation, registration of
+that indication is held back pending completion of the
+
+operation.
+A processing method, for use in distributed
+multitasking apparatus in which a plurality of
+
+processing systems are distributed and in which a
+plurality of tasks use a set of common resources, which
+
+processing method comprises steps of:
+
+managing execution of the tasks so as to permit
+parallel execution of two or more of the said tasks;
+managing which resource is locked by which task,
+and, when a first one of the tasks makes a request for
+
+a resource which is already locked by a second one of
+the tasks, generating a waiting relation indication
+
+indicating that the first task is waiting for the
+second task;
+when the said first task is being performed in a
+first one of the processing systems and the said second 
+
+task is being performed in a second one of the
+processing system of the apparatus, communicating the
+
+said waiting relation indication from the first to the
+second processing system;
+registering such waiting relation indications
+generated or received from another processing system of
+
+the apparatus; and
+detecting, based on such registered waiting
+relation indications, a deadlock condition in which,
+
+for a group of tasks made up of at least two tasks of
+the said plurality, each task of the group is awaiting
+
+such a resource locked by another one of the tasks of
+the group and is unable to carry out further
+
+processing;
+
+characterised by detecting, in the said first
+processing system, when such a registered waiting
+
+relation indication persists for a predetermined time,
+and, when such a persisting waiting relation indication
+
+is detected, applying a retry notification to the task
+whose said request caused the persisting waiting
+
+relation indication to be generated, which notification
+serves to notify that task that it should make that
+
+request again, such that the waiting relation
+indication concerned can be communicated again to the
+
+said second processing system.
+</CLAIMS>
+</TEXT>
+</DOC>

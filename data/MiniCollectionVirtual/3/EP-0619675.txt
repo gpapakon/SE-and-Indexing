@@ -1,0 +1,233 @@
+<DOC>
+<DOCNO>EP-0619675</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Colour image display system
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T120	G06T500	H04N967	G06T100	H04N964	G09G504	H04N967	H04N964	G09G502	H04N164	G06T120	H04N164	G06T100	G09G504	G06T500	G09G502	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	H04N	G06T	H04N	G09G	H04N	H04N	G09G	H04N	G06T	H04N	G06T	G09G	G06T	G09G	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T1	G06T5	H04N9	G06T1	H04N9	G09G5	H04N9	H04N9	G09G5	H04N1	G06T1	H04N1	G06T1	G09G5	G06T5	G09G5	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Encoded color image data, stored in a first format such as YUV or 
+YIQ, is converted to RGB format for output to a color display screen 16. 
+
+The conversion is carried out in real time synchronism with the 
+generation of the display, in order to minimize buffer storage 
+
+requirements for the RGB output data. RAM (random access memory) storage 
+arrays 34 contain lookup tables for product functions defined in 
+
+associated conversion equations. Each product function is a product of 
+multiplication of a predetermined constant and data representing a U or V 
+
+component of a source image pixel. Use of these tables effectively speeds 
+up the conversion process, and has the added advantage of flexibility 
+
+since the respective data is changeable to adjust to various image and 
+
+display formats and conditions. In one embodiment, a RAM array used in 
+the present format conversion process is also used (in a different 
+
+display mode, with different stored data) as a conventional source of 
+palette data. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+RACKLEY DARWIN PRESTON
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WEST RODERICK MICHAEL PETERS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+RACKLEY, DARWIN PRESTON
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WEST, RODERICK MICHAEL PETERS
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to the real-time conversion of color image
+data, for example from YUV or YIQ format to RGB format.Color images displayed on contemporary computer display monitors
+include so-called "natural images" of the type produced e.g. by color
+photography. Encoded data representing elements of such images (e.g.
+pixels) is often stored in computer systems in "YUV" or "YIQ" format. In
+YUV format, the code representing an image element defines three
+attributes of the respective element; a luminance factor (Y) and two
+color factors: red minus Y (U), and red minus blue (V). YIQ encoding is
+similar to YUV, but contains I and Q element components that align
+axially with natural images.In order to display such data on conventional color monitors used
+in computers and workstations, data representing individual elements of
+the source (YUV or YIQ) image must be converted to an RGB format which
+defines relative red, green and blue luminance attributes (RGB) of
+directly displayable elements of a corresponding image. Such conversions
+generally have to be performed in real time coordination with operations
+of the display monitor, so that the RGB image elements are displayed as
+they are generated, thereby minimizing buffer storage requirements for
+the data representing these elements. In a typical YUV to RGB conversion,
+matrix multiplications are performed on color components of the source
+data (U and V), and results are logically added to respective luminance
+components (Y) to produce corresponding RGB data components. These
+operations effectively form three sums of products yielding functions
+representing red, green and blue components of an RGB image pixel, in
+which the product terms are formed by multiplying U and V components of
+each corresponding source pixel by various predetermined constants and in
+which the corresponding Y component of each source pixel is a separate
+added term in each sum.To achieve speeds required to meet display raster constraints,
+these multiplication and addition functions usually are performed in a
+hardwired cascaded adder structure containing a number of adder stages
+linearly related to the number of 1 valued bits in the fractional parts 
+of the multiplicative constants. This type of arrangement can be
+constructed efficiently if the values of the constants can be chosen to
+minimize the number of adder stages required. However, it has the
+disadvantage that only a single set of constants is effectively "wired"
+into any implementation, allowing no flexibility for adjusting the
+c
+</DESCRIPTION>
+<CLAIMS>
+A data converting circuit for use in a color image display system
+including means (30) for receiving data encoded in a first format
+
+representing elements of a color image, said first format not being
+directly displayable by said image display system, and means for
+
+displaying colour images from data encoded in a second format different
+from said first format, the data in said second format representing
+
+discrete pixel elements of the displayed image, and the data converting
+circuit comprising format conversion means (34, 36) coupled between said
+
+receiving means and said display means for converting data encoded in
+said first format into said second format in real time coordination with
+
+the generation of respective image displays;
+
+said format conversion means comprising at least one storage array
+(34) containing a lookup table for performing a part of the conversion
+
+from said first format to said second format;
+and dedicated logic means (36) for receiving data read out of said at
+least one array and for performing another part of said conversion as required;
+
+wherein said data converting circuit has:
+a first operational mode, wherein said first format is a YUV
+format and said second format is an RGB format, and said at least one
+
+storage array stores data to support the YUV-RGB conversion process,
+and a second operational mode, wherein said first format is a
+palette number and said second format is an RGB format, and said at
+
+least one storage array stores data to emulate a palette to provide a
+source of directly displayable RGB colour data.
+The data converting circuit of claim 1, wherein said lookup table
+contains linear functions of U and V components of pixel elements from
+
+data encoded in said first format and predetermined constants, the
+storage array being addressed in accordance with the values of said U
+
+and V components.
+The data converting circuit of claim 2 wherein the lookup table
+contains data representing linear functions for all the possible values
+
+of U and V components capable of addressing said data.
+The data converting circuit of any preceding claim, wherein said
+first format (YUV) involves chrominance sub-sampling in which the
+
+encoded data comprises discrete components conjointly defining luminance
+and chrominance attributes of pairs of adjacent image elements, and
+
+wherein the data in said first format is used to successively access
+pairs of terms stored in said at least one storage array; said logic
+
+means being configured to logically process each pair of terms to
+produce a corresponding pair of successive output signals representing 
+
+adjacent RGB pixel elements of a displayable image.
+The data converting circuit of claim 4 wherein said at least one
+storage array comprises a single RAM unit containing said lookup table
+
+that is addressed in consecutive cycles by data representing U and V
+components of pairs of consecutive pixels.
+The data converting circuit of claim 5 wherein said logic means
+comprises a network of cascaded adders (66-68, 77, 90-92) with
+
+intermediate banks of latches (70-73, 76, 78, 79, 84, 87) for adding
+data read out of said single RAM unit in consecutive cycles to produce
+
+result signals representing the RGB components of pairs of consecutive
+pixels in the displayable image.
+The data converting circuit of any of claims 1 to 4 wherein said
+at least one storage array comprises one or more pairs of RAM arrays
+
+(120, 121) containing said lookup table, said one or more pairs of RAM
+arrays being configured so that one array of each pair contains data
+
+associated only with U components and the other array of each pair
+contains data associated only with V components of the data encoded in
+
+said first format.
+The data converting circuit of any of claims 1 to 4 wherein:
+
+said at least one storage array comprises at least one pair of RAM
+storage arrays (120, 121) containing said lookup table, each pair
+
+arranged for respectively translating encoded data representing
+corresponding U and V components of discrete YUV image elements into
+
+respective pairs of first logical signal functions;
+and said logic means is coupled to said receiving means and each
+pair of RAM arrays for processing said first logical signal functions in
+
+combination with data encoded in said first format representing the Y
+components of the YUV image elements associated with respective first
+
+logical signal functions to produce corresponding RGB data.
+The data converting circuit of any of claims 1 to 4 wherein said
+at least one storage array comprises at least one RAM containing said
+
+lookup table, and wherein the lookup table is programmable.
+The data converting circuit of any of claims 1 to 5, or 7 to 9,
+wherein said dedicated logic means includes a cascaded network of
+
+logical adders (66-68, 77, 90-92).
+The data converting circuit of claim 9, wherein said lookup table
+can be programmed as a palette to allow said at least one RAM to act as
+
+a palette RAM (34), and the dedicated logic means has inputs coupled to 
+the receiving means and to said palette RAM, and includes means for
+
+processing data supplied from the receiving means together with data
+read out of said palette RAM to produce output signals which directly
+
+represent pixel elements of an RGB format displayable image;
+
+and said format conversion means further includes multiplexing
+means (40) coupled to said palette RAM and the output of said logic
+
+means for selectively applying data to said image display means from
+either said palette RAM or said dedicated logic means.
+The data converting circuit of any preceding claim further having at least
+a gamma correction mode; and wherein the at least one
+
+storage array can be used to store different types of data values for
+sustaining any of said modes.
+A colour display system including means for receiving data in a
+first format representing elements of a colour image, said format not
+
+being directly displayable by said image display system, a data
+converting circuit according to any preceding claim, and means for
+
+displaying colour images from data encoded in a second format different
+from said first format.
+</CLAIMS>
+</TEXT>
+</DOC>

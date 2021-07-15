@@ -1,0 +1,355 @@
+<DOC>
+<DOCNO>EP-0614139</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+External procedure call for distributed processing environment.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F946	G06F946	G06F1516	G06F1516	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	G06F15	G06F15	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An eXternal Procedure Call (XPC) is a function in a distributed 
+processing environment which allows a procedure local to or 
+
+remote from a calling process to be called and executed (and, if 
+appropriate, the results return to the calling process) without 
+
+performing a full context switch between processes, either 
+locally or remotely. This is accomplished by associating a 
+
+subroutine with each processing node of the distributed 
+processing environment. The subroutine is coded so that it can 
+
+be directly accessed and executed within each processing thread 
+of the parallel job. 
+
+
+ 
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+FITCH BLAKE GORDON
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FRANKE HUBERTUS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GIAMPAPA MARK EDWIN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FITCH BLAKE GORDON
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FRANKE HUBERTUS
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+GIAMPAPA MARK EDWIN
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates in general to data processing 
+environments, and in particular, to techniques for making 
+peer-to-peer procedure calls (both local and remote) to a callee 
+process without employing a process context switch. Parallel operating environments provide facilities for making 
+procedure calls, whereby reusable code is placed in a defined 
+location and executed when needed. Parameters can be passed to 
+called procedures, and results returned. As used herein, the 
+term "procedure" should be read in a generic sense and may be 
+called in particular instances a function, a subroutine or a 
+program segment. Programs which are referred to as processes 
+contain or include functions, subroutines and/or procedures. One well known method for making procedure calls is referenced 
+in the art as Remote Procedure Call (RPC). Essentially, RPC 
+allows programs to call procedures located on other processors 
+in a distributed data processing environment. When a 
+process on machine A calls a process on machine B, the calling 
+process on A is suspended, and the execution of a 
+call-to-procedure takes place on machine B. Information is then 
+transported from the caller to the callee in the parameters, and 
+is returned in the procedure result. No message passing 
+or I/O is visible to the application program. RPC is 
+a widely-used technique that underlies many of today's 
+distributed operating systems. A full context switch is required between processes to handle 
+the RPC because a caller process and a callee process are  
+ 
+different processes, even if the particular process targeted by 
+an RPC is on the same (referred to herein as "local") processor 
+as the process requesting the RPC. Similarly, when a 
+targeted server process is instead on a different (referred to 
+herein as "remote") processor a full context switch is needed 
+between processes at the remote processor as well as at the 
+local processor. A full process context switch, whether 
+local or remote, consumes considerable processing overhead. Thus, a new procedure call technique which allows a procedure, 
+whether local or remote from a calling process, to be called and 
+executed (and results returned to the calling process) without 
+requiring a full context switch between processes would comprise 
+a significant advancement in today's distributed processing 
+environment. Briefly described, the present invention comprises in one aspect 
+a process for executing a procedure at a target thread 
+associated with one of a plurality of tasks
+</DESCRIPTION>
+<CLAIMS>
+In a distributed processing environment having multiple 
+processing nodes for parallel processing different tasks of 
+
+a parallel job, said parallel job including a plurality of 
+tasks each having multiple processing threads, a process 
+
+for executing a procedure at a target thread of one of said 
+plurality of tasks, said procedure executing process 
+
+comprising the steps of: 
+
+(a) preassociating call/execute procedure code with each of 
+said multiple processing nodes of said distributed 
+
+processing environment such that for each processing node 
+at least one thread executed thereby can directly access 
+
+said call/execute procedure code without requiring a task 
+context switch; 
+(b) executing a requestor thread at one of said multiple 
+processing nodes of said distributed processing 
+
+environment, said requestor thread calling for execution of 
+the procedure at the target thread; and 
+(c) executing the procedure at said target thread, said 
+executing of said procedure including processing said 
+
+call/execute procedure code within said target thread such 
+that said procedure is executed without employing context 
+
+switching between different tasks of said parallel process. 
+The procedure executing process of claim 1, further 
+comprising the step of allocating a request message buffer 
+
+to each potential requestor thread of said parallel job, 
+and wherein said executing step (b) includes loading said 
+
+requestor thread's allocated request message buffer with 
+parameters calling for execution of the procedure at the 
+
+target thread. 
+The procedure executing process of claim 2, further 
+comprising the step of executing the called procedure 
+
+ 
+locally within the requestor thread when possible such that 
+
+the target thread comprises the requestor thread and no 
+thread context switching is required at the processing node 
+
+executing said requestor thread in order to execute said 
+procedure. 
+The procedure executing process of claim 3, further 
+comprising the step of allocating a response message buffer 
+
+to each processing thread of said parallel job, and wherein 
+said procedure executing step (c) includes loading said 
+
+requestor thread's allocated response message buffer with a 
+result from execution of said procedure. 
+The procedure executing process of claim 2, wherein said 
+executing step (c) occurs at a remote processing node 
+
+within said distributed processing environment from the 
+processing node performing said requestor thread executing 
+
+step (b). 
+The procedure executing process of claim 5, further 
+comprising the step of communicating to said target thread 
+
+said requestor thread's call for execution of said 
+procedure, said communicating step including sending loaded 
+
+parameters from said requestor thread's request message 
+buffer to a request message buffer allocated to said target 
+
+thread. 
+The procedure executing process of claim 6, further 
+comprising the steps of interrupting processing at said 
+
+remote processing node and running said target thread for 
+accessing said call/execute procedure code preassociated 
+
+with said remote processing node. 
+The procedure executing process of claim 6, wherein said 
+procedure executing step (c) includes executing said call 
+
+procedure using parameters sent to said request message 
+buffer allocated to said target thread. 
+The procedure executing process of claim 6, further 
+comprising the step of allocating a response message buffer 
+
+to each processing thread of said parallel job, and wherein 
+said procedure executing step (c) includes loading said 
+
+target thread's allocated response message buffer with a 
+result from execution of said procedure. 
+The procedure executing process of claim 9, further 
+comprising the step of communicating said result from said 
+
+target thread's allocated response message buffer to said 
+requestor thread's allocated response message buffer. 
+The procedure executing process of claim 6, further 
+comprising the step of providing signal bits for said 
+
+requestor thread to track calling and processing of said 
+procedure by said target thread. 
+The procedure executing process of claim 1, further 
+comprising the step of holding further processing of said 
+
+requestor thread in said step (b) until said procedure has 
+been completed by said target thread in said step (c). 
+A process for executing a procedure at a target thread 
+comprising one of multiple threads of a parallel job, said 
+
+procedure executing process being implemented in a 
+distributed processing environment having multiple 
+
+processing nodes, said procedure executing process 
+comprising the steps of: 
+
+
+(a) associating call/execute procedure code with each of 
+said multiple processing nodes of said distributed 
+
+processing environment such that at least one thread of 
+said multiple threads of said parallel job can directly 
+
+access said call/execute procedure code when executing at a 
+processing node of said distributed processing environment; 
+(b) allocating a unique request message buffer and a unique 
+response message buffer to each thread of the multiple 
+
+threads of said parallel job; and 
+(c) in response to a requestor thread loading its allocated 
+request message buffer with parameters calling for 
+
+execution of the procedure at the target thread, executing 
+said call/execute procedure code associated with the 
+
+processing node executing said target thread, said 
+executing of said call/execute procedure code including 
+
+processing said call/execute procedure code from within 
+said target thread such that said procedure is executed by 
+
+the corresponding processing node without employing context 
+switching between different tasks of said parallel job. 
+The procedure executing process of claim 13, wherein when 
+said procedure can be executed locally within the 
+
+processing node processing said requestor thread, said 
+target thread comprises said requestor thread and no 
+
+context switch is required between threads of said parallel 
+job. 
+The procedure executing process of claim 14, further 
+comprising the step of loading said requestor thread's 
+
+allocated response message buffer with a result from 
+execution of said procedure. 
+The procedure executing process of claim 13, wherein said 
+executing step (c) occurs at a remote processing node 
+
+within said distributed processing environment from a 
+processing node handling said requestor thread, and wherein 
+
+said process further comprises the step of communicating to 
+said target thread said requestor thread's call for 
+
+execution of said procedure, said communicating step 
+including sending loaded parameters from said requestor 
+
+thread's request message buffer to a request message buffer 
+allocated to said target thread. 
+The procedure executing process of claim 16, further 
+comprising the steps of interrupting processing at said 
+
+remote processing node and running said target thread for 
+accessing said call/execute procedure code associated with 
+
+said remote processing node. 
+The procedure executing process of claim 16, further 
+comprising the steps of loading said target thread's 
+
+allocated response message buffer with a result from 
+execution of said procedure, and communicating said results 
+
+from said target thread's allocated response message buffer 
+to the response message buffer allocated to said requestor 
+
+thread. 
+The procedure executing process of claim 13, further 
+comprising the step of providing signal bits for said 
+
+requestor thread to track calling and processing of said 
+procedure by said target thread. 
+The procedure executing process of claim 13, further 
+comprising the step of holding further processing of said 
+
+requestor thread pending completion of said procedure by 
+said target thread. 
+A system for executing a procedure at a target thread 
+comprising one of a plurality of threads of a parallel job, 
+
+said system comprising: 
+a distributed processing environment having multiple 
+
+processing nodes for processing in parallel said parallel 
+job; 
+
+a plurality of operating kernels, each kernel being 
+associated with one of said processing nodes of said 
+
+distributed processing environment; 
+call procedure code associated with each of said plurality 
+
+of kernels within said distributed processing environment, 
+ 
+
+said call procedure code being directly callable at each 
+processing node by a thread executed therein without 
+
+requiring a task context switch; 
+a unique request message buffer and response message buffer 
+
+for each thread of said parallel job; 
+means for loading parameters into a requestor thread's 
+
+request message buffer upon execution of a procedure call 
+by said requestor thread; 
+
+means for sending said parameters from said requestor 
+thread's request message buffer to a request message buffer 
+
+associated with said target thread; and 
+upon receipt of said parameters, means for executing said 
+
+call procedure code within said target thread without a 
+task context switch. 
+The system of claim 21, further comprising means for 
+loading a result from execution of said procedure in the 
+
+target thread's response message buffer. 
+The system of claim 22, further comprising means for 
+transferring said result from said response message buffer 
+
+associated with said target thread to said requestor 
+thread's response message buffer. 
+The system of claim 21, further comprising signal bits 
+associated with said requestor thread for said requestor 
+
+thread to track calling and processing of said procedure by 
+said target thread. 
+</CLAIMS>
+</TEXT>
+</DOC>

@@ -1,0 +1,440 @@
+<DOC>
+<DOCNO>EP-0884892</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method and apparatus for calibrating delay lines to create gray levels in continuous tone printing
+</INVENTION-TITLE>
+<CLASSIFICATIONS>B41J244	B41J244	B41J252	B41J252	H04N1387	H04N1387	H04N140	H04N140	H04N1405	H04N1405	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>B41J	B41J	B41J	B41J	H04N	H04N	H04N	H04N	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>B41J2	B41J2	B41J2	B41J2	H04N1	H04N1	H04N1	H04N1	H04N1	H04N1	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+An improved printer is provided which includes a series of analog delay
+elements that operate at a very fast speed, and therefore, can be used in an
+
+enhanced mode to further subdivide the slice clock to create a greater variety
+of gray levels that can be used in continuous tone printing. By using this
+
+enhanced mode of continuous tone printing, a full 
+on
+ slice can be
+immediately preceded or followed by a partial slice, under the control of the
+
+series of delay elements. The delay elements are automatically calibrated at
+the beginning of each page to be printed by placing the delay line chain
+
+circuit into a 
+calibrate mode
+, during which time a clock pulse is provided to
+the delay line chain so that the chain is repeatedly tested, in increments of
+
+one additional delay element at a time, to determine the number of delay
+elements that are required to cause a time delay that is greater than or equal
+
+to the period of the slice-based clock. Once that quantity is determined, the
+calibrated delay elements will be used to print the entire next page to be
+
+output from the laser printhead. As the printer desires various gray levels for
+continuous tone printing, the number of whole slices and partial slices for a
+
+particular pel or group of pels will be determined by the desired gray level,
+and when a partial slice is to be printed, the printer will select the appropriate
+
+number of delay elements that will be used to control a flip-flop that outputs
+the 
+video output
+ signal to the laser printhead. When the asynchronous
+
+reset
+ input of the flip-flop has a control signal applied, the output of the flip-flop
+will immediately change state to truncate the 
+on time
+ of the slice that
+was currently being output to the laser printhead. By use of the
+
+asynchronous reset flip-flop, the slice can be subdivided into smaller time
+intervals, completely under the control of the delay line chain without regard
+
+to the frequency or phase angle of the pel clock or the slice-based clock.
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+LEXMARK INT INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+LEXMARK INTERNATIONAL, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+OVERALL GARY SCOTT
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WADE THOMAS CAMPBEELL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+OVERALL, GARY SCOTT
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WADE, THOMAS CAMPBEELL
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates generally to enhancing the number of gray
+levels in printing equipment and is particularly directed to a printer of the type
+which uses delay elements that essentially act as a higher speed clock. The
+invention is specifically disclosed as an enhanced laser printer that provides a
+group of in-series delay stages that are capable of subdividing the slice clock
+pulse so as to create more gray levels than are otherwise available, and a
+method for calibrating the amount of time delay introduced by each delay
+stage.As print resolutions increase in electrophotographic-based printers, print
+smoothing methods may have less effect on perceived print quality. As print
+standards move closer to camera ready copy, EP printers are typically forced
+to make a crucial tradeoff between image definition and smoothness. To
+achieve a sharper more clearly defined image, each halftone cell must occupy
+only a small absolute area, corresponding to a small grid of printed pels. To
+achieve a smooth and gradual transition in gray levels, as are required for
+lifelike fleshtones, each halftone cell must contain a high number of available
+gray levels from which to choose. Additionally, for binary printing where one
+bit of information represents a black or white pel, the user must choose
+between image definition and smoothness.Multi-bit or continuous tone (contone) printing avoids the difficult tradeoff
+between definition and smoothness by providing multiple levels of control per
+printed pel. By allowing the image generation software to select multiple
+intermediate levels, the number of printable gray levels in a given region is
+greatly increased. For example, given a halftone cell comprised of a 4 x 4 
+array of pels, seventeen levels of gray {(4*4) + 1 = 17} are possible, including
+white and black. However, if each pel in this halftone cell can be further
+divided into four subdivisions, then 65 levels of gray {(4*4*4) + 1 = 65} are
+possible, and by providing more subdivisions per pel, the effective resolution
+of the printer is increased.In an effort to increase perceived print resolution, printer hardware designs
+have focused on methods to divide each printed pel into successively smaller
+pieces called slices. The increase in division of the pels has typically been
+achieved by increasing the frequency at which the slice-based clock runs,
+thereby providing more slices per pel. This method is achievable for standard
+ASIC silicon processes for 300 dpi printing and 600 dpi printing on slow to
+medium
+</DESCRIPTION>
+<CLAIMS>
+In a computer system having a memory circuit for storing image data, a
+system clock for synchronizing the communicating of the image data to
+
+an image output device, and a delay line circuit for creating logic state
+transitions at intervals other than according to the system clock, a
+
+method of calibrating a delay line circuit, said method comprising the
+steps of:
+
+
+(a) initially sending an electrical signal into at least one of a plurality
+of in-series delay line elements, each of said delay line elements
+
+having an output that is communicated to a selecting circuit;
+(b) providing a system clock signal to said selecting circuit;
+(c) upon reaching the end of one entire period of said system clock
+signal, determining how many of said plurality of in-series delay
+
+line elements has undergone a logic transition, and creating a
+"contone variable" having a numeric value equal to {number of
+
+delay line elements per system clock cycle}; and
+(d) using said contone variable to create at least one "density signal"
+having a logic state transition that occurs at times other than at a
+
+transition of said system clock.
+The method as recited in claim 1, wherein said selecting circuit creates
+at least one Truncate Select signal that is directed to a multi-input
+
+multiplexer that receives said output from each of said delay line
+elements, and an output from said multi-input multiplexer is directed to
+
+an asynchronously resetable flip-flop that outputs a serialized signal
+that is communicated to said image output device.
+The method as recited in claim 2, wherein the step of determining how
+many in-series delay line elements has undergone a logic transition
+
+comprises a Calibrate Mode, and said Truncate Select signal
+comprises a Calibrate Truncate Select signal that selects which one of
+
+the inputs of said multi-input multiplexer is connected to the output of
+said multi-input multiplexer during a calibration procedure, said
+
+Calibrate Truncate Select signal initially selecting a first of said inputs,
+then incrementing through all of said inputs until said contone variable
+
+is determined for this particular calibration procedure.
+The method as recited in claim 3, further comprising a normal Output
+Mode that follows said Calibrate Mode, wherein said Truncate Select
+
+signal comprises an Output Truncation Select signal that selects which
+one of the inputs of said multi-input multiplexer is connected to the
+
+output of said multi-input multiplexer during said Output Mode, and
+said density signal corresponds to the selected one of the inputs of
+
+said multi-input multiplexer.
+The method as recited in claim 1, wherein said selecting circuit creates
+at least one Stage Select signal that is directed to a plurality of delay
+
+stages, each delay stage comprising one of said delay line elements
+and a dual-input multiplexer, each succeeding delay stage having an
+
+input to its delay line element communicated from an output of the
+preceding stage's dual-input multiplexer, each of said dual-input
+
+multiplexers having a Select input that is in communication with said at
+least one Stage Select signal, and wherein the final of said plurality of
+
+delay stages directs an output from its dual-input multiplexer to an
+asynchronously resetable flip-flop that outputs a serialized signal that is
+
+communicated to said image output device.
+The method as recited in claim 5, wherein the step of determining how
+many in-series delay line elements has undergone a logic transition
+
+comprises a Calibrate Mode, and said Stage Select signal comprises a
+plurality of command signal paths that determine which of said dual-input
+
+multiplexers have delayed inputs or non-delayed inputs switched
+to their outputs; and during a calibration procedure, said Stage Select
+
+signal initially selecting a first of said delayed and non-delayed inputs,
+then incrementing through all of said delayed and non-delayed inputs
+
+until said contone variable is determined for this particular calibration
+procedure.
+The method as recited in claim 6, further comprising a normal Output
+Mode that follows said Calibrate Mode, wherein said Stage Select signal
+
+determines which of said dual-input multiplexers have delayed inputs or
+non-delayed inputs switched to their outputs during said Output Mode,
+
+and said density signal corresponds to the selected of said delayed and
+non-delayed inputs.
+In a printing system having a memory circuit for storing image data, a
+system clock for synchronizing the communicating of the image data to
+
+a print engine, and a delay line circuit for creating logic state transitions
+at intervals other than according to the system clock, a method of
+
+creating continuous tones of image data by the print engine, said
+method comprising the steps of:
+
+
+(a) periodically calibrating a delay line circuit, by:
+
+(i) initially sending an electrical signal into at least one of a
+plurality of in-series delay 
+line elements, each of said delay
+line elements having an output that is communicated to a
+
+selecting circuit;
+(ii) providing a system clock signal to said selecting circuit;
+(iii) upon reaching the end of one entire period of said system
+clock signal, determining how many of said plurality of in-series
+
+delay line elements has undergone a logic transition,
+and creating a "contone variable" having a numeric value
+
+equal to {number of delay line elements per system clock
+cycle}; and
+(iv) using said contone variable to create at least one "density
+signal" having a logic state transition that occurs at times
+
+other than at a transition of said system clock;
+(b) retrieving at least one pel of image data from said memory circuit
+and determining its desired continuous tone value;
+(c) comparing said pel's desired continuous tone value to said
+contone variable's present value and choosing the appropriate
+
+"density signal" that most nearly approximates said pel's desired
+continuous tone value; and
+(d) communicating said appropriate density signal to said print
+engine so as to output a physical dot that approximates the pel's
+
+desired continuous tone value.
+The method as recited in claim 8, wherein said selecting circuit creates
+at least one Truncate Select signal that is directed to a multi-input
+
+multiplexer that receives said output from each of said delay line
+elements, and an output from said multi-input multiplexer is directed to
+
+an asynchronously resetable flip-flop that outputs a serialized signal that
+is communicated to said print engine.
+The method as recited in claim 9, wherein the step of determining how
+many in-series delay line elements has undergone a logic transition
+
+comprises a Calibrate Mode, and said Truncate Select signal comprises
+a Calibrate Truncate Select signal that selects which one of the inputs of
+
+said multi-input multiplexer is connected to the output of said multi-input
+multiplexer during a calibration procedure, said Calibrate Truncate
+
+Select signal initially selecting a first of said inputs, then incrementing
+through all of said inputs until said contone variable is determined for
+
+this particular calibration procedure.
+The method as recited in claim 10, further comprising a normal Print
+Mode that follows said Calibrate Mode, wherein said Truncate Select
+
+signal comprises a Print Truncation Select signal that selects which one
+of the inputs of said multi-input multiplexer is connected to the output of
+
+said multi-input multiplexer during said Print Mode, and said density
+signal corresponds to the selected one of the inputs of said multi-input
+
+multiplexer.
+The method as recited in claim 8, wherein said selecting circuit creates
+at least one Stage Select signal that is directed to a plurality of delay
+
+stages, each delay stage comprising one of said delay line elements
+and a dual-input multiplexer, each succeeding delay stage having an
+
+input to its delay line element communicated from an output of the
+preceding stage's dual-input multiplexer, each of said dual-input
+
+multiplexers having a Select input that is in communication with said at
+least one Stage Select signal, and wherein the final of said plurality of
+
+delay stages directs an output from its dual-input multiplexer to an
+asynchronously resetable flip-flop that outputs a serialized signal that is
+
+communicated to said print engine.
+The method as recited in claim 12, wherein the step of determining how
+many in-series delay line elements has undergone a logic transition
+
+comprises a Calibrate Mode, and said Stage Select signal comprises a
+plurality of command signal paths that determine which of said dual-input
+
+multiplexers have delayed inputs or non-delayed inputs switched
+to their outputs; and during a calibration procedure, said Stage Select
+
+signal initially selecting a first of said delayed and non-delayed inputs,
+then incrementing through all of said delayed and non-delayed inputs
+
+until said contone variable is determined for this particular calibration
+procedure.
+The method as recited in claim 13, further comprising a normal Print
+Mode that follows said Calibrate Mode, wherein said Stage Select signal
+
+determines which of said dual-input multiplexers have delayed inputs or
+non-delayed inputs switched to their outputs during said Print Mode,
+
+and said density signal corresponds to the selected of said delayed and
+non-delayed inputs.
+The method as recited in claim 8, wherein said system clock is a slice
+clock that subdivides a pel clock, and a logic state transition of said
+
+density signal occurs between logic state transitions of said slice clock.
+A laser printer having a processing circuit, a memory circuit for storing
+image data, and a print engine, said laser printer comprising:
+
+
+(a) a print engine that includes a plurality of in-series delay line
+elements, each of said delay line elements being in
+
+communication with a selecting circuit;
+(b) a system clock used in synchronizing the communicating of
+image data to said print engine, said system clock being
+
+communicated to said selecting circuit;
+(c) a processing circuit that is configured to calibrate said delay line
+elements by determining how many of said plurality of in-series
+
+delay line elements has undergone a logic transition upon
+reaching the end of one entire period of said system clock signal,
+
+and creating a "contone variable" having a numeric value equal to
+{number of delay line elements per system clock cycle}; and
+(d) said processing circuit being further configured to create at least
+one "density signal" by using said contone variable, said density
+
+signal having a logic state transition that occurs at times other
+than at a transition of said system clock.
+The laser printer as recited in claim 16, wherein said processing circuit
+is yet further configured to retrieve at least one pel of image data from
+
+said memory circuit and determining its desired continuous tone value
+compare said pel's desired continuous tone value to said contone
+
+variable's present value and choose the appropriate "density signal" that
+most nearly approximates said pel's desired continuous tone value; and
+
+communicate said appropriate density signal to said print engine so as
+to output a physical dot that approximates the pel's desired continuous
+
+tone value.
+The laser printer as recited in claim 16, wherein said selecting circuit
+creates at least one Truncate Select signal that is directed to a multi-input
+
+multiplexer that receives said output from each of said delay line
+elements, and an output from said multi-input multiplexer is directed to
+
+an asynchronously resetable flip-flop that outputs a serialized signal that
+is communicated to said print engine.
+The laser printer as recited in claim 18, wherein said calibration of the
+delay line elements comprises a Calibrate Mode, and said Truncate
+
+Select signal comprises a Calibrate Truncate Select signal that selects
+which one of the inputs of said multi-input multiplexer is connected to
+
+the output of said multi-input multiplexer during a calibration procedure,
+said Calibrate Truncate Select signal initially selecting a first of said
+
+inputs, then incrementing through all of said inputs until said contone
+variable is determined for this particular calibration procedure.
+The laser printer as recited in claim 19, wherein a normal Print Mode
+
+follows said Calibrate Mode, and said Truncate Select signal comprises
+a Print Truncation Select signal that selects which one of the inputs of
+
+said multi-input multiplexer is connected to the output of said multi-input
+multiplexer during said Print Mode, and said density signal corresponds
+
+to the selected one of the inputs of said multi-input multiplexer.
+The laser printer as recited in claim 16, wherein said selecting circuit
+creates at least one Stage Select signal that is directed to a plurality of
+
+delay stages, each delay stage comprising one of said delay line
+elements and a dual-input multiplexer, each succeeding delay stage
+
+having an input to its delay line element communicated from an output
+of the preceding stage's dual-input multiplexer, each of said dual-input
+
+multiplexers having a Select input that is in communication with said at
+least one Stage Select signal, and wherein the final of said plurality of
+
+delay stages directs an output from its dual-input multiplexer to an
+asynchronously resetable flip-flop that outputs a serialized signal that is
+
+communicated to said print engine.
+The laser printer as recited in claim 21, wherein said calibration of the
+delay line elements comprises a Calibrate Mode, and said Stage Select
+
+signal comprises a plurality of command signal paths that determine
+which of said dual-input multiplexers have delayed inputs or non-delayed
+
+inputs switched to their outputs; and during a calibration
+procedure, said Stage Select signal initially selecting a first of said
+
+delayed and non-delayed inputs, then incrementing through all of said
+delayed and non-delayed inputs until said contone variable is
+
+determined for this particular calibration procedure.
+The laser printer as recited in claim 22, further comprising a normal Print
+Mode that follows said Calibrate Mode, wherein said Stage Select signal
+
+determines which of said dual-input multiplexers have delayed inputs or
+non-delayed inputs switched to their outputs during said Print Mode,
+
+and said density signal corresponds to the selected of said delayed and
+non-delayed inputs.
+The laser printer as recited in claim 16, wherein said system clock is a
+slice clock that subdivides a pel clock, and a logic state transition of
+
+said density signal occurs between logic state transitions of said slice
+clock.
+The laser printer as recited in claim 16, wherein said delay line elements
+are all contained within an ASIC as part of said print engine.
+</CLAIMS>
+</TEXT>
+</DOC>

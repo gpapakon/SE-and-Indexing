@@ -1,0 +1,407 @@
+<DOC>
+<DOCNO>EP-0622899</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Data converter with minimum phase fir filter and method for calculating filter coefficients.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H03H1700	H03H1700	H03H1706	H03H1706	H03H2100	H03H2100	H04B323	H04B323	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H03H	H03H	H03H	H03H	H03H	H03H	H04B	H04B	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H03H17	H03H17	H03H17	H03H17	H03H21	H03H21	H04B3	H04B3	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A data converter employs at least one minimum phase FIR filter 
+(132,160,230,240 or 252), and includes an analog-to-digital converter (220) for 
+
+converting an incoming analog signal into a plurality of digital signal samples, 
+followed by a minimum phase FIR filter to filter the digital signal samples. 
+
+Alternatively, the data converter includes a digital-to-analog converter (170) 
+preceded by a minimum phase FIR filter to filter a plurality of digital signal samples 
+
+that are converted into an analog signal by the digital-to-analog converter. The data 
+converter may include both an analog-to-digital converter (220) and a digital-to-analog 
+
+converter (170). In a preferred embodiment, the minimum phase FIR filter 
+(132,160,230,240 or 252) is an optimum minimum phase FIR filter. A method for 
+
+precisely calculating the filter coefficients of an optimum minimum phase FIR filter 
+is also disclosed. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+AT 
+&
+ T CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+AT
+&
+T CORP.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+NORSWORTHY STEVEN ROBERT
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SHAW DAVID GOODWIN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NORSWORTHY, STEVEN ROBERT
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SHAW, DAVID GOODWIN
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates generally to echo canceling and particularly to 
+minimum phase finite impulse response (FIR) filters for attenuating the echo signal 
+in communications circuits and a method for calculating tap weights of a minimum 
+phase FIR filter. The phenomena of signal echo occurs when a signal passes through an 
+interface from a first transmission medium to a second transmission medium. An 
+impedance mismatch across the interface will cause a portion of the energy of the 
+signal to be reflected back toward the source of the signal as an echo signal. The 
+remaining portion of the energy of the signal propagates along the second medium. In communication applications, it is desirable to eliminate the echo 
+signal, for example, to improve the quality of audio signals or prevent the occurrence 
+of errors in data transmission. Basic echo cancellation techniques are explained in: 
+the Bell System Technical Journal, Vol. 59, No. 2, February 1980, pp. 149-159. One 
+echo elimination technique discussed in the above journal is to detect when a signal 
+is being transmitted in one direction and to attenuate all signals passing in the other 
+direction. Errors in detecting the presence or absence of a signal can cause signal 
+clipping when this echo elimination technique is used. Another technique utilizes 
+subtractive attenuation. To eliminate the echo, the echo is replicated, such as being 
+synthesized by an adaptive filter, then subtracted from the signal. Subtractive 
+attenuation is more signal transparent and reduces signal clipping effects. Another form of subtractive attenuation is achieved with an echo 
+canceler having fixed coefficients designed to approximate the impulse response of 
+the echo path. Since the impulse response of the echo path is not known, this 
+technique results in imperfect echo canceling. More precise echo canceling is 
+achieved when the echo canceler is adaptive. In an adaptive echo canceler, the tap 
+weights of the echo canceler filter are changed over time to replicate the impulse 
+response of the unknown echo path. If a FIR filter structure is employed in an echo path, the filter would 
+ideally require an infinite number of tap weights since the unknown echo path 
+generally has an impulse response of infinite duration. An adaptive infinite impulse 
+response filter having only a few tap weights could be used to achieve the necessary 
+echo cancellation. Adaptive infinite impulse response filters, however, may become  
+ 
+unstable. As a compromise, an adaptive FIR filter,
+</DESCRIPTION>
+<CLAIMS>
+A data converter for converting a signal from one form to another, 
+comprising: 
+
+   a converter (110, 300, 302, 100', 300', 302') for converting an incoming 
+signal from a signal having a first form as it is received to a signal having a second 
+
+form; and 
+   at least one minimum phase finite impulse response filter (132, 160, 230, 
+
+240 or 252) for filtering the signal in one of said first and second forms. 
+A data converter as recited in claim 1, for converting an analog signal 
+into a plurality of digital signal samples, wherein the data converter is an analog-to-digital 
+
+converter (110, 302) for converting an incoming analog signal into a plurality 
+of digital signal samples, and the at least one minimum phase finite impulse response 
+
+filter (230, 240 or 250) is for receiving and filtering the plurality of digital signal 
+samples produced by the analog-to-digital converter. 
+A data converter as recited in claim 2, wherein the minimum phase 
+finite impulse response filter is a digital low pass filter (230) for lowering the 
+
+sampling rate of the digital signal samples. 
+A data converter as recited in claim 2, wherein the minimum phase 
+finite impulse response filter is a high-pass filter (240) for filtering DC and power 
+
+supply noise from the digital signal samples. 
+A data converter as recited in claim 2, wherein the minimum phase 
+finite impulse response filter is a receiver filter (250) for filtering out-of band energy 
+
+from the digital signal samples. 
+A data converter as recited in claim 2, 
+wherein the oversampling digital-to-analog converter 
+
+is a noise shaping coder, the noise shaping coder 
+further comprising a noise shaping filter (221 or 171) 
+
+that is a minimum phase finite impulse response filter. 
+A data converter as recited in claim 1, for converting a plurality of 
+digital signal samples to an analog signal, wherein the data converter is a digital-to-analog 
+
+converter (170) for converting a plurality of digital signal samples into an 
+analog signal and the at least one minimum phase finite impulse response filter (132 
+
+or 160) is for filtering the plurality of digital signal samples provided to the digital-to-analog 
+
+converter. 
+A data converter as recited in claim 7,wherein the at least one 
+minimum phase finite impulse response filter is a digital low pass filter (160) that 
+
+increases the sample rate of the digital signal samples. 
+A data converter as recited in claim 7,wherein the at least one 
+minimum phase finite impulse response filter is a transmitter filter (132) for filtering 
+
+out-of-band energy from the digital signal samples. 
+A coder-decoder for sending and receiving signals comprising: 
+   an analog-to-digital converter (220 or 220') for converting an incoming 
+
+analog signal into a plurality of first digital signal samples;
+ 
+
+   a digital antialiasing filter for receiving the plurality of first digital signal 
+samples; 
+
+   a decimator for reducing the number of said first digital signal samples 
+provided from said digital antialiasing filter to provide a digital output signal having 
+
+a predetermined signal rate less than the rate of said first digital signal samples; 
+   a digital low pass reconstruction filter for receiving a plurality of second 
+
+digital signal samples and for filtering images of a base band from said second 
+digital signal samples; 
+
+   an interpolator for increasing the number of said second digital signal 
+samples provided from said digital low pass reconstruction filter to provide a digital 
+
+output signal having a predetermined signal rate greater than the rate of said second 
+digital signal samples; and 
+
+   an oversampling digital-to-analog converter (170')for converting the 
+digital output signal received from the interpolator into an analog signal for sending, 
+
+wherein at least one of said filters is a minimum phase finite impulse response filter. 
+A data converter as recited in claim 7, 
+   or a coder-decoder as recited in claim 10,wherein the oversampling 
+
+digital-to-analog converter (170') is a noise shaping coder, the noise shaping coder 
+further comprising a minimum phase finite impulse response noise shaping filter. 
+A coder-decoder for sending and receiving signals comprising: 
+   an oversampling analog-to-digital converter (220') for converting an 
+
+incoming analog signal into a plurality of first digital signal samples; 
+   a digital antialiasing filter (361) for receiving the plurality of first digital 
+
+signal samples; 
+   a decimator (362 or 364) for reducing the number of said first digital 
+
+signal samples provided from said digital antialiasing filter (361) to provide a digital 
+output signal having a predetermined signal rate less than the rate of said first digital 
+
+signal samples; 
+   a digital low pass reconstruction filter (341) for receiving a plurality of 
+
+second digital signal samples and for filtering images of the base band from said 
+second digital signal samples;
+
+ 
+   an interpolator (342 or 344) for increasing the number of said second 
+
+digital signal samples provided from said digital low pass reconstruction filter (341) 
+to provide a digital output signal having a predetermined signal rate greater than the 
+
+rate of said second digital signal samples; and 
+   a digital-to-analog converter (170') for converting the digital output 
+
+signal received from the interpolator (342 or 344) into an analog signal for sending, 
+wherein at least one of said filters is a minimum phase finite impulse response filter. 
+A coder-decoder as recited in claim 10 or 12, wherein said 
+coder-decoder is employed as a front-end circuit for a 
+
+modem (110,110'). 
+A coder-decoder for sending and receiving signals comprising: 
+   an oversampling analog-to-digital converter (220') for converting an 
+
+incoming analog signal into a plurality of first digital signal samples and for shifting 
+quantization noise out of the baseband of said incoming signal; 
+
+   a digital antialiasing filter (361) for receiving the plurality of first digital 
+signal samples and for filtering said quantization noise from said first digital signal 
+
+samples; 
+   a decimator (362 or 364) for reducing the number of said first digital 
+
+signal samples provided from said digital antialiasing filter (361) to provide a digital 
+output signal having a predetermined signal rate less than the rate of said first digital 
+
+signal samples; 
+   a digital low pass reconstruction filter (341) for receiving a plurality of 
+
+second digital signal samples and for filtering images of the base band from said 
+second digital signal samples; 
+
+   an interpolator (342 or 344) for increasing the number of said second 
+digital signal samples provided from said digital low pass reconstruction filter (341) 
+
+to provide a digital output signal having a predetermined signal rate greater than the 
+rate of said second digital signal samples; 
+
+   an oversampling digital-to-analog converter (170') for converting the 
+digital output signal received from the interpolator (342 or 344) into an analog signal 
+
+for sending; and 
+   a digital high pass filter (240) for receiving the plurality of first digital 
+
+signal samples from the digital antialiasing filter (361) and for filtering low 
+frequency noise from the first digital signal samples, wherein at least one of said 
+
+filters is a minimum phase finite impulse response filter. 
+A modem for sending and receiving signals comprising: 
+   an oversampling analog-to-digital converter (220') for converting an 
+
+incoming analog signal into a plurality of first digital signal samples and for shifting 
+quantization noise out of the baseband of said incoming signal; 
+
+   a digital antialiasing filter (361) for receiving the plurality of first digital 
+signal samples and for filtering said quantization noise from said first digital signal 
+
+samples; 
+   a decimator (362 or 364) for reducing the number of said first digital 
+
+signal samples provided from said digital antialiasing filter to provide a digital 
+output signal having a predetermined signal rate less than the rate of said first digital 
+
+signal samples; 
+   a digital low pass reconstruction filter (341) for receiving a plurality of 
+
+second digital signal samples and for filtering images of the base band from said 
+second digital signal samples; 
+
+   an interpolator (342 or 344) for increasing the number of said second 
+digital signal samples provided from said digital low pass reconstruction filter (341) 
+
+to provide a digital output signal having a predetermined signal rate greater than the 
+rate of said second digital signal samples; 
+
+   an oversampling digital-to-analog converter (170') for converting the 
+digital output signal received from the interpolator into an analog signal for sending; 
+
+   a digital high pass filter (240) for receiving the plurality of first digital 
+signal samples from the digital antialiasing filter (361) and for filtering low 
+
+frequency noise from the first digital signal samples; and 
+   a transmitter (130) for modulating received data into said plurality of 
+
+second digital samples the transmitter, including a transmitter filter (132) to filter the 
+plurality of second digital samples, wherein at least one of said filters is a minimum 
+
+phase finite impulse response filter. 
+A modem for sending and receiving signals 
+comprising:
+
+ 
+   an oversampling analog-to-digital converter (220') for converting an 
+
+incoming analog signal into a plurality of first digital signal samples and for shifting 
+quantization noise out of the baseband of said incoming signal; 
+
+   a digital antialiasing filter (361) for receiving the plurality of first digital 
+signal samples and for filtering said quantization noise from said first digit
+al signal 
+samples; 
+
+   a decimator (362 or 364) for reducing the number of said first digital 
+signal samples provided from said digital antialiasing filter (361) to provide a digital 
+
+output signal having a predetermined signal rate less than the rate of said first digital 
+signal samples; 
+
+   a digital low pass reconstruction filter (341) for receiving a plurality of 
+second digital signal samples and for filtering images of the base band from said 
+
+second digital signal samples; 
+   an interpolator (342 or 344) for increasing the number of said second 
+
+digital signal samples provided from said digital low pass reconstruction filter (341) 
+to provide a digital output signal having a predetermined signal rate greater than the 
+
+rate of said second digital signal samples; 
+   an oversampling digital-to-analog converter (170') for converting the 
+
+digital output signal received from the interpolator into an analog signal for sending; 
+   a digital high pass filter (240) for receiving the plurality of first digital 
+
+signal samples from the digital antialiasing filter (361) and for filtering low 
+frequency noise from the first digital signal samples; and 
+
+   a receiver (250) for receiving the first digital signal samples filtered by 
+the digital high-pass filter, the receiver including a receiver filter (252) to filter the 
+
+received first digital signal samples, wherein at least one of said filters is a minimum 
+phase finite impulse response filter. 
+A modem for sending and receiving signals 
+comprising: 
+
+   an oversampling analog-to-digital converter 
+(220') for converting an incoming analog signal into a 
+
+plurality of first digital signal samples and for shifting 
+quantization noise out of the baseband of said incoming 
+
+signal;
+ 
+
+   a digital antialiasing filter (361) for receiving the plurality of first digital 
+signal samples and for filtering said quantization noise from said first digital signal 
+
+samples; 
+   a decimator (362 or 364) for reducing the number of said first digital 
+
+signal samples provided from said digital antialiasing filter (361) to provide a digital 
+output signal having a predetermined signal rate less than the rate of said first digital 
+
+signal samples; 
+   a digital low pass reconstruction filter (341) for receiving a plurality of 
+
+second digital signal samples and for filtering images of the base band from said 
+second digital signal samples; 
+
+   an interpolator (342 or 344) for increasing the number of said second 
+digital signal samples provided from said digital low pass reconstruction filter (341) 
+
+to provide a digital output signal having a predetermined signal rate greater than the 
+rate of said second digital signal samples; 
+
+   an oversampling digital-to-analog converter (170') for converting the 
+digital output signal received from the interpolator (342 or 344) into an analog signal 
+
+for sending; and 
+   a digital high pass filter (240) for receiving the plurality of first digital 
+
+signal samples from the digital antialiasing filter (361) and for filtering low 
+frequency noise from the first digital signal samples; 
+
+   a transmitter (130) for modulating received data into said plurality of 
+second digital samples the transmitter, including a transmitter filter (132) to filter the 
+
+plurality of second digital samples; 
+   a receiver (250) for receiving the first digital signal samples filtered by 
+
+the digital high pass filter, the receiver including a receiver filter (252) to filter the 
+received first digital signal samples, wherein at least one of said filters is a minimum 
+
+phase finite impulse response filter; and 
+   an echo canceler (140), the echo canceler for receiving the filtered 
+
+plurality of second digital samples provided by the transmitter, and for receiving the 
+first digital signal samples also received by the receiver, said echo canceler for 
+
+canceling from the first digital signal samples the type of energy sent by the 
+transmitter whereby echo is canceled from the plurality of first digital signal 
+
+samples, the echo canceler providing as an output to a summing junction the 
+plurality of first digital signal samples from which the echo was canceled, the 
+
+summing junction adding said plurality of first digital signal samples to the plurality 
+of first digital signal samples received from the digital high pass filter and providing 
+
+ 
+the summed plurality of first digital signal samples to the receiver. 
+A data converter as recited in claim 2,6,7 or 11, or a coder-decoder as 
+recited in claim 14, or a modem as recited in claim 15,16 or 17, wherein the 
+
+minimum phase finite impulse response filter is an optimum minimum phase finite 
+impulse response filter. 
+A modem as recited in claim 17, wherein the echo canceler is 
+adaptive. 
+</CLAIMS>
+</TEXT>
+</DOC>

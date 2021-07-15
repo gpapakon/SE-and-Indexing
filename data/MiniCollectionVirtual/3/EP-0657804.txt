@@ -1,0 +1,276 @@
+<DOC>
+<DOCNO>EP-0657804</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Overflow control for arithmetic operations
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F748	G06F738	G06F757	G06F9302	G06F7505	G06F9302	G06F738	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F7	G06F7	G06F7	G06F9	G06F7	G06F9	G06F7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A computer system provides handling of positive and negative 
+overflow. 
+
+A first arithmetic operation is performed on a first n-bit unsigned 
+binary 
+
+operand and a second n-bit signed binary operand to produce an 
+n-bit unsigned 
+
+binary result. Overflow detection logic circuitry (300,310,320,330) 
+within the 
+
+arithmetic logic unit (26) detects positive overflow or negative 
+overflow 
+
+resulting from the arithmetic operation. When there is a positive 
+overflow, 
+
+saturation logic (340,341,350,351) replaces the output of the 
+two's complement 
+
+adder (60,61,65,66,69) with a value of 2
+n
+-1. When 
+there is a negative 
+
+overflow, the saturation logic (340,341,350,351) replaces the 
+output of the 
+
+two's complement adder (60,61,65,66,69) with a value of 0. In 
+the same 
+
+embodiment, a second arithmetic operation is performed on two 
+n-bit signed binary operands to produce an n-bit 
+
+signed binary result. The arithmetic operation 
+is for example an 
+
+addition or subtraction performed by a two's complement adder 
+(60,61,65,66,69). Overflow detection logic circuitry 
+
+(300,310,320,330) within the arithmetic 
+logic unit (26) detects positive overflow or 
+
+negative overflow resulting from the arithmetic operation. When 
+there is a 
+
+positive overflow, saturation logic (340,341,350,351) replaces 
+the output of the 
+
+two's complement adder (60,61,65,66,69) with a value of 2
+n-1
+-1. 
+When there 
+
+is a negative overflow, the saturation logic (340,341,350,351) replaces the 
+output of the two's complement adder (60,61,65,66,69) with a value of 
+
+-2
+n-1
+. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+HEWLETT PACKARD CO
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+HEWLETT-PACKARD COMPANY
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+LAMB JOEL DAVID
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LEE RUBY BEI-LOH
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LAMB, JOEL DAVID
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LEE, RUBY BEI-LOH
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention concerns a hardware implementation which
+handles positive and negative overflow resulting from arithmetic operations.When performing arithmetic operations in a computing system positive
+overflow or negative overflow can occur. For example, when two n-bit
+integers are added by an arithmetic logic unit (ALU), n+1 bits of result are
+produced: an n-bit sum and a 1 bit carry-out. For operations using unsigned
+addition, when the carry-out is zero, then the sum gives the entire result.
+However, if the carry-out is 1, then "overflow" has occurred because
+representation of the result requires n+1 bits rather than n bits. For signed
+numbers, if the two operands have the same sign and the result has a different
+sign, then overflow has occurred. In the prior art, overflow has typically been
+handled by a trap to a software exception handler.When overflow is rare, but must be detected, using a software trap
+handler is an acceptable practice. However when frequent overflows occur,
+the use of software traps to handle overflow can have a detrimental effect on
+system performance. In this case, rather than using a software trap, additional
+in-line software instructions may be added to the code after each arithmetic
+instruction. The additional software instructions check for overflow and, when
+present, adjusts the result or re-executes the code with more bits of precision.In applications where overflow never occurs, then software trapping can
+be disabled and there is no requirement for in-line software checking for
+overflows. However, when positive and/or negative overflows are fairly
+frequent it is desirable to have a method of handling these overflows in an
+efficient manner without using software traps or additional in-line code.The publication WO-A-89/05010 discloses an ALU comprising two n-bit adders
+operating either in a conventional two's complement 2n bit adder with overflow
+detection based on a logical combination of the sign bits of the input values and
+the sign bit of the operation result, or in a dual-add-with saturation mode wherein
+each 2n bit input value is treated as two n-bit input values and wherein an addition
+is performed on a first n-bit unsigned binary operand and a second n-bit signed
+binary operand to produce an n-bit unsigned binary result. The ALU comprises a
+positive overflow means, coupled to the adders, for assigning a value of 2n -1 to
+the n-bit unsigned binary result when there is a positive overflow; and, a negative
+overflow means, coupled to the arithmetic operation
+</DESCRIPTION>
+<CLAIMS>
+A computing system comprising:
+
+first arithmetic operation means (26,27,28) for performing a first
+arithmetic operation on a first n-bit unsigned binary operand and a second n-bit
+
+signed binary operand to produce an n-bit unsigned binary result;
+first positive overflow means (201,202,211-221), coupled to the first
+arithmetic operation means (26,27,28), for assigning a value of 2
+n
+ -1 to the n-bit
+unsigned binary result when there is a positive overflow;
+first negative overflow means (201,202,211-221), coupled to the first
+arithmetic operation means (26,27,28), for assigning a value of 0 to the n-bit
+
+unsigned binary result when there is a negative overflow;
+second arithmetic operation means (26,27,28) for performing a second
+arithmetic operation on two n-bit signed binary operands to produce an n-bit
+
+signed binary result;
+second positive overflow means (201,202,211-221), coupled to the
+second arithmetic operation means (26,27,28), for assigning a value of 2
+n-1
+ -1
+to the n-bit signed binary result when there is a positive overflow resulting
+
+from the second arithmetic operation; and
+second negative overflow means (201,202,211-221), coupled to the
+second arithmetic operation means (26,27,28), for assigning a value of -2
+n-1
+ to
+the n-bit signed binary result when there is a negative overflow resulting from
+
+the second arithmetic operation.
+A computing system as in claim 1, wherein:
+
+the first positive overflow means (201,202,211-221) includes means for 
+assigning a value of 2
+n
+ -1 to the n-bit unsigned binary result when a most
+significant bit of the first n-bit unsigned binary operand is equal to 1, a most
+
+significant bit of the second n-bit signed binary operand is equal to 0 and a
+most significant bit of the n-bit unsigned binary result is equal to 0; and,
+the first negative overflow means (201,202,211-221) includes means for
+assigning a value of 0 to the n-bit unsigned binary result when the most
+
+significant bit of the first n-bit unsigned binary operand is equal to 0, the most
+
+significant bit of the second n-bit signed binary operand is equal to 1 and the
+most significant bit of the n-bit unsigned binary result is equal to 1.
+A computing system as in claim 1 or 2, wherein the computing
+system is operative to implement multiple operations in response to a single
+
+instruction so that the second arithmetic operation is one of a plurality of
+parallel operations performed simultaneously in an arithmetic logic unit.
+A computing system as in any preceding claim, wherein:
+
+the second positive overflow means (201,202,211-221) includes means
+for assigning a value of 2
+n-1
+ -1 to the n-bit signed binary result when most
+significant bits for both of the two n-bit signed binary operands are equal to 0,
+
+and a most significant bit of the n-bit signed binary result is equal to 1; and
+the second negative overflow means (201,202,211-221) includes means
+for assigning a value of -2
+n-1
+ to the n-bit signed binary result when the most
+significant bits for both of the two n-bit signed binary operands are equal to 1,
+
+and the most significant bit of the n-bit signed binary result is equal to 0.
+A method of determining overflow in an arithmetic logic unit of a
+computer comprising the steps of:
+
+
+(a) performing, within an arithmetic logic unit (26), a first arithmetic
+operation on a first n-bit unsigned binary operand and a second n-bit signed
+
+binary operand to produce an n-bit unsigned binary result;
+(b) determining whether there is a positive overflow in the n-bit unsigned
+binary result;
+(c) when step (b) determines there is a positive overflow, assigning a
+value of 2
+n
+ -1 to the n-bit unsigned binary result;
+(d) determining whether there is a negative overflow in the n-bit
+unsigned binary result;
+(e) when step (d) determines there is a negative overflow, assigning a
+value of 0 to the n-bit unsigned binary result;
+(f) performing, within the anthmetic logic unit (26), a second arithmetic
+operation on two n-bit signed binary operands to produce an n-bit signed
+
+binary result;
+(g) determining whether there is a positive overflow in the n-bit signed
+binary result;
+(h) when step (g) determines there is a positive overflow, assigning a
+value of 2
+n-1
+ -1 to the n-bit signed binary result;
+(i) determining whether there is a negative overflow in the n-bit signed
+binary result; and
+(j) when step (i) determines there is a negative overflow, assigning a
+value of -2
+n-1
+ to the n-bit signed binary result.
+A method as in claim 5, wherein: 
+
+step (b) includes determining there is a positive overflow when a most
+significant bit of the first n-bit unsigned binary operand is equal to 1, a most
+
+significant bit of the second n-bit signed binary operand is equal to 0 and a
+most significant bit of the n-bit unsigned binary result is equal to 0; and
+step (d) includes determining there is a negative overflow when the most
+significant bit of the first n-bit unsigned binary operand is equal to 0, the most
+
+significant bit of the second n-bit signed binary operand is equal to 1 and the
+most significant bit of the n-bit unsigned binary result is equal to 1.
+A method as in claim 5 or 6, comprising the step of:
+
+   (k) in parallel to step (f) performing an additional arithmetic operation so
+that the second arithmetic operation is one of a plurality of parallel operations
+
+performed simultaneously in an arithmetic logic unit (26).
+A method as in claim 5, 6 or 7, wherein:
+
+step (g) includes determining there is a positive overflow when most
+significant bits for both of the two n-bit signed binary operands are equal to 0,
+
+and a most significant bit of the n-bit signed binary result is equal to 1; and
+step (i) includes determining there is a negative overflow when the most
+significant bits for both of the two n-bit signed binary operands are equal to 1,
+
+and the most significant bit of the n-bit signed binary result is equal to 0.
+A method as in claim 5, 6, 7 or 8, comprising the steps of:
+
+(l) performing, within the arithmetic logic unit (26), a subtraction
+operation on two n-bit unsigned operands to produce an (n+1)-bit signed
+
+binary intermediate result; 
+(m) determining whether the (n+1)-bit signed binary intermediate result
+is negative; and
+(n) when step (m) determines the (n+1)-bit signed binary intermediate
+result is negative, performing a complement operation on the (n+1)-bit signed
+
+binary intermediate result to produce an n-bit unsigned binary final result.
+</CLAIMS>
+</TEXT>
+</DOC>

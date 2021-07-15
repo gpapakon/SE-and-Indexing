@@ -1,0 +1,305 @@
+<DOC>
+<DOCNO>EP-0650116</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Counterflow pipeline processor
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F938	G06F938	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A general purpose computer capable of executing instructions of the type 
+commonly found in multiple-address register-oriented instruction sets such as the 
+
+SPARC instruction set is built from a counterflow pipeline. Communication in the 
+pipeline flows both ways between adjacent stages and different stages in the pipeline 
+
+are able to perform different instructions. Instructions flow through the pipeline in one 
+direction, ("up") and the answers computed by previous instructions, called "results," 
+
+flow in the other direction, ("down"). Comparison circuits in each stage of the pipeline 
+permit instructions to select and copy the data values they need from the downward 
+
+flowing stream of previously computed results. The comparison circuits also remove 
+from the downward flowing stream previously computed results that would be 
+
+rendered obsolete by execution of the present instruction. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+SUN MICROSYSTEMS INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+SUN MICROSYSTEMS, INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+SPROULL ROBERT F
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SUTHERLAND IVAN E
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SPROULL, ROBERT F.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SUTHERLAND, IVAN E.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+Many modern microprocessors are designed using Reduced Instruction Set
+Computer (RISC) techniques. Such machines use a relatively simple instruction set
+but concentrate on executing those instructions very quickly. High speed operation is
+enhanced by use of a pipeline of about half a dozen stages.Each instruction in sequence enters the pipeline and goes through various
+processing steps at each stage in the pipeline. In an early stage, for example, the
+instruction is decoded so that the actions of later pipeline stages for it become known.
+In another stage the data values required for the instruction are retrieved from the
+register file. In a later stage the arithmetic or logical operation required by the
+instruction is performed.It is common in microprocessors to provide access to the register file at an
+early stage in the pipeline. This is done so that values from the register file required by
+an instruction can be delivered to the pipeline early in the process of performing an
+instruction. The speed of access to the register file is often a pacing item in the speed
+of the machine. Results computed later in the pipeline are returned to the register file
+for storage.The process of moving all data through the register file has proven to be a
+bottleneck in the performance of microprocessors. Therefore, modern microprocessor
+designs use a complex set of "bypass" paths between stages in the pipeline to deliver
+values computed by one instruction to subsequent instructions. Thus, for example, if
+one instruction computes a value required as input to an instruction immediately
+following it, the value will be passed back one stage in the pipeline rather than
+circulating through the register file. Similarly, if the value is required by an instruction
+two instructions following, the value will be passed back two stages in the pipeline. A
+complex network of data paths is required to accommodate all possible needs of
+instructions for recently computed values. Design and management of a complex set
+of bypass paths has become a major task in the design of microprocessors. Because
+they pass by several stages in the pipeline, they will require wires longer than those
+normally connecting adjacent stages. Long wires have greater delay than the shorter
+wires connecting adjacent stages, which may degrade performance of the machine.
+Considerable effort may be required to accommodate the peculiar timing constraints of
+bypass paths. Second, because bypass communications in the pipeline may pass
+several stages, the timing of
+</DESCRIPTION>
+<CLAIMS>
+A method of operating a computing system including a
+bi-directional execution pipeline, wherein each instruction package includes
+
+a source address and a destination address, and wherein each result package includes
+a destination address, comprising the steps of:
+
+
+directing instruction packages to flow up through stages of said bi-directional pipeline;
+directing result packages to flow down through stages of said bi-directional pipeline;
+maintaining instruction packages in a sequence in said upward flow that prevents
+them from exchanging relative position in said pipeline;
+maintaining result packages that contain the same destination address in a sequence
+in said downward flow that prevents them from exchanging relative position in said
+
+pipeline;
+comparing the source address of each instruction package with the destination
+address each result package that it meets while flowing through said bi-directional
+
+pipeline;
+retrieving a source value for said instruction package from said result package in
+response to said source/destination addresses comparison, when the addresses match, said source value being associated with said source/destination address;
+comparing the destination address of each instruction package with the
+destination address each result package that it meets while flowing through said
+
+bi-directional pipeline;
+nullifying any result value in said result package that has been or will be recomputed
+by said instruction package in response to said destination/destination address
+
+comparison;
+computing result values from said source values; and
+supplying said result values that have been computed to a result package in said
+downward flow.
+The method as set forth in Claim 1, further comprising the steps of:
+
+maintaining source values and information identifying the validity of said source
+values in an instruction package;
+maintaining result values that have been computed in an instruction package;
+maintaining result values and information identifying the validity of said result values in
+a result package;
+injecting instruction packages at the bottom of said pipeline; and 
+injecting result packages at the top or at an intermediate position within said pipeline.
+The method as set forth in Claim 2, further comprising the steps of:
+
+maintaining a collection of result values in a set of registers; and
+making selected ones of said result values in said collection available to instruction
+packages within said pipeline.
+The method as set forth in Claim 3, further comprising the steps of:
+
+maintaining said set of registers at the top of said pipeline, and
+injecting selected ones of said result values in said collection into the downward flow
+of result packages in said pipeline.
+The method as set forth in Claim 3, further comprising the steps of:
+
+maintaining said set of registers at the bottom or at an intermediate position within
+said pipeline;
+extracting said result values for said set of registers from result packages flowing down
+said pipeline; and
+permitting instruction packages to pass said set of registers if valid source values are
+in said set of registers or are to be supplied at a later stage in said pipeline.
+The method as set forth in Claim 3, further comprising the step of:
+
+maintaining a plurality of sets of registers within said pipeline, at least one of which
+retains frequently used result values.
+The method as set forth in Claim 2, further comprising the step of:
+
+performing particular processing functions at various of said stages of said pipeline,
+certain of said stages performing similar processing functions at different positions
+
+along said pipeline.
+The method as set forth in Claim 7, further comprising the steps of:
+
+performing a processing function at the earliest stage in the pipeline capable of
+performing such function, after an instruction package has retrieved all necessary
+
+source values; and
+passing beyond a stage capable of performing such processing function if an
+instruction package has not retrieved all necessary source values, unless said
+
+capable stage is the final stage in the pipeline capable of performing such processing
+function.
+The method as set forth in Claim 7, wherein said performing step includes the step
+of:
+
+
+communicating with devices external of said pipeline to acquire or supply information
+used or to be used in said pipeline.
+The method as set forth in Claim 2, further comprising the step of:
+
+handling condition codes by treating them as ordinary result values in the operation of
+the pipeline.
+The method as set forth in Claim 2, further comprising the step of:
+
+handling exceptions such as traps and interrupts by inserting a kill result into the result
+stream, wherein instruction packages lower in the instruction stream are removed from
+
+the upward flow of instruction packages in response to the trap result.
+The method as set forth in Claim 2, further comprising the step of:
+
+providing branches in said pipeline to facilitate execution of different types of
+instruction packages.
+The method as set forth in Claim 2, further comprising the step of:
+
+providing branches in said pipeline to facilitate execution of fixed point arithmetic
+operations, floating point arithmetic operation, and/or memory operations.
+The method as set forth in Claim 2, further comprising the step of:
+
+performing speculative execution of an instruction stream, including the step of
+removing instruction packages from an incorrectly selected instruction stream from the
+
+upward flow of instruction packages in response to the result of a conditional branch
+flowing down the result stream.
+The method as set forth in Claim 2, further comprising the step of:
+
+including Condition Code and/or Program Status Word information in result packages
+
+flowing down the result stream.
+The method as set forth in Claim 2, further comprising the steps of:
+
+providing a siding that connects in at least two locations to said pipeline;
+supplying information at a first location along said pipeline from an instruction or result
+package to a siding package;
+causing said siding package to flow along said siding in parallel with said instruction
+or result package; and 
+recombining said siding package with said instruction or result package at a second
+location along said pipeline.
+The method as set forth in Claim 16, further comprising the steps of:
+
+utilizing sidings to perform arithmetic operations, memory operations or register or
+cache access operations.
+The method as set forth in Claim 16, further comprising the steps of:
+
+connecting sidings to communicate with the upward flow of instruction packages along
+said pipeline.
+The method as set forth in Claim 16, further comprising the steps of:
+
+connecting sidings to other sidings to said pipeline.
+A computing system, comprising:
+
+a bi-directional pipeline;
+instruction packages, each containing a source address and a destination address, that
+flow up through stages of said bi-directional pipeline;
+result packages, containing a destination address, and that flow down through
+stages of said bi-directional pipeline;
+circuitry for maintaining instruction packages in original sequence in said upward flow;
+circuitry for maintaining result packages that contain the same destination address in
+sequence in said downward flow;
+circuitry for comparing the source address of each instruction package with the
+destination address of each result package that it meets while flowing through said
+
+bi-directional pipeline;
+circuitry for retrieving a source value for said instruction package from said downward
+flow in response to said source/destination comparison, when
+
+the addresses match, said source value being associated with
+said source/destination address;
+circuitry for comparing the destination address of each instruction package with the
+destination address of each result package that it meets while flowing through said
+
+bi-directional pipeline;
+circuitry for nullifying any source value from said downward flow that has been or will
+be recomputed by said instruction package in response to said destination/destination
+
+comparison; and
+circuitry for computing result values from said source values; and 
+circuitry for supplying said result values that have been computed to a result package in
+said downward flow.
+The system as set forth in Claim 20, further comprising:
+
+circuitry for maintaining source values and information identifying the validity of said
+source values in an instruction package;
+circuitry for maintaining result values that have been computed in an instruction
+package;
+circuitry for maintaining result values and information identifying the validity of said
+result values in a result package;
+circuitry for injecting instruction packages at the bottom of said pipeline; and
+circuitry for injecting result packages at the top or intermediate said pipeline.
+The system as set forth in Claim 21, further comprising:
+
+a set of registers for maintaining a collection of result values; and
+circuitry for injecting selected ones of said result values into the downward flow of said
+pipeline.
+The system as set forth in Claim 22, wherein said set of registers is positioned at
+the top of said pipeline.
+The system as set forth in Claim 22, wherein said set of registers is positioned at
+the bottom or at an intermediate position within said pipeline, and further comprising:
+
+
+circuitry for extracting result values for said set of registers from result packages
+flowing down said pipeline; and
+circuitry for permitting instruction packages to pass said set of registers if valid source
+values are in said set of registers or are to be supplied at a later stage in said pipeline.
+The system as set forth in Claim 22, further comprising:
+
+a plurality of sets of registers within said pipeline, at least one of which retains
+frequently used result values.
+The system as set forth in Claim 21, further comprising:
+
+circuitry for performing particular processing functions at various of said stages of said
+pipeline, certain of said stages performing similar processing functions at different
+
+positions along said pipeline.
+The system as set forth in Claim 26, wherein said performing circuitry comprises:
+
+circuitry for communicating with devices external of said pipeline to acquire or supply
+information used or to be used in said pipeline.
+The system as set forth in Claim 27, wherein said communicating circuitry
+comprises:
+
+
+circuitry for forming sidings to said pipeline, said sidings connecting to said pipeline at
+earlier and later stages of said pipeline.
+The system as set forth in Claim 28, wherein said sidings connect to said pipeline
+at more than two stages of said pipeline.
+The system as set forth in Claim 29, further comprising a plurality of sidings,
+wherein at least two of said plurality of sidings are interconnected.
+The system as set forth in Claim 28, wherein said sidings are utilized to perform
+arithmetic operations, memory operations or register or cache access operations.
+The system as set forth in Claim 28, wherein said sidings are connect to
+communicate with the upward flow of instruction packages along said pipeline.
+</CLAIMS>
+</TEXT>
+</DOC>

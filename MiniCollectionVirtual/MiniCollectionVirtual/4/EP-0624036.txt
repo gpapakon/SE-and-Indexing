@@ -1,0 +1,264 @@
+<DOC>
+<DOCNO>EP-0624036</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Image coding and decoding system.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T900	G06T900	H03M730	H03M730	H04N724	H04N724	H04N726	H04N728	H04N736	H04N736	H04N746	H04N746	H04N750	H04N750	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	H03M	H03M	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T9	G06T9	H03M7	H03M7	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	H04N7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+In an image coding and decoding device, input 
+digital image signals are divided into blocks of prescribed 
+
+size, and coding processing is performed to differential 
+signal taken between the input block signal and interframe 
+
+forcasting signal thereby transmission recording is 
+performed. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MITSUBISHI ELECTRIC CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MITSUBISHI DENKI KABUSHIKI KAISHA
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+ASAI KOHTARO C O MITSUBISHI DE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ASANO KENICHI MITSUBISHI DENKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ITOH ATSUSHI C O MITSUBISHI DE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KINJO NAOTO C O MITSUBISHI DEN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MURAKAMI TOKUMICHI C O MITSUBI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NISHIDA MASAMI C O MITSUBISHI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ASAI, KOHTARO, C/O MITSUBISHI DENKI K.K.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ASANO, KENICHI, MITSUBISHI DENKI K.K.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ITOH, ATSUSHI, C/O MITSUBISHI DENKI K.K.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KINJO, NAOTO, C/O MITSUBISHI DENKI K.K.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MURAKAMI, TOKUMICHI, C/O MITSUBISHI DENKI K.K.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NISHIDA, MASAMI, C/O MITSUBISHI DENKI K.K.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to an image coding 
+and decoding device, and more particularly to an image 
+coding and decoding device which can efficiently code 
+and decode the motion image signals so as to transmit 
+and record the signals by the interframe coding. FIG. 3 is a block diagram which shows a 
+transmitting section of an image coding transmitter in 
+the prior art. In FIG. 3, numeral 2 designates a motion 
+compensating circuit, numeral 6 designates a differential 
+section, numeral 8 designates a coding and decoding 
+circuit, numeral 11 designates an adder, and numeral 13 
+designates a frame memory. FIG. 4 is a block diagram which shows a motion 
+vector detecting section in the motion compensating 
+circuit 2. In FIG. 4, numeral 14 designates a 
+differential section, numeral 16 designates a distortion 
+operator, and numeral 18 designates a comparator. The operation of the device will be described. In the motion compensating circuit 2, using 
+digitally transformed input signals 1 and previous frame 
+reconstruction signals 3 stored in the frame memory 13, 
+with the picture element blocks of the prescribed size  
+ 
+N₁ x N₂ (N₁, N₂ being plus integers) used as a unit, a 
+block which has the most similar pattern to the block of 
+the input signal is detected from the previous signals, 
+and signals of the detected block are outputted as 
+predicting signals 4, and index information 5 indicating 
+motion vectors being position shift between the position 
+of the block and that of the input signal block is 
+transmitted to the receiving side. An example of the motion detecting method is shown 
+in FIG. 4. Assuming that the input signal block be S(1), the 
+previous frame signal block be S'i(3), the number of the 
+searched blocks be L (L being plus integer), the matching 
+distortion between the blocks be di(17), and K = N₁ x N₂.
+
+S = (S₁, ..., SK), S'i = (S'i1, ..., S'iK), i = 1 ∼ L 
+
+
+ 
+Among di(11) estimated by the differential section 17 
+and the distortion operator 16 based on the above 
+formulas, the block having the smallest matching 
+distortion value is detected by the comparator 18, and 
+the block signal is transformed into the predicting signal 
+4 block by block, and the index information 5 of the 
+block motion vectors is outputted. However, in FIG. 4, 
+the hardware composition is simplified by applying the 
+serial process to the distortion operation and the  
+ 
+comparing process at each searching block. In FIG. 5, 
+an example of the arrangement of the searching vectors 
+is shown. Differences between
+</DESCRIPTION>
+<CLAIMS>
+An image signal progressive build-up encoder/decoder 
+wherein in case of one input image signal system, 
+
+the input signal system is performed high efficiently 
+coding and decoding, and obtained reconstructed image 
+
+signal system is delayed by one frame, and the residual 
+ 
+
+signal system between the input image signal system and 
+the delayed signal system is again performed high 
+
+efficiently coding and decoding frame by frame and 
+operation is repeatedly executed thereby high quality 
+
+image is performed progressive build-up in time 
+progresses, said encoder/decoder comprising: 
+
+   an average value encoder/decoder which 
+calculates average value within block of residual signal 
+
+vectors obtained by forming the block of the residual 
+signal system per lattice-shaped m x n (m, n: positive 
+
+integer) sample, and performs high efficiently coding of 
+the average value; 
+
+   a normalized vector quantization encoder/decoder 
+which utilizes the residual signal vector as 
+
+input vector and subtracts the average value from each 
+element of the input vector and obtains the normalized 
+
+output vector having the maximum inner product value to 
+the input vector among a set of normalized output vectors 
+
+with average value 0, amplitude 1 generated so that total 
+of distortion is minimized based on the distribution of 
+
+normalized input vectors of which amplitude becomes 1, 
+and obtains index to indicate the normalized output 
+
+vector, and also performs high efficiently coding and 
+decoding of the amplitude gain of the input vector given 
+
+by the maximum inner product value, and the decoded 
+amplitude gain is multiplied by the detected normalized 
+
+output vector thereby the amplitude reconstructed output 
+vector can be obtained;
+
+ 
+   a sample value encoder/decoder which performs 
+
+high efficiently coding and decoding of m x n block of 
+samples in the residual signal vector sample by sample; 
+
+   a switch which adaptively controls ON/OFF 
+operation of the average value encoder/decoder, the 
+
+normalized vector quantization encoder/decoder and the 
+sample value encoder/decoder based on the control signal 
+
+frame by frame; 
+   a vector reconstructor which selects adaptively 
+
+the decoded average value, the decoded residual signal 
+vector by adding the decoded average value to the 
+
+amplitude reconstructed output vector, and the decoded 
+sample value based on the hereinafter described frame by 
+
+frame control signal, and then outputs them as the 
+decoded vector; and 
+
+   a coding controller which generates the control 
+signal and enables the adaptive control operation of the 
+
+switch, each encoder/decoder and the vector reconstructor 
+corresponding to the number of coded samples each frame. 
+An image signal progressive build-up encoder/decoder 
+as set forth in claim 1 wherein in the coding 
+
+controller, at the first coding stage, only the average 
+value encoder/decoder are turned on, and rough image is 
+
+reconstructed by the decoded vector which all m x n 
+samples are substituted by the decoded average value, 
+
+and at the second coding stage, the average value 
+ 
+
+encoder/decoder and the normalized vector quantization 
+encoder/decoder are turned on, and the decoded vector 
+
+substituted by the decoded residual signal vector is 
+obtained, and the image of which quality is better than 
+
+that of the first stage can be built up, and at the 
+third coding stage or later, only the sample value 
+
+encoder/decoder is turned on, the decoding vector 
+comprising the decoding value of m x n pixels of sample 
+
+value is obtained, and the image of which quality is 
+better than that of the second stage can be built up. 
+An image signal progressive build-up encoder/decoder 
+as set forth in claim 1 or claim 2 wherein in 
+
+the average value encoder/decoder, the normalized vector 
+quantization encoder/decoder and the sample value 
+
+encoder/decoder, a set of different coding and decoding 
+control modes corresponding to various encoded 
+
+information generation rate of each coding stage are 
+prepared, and based on the total encoded information 
+
+generation rate of one frame by frame coding stage and 
+the number of the stage, the coding and decoding control 
+
+mode, operation of the switch and the vector reconstructor 
+are adaptively selected and controlled frame by frame at 
+
+the subsequent coding stage. 
+An image signal progressive build-up encoder/decoder 
+as set forth in any of claims 1, 2, 3, wherein 
+
+ 
+square-root of the mean square error of each sample 
+
+between the residual signal vector and the decoded 
+vector outputted from the vector reconstructor is 
+
+calculated as the error amplitude value, and based on 
+the average of the error amplitude value during one 
+
+frame period and the number of coding stage, the coding 
+and decoding control mode and operation of the switch 
+
+and the vector reconstructor are adaptively selected and 
+controlled frame by frame at the subsequent coding stage. 
+</CLAIMS>
+</TEXT>
+</DOC>

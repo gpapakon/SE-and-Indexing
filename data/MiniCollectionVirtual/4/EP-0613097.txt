@@ -1,0 +1,423 @@
+<DOC>
+<DOCNO>EP-0613097</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+A dynamic image processor
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04N1104	G06T1740	H04N1104	G06T1740	G01P336	G06T720	G06T720	G06T700	G06T700	H04N732	G01P336	H04N732	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04N	G06T	H04N	G06T	G01P	G06T	G06T	G06T	G06T	H04N	G01P	H04N	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04N11	G06T17	H04N11	G06T17	G01P3	G06T7	G06T7	G06T7	G06T7	H04N7	G01P3	H04N7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A dynamic image processor for temporally analyzing 
+the motion of each individual object contained in a 
+
+dynamic image includes a rigid motion velocity vector 
+extract unit (1) for providing velocity vector data for 
+
+the rigid motion of the individual object; and a soft 
+deformable motion velocity vector extract unit (2) for 
+
+providing velocity vector data for the soft deformable 
+motion after subtracting the rigid motion components. To 
+
+plot the dynamic image, there are arranged a rigid motion 
+velocity vector plot unit (3) employing velocity vector 
+
+data for the rigid motion of the individual object; and a 
+soft deformable motion velocity vector plot unit (4) 
+
+employing velocity vector data for the soft deformable 
+motion after subtracting the rigid motion components. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+FUJITSU LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+FUJITSU LIMITED
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+ENOMOTO HAJIME
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MIYAMURA ISAO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ENOMOTO, HAJIME
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MIYAMURA, ISAO
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a dynamic
+image processor for temporally analyzing the motion of
+each individual object contained in a given dynamic
+image, extracting motional data for the individual
+object, storing the data, and/or plotting the motion of
+the individual object in the dynamic image according to
+the stored motional data.A color image plotted on an x-y plane may be
+processed in a three-dimensional vector field with use of
+an axis z orthogonal to the x-y plane. This technique is
+disclosed in Japanese Patent applications
+JP-A-63 299 594, JP-A-1 213 761, JP-A-2 208 781, JP-A-3 267 879, JP-A-4 287 180.
+These disclosures extract an edge (including a
+position where chromaticity changes) out of a color image
+according to facts that, when the color image is a still
+image (i.e., a static image), divergence and rotation
+processes carried out on color image signals provide
+substantially a value of zero, and that these processes
+provide large values at positions where the chromaticity
+of the image suddenly changes.To detect the motion of a dynamic image, a
+prior art selects an objective point on each individual
+object in the image, finds points correlated to the
+objective point according to the positions of the point
+at different timing, and calculates motional vectors
+according to distance vectors for the correlated points.The dynamic image processing according to the
+prior art involves complicated steps to find the
+correlated points. Further, it is often troublesome to
+adequately extract fundamental parameters which are
+necessary for expressing the motion of the dynamic image. 
+Namely, since too many correlated points must be found on
+each individual object in a dynamic image, the prior art
+involves a large number of processes, in order to detect
+the motion of the dynamic image.An exemplary prior art disclosure of this kind is represented by the
+article "Shape and Motion of Nonrigid Bodies", by S. Chen and
+M. Penne, in COMPUTER VISION, GRAPHICS AND IMAGE PROCESSING, vol. 36,
+nos. 2-3, November-December 1986, pages 175-207, Duluth, MA, USA.In view of the above-described problems existing in
+the prior art, the main object of the present invention
+is to provide a dynamic image processor, which allows the
+motion of the individual object in a dynamic image to be
+easily grasped by dividing the motion into rigid motion
+and non-rigid deformable motion. Hereinafter, such a
+non-rigid deformable motion is referred to as a soft
+deformable motion.A further object of the present invention is to
+provide a dynamic
+</DESCRIPTION>
+<CLAIMS>
+A dynamic image processor for temporally
+analyzing the motion of each individual object contained
+
+in a given dynamic image, extracting motional data for
+the individual object, storing the motional data, and/or
+
+plotting the motion of the individual object in the
+dynamic image according to the stored motional data,
+
+comprising a motional velocity vector extract unit (210)
+for extracting a velocity vector out of the motion of the
+
+individual object, the unit (210) having:
+
+a rigid motion velocity vector extract
+unit (1) for providing velocity vector data for the rigid
+
+motion of the individual object such as translation,
+scaling such as enlargement and contraction, and rotation
+
+around an in-plane perpendicular axis; and
+a soft deformable motion velocity vector
+extract unit (2) for providing velocity vector data for
+
+the soft deformable motion of the individual object after
+subtracting the rigid motion components,
+the rigid motion velocity vector extract
+unit (1) carrying out an affine transformation on the
+
+individual object, to provide the motional velocity
+vector data for the translation, scaling and in-plane
+
+perpendicular axis rotation of the individual object, and
+the soft deformable motion velocity vector extract
+
+unit (2) calculating the motion of the individual object
+after subtracting the rigid motion components according
+
+to a vector technique, to provide the soft deformable
+motion velocity vector data.
+A dynamic image processor according to claim 1,
+wherein:
+
+
+the rigid motion velocity vector extract
+unit (1) provides the motional velocity vector data for
+
+the translation, scaling, and in-plane perpendicular axis
+rotation of the individual object by calculating the
+
+effective motional velocity vector of each objective
+point on the individual object as a function of a 
+
+translation velocity vector, a scaling parameter, an
+angular velocity of the in-plane perpendicular axis
+
+rotation, and a distance vector between the objective
+point and a temporary center temporarily set for the
+
+scaling and in-plane perpendicular axis rotation;
+a velocity component along a line of force
+and a velocity component along a tangent line are
+
+measured at each of at least four points corresponding to
+the objective points on a segment forming the individual
+
+object; and
+the translation velocity vector scaling
+parameter, and angular velocity of the in-plane
+
+perpendicular axis rotation are calculated according to
+the velocity components along the line of force and
+
+tangent line.
+A dynamic image processor according to claim 1,
+wherein the soft deformable motion velocity vector
+
+extract unit (2) calculates the motion of the individual
+object after subtracting the rigid motion components, by
+
+vectorially processing a contour line based on the shape
+of the individual object and/or a structure extended
+
+contour line based on changes in luminance and
+chromaticity, interpolates undetermined points on the
+
+contour line and/or structure extended contour line, and
+finds velocity vectors among the corresponding points.
+A dynamic image processor according to claim 2,
+wherein the objective points employed by the rigid motion
+
+velocity vector extract unit (1) are set on a contour
+line based on the shape of the individual object and/or a
+
+structure extended contour line based on changes in
+luminance and chromaticity, and the four points are among
+
+the points set on the contour line and/or structure
+extended contour line.
+A dynamic image processor according to claim 2,
+wherein at least one intersection point and/or at least
+
+one inflection point on a contour line and/or a structure
+extended contour line are selected as the four points, 
+
+which are set on the contour line that is given based on
+a segment defining the shape of the individual object,
+
+and/or which are set on the structure extended contour
+line that is given based on changes in luminance and
+
+chromaticity.
+A dynamic image processor according to claim 5,
+wherein some points other than the intersection point
+
+and/or the inflection point on a contour line and/or a
+structure extended contour line are selected as the four
+
+points.
+A dynamic image processor according to claim 2,
+wherein the processor is adapted to check whether or not
+
+a value of rank regarding simultaneous equations, which
+are set by selecting the four points, is smaller than "8",
+
+and to select again the four points which allows the value
+of rank to become "8", in the case where the previously
+
+selected value is smaller than "8".
+A dynamic image processor according to claim 4,
+wherein a velocity vector corresponding to the motion of
+
+the individual object is determined by processing each
+objective point at sampling time points when the image greatly
+
+changes and by interpolating each space between sampling
+time points according to the data of the objective points
+
+sampled at the sampling time points.
+A dynamic image processor according to claim 1,
+wherein:
+
+
+the rigid motion velocity vector extract
+unit (1) carries out a divergence operation and a
+
+rotation operation according to the translation velocity
+vector of a point specified on the individual object if
+
+the translation velocity vector is given, to provide
+rigid motion velocity vector data for rotation around an
+
+in-plane axis; and
+the soft deformable motion velocity vector
+extract unit (2) provides soft deformable motion velocity
+
+vector data for the individual object by subtracting the
+rigid motion components including the translation, 
+
+scaling, in-plane perpendicular axis rotation, and in-plane
+axis rotation components.
+A dynamic image processor according to claim 9,
+wherein a rigid motion velocity vector extract unit (1)
+
+is operative to examine reflected light which is
+reflected by the individual object when light is
+
+illuminated on the individual object, and to obtain a
+highlight line which is formed by connecting together a
+
+plurality of points in each of which an intensity of the
+reflected light becomes maximum, and to provide the rigid
+
+motion velocity vector data which corresponds to the in-plane
+axis rotation when the individual object is rotated
+
+around the in-plane axis.
+A dynamic image processor for temporally
+analyzing the motion of each individual object con
+tained
+in a given dynamic image, extracting motional data for
+
+the individual object, storing the motional data, and/or
+plotting the motion of the individual object in the
+
+dynamic image according to the stored motional data,
+comprising a motional velocity vector plot unit (220) for
+
+plotting the individual object according to a motional
+velocity vector representing the motion of the individual
+
+object, the unit (220) having:
+
+a rigid motion velocity vector plot
+unit (3) employing position, luminance and chromaticity values for a plurality of objective points of the individual object and velocity vector data for the rigid
+
+motion such as translation,
+scaling such as enlargement and contraction, and rotation
+
+around an in-plane perpendicular axis at said plurality of objective points of the individual object
+to generate by interpolation luminance and chromaticity data at each coordinate point of the individual object thereby obtaining a still object image at a plurality of sampling time points (t, t+τ); and
+a soft deformable motion velocity vector
+plot unit (4) employing velocity vector data for the soft
+
+deformable motion of the individual object after
+subtracting the rigid motion components
+
+to sequentially arrange said plurality of still images according to a time flow and to
+interpolate at all time points said position, luminance and chromaticity values for
+
+said plurality of objective points of the individual object and again spatially interpolating said time interpolated image data to complete interpolated images for all time points.
+A dynamic image processor according to
+claim 11, wherein the rigid motion velocity vector plot 
+
+unit (3) plots the rigid motion of the individual object
+according to a translation velocity vector, a scaling
+
+parameter, and an angular velocity of the in-plane
+perpendicular axis rotation.
+A dynamic image processor according to
+claim 12, wherein the rigid motion velocity vector plot
+
+unit (3) plots the rigid motion of the individual object
+according to data obtained for each objective point at
+
+sampling time points.
+A dynamic image processor according to
+claim 11, wherein the rigid motion velocity vector plot
+
+unit (3) plots the rigid motion involving in-plane axis
+rotation of the individual object according to the
+
+translation velocity vector of each point on the
+individual object when the translation velocity vector is
+
+given in advance.
+A dynamic image processor according to
+claim 13, wherein the motional velocity vector plot
+
+unit (220) plots a segment connecting the objective
+points according to data obtained for the objective
+
+points at sampling time points, sets an area, and determines
+luminance data and/or chromaticity data in the area by interpolation.
+A dynamic image processor according to
+claim 11, wherein the motional velocity vector plot
+
+unit (220) plots the individual object in a sub-window
+set in a display screen.
+A dynamic image processor according to
+claim 11, wherein the motional velocity vector plot
+
+unit (220) has a function or providing the plotted
+individual object with a reflected image, a refracted
+
+image, or a shaded image.
+A dynamic image processor according to
+claim 11, wherein the motional velocity vector plot
+
+unit (220) has a function of interpolating the motion of the
+individual object between sampling time points
+
+to provide smoothly moving continuous images.
+A dynamic image processor according to claim 11, 
+wherein the rigid motion velocity vector plot unit (3)
+
+finds a translation velocity vector Vp(x, y) at the
+coordinates (x, y) of each objective point on the
+
+individual object, determines a segment that satisfies
+the following conditions:
+
+
+div Vp(x, y) = 0,
+
+or
+
+rot Vp(x, y) = 0,
+
+and
+
+finds rigid motion velocity vector data for the in-plane
+axis rotation according to the translation velocity
+
+vectors on the segment.
+A dynamic image processor according to
+claim 19, wherein the rigid motion velocity vector plot
+
+unit (3) determines a segment that satisfies the
+following conditions:
+
+
+div Vp(x, y) = 0,
+
+or
+
+rot Vp(x, y) = 0,
+
+obtains rigid motion velocity vector data for the in-plane
+axis rotation, and according to the data, measures
+
+a distance from the in-plane axis to the surface of the
+individual object in the depth direction.
+A dynamic image processor according to
+claim 11, wherein a rigid motion velocity vector plot
+
+unit (3) is operative to examine reflected light which is
+reflected by the individual object when light is
+
+illuminated on the individual object, and to obtain a
+highlight line which is formed by connecting together a
+
+plurality of points in each of which an intensity of the
+reflected light becomes maximum, and to measure a
+
+distance from the in-plane axis to the surface of the
+individual object in the depth direction when the
+
+individual object is rotated around the in-plane axis.
+</CLAIMS>
+</TEXT>
+</DOC>

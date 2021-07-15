@@ -1,0 +1,176 @@
+<DOC>
+<DOCNO>EP-0612012</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+A pipeline computer with scoreboard
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F938	G06F948	G06F938	G06F946	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	G06F9	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A pipeline computer having functions of scoreboard 
+control includes: a dependency detection unit provided 
+
+in the scoreboard for detecting dependency of data 
+between a preceding instruction and a following 
+
+instruction, the preceding instruction being an 
+instruction which executes precedingly, and the following 
+
+instruction being an instruction which executes 
+followingly; and an ensuring unit for the dependency of 
+
+data detected by the detection unit based on an interlock 
+operation at pipeline processes when an interruption 
+
+occurs; wherein, an interruption instruction waits for 
+completion of an instruction which already starts to 
+
+execute prior to the interruption instruction, and all 
+register bits on the scoreboard indicating the in use 
+
+state are reset to the not used state to ensure the 
+dependency of data. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+FUJITSU LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+FUJITSU LIMITED
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+NAKADA TATSUMI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+OHSHIMA TOSHIHARU
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NAKADA, TATSUMI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+OHSHIMA, TOSHIHARU
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a pipeline
+computer, and more particularly, it relates to a control
+method for a scoreboard in a pipeline computer.In a pipeline computer, a scoreboard (or SCB)
+is known as a method for managing and controlling the
+mutual dependency of operands which are used in a
+calculation. As one example, the scoreboard is used for
+an interference detection in the general registers as
+explained in detail below.That is, a scoreboard storage means is provided
+for indicating in use or not used state of each general
+register. When executing an instruction which writes
+data into a general register (i. e., write instruction),
+a bit in the scoreboard corresponding to the number of
+the register is set to the setting state to indicate that
+a write operation is being executed. Further, when an
+instruction writes a result of calculation into a general
+register, a bit in the scoreboard corresponding to the
+number of the register, is set to the reset state to
+indicate that the write operation has been completed.In this case, in order to confirm whether or
+not the rewriting of the bit has been executed by an
+instruction which a source operand executes precedingly,
+an instruction which follows the preceding instruction
+(below, following instruction) reads the bit
+corresponding to the register number which indicates the
+source operand. If the bit is set, since it shows that
+the rewriting based on the preceding instruction is not
+completed, the following instruction waits for the start
+of a calculation.If the bit on the scoreboard is reset, since 
+the preceding instruction does not rewrite the source
+operand, the following instruction can start the
+calculation.Motorola Technical Developments, vol 8, no. 1,
+October 1988, Schaumburg IL US, pages 43-44, Talgam,
+"Shadow Scoreboard and Implementation" discloses a
+pipeline computer according to the preamble of claim 1.
+According to this prior art, when context is switched
+to the exception or interrupt handler context, no
+instructions of the current context may complete, so
+the scoreboard seen by the new context must indicate
+all-ready.JP-A-3206962 by the present applicant discloses
+that when an access exception occurs, an access error
+signal is outputted from an error signal output means
+and the contents of the register scoreboard are
+cleared.According to the present invention, there is
+provided a pipeline computer comprising: a plurality of
+registers for use by instructions executed in pipeline
+processes of the pipeline computer; and a scoreboard
+for
+</DESCRIPTION>
+<CLAIMS>
+A pipeline computer comprising:
+
+a plurality of registers (GR, OP1, OP2) for use by
+instructions executed in pipeline processes of the
+
+pipeline computer; and
+a scoreboard (SCB) for monitoring use of the
+registers and having a plurality of scoreboard bits,
+
+each of which can be set or reset to indicate an in-use
+state or a not-used state of one of said registers,
+
+respectively;
+a data dependency detection means provided in the
+scoreboard (SCB) for detecting a data dependency
+
+between a preceding instruction and a following
+instruction;
+an interruption control means for ensuring the
+data dependency detected by the detection means based
+
+on an interlock operation of the pipeline processes, by
+executing an interruption program after an interruption
+
+has occurred; characterized by:
+means (ALU) for performing a non-serialized
+process composed of non-serialized instructions in
+
+which, when an instruction has already started to
+execute prior to the interruption instruction, the
+
+interruption instruction starts to execute without
+waiting for completion of a preceding instruction;
+wherein, when an interruption is detected,
+execution of the interruption program waits for
+
+completion of all instructions except for said non-serialized
+instructions, and execution of said non-serialized
+
+instructions is continued; all scoreboard
+bits are reset to indicate the not-used state; and
+
+after the scoreboard bits are reset to the not-used
+state, all scoreboard bits corresponding to registers
+
+used by said non-serialized instructions to execute
+write operations are set to the in-use state.
+A pipeline computer as claimed in claim 1,
+further comprising:
+
+
+a scoreboard setting information selecting means
+for selecting a set signal or a reset signal for the
+
+scoreboard;
+wherein, after the scoreboard bits corresponding
+to registers used by said non-serialized instructions
+
+are set again to the in-use state, scoreboard resetting
+information is sent using the same signal line used for
+
+resetting the scoreboard bits; and
+the scoreboard setting information selection means
+selects the reset signal to reset the scoreboard (SCB)
+
+based on the scoreboard resetting information.
+</CLAIMS>
+</TEXT>
+</DOC>

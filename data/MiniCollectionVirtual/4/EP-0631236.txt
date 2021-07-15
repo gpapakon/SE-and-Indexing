@@ -1,0 +1,218 @@
+<DOC>
+<DOCNO>EP-0631236</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+A bus-master computer system and method
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1208	G06F1312	G06F1312	G06F1208	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F12	G06F13	G06F13	G06F12	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method and device for avoiding unnecessary 
+data broadcasts by detecting the presence of additional 
+
+cache-equipped bus-masters is provided. The device 
+includes a master bus-master equipped with a local cache 
+
+arrangement for caching data originating in a system 
+memory. The master bus-master communicates with the 
+
+system memory over a bus, and is coupled to a control 
+line at an input. Any cache-equipped slave bus masters 
+
+that are caching data with the system memory are coupled 
+to the control line by an output and are configured to 
+
+generate a signal at the output to drive the control line 
+to a predetermined state to indicate that they are 
+
+caching data. The master bus-master detects the state of 
+the control line and determines whether the data being 
+
+buffered in its local cache arrangement is shared based 
+upon the state of the control line. If the state of the 
+
+control line indicates the presence of other cache-equipped 
+bus-masters, the master bus-master automatically 
+
+broadcasts data that it modifies; otherwise it writes the 
+modified data back to the system memory when the cache 
+
+space occupied by the modified data is required for new 
+data. 
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+ADVANCED MICRO DEVICES INC
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+ADVANCED MICRO DEVICES INC.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+KRANICH UWE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+KRANICH, UWE
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a bus-master computer
+system which may be used for example to control cache
+operations, and preferably to a device and method for
+reducing bus activity in a computer system having a cache-equipped
+bus-master.Bus-masters are devices that can initiate a read or
+write transaction with the system memory of a bus-based
+computer system. An example of one such device is a
+processor. Processors retrieve instructions from the
+system memory and read, process, and write data to the
+system memory as dictated by the retrieved instructions.One way to increase the performance of a computer
+system is to increase the rate with which data is transferred between
+the system memory and the bus-masters in the system. This
+can be accomplished by using high-speed memory chips for
+the system memory. However, the cost of memory increases
+dramatically with the speed of the memory. Thus, it is
+rarely practical to use the fastest memory available,
+especially in systems with require large quantities of
+system memory. Consequently, it has been discovered that
+by using a relatively small bank of relatively high-speed
+memory ("cache memory") as a buffer between a bus-master
+and the larger, slower bank 
+of system memory, system performance can be greatly
+improved.The data transfers between the system memory
+and the cache memory of a bus-master are controlled by a
+cache controller. A cache controller manages the cache
+memory based upon the needs of the bus-master which it
+serves. For example, if a processor requires data that
+is not currently stored in the processor's cache memory,
+the data must be transferred from the slower system
+memory to the cache memory of the processor. Once the
+data resides in the processor's cache memory, the
+processsor may access the data for subsequent operations
+at the faster rate of the cache memory. Further, if the
+processor requires information that does not reside in
+cache memory and all of the cache memory blocks are
+already allocated, then the cache controller causes the
+cache memory to free up storage space for the newly
+requested data, either by writing over unmodified data in
+the cache memory or by storing modified data back to the
+system memory.In a system having more than one cache-equipped
+bus-master, such as a system with a cache-equipped
+processor and a cache-equipped I/O device, multiple
+versions of the same data may exist. For example, both
+the cache memory of the processor and the cache memory of
+the I/O device may hold copies of data originating from
+the same
+</DESCRIPTION>
+<CLAIMS>
+A master bus-master (16) for use in a bus-based computer system (10) having a
+system memory (12) and, optionally, at least one other bus-master (18) capable of caching
+
+data, said master bus-master (16) being configured for caching data and for operation alone and
+in association with said at least one other bus-master (18), said master bus-master (16) comprising:
+
+
+a local cache arrangement (34) coupled to said system memory (12) by a bus (14) and
+coupled to a processing unit (118), said local cache arrangement (34) including a cache
+
+memory (114) for caching data transferred between said processing unit (118) and said system
+memory (12), whereby data in said cache memory (114) is modifiable by said processing unit (118), said at least one other
+
+bus-master (18), if present, also being coupled to said bus (14);
+characterised in that
+:
+said master bus-master (16) further comprises input means (26) to receive an input
+signal from a control line (22), said input signal having a first logic state to indicate that said
+
+at least one other bus-master (18) is not present or, if present, is not caching data, and a second logic state
+to indicate that said at least one other bus-master (18) is present in said computer system (10) and is caching data;
+
+and in that
+said local cache arrangement (34) further includes control means (116, 130) to control
+transmission of data between said cache memory (114) and said bus (14) in response to said
+
+input signal;
+whereby when said processing unit (118) sends modified data to said cache memory (114) said
+master bus-master (16) automatically then broadcasts the modified data over said bus (14) to
+
+said at least one other bus-master (18) only if said input signal has its second and not its first, logic state.
+The bus-master of claim 1 wherein said local cache arrangement control means (116, 130)
+includes a cache controller (116).
+The bus-master of claim 2 wherein said cache memory (114) includes a plurality of data
+blocks (115) and a status storage (144) for storing status information indicative of the
+
+status of each data block of said plurality of data blocks (115). 
+The bus-master of claim 3 wherein said status information includes shared status
+information indicative of whether data residing in each of said plurality of data blocks (115) is
+
+shared or exclusive.
+The bus-master of claim 4 wherein said cache controller (116) maintains said shared
+status information in said status storage (144) in response to said input signal logic state.
+The bus-master of claim 5 wherein
+
+said cache controller (116) is configured to update the shared status information when
+data is loaded into said cache memory (114) by the processing unit (118), to indicate an exclusive data
+
+state when said input signal has its first logic state and to indicate a shared data state when
+said input signal has its second logic state; and wherein
+said cache controller (116) is further configured to determine the status of a data block
+receiving modified data when said processing unit (118) sends modified data to the data block
+
+and to automatically then broadcast the modified data over bus (14) only if the data block
+status information indicates a shared data state.
+The bus-master of claim 6 wherein said cache memory (114) stores modification status
+information for each data block and wherein said cache controller (116) is configured to update
+
+the modification status of the data block receiving the modified data, after the automatic
+broadcast of the modified data, to indicate that the data is to be considered not modified.
+The master bus-master of claim 6 or 7 wherein said master bus-master (16) is a
+microprocessor.
+A method for preventing unnecessary data broadcasts by a master bus-master (16)
+in a bus-based computer sys
+tem (10), said master bus-master (16) including a processing unit
+(118) and a local cache arrangement (34), data in the cache being modifiable by the
+
+processing unit (118), said computer system (10) optionally including at least one other bus-master (18)
+capable of caching data, the method comprising the steps of: 
+
+
+coupling said master bus-master (16) and, if present, said at least one other bus-master (18), to a control
+line (22) and to a bus (14);
+
+characterized by the steps of:
+providing said control line (22) with a first initial logic state to indicate that said
+at least one other bus-master (18) is not present or, if present, is not caching data, and a second logic state
+
+to indicate that said at least one other bus-master (18) is present in said computer system (10) and is caching data;
+causing said at least one other second bus-master (18) to drive said control line (22) to the second logic state
+if said at least one other bus-master (18) is present and caching data;
+causing said master bus-master (16) to detect whether said control line (22) is at said first
+state or at said second state; and
+when said processing unit (118) sends modified data to the cache causing said master
+bus-master (16) to automatically then broadcast the modified data over said bus (14) to
+
+said at least one other bus-master (18) only if said control line (22) is in said second logic state.
+The method of claim 9 wherein said master bus-master (16) includes a cache memory
+(114) for storing data, said cache memory (114) having a status storage (115) for storing status
+
+data indicative of the status of data stored in said cache memory (114), the method further
+comprising the steps of reading said status data when said processing unit (118) requests data,
+
+and determining based upon said status data whether said requested data resides in said
+cache memory (114).
+The method of claim 10 wherein said computer system (10) further comprises system
+memory (12) coupled to said bus (14), the method further comprising the steps of
+
+retrieving said requested data from said system memory (12) over said bus (14) when said requested
+data does not reside in said cache memory (114), and storing said retrieved requested data in
+
+said cache memory (114).
+The method of claim 11 further comprising the steps of updating said status data
+to indicate that said retrieved requested data is exclusive when said control line (22) is at said
+
+first logic state, and updating said status data to indicate that said retrieved requested data
+is shared when said control line (22) is at said second logic state.
+</CLAIMS>
+</TEXT>
+</DOC>

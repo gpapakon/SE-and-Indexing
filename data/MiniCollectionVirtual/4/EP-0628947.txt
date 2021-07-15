@@ -1,0 +1,278 @@
+<DOC>
+<DOCNO>EP-0628947</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method and device for speech signal pitch period estimation and classification in digital speech coders
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G10L1908	G10L1900	G10L1104	G10L1106	G10L1900	G10L1904	G10L1100	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G10L	G10L	G10L	G10L	G10L	G10L	G10L	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G10L19	G10L19	G10L11	G10L11	G10L19	G10L19	G10L11	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method and a device for speech signal digital coding are provided 
+where at each frame there is carried out a long-term analysis for estimating 
+
+pitch period d and a long- term prediction coefficient b and gain G, and an 
+a-priori classification of the signal as active/inactive and, for active signal, as 
+
+voiced/unvoiced. Period estimation circuits (LT1) compute such period on 
+the basis of a suitably weighted covariance function, and a classification 
+
+circuit (RV) distinguishes voiced signals from unvoiced signals by comparing 
+long-term prediction coefficient and gain with frame-by-frame variable 
+
+thresholds. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+TELECOM ITALIA SPA
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+TELECOM ITALIA S.P.A.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+CELLARIO LUCA
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+CELLARIO, LUCA
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to digital speech coders and more particularly
+it concerns a method and a device for speech signal pitch period
+estimation and classification in these coders.Speech coding systems allowing obtaining a high quality of coded speech
+at low bit rates are more and more of interest in the technique. For this
+purpose linear prediction coding (LPC) techniques are usually used, which
+techniques exploit spectral speech characteristics and allow coding only the
+preceptually important information. Many coding systems based on LPC
+techniques perform a classification of the speech signal segment under
+processing for distinguishing whether it is an active or an inactive speech
+segment and, in the first case, whether it corresponds to a voiced or an
+unvoiced sound. This allows coding strategies to be adapted to the specific
+segment characteristics. A variable coding strategy, where transmitted information
+changes from segment to segment, is particularly suitable for variable
+rate transmissions, or, in case of fixed rate transmissions, it allows exploiting
+possible reductions in the quantity of information to be transmitted for 
+improving protection against channel errors.An example of a variable rate coding system in which a recognition of
+activity and silence periods is carried out and, during the activity periods, the
+segments corresponding to voiced or unvoiced signals are distinguished and
+coded in different ways, is described in the paper "Variable Rate Speech
+Coding with online segmentation and fast algebraic codes" by R. Di Francesco
+et alii, conference ICASSP '90, 3- 6 April 1990, Albuquerque (USA),
+paper S4b.5.The invention provides a method for coding a speech signal as defined in
+claim 1. The inventions further provides a device for speech signal digital
+coding as defined in claim 9.The characteristics of the present invention will 
+be made clearer by the following description, with reference to the annexed
+drawings in which:
+Figure 1 is a basic diagram of a coder with a-priori classification using
+the invention;Figure 2 is a more detailed diagram of some of the blocks in Figure 1;Figure 3 is a diagram of the voicing detector; andFigure 4 is a diagram of the threshold computation circuit for the
+detector in Figure 3.Figure 1 shows that a speech coder with a-priori classification can
+be schematized by a circuit TR which divides the sequence of speech signal
+digital samples x(n) present on connection 1, into frames made up of a preset
+number Lf of samples (e.g. 80 - 160, which at
+</DESCRIPTION>
+<CLAIMS>
+A method for speech signal coding, in which the signal to be coded is
+divided into digital sample frames containing the same number of
+
+samples; the samples of each frame are submitted first to a predictive
+analysis for extracting from the signal parameters representative of short-term
+
+and long-term spectral characteristics and comprising at least a
+long-term analysis delay d, corresponding to a pitch period, and a long-term
+
+prediction coefficient b and gain G, and then to a classification for
+generating a first and a second flag indicating whether the frame
+
+corresponds to an active or inactive speech signal segment and, in case
+of active signal segment, whether the segment corresponds to a voiced
+
+or an unvoiced sound, a segment being considered as voiced if the
+prediction coefficient b and the gain G are both greater than or equal to
+
+respective thresholds; and an information on said parameters is provided
+to coding units; for possible insertion into a coded signal, together with
+
+said flags for selecting in said units different coding methods according
+to the characteristics of speech segment; characterized in that, during
+
+said long-term analysis, the delay is estimated by determining the maximum
+of the covariance function of the residual signal of the short-term
+
+analysis; weighted with a weighting function which reduces the
+probability that the period computed is a multiple of the actual period,
+
+inside a window with a length not lower than a maximum value admitted
+for the delay itself; and in that the thresholds for the prediction
+
+coefficient b and the gain G are thresholds which are adapted at each
+frame, in order to follow the trend of the background noise and not of
+
+the speech; the adaptation being enabled only in active speech signal
+segments.
+Method according to claim 1, characterized in that said weighting function,
+for each value admitted for the delay, is a function of the type w and(d)
+
+= d
+log
+2
+Kw
+, where d is the delay and Kw is a positive constant lower than
+1.
+Method according to claim 1 or 2, characterized in that said covariance 
+function is computed for an entire frame, if a maximum admissible
+
+value for the delay is lower than the frame length, or for a sample
+window with a length equal to said maximum delay and including the
+
+frame, if the maximum delay is greater than frame length.
+Method according to claim 3, characterized in that a signal indicative of
+pitch period smoothing is generated at each frame and, during long-term
+
+analysis, if the signal in the previous fraIne was voiced and had a
+pitch period smoothing, there is also carried out a search for a secondary
+
+maximum of the weighted covariance function in a neighbourhood of
+the value found for the previous frame, and the value corresponding to
+
+this secondary maximum is used as delay if it differs by a quantity lower
+than a preset quantity from the covariance function maximum in the
+
+current frame.
+Method according to claim 4, characterized in that for the generation of
+said signal indicative of pitch period smoothing the relative delay
+
+variation between two consecutive frames is computed for a preset
+number of frames which precede the current frame; the absolute values
+
+of these variations are estimated; the absolute values so obtained are
+compared with a delay threshold, and the indicative signal is generated
+
+if the absolute values are all lower than or equal to said delay threshold.
+Method according to claim 5, characterized in that the width of said
+neighbourhood is a function of said delay threshold.
+Method according to any of claims 1 to 6, characterized in that for
+computation of long-term prediction coefficient and gain thresholds in
+
+a frame, the prediction coefficient and gain values are scaled by
+respective preset factors; the thresholds obtained at the previous frame
+
+and the scaled values for both the coefficient and the gain are submitted
+to low-pass filtering, with a first filtering coefficient, able to
+
+originate a very long time constant compared with the frame duration,
+and respectively with a second filtering coefficient, which is the 1 - 
+
+complement of the first; and the scaled and filtered values of the
+prediction coefficient and gain are added to the respective filtered
+
+threshold, the value resulting from the addition being the threshold
+updated value.
+A method according to claim 7, characterized in that the threshold
+values resulting from addition are clipped with respect to a maximum
+
+and a minimum value, and in that in the successive frame the values so
+clipped are submitted to low-pass filtering.
+A device for speech signal digital coding, comprising means (TR) for
+dividing a sequence of speech signal digital samples into frames made
+
+up of a preset number of samples; means for speech signal predictive
+analysis (AS), comprising circuits (ST) for generating at each frame
+
+parameters representative of short-term spectral characteristics and a
+residual signal of short-term prediction, and circuits (LT1, LT2) which
+
+obtain from the residual signal parameters representative of long-term
+spectral characteristics, comprising a long-term analysis delay or pitch
+
+period d, and a long-term prediction coefficient b and a gain G; means
+for a-priori classification (CL) for recognizing whether a frame corresponds
+
+to an active speech period or to a silence period and whether an
+active speech period corresponds to a voiced or an unvoiced sound. the
+
+classification means (CL) comprising circuits (RA, RV) which generate
+a first and a second flag (A, V) for respectively signalling an active
+
+speech period and a voiced sound, and the circuit (RV) generating the
+second flag (V) comprising means (CM1, CM2) for comparing the
+
+prediction coefficient and gain values with respective thresholds and
+emitting this flag when said values are both greater than the thresholds:
+
+a speech coding unit (CV), which generates a coded signal by
+using at least some of the parameters generated by the predictive
+
+analysis means, and is driven by said flags (A, V) in order to insert into
+the coded signal different information according to the nature of the 
+
+speech signal in the frame; characterized in that the circuit (LT1) for
+delay estimation computes this delay by determining the maximum of the
+
+covariance function of said residual signal, computed inside a sample
+window with a length not lower than a maximum admissible value for the
+
+delay itself and weighted with a weighting function such as to reduce the
+probability that the maximum value computed is a multiple of the actual
+
+delay; and in that the comparison means (CM1, CM2) in the circuit
+(RV) generating the second flag (V) carry out the comparison with
+
+frame by frame variable thresholds and are associated to means (CS1,
+CS2) for threshold generation, the comparison and threshold generation
+
+means being enabled only in the presence of the first flag (A).
+A device according to claim 9, characterized in that said weighting
+function, for each admitted value of the delay, is a function of the type
+
+w and(d) = d
+log
+2
+Kw
+, where d is the delay and Kw is a positive constant lower
+than 1.
+A device according to claims 9 or 10, characterized in that the long-term
+analysis delay computing circuit (LT1) is associated to means (GS)
+
+for recognizing a frame sequence with delay smoothing, which means
+generate and provide said circuit (LT1) with a third flag (S) if, in said
+
+frame sequence, the absolute value of the relative delay variation
+between consecutive frames is always lower than or equal to a preset
+
+delay threshold.
+A device according to claim 11, characterized in that the delay computing
+circuit (LT1) carries out a correction of the delay value computed
+
+in a frame if in the previous frame the second and the third flags
+(V, S) were issued, and provides, as value to be used. the one corresponding
+
+to a secondary maximum of the weighted covariance function
+in a neighbourhood of the delay value computed for the previous
+
+frame, if this maximum is greater than a preset fraction of the main
+maximum. 
+A device according to claims 9 or 10, characterized in that the circuits
+(CS1, CS2) generating the prediction coefficient and gain thresholds
+
+comprise:
+
+a first multiplier (M1) for scaling the coefficient or the gain by a
+respective factor;
+a low-pass filter (S1, M2, D1, M3) for filtering the threshold computed
+for the previous frame and the scaled value, respectively
+
+according to a first filtering coefficient corresponding to a time
+constant with a value much greater than the length of a frame and
+
+to a second coefficient which is the complement to 1 of the first
+one;
+an adder (S2) which provides the current threshold value as the
+sum of the filtered signals;
+a clipping circuit (CT), for keeping the threshold value within a
+preset value interval.
+</CLAIMS>
+</TEXT>
+</DOC>

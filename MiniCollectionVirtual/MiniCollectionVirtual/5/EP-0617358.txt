@@ -1,0 +1,240 @@
+<DOC>
+<DOCNO>EP-0617358</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Disk storage apparatus and method for converting random writes to sequential writes while retaining physical clustering on disk.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F306	G06F306	G06F1310	G06F1310	G11B2012	G11B2012	G11B2732	G11B2732	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G11B	G11B	G11B	G11B	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F3	G06F3	G06F13	G06F13	G11B20	G11B20	G11B27	G11B27	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A high performance disk subsystem is disclosed having a disk write mechanism 
+that provides high throughput for random disk writes by dividing 
+
+the disks into a data portion and a log portion. A fault-tolerant memory 
+in the disk controller is used to temporarily store data blocks or pages 
+
+which are written. The updated blocks are sorted in the fault-tolerant 
+memory in accordance with their physical home location on the data portion 
+
+of the disks. Sorted runs are temporarily written out to the log portion 
+of the disk. In a parallel process, sorted runs are retrieved from the log 
+
+portion of the disks, merged in the fault-tolerant memory, and written out 
+to their home location on the data portion of the disks, which converts 
+
+random disk writes to largely sequential I/O while retaining physical clustering 
+of the data on disk. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BHIDE ANUPAM KESHAV
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DIAS DANIEL MANUEL
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BHIDE, ANUPAM KESHAV
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+DIAS, DANIEL MANUEL
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates generally to digital storage systems for electronic 
+computers and more specifically to a disk storage method and apparatus 
+wherein a logging and sorting mechanism is used to provide higher performance 
+by converting disk write operations having random addresses 
+largely into disk write operations in a sequential address order. As the requirements for On-Line Database Transaction Processing 
+(OLTP) grow, high transaction rates on the order of thousands of transactions 
+per second must be supported by OLTP systems. In applications 
+such as OLTP, a large fraction of the requests are random accesses to 
+data. Since a large fraction of the data resides on disks, the disk sub-systems  
+ 
+must therefore support a large rate of random accesses, on the 
+order of several thousands of random accesses per second. Random disk Input/Output (I/O) performance is not improving at the 
+same rate as other system parameters such as CPU MIPS. Therefore, 
+applications such as OLTP, where random access to data predominates, 
+are disk arm bound and the disk cost is becoming a larger fraction of the 
+system cost. Thus, there is a need for a disk sub-system which can support 
+a large rate of random accesses per second with a better price-performance 
+characteristic than for traditional disk systems. In a paper by M. Rosenblum and J. Ousterhout, entitled "The Design and 
+Implementation of a Log-Structured File System", Proceedings of the 
+Thirteenth ACM Symposium on Operating System Principles (October 
+1991), the basic observation is made that sequential disk I/O performance 
+is improving because of increases in disk surface density, even though 
+random disk I/O performance is not improving at the same rate. Therefore, 
+Rosenblum and Ousterhout have proposed a solution that replaces 
+random writes with sequential writes. More specifically, a log-structured 
+file system is proposed that writes updates to a sequential log. Subsequently, 
+garbage collection and compaction are used to create large free 
+areas on disk. A basic problem with this method is that clustering of data on the disk is 
+lost. That is, by remapping a page (or block) of data to another location 
+on disk, previously adjacent pages (or blocks) are moved to arbitrarily 
+distant locations on disk. As a consequence, a later sequential reading of 
+those formerly adjacent pages (or blocks) will require access to spaced 
+apart locations on the disk (i.e., formerly sequentially accessed read operations 
+will be converted into randomly accessed
+</DESCRIPTION>
+<CLAIMS>
+An improved disk system for storing data blocks of digital information 
+for a computer system of the type wherein said disk system provides to 
+
+said computer system a copy of said data blocks that are requested by said 
+computer system, and said computer system provides to said disk system 
+
+a modified version of at least some of said data blocks provided by said 
+disk system, said disk system replacing stored data blocks corresponding 
+
+to said modified data blocks provided by said computer system with said 
+provided modified data blocks, comprising: 
+
+   storage disk means logically partitioned into a data area and a log area, 
+said data area being used for permanent storage of said data blocks, each 
+
+said data block having a physical home location in said data area; 
+   a controller for said storage disk means, said controller having a fault-tolerant 
+
+memory; 
+   said controller temporarily storing in said fault-tolerant memory said 
+
+modified data blocks provided by said computer system; 
+   means in said controller for sorting said provided modified data blocks 
+
+in accordance with said physical home location of said provided modified 
+data blocks to create a sorted run of modified data blocks and for temporarily 
+
+storing said sorted run in said log area of said storage disk means; 
+and 
+
+   means in said controller for reading said sorted run temporarily stored 
+in said log area of said storage disk means and for updating said data 
+
+blocks in said data area of said storage disk means with said sorted run; 
+   whereby said data blocks in said data area are updated by said modified 
+
+data blocks provided in possibly random order by said computer system 
+in accordance with the physical order of said data blocks in said data 
+
+area. 
+An improved disk system as defined in Claim 1 wherein said sorting 
+means creates successively sorted runs of modified data blocks and a multiplicity 
+
+ 
+of said successively sorted runs are stored temporarily in said log 
+
+area of said storage disk means. 
+An improved disk system as defined in Claim 2 wherein said controller 
+further comprises means for merging a multiplicity of said sorted runs 
+
+temporarily stored in said log area of said storage disk means and for updating 
+said data blocks in said data area of said storage disk means with 
+
+said merged multiplicity of sorted runs in an order corresponding with said 
+physical home location of said data blocks in said data area. 
+An improved disk system as defined in Claim 1 wherein said controller 
+further comprises: 
+
+   a table in said fault-tolerant memory for determining whether a data 
+block requested by said computer system corresponds to a modified data 
+
+block temporarily stored by said disk system either in said fault-tolerant 
+memory or in said log area and not yet updated to said data area. 
+An improved disk system as defined in Claim 4 wherein said table 
+keeps track of the location in said disk system of the latest copy of said 
+
+data blocks stored in said disk system. 
+An improved disk system as defined in Claim 4 wherein said controller 
+further comprises: 
+
+   means for retrieving a latest copy of a data block requested by said 
+computer system and stored by said disk system. 
+An improved disk system as defined in Claim 1 wherein said storage 
+disk means comprises a multiplicity of digital storage disks. 
+An improved disk system as defined in Claim 7 wherein each of said 
+digital storage disks is logically partitioned into a data portion and a log 
+
+portion said data area of said storage disk means comprising all of said 
+data portions and said log area of said storage disk means comprising all 
+
+of said log portions. 
+An improved disk system as defined in Claim 1 wherein said storage 
+disk means and controller comprise a RAID-5 system in which said data 
+
+area is interleaved across a multiplicity of digital storage disks and said log 
+area also is interleaved across said multiplicity of digital storage disks. 
+An improved disk system as defined in Claim 9 wherein said interleaved 
+data area and said interleaved log area are both interleaved at a 
+
+track level. 
+An improved disk system as defined in Claim 9 wherein said means 
+for reading and updating copies said data blocks from said data area into 
+
+said fault-tolerant memory one chunk at a time, updates said chunk in said 
+fault-tolerant memory, and then copies said updated chunk back into said 
+
+data area. 
+An improved method for storing data blocks of digital information in 
+a disk store, said disk store providing to a computer system a copy of said 
+
+data blocks requested by said computer system and said computer system 
+providing back to said disk store a modified version of at least some of said 
+
+data blocks provided by said disk store, said disk store replacing stored 
+data blocks corresponding to said modified data blocks provided by said 
+
+computer system with said provided modified data blocks, comprising the 
+steps of: 
+
+   logically partitioning said disk store into a data area and a log area, said 
+data area being used for permanent storage of said data blocks for said 
+
+computer system, each said data block having a physical home location in 
+said data area; 
+
+   temporarily storing modified data blocks provided by said computer 
+system in a fault-tolerant memory of a controller for said disk store; 
+
+   sorting said provided modified data blocks in accordance with said 
+physical home location in said data area of said data blocks corresponding 
+
+to said provided modified data blocks to create a sorted run of modified 
+data blocks and temporarily storing said sorted run in said log area; 
+
+   reading said sorted run temporarily stored in said log area and updating 
+said data blocks in said data area with said sorted run;
+
+ 
+   whereby said data blocks in said data area are updated by said modified 
+
+data blocks provided in possibly random order by said computer system 
+in accordance with the physical order of said data blocks in said data 
+
+area. 
+An improved method as defined in Claim 12 wherein said sorting step 
+creates successively sorted runs of modified data blocks and a multiplicity 
+
+of said successively sorted runs are stored temporarily in said log area of 
+said storage disk means. 
+An improved method as defined in Claim 13 and further comprising 
+the steps of merging a multiplicity of said sorted runs temporarily stored 
+
+in said log area of said storage disk means and updating said data blocks 
+
+in said data area of said storage disk means with said merged multiplicity 
+of sorted runs in an order corresponding with said physical home location 
+
+of said data blocks in said data area. 
+</CLAIMS>
+</TEXT>
+</DOC>

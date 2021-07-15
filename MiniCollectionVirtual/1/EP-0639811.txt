@@ -1,0 +1,214 @@
+<DOC>
+<DOCNO>EP-0639811</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Memory systems with data storage redundancy management
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F306	G11C2900	G11B2018	G06F1120	G11B2018	G11C2900	G06F1110	G06F1120	G06F1110	G06F306	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G11C	G11B	G06F	G11B	G11C	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F3	G11C29	G11B20	G06F11	G11B20	G11C29	G06F11	G06F11	G06F11	G06F3	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A disk array (10) has a plurality of disks (12), a disk array controller 
+(14) for coordinating data transfer to and from the disks, and a RAID 
+
+management system (16) for mapping two different RAID areas (42,44) onto 
+the disks. The RAID management system (16) stores data in one of the RAID 
+
+areas according to mirror redundancy, and stores data in the other RAID area 
+according to parity redundancy. The RAID management system (16) then shifts 
+
+or migrates data between the mirror and parity RAID areas on the disks in 
+accordance with a predefined performance protocol, such as data access 
+
+recency or access frequency. A method for managing data on a disk array is 
+also disclosed. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+HEWLETT PACKARD CO
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+HEWLETT-PACKARD COMPANY
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+BAIRD ROBERT
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FORDEMWALT JOHN W
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+JACOBSON MICHAEL B
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NELSON MARVIN D
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+VAZIRE HAMID
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+VOIGT DOUGLAS L
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+BAIRD, ROBERT
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FORDEMWALT, JOHN W.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+JACOBSON, MICHAEL B.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NELSON, MARVIN D.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+VAZIRE, HAMID
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+VOIGT, DOUGLAS L.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to non-volatile memory systems with the
+capability of detecting failures, such as computer disk arrays, having data
+storage redundancy management.Computer systems are constantly improving in terms of speed,
+reliability, and processing capability. As a result, computers are able to handle
+more complex and sophisticated applications. However, as computers improve,
+performance demands placed on mass storage and input/output (I/O) devices
+increase. In general, I/O performance has had difficulty keeping pace with the
+growing capabilities of the computers.The mass storage industry faces two primary challenges: (1) to
+improve I/O performance so that data access does not become a limiting factor
+for an application, and (2) to provide access to on-line data at levels of reliability
+well in excess of the expected lifetimes of the computer systems that process
+it. See, The RAIDBook: A Source Book for RAID Technology, published June
+9, 1993, by the RAID Advisory Board, Lino Lakes, Minnesota It is desirable that
+storage devices meet these goals in a cost-effective manner.The performance of present disk I/O systems is limited because
+data stored thereon is located by comparatively slow processes of seeking and
+disk rotation. Additionally, the data is transferred to and from the disk media in
+a serial bit stream which also inhibits speed. Manufacturers, therefore, attempt
+to design systems which rearrange data on the disks in such a manner that the
+more frequently accessed data is evenly distributed across the I/O resources.There are three primary design criteria for mass storage systems:
+cost, performance, and availability. It is most desirable to produce memory
+devices that have a low cost per megabit, a high input/output performance, and
+high data availability. "Availability" is the ability to recover data stored in the 
+storage system even though some of the data has become inaccessible due to
+failure or some other reason and the ability to insure continued operation in the
+event of such failure. Typically, data availability is provided through the use of
+redundancy wherein data, or relationships among data, are stored in multiple
+locations.There are two common methods of storing redundant data.
+According to the first or "mirror" method, data is duplicated and stored in two
+separate areas of the storage system. For example, in a disk array, the identical
+data is provided on two separate disks in the disk array. The mirror method has
+the advantages of high performance and high data
+</DESCRIPTION>
+<CLAIMS>
+A disk array comprising:
+
+a plurality of disks (12);
+a disk array controller (14) for coordinating data transfer to and from the disks
+(12); and
+RAID management system (16) operatively coupled to the disk array controller
+(14) for managing data on the disk array,
+the RAID management system having means for
+
+   providing physical storage space (34) on the disk array of plural disks
+(12);
+
+   mapping the physical storage space (34) into a first virtual storage (40)
+space having first and second areas (42,44), the first area holding data
+
+according to a first RAID level and the second area holding data
+according to a second RAID level;
+
+   mapping the first virtual storage space (40) into a second virtual storage
+space (50) having multiple blocks (52,53), the blocks representing the
+
+first and second RAID level areas;
+
+   selecting a first block representing a first RAID level area;
+
+   creating a second block representing a second RAID level area
+according to at least one of the following techniques:
+
+
+(a) converting an unused and undesignated RAID area into a
+second block representing the second RAID level area;
+b) locating an unused block representing the first RAID level area
+and migrating data from a used block representing the second
+
+RAID level area to the unused block to make the used block
+available as the second block; and 
+(c) establishing an unused and undesignated RAID area by
+migrating at least one block representing the first RAID area to
+
+another block representing the second RAID area, the unused
+and undesignated RAID area then being converted to the
+
+second block according to step (a);
+
+   transferring selected data from the first block to the second block so that
+the selected data experiences a change in storage performance and
+
+reliability from the first RAID level area to the second RAID level area;
+and
+
+   modifying the second virtual storage space (50) to reflect the transfer to
+a new storage area.
+The disk array according to claim 1 wherein the first redundancy level is RAID
+Level 1 and the second redundancy level is RAID Level 5.
+The disk array according to claim 1 or 2 wherein converting (a) is first
+conducted in an attempt to create the second block before one of the locating
+
+(b) and the establishing (c) are conducted.
+A method for managing data on a disk array, comprising the following steps:
+
+providing physical storage space (34) on a disk array of plural disks (12);
+mapping the physical storage space (34) into a first virtual storage (40) space
+having first and second areas (42,44), the first area holding data according to
+
+a first RAID level and the second area holding data according to a second
+RAID level;
+mapping the first virtual storage space (40) into a second virtual storage space
+(50) having multiple blocks (52,53), the blocks representing the first and
+
+second RAID level areas;
+selecting a first block representing a first RAID level area; 
+creating a second block representing a second RAID level area according to at
+least one of the following techniques:
+
+
+(a) converting an unused and undesignated RAID area into a second block
+representing the second RAID level area;
+(b) locating an unused block representing the first RAID level area and
+migrating data from a used block representing the second RAID level
+
+area to the unused block to make the used block available as the
+second block; and
+(c) establishing an unused and undesignated RAID area by migrating at
+least one block representing the first RAID area to another block
+
+representing the second RAID area, the unused and undesignated
+RAID area then being converted to the second block according to step
+
+(a);
+transferring selected data from the first block to the second block so that the
+selected data experiences a change in storage performance and reliability
+
+from the first RAID level area to the second RAID level area; and
+modifying the second virtual storage space (50) to reflect the transfer to a new
+storage area.
+A method for managing data on a disk array according to claim 4 wherein the
+first redundancy level is RAID Level 1 and the second redundancy level is
+
+RAID Level 5.
+A method for managing data on a disk array according to claim 4 or 5 wherein
+the conversion step (a) is first conducted in an attempt to create the second
+
+block before one of the locating step (b) and the establishing step (c) are
+conducted.
+</CLAIMS>
+</TEXT>
+</DOC>

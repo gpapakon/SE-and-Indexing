@@ -1,0 +1,226 @@
+<DOC>
+<DOCNO>EP-0668555</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Method and apparatus for reclaiming data storage volumes in a data storage library.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F306	G06F306	G06F946	G06F946	G06F1200	G06F1200	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F3	G06F3	G06F9	G06F9	G06F12	G06F12	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A procedure for the optimal processing of variable-cost actions such as 
+encountered in the storage reclamation procedures for a multivolume data 
+
+library (10). The procedure introduces a temporary processing queue to 
+minimize idle processing capacity during the scanning and sorting of a large 
+
+plurality of variable-cost actions such as the recycling of a plurality of data 
+storage volumes each having a variable recycle processing cost related to the 
+
+fraction of valid data remaining on the volume. Volumes (actions) are selected 
+for the immediate queue according to a dynamically-adjusted threshold test for 
+
+the processing cost. This processing cost threshold is dynamically adjusted 
+to optimize the immediate queue in relation to the available processing 
+
+capacity. After scanning and sorting all volumes according to recycle 
+processing cost, the temporary (immediate) queue is updated to a final recycle 
+
+processing queue by appending a sorted deferred queue to the remainder of 
+the immediate queue. The procedure of this invention minimizes idle 
+
+processing capacity during the queue-building interval, thereby optimizing 
+the number of recovered data storage volumes released in a given time 
+
+interval. 
+
+ 
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+ASHTON LYN LEQUAM
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+PEARSON ANTHONY STEVE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+PENCE JERRY WAYNE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ASHTON, LYN LEQUAM
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+PEARSON, ANTHONY STEVE
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+PENCE, JERRY WAYNE
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates in general to computer-controlled processing 
+of variable-cost actions and particularly to procedures for reclaiming data 
+storage volumes in a multivolume data storage library. Memory compaction or "defragmentation", also denominated "garbage 
+collection", is a necessary operation in any large database processing 
+system. Memory compaction is a procedure whereby valid data scattered 
+throughout the memory system are collected or "compacted" together, thereby 
+freeing up unused memory space in larger contiguous sections. The gradual 
+"fragmentation" of a data storage system is a normal result of data 
+processing over time. Thus, "garbage collection" is performed routinely, 
+either in "snapshots" at regular intervals or on a continuing basis. Storage reclamation is a necessary procedure in every level of a 
+hierarchical data storage system. For instance, a large data storage space 
+such as described in US patent 5,018,060, which is entirely incorporated 
+herein by this reference, includes many different physical data storage 
+devices for peripheral data storage. Such devices may include Direct Access 
+Storage Devices (DASDs) employing high-speed magnetic disk technology, 
+magnetic tape storage devices, optical disk storage devices and several 
+types of solid-state random access memory (RAM). The slower of these 
+storage devices generally provide the higher data storage capacity and, 
+therefore, present the more challenging garbage collection problems. In the present art, "garbage collection" procedures move data from one 
+place to another to create large contiguous sections of available storage. 
+In RAM, the data are moved in byte increments. In DASDs, the data are moved 
+in track increments. Thus, for RAM or DASD garbage collection, the 
+necessary actions have a constant "cost". However, for storage recovery in 
+data storage libraries, organized in physical volumes (e.g., tape or optical 
+disk), the data are moved in variable increments, depending on the available 
+space in a volume as a fraction of volume data storage capacity. Herein, 
+this is denominated a "variable cost" action. The reason for such cost 
+variability can be appreciated by considering another distinction. In RAM 
+or DASD data storage, empty space can be accumulated into arbitrarily large  
+ 
+contiguous blocks, with the larger contiguous block being the more 
+desirable. However, there is no operating advantage for freeing a 
+contiguous data storage block larger than a single data volume in a 
+multivolume data
+</DESCRIPTION>
+<CLAIMS>
+A data processing system including: a data storage library having a 
+recycle processing capacity and a plurality N of volumes for storing data, 
+
+wherein a fraction Fn = [0,1] of the nth said volume contains valid data and 
+
+herein N and n ≦ N are positive integers; and a storage recovery system for 
+compacting said valid data to recover empty volumes for reuse, the storage 
+
+recovery system comprising: 
+   queuing means for arranging a plurality M ≦ N of said volumes into a 
+
+recycle processing queue ordered by said fraction Fm, wherein M and m ≦ M are 
+positive integers; and 
+
+   recycling means coupled to said queuing means for transferring said 
+valid data from the first volume in said recycle processing queue to a 
+
+compaction target volume and for removing said first volume from said recycle 
+processing queue. 
+A data processing system as claimed in Claim 1 further comprising: 
+   selection means in said queuing means for apportioning said plurality M 
+
+of volumes into an immediate queue and a deferred queue; 
+   launching means coupled to said queuing means and said recycling 
+
+means for starting said recycling means before formation of said recycle 
+processing queue, whereby said first volume is taken from said immediate 
+
+queue; and 
+   sorting means in said queuing means for sorting the volumes in order 
+
+of said fraction Fm = [0,1] in said deferred queue and for appending said 
+
+deferred queue to said immediate queue to form said recycle processing queue. 
+A data processing system as claimed in claim 2 further comprising: 
+   thresholding means coupled to said selection means for comparing said 
+
+fraction Fm for the mth said volume with a valid data occupancy fraction 
+ 
+
+threshold T = [0,1], whereby said mth volume is added to said immediate queue 
+
+if Fm ≦ T and otherwise is added to said deferred queue; and 
+   bypass means coupled to said thresholding means for adding said mth 
+
+volume to the front of said immediate queue when Fm = 0. 
+A data processing system as claimed in Claim 3 further comprising: 
+   adjusting means coupled to said thresholding means for adjusting said 
+
+threshold T according to the relationship of the contents of said immediate 
+queue to said recycle processing capacity. 
+A data processing system as claimed in Claim 4 further comprising: 
+   adding means in said adjusting means for adding an increment to 
+
+increase said threshold T responsive to the presence of an inadequate 
+plurality of volumes in said immediate queue; and 
+
+   proportioning means in said adjusting means for multiplying by a 
+fraction to decrease said threshold T responsive to the presence of an 
+
+excessive plurality of volumes in said immediate queue. 
+A data processing system as claimed in any of the preceding claims 
+wherein the data storage library is a data storage tape library. 
+A data processing system as claimed in any of claims 1 to 5 wherein the 
+data storage library is an optical data storage library. 
+A method of operating a data processing system having a data storage 
+library which includes: a recycle processing capacity and a plurality N of 
+
+volumes for storing data, wherein a fraction Fn = [0,1] of the nth said volume 
+
+contains valid data and wherein N and n ≦ N are positive integers, the method 
+comprising the steps of: 
+(a) arranging a plurality M ≦ N of said volumes into a recycle 
+processing queue ordered by said fraction Fm, wherein M and m ≦ M are 
+
+positive integers; and 
+(b) performing repeatedly the steps of 
+
+(b.1) transferring said valid data from the first volume in said 
+recycle processing queue to a compaction target volume, and 
+(b.2) removing said first volume from said recycle processing 
+queue, thereby compacting said valid data to recover empty volumes. 
+A method as claimed in claim 8, wherein said arranging step (a) 
+comprises the steps of: 
+
+
+(a.1) apportioning said M volumes into an immediate queue and a 
+deferred queue; 
+(a.2) starting said performing step (b) before completion of said 
+apportioning step (A.1), whereby said first volume is taken from said 
+
+immediate queue; 
+(a.3) sorting said volumes in order of said fraction Fm in said deferred 
+queue after completion of said apportioning step (a.1); and 
+(a.4) appending said deferred queue to said immediate queue to form 
+said recycle processing queue after completion of said sorting step (a.3). 
+A method as claimed in Claim 9 wherein said apportioning step (a.1) 
+comprises the steps of: 
+
+(a.1.1)defining a valid data occupancy fraction threshold 
+T = [0,1]
+; (a.1.2)placing the mth said volume in said immediate queue if 
+Fm ≦ T; (a.1.3)placing said mth volume at the beginning of said immediate 
+
+queue if Fm = 0; and (a.1.4)otherwise placing mth volume in said deferred queue. 
+A method as claimed in Claim 10 wherein said apportioning step (a.1) 
+further comprises the step of: 
+
+   (a.1.5) adjusting said threshold T according to the relationship of 
+the contents of said immediate queue to said recycle processing capacity. 
+A method as claimed in Claim 11 wherein said adjusting step (a.1.5) 
+comprises the steps of: 
+
+
+(a.1.5.1) adding an increment to increase said threshold T 
+responsive to an inadequate number of volumes in said immediate queue; 
+(a.1.5.2) multiplying by a fraction to decrease said threshold T 
+responsive to the presence of an excessive plurality of volumes in said 
+
+immediate queue. 
+</CLAIMS>
+</TEXT>
+</DOC>

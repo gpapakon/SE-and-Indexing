@@ -1,0 +1,393 @@
+<DOC>
+<DOCNO>EP-0644486</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Management of data accesses in computer systems.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F306	G06F306	G06F946	G06F948	G11B2010	G11B2010	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G11B	G11B	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F3	G06F3	G06F9	G06F9	G11B20	G11B20	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+Disclosed is a method and apparatus for optimizing disk access 
+operations which span multiple logical disk partitions and multiple disk 
+
+drives. The disclosed method makes optimum use of concurrency in the 
+software without causing poor performance due to contention for seeks in 
+
+a disk drive. 
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+HLAVA ALAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MASTIE SCOTT DAVID
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ROBERTS ARTHUR RAY
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HLAVA, ALAN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+MASTIE, SCOTT DAVID
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ROBERTS, ARTHUR RAY
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to the field of managing the 
+processing of quantities of data spanning logical disk partitions in 
+computer systems. More particularly, the present invention relates to 
+methods and apparatus for managing data access across multiple logical 
+partitions spread across one or more physical disk drives, and 
+particularly for the transfer of large quantities of data. It is noted 
+that the term "physical disk" is used in relation to the present 
+invention to indicate any permanent storage device for data where the 
+device includes an access mechanism; e.g., a disk drive head arm carrying 
+one or more read/write heads that are capable of reading/writing one 
+discrete area of the disk medium at any one time, and require time to 
+move from one area of the medium to another. A crucial characteristic of any file system associated with an 
+operating system for a computer is how well the file system performs. 
+Conventionally, all application file I/O is accomplished by, and through, 
+the operating system file system. By way of example, in the IBM 
+Operating System/2* (OS/2*) (trademarks of International Business 
+Machines Corporation), which is a multi-tasking operating system where 
+multiple programs execute concurrently, application programs access the 
+file system through the application programming interface. When 
+considering the speed of a computer, file operations are slow. For 
+example, reading a sector from a disk is about 100 to 200 times slower 
+than copying the same amount of data from the computer memory. Disk 
+access time may be 40 milliseconds (ms) or more, depending upon sector 
+location, the position of the read/write head, and the disk speed. 
+Compare this with a memory-memory move of 512 bytes of data, which 
+requires about .4 ms on an 8 MHz machine. Now consider the time to move 
+large quantities of data to, or from, a hard file. Large hard files, or hard disks, are usually supported as multiple 
+"logical" devices. Disk partitioning is a very simple concept which is 
+implemented fundamentally in the disk device driver. Each physical disk 
+is divided into one or more areas called partitions or logical 
+partitions. Each of the disk partitions is treated as a separate and 
+distinct volume. In this connection, the file system, associated with  
+ 
+the operating system (in our example, OS/2), refers to each partition 
+with a different drive identifier as if it were a different disk drive. Much has been written and accomplished concerning methods of 
+optimizing disk
+</DESCRIPTION>
+<CLAIMS>
+Apparatus for managing data access in a computer system including 
+multiple physical disks, at least one of the physical disks including a 
+
+plurality of logical partitions, and data access means for performing 
+under the control of a data access program data access tasks on a master 
+
+task list, each access task identifying a partition on which the access 
+task operates, said data access means having a plurality of program 
+
+threads for concurrently accessing data located in multiple partitions, 
+the apparatus comprising: 
+
+   means to map according to physical disks the logical partitions 
+identified by tasks to be performed by the data access program; 
+
+   means to factor tasks on the master task list by partition and 
+physical disk into a task list for each physical disk according to the 
+
+partition identified by each task; 
+   means to initiate a thread to operate on each physical disk to be 
+
+accessed as a part of the data access program; and 
+   means to concurrently execute said threads in accordance with each 
+
+of said physical disk task lists to execute all tasks in each partition 
+and access the partitions sequentially until said data access program is 
+
+completed. 
+Apparatus for managing accesses to physical disk drives in an 
+interconnected network of client and server computing systems where at 
+
+least some of the systems in the network have one or more physical disk 
+drives with a read/write access mechanism for the physical disk drive, 
+
+each disk drive has one or more partitions, and the server has a master 
+task list of read/write access tasks to be processed and each task 
+
+identifies a partition to be accessed during the task, said apparatus 
+comprising: 
+
+   means for mapping the logical partitions to a partition map 
+referencing the partitions to the physical disk drives in the network;
+
+ 
+   means for factoring, based on the partition map, the access tasks 
+
+from the master task list to a task list for each physical disk drive 
+according to the partitions identified by tasks; 
+
+   thread means for executing tasks at each physical disk drive 
+according to the task list for the disk drive, said thread means 
+
+executing all tasks in one partition before executing tasks in the next 
+partition whereby the access mechanism of the physical disk drive does 
+
+not cycle back and forth between partitions; and 
+   means for starting said thread means at each physical disk drive to 
+
+process tasks in the drive's task list. 
+Apparatus as claimed in Claim 2 wherein said mapping means 
+comprises: 
+
+   means for getting the partitions identified in the access tasks on 
+the master task list; and 
+
+   means for determining on which physical disk each partition resides 
+and generating for each partition a partition entry in a partition map 
+
+for the computing system to cross-reference each partition to a physical 
+disk. 
+Apparatus as claimed in Claim 2 or Claim 3 wherein said factoring 
+means comprises: 
+
+   means for retrieving each access task from the master task list; 
+and 
+
+   means for adding each retrieved access task to the task list of the 
+physical disk containing the partition identified by the access task. 
+Apparatus as claimed in any of Claims 2 to 4, wherein said thread 
+means comprises: 
+
+   means for retrieving all tasks associated with one of the 
+partitions from the physical disk task list;
+
+ 
+   means for processing all tasks associated with said one partition; 
+
+and 
+   determining if there are more partitions having tasks to be 
+
+processed and, if so, retrieving and processing all tasks in the next 
+partition until all tasks in each partition have been processed. 
+Apparatus as claimed in any of Claims 2 to 5 wherein said factoring 
+means comprises: 
+
+   means for retrieving an access task from the master task list; 
+   means for queuing the retrieved access task in one of the physical 
+
+disk task lists according to the partition identified by the access task 
+and based on the partition map; and 
+
+   means for determining if there are more tasks to be factored and, 
+if so, said retrieving means and said queuing means retrieving and 
+
+queuing the next task until all tasks in the master task list have been 
+queued by partition in one of the physical disk d
+rive task lists. 
+Apparatus as claimed in Claim 2, wherein said thread means 
+comprises: 
+
+   means for getting a task from the physical disk task list; 
+   means for processing the task retrieved by said getting means; and 
+
+   means for determining if there are more tasks to be processed and, 
+if so, said task getting means and said task processing means 
+
+sequentially get and process each task according to the task's position 
+in the queue until all tasks have been processed sequentially. 
+Apparatus as claimed in any of Claims 2 to 7, wherein said starting 
+means comprises: 
+
+   means for testing whether a thread means has been started at each 
+physical disk having a task list containing at least one access task; and 
+
+wherein
+ 
+
+   said starting means is arranged to start a thread means at each 
+physical disk having a task list containing at least one access task and 
+
+no thread means previously started. 
+Apparatus as claimed in Claim 8 including: 
+   means for waiting for "n" tasks to be loaded into the master task 
+
+list, where n is an integer greater than zero and no more than the 
+maximum list capacity of the master task list; and 
+
+   said factoring means responsive to said waiting means for factoring 
+tasks from the master task list to the physical disk drive task lists 
+
+after "n" tasks have been loaded into the master task list. 
+A method for managing data access in a computer system wherein said 
+computer system includes multiple physical disks, at least one of the 
+
+physical disks including a plurality of logical partitions, and data 
+access means for performing under the control of a data access program 
+
+data access tasks on a master task list, each access task identifying a 
+partition on which the access task operates, said data access means 
+
+operating under the control of a plurality of program threads for concurrently 
+accessing data located in multiple partitions, said method 
+
+comprising the steps of: 
+   mapping according to physical disks the logical partitions 
+
+identified by tasks to be performed by the data access means; 
+   factoring tasks on the master task list by partition and physical 
+
+disk into a task list for each physical disk according to the partition 
+identified by each task; 
+
+   initiating a thread to operate on each physical disk to be accessed 
+under the control of the data access program; and 
+
+   concurrently executing said threads in accordance with each of said 
+physical disk task lists to execute all tasks in each partition and 
+
+access the partitions sequentially until said data access program is 
+completed. 
+A method as claimed in Claim 10 wherein said mapping step comprises 
+the steps of: 
+
+   getting the partitions identified from the access tasks on the 
+master task list; 
+
+   determining on which physical disk each partition resides; 
+   generating a partition entry in a partition map for the computing 
+
+system to cross-reference each partition to a physical disk; and 
+   determining if there are more partitions to be mapped and, if so, 
+
+reiterating these mapping steps until all partitions have been mapped 
+according to their associated physical disk drive. 
+A method as claimed in Claim 10 wherein said factoring step 
+comprises the steps of: 
+
+   getting an access task from the master task list; 
+   adding the access task to said task list of the physical disk 
+
+containing the partition identified by the access task; 
+   determining if there are more tasks to be factored and, if so, 
+
+reiterating these factoring steps until all tasks have been factored to 
+their associated physical disk drive task list. 
+A method as claimed in Claim 10, wherein said concurrently 
+executing step comprises the following steps executed at each physical 
+
+disk: 
+   getting all tasks associated with one of the partitions from the 
+
+physical disk task list; 
+   processing all tasks associated with said one partition; and 
+
+   determining if there are more partitions having tasks to be 
+processed and, if so, reiterating the task getting and task processing 
+
+steps until all tasks in each partition have been processed sequentially 
+by partition. 
+A method as claimed in Claim 10 wherein said factoring step 
+comprises the steps of: 
+
+   getting an access task from the master task list; 
+   adding the access task to said task list of the physical disk 
+
+containing the partition identified by the access task; 
+   queuing the access task in the physical disk task list according to 
+
+partition identified by the access task; and 
+   determining if there are more tasks to be factored and, if so, 
+
+reiterating the factoring steps until all tasks have been queued by 
+partition in their associated physical disk drive task list. 
+A method as claimed in Claim 14, wherein said concurrently 
+executing step comprises the following steps executed at each physical 
+
+disk: 
+   getting a task from the physical disk task list; 
+
+   processing the task; and 
+   determining if there are more tasks to be processed and, if so, 
+
+reiterating the task getting and task processing steps to sequentially 
+get and process each task according to the tasks position in the queue 
+
+until all tasks have been processed sequentially. 
+A method as claimed in Claim 10, wherein said concurrently 
+executing step further comprises: 
+
+   ending the thread at each physical disk drive when all tasks in the 
+physical disk drive's task list have been executed; and 
+
+   ending the data access program when all threads have ended. 
+A method as claimed in Claim 10, said thread initiating step 
+comprising the steps of:
+
+ 
+   testing whether a thread has been initiated at each physical disk 
+
+drive having a task list containing at least one access task; and 
+   starting a thread at each physical disk drive having a task list 
+
+containing at least one access task if a thread has not been previously 
+started at the physical disk drive. 
+A method as claimed in Claim 10 including: 
+   waiting for "n" tasks to be loaded into the master task list before 
+
+proceeding to said factoring step, where n is an integer greater than 
+zero and no more than the maximum list capacity of the master task list. 
+A method as claimed in Claim 18, wherein said concurrently 
+executing step comprises the following steps executed at each physical 
+
+disk: 
+   getting a task from the physical disk task list; 
+
+   processing the task; and 
+   determining if there are more tasks to be processed and, if so, 
+
+reiterating the task getting and task processing steps to sequentially 
+get and process each task according to the tasks position in the queue 
+
+until all tasks have been processed sequentially, and if not, waiting for 
+more tasks to be added to the physical disk task list before reiterating 
+
+the task getting and task processing steps. 
+A method for managing read/write access to physical disk drives by 
+multiple threads in a network system of client and server computing 
+
+systems where at least some of the systems in the network have one or 
+more physical disk drives, each disk drive has one or more partitions, 
+
+and the server has a master task list of access tasks to be processed and 
+each task identifies with a partition to accessed during the performance 
+
+of the task, the method comprising the steps of: 
+   mapping the logical partitions to a partition map fo
+r all physical 
+disk drives in the network system;
+
+ 
+   queuing the access tasks for each disk drive in a drive task list 
+
+according to the partitions identified by tasks; 
+   dispatching one thread to each physical disk drive to process tasks 
+
+in the drive task list; and 
+   each thread at each disk drive executing tasks according to the 
+
+queue of tasks in the task list for the disk drive whereby all tasks in a 
+partition are executed by the thread prior to the thread executing tasks 
+
+in another partition on the same disk drive. 
+A method as claimed in Claim 20 including the step of: 
+   executing threads for different disk drives concurrently. 
+</CLAIMS>
+</TEXT>
+</DOC>

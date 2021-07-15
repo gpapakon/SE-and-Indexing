@@ -1,0 +1,272 @@
+<DOC>
+<DOCNO>EP-0639261</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+METHOD FOR FAST KALMAN FILTERING IN LARGE DYNAMIC SYSTEMS
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G05B1304	G05B1304	H03H1702	G01S1300	G01S1372	G01D1800	G01D1800	H03H1702	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G05B	G05B	H03H	G01S	G01S	G01D	G01D	H03H	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G05B13	G05B13	H03H17	G01S13	G01S13	G01D18	G01D18	H03H17	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+The invention is based on the use of the principles of Lange's Fast Kalman Filtering (FKF) for large process control, prediction or warning systems where other computing methods are either too slow or fail because of truncation errors. The invented method makes it possible to exploit the FKF method for dynamic multiparameter systems that are governed by partial differential equations.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+LANGE ANTTI AARNE ILMARI
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+GRANDJEAN, DANIELLE NELLY
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+LANGE ANTTI AARNE ILMARI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+LANGE, ANTTI AARNE LLMARI
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates generally to all practical applications of the 
+Kalman Filter and more particularly to large dynamical systems with a 
+special need for fast, computationally stable and accurate results. Prior to explaining the invention, it will be helpful to first 
+understand the prior art of both the Kalman Filter (KF) and the Fast Kalman 
+Filter (FKF™) for calibrating a sensor system (WO 90/13794). The underlying 
+Markov process is described by the equations from (1) to (3). The first 
+equation tells how a measurement vector yt depends on the state vector st 
+at timepoint t, (t=0,1,2...). This is the linearized Measurement (or 
+observation) equation:yt = Ht st + et 
+The design matrix Ht is typically composed of the partial derivatives of 
+the actual Measurement equations. The second equation describes the time 
+evolution of e.g. a weather balloon flight and is the System (or state) 
+equation:st = st-1 + ut-1 + at 
+(or, st = A st-1 + B ut-1 + at more generally)  
+which tells how the balloon position is composed of its previous position 
+st-1 as well as of increments ut-1 and at. These increments are typically 
+caused by a known uniform motion and an unknown random acceleration, 
+respectively.  
+ The measurement errors, the acceleration term and the previous 
+position usually are mutually uncorrelated and are briefly described here 
+by the following covariance matrices: 
+The Kalman forward recursion formulae give us the best linear unbiased 
+estimates of the present state 
+and its covariance matrix 
+Pt = Cov(st) = Pt-1-KtH't Pt-1 
+where the Kalman gain matrix Kt is defined by 
+Let us now partition the estimated state vector s andt and its covariance 
+matrix Pt as follows: 
+ 
+where 
+b andt tells us the estimated balloon position; and, c andt the estimated calibration parameters.  
+The respective partitioning of the other quantities will then be as 
+follows: 
+The recursion formulae from (4) to (6) gives us now a filtered (based 
+on updated calibration parameters) position vector 
+ 
+and the updated calibration parameter vector 
+ 
+The Kalman gain matrices are respectively 
+The following modified form of the general State equation is 
+introduced 
+Ast-1 +But-1 = I st +A(st-1-st-1)-at 
+where s and represents an estimated value of a state vector s. Combine it with 
+the Measurement equation (1) in order to obtain so-called Augmented Model: 
+The state parameters can now be computed by using the well-known solution 
+of a Regression Analysis problem given below. Use it for Updating:st = ( Z'tV-1t Zt)-1Z't
+</DESCRIPTION>
+<CLAIMS>
+A method for optimal or suboptimal Fast Kalman Filtering (FKF), 
+
+especially for calibrating readings of a multiple sensor system,
+ where the 
+Measurement and State Equations, in linearized forms, are as follows: 
+
+
+y
+t
+ = H
+t
+ s
+t
+ + e
+t
+s
+t
+ = A s
+t-1
+ + B u
+t-1
+ + a
+t
+ 
+where at time t 
+
+
+y
+t
+ = measurement vector of observed angles, distances, etc. 
+H
+t
+ = observations' gain or design matrix 
+s
+t
+ = state vector, calibration parameters included 
+e
+t
+ = measurement error vector 
+R
+t
+ = Cov(
+e
+t
+) = E 
+e
+t
+e
+t
+'
+ = covariance matrix of said errors 
+u
+t
+ = external forcing or control vector 
+a
+t
+ = system noise vector 
+Q
+t
+ = Cov(
+a
+t
+) = E 
+a
+t
+a
+t
+'
+ = covariance matrix of said system noise 
+A = state transition matrix which typically depends on time t 
+B = gain matrix of external forcing or controls, 
+ 
+and where said vectors and matrices, due to physical or other structural 
+
+relationships between their elements, 
+are
+ partitioned as follows: 
+
+ 
+where 
+
+
+c
+t
+ = calibration (typically) parameters for a time/space volume 
+b
+t,k
+ = all other state parameters for said volume, 
+ 
+and,  
+
+ 
+
+A
+b
+1
+, A
+b
+2
+,...,A
+b
+K
+ and 
+A
+c
+ = submatrices of said partitioned A 
+B
+b
+1
+, B
+b
+2
+,...,B
+b
+K
+ and 
+B
+c
+ = submatrices of said partitioned B, 
+ 
+wherein the improvement comprises the indicated new way of partitioning 
+
+said state transition matrix A and/or said gain matrix B of said external 
+forcing or said controls,
+ 
+and where the Fast Kalman Filter (FKF) formulae for a recursion step are: 
+
+
+ 
+where, for k=1,2,...,K, 
+
+
+ 
+and, for k=0, 
+
+
+R
+t,0
+= V
+-1
+t,0
+y
+t,0
+ = 
+A
+c
+s
+t-1
++
+B
+c
+u
+t-1
+G
+t,0
+= I 
+  
+ 
+
+where b and
+t,k
+ and c and
+t
+ are the optimal or suboptimal estimates (^) of said 
+state parameters s
+t
+ and
+ 
+wherein the improvement comprises the possibility to compute their error 
+
+variances and covariances from: 
+
+ 
+and where optimal or suboptimal predictions 
+ and 
+ of said state 
+parameters 
+s
+t
+ can be obtained for prediction and process control purposes 
+from: 
+
+
+ 
+where their error variances and covariances P
+t
+ are computed: 
+
+ 
+where the "∼"-notation indicates that said prediction (no observational 
+
+data available) step takes place during a time interval (t-1,t). 
+</CLAIMS>
+</TEXT>
+</DOC>

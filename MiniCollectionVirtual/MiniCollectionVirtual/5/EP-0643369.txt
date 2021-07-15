@@ -1,0 +1,133 @@
+<DOC>
+<DOCNO>EP-0643369</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+System and method for clipping in computer graphics systems.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F3048	G06F3048	G06F3153	G06F3153	G06T1100	G06T1100	G06T1180	G06T1180	G09G514	G09G514	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06T	G06T	G06T	G06T	G09G	G09G	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F3	G06F3	G06F3	G06F3	G06T11	G06T11	G06T11	G06T11	G09G5	G09G5	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A system and method for performing efficient clipping to visible 
+windows. A window clip buffer is established for each window being 
+
+written directly to the front frame buffer. The window clip buffer is 
+initialized as having the same dimensions as the window itself and each 
+
+pixel position is initially set to False (not visible.) The visible 
+regions are determined and the buffer updated to True (visible) for those 
+
+visible regions. As each pixel is being drawn the window clip buffer is 
+tested. The pixel is drawn to the frame buffer only where the window 
+
+clip buffer pixel is true (visible.) Changes to window positions on the 
+screen causes the visible regions to be updated. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+NARAYANASWAMI CHANDRASEKHAR
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+NARAYANASWAMI, CHANDRASEKHAR
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to a system and method for clipping 
+in computer graphics systems. Windowed graphic systems display a number of overlapping windows on 
+a physical display device such as a CRT screen. Each window is updated 
+by one or more applications. Each application writes text or graphic 
+images to its assigned window or windows. Because the windows overlap, 
+portions of a window may not be visible. Writing text or image data to 
+an invisible window portion is wasteful of processing capacity. Prior art graphic systems implement a clipping buffer to control 
+writing of data to the visible portions of the frame buffer. The 
+clipping buffer is defined to contain the same number of horizontal and 
+vertical positions as the display screen, e.g. 1024x1278. Each clipping 
+buffer position contains a value indicating which, if any, window is 
+visible at that point. The clipping buffer value is tested by each 
+particular window and only those matching the clipping buffer value write 
+to the frame buffer. Window clipping is typically performed by hardware 
+in the graphics pipeline in hardware graphics adapters. The increased processing capacity of technical workstations, 
+particularly those based on RISC architecture designs, allow high 
+function graphics processing to be performed without special purpose 
+graphics hardware. The system processor can be used to perform graphics 
+functions including transformation, scaling, and rendering. Use of the 
+system processor rather than special purpose graphics hardware poses a 
+problem for window clipping. Double buffered graphics systems maintain two frame buffer images: 
+one for current display (the front buffer); and one being updated by the 
+applications (the back buffer). The back buffer is periodically copied 
+to the front buffer thereby updating the display. Windowed systems are 
+frequently implemented with a back buffer for each window that is clipped 
+to the visible portion during the copy to the front buffer. The copy is 
+performed as a block transfer operation and clipping can be efficiently 
+performed using block mode operations.  Existing system processor based graphics functions (typically two 
+dimensional graphics) typically write directly to the frame buffer and do 
+not use double buffering. Clipping must be performed for each pixel as 
+it is generated when the pixels are written directly to the frame buffer. 
+This can result in inefficient and poor performance of the graphics 
+system. A process for efficiently performing window clipping
+</DESCRIPTION>
+<CLAIMS>
+A method for clipping pixels being drawn into one of a plurality of 
+windows in a computer graphics system, the system having a memory and a 
+
+processor, the method comprising the steps of: 
+   allocating a portion of said memory to be a window clip buffer; 
+
+   testing the others of said plurality of windows to determine a 
+plurality of obscured regions where said other windows obscure said 
+
+one window; 
+   transforming said window clip buffer to indicate visibility or 
+
+obstruction at each pixel position; 
+   for each pixel drawn to said one window performing the following 
+
+steps: 
+      testing a value in said window clip buffer corresponding to 
+
+the pixel position of the pixel being drawn; 
+      drawing said pixel if said test indicates a visible location, 
+
+and bypassing drawing if the location is not visible. 
+A system for clipping graphic images in a graphics system having a 
+processor, display device and memory, wherein the graphic images are 
+
+written to a frame buffer in said memory and displayed in one of a 
+plurality of windows on the display device, the system comprising: 
+
+   means for allocating a window clipping buffer from said memory; 
+   means for initializing said window clipping buffer to a first 
+
+value; 
+   means for determining regions of said one window that are obscured 
+
+by others of said plurality of windows; 
+   means for writing a second value to said window clipping buffer 
+
+only in areas of said window clipping buffer corresponding to the 
+portions of said one window that are visible;
+
+ 
+   means for testing said window clipping buffer before writing 
+
+graphic image data to said frame buffer and writing said graphic 
+image data only if said buffer indicates a visible region. 
+The system of claim 2, wherein a separate window clipping buffer is 
+allocated for each of said plurality of windows. 
+The system of claim 3, wherein said means for determining visible 
+regions and said means for writing a second value operate whenever a 
+
+window event occurs on said display device. 
+</CLAIMS>
+</TEXT>
+</DOC>

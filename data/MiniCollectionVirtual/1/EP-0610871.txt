@@ -1,0 +1,225 @@
+<DOC>
+<DOCNO>EP-0610871</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Automatic subarea selection for image registration.
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06T300	G06T300	G06T700	G06T700	G06T760	G06T760	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06T	G06T	G06T	G06T	G06T	G06T	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06T3	G06T3	G06T7	G06T7	G06T7	G06T7	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A preferably computer implemented method for automatically 
+selecting subareas (18) from a reference image (13) 
+
+to provide for optimal registration between a current image 
+(21) and the reference image (13), comprises the following steps: 
+
+
+a) providing a reference image (13); 
+b) calculating a measurement information matrix comprising 
+an inverse covariance for each of a plurality of image subareas 
+
+(18) of the reference image (13); 
+c) selecting (15) a plurality of candidate image subareas 
+(18) from the plurality of image subareas (18) based upon the 
+
+relative values of the measurement information matrices; 
+d) calculating covariance propagation weights for the 
+reference image (13); 
+e) calculating the covariance of polynomial error 
+coefficients for each of the candidate subareas (18) using a 
+
+previous covariance of polynomial error coefficients and the 
+calculated covariance propagation weights; 
+f) calculating a total mean squared registration error 
+for each of the candidate subareas (18) in terms of position 
+
+and predicted measurement covariance; and 
+g) outputting a list of subarea positions derived from 
+the total mean squared registration error that are used to 
+
+correlate the candidate subareas (18), which correlated subareas 
+are used to register the current image (21) to the reference 
+
+image (13). 
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+HUGHES AIRCRAFT CO
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+HUGHES AIRCRAFT COMPANY
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+FRANKOT ROBERT T
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HUDSON RALPH E
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FRANKOT, ROBERT T.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+HUDSON, RALPH E.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates generally to image processing, and more particularly, 
+to automatic subarea selection methods for use in registering images. In the prior art, selection of image subareas is based on scalar measures of 
+"edge density" or "entropy", such as is described in a paper entitled "Spatial Registration 
+of Multispectral Video Imagery" by Anuta, published in SPIE J., Vol. 7, pp. 168-175, 
+September 1969. In conventional practice, there is no systematic way of considering 
+subarea position and its impact on registration accuracy. No general method is 
+provided to limit the uncertainty of registration parameters. No general method is 
+provided for handling complementary measurements because measurement quality 
+indicators are based on scalar quantities. Accordingly, it is an objective of the present invention to provide methods for 
+use in registering images, and in particular, automatic subarea selection methods that 
+improve image registration between related images. The present invention is a computer implemented method for automatically 
+selecting subareas from a reference image, such as a SAR image, for example, such 
+that registration accuracy is optimized between a current image and the reference image. 
+Optimal subarea selection reduces on-line computation and reference data storage 
+required for registration effectiveness. The present method minimizes a cost function, 
+corresponding to the predicted total mean squared registration error (MSE), between the  
+ 
+images. The total MSE is predicted in terms of position and predicted measurement 
+covariance of each candidate subarea. The measurement covariance for each subarea is 
+predicted from local image statistics. Combinatorial optimization procedures select a 
+predetermined number of subareas to minimize total MSE. The use of error prediction 
+techniques and the associated method for synthesizing optimal sets of subareas have not 
+been used in conventional image registration methods. The selection criteria includes a vector quality (accuracy) metric for each 
+subarea. It is important to include a vector measure of subarea quality, a covariance 
+matrix rather than a scalar quality measure, to appropriately handle measurements that 
+are of good quality, say, in x but not in y. The covariance matrix defines an error 
+ellipse associated with a given measurement. Previous subarea selection approaches 
+have used scalar indications of local measurement quality. The Anuta method referenced 
+in the Background section uses a measure of
+</DESCRIPTION>
+<CLAIMS>
+A preferably computer implemented method for automatically 
+selecting subareas (18) from a reference image (13) 
+
+to provide for optimal registration between a current image 
+(21) and the reference image (13), said method comprising the 
+
+steps of: 
+   providing a reference image (13); 
+
+   calculating a measurement information matrix (31) 
+comprising an inverse covariance for each of a plurality of 
+
+image subareas (18) of the reference image (13); 
+   selecting (15) a plurality of candidate image subareas 
+
+(18) from a plurality of image subareas (18) based upon the 
+relative values of the measurement information matrices; 
+
+   calculating covariance propagation weights (63) for 
+the reference image (13); 
+
+   calculating the covariance of polynomial error 
+coefficients (64) of each of the candidate subareas (18) using 
+
+a previous covariance of polynomial error coefficients (17c) 
+and the calculated covariance propagation weights (63); 
+
+   calculating a total mean squared registration error 
+(65) for each of the candidate subareas (18) in terms of position 
+
+and predicted measurement covariance; and 
+   outputting a list of subarea positions derived from 
+
+the total mean squared registration error (65) that are used 
+to correlate the candidate subareas (18), which correlated 
+
+subareas are used to register the current image (21) to the 
+reference image (13). 
+The method of claim 1, characterized in that the step 
+of calculating the measurement information matrix (31) comprises 
+
+the steps of: 
+   calculating derivative images Iix and Iiy; 
+
+   calculating or look up b and Aw; 
+   estimating σn;
+
+ 
+for each Hessian term: 
+
+   calculating product of derivates, [Ixi]², 
+
+filtering the product with window w, and 
+downsampling by W/2, where W is the equivalent width 
+
+of w; and 
+   for each point in the downsampled Hessian images, converting 
+
+the Hessian term into the information matrix using equation 
+(6). 
+The method of claim 1, characterized in that the step 
+of synthesizing optimal subarea sets comprises the step of: 
+
+   calculating downsampled information matrix images; 
+   calculating Ktot = number of points in each downsampled 
+
+image; 
+   determining covariance propagation weights r for the 
+
+downsampled image; 
+   constructing SKtot,t = {1, ..., Ktot}; 
+
+   calculating xk = position in original image of the kth point 
+from the downsampled image; and 
+
+   for k = Ktot through K in increments of Kinc, for every active 
+subarea 
+
+i = ∈ Sk 
+: 
+
+   calculate J(Sk - i), and 
+   deactivate the Kinc active subareas with largest 
+
+J(Sk + i). 
+The method of claim 1, characterized in that the step 
+of synthesizing optimal subarea sets comprises the steps of: 
+
+   calculating downsampled information matrix images; 
+   calculating Ktot = number of points in the downsampled image; 
+
+   determining covariance propagation weights rij of the 
+
+downsampled image; 
+   calculate xk = position in the original image of the kth 
+
+point from the downsampled image;
+ 
+
+for every subarea i ∈ {1, ..., Ktot}: 
+   calculating a local mean squared registration error 
+
+(Ci); and 
+   activating the Kmin ∼ p/2 subareas with the smallest 
+
+tr(Ci); and 
+   for k = Kmin through K in increments of Kinc, and for 
+
+every inactive subarea i ∉ Sk: 
+   calculating J(Sk + i); and 
+
+   activating the Kinc active elements with the smallest 
+J(Sk + i). 
+The method of claim 3 or claim 4, characterized in 
+that the step of determining covariance propagation weights 
+
+r comprises the steps of: 
+   calculating the covariance propagation weights r. 
+The method of claim 3 or claim 4, characterized in 
+that the step of determining covariance propagation weights 
+
+r comprises the steps of: 
+   looking up the covariance propagation weights r. 
+</CLAIMS>
+</TEXT>
+</DOC>

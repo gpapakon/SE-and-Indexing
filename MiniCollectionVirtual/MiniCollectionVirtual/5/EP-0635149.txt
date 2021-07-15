@@ -1,0 +1,346 @@
+<DOC>
+<DOCNO>EP-0635149</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+METHOD AND APPARATUS FOR STORING AND RETRIEVING MULTI-DIMENSIONAL DATA IN COMPUTER MEMORY
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1202	G06F1730	G06F1202	G06F1724	G06F1724	G06F1730	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F12	G06F17	G06F12	G06F17	G06F17	G06F17	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method and apparatus for storing and retrieving multi-dimensional data in which a multi-level data structure is defined wherein one level contains those dimensions chosen by the user to result in dense data and the other level contains the remaining sparse data combinations. The dense dimensions specified in any given case are used to determine the basic block size used to store information. The remaining sparse dimensions are used to create the upper level structure which is used to point to the block which contains the desired information. Depending upon the sparseness of the data, different types of upper level structure may be used. Both the variable data block size and the choice of pointer structure may be used to balance the memory required against the speed of retrieval. Once the data structure is created, the data in the data blocks, and the pointers in one type of upper level pointer structure, may be retrieved by simple calculation of the offset of the desired cell in memory rather than requiring a search.
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+ARBOR SOFTWARE CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+ARBOR SOFTWARE CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+EARLE ROBERT J
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+EARLE, ROBERT, J.
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates generally to computer memory
+and more specifically to a method and apparatus for storing
+and retrieving multi-dimensional data, such as financial
+data, in computer memory such that the speed of accessing
+the memory is maximized and the amount of memory needed to
+store such data is minimized.Financial data is often viewed in the form of a
+spreadsheet containing rows and columns of figures, or
+data. It has become common to implement such spreadsheets
+on computers, so that changes to one item may be
+automatically reflected in any other items which use the
+altered item as a basis for a calculation. Before any such
+manipulation of data can occur, however, the data must be
+imported from storage or input by the user. Many companies
+and individuals now routinely enter their basic financial
+data into computers for such later retrieval and
+manipulation.A spreadsheet may be thought of as a "two dimensional"
+array of data. For example, Company X might list income
+and expense accounts along the vertical axis and the months
+of the year along the horizontal axis, as shown in Figure
+1. Each block in the spreadsheet corresponds to a
+particular account and a particular month, and the amount
+of that account in that month, if any, is entered in that
+block. In this example, the list of accounts is one
+"dimension" and time is the other dimension. In this
+example, some accounts depend on other accounts; for
+example, "Margin" is "Sales" less "Cost of Goods Sold."
+One advantage of computerized spreadsheets is that once the 
+user defines this relationship, if any of the basic data is
+changed, such as the entry for Sales or the entry for Cost
+of Goods Sold, the computer can recalculate the data which
+depends on the changed data, such as Margin. This saves
+the user the effort of changing all entries which depend on
+other entries.In this example, the number of potential "cells" or
+items of data is equal to the number of accounts times the
+number of time periods included on the spreadsheet. (Here
+there are 17 time periods, not 12, because the user wishes
+to summarize the accounts by quarter and year as well as
+month; there could be many more time periods if more than
+one year is to be included.) Each item of data may be
+considered to have two "attributes" or identifying
+characteristics, one indicating the account to which the
+indicated amounts are attributed and the second indicating
+the time period in which the indicated receipts or
+expenditures took place.Another factor which becomes important in
+</DESCRIPTION>
+<CLAIMS>
+A method of storing multi-dimensional data, each
+unit of which is identified by one or more members of each
+
+of a plurality of dimensions, for use in a multi-dimensional database,
+comprising:
+
+
+receiving (3) input signals from a user which select a number of dimensions which comprise a first group of dimensions and a number of dimensions which comprise a second group of dimensions, different than said first group;
+allocating (4) a first portion (46) of memory which
+contains cells corresponding to combinations of the
+
+members of the first group of dimensions;
+allocating a second portion of memory which
+contains a plurality of data blocks (47), each containing
+
+cells and each corresponding to all combinations of the members of
+the second group of dimensions, wherein each data
+
+block corresponds to a different combination of the
+members of the first group of dimensions, and the size of the data
+
+blocks depends upon the dimensions selected and the
+number of members in each;
+storing (10) each unit of data in the data block which
+corresponds to the combination of members of the first
+
+group of dimensions which identifies that unit of
+data, and in the location within that data block which
+
+corresponds to the combination of members of the
+second group of dimensions which identifies that unit
+
+of data; and
+inserting (9) a pointer which refers directly or indirectly to each data block
+corresponding to a particular combination of members
+
+of the first group of dimensions in the cell in the
+first portion of memory which corresponds to the same
+
+combination of members of the first group of
+dimensions.
+The method of claim 1 wherein the step of
+inserting a pointer which refers directly or indirectly to each data block further comprises
+
+the step of selecting, in accordance with user input signals, the manner in which the cells in the
+first portion of memory are to be organized. 
+The method of claim 1 wherein the first portion
+of memory is a block pointer array which contains cells corresponding to all
+
+possible combinations of the members of the first group of
+dimensions.
+The method of claim 1 wherein the first portion
+of memory is a binary tree containing cells corresponding to only those
+
+combinations of the members of the first group of
+dimensions for which data exists.
+The method of claim 1 further comprising the step
+of receiving a selected order for the dimensions and their members.
+The method of claim 5 wherein the step of
+receiving a selected order for the dimensions and their members
+
+comprises the step of receiving an outline of the dimensions
+and their members in the desired order.
+The method of claim 5 wherein the step of
+allocating a second portion of memory further comprises
+
+arranging the cells contained in each data block in an order
+corresponding to the order of the dimensions and their
+
+members.
+The method of claim 7 wherein the multi-dimensional
+data is organized in a regular pattern, and the
+
+step of storing the data further comprises the step of
+recognizing the pattern in which the data is organized and
+
+inserting each unit of data into the corresponding cell in
+the corresponding data block based upon that pattern.
+An apparatus for storing multi-dimensional data,
+each unit of which is identified by one or more members of
+
+each of a plurality of dimensions, for use in a multi-dimensional database, 
+comprising:
+
+
+input means (42) for receiving input signals from a user which select a number of dimensions which comprise a first group of dimensions and a number of dimensions which comprise a second group of dimensions different than said first group;
+means for allocating a first portion (46) of memory
+which contains cells corresponding to
+ combinations of
+the members of the first group of dimensions;
+means for allocating a second portion of memory
+which contains a plurality of data blocks (47), each of
+
+which contains cells and each of which corresponds to all combinations of
+members of the second group of dimensions, and wherein
+
+each data block corresponds to a different combination
+of the members of the first group of dimensions, and the size of the
+
+data blocks depends upon the dimensions selected and
+the number of members in each;
+means for storing each unit of data in the data
+block which corresponds to the combination of members
+
+of the first group of dimensions which identifies that
+unit of data, and in the location within that data
+
+block which corresponds to the combination of members
+of the second group of dimensions which identifies
+
+that unit of data; and
+means for inserting a pointer which refers directly or indirectly to each data block
+corresponding to a particular combination of members
+
+of the first group of dimensions in the cell in the
+first portion of memory which corresponds to the same
+
+combination of members of the first group of
+dimensions.
+The apparatus of claim 9 further comprising means
+for selecting, in accordance with user input signals, the manner in which the cells in the first
+
+portion of memory are to be organized.
+The apparatus of claim 9 wherein the first
+portion of memory is a block pointer array which contains
+
+cells corresponding to all possible combinations of the members of the first group
+of dimensions. 
+The apparatus of claim 9 wherein the first
+portion of memory is a binary tree containing cells corresponding to only those
+
+combinations of the members of the first group of
+dimensions for which data exists.
+The apparatus of claim 9 further comprising means
+for receiving selected order for the dimensions and their
+
+members.
+The apparatus of claim 13 wherein the means for
+receiving a selected order for the dimensions and their members
+
+comprises means for receiving an outline of the dimensions
+and their members in the desired order.
+The apparatus of claim 13 wherein the means for
+allocating a second portion of memory further comprises
+
+means for arranging the cells contained in each data block in an
+order corresponding to the order of the dimensions and
+
+their members.
+The apparatus of claim 15 wherein the multi-dimensional
+data is organized in a regular pattern, and the
+
+means for storing the data further comprises means for
+recognizing the pattern in which the data is organized and
+
+inserting each unit of data into the corresponding cell in
+the corresponding data block based upon that pattern.
+An apparatus for retrieving multi-dimensional
+data from a multi-dimensional database, each unit of which is identified by one or more
+
+members of each of a plurality of dimensions, comprising:
+
+memory means (45) containing the multi-dimensional
+data, in which a first portion (46) of the memory contains
+
+cells corresponding to combinations of the members of
+a user-selected number of dimensions comprising a first group of the dimensions and a 
+
+second portion of the memory contains a plurality of
+data blocks (47), each having cells and each corresponding to
+
+all combinations of the members of a user-selected number of dimensions comprising a second group of
+dimensions different than said first group, and wherein the
+
+cells in the first portion of memory contain pointers
+which refer directly or indirectly to the data blocks which correspond to the
+
+combinations of the members of the first group of
+dimensions represented by the cells;
+input means (42) for receiving input signals from a
+user which indicate the members of the dimensions of
+
+the data desired by the user; and
+processing means (41) responsive to the input signals
+for calculating the location of the cell in the first
+
+portion of memory containing the pointer which refers directly or indirectly to the block
+of data which contains the desired data, then
+
+calculating which cell within the block of data
+indicated by the pointer contains the data, and
+
+retrieving the data from the indicated cell.
+An apparatus for allowing a plurality of users to
+retrieve multi-dimensional data from a multi-dimensional database, each unit of which is
+
+identified by one or more members of each of a plurality of
+dimensions, comprising:
+
+
+memory means (45) containing the multi-dimensional
+data, in which a first portion (46) of the memory contains
+
+cells corresponding to combinations of the members of
+a user-selected number of dimensions comprising a first group of the dimensions and a
+
+second portion of the memory contains a plurality of
+data blocks (47), each having cells and each corresponding to
+
+all combinations of the members of a user-selected number of dimensions comprising a second group of
+the remaining dimensions different than said first group, and wherein the
+
+cells in the first portion of memory contain pointers
+which refer directly or indirectly to the data blocks which correspond to the
+
+combinations of the members of the first group of
+dimensions represented by the cells;
+a plurality of input means (42) for receiving input
+signals from users which indicate the members of the 
+
+dimensions of the data desired by the users;
+a plurality of processing means (41) responsive to the
+input signals for generating command signals;
+server means (44) responsive to the command signals
+from the plurality of processing means for calculating
+
+the location of the cell in the first portion of
+memory containing the pointer which refers directly or indirectly to the block of data
+
+which contains the data desired by each user, then
+calculating which cell within the block of data
+
+indicated by the pointer contains the data, and
+retrieving the data from the indicated cell.
+A method of retrieving multi-dimensional data from a multi-dimensional database,
+each unit of which is identified by one or more members of
+
+each of a plurality of dimensions, and which is stored in
+memory in which a first portion (46) of the memory contains
+
+cells corresponding to combinations of the members of a
+user-selected number of dimensions comprising a first group of the dimensions and a second
+
+portion of the memory contains a plurality of data blocks (47),
+each having cells and each corresponding to all combinations of the
+
+members of a user-selected number of dimensions comprising a second group of
+dimensions different than said first group, and wherein the cells in the first portion of
+
+memory contain pointers which refer directly or indirectly to the data blocks which correspond
+to the combinations of the members of the first group of
+
+dimensions represented by the cells, comprising:
+
+receiving (11) input signals from a user
+which indicate the members of the dimensions of the
+
+data desired by the user;
+calculating (13) from the input signals the
+location of the cell in the first portion of memory
+
+containing the pointer which refers directly or indirectly to the block of data which
+contains the desired data;
+calculating (16) from the input signals
+which cell within the block of data indicated by the
+
+pointer contains the desired data; and
+retrieving (17) the data from the indicated cell.
+</CLAIMS>
+</TEXT>
+</DOC>

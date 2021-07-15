@@ -1,0 +1,311 @@
+<DOC>
+<DOCNO>EP-0632366</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Storage of file data on disk in multiple representations
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G11B2000	G11B2012	G06F306	G11B2012	G06F306	G11B2000	G06F1200	G11B2732	G11B2732	G06F1200	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G11B	G11B	G06F	G11B	G06F	G11B	G06F	G11B	G11B	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G11B20	G11B20	G06F3	G11B20	G06F3	G11B20	G06F12	G11B27	G11B27	G06F12	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+File data is stored in a number of different 
+representations on disk. File data is stored in streams which 
+
+may assume any of several different representations. Each 
+stream has an associated stream descriptor which describes how 
+
+the stream is stored on the disk. The representations include 
+storage of a stream in a single extent, storage of a stream in 
+
+multiple extents and storage of a stream in an associated 
+stream descriptor. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+MICROSOFT CORP
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+MICROSOFT CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+FERGUSON ROBERT I
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ZBIKOWSKI MARK
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FERGUSON, ROBERT I.
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+ZBIKOWSKI, MARK
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates generally to data 
+processing systems and, more particularly, to storage of 
+data on disk by a file system. Conventional file systems have had difficulty in 
+storing file data on disk in an efficient manner. Many 
+conventional systems have adopted an approach wherein all 
+data are stored in single-sized storage units on disk. 
+Unfortunately, this approach does not efficiently store 
+file data on disk. In particular, file data may vary in 
+size and, thus, may not be well-matched for the 
+predetermined storage unit size. Other conventional 
+systems have provided a user with an option of adopting 
+one of numerous different formats. The decision as to 
+which format to adopt must be made before the file data is 
+available to the user. As a result, the choice of format 
+by the user is merely speculative and often does not 
+correspond well with the actual file data. As a result, 
+the file data is often inefficiently stored.  
+ EP-A 0 488 000 discloses a disk track emulation system and method, 
+whereby, when a disk device is replaced by a new disk device having a disk track 
+with a data format different from that of the active device, a program in an active host 
+device can be used as it is, in the same way as in the active disk device, without 
+reforming the program. To maintain compatibility, the characteristic that the data 
+format is divided by a unit called a cell having a constant number of bytes is used, 
+and cell position data with a new data format and compatible cell position data with 
+respect to the active data format in which the compatibility should be maintained are 
+written into a home address area and a count area in the new data format. "Modern Operating Systems", Andrew Tanenbaum, pages 146-148 and 352-355, 
+ISBN 0-13-5957524,1992 describes the use and properties of files, like file naming 
+and file structure, as well as an implementation of the MS-DOS file system, wherein file 
+names may comprise extensions which may be used to recognize a file type. Thus, it is the object of the invention to provide a method and system for 
+efficiently handling file data. This object is solved by the method as claimed in independent claim 1, 
+the system as claimed in independent claim 13, and the storage medium as claimed 
+in independent claim 18. Preferred embodiments of the invention are subject 
+matters of dependent claims. In accordance with a first aspect of the invention, a method is practiced in 
+the file system of a data processing system. In this method, a description
+</DESCRIPTION>
+<CLAIMS>
+A method, for use in a data processing system (10) having disk storage (16), of 
+storing a first stream of file data in the disk storage (16), the method comprising: 
+
+
+storing in the disk storage (16) a description of the first stream of file data in a 
+description field (34) of a first stream descriptor (28); and 
+storing in the disk storage (16) a type identifier in a type field (32) of the first 
+stream descriptor (28), the type identifier specifying a type of representation of 
+
+the first stream of file data in the disk storage (16) and indicating the content of 
+the description field (34). 
+The method recited in claim 1 wherein: 
+
+the step of storing the description of the first stream of file data in the 
+description field (34) further comprises: 
+
+
+storing the file data of the first stream in the description field (34); and 
+the step of storing the type identifier of the first stream of file data in the type 
+field (32) further comprises: 
+
+
+storing an identifier (TINY) in the type field (32), which indicates that the file 
+data of the first stream is stored in the description field (34). 
+The method recited in claim 1 wherein: 
+
+the step of storing the description of the first stream of file data in the 
+description field (34) further comprises: 
+
+
+storing an address (40) in the description field (34) to an extent (42) stored in 
+the disk storage (16), that holds the file data of the first stream; and 
+the step of storing the type identifier of the first stream of file data in the type 
+field (32) further comprises:  
+
+ 
+
+storing an identifier (SMALL) in the type field (32), which specifies that the file 
+data of the first stream is stored in a single extent (42) and indicates that the 
+
+description field (34) comprises the address (40) of the extent (42). 
+The method recited in claim 3 wherein the step of storing the description of the 
+first stream in the description field (34) further comprises: 
+
+
+storing a value (38) in the description field (34) which specifies a length of the 
+extent (42). 
+The method recited in claim 1 wherein: 
+
+the step of storing the description of the first stream of file data in the 
+description field (34) further comprises: 
+
+
+storing a second stream descriptor (43) in the description field (34), said second 
+stream descriptor (43) including an address of a second stream (44) holding 
+
+descriptors (36', 36", 36"') of extents (42', 42", 42"') that store the file data of the 
+first stream; and 
+the step of storing the type identifier of the first stream of file data in the type 
+field (32) further comprises: 
+
+
+storing an identifier (LARGE) in the type field (32), which specifies that the file 
+data of the first stream is stored in multiple extents (42', 42", 42"') and indicates 
+
+that the description field (34) comprises a second stream descriptor (43) 
+including an address of the second stream (44) holding descriptors (36', 36", 
+
+36"') of the extents (42', 42", 42"'). 
+The method recited in claim 1 wherein: 
+
+the step of storing the description of the first stream of file data in the 
+description field (34) further comprises: 
+
+
+storing a second stream descriptor (56) and a third stream descriptor (58) in the 
+description field (34) of the first stream descriptor (28), the second stream 
+
+descriptor (56) and the third stream descriptor (58) describing replicas of a 
+stream of file data, that are stored at different addresses in the disk storage 
+
+(16), and  
+ 
+the step of storing the type identifier of the first stream of file data in the type 
+field (32) further comprises: 
+
+
+storing an identifier (REPLICATED DATA) in the type field (32), which specifies 
+that the description field (32) of the first stream descriptor (32) describes 
+
+replicated data and indicates that the description field (34) comprises the 
+second and third stream descriptors (56, 58). 
+The method recited in claim 1 wherein: 
+
+the step of storing the description of the first stream of file data in the 
+description field (34) further comprises: 
+
+
+storing a second stream descriptor (52) and a third stream descriptor (54) in the 
+description field (34) of the first stream descriptor (28), the second stream 
+
+descriptor (52) describing a second stream and the third stream descriptor (54) 
+describing a third stream which specifies changes to the second stream, and 
+the step of storing the type identifier of the first stream of file data in the type 
+field (32) further comprises: 
+
+
+storing an identifier (SMALL SCALE TRANSACTION) in the type field (32), 
+which indicates that the description field (34) of the first stream holds the 
+
+second stream descriptor (52) describing the second stream and the third 
+stream descriptor (54) describing a third stream of changes to the second 
+
+stream. 
+The method recited in claim 1 wherein: 
+
+the step of storing the description of the first stream of file data in the 
+description field (34) further comprises: 
+
+
+storing a second stream descriptor in the description field (34) of the first stream 
+descriptor (28), the second stream descriptor describing a stream of 
+
+compressed data; and 
+the step of storing the type identifier of the first stream of file data in the type 
+field (32) further comprises: 
+
+
+storing an identifier (COMPRESSED) in the type field (32), which indicates that 
+the description field (34) of the first stream descriptor (28) holds a second 
+
+stream descriptor describing a stream of compressed data. 
+The method recited in claim 1 wherein: 
+
+the step of storing the description of the first stream in the description field (34) 
+further comprises: 
+
+
+storing a second stream descriptor in the description field (34) of the first stream 
+descriptor (28), the second stream descriptor describing a stream of encrypted 
+
+data; and 
+the step of storing the type identifier of the first stream of file data in the type 
+field (32) further comprises: 
+
+
+storing an identifier (ENCRYPTED) in the type field (32), which indicates that 
+the description field (34) of the first stream descriptor (28) holds a second 
+
+stream descriptor describing the second stream of encrypted data. 
+The method recited in one of claims 1 to 9, further comprising: 
+
+storing a second stream of file data in an extent (42) in the disk storage (16); 
+and 
+storing in the disk storage (16) a fourth stream descriptor (28) describing the 
+second stream of file data, said fourth descriptor (28) including an extent 
+
+descriptor (36) describing the extent (42) in which the second stream of file data 
+is stored. 
+The method recited in one of claims 1 to 10, further comprising: 
+
+storing a third stream of file data in extents (42', 42", 42"') in the disk storage 
+(16); and 
+storing in the disk storage (16) a fifth stream descriptor (28) describing the third 
+stream of file data, said fifth stream descriptor (28) including a sixth stream 
+
+descriptor (28) describing a stream of extent descriptors (44) for describing the 
+extents (42', 42", 42"') in which the third stream of file data is stored. 
+The method recited in one of claims 1 to 11, further comprising: 
+
+storing in the disk storage (16) a value in a size field (32) of the first stream 
+descriptor (28), the value specifying a size of the first stream of file data. 
+A data processing system (10), comprising:  
+ 
+
+
+a) disk storage (16); 
+characterised by
+b) first means (12) for storing in the disk storage (16) a description of a 
+stream of file data that is stored in the disk storage (16) in a first field (34) 
+
+of a stream descriptor (28) describing the stream of file data; and 
+c) second means (12) for storing in the disk storage (16) a type identifier in a 
+second field (32) of the stream descriptor (28), the type identifier 
+
+specifying a type of representation of the stream of file data in the disk 
+storage (16) and indicating the content of the description field (34). 
+The data processing system (10) recited in claim 13 wherein: 
+
+the first means (12) for storing stores the stream of file data in the disk storage 
+(16) in the first field (34) of the stream descriptor (28); and 
+the second means (12) for storing stores the type identifier in the second field 
+(32) to indicate that the stream of file data is stored in the first
+ field (34). 
+The data processing system (10) recited in claim 13 wherein: 
+
+the first means (12) for storing stores an extent descriptor describing an extent 
+(42) holding the stream of file data, in the first field (34) of the stream descriptor 
+
+(28); and 
+the second means (12) for storing stores the type identifier in the second field 
+(32) indicating that the first field (42) comprises an extent description and 
+
+specifying that the stream of file data is stored in the extent (42). 
+The data processing system (10) recited in claim 13 wherein: 
+
+the first means (12) for storing stores a second stream descriptor (43) in the first 
+field (34), the second stream descriptor (43) describing a stream (44) holding 
+
+descriptors (36', 36", 36"') of extents (42', 42", 42"') that hold the stream of file 
+data; and 
+the second means (12) for storing stores the type identifier in the second field 
+(32) to indicate that the first field comprises a second stream descriptor (43) and 
+
+to specify that the stream of file data is stored in the extents (42', 42", 42"'). 
+The data processing system (10) recited in one of claims 13 to 16, further 
+comprising: 
+
+
+third means (12) for storing in the disk storage (16) a value in a third field (30) of 
+the stream descriptor (28), the value specifying a size of the stream of file data. 
+A computer-readable medium comprising computer-executable instructions 
+adapted to enable the data processing system (10) to perform the method as 
+
+claimed in one of claims 1 to 12. 
+</CLAIMS>
+</TEXT>
+</DOC>

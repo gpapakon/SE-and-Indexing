@@ -1,0 +1,359 @@
+<DOC>
+<DOCNO>EP-0634717</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Data processing unit
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F930	G06F930	G06F1716	G06F942	G06F946	G06F940	G06F938	G06F9318	G06F9312	G06F9318	G06F9312	G06F938	G06F1716	G06F946	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F9	G06F9	G06F17	G06F9	G06F9	G06F9	G06F9	G06F9	G06F9	G06F9	G06F9	G06F9	G06F17	G06F9	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A data processing unit which can access a 
+greater number of registers than registers addressable 
+
+by an instruction to realize high-speed execution of a 
+program. To this end, the data processing unit includes 
+
+a greater number of floating point registers (105) than 
+the number of registers addressable by an ordinary 
+
+instruction, a window start pointer register (110), a 
+window start pointer valid register (111), a conversion 
+
+circuit (112), when the window start pointer valid 
+register (111) has a value of 1, for converting a 
+
+floating point register number in the instruction to a 
+physical floating point register number and for changing 
+
+a conversion pattern depending on the value of the 
+window start pointer register (110), a window start 
+
+pointer set instruction for setting a value at the 
+window start pointer re
+gister (110), and floating point 
+register pre-load and post-store instructions having a 
+
+register field different in length from the ordinary 
+instruction, and wherein the floating point register 
+
+number specified by the register field is converted by 
+the conversion circuit to the physical floating point 
+
+register number on the basis of the value of the window 
+start pointer register (110). 
+
+
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+HITACHI LTD
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+HITACHI, LTD.
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+FUJII HIROAKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+INAGAMI YASUHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TAKEDA KATSUMI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WADA HIDEO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+FUJII, HIROAKI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+INAGAMI, YASUHIRO
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+TAKEDA, KATSUMI
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WADA, HIDEO
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to data
+processing units which can make access to a greater
+number of registers than the number of registers which
+can be addressed by instructions, and more particularly,
+to a data processing unit which can hardly induce the
+drop of performance due to data transfer from a main
+memory during a so-called "vector processing" for
+continuously processing data of a large scale, for which
+a cache is not much effective, and which can accomplish
+an effective pseudo-vector processing by an ordinary
+data processing unit.JP-A-57-166649 is known as one of the prior
+art references which describe data processing units
+which can make access to a greater number of registers
+than the number of registers accessible by instructions.According to this prior art technique, a
+greater number of registers referred to as "hardware
+registers" than the number of general purpose registers
+addressable by a program are provided, so that, when a
+plurality of load instructions are issued to the same
+general purpose registers from different main memory
+addresses, the data are stored in the same number of 
+hardware registers as the number of the load
+instructions.In the prior art, more in detail, when the
+number of general purpose registers addressable by the
+program is 16, for example, sixteen hardware registers
+for each general purpose register, or in other words, a
+total of 256 of hardware registers are prepared, and the
+hardware registers Nos. 0 to 15, for example, are
+allocated to the general purpose register No. 0. When a
+load instruction designating 16 different main memory
+addresses for the general register No. 0 is executed,
+the data from the 16 load instructions are stored in the
+hardware registers Nos. 0 to 15.In the prior art, there is also provided a
+memory mechanism for previously registering the main
+memory addresses of the load instructions that have been
+executed in the past, and the number of the hardware
+registers storing the data loaded at that time. When
+the load instruction issued by the program coincides
+with the main memory address registered to this memory
+mechanism, the data is read out not from the main memory
+but from the corresponding hardware register.Since the prior art has such a system, the
+number of times of look-up to the main memory can be
+reduced and the drop of unit performance due to
+collision of the look-up registers between the
+instructions can be prevented.Another prior art technology on a data 
+processing unit which can access a greater number of
+registers than the
+</DESCRIPTION>
+<CLAIMS>
+A data processing unit comprising a main memory (30),
+and an instruction execution unit (10) for executing
+
+load instructions, store instructions and arithmetic
+instructions each having at least one register designation
+
+field of a first length with use of main memory
+data held in said main memory, and further comprising
+
+registers called physical registers (105) larger in
+number than registers addressable by said register designation
+
+field of the first length, a register called a
+window start pointer register (110) having a plurality
+
+of bits, a register called a window start pointer valid
+register (111), and a conversion circuit (112) for converting
+
+a register number in the instruction to a
+physical register number and for changing a pattern of
+
+said conversion in accordance with a value of said window
+start pointer register, when the window start
+
+pointer valid register has a value of 1,
+
+wherein there are provided (i) a window pointer set instruction
+for setting a value of the window start
+
+pointer register, (ii) a register pre-load instruction
+for converting a register number in the register designation
+
+field to a physical register number and for
+storing data from the main memory to the physical register
+
+designated by the physical register number, (iii)
+a register post-store instruction for converting a register
+
+number in the register designation field to a
+physical register number and for storing data from the
+
+physical register to the main memory,
+characterized
+ in that
+
+the register number specified by the register designation
+field in said load instruction, in said store instruction,
+
+and said arithmetic instruction has the
+first length whereas the register number specified by
+
+the designation field in said pre-load instruction and
+in said post-store instruction has a second length
+
+greater than the first length, and in that said register
+number is converted by said conversion circuit to a
+
+physical register number according to the value of said
+window start pointer register to refer to the physical
+
+register which corresponds to said physical register
+number.
+A data processing unit as set forth in claim 1, characterized
+in that the conversion from the register number
+
+in said instruction to said physical register number is
+a conversion to the same physical register number
+
+called a global register number regardless of the value
+of said window start pointer register.
+A data processing unit as set forth in claim 2, characterized
+in that, when a local register number is defined
+
+as value corresponding to subtraction of the number
+of registers called global registers numbered by
+
+said global register numbers from the number of said
+physical registers, the number of bits in said window
+
+start pointer register is defined as a window start
+pointer register width, an integer value greater than
+
+or equal to said window start pointer register width
+and selected to be determinative of the number of
+
+physical registers is defined as a pointer width maximum
+value, and 2 to the power of a value corresponding
+
+to subtraction of said window start pointer register 
+width from said point
+er width maximum value is defined
+as a window cut width; the register number other than
+
+the register number numbered by the global register
+number in said register pre-load and post-store instructions
+
+and said load, store and arithmetic instructions
+is converted to the physical register number expressed
+
+by adding (i) the register number in the instruction
+to (ii) a product of the value of said window
+
+start pointer register and said window cut width.
+A data processing unit as set forth in claim 3, characterized
+in that at the time of reading the main memory
+
+data, said register pre-load instruction does not
+change contents of a cache (108) as a buffer memory device
+
+for temporarily holding part of contents of said
+main memory (30) when said main memory data is not registered
+
+in said cache; while, at the time of writing
+data in the main memory, said register post-store instruction
+
+does not change the contents of said cache
+when the main memory data of an associated main memory
+
+address is not registered in the cache.
+A data processing unit as set forth in claim 2, characterized
+by a global register number mode register (118)
+
+indicative of the number of registers numbered by said
+global register number, and in that the conversion pattern
+
+of said conversion circuit is changed by a value
+of said global register number mode register and a
+
+value is set in said global register number mode register
+on a software basis so that the number of the registers
+
+numbered by the global register number in the
+instruction is made variable on the software basis. 
+A data processing unit as set forth in claim 5, characterized
+in that, at the time of reading the main memory
+
+data, said register pre-load instruction does not
+change contents of a cache (108) as a buffer memory device
+
+for temporarily holding part of contents of said
+main memory (30) when said main memory data is not registered
+
+in said cache; while, at the time of writing
+data in the main memory, said register post-store instruction
+
+does not change the contents of said cache
+when the main memory data of an associated main memory
+
+address is not registered in the cache.
+A data processing unit as set forth in claim 2, characterized
+in that, when a local register number is defined
+
+as value corresponding to subtraction of the number
+of registers called global registers numbered by
+
+said global register numbers from the number of said
+physical registers, the number of bits in said window
+
+start pointer register is defined as a window start
+pointer register width, an integer value greater than
+
+or equal to said window start pointer register width
+and selected to be determinative of the number of
+
+physical registers is defined as a pointer width maximum
+value, and 2 to the power of a value corresponding
+
+to subtraction of said window start pointer register
+width from said pointer width maximum value is defined
+
+as a window cut width; the register number other than
+the register number numbered by the global register
+
+number in said register pre-load and post-store instructions
+and said load, store and arithmetic instructions
+
+is converted to the physical register number expressed
+by adding (i) the number of global registers to
+
+(ii) addition of (a) subtraction of the number of
+global registers from the register number in the instruction 
+
+to (b) a product of the value of said window
+start pointer register and said window cut width to
+
+with use of (c) a value of subtraction of the number of
+global registers from the number of physical registers
+
+as a modulus.
+A data processing unit as set forth in claim 7, characterized
+in that, at the time of reading the main memory
+
+data, said register pre-load instruction does not
+change contents of a cache (108) as a buffer memory device
+
+for temporarily holding part of contents of said
+main memory (30) when said main memory data is not registered
+
+in said cache; while, at the time of writing
+data in the main memory, said register post-store instruction
+
+does not change the contents of said cache
+when the main memory data of an associated main memory
+
+address is not registered in the cache.
+A data processing unit as set forth in claim 2, characterized
+in that, at the time of reading the main memory
+
+data, said register pre-load instruction does not
+change contents of a cache (108) as a buffer memory device
+
+for temporarily holding part of contents of said
+main memory (30) when said main memory data is not registered
+
+in said cache; while, at the time of writing
+data in the main memory, said register post-store instruction
+
+does not change the contents of said cache
+when the main memory data of an associated main memory
+
+address is not registered in the cache. 
+A data processing unit as set forth in claim 1, characterized
+in that the registers numbered by said instruction
+
+and said physical registers are floating point
+registers for storing floating point data.
+</CLAIMS>
+</TEXT>
+</DOC>

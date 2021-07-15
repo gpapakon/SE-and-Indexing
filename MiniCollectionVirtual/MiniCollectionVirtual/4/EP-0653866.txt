@@ -1,0 +1,222 @@
+<DOC>
+<DOCNO>EP-0653866</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Resolution of race conditions in cascaded switches
+</INVENTION-TITLE>
+<CLASSIFICATIONS>H04Q364	H04Q3545	H04Q352	H04Q3545	H04M300	H04L1256	H04Q368	H04Q352	H04L1256	H04M300	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>H04Q	H04Q	H04Q	H04Q	H04M	H04L	H04Q	H04Q	H04L	H04M	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>H04Q3	H04Q3	H04Q3	H04Q3	H04M3	H04L12	H04Q3	H04Q3	H04L12	H04M3	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A method for resolving race conditions in cascaded 
+switches. More specifically, cross links between the cascaded 
+
+switches are assigned preferred directions relative 
+to each of the switches. A connection request or a 
+
+response emanating from a switch will always use a send 
+preference cross link if such link is available. 
+
+
+</ABSTRACT>
+<APPLICANTS>
+</APPLICANTS>
+<INVENTORS>
+</INVENTORS>
+<DESCRIPTION>
+This invention relates to handling of connections through
+cascaded switches. More specifically, this invention provides
+for the resolution of race conditions in the cascaded
+switches.A switch fabric often consists of a set of crossbar
+switches, where each switch has its own connection control,
+independent of other switches in the fabric. Adjacent
+crossbars are attached to each other by one or more links
+(hereinafter referred to as cross links) which are preferably
+full duplex. In general, more than one cross link is
+provided between adjacent switches in order to reduce
+blocking in the fabric. A set of devices (e.g. processors
+or I/O control units) are attached to the fabric by full
+duplex links. The fabric provides end to end full duplex
+connections between devices, over which multiple messages
+may be transmitted in either direction between the two
+devices. A device explicitly request a connection to
+another device. At a later time, one of the two connected
+devices explicitly requests that the connection be removed
+or broken.A connection is established by sending a request packet
+which includes a control header. The packet travels the
+path which will comprise the end to end connection. At
+each switch, a decision is made regarding whether (a) the
+connection to the next switch should be granted, (b) the
+request should be denied, or (c) the request should be
+delayed. If a request is denied, a reject message is sent back along
+the path to the requesting device to try again. As the
+reject message traverses the reverse path, the partially
+established path is removed. If a request is delayed, this
+ties up resources which might be granted to others.
+Retries are potentially expensive and might lead to
+livelock situations where repeated retries by a set of
+devices interfere with each other.Unlike many switch fabrics, a given cross link interconnecting
+two switches in this fabric can at any time be used
+in either direction (this minimizes controller interaction).
+The result is that there are potential conflicts
+between requests going in opposite directions. When two
+requests are sent on the same cross link in opposite
+directions, they may be compatible or incompatible. The
+two requests are compatible if both request a connection
+between the same two devices. Otherwise, they are incompatible.
+In some cases, adjacent switches may attempt to
+satisfy incompatible requests using the same cross link.
+In other cases, requests are denied because they were
+assigned to different cross links between the same two
+switches
+</DESCRIPTION>
+<CLAIMS>
+A method of eliminating livelock, and reducing
+the occurrence of race conditions of cross links
+
+created when two connection request packets are concurrently
+transmitted in different directions through the
+
+same cross link, in a switching system having a plurality
+of dynamic switches (SW1, SW2) interconnected by
+
+said cross links (L1, L2), with connections being
+established by transmitting said connection request
+
+packets through said system, said method comprising:
+
+a. initially assigning preferred directions
+to each of said cross links (L1, L2); and
+b. routing each of said connection
+request packets in preferred directions on said
+
+cross links (L1, L2) if preferred directions on said
+cross links (L1, L2) are available.
+The method as recited in claim 1, wherein each of said
+switches comprises a table, wherein said table in each
+
+of said switches identifies ports of said each switch
+that can be used to transmit said connection request
+
+packets from said each switch to selected destination
+devices.
+A method as recited in claim 2, wherein
+
+said table identifies each of said ports as being a
+send preference port (p1) or a receive preference port
+
+(p2) or equivalently, identifies each corresponding
+cross link (L1, L2) connected to a corresponding one of
+
+said ports as being a send preference cross link (L1)
+or a receive preference cross link (L2) relative to
+
+said each switch (SW1).  
+A method as recited in one of claims 1 to 3,
+
+wherein
+
+said connection request packets are routed according to
+entries in a table in each of said switches (SW1, SW2),
+
+with each entry indicating one or more corresponding
+ports (p1 to p9), each of which is connected to one of
+
+said cross links (L1, L2) with an assigned preferred
+direction, that can be used to send corresponding ones
+
+of said connection request packets to a corresponding
+destination.
+A method as recited in one of claims 1 to 4,
+
+wherein
+
+end to end priority is assigned to one of each pair of
+connection request packets requesting transmission
+
+between the same pair of devices (A, B, C, D E) connected
+to said switching system, with said one connection
+
+request packet being forwarded from one of said
+cross links (L1, L2) between a pair of adjacent
+
+switches (SW1, SW2) of said system while another connection
+request packet of said pair of connection
+
+request packets will not be forwarded on any other of
+said cross links (L1, L2) between said pair of adjacent
+
+switches (SW1, SW2) until at least a connection through
+said one cross link, established for said one connection
+
+request packet is broken.
+A method as recited in claim 1, further comprising the
+steps of
+
+
+c. routing each of said connection request packets in
+non-preferred directions if a preferred direction on
+
+said cross links (L1, L2) is unavailable; and
+d. transmitting a response packet in response to one
+connection r
+equest packet of said two connection request
+packets indicating that a connection identified in said
+
+one connection request packet can not be established,
+where said one connection request packet was transmitted
+
+over said same link in a nonpreferred direction for
+said same link, where another of said two connection
+
+request packets was transmitted on said same link in the
+opposite direction as said one request packet, and where
+
+said two connection requests packets are incompatible.
+An apparatus of eliminating livelock, and reducing
+the occurrence of race conditions of cross links
+
+created when two connection request packets are concurrently
+transmitted in different directions through the
+
+same cross link, in a switching system having a plurality
+of dynamic switches (SW1, SW2) interconnected by
+
+said cross links (L1, L2), with connections being
+established by transmitting said connection request
+
+packets through said system, said method comprising:
+
+a. means for initially assigning preferred directions
+to each of said cross links (L1, L2); and 
+b. means for routing each of said connection
+request packets in preferred directions on said
+
+cross links (L1, L2) if preferred directions on said
+cross links (L1, L2) are available.
+An apparatus as recited in claim 7,
+
+further comprising:
+
+c. means for routing each of said connection
+request packets in non-preferred directions if a
+
+preferred direction on said cross links (L1, L2) is
+unavailable; and
+d. means for transmitting a response packet in
+response to one of said two request packets indicating
+
+that said one request packet for a connection
+can not be established, where said one connection
+
+request packet was transmitted over said same link
+in a non-preferred direction for said same link,
+
+where another of said two connection request packets
+was transmitted on said same link in the opposite
+
+direction as said one request packet, and where said
+two connection request packets are incompatible.
+</CLAIMS>
+</TEXT>
+</DOC>

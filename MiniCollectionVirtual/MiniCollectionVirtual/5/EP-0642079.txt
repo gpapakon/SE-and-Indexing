@@ -1,0 +1,263 @@
+<DOC>
+<DOCNO>EP-0642079</DOCNO> 
+<TEXT>
+<INVENTION-TITLE>
+Fault tolerant transaction-oriented data processing
+</INVENTION-TITLE>
+<CLASSIFICATIONS>G06F1100	G06F1100	G06F1114	G06F1114	G06F1200	G06F1200	</CLASSIFICATIONS>
+<CLASSIFICATIONS-THIRD>G06F	G06F	G06F	G06F	G06F	G06F	</CLASSIFICATIONS-THIRD>
+<CLASSIFICATIONS-FOURTH>G06F11	G06F11	G06F11	G06F11	G06F12	G06F12	</CLASSIFICATIONS-FOURTH>
+<ABSTRACT>
+A fault-tolerant transaction processing system and method stores 
+records associated with operations of the system in order to permit 
+
+recovery in the event of a need to roll back a transaction or to restart 
+the system. At least some of the operational records are stored as a 
+
+recovery log in low-speed non-volatile storage and at least some are 
+stored as a recovery list in high speed volatile storage. Rollback of 
+
+an individual transaction is effected by reference to the recovery list 
+whereas restart of the system is effected by reference to the recovery 
+
+log. 
+</ABSTRACT>
+<APPLICANTS>
+<APPLICANT-NAME>
+IBM
+</APPLICANT-NAME>
+<APPLICANT-NAME>
+INTERNATIONAL BUSINESS MACHINES CORPORATION
+</APPLICANT-NAME>
+</APPLICANTS>
+<INVENTORS>
+<INVENTOR-NAME>
+SCHOFIELD ANDREW JOHN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WASHER ANTHONY ROBERT
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+SCHOFIELD, ANDREW JOHN
+</INVENTOR-NAME>
+<INVENTOR-NAME>
+WASHER, ANTHONY ROBERT
+</INVENTOR-NAME>
+</INVENTORS>
+<DESCRIPTION>
+The present invention relates to fault tolerant transaction-oriented
+data processing, and in particular to an efficient method and
+system for supporting recoverable resource updates within transactions
+such as in a transaction-oriented messaging system, file system or
+database system.Many business functions can be implemented by transaction
+processing using application-oriented computer programs. Most
+application-oriented programs need to access some form of computer
+system facilities (facilities such as processors, databases, files,
+input/output devices, other application programs) - which are
+generically known as resources. The system software which controls these
+resources is generically known as the resource manager. A common
+processing requirement is to be able to make a coordinated set of
+changes to one or more resources (and in particular to collections of
+data objects), such that either all of the changes take effect, and the
+resources are moved to a new consistent state, or none of them does.
+This property of all-or-none processing is known as "atomicity".As pointed out by C.J.Date, "An Introduction to Data Base
+Systems", Vol. 1, 4th Edition, Addison-Wesley Publishing Co., 1986,
+Ch.18, a "transaction" is a logical unit of work referencing a sequence
+of associated operations that transforms a consistent state of one or
+more recoverable resources into another consistent state (without
+necessarily preserving consistency at all intermediate points).
+Transaction processing is the management of discrete units of work that
+access and update shared data.It is known to provide fault-tolerant transaction processing
+systems which can maintain data consistency and transaction atomicity
+over system, media and transaction failures (an example of the latter
+being application detected error conditions leading to the inability of
+a transaction to complete). To enable recovery of resources to a
+consistent state following a failure, it is necessary for the system to 
+keep a record of the state of system resources at the time of the
+failure, and this includes knowing which transactions had been completed
+to enable the completed transactions to be performed again and which
+transactions were in progress to enable the operations within an
+uncompleted transaction to be undone. A transaction thus defines a unit
+of recovery as well as a unit of work.It is frequently a processing requirement for resource updates to
+be made within a transaction without the delay of verifying, prior to
+making updates, whether the
+</DESCRIPTION>
+<CLAIMS>
+A fault-tolerant transaction-oriented data processing system in which records
+associated with operations of the system are stored in order to permit
+
+recovery in the event of a need to roll back a transaction or to restart
+the system, the system having both high speed volatile storage and low
+
+speed non-volatile storage, wherein first operational records (300, 310)
+including log records for operations which update persistent resources
+
+are stored as a recovery log (80, 90, 200) in said non-volatile storage,
+
+   characterised in that second operational records (280, 290) are
+also stored as a recovery list (250) in said volatile storage for at
+
+least the operations performed within an individual transaction which
+update persistent resources, said second operational records each
+
+including an identifier of a respective operation and an identifier of
+the resource operated on to enable roll back of the transaction in
+
+response to transaction failure,
+
+rollback of the transaction being effected using the second
+operational records in said recovery list and restart of the system being
+
+effected using the first operational records in said recovery log.
+A system as claimed in claim 1, in which said operational records
+are stored in said recovery log and recovery list prior to the
+
+corresponding operations being carried out.
+A system as claimed in claim 1 or claim 2, in which a recovery list
+is created for each transaction processed.
+A system as claimed in any preceding claim, in which operations may
+be defined as transactional or non-transactional, second operational records
+
+being stored in said recovery list for all transactional operations for
+an individual transaction, including both persistent and non-persistent
+
+operations.
+A system as claimed in any preceding claim, wherein the second
+operational records comprise an identifier of the resource being operated
+
+on, an identifier of the operation, a log sequence number (LSN) of the
+log record written for this operation within the transaction and/or a LSN
+
+of the last logged operation for this transaction, and a status flag
+indicating whether the resource is persistent or non-persistent.
+A system as claimed in any preceding claim, including one or more 
+transaction managers (50, 60) and one or more transaction tables (270)
+
+for storing a linked list of transactions which are active for each
+transaction manager, the transaction table entry (260) for each
+
+transaction including:
+
+a transaction identifier;
+a transaction state identifier;
+a log sequence number of the first log record of the transaction;
+a log sequence number of the latest log record of the transaction;
+and
+a pointer to the recovery list.
+A system according to claim 6 wherein the transaction table entry
+for each transaction additionally includes:
+
+
+a mutex semaphore for ensuring that only one process is associated
+with a transaction; and
+a mutex handle for serialising access to a transaction descriptor.
+A system as claimed in any preceding claim including means operable
+during a restart of the system to rebuild said recovery list or lists
+
+from said recovery log whereby rollback of transactions during restart
+references said rebuilt recovery list or lists.
+A system as claimed in any preceding claim which is a messaging and
+queuing system whose operations include the putting and getting of
+
+messages to and from queues.
+A method of fault-tolerant transaction-oriented data processing comprising the
+steps of:
+
+
+storing records associated with operations of the system in order
+to permit recovery in the event of a need to roll back a transaction or
+
+restart the system, first operational records (300, 310) including log records for
+operations which update persistent resources being stored (410, 440, 490)
+
+as a recovery log (80, 90, 200) in low speed non-volatile storage, characterised by the
+further step of
+storing (460) second operational records (280, 290) as a recovery list (250) in high
+speed volatile storage for at least the operations performed within an
+
+individual transaction which update persistent resources, said second
+operational records each including an identifier of a respective
+
+operation and an identifier of the resource operated on to enable roll
+back of the transaction in response to transaction failure;
+and subsequently, in response to transaction failure, effecting 
+rollback of individual transactions using the second operational records in the
+
+recovery list and, in response to system failures, effecting restart of
+the system using the first operational records in the recovery log.
+A method as claimed in claim 10 including the step of carrying out
+operations of the system to process transactions after said steps of
+
+storing corresponding operational records in said recovery log and
+recovery list.
+A method as claimed in claim 10 or claim 11 comprising the step of
+creating a recovery list for each transaction to be processed.
+A method as claimed in any one of claims 10 to 12 in which system
+operations are defined as transactional or non-transactional, second operational
+
+records being stored in said recovery list for all transactional
+operations within an individual transaction, whether persistent or not.
+A method as claimed in any one of claims 10 to 13 in which the step
+of effecting restart of the system includes the further steps of
+
+rebuilding said recovery list or lists from said recovery log and
+effecting rollback of transactions during restart by reference to said
+
+rebuilt recovery list or lists.
+A method according to any one of claims 10 to 14, in which resource
+updates performed by processes within a transaction are backed out
+
+atomically following occurrence of a failure before resolution of the
+transaction, or are committed on successful completion of the
+
+transaction, the method comprising the steps of:
+
+for each resource updating operation to be performed within the
+transaction, obtaining (400) a mutually exclusive semaphore lock for the
+
+resource which is to be updated;
+performing (440) an update operation within the transaction in
+response to an operation request;
+setting (450) an indicator of the fact that the operation has been
+performed within a transaction, which indicator 
+makes the operation
+request inaccessible to said processes;
+releasing (470) the mutually exclusive semaphore lock;
+on successful completion of the transaction, committing (500) all
+operations within the transaction for which the indicator has been set;
+responsive to the occurrence of a failure before resolution of the
+transaction, backing out all operations within the transaction for which 
+
+the indicator has been set.
+A transaction-oriented data processing system according to any one
+of claims 1 to 9, in which resource updates performed by processes within
+
+a transaction are backed out atomically following occurrence of a failure
+before resolution of said transaction or are committed on successful
+
+completion of said transaction, the system comprising:
+
+a lock manager for obtaining (400) a mutually exclusive semaphore
+lock for a resource which is to be updated by an operation within said
+
+transaction;
+means for performing (440) a resource updating operation within
+said transaction in response to an operation request;
+means for setting (450) an indicator signifying that said resource
+updating operation has been performed within said transaction, said
+
+indicator making said operation request inaccessible to said processes,
+the setting of said indicator triggering the lock manager to release
+
+(470) said mutually exclusive semaphore lock;
+means for committing (500), on successful completion of said
+transaction, all operations within said transaction for which said
+
+indicator has been set; and
+means responsive to an occurrence of a failure before resolution of
+said transaction, for backing out all operations within said transaction
+
+for which said indicator has been set.
+</CLAIMS>
+</TEXT>
+</DOC>
